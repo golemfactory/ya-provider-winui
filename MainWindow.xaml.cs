@@ -35,7 +35,18 @@ namespace GolemUI
         {
             var p = new GolemUI.Command.Provider();
             var lst = p.ExeUnitList();
-            txtR.Text = JsonConvert.SerializeObject(lst);
+            txtR.Text = JsonConvert.SerializeObject(lst, Formatting.Indented);
+            var cfg = p.Config ?? new Command.Config();
+            cfg.Subnet = "reqc2";
+            p.Config = cfg;
+
+            txtR.Text += JsonConvert.SerializeObject(p.Config, Formatting.Indented);
+
+            foreach (var profile in p.Presets)
+            {
+                txtR.Text += "\n\n--\n";
+                txtR.Text += JsonConvert.SerializeObject(profile, Formatting.Indented);
+            }
         }
     }
 }
