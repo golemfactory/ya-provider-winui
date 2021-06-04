@@ -48,5 +48,12 @@ namespace GolemUI
                 txtR.Text += JsonConvert.SerializeObject(profile, Formatting.Indented);
             }
         }
+
+        private void btnId_Click(object sender, RoutedEventArgs e)
+        {
+            var srv = new Command.YagnaSrv();
+            var ids = srv.Id.List();
+            txtR.Text = JsonConvert.SerializeObject(ids, Formatting.Indented);
+        }
     }
 }
