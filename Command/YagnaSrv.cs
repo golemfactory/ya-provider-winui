@@ -1,13 +1,16 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
 namespace GolemUI.Command
 {
+
     [JsonObject(MemberSerialization.OptIn)]
     internal class Table
     {
@@ -26,10 +29,10 @@ namespace GolemUI.Command
 
     }
 
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class IdInfo
     {
-        [JsonProperty]
+        [JsonProperty("alias")]
         string? Alias { get; set; }
 
         [JsonProperty]
@@ -51,7 +54,8 @@ namespace GolemUI.Command
 
         internal IdInfo(string[] _headers, JValue[] _row)
         {
-            for (var i=0; i<_headers.Length; ++i)
+            Address = "";
+            for (var i = 0; i < _headers.Length; ++i)
             {
                 var value = _row[i];
                 switch (_headers[i])
@@ -68,7 +72,7 @@ namespace GolemUI.Command
                     case "address":
                         if (value.Value != null)
                         {
-                            Address = value.Value.ToString();
+                            Address = value.Value.ToString() ?? "";
                         }
                         break;
                 }
@@ -103,7 +107,7 @@ namespace GolemUI.Command
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true
-            };            
+            };
 
             var process = new Process
             {
@@ -119,13 +123,123 @@ namespace GolemUI.Command
             return JsonConvert.DeserializeObject<T>(text);
         }
 
-        public IdSrv Id
+        public IdSrv Ids
         {
             get
             {
                 return new IdSrv(this);
             }
         }
+
+        public IdInfo? Id => Exec<IdInfo>("--json id show");
+
+        public PaymentSrv Payment
+        {
+            get
+            {
+                return new PaymentSrv(this);
+            }
+        }
+
+        public AppKeySrv AppKey
+        {
+            get
+            {
+                return new AppKeySrv(this, null);
+            }
+        }
+    }
+
+    public class KeyInfo
+    {
+        public string Name { get; }
+
+        public string Key { get; } 
+
+        public string Id { get; }
+
+        public string? Role { get; }
+
+        public DateTime? Created { get; }
+
+        internal KeyInfo(string[] _headers, JValue[] _row)
+        {
+            Name = "";
+            Key = "";
+            Id = "";
+            for (var i = 0; i < _headers.Length; ++i)
+            {
+                var value = _row[i];
+                switch (_headers[i])
+                {
+                    case "name":
+                        Name = value?.Value?.ToString() ?? "";
+                        break;
+                    case "key":
+                        Key = value?.Value?.ToString() ?? "";
+                        break;
+                    case "id":
+                        Id = value?.Value?.ToString() ?? "";
+                        break;
+                    case "role":
+                        Role = value?.Value?.ToString();
+                        break;
+
+                    case "created":
+                        var dt = value?.Value?.ToString();
+                        if (dt != null) {
+                            Created = DateTime.Parse(dt, null, DateTimeStyles.AssumeUniversal);
+                        }
+                        break;
+                }
+            }
+        }
+
+    }
+
+    public class AppKeySrv
+    {
+        private YagnaSrv _yagnaSrv;
+        private string? _id;
+
+        internal AppKeySrv(YagnaSrv yagnaSrv, string? id)
+        {
+            this._yagnaSrv = yagnaSrv;
+            this._id = id;
+        }
+
+        private T? Exec<T>(string arguments) where T : class
+        {
+            string idSpec = _id == null ? "" : $" --id \"{_id}\"";
+            var args = $"--json app-key{idSpec} {arguments}";
+
+            return _yagnaSrv.Exec<T>(args);
+        }
+
+
+
+        public string? Create(string name)
+        {
+            return Exec<string>($"create \"{name}\"");
+        }
+
+        public void Drop(string name)
+        {
+            var opt = Exec<string>($"drop \"{name}\"");
+        }
+
+        public List<KeyInfo> List()
+        {
+            var output = new List<KeyInfo>();
+            var table = Exec<Table>("list");
+            for (var i=0; i<table?.Values.Count; ++i)
+            {
+                output.Add(new KeyInfo(table.Headers, table.Values[i]));
+            }
+            return output;
+        }
+
+
     }
 
     public class IdSrv
@@ -151,6 +265,22 @@ namespace GolemUI.Command
                 ret.Add(new IdInfo(table.Headers, row));
             }
             return ret;
+        }
+    }
+
+
+    public class PaymentSrv
+    {
+        YagnaSrv _srv;
+
+        internal PaymentSrv(YagnaSrv srv)
+        {
+            _srv = srv;
+        }
+
+        public PaymentStatus? Status(Network network, string driver)
+        {
+            return _srv.Exec<PaymentStatus>($"--json payment status --network \"{network.Id}\" --driver \"{driver}\"");
         }
 
     }

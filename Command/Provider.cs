@@ -90,7 +90,7 @@ namespace GolemUI.Command
             _exeUnitsPath = Path.Combine(appBaseDir, @"plugins\ya-runtime-*.json");
         }
 
-        private T? Exec<T>(string arguments) where T: class
+        private T? Exec<T>(string arguments) where T : class
         {
             var text = this.ExecToText(arguments);
             return JsonConvert.DeserializeObject<T>(text);
@@ -118,12 +118,13 @@ namespace GolemUI.Command
 
         public List<ExeUnitDesc> ExeUnitList()
         {
-            return this.Exec<List<ExeUnitDesc>>("--json exe-unit list") ?? new List<ExeUnitDesc>();           
+            return this.Exec<List<ExeUnitDesc>>("--json exe-unit list") ?? new List<ExeUnitDesc>();
         }
 
         public Config? Config
         {
-            get {
+            get
+            {
                 return this.Exec<Config>("config get --json");
             }
             set
@@ -167,7 +168,7 @@ namespace GolemUI.Command
             cmd.Append(" --exe-unit \"").Append(preset.ExeunitName).Append('"');
             if (preset.PricingModel != null)
             {
-                foreach(KeyValuePair<string, decimal> kv in preset.UsageCoeffs)
+                foreach (KeyValuePair<string, decimal> kv in preset.UsageCoeffs)
                 {
                     cmd.Append(" --price ").Append(kv.Key).Append("=").Append(kv.Value);
                 }
