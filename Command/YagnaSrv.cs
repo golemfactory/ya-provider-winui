@@ -148,19 +148,47 @@ namespace GolemUI.Command
                 return new AppKeySrv(this, null);
             }
         }
+
+
+        public Process Run()
+        {
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = this._yaExePath,
+                Arguments = "service run",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            };
+            var process = new Process
+            {
+                StartInfo = startInfo
+            };
+            process.Start();
+
+            return process;
+        }
     }
 
     public class KeyInfo
     {
         public string Name { get; }
 
-        public string Key { get; } 
+        public string? Key { get; }
 
         public string Id { get; }
 
         public string? Role { get; }
 
         public DateTime? Created { get; }
+
+        [JsonConstructor]
+        public KeyInfo(string identity, string name, string? role)
+        {
+            Id = identity;
+            Name = name;
+            Role = role;
+        }
 
         internal KeyInfo(string[] _headers, JValue[] _row)
         {
@@ -187,14 +215,14 @@ namespace GolemUI.Command
 
                     case "created":
                         var dt = value?.Value?.ToString();
-                        if (dt != null) {
+                        if (dt != null)
+                        {
                             Created = DateTime.Parse(dt, null, DateTimeStyles.AssumeUniversal);
                         }
                         break;
                 }
             }
         }
-
     }
 
     public class AppKeySrv
@@ -232,7 +260,7 @@ namespace GolemUI.Command
         {
             var output = new List<KeyInfo>();
             var table = Exec<Table>("list");
-            for (var i=0; i<table?.Values.Count; ++i)
+            for (var i = 0; i < table?.Values.Count; ++i)
             {
                 output.Add(new KeyInfo(table.Headers, table.Values[i]));
             }

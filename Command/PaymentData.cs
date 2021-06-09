@@ -5,7 +5,7 @@ namespace GolemUI.Command
 {
     public class Network
     {
-        public string Id { get;  }
+        public string Id { get; }
         private Network(string _id)
         {
             Id = _id;

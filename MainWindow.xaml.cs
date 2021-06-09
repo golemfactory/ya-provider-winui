@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using GolemUI.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +22,17 @@ namespace GolemUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly IProcessControler _processController;
+        public MainWindow(IProcessControler processController)
         {
+            _processController = processController;
+
             InitializeComponent();
         }
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
@@ -49,11 +53,14 @@ namespace GolemUI
             }
         }
 
-        private void btnId_Click(object sender, RoutedEventArgs e)
+        private async void btnId_Click(object sender, RoutedEventArgs e)
         {
-            var srv = new Command.YagnaSrv();
-            var ids = srv.Id.List();
-            txtR.Text = JsonConvert.SerializeObject(ids, Formatting.Indented);
+            await _processController.Init();
+
+
+            await _processController.Me();
+
+
         }
     }
 }
