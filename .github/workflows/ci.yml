@@ -27,12 +27,12 @@ jobs:
 
     env:
       App_Packages_Directory: AppPackages
-      #SigningCertificate: GitHubActionsDemo.pfx
+      SigningCertificate: GitHubActions.pfx
       Solution_Path: GolemUI.sln
       #Test_Project_Path: MyWpfApp.Tests\MyWpfApp.Tests.csproj
-      #Wpf_Project_Path: MyWpfApp\MyWpfApp.csproj
-      #Wap_Project_Directory: MyWpfApp.Package
-      #Wap_Project_Name: MyWpfApp.Package.wapproj
+      Wpf_Project_Path: GolemUI.csproj
+      Wap_Project_Directory: AppPackage
+      Wap_Project_Name: AppPackage.wapproj
       #Actions_Allow_Unsecure_Commands: true # Allows AddPAth and SetEnv commands
 
     steps:
@@ -58,11 +58,11 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
 
       # Update the version before build
-      #- name: Update manifest version
-      #  run: |
-      #    [xml]$manifest = get-content ".\$env:Wap_Project_Directory\Package.appxmanifest"
-      #    $manifest.Package.Identity.Version = "$env:NBGV_SimpleVersion.0"
-      #    $manifest.save(".\$env:Wap_Project_Directory\Package.appxmanifest")
+      - name: Update manifest version
+        run: |
+          [xml]$manifest = get-content ".\$env:Wap_Project_Directory\Package.appxmanifest"
+          $manifest.Package.Identity.Version = "$env:NBGV_SimpleVersion.0"
+          $manifest.save(".\$env:Wap_Project_Directory\Package.appxmanifest")
 
       # Test
       #- name: Execute Unit Tests
@@ -72,7 +72,7 @@ jobs:
       - name:  Restore the Wpf application to populate the obj folder
         run: msbuild $env:Solution_Path /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
         env:
-          Configuration: Debug
+          Configuration: Release
           RuntimeIdentifier: win-${{ matrix.targetplatform }}
 
       # Decode the Base64 encoded Pfx
@@ -89,7 +89,7 @@ jobs:
         env:
           AppxBundle: Never
           BuildMode: SideloadOnly
-          Configuration: Debug
+          Configuration: Release
           TargetPlatform: ${{ matrix.targetplatform }}
 
       # Remove the .pfx
