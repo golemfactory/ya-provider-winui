@@ -152,14 +152,22 @@ namespace GolemUI.Command
 
         public Process Run()
         {
+
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaExePath,
                 Arguments = "service run",
+#if DEBUG
+                //UseShellExecute = false,
+                //RedirectStandardOutput = true,
+                //CreateNoWindow = true
+#else
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true
+#endif
             };
+            //startInfo.EnvironmentVariables.Add();
             var process = new Process
             {
                 StartInfo = startInfo

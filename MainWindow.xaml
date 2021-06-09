@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GolemUI"
         mc:Ignorable="d"
-        Title="Golem" Width="800">
+        Title="Golem" 
+        Width="700"
+        >
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -19,11 +21,9 @@
                 <Button x:Name="btnStart" Content="Start" Margin="5,0,5,0" Padding="5" IsEnabled="False" Click="btnStart_Click"></Button>
                 <Button x:Name="btnStop" Content="Stop" Margin="5,0,5,0" Padding="5" Click="btnStop_Click"></Button>
                 <Button x:Name="btnId" Content="Id" Margin="5,0,5,0" Padding="5" Click="btnId_Click"/>
+                <Button x:Name="btnSettings" Content="Settings" Padding="5" Click="btnSettings_Click"/>
             </StackPanel>
             <Label>0.1 GNT</Label>
-        </StackPanel>
-        <StackPanel Grid.Row="0" Grid.Column="1">
-            <TextBlock x:Name="txtR"/>
         </StackPanel>
         
     </Grid>
