@@ -28,12 +28,31 @@ namespace GolemUI
         {
             services.AddSingleton<Interfaces.IProcessControler, Services.ProcessController>();
             services.AddSingleton<MainWindow>();
+#if DEBUG
+            services.AddSingleton<DebugWindow>();
+#endif
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
             var mainWindow = _serviceProvider.GetService<MainWindow>();
+            mainWindow.Left = 50;
+            mainWindow.Top = 50;
+#if DEBUG
+            var debugWindow = _serviceProvider.GetService<DebugWindow>();
+            mainWindow.DebugWindow = debugWindow;
+#endif
+
             mainWindow.Show();
+#if DEBUG
+            debugWindow.Owner = mainWindow;
+            debugWindow.Left = mainWindow.Left + mainWindow.Width;
+            debugWindow.Top = mainWindow.Top;
+            debugWindow.Show();
+#endif
+
+
+
         }
 
         private void OnExit(object sender, ExitEventArgs e)
