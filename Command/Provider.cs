@@ -176,5 +176,33 @@ namespace GolemUI.Command
             this.ExecToText(cmd.ToString());
         }
 
+        public Process Run()
+        {
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = this._yaProviderPath,
+                Arguments = "run --app-key d184a14c2a064f34bd4a3d614991eb1a",
+#if DEBUG
+                //UseShellExecute = false,
+                //RedirectStandardOutput = true,
+                //CreateNoWindow = true
+#else
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+#endif
+            };
+            startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = "plugins/*.json";
+            startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
+            //startInfo.EnvironmentVariables.Add();
+            var process = new Process
+            {
+                StartInfo = startInfo
+            };
+            process.Start();
+
+            return process;
+        }
     }
 }

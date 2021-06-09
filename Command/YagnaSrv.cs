@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GolemUI.Command
 {
@@ -106,6 +107,7 @@ namespace GolemUI.Command
                 Arguments = arguments,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 CreateNoWindow = true
             };
 
@@ -114,7 +116,29 @@ namespace GolemUI.Command
                 StartInfo = startInfo
             };
             process.Start();
-            return process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+            string output = process.StandardOutput.ReadToEnd();
+            string error = process.StandardError.ReadToEnd();
+            return output;
+        }
+
+        internal async Task<string> ExecToTextAsync(string arguments)
+        {
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = this._yaExePath,
+                Arguments = arguments,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            };
+
+            var process = new Process
+            {
+                StartInfo = startInfo
+            };
+            process.Start();
+            return await process.StandardOutput.ReadToEndAsync();
         }
 
         internal T? Exec<T>(string arguments) where T : class
@@ -122,6 +146,13 @@ namespace GolemUI.Command
             var text = ExecToText(arguments);
             return JsonConvert.DeserializeObject<T>(text);
         }
+
+        internal async Task<T?> ExecAsync<T>(string arguments) where T : class
+        {
+            var text = await ExecToTextAsync(arguments);
+            return JsonConvert.DeserializeObject<T>(text);
+        }
+
 
         public IdSrv Ids
         {
@@ -252,11 +283,24 @@ namespace GolemUI.Command
             return _yagnaSrv.Exec<T>(args);
         }
 
+        private async Task<T?> ExecAsync<T>(string arguments) where T : class
+        {
+            string idSpec = _id == null ? "" : $" --id \"{_id}\"";
+            var args = $"--json app-key{idSpec} {arguments}";
+
+            return await _yagnaSrv.ExecAsync<T>(args);
+        }
+
+
 
 
         public string? Create(string name)
         {
             return Exec<string>($"create \"{name}\"");
+        }
+        public async Task<string?> CreateAsync(string name)
+        {
+            return await ExecAsync<string>($"create \"{name}\"");
         }
 
         public void Drop(string name)
@@ -268,6 +312,17 @@ namespace GolemUI.Command
         {
             var output = new List<KeyInfo>();
             var table = Exec<Table>("list");
+            for (var i = 0; i < table?.Values.Count; ++i)
+            {
+                output.Add(new KeyInfo(table.Headers, table.Values[i]));
+            }
+            return output;
+        }
+
+        public async Task<List<KeyInfo>> ListAsync()
+        {
+            var output = new List<KeyInfo>();
+            var table = await ExecAsync<Table>("list");
             for (var i = 0; i < table?.Values.Count; ++i)
             {
                 output.Add(new KeyInfo(table.Headers, table.Values[i]));
@@ -312,6 +367,11 @@ namespace GolemUI.Command
         internal PaymentSrv(YagnaSrv srv)
         {
             _srv = srv;
+        }
+
+        public void PaymentInit(Network network, string driver)
+        {
+            _srv.Exec<PaymentStatus>($"payment init --receiver --network mainnet");
         }
 
         public PaymentStatus? Status(Network network, string driver)

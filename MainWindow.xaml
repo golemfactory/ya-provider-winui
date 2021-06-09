@@ -18,7 +18,7 @@
             <Label Content="0x246337ff755379bdbfd4381e35937526c150e541"/>
             <StackPanel Orientation="Horizontal">
                 <Label Content="TESTNET" Background="#faa" BorderThickness="2" BorderBrush="#a00" Margin="0,0,5,0"/>
-                <Label Content="Running" Background="#afa" BorderThickness="2" BorderBrush="#0a0" Margin="5,0,5,0"/>
+                <Label Name="lblRunning" Content="Running" Background="#afa" BorderThickness="2" BorderBrush="#0a0" Margin="5,0,5,0"/>
                 <Button x:Name="btnStart" Content="Start" Margin="5,0,5,0" Padding="5" IsEnabled="False" Click="btnStart_Click"></Button>
                 <Button x:Name="btnStop" Content="Stop" Margin="5,0,5,0" Padding="5" Click="btnStop_Click"></Button>
                 <Button x:Name="btnId" Content="Id" Margin="5,0,5,0" Padding="5" Click="btnId_Click"/>

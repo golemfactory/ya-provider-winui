@@ -35,8 +35,18 @@ namespace GolemUI
             InitializeComponent();
         }
 
-        private void btnStart_Click(object sender, RoutedEventArgs e)
+        private async void btnStart_Click(object sender, RoutedEventArgs e)
         {
+            lblRunning.Content = "Starting";
+            lblRunning.Background = Brushes.Yellow;
+            btnStart.IsEnabled = false;
+
+
+            await _processController.Init();
+
+            lblRunning.Content = "Started";
+            lblRunning.Background = Brushes.Green;
+            btnStart.IsEnabled = false;
 
         }
 
@@ -100,6 +110,10 @@ namespace GolemUI
                         break;
                 }
             }
+            lblRunning.Content = "Not running";
+            lblRunning.Background = Brushes.Red;
+            btnStart.IsEnabled = true;
+
 
         }
     }
