@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace GolemUI
 {
@@ -77,6 +78,28 @@ namespace GolemUI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Process[] yagnaProcesses;
+            Process[] providerProcesses;
+
+            ProcessMonitor.GetProcessList(out yagnaProcesses, out providerProcesses);
+            if (yagnaProcesses.Length > 0 || providerProcesses.Length > 0)
+            {
+                ExistingProcessesWindow w = new ExistingProcessesWindow();
+                w.Owner = this;
+                var dialogResult = w.ShowDialog();
+                switch (dialogResult)
+                {
+                    case true:
+                        // User accepted dialog box
+                        break;
+                    case false:
+                        // User canceled dialog box
+                        return;
+                    default:
+                        // Indeterminate
+                        break;
+                }
+            }
 
         }
     }

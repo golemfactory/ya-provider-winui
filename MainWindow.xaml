@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Golem" 
         Width="700"
+        Loaded="Window_Loaded"
         >
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
