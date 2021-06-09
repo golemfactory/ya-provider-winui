@@ -54,8 +54,9 @@
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\GolemUI.csproj</EntryPointProjectUniqueName>
+    <PackageCertificateThumbprint>6A6ED7C6832B043BB0416CFCCBFD2321929CD20C</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -63,6 +64,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <None Include="AppPackage_TemporaryKey.pfx" />
+    <None Include="golem-dev.pfx" />
     <Content Include="Images\SplashScreen.scale-200.png" />
     <Content Include="Images\LockScreenLogo.scale-200.png" />
     <Content Include="Images\Square150x150Logo.scale-200.png" />

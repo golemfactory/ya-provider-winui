@@ -8,7 +8,7 @@
 
   <Identity
     Name="368512e1-c6ae-4525-a210-84db5472f3b8"
-    Publisher="CN=golem-dev"
+    Publisher="CN=golem-dev, O=GolemFactory, C=CH"
     Version="1.0.0.0" />
 
   <Properties>
