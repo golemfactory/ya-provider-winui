@@ -285,12 +285,12 @@ namespace GolemUI.Command
             }
             execArgs.Add("app-key");
             execArgs.AddRange(arguments);
-            
+
             return execArgs.ToArray();
         }
 
         private T? Exec<T>(params string[] arguments) where T : class
-        {              
+        {
             return _yagnaSrv.Exec<T>(prepareArgs(arguments));
         }
 
@@ -362,7 +362,7 @@ namespace GolemUI.Command
 
         public List<IdInfo> List()
         {
-            var table = _srv.Exec<Table>("--json","id","list");
+            var table = _srv.Exec<Table>("--json", "id", "list");
             var ret = new List<IdInfo>();
             if (table == null)
             {

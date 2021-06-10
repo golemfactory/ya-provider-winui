@@ -9,7 +9,7 @@ using System.Diagnostics;
 namespace GolemUI
 {
     public class ProcessMonitor
-    {    
+    {
         public ProcessMonitor()
         {
 

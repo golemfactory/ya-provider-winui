@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -17,9 +18,20 @@ namespace GolemUI
     /// </summary>
     public partial class DebugWindow : Window
     {
-        public DebugWindow()
+        public DebugWindow(IProcessControler pc)
         {
             InitializeComponent();
+            pc.LineHandler += LogLine;
+        }
+        void LogLine(string logger, string line)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                txtR.Text += $"{line}\n";
+            });
+
         }
     }
+
+
 }

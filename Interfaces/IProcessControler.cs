@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace GolemUI.Interfaces
 {
+    public delegate void LogLineHandler(string logger, string line);
     public interface IProcessControler
     {
 
@@ -15,6 +16,9 @@ namespace GolemUI.Interfaces
         void Stop();
 
         bool IsRunning { get; }
+
+
+        LogLineHandler LineHandler { get; set; }
 
     }
 }

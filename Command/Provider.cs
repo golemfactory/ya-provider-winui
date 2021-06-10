@@ -179,16 +179,17 @@ namespace GolemUI.Command
             this.ExecToText(cmd.ToString());
         }
 
-        public Process Run(string appkey)
+        public Process Run(string appkey, Network network)
         {
 
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaProviderPath,
-                Arguments = "run",
+                Arguments = $"run --payment-network {network.Id}",
 #if DEBUG
-                //UseShellExecute = false,
+                UseShellExecute = false,
                 //RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 CreateNoWindow = false
 #else
                 UseShellExecute = false,
@@ -204,7 +205,6 @@ namespace GolemUI.Command
             {
                 StartInfo = startInfo
             };
-            process.Start();
 
             return process;
         }

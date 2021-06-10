@@ -25,6 +25,8 @@ namespace GolemUI.Services
         private Process? _main;
         private Process? _providerDaemon;
 
+        public LogLineHandler LineHandler { get; set; }
+
         public void Dispose()
         {
             Stop();
@@ -95,6 +97,7 @@ namespace GolemUI.Services
                     _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
                 }
                 _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
+
                 StartupProvider(Network.Rinkeby);
             });
 
@@ -126,9 +129,26 @@ namespace GolemUI.Services
             var paymentAccount = config?.Account ?? _yagna?.Id?.Address;
             _yagna.Payment.Init(network, "erc20", paymentAccount);
             _yagna.Payment.Init(network, "zksync", paymentAccount);
-            _providerDaemon = _provider.Run(_appkey);
+            _providerDaemon = _provider.Run(_appkey, network);
+            _providerDaemon.Exited += OnProviderExit;
+            _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
+            _providerDaemon.Start();
+            _providerDaemon.BeginErrorReadLine();
+        }
+
+        public delegate void LogLine(string logger, string line);
+
+        void OnProviderErrorDataRecv(object sender, DataReceivedEventArgs e)
+        {
+            LineHandler("provider", e.Data);
+        }
+
+        void OnProviderExit(object? sender, EventArgs e)
+        {
+            LineHandler("provider", "provider exit");
         }
     }
+
 
 
 }
