@@ -52,22 +52,7 @@ namespace GolemUI
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
-#if DEBUG
-            var p = new GolemUI.Command.Provider();
-            var lst = p.ExeUnitList();
-            DebugWindow.txtR.Text = JsonConvert.SerializeObject(lst, Formatting.Indented);
-            var cfg = p.Config ?? new Command.Config();
-            cfg.Subnet = "reqc2";
-            p.Config = cfg;
-
-            DebugWindow.txtR.Text += JsonConvert.SerializeObject(p.Config, Formatting.Indented);
-
-            foreach (var profile in p.Presets)
-            {
-                DebugWindow.txtR.Text += "\n\n--\n";
-                DebugWindow.txtR.Text += JsonConvert.SerializeObject(profile, Formatting.Indented);
-            }
-#endif
+            _processController.Stop();
         }
 
         private async void btnId_Click(object sender, RoutedEventArgs e)

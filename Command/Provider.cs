@@ -176,26 +176,27 @@ namespace GolemUI.Command
             this.ExecToText(cmd.ToString());
         }
 
-        public Process Run()
+        public Process Run(string appkey)
         {
 
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaProviderPath,
-                Arguments = "run --app-key d184a14c2a064f34bd4a3d614991eb1a",
+                Arguments = "run",
 #if DEBUG
                 //UseShellExecute = false,
                 //RedirectStandardOutput = true,
-                //CreateNoWindow = true
+                CreateNoWindow = false
 #else
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true
 #endif
             };
-            startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = "plugins/*.json";
+            startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;
             startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
-            //startInfo.EnvironmentVariables.Add();
+            startInfo.EnvironmentVariables["YAGNA_APPKEY"] = appkey;
+
             var process = new Process
             {
                 StartInfo = startInfo

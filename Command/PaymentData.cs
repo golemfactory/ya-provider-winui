@@ -3,6 +3,12 @@ using Newtonsoft.Json.Serialization;
 
 namespace GolemUI.Command
 {
+    public class Result<T> where T : class
+    {
+        public T? Ok { get; set; }
+        public object? Err { get; set; }
+    }
+
     public class Network
     {
         public string Id { get; }

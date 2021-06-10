@@ -9,10 +9,11 @@ using System.Threading;
 
 using System.Diagnostics;
 using GolemUI.Interfaces;
+using GolemUI.Command;
 
 namespace GolemUI.Services
 {
-    public class ProcessController : IDisposable, IProcessControler
+    public class ProcessController : IDisposable, IProcessControler, IAppKeyProvider
     {
         const string PROVIDER_APP_NAME = "provider";
 
@@ -22,15 +23,46 @@ namespace GolemUI.Services
         private Command.Provider _provider = new Command.Provider();
         private string? _appkey;
         private Process? _main;
+        private Process? _providerDaemon;
 
         public void Dispose()
         {
+            Stop();
             _client.Dispose();
+        }
+
+        public void Stop()
+        {
+            if (_providerDaemon != null)
+            {
+                _providerDaemon.Kill();
+                _providerDaemon.Dispose();
+                _providerDaemon = null;
+            }
+
             if (_main != null)
             {
                 _main.Kill();
                 _main.Dispose();
+                _main = null;
             }
+        }
+
+        public bool IsRunning
+        {
+            get
+            {
+                return !((_providerDaemon?.HasExited ?? true) || (_main?.HasExited ?? true));
+            }
+        }
+
+        public async Task<string> GetAppKey()
+        {
+            if (_appkey == null)
+            {
+                await Init();
+            }
+            return _appkey ?? throw new InvalidOperationException();
         }
 
         public async Task<bool> Init()
@@ -54,7 +86,6 @@ namespace GolemUI.Services
                 }
                 var _key = _yagna.AppKey.List().Where(key => key.Name == PROVIDER_APP_NAME).FirstOrDefault();
 
-                //var key = _yagna.AppKey.List().Where(key => key.Name == PROVIDER_APP_NAME).FirstOrDefault();
                 if (_key != null)
                 {
                     _appkey = _key.Key;
@@ -64,14 +95,7 @@ namespace GolemUI.Services
                     _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
                 }
                 _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
-
-                _yagna.Payment.PaymentInit(Command.Network.Rinkeby, "zksynch");
-
-                _provider.Run();
-
-
-
-
+                StartupProvider(Network.Rinkeby);
             });
 
             t.Start();
@@ -89,6 +113,20 @@ namespace GolemUI.Services
         {
             var txt = await _client.GetStringAsync($"{_baseUrl}/me");
             return JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? throw new HttpRequestException("null response on /me");
+        }
+
+
+        private void StartupProvider(Network network)
+        {
+            if (_providerDaemon != null)
+            {
+                return;
+            }
+            var config = _provider.Config;
+            var paymentAccount = config?.Account ?? _yagna?.Id?.Address;
+            _yagna.Payment.Init(network, "erc20", paymentAccount);
+            _yagna.Payment.Init(network, "zksync", paymentAccount);
+            _providerDaemon = _provider.Run(_appkey);
         }
     }
 

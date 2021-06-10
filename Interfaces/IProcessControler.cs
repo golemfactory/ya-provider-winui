@@ -12,5 +12,9 @@ namespace GolemUI.Interfaces
 
         public Task<Command.KeyInfo> Me();
 
+        void Stop();
+
+        bool IsRunning { get; }
+
     }
 }
