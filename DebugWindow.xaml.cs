@@ -22,6 +22,11 @@ namespace GolemUI
         {
             InitializeComponent();
             pc.LineHandler += LogLine;
+            NameGen g = new NameGen();
+            for (int i = 0; i < 20; i++)
+            {
+                txtR.Text += g.GenerateElvenName() + "-" + g.GenerateDwarvenName() + "\n";
+            }
         }
         void LogLine(string logger, string line)
         {
