@@ -16,6 +16,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="GolemUISetup\**" />
+    <Compile Remove="Tests\**" />
+    <EmbeddedResource Remove="GolemUISetup\**" />
+    <EmbeddedResource Remove="Tests\**" />
+    <None Remove="GolemUISetup\**" />
+    <None Remove="Tests\**" />
+    <Page Remove="GolemUISetup\**" />
+    <Page Remove="Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
