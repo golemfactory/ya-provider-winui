@@ -5,6 +5,8 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using System.Collections.Specialized;
+
 
 namespace GolemUI.Command
 {
@@ -45,6 +47,7 @@ namespace GolemUI.Command
 
         [JsonProperty("account")]
         public string? Account { get; set; }
+
     }
 
     public class Preset
