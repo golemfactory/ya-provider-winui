@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Threading;
+
 using System.Diagnostics;
 using GolemUI.Interfaces;
 
 namespace GolemUI.Services
 {
-
     public class ProcessController : IDisposable, IProcessControler
     {
         const string PROVIDER_APP_NAME = "provider";
@@ -18,6 +19,7 @@ namespace GolemUI.Services
         private HttpClient _client = new HttpClient();
         private string _baseUrl = "http://127.0.0.1:7465";
         private Command.YagnaSrv _yagna = new Command.YagnaSrv();
+        private Command.Provider _provider = new Command.Provider();
         private string? _appkey;
         private Process? _main;
 
@@ -33,6 +35,7 @@ namespace GolemUI.Services
 
         public async Task<bool> Init()
         {
+            bool runYagna = false;
             try
             {
                 var _test = await _client.GetAsync(_baseUrl);
@@ -40,21 +43,45 @@ namespace GolemUI.Services
             }
             catch (HttpRequestException e)
             {
-                _main = _yagna.Run();
-                await Task.Delay(2000);
-                var _test = _client.GetAsync(_baseUrl);
+                runYagna = true;
             }
 
-            var key = _yagna.AppKey.List().Where(key => key.Name == PROVIDER_APP_NAME).FirstOrDefault();
-            if (key != null)
+            var t = new Thread(() =>
             {
-                _appkey = key.Key;
-            }
-            else
+                if (runYagna)
+                {
+                    _main = _yagna.Run();
+                }
+                var _key = _yagna.AppKey.List().Where(key => key.Name == PROVIDER_APP_NAME).FirstOrDefault();
+
+                //var key = _yagna.AppKey.List().Where(key => key.Name == PROVIDER_APP_NAME).FirstOrDefault();
+                if (_key != null)
+                {
+                    _appkey = _key.Key;
+                }
+                else
+                {
+                    _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
+                }
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
+
+                _yagna.Payment.PaymentInit(Command.Network.Rinkeby, "zksynch");
+
+                _provider.Run();
+
+
+
+
+            });
+
+            t.Start();
+
+            while (t.IsAlive)
             {
-                _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
+                await Task.Delay(500);
             }
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
+
+
             return true;
         }
 
