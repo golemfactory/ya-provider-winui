@@ -54,7 +54,6 @@ namespace GolemUI.Services
                 }
                 var _key = _yagna.AppKey.List().Where(key => key.Name == PROVIDER_APP_NAME).FirstOrDefault();
 
-                //var key = _yagna.AppKey.List().Where(key => key.Name == PROVIDER_APP_NAME).FirstOrDefault();
                 if (_key != null)
                 {
                     _appkey = _key.Key;
@@ -67,10 +66,8 @@ namespace GolemUI.Services
 
                 _yagna.Payment.PaymentInit(Command.Network.Rinkeby, "zksynch");
 
+                _provider.ProviderAppKey = _appkey;
                 _provider.Run();
-
-
-
 
             });
 

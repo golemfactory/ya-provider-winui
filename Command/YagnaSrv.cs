@@ -311,7 +311,17 @@ namespace GolemUI.Command
         public List<KeyInfo> List()
         {
             var output = new List<KeyInfo>();
-            var table = Exec<Table>("list");
+            Table table = null;
+            int tries = 0;
+            while (table == null)
+            {
+                table = Exec<Table>("list");
+                tries++;
+                if (tries == 10)
+                {
+                    throw new Exception("Failed to obtain key list from yagna service");
+                }
+            }
             for (var i = 0; i < table?.Values.Count; ++i)
             {
                 output.Add(new KeyInfo(table.Headers, table.Values[i]));

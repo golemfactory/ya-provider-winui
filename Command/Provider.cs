@@ -5,6 +5,8 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using System.Collections.Specialized;
+
 
 namespace GolemUI.Command
 {
@@ -45,6 +47,7 @@ namespace GolemUI.Command
 
         [JsonProperty("account")]
         public string? Account { get; set; }
+
     }
 
     public class Preset
@@ -74,6 +77,10 @@ namespace GolemUI.Command
     {
         private string _yaProviderPath;
         private string _exeUnitsPath;
+        private string _providerDataPath;
+        private string _providerLogPath;
+        
+        public string ProviderAppKey { get; set; }
 
         public Provider()
         {
@@ -88,6 +95,9 @@ namespace GolemUI.Command
             }
             _yaProviderPath = Path.Combine(appBaseDir, "ya-provider");
             _exeUnitsPath = Path.Combine(appBaseDir, @"plugins\ya-runtime-*.json");
+            _providerDataPath = Path.Combine(appBaseDir, "provider-data-dir");
+            _providerLogPath = Path.Combine(appBaseDir, "provider-log-dir");
+
         }
 
         private T? Exec<T>(string arguments) where T : class
@@ -182,10 +192,11 @@ namespace GolemUI.Command
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaProviderPath,
-                Arguments = "run --app-key d184a14c2a064f34bd4a3d614991eb1a",
 #if DEBUG
                 //UseShellExecute = false,
                 //RedirectStandardOutput = true,
+                //RedirectStandardError = true,
+
                 //CreateNoWindow = true
 #else
                 UseShellExecute = false,
@@ -193,14 +204,37 @@ namespace GolemUI.Command
                 CreateNoWindow = true
 #endif
             };
-            startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = "plugins/*.json";
-            startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
+
+            StringCollection args = new StringCollection();
+            args.AddRange(new string[] { "run" });
+            if (!String.IsNullOrEmpty(ProviderAppKey))
+            {
+                args.AddRange(new string[] { "--app-key", ProviderAppKey });
+            }
+            if (!String.IsNullOrEmpty(_providerLogPath))
+            {
+                //args.AddRange(new string[] { "--log-dir", _providerLogPath });
+            }
+
+
+            foreach (var arg in args)
+            {
+                startInfo.ArgumentList.Add(arg);
+            }
+
+            startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;
+            startInfo.EnvironmentVariables["DATA_DIR"] = _providerDataPath;
+
+
             //startInfo.EnvironmentVariables.Add();
             var process = new Process
             {
                 StartInfo = startInfo
             };
             process.Start();
+
+            //string output = process.StandardOutput.ReadToEnd();
+            //string error = process.StandardError.ReadToEnd();
 
             return process;
         }
