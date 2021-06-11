@@ -17,12 +17,16 @@
 
   <ItemGroup>
     <Compile Remove="GolemUISetup\**" />
+    <Compile Remove="GolemUITest\**" />
     <Compile Remove="Tests\**" />
     <EmbeddedResource Remove="GolemUISetup\**" />
+    <EmbeddedResource Remove="GolemUITest\**" />
     <EmbeddedResource Remove="Tests\**" />
     <None Remove="GolemUISetup\**" />
+    <None Remove="GolemUITest\**" />
     <None Remove="Tests\**" />
     <Page Remove="GolemUISetup\**" />
+    <Page Remove="GolemUITest\**" />
     <Page Remove="Tests\**" />
   </ItemGroup>
 
