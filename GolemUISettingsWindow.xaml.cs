@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,14 +34,15 @@ namespace GolemUI
 
 
             GpuInfoCommand gic = new GpuInfoCommand();
-            var deviceList = gic.GetGpuInfo();
+            
+            var deviceList = gic.GetGpuInfo(hideNvidiaOpenCLDevices: true);
             int gpuNo = 0;
             foreach (var device in deviceList)
             {
                 var rowDef = new RowDefinition();
                 rowDef.Height = GridLength.Auto;
                 grdMining.RowDefinitions.Add(rowDef);
-                AddSignleGpuInfo(device, gpuNo);
+                AddSingleGpuInfo(device, gpuNo);
                 gpuNo += 1;
             }
 
@@ -56,10 +58,25 @@ namespace GolemUI
 
 
 
-        private void AddSignleGpuInfo(ComputeDevice info, int gpuNo)
+        private void AddSingleGpuInfo(ComputeDevice info, int gpuNo)
         {
+            bool canMine = false;
+            if (info.Memory > 4500000000 && info.Vendor != "Intel")
+            {
+                canMine = true;
+            }
+
+
+            Brush backgroundBrush = Brushes.LightGreen;
+            if (!canMine)
+            {
+                backgroundBrush = Brushes.Salmon;
+            }
+
             Label lblName = new Label();
             lblName.Content = info.Name;
+
+            lblName.Background = backgroundBrush;
 
             grdMining.Children.Add(lblName);
 
@@ -68,6 +85,12 @@ namespace GolemUI
 
             Label lblVendor = new Label();
             lblVendor.Content = info.Vendor;
+            lblVendor.Background = backgroundBrush;
+
+            if (!canMine)
+            {
+                lblName.Background = Brushes.Salmon;
+            }
 
             grdMining.Children.Add(lblVendor);
 
@@ -75,7 +98,9 @@ namespace GolemUI
             Grid.SetRow(lblVendor, gpuNo);
 
             Label lblMemory = new Label();
-            lblMemory.Content = info.Memory.ToString();
+            string strVal = String.Format(CultureInfo.InvariantCulture, "{0:0.02} GB", (double)info.Memory / 1024.0 / 1024.0 / 1024.0);
+            lblMemory.Content = strVal;
+            lblMemory.Background = backgroundBrush;
 
             grdMining.Children.Add(lblMemory);
 

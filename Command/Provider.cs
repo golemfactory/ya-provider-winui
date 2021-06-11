@@ -206,7 +206,7 @@ namespace GolemUI.Command
 #else
                 UseShellExecute = false,
                 RedirectStandardError = true,
-                CreateNoWindow = false
+                CreateNoWindow = true
 #endif
             };
             startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;

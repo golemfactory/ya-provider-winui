@@ -117,7 +117,7 @@ namespace GolemUI
     {
         string _deviceDetectionPath = "device_detection.exe";
 
-        public List<ComputeDevice> GetGpuInfo()
+        public List<ComputeDevice> GetGpuInfo(bool hideNvidiaOpenCLDevices)
         {
             List<JsonGpuInfo>? infos = Exec<List<JsonGpuInfo>>("all");
 
@@ -178,6 +178,11 @@ namespace GolemUI
                                 isIntel = false;
                                 isNvidia = false;
                                 isAmd = false;
+                            }
+
+                            if (hideNvidiaOpenCLDevices && isNvidia)
+                            {
+                                continue;
                             }
 
                             foreach (var openClDevice in platform.Devices)
