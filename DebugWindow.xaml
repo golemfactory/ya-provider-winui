@@ -7,11 +7,8 @@
         mc:Ignorable="d"
         Title="DebugWindow" Height="450" Width="800">
     <Grid>
-        <StackPanel Grid.Row="0" Grid.Column="0">
-            
-            <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                <TextBlock x:Name="txtR"/>
-            </ScrollViewer>            
-        </StackPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <TextBlock x:Name="txtR"/>
+        </ScrollViewer>            
     </Grid>
 </Window>
