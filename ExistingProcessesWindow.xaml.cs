@@ -70,11 +70,6 @@ namespace GolemUI
             _timer.Enabled = true;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            StartTimer();
-        }
-
         private void btnKillAll_Click(object sender, RoutedEventArgs e)
         {
             Process[] yagnaProcesses;
@@ -113,6 +108,11 @@ namespace GolemUI
         {
             Reload();
 
+        }
+
+        private void Window_Loaded_1(object sender, RoutedEventArgs e)
+        {
+            StartTimer();
         }
     }
 }

@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:GolemUI"
         mc:Ignorable="d"
         Title="Golem" 
-        Width="700"
-        Loaded="Window_Loaded"
+        Width="700" Loaded="Window_Loaded_1" 
         >
     <Grid Margin="10">
         <Grid.ColumnDefinitions>

@@ -21,20 +21,24 @@ namespace GolemUI
         public DebugWindow(IProcessControler pc)
         {
             InitializeComponent();
+#if DEBUG
             pc.LineHandler += LogLine;
             NameGen g = new NameGen();
             for (int i = 0; i < 20; i++)
             {
                 txtR.Text += g.GenerateElvenName() + "-" + g.GenerateDwarvenName() + "\n";
             }
+#endif
         }
         void LogLine(string logger, string line)
         {
+#if DEBUG
             this.Dispatcher.Invoke(() =>
             {
                 txtR.Text += $"{line}\n";
             });
 
+#endif
         }
     }
 

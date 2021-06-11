@@ -140,12 +140,18 @@ namespace GolemUI.Services
 
         void OnProviderErrorDataRecv(object sender, DataReceivedEventArgs e)
         {
-            LineHandler("provider", e.Data);
+            if (LineHandler != null)
+            {
+                LineHandler("provider", e.Data);
+            }
         }
 
         void OnProviderExit(object? sender, EventArgs e)
         {
-            LineHandler("provider", "provider exit");
+            if (LineHandler != null)
+            {
+                LineHandler("provider", "provider exit");
+            }
         }
     }
 

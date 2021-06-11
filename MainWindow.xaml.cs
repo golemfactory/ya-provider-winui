@@ -71,7 +71,8 @@ namespace GolemUI
             settingsWindow.ShowDialog();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+
+        private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
             Process[] yagnaProcesses;
             Process[] providerProcesses;
@@ -98,8 +99,6 @@ namespace GolemUI
             lblRunning.Content = "Not running";
             lblRunning.Background = Brushes.Red;
             btnStart.IsEnabled = true;
-
-
         }
     }
 }

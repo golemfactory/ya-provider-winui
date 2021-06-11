@@ -200,13 +200,13 @@ namespace GolemUI.Command
                 Arguments = $"run --payment-network {network.Id}",
 #if DEBUG
                 UseShellExecute = false,
-                //RedirectStandardOutput = true,
+                RedirectStandardOutput = false,
                 RedirectStandardError = true,
                 CreateNoWindow = false
 #else
                 UseShellExecute = false,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true
+                RedirectStandardError = true,
+                CreateNoWindow = false
 #endif
             };
             startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;
