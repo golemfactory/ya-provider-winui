@@ -30,20 +30,20 @@ namespace GolemUI.Command
 
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(CamelCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn)]
     public class IdInfo
     {
         [JsonProperty("alias")]
-        string? Alias { get; set; }
+        public string? Alias { get; set; }
 
-        [JsonProperty]
-        bool IsDefault { get; set; }
+        [JsonProperty("default")]
+        public bool IsDefault { get; set; }
 
-        [JsonProperty]
-        bool IsLocked { get; set; }
+        [JsonProperty("locked")]
+        public bool IsLocked { get; set; }
 
-        [JsonProperty]
-        string Address { get; set; }
+        [JsonProperty("nodeId")]
+        public string Address { get; set; }
 
         public IdInfo(bool _isDefault, bool _isLocked, string? _alias, string _address)
         {
@@ -99,55 +99,54 @@ namespace GolemUI.Command
             _yaExePath = Path.Combine(appBaseDir, "yagna.exe");
         }
 
-        internal string ExecToText(string arguments)
+        private Process _createProcess(params string[] arguments)
         {
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaExePath,
-                Arguments = arguments,
+                Arguments = null,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true,
+                RedirectStandardError = false,
                 CreateNoWindow = true
             };
+            foreach (var arg in arguments)
+            {
+                if (arg == null)
+                {
+                    throw new ArgumentNullException();
+                }
+                startInfo.ArgumentList.Add(arg);
+            }
 
-            var process = new Process
+            var p = new Process
             {
                 StartInfo = startInfo
             };
-            process.Start();
-            process.WaitForExit();
+            p.Start();
+            return p;
+        }
+
+        internal string ExecToText(params string[] arguments)
+        {
+            var process = _createProcess(arguments);
             string output = process.StandardOutput.ReadToEnd();
-            string error = process.StandardError.ReadToEnd();
             return output;
         }
 
-        internal async Task<string> ExecToTextAsync(string arguments)
+        internal async Task<string> ExecToTextAsync(params string[] arguments)
         {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = this._yaExePath,
-                Arguments = arguments,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true
-            };
-
-            var process = new Process
-            {
-                StartInfo = startInfo
-            };
-            process.Start();
+            var process = _createProcess(arguments);
             return await process.StandardOutput.ReadToEndAsync();
         }
 
-        internal T? Exec<T>(string arguments) where T : class
+        internal T? Exec<T>(params string[] arguments) where T : class
         {
             var text = ExecToText(arguments);
             return JsonConvert.DeserializeObject<T>(text);
         }
 
-        internal async Task<T?> ExecAsync<T>(string arguments) where T : class
+        internal async Task<T?> ExecAsync<T>(params string[] arguments) where T : class
         {
             var text = await ExecToTextAsync(arguments);
             return JsonConvert.DeserializeObject<T>(text);
@@ -162,7 +161,7 @@ namespace GolemUI.Command
             }
         }
 
-        public IdInfo? Id => Exec<IdInfo>("--json id show");
+        public IdInfo? Id => Exec<Result<IdInfo>>("--json", "id", "show")?.Ok;
 
         public PaymentSrv Payment
         {
@@ -275,20 +274,29 @@ namespace GolemUI.Command
             this._id = id;
         }
 
-        private T? Exec<T>(string arguments) where T : class
+        private string[] prepareArgs(params string[] arguments)
         {
-            string idSpec = _id == null ? "" : $" --id \"{_id}\"";
-            var args = $"--json app-key{idSpec} {arguments}";
+            var execArgs = new List<string>(3 + arguments.Length);
+            execArgs.Add("--json");
+            if (_id != null)
+            {
+                execArgs.Add("--id");
+                execArgs.Add(_id);
+            }
+            execArgs.Add("app-key");
+            execArgs.AddRange(arguments);
 
-            return _yagnaSrv.Exec<T>(args);
+            return execArgs.ToArray();
         }
 
-        private async Task<T?> ExecAsync<T>(string arguments) where T : class
+        private T? Exec<T>(params string[] arguments) where T : class
         {
-            string idSpec = _id == null ? "" : $" --id \"{_id}\"";
-            var args = $"--json app-key{idSpec} {arguments}";
+            return _yagnaSrv.Exec<T>(prepareArgs(arguments));
+        }
 
-            return await _yagnaSrv.ExecAsync<T>(args);
+        private async Task<T?> ExecAsync<T>(params string[] arguments) where T : class
+        {
+            return await _yagnaSrv.ExecAsync<T>(prepareArgs(arguments));
         }
 
 
@@ -296,22 +304,32 @@ namespace GolemUI.Command
 
         public string? Create(string name)
         {
-            return Exec<string>($"create \"{name}\"");
+            return Exec<string>("create", name);
         }
         public async Task<string?> CreateAsync(string name)
         {
-            return await ExecAsync<string>($"create \"{name}\"");
+            return await ExecAsync<string>("create", name);
         }
 
         public void Drop(string name)
         {
-            var opt = Exec<string>($"drop \"{name}\"");
+            var opt = Exec<string>("drop", name);
         }
 
         public List<KeyInfo> List()
         {
             var output = new List<KeyInfo>();
-            var table = Exec<Table>("list");
+            Table table = null;
+            int tries = 0;
+            while (table == null)
+            {
+                table = Exec<Table>("list");
+                tries++;
+                if (tries == 10)
+                {
+                    throw new Exception("Failed to obtain key list from yagna service");
+                }
+            }
             for (var i = 0; i < table?.Values.Count; ++i)
             {
                 output.Add(new KeyInfo(table.Headers, table.Values[i]));
@@ -344,7 +362,7 @@ namespace GolemUI.Command
 
         public List<IdInfo> List()
         {
-            var table = _srv.Exec<Table>("--json id list");
+            var table = _srv.Exec<Table>("--json", "id", "list");
             var ret = new List<IdInfo>();
             if (table == null)
             {
@@ -369,14 +387,14 @@ namespace GolemUI.Command
             _srv = srv;
         }
 
-        public void PaymentInit(Network network, string driver)
+        public void Init(Network network, string driver, string account)
         {
-            _srv.Exec<PaymentStatus>($"payment init --receiver --network mainnet");
+            _srv.Exec<PaymentStatus>("payment", "init", "--receiver", "--network", network.Id, "--driver", driver, "--acount", account);
         }
 
         public PaymentStatus? Status(Network network, string driver)
         {
-            return _srv.Exec<PaymentStatus>($"--json payment status --network \"{network.Id}\" --driver \"{driver}\"");
+            return _srv.Exec<PaymentStatus>("--json", "payment", "status", "--network", network.Id, "--driver", driver);
         }
 
     }

@@ -4,11 +4,11 @@ name:  Continuous Integration
 on:
   push:
     branches:
-      - master
+      - main
       - ci
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
 
@@ -39,6 +39,12 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.302'
+
+      - name: Install formater
+        run: dotnet tool install -g dotnet-format
+
+      - name: Check formating
+        run: dotnet-format --check GolemUI.sln
 
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v1.0.2

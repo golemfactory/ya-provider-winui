@@ -8,7 +8,10 @@
         Title="DebugWindow" Height="450" Width="800">
     <Grid>
         <StackPanel Grid.Row="0" Grid.Column="0">
-            <TextBlock x:Name="txtR"/>
+            
+            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                <TextBlock x:Name="txtR"/>
+            </ScrollViewer>            
         </StackPanel>
     </Grid>
 </Window>

@@ -5,6 +5,8 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using System.Collections.Specialized;
+
 
 namespace GolemUI.Command
 {
@@ -45,6 +47,7 @@ namespace GolemUI.Command
 
         [JsonProperty("account")]
         public string? Account { get; set; }
+
     }
 
     public class Preset
@@ -176,31 +179,32 @@ namespace GolemUI.Command
             this.ExecToText(cmd.ToString());
         }
 
-        public Process Run()
+        public Process Run(string appkey, Network network)
         {
 
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaProviderPath,
-                Arguments = "run --app-key d184a14c2a064f34bd4a3d614991eb1a",
+                Arguments = $"run --payment-network {network.Id}",
 #if DEBUG
-                //UseShellExecute = false,
+                UseShellExecute = false,
                 //RedirectStandardOutput = true,
-                //CreateNoWindow = true
+                RedirectStandardError = true,
+                CreateNoWindow = false
 #else
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true
 #endif
             };
-            startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = "plugins/*.json";
+            startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;
             startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
-            //startInfo.EnvironmentVariables.Add();
+            startInfo.EnvironmentVariables["YAGNA_APPKEY"] = appkey;
+
             var process = new Process
             {
                 StartInfo = startInfo
             };
-            process.Start();
 
             return process;
         }
