@@ -35,21 +35,31 @@ namespace GolemUI
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            var mainWindow = _serviceProvider.GetService<MainWindow>();
-            mainWindow.Left = 50;
-            mainWindow.Top = 50;
+            try
+            {
+                var mainWindow = _serviceProvider.GetService<MainWindow>();
+                mainWindow.Left = 50;
+                mainWindow.Top = 50;
+
 #if DEBUG
-            var debugWindow = _serviceProvider.GetService<DebugWindow>();
-            mainWindow.DebugWindow = debugWindow;
+                var debugWindow = _serviceProvider.GetService<DebugWindow>();
+                mainWindow.DebugWindow = debugWindow;
 #endif
 
-            mainWindow.Show();
+                mainWindow.Show();
 #if DEBUG
-            debugWindow.Owner = mainWindow;
-            debugWindow.Left = mainWindow.Left + mainWindow.Width;
-            debugWindow.Top = mainWindow.Top;
-            debugWindow.Show();
+                debugWindow.Owner = mainWindow;
+                debugWindow.Left = mainWindow.Left + mainWindow.Width;
+                debugWindow.Top = mainWindow.Top;
+                debugWindow.Show();
 #endif
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
 
 
 

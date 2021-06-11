@@ -17,9 +17,12 @@ namespace GolemUI
     /// </summary>
     public partial class GolemUISettingsWindow : Window
     {
+        NameGen _gen;
         public GolemUISettingsWindow()
         {
+            _gen = new NameGen();
             InitializeComponent();
+            txNodeName.Text = _gen.GenerateElvenName() + "-" + _gen.GenerateElvenName();
         }
     }
 }

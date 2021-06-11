@@ -7,8 +7,103 @@
         mc:Ignorable="d"
         Title="Settings" Height="450" Width="800">
     <Grid>
-        <TextBox HorizontalAlignment="Left" Margin="173,31,0,0" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Node name:" HorizontalAlignment="Left" Margin="69,27,0,0" VerticalAlignment="Top"/>
+        <StackPanel Orientation = "Horizontal">
+            <Label Content="Node name:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Content="Node name:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+        <GroupBox Header="GroupBox" Margin="46,203,40,138"/>
+        <GroupBox Header="GroupBox" Margin="86,71,0,270"/>
+
+
+        <Grid x:Name = "grdMain" Background = "PapayaWhip">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width = "Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height = "*" />
+                <RowDefinition Height = "*" />
+                <RowDefinition Height = "*" />
+                <RowDefinition Height = "*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row = "0" Grid.Column = "0" Text = "General settings" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment = "Center" Width = "100" />
+            <TextBlock Grid.Row = "1" Grid.Column = "0" Text = "WASM" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment = "Center" Width = "100" />
+            <TextBlock Grid.Row = "2" Grid.Column = "0" Text = "Mining" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment = "Center" Width = "100" />
+
+            <Grid x:Name="grdGeneral" Background="OldLace" Grid.Row="0" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width = "Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "*" />
+                    <RowDefinition Height = "*" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Content="Node name:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="1"  Name="txNodeName" HorizontalAlignment="Left" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Name="tbxWalletAddress" HorizontalAlignment="Left" Text="Wallet address" VerticalAlignment="Center" Width="120"/>
+
+                <Label Grid.Row="0" Grid.Column="2" Content="Subnet:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="3"  Name="tbxSubnet" HorizontalAlignment="Left" Text="Proce per pow" VerticalAlignment="Center" Width="120"/>
+            </Grid>
+            <Grid x:Name="grdWasm" Background="OldLace" Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width = "Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "*" />
+                    <RowDefinition Height = "*" />
+                </Grid.RowDefinitions>
+
+                <CheckBox Grid.Row="0" Grid.Column="0" Name="cbEnableWasm" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Content="Enable Wasm"/>
+
+                <Label Grid.Row="0" Grid.Column="0" Content="Node name:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="1"  Name="txNodeName2" HorizontalAlignment="Left" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Name="tbxWalletaddress2" HorizontalAlignment="Left" Text="Wallet address" VerticalAlignment="Center" Width="120"/>
+
+                <Label Grid.Row="0" Grid.Column="2" Content="Subnet:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="3"  Name="tbxSubnet2" HorizontalAlignment="Left" Text="Proce per pow" VerticalAlignment="Center" Width="120"/>
+            </Grid>
+            <Grid x:Name="grdMining" Background="OldLace" Grid.Row="2" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width = "Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "*" />
+                    <RowDefinition Height = "*" />
+                </Grid.RowDefinitions>
+
+                <CheckBox Grid.Row="0" Grid.Column="0" Name="cbEnableGpu" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Content="Enable Mining"/>
+
+                <TextBox Grid.Row="0" Grid.Column="1"  Name="txNodeName3" HorizontalAlignment="Left" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Name="tbxWalletaddress3" HorizontalAlignment="Left" Text="Wallet address" VerticalAlignment="Center" Width="120"/>
+
+                <Label Grid.Row="0" Grid.Column="2" Content="Subnet:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="3"  Name="tbxSubnet3" HorizontalAlignment="Left" Text="Proce per pow" VerticalAlignment="Center" Width="120"/>
+            </Grid>
+
+        </Grid>
+
 
     </Grid>
 </Window>
