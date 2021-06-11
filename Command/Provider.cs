@@ -76,6 +76,7 @@ namespace GolemUI.Command
     public class Provider
     {
         private string _yaProviderPath;
+        private string _pluginsPath;
         private string _exeUnitsPath;
 
         public Provider()
@@ -89,8 +90,19 @@ namespace GolemUI.Command
             {
                 throw new ArgumentException();
             }
-            _yaProviderPath = Path.Combine(appBaseDir, "ya-provider");
-            _exeUnitsPath = Path.Combine(appBaseDir, @"plugins\ya-runtime-*.json");
+            _yaProviderPath = Path.Combine(appBaseDir, "ya-provider.exe");
+            _pluginsPath = Path.Combine(appBaseDir, "plugins");
+            _exeUnitsPath = Path.Combine(_pluginsPath, @"ya-runtime-*.json");
+
+            if (!File.Exists(_yaProviderPath))
+            {
+                throw new Exception($"File not found: {_yaProviderPath}");
+            }
+            if (!Directory.Exists(_pluginsPath))
+            {
+                throw new Exception($"Plugins directory not found: {_pluginsPath}");
+            }
+
         }
 
         private T? Exec<T>(string arguments) where T : class

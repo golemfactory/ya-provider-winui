@@ -97,6 +97,10 @@ namespace GolemUI.Command
                 throw new ArgumentException();
             }
             _yaExePath = Path.Combine(appBaseDir, "yagna.exe");
+            if (!File.Exists(_yaExePath))
+            {
+                throw new Exception($"File not found: {_yaExePath}");
+            }
         }
 
         private Process _createProcess(params string[] arguments)

@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+<?define Win64 = "yes" ?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+  <Product
+        Id='*'
+        Name='Golem Unlimited Provider'
+        UpgradeCode='{705B21C0-7C31-4893-BBC5-4BD89CB80109}'
+        Manufacturer='golemfactory'
+        Language='1033'
+        Codepage='1252'
+        Version='$(var.Version)'>
+    <Package Id='*'
+           Keywords='Installer'
+            Manufacturer='golemfactory'
+            InstallerVersion='450'
+            Languages='1033'
+            Compressed='yes'
+            InstallScope='perMachine'
+            SummaryCodepage='1252'
+            Platform='x64'/>
+        <MajorUpgrade
+            Schedule='afterInstallInitialize'
+            DowngradeErrorMessage='A newer version of [ProductName] is already installed. Setup will now exit.'/>
+
+        <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1'/>
+        <!-- Allow upgrades and prevent downgrades -->
+        <!--MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." /-->
+        <Property Id='DiskPrompt' Value='gu_provider Installation'/>
+
+	<!--Condition Message="Required vc++ runtime version 14.22.27812.0 or newer">
+    		<![CDATA[Installed OR VCRUNTIMEVERSION]]>
+	</Condition-->
+
+        <Directory Id='TARGETDIR' Name='SourceDir'>
+            <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
+                <Directory Id='APPLICATIONFOLDER' Name='GolemUnlimited'>
+
+                    <Component Id='License' Guid='*' Win64='$(var.Win64)'>
+                        <File Id='LicenseFile'
+                            Name='License'
+                            DiskId='1'
+                            Source='docs\LICENSE.rtf'
+                            KeyPath='yes'/>
+                    </Component>
+                    <Component Id='gu_providerBinary' Guid='*' Win64='$(var.Win64)'>
+                        <File Id='gu_providerEXE'
+                              Name='gu_provider.exe'
+                              DiskId='1'
+                              Source='binaries\gu-provider.exe'
+                              KeyPath='yes'>
+                        </File>
+                        <RemoveFolder Id="APPLICATIONFOLDER" On="uninstall"/>
+                    </Component>
+                    <Component Id='gu_ui' Guid='*' Win64='$(var.Win64)'>
+                        <File Id='provider_ui_exe'
+                              Name='gu-provider-ui.exe'
+                              DiskId='1'
+                              Source='binaries\gu-provider-ui.exe'
+                              KeyPath='yes'>
+                        </File>
+                    </Component>
+                    <Component Id='gu_uideps' Guid='60161a37-6849-4212-bd0a-e282d4fb6058' Win64='$(var.Win64)'>
+                        <File Id='Newtonsoft_Json_dll'
+                              Name='Newtonsoft.Json.dll'
+                              DiskId='1'
+                              Source='binaries\Newtonsoft.Json.dll'
+                              KeyPath='no'>
+                        </File>
+                        <File Id='RestSharp_dll'
+                              Name='RestSharp.dll'
+                              DiskId='1'
+                              Source='binaries\RestSharp.dll'
+                              KeyPath='no'>
+                        </File>
+                    </Component>
+                    <Directory Id="Plugins" Name="plugins">
+                      <Directory Id="WasmPlugin" Name="WasmExecEnv.gu-plugin">
+                        <Component Id="WasmDriver" Guid="*" Win64="$(var.Win64)">
+				<File Id="wasmDriverExe" Name="gu-exec-env-driver-wasm.exe" DiskId="1" Source="plugins\gu-exec-env-driver-wasm.exe" KeyPath="yes"/>
+                        </Component>
+                        <Component Id="WasmDriverManifest" Guid="*" Win64="$(var.Win64)">
+                          <File Id="wasmDriverManifest" Name="gu-plugin.json" DiskId="1" Source="plugins\gu-exec-env-driver-wasm.json" KeyPath="yes"/>
+                        </Component>
+                        <Component Id="WasmDriverDeps" Guid="ca4c2fba-78cf-4a49-87f7-e22fc967e804" Win64="$(var.Win64)">
+                          <File Id="nspr4_dll" Name="nspr4.dll" Source="deps\nspr4.dll"/>
+                          <File Id="plc4_dll" Name="plc4.dll" Source="deps\plc4.dll"/>
+                          <File Id="plds4_dll" Name="plds4.dll" Source="deps\plds4.dll"/>
+                        </Component>
+                      </Directory>
+                    </Directory>
+               </Directory> 
+            </Directory>
+        </Directory>
+
+        <Feature
+            Id='MainProgram'
+            Title='Provider Runtime'
+            Description='Installs the executable and license.'
+            Level='1'
+            ConfigurableDirectory='APPLICATIONFOLDER'
+            AllowAdvertise='no'
+            Display='expand'
+            Absent='disallow'>
+            <ComponentRef Id='License'/>
+
+            <ComponentRef Id='gu_providerBinary'/>
+        </Feature>
+        <Feature
+            Id='UI'
+            Title='Provider Indicator'
+            Description='Installs the executable and license.'
+            Level='1'
+            ConfigurableDirectory='APPLICATIONFOLDER'
+            AllowAdvertise='no'
+            Display='expand'
+            Absent='disallow'>
+            <ComponentRef Id='License'/>
+            <ComponentRef Id='gu_ui'/>
+            <ComponentRef Id='gu_uideps'/>
+        </Feature>
+        <Feature
+            Id='f.wasm'
+            Title='Wasm Driver'
+            Description='Installs Golem Unlimied Wasm Driver'
+            Level='1'
+            ConfigurableDirectory='APPLICATIONFOLDER'
+            AllowAdvertise='no'
+            Display='expand'
+            Absent='allow'>
+            <ComponentRef Id='License'/>
+            <ComponentRef Id='WasmDriver'/>
+            <ComponentRef Id='WasmDriverManifest'/>
+            <ComponentRef Id='WasmDriverDeps'/>
+        </Feature>
+
+
+
+        <SetProperty Id='ARPINSTALLLOCATION' Value='[APPLICATIONFOLDER]' After='CostFinalize'/>
+        <SetProperty Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" After='CostFinalize' />
+        <UI>
+          <UIRef Id='WixUI_FeatureTree'/>
+          <!--UIRef Id='WixUI_Minimal'/-->
+          <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" 
+          Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+        </UI>
+        <WixVariable Id='WixUILicenseRtf' Value='docs\LICENSE.rtf'/>
+        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Start Golem Unlimited" />
+        <CustomAction Id='LaunchApplication' FileKey='provider_ui_exe' ExeCommand='' Return="asyncNoWait" />
+
+  </Product>
+  <Fragment>
+	  	<Property Id="VCRUNTIMEVERSION">
+    		<DirectorySearch Id="SystemFolderDriverVersion" Path="[SystemFolder]">
+        		<FileSearch Name="vcruntime140.dll" MinVersion="14.22.27821.0"/>
+    		</DirectorySearch>
+	</Property>
+	<PackageGroup Id="redist_vc140">
+		 <ExePackage Id="vc140" Cache="yes" PerMachine="yes" Permanent="yes" Vital="yes" Compressed="yes"
+            SourceFile="redist\vcredist_x64.exe"
+            InstallCommand="/quiet /norestart"
+	    DetectCondition="(VCRUNTIMEVERSION &gt;= 14.22.27821.0)" />
+    	</PackageGroup>
+
+  </Fragment>
+</Wix>
