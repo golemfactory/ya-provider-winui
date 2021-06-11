@@ -24,6 +24,7 @@ namespace GolemUI
         {
             InitializeComponent();
             Reload();
+            _timer = new System.Timers.Timer();
         }
         public delegate void ReloadDelegate();
 

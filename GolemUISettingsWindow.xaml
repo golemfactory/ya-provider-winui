@@ -81,25 +81,13 @@
             <Grid x:Name="grdMining" Background="OldLace" Grid.Row="2" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width = "Auto" />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width = "Auto" />
+                    <ColumnDefinition Width = "Auto" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height = "*" />
-                    <RowDefinition Height = "*" />
                 </Grid.RowDefinitions>
 
-                <CheckBox Grid.Row="0" Grid.Column="0" Name="cbEnableGpu" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Content="Enable Mining"/>
-
-                <TextBox Grid.Row="0" Grid.Column="1"  Name="txNodeName3" HorizontalAlignment="Left" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
-
-                <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Name="tbxWalletaddress3" HorizontalAlignment="Left" Text="Wallet address" VerticalAlignment="Center" Width="120"/>
-
-                <Label Grid.Row="0" Grid.Column="2" Content="Subnet:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Row="0" Grid.Column="3"  Name="tbxSubnet3" HorizontalAlignment="Left" Text="Proce per pow" VerticalAlignment="Center" Width="120"/>
             </Grid>
 
         </Grid>
