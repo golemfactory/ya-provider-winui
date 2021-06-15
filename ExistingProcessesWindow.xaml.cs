@@ -52,6 +52,8 @@ namespace GolemUI
                 this.lbProcesses.Items.Add(String.Format("Found running claymore process: {0}\n", claymoreProcess.Id));
             }
 
+            
+
 
             if (yagnaProcesses.Length == 0 && providerProcesses.Length == 0 && claymoreProcesses.Length == 0)
             {

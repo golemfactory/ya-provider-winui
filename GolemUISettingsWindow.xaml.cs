@@ -16,6 +16,10 @@ using System.Threading.Tasks;
 namespace GolemUI
 {
 
+    public class GpuEntry
+    {
+        public Label lblName { get; set; }
+    }
 
     /// <summary>
     /// Interaction logic for GolemUISettingsWindow.xaml
@@ -23,6 +27,7 @@ namespace GolemUI
     public partial class GolemUISettingsWindow : Window
     {
 
+        Dictionary<int, GpuEntry> _entries = new Dictionary<int, GpuEntry>();
 
 
         NameGen _gen;
@@ -62,7 +67,7 @@ namespace GolemUI
 
         }
 
-        private void AddSingleGpuInfo(string info, int gpuNo)
+        private GpuEntry AddSingleGpuInfo(string info, int gpuNo)
         {
             bool canMine = false;
             /*if (info.Memory > 4500000000 && info.Vendor != "Intel")
@@ -70,6 +75,7 @@ namespace GolemUI
                 canMine = true;
             }*/
 
+            GpuEntry ge = new GpuEntry();
 
             Brush backgroundBrush = Brushes.LightGreen;
             if (!canMine)
@@ -77,18 +83,18 @@ namespace GolemUI
                 backgroundBrush = Brushes.Salmon;
             }
 
-            Label lblName = new Label();
-            lblName.Content = info;
+            ge.lblName = new Label();
+            ge.lblName.Content = info;
 
-            lblName.Background = backgroundBrush;
+            ge.lblName.Background = backgroundBrush;
 
-            grdGpuList.Children.Add(lblName);
+            grdGpuList.Children.Add(ge.lblName);
 
-            Grid.SetColumn(lblName, 0);
-            Grid.SetRow(lblName, gpuNo);
+            Grid.SetColumn(ge.lblName, 0);
+            Grid.SetRow(ge.lblName, gpuNo);
 
 
-
+            return ge;
         }
 
 
@@ -148,12 +154,11 @@ namespace GolemUI
         {
             //BenchmarkDialog dB = new BenchmarkDialog();
             //dB.ShowDialog();
-
             for (int gpuNo = 0; gpuNo < 10; gpuNo++)
             {
                 lblStatus.Content = $"Benchmarking Gpu No: {gpuNo} ...";
 
-                ClaymoreBenchmark cc = new ClaymoreBenchmark(gpuNo);
+                ClaymoreBenchmark cc = new ClaymoreBenchmark(0);
                 bool result = cc.RunBenchmark();
                 if (!result)
                 {
@@ -163,13 +168,23 @@ namespace GolemUI
                 while (!cc.BenchmarkFinished)
                 {
                     await Task.Delay(500);
+                    GpuEntry? currentEntry = null;
+                    if (_entries.ContainsKey(gpuNo))
+                    {
+                        currentEntry = _entries[gpuNo];
+                    }
 
                     string gdetails = cc.GPUDetails;
-                    if (!String.IsNullOrEmpty(gdetails))
+                    if (!String.IsNullOrEmpty(gdetails) && !_entries.ContainsKey(gpuNo))
                     {
-                        AddSingleGpuInfo(gdetails, gpuNo);
+                        currentEntry = AddSingleGpuInfo(gdetails, gpuNo);
+                        _entries.Add(gpuNo, currentEntry);
                     }
-                    this.lblStatus.Content = cc.BenchmarkProgress.ToString() + "Speed: " + cc.BenchmarkSpeed.ToString();
+                    if (currentEntry != null)
+                    {
+                        currentEntry.lblName.Content = cc.BenchmarkProgress.ToString() + "Speed: " + cc.BenchmarkSpeed.ToString();
+                    }
+
                 }
 
             }
