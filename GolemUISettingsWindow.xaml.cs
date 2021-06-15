@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.Command;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -10,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading.Tasks;
 
 namespace GolemUI
 {
@@ -27,23 +29,27 @@ namespace GolemUI
         public GolemUISettingsWindow()
         {
             _gen = new NameGen();
+
             InitializeComponent();
             txNodeName.Text = _gen.GenerateElvenName() + "-" + _gen.GenerateElvenName();
             //lbGpus.Items.Add("GPU 1");
             //lbGpus.Items.Add("GPU 2");
 
-
-            GpuInfoCommand gic = new GpuInfoCommand();
+            bool bUseInfoCommand = false;
+            if (bUseInfoCommand) 
+            { 
+                GpuInfoCommand gic = new GpuInfoCommand();
             
-            var deviceList = gic.GetGpuInfo(hideNvidiaOpenCLDevices: true);
-            int gpuNo = 0;
-            foreach (var device in deviceList)
-            {
-                var rowDef = new RowDefinition();
-                rowDef.Height = GridLength.Auto;
-                grdMining.RowDefinitions.Add(rowDef);
-                AddSingleGpuInfo(device, gpuNo);
-                gpuNo += 1;
+                var deviceList = gic.GetGpuInfo(hideNvidiaOpenCLDevices: true);
+                int gpuNo = 0;
+                foreach (var device in deviceList)
+                {
+                    var rowDef = new RowDefinition();
+                    rowDef.Height = GridLength.Auto;
+                    grdGpuList.RowDefinitions.Add(rowDef);
+                    AddSingleGpuInfo(device, gpuNo);
+                    gpuNo += 1;
+                }
             }
 
             //int count = gpuInfo.Count;
@@ -51,11 +57,39 @@ namespace GolemUI
 
         private void ResetGpuList()
         {
-            grdMining.Children.Clear();
+            grdGpuList.Children.Clear();
 
 
         }
 
+        private void AddSingleGpuInfo(string info, int gpuNo)
+        {
+            bool canMine = false;
+            /*if (info.Memory > 4500000000 && info.Vendor != "Intel")
+            {
+                canMine = true;
+            }*/
+
+
+            Brush backgroundBrush = Brushes.LightGreen;
+            if (!canMine)
+            {
+                backgroundBrush = Brushes.Salmon;
+            }
+
+            Label lblName = new Label();
+            lblName.Content = info;
+
+            lblName.Background = backgroundBrush;
+
+            grdGpuList.Children.Add(lblName);
+
+            Grid.SetColumn(lblName, 0);
+            Grid.SetRow(lblName, gpuNo);
+
+
+
+        }
 
 
         private void AddSingleGpuInfo(ComputeDevice info, int gpuNo)
@@ -78,7 +112,7 @@ namespace GolemUI
 
             lblName.Background = backgroundBrush;
 
-            grdMining.Children.Add(lblName);
+            grdGpuList.Children.Add(lblName);
 
             Grid.SetColumn(lblName, 0);
             Grid.SetRow(lblName, gpuNo);
@@ -92,7 +126,7 @@ namespace GolemUI
                 lblName.Background = Brushes.Salmon;
             }
 
-            grdMining.Children.Add(lblVendor);
+            grdGpuList.Children.Add(lblVendor);
 
             Grid.SetColumn(lblVendor, 1);
             Grid.SetRow(lblVendor, gpuNo);
@@ -102,12 +136,43 @@ namespace GolemUI
             lblMemory.Content = strVal;
             lblMemory.Background = backgroundBrush;
 
-            grdMining.Children.Add(lblMemory);
+            grdGpuList.Children.Add(lblMemory);
 
             Grid.SetColumn(lblMemory, 2);
             Grid.SetRow(lblMemory, gpuNo);
 
 
+        }
+
+        private async void btnOpenBenchmark_Click(object sender, RoutedEventArgs e)
+        {
+            //BenchmarkDialog dB = new BenchmarkDialog();
+            //dB.ShowDialog();
+
+            for (int gpuNo = 0; gpuNo < 10; gpuNo++)
+            {
+                lblStatus.Content = $"Benchmarking Gpu No: {gpuNo} ...";
+
+                ClaymoreBenchmark cc = new ClaymoreBenchmark(gpuNo);
+                bool result = cc.RunBenchmark();
+                if (!result)
+                {
+                    MessageBox.Show(cc.BenchmarkError);
+                }
+
+                while (!cc.BenchmarkFinished)
+                {
+                    await Task.Delay(500);
+
+                    string gdetails = cc.GPUDetails;
+                    if (!String.IsNullOrEmpty(gdetails))
+                    {
+                        AddSingleGpuInfo(gdetails, gpuNo);
+                    }
+                    this.lblStatus.Content = cc.BenchmarkProgress.ToString() + "Speed: " + cc.BenchmarkSpeed.ToString();
+                }
+
+            }
         }
     }
 }

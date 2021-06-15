@@ -35,7 +35,8 @@ namespace GolemUI
 
             Process[] yagnaProcesses;
             Process[] providerProcesses;
-            ProcessMonitor.GetProcessList(out yagnaProcesses, out providerProcesses);
+            Process[] claymoreProcesses;
+            ProcessMonitor.GetProcessList(out yagnaProcesses, out providerProcesses, out claymoreProcesses);
             foreach (var yagnaProcess in yagnaProcesses)
             {
                 this.lbProcesses.Items.Add(String.Format("Found running yagna process: {0}\n", yagnaProcess.Id));
@@ -46,7 +47,13 @@ namespace GolemUI
                 this.lbProcesses.Items.Add(String.Format("Found running ya-provider process: {0}\n", providerProcess.Id));
             }
 
-            if (yagnaProcesses.Length == 0 && providerProcesses.Length == 0)
+            foreach (var claymoreProcess in claymoreProcesses)
+            {
+                this.lbProcesses.Items.Add(String.Format("Found running ya-provider process: {0}\n", claymoreProcess.Id));
+            }
+
+
+            if (yagnaProcesses.Length == 0 && providerProcesses.Length == 0 && claymoreProcesses.Length == 0)
             {
                 this._timer.Stop();
                 this.DialogResult = true;
@@ -74,7 +81,8 @@ namespace GolemUI
         {
             Process[] yagnaProcesses;
             Process[] providerProcesses;
-            ProcessMonitor.GetProcessList(out yagnaProcesses, out providerProcesses);
+            Process[] claymoreProcesses;
+            ProcessMonitor.GetProcessList(out yagnaProcesses, out providerProcesses, out claymoreProcesses);
 
             foreach (var yagnaProcess in yagnaProcesses)
             {
@@ -83,6 +91,10 @@ namespace GolemUI
             foreach (var providerProcess in providerProcesses)
             {
                 providerProcess.Kill(true);
+            }
+            foreach (var claymoreProcess in claymoreProcesses)
+            {
+                claymoreProcess.Kill(true);
             }
 
         }

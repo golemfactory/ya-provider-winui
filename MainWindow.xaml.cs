@@ -76,9 +76,10 @@ namespace GolemUI
         {
             Process[] yagnaProcesses;
             Process[] providerProcesses;
+            Process[] claymoreProcesses;
 
-            ProcessMonitor.GetProcessList(out yagnaProcesses, out providerProcesses);
-            if (yagnaProcesses.Length > 0 || providerProcesses.Length > 0)
+            ProcessMonitor.GetProcessList(out yagnaProcesses, out providerProcesses, out claymoreProcesses);
+            if (yagnaProcesses.Length > 0 || providerProcesses.Length > 0 || claymoreProcesses.Length > 0)
             {
                 ExistingProcessesWindow w = new ExistingProcessesWindow();
                 w.Owner = this;
