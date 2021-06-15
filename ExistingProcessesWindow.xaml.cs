@@ -49,7 +49,7 @@ namespace GolemUI
 
             foreach (var claymoreProcess in claymoreProcesses)
             {
-                this.lbProcesses.Items.Add(String.Format("Found running ya-provider process: {0}\n", claymoreProcess.Id));
+                this.lbProcesses.Items.Add(String.Format("Found running claymore process: {0}\n", claymoreProcess.Id));
             }
 
 
