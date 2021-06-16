@@ -134,6 +134,7 @@ namespace GolemUI.Command
 
             return true;
         }
+
         void OnOutputDataRecv(object sender, DataReceivedEventArgs e)
         {
             string lineText = e.Data;
@@ -179,7 +180,6 @@ namespace GolemUI.Command
                     //todo - what happens when details contains :
                     this.GPUDetails = lineText.Split(":")[1].Trim();
                 }
-
             }
 
             if (lineText.StartsWith("GPU1: Allocating DAG"))
