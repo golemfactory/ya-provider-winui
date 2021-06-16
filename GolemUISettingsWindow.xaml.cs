@@ -29,7 +29,7 @@ namespace GolemUI
 
         Dictionary<int, GpuEntry> _entries = new Dictionary<int, GpuEntry>();
 
-
+        bool _requestExit = false;
         NameGen _gen;
         public GolemUISettingsWindow()
         {
@@ -154,27 +154,42 @@ namespace GolemUI
         {
             //BenchmarkDialog dB = new BenchmarkDialog();
             //dB.ShowDialog();
-            for (int gpuNo = 0; gpuNo < 10; gpuNo++)
-            {
-                lblStatus.Content = $"Benchmarking Gpu No: {gpuNo} ...";
+            btnOpenBenchmark.IsEnabled = false;
 
-                ClaymoreBenchmark cc = new ClaymoreBenchmark(0);
-                bool result = cc.RunBenchmark();
-                if (!result)
+            lblStatus.Content = $"Benchmarking...";
+
+            ClaymoreBenchmark cc = new ClaymoreBenchmark(gpuNo: null);
+            bool result = cc.RunBenchmark();
+            if (!result)
+            {
+                MessageBox.Show(cc.BenchmarkError);
+            }
+
+            while (!cc.BenchmarkFinished)
+            {
+                await Task.Delay(100);
+                if (_requestExit)
                 {
-                    MessageBox.Show(cc.BenchmarkError);
+                    cc.Stop();
+                    return;
                 }
 
-                while (!cc.BenchmarkFinished)
+                //function returns copy, so we can work with safety (even if original value is updated on separate thread)
+                var s = cc.ClaymoreParser.GetLiveStatusCopy();
+
+
+                foreach (var gpu in s.GPUs)
                 {
-                    await Task.Delay(500);
+                    int gpuNo = gpu.Key;
+                    var gpuInfo = gpu.Value;
+
                     GpuEntry? currentEntry = null;
                     if (_entries.ContainsKey(gpuNo))
                     {
                         currentEntry = _entries[gpuNo];
                     }
 
-                    string gdetails = cc.GPUDetails;
+                    string gdetails = gpuInfo.GPUDetails;
                     if (!String.IsNullOrEmpty(gdetails) && !_entries.ContainsKey(gpuNo))
                     {
                         currentEntry = AddSingleGpuInfo(gdetails, gpuNo);
@@ -182,12 +197,19 @@ namespace GolemUI
                     }
                     if (currentEntry != null)
                     {
-                        currentEntry.lblName.Content = cc.BenchmarkProgress.ToString() + "Speed: " + cc.BenchmarkSpeed.ToString();
+                        currentEntry.lblName.Content = gpuInfo.DagProgress.ToString() + "Speed: " + gpuInfo.BenchmarkSpeed.ToString();
                     }
 
                 }
 
+
+
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _requestExit = true;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using GolemUI.Interfaces;
+﻿using GolemUI.Claymore;
+using GolemUI.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,6 +35,11 @@ namespace GolemUI.Command
         public String GPUVendor = null;
 
         private String _unsafeGpuDetails;
+
+        //private ClaymoreLiveStatus _liveStatus = new ClaymoreLiveStatus();
+        private ClaymoreParser _claymoreParser = new ClaymoreParser();
+        public ClaymoreParser ClaymoreParser { get { return _claymoreParser; } }
+
         public String GPUDetails
         {
             get {
@@ -60,11 +66,20 @@ namespace GolemUI.Command
 
         Process? _claymoreProcess;
 
-        int _gpuNo;
-        public ClaymoreBenchmark(int gpuNo)
+        int? _gpuNo;
+        public ClaymoreBenchmark(int? gpuNo)
         {
             _gpuNo = gpuNo;
 
+        }
+
+        public void Stop()
+        {
+            if (_claymoreProcess != null)
+            {
+                _claymoreProcess.Kill(entireProcessTree: true);
+                _claymoreProcess = null;
+            }
         }
 
         public bool RunBenchmark()
@@ -86,13 +101,17 @@ namespace GolemUI.Command
                 CreateNoWindow = true
             };
 
+            
 
             List<string> arguments = new List<string>();
 
             //Enable benchmark mode:
             arguments.Add("-benchmark");
             //Set GPU number to test:
-            arguments.AddRange(new string[] { "-di", this._gpuNo.ToString() }); 
+            if (this._gpuNo != null)
+            {
+                arguments.AddRange(new string[] { "-di", this._gpuNo.ToString() });
+            }
 
             foreach (var arg in arguments)
             {
@@ -103,7 +122,7 @@ namespace GolemUI.Command
                 startInfo.ArgumentList.Add(arg);
             }
 
-            var _claymoreProcess = new Process
+            _claymoreProcess = new Process
             {
                 StartInfo = startInfo
             };
@@ -142,6 +161,9 @@ namespace GolemUI.Command
             if (lineText == null)
                 return;
 
+            _claymoreParser.ParseLine(lineText);
+
+            /*
             if (lineText.Contains("No avaiable GPUs for mining", StringComparison.InvariantCultureIgnoreCase) 
                 || lineText.Contains("No avaiable GPUs for mining", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -153,9 +175,13 @@ namespace GolemUI.Command
             }
 
 
+
             //parse once only at the start of the benchmark
             if (this._unsafeGpuDetails == null && lineText.StartsWith("GPU1:", StringComparison.InvariantCultureIgnoreCase))
             {
+                
+
+
                 bool nVidiaGpuFound = false;
                 bool amdGpuFound = false;
                 if (lineText.Contains("NVIDIA", StringComparison.InvariantCultureIgnoreCase) ||
@@ -231,10 +257,7 @@ namespace GolemUI.Command
 
             if (this.BenchmarkProgress >= 1.0f)
             {
-                if (_claymoreProcess != null)
-                {
-                    _claymoreProcess.Kill(entireProcessTree: true);
-                }
+                this.Stop();
                 this.BenchmarkProgress = 1.0f;
                 this.BenchmarkFinished = true;
             }
@@ -248,6 +271,7 @@ namespace GolemUI.Command
             {
                 LineHandler("claymore", e.Data);
             }
+            */
         }
 
         void OnErrorDataRecv(object sender, DataReceivedEventArgs e)
@@ -257,5 +281,7 @@ namespace GolemUI.Command
                 LineHandler("claymore", e.Data);
             }
         }
+
+
     }
 }
