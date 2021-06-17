@@ -19,6 +19,8 @@ namespace GolemUI
     public class GpuEntry
     {
         public Label lblName { get; set; }
+        public Label lblProgress { get; set; }
+        public Label lblPower { get; set; }
     }
 
     /// <summary>
@@ -93,6 +95,23 @@ namespace GolemUI
             Grid.SetColumn(ge.lblName, 0);
             Grid.SetRow(ge.lblName, gpuNo);
 
+            ge.lblProgress = new Label();
+            ge.lblProgress.Content = "Starting...";
+
+            ge.lblProgress.Background = backgroundBrush;
+            grdGpuList.Children.Add(ge.lblProgress);
+
+            Grid.SetColumn(ge.lblProgress, 1);
+            Grid.SetRow(ge.lblProgress, gpuNo);
+
+            ge.lblPower = new Label();
+            ge.lblPower.Content = "N/A";
+
+            ge.lblPower.Background = backgroundBrush;
+            grdGpuList.Children.Add(ge.lblPower);
+
+            Grid.SetColumn(ge.lblPower, 2);
+            Grid.SetRow(ge.lblPower, gpuNo);
 
             return ge;
         }
@@ -192,12 +211,16 @@ namespace GolemUI
                     string gdetails = gpuInfo.GPUDetails;
                     if (!String.IsNullOrEmpty(gdetails) && !_entries.ContainsKey(gpuNo))
                     {
-                        currentEntry = AddSingleGpuInfo(gdetails, gpuNo);
+                        var rowDef = new RowDefinition();
+                        rowDef.Height = GridLength.Auto;
+                        grdGpuList.RowDefinitions.Add(rowDef);
+                        currentEntry = AddSingleGpuInfo(gdetails, gpuNo - 1);
                         _entries.Add(gpuNo, currentEntry);
                     }
                     if (currentEntry != null)
                     {
-                        currentEntry.lblName.Content = gpuInfo.DagProgress.ToString() + "Speed: " + gpuInfo.BenchmarkSpeed.ToString();
+                        currentEntry.lblProgress.Content = gpuInfo.DagProgress.ToString();
+                        currentEntry.lblPower.Content = gpuInfo.BenchmarkSpeed.ToString();
                     }
 
                 }

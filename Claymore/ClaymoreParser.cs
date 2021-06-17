@@ -73,6 +73,8 @@ namespace GolemUI.Claymore
 
         private readonly object __lockObj = new object();
 
+        private bool _readyForGpusEthInfo = false;
+
         /// <summary>
         /// Thread safe 
         /// </summary>
@@ -189,11 +191,14 @@ namespace GolemUI.Claymore
                         }
                     }
                 }
-                if (lineText.Contains("Eth speed", StringComparison.InvariantCultureIgnoreCase))
+                if (lineText.StartsWith("Eth speed", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    //sample:
-                    //"GPUs: 1: 0.000 MH/s (0) 2: 0.000 MH/s (0)"
-                    
+                    _readyForGpusEthInfo = true;
+
+                }
+
+                if (_readyForGpusEthInfo && lineText.StartsWith("GPU"))
+                {
                     var splits = lineText.Split("MH/s");
 
                     for (int i = 0; i < splits.Length - 1; i++)
@@ -201,10 +206,10 @@ namespace GolemUI.Claymore
                         double val;
                         //if (split.Length > 2 && double.TryParse(split[2], out val))
                         var s = splits[i].TrimEnd().Split(" ");
-                        
+
                         var p = s.Last();
                         double mhs;
-                        
+
                         bool parsedOK = double.TryParse(p, out mhs);
 
                         if (parsedOK)
@@ -219,6 +224,9 @@ namespace GolemUI.Claymore
                         }
                     }
                 }
+                    //sample:
+                    //"GPUs: 1: 0.000 MH/s (0) 2: 0.000 MH/s (0)"
+
             }
         }
     }
