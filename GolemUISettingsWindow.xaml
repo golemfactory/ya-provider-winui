@@ -11,86 +11,85 @@
             <Label Content="Node name:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Label Content="Node name:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </StackPanel>
-        <GroupBox Header="GroupBox" Margin="46,203,40,138"/>
-        <GroupBox Header="GroupBox" Margin="86,71,0,270"/>
-
-
-        <Grid x:Name = "grdMain" Background = "PapayaWhip">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width = "Auto" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height = "*" />
-                <RowDefinition Height = "*" />
-                <RowDefinition Height = "*" />
-                <RowDefinition Height = "*" />
-            </Grid.RowDefinitions>
-
-            <TextBlock Grid.Row = "0" Grid.Column = "0" Text = "General settings" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment = "Center" Width = "100" />
-            <TextBlock Grid.Row = "1" Grid.Column = "0" Text = "WASM" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment = "Center" Width = "100" />
-            <TextBlock Grid.Row = "2" Grid.Column = "0" Text = "Mining" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment = "Center" Width = "100" />
-
-            <Grid x:Name="grdGeneral" Background="OldLace" Grid.Row="0" Grid.Column="1">
+        <StackPanel Orientation = "Vertical">
+            <Grid x:Name = "grdMain" Background = "PapayaWhip">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width = "Auto" />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height = "*" />
                     <RowDefinition Height = "*" />
-                </Grid.RowDefinitions>
-
-                <Label Grid.Row="0" Grid.Column="0" Content="Node name:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Row="0" Grid.Column="1"  Name="txNodeName" HorizontalAlignment="Left" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
-
-                <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Name="tbxWalletAddress" HorizontalAlignment="Left" Text="Wallet address" VerticalAlignment="Center" Width="120"/>
-
-                <Label Grid.Row="0" Grid.Column="2" Content="Subnet:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Row="0" Grid.Column="3"  Name="tbxSubnet" HorizontalAlignment="Left" Text="Proce per pow" VerticalAlignment="Center" Width="120"/>
-            </Grid>
-            <Grid x:Name="grdWasm" Background="OldLace" Grid.Row="1" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width = "Auto" />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-
-                <Grid.RowDefinitions>
                     <RowDefinition Height = "*" />
                     <RowDefinition Height = "*" />
                 </Grid.RowDefinitions>
 
-                <CheckBox Grid.Row="0" Grid.Column="0" Name="cbEnableWasm" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Content="Enable Wasm"/>
+                <TextBlock Grid.Row = "0" Grid.Column = "0" Text = "General settings" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment = "Center" Width = "100" />
+                <TextBlock Grid.Row = "1" Grid.Column = "0" Text = "WASM" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment = "Center" Width = "100" />
+                <TextBlock Grid.Row = "2" Grid.Column = "0" Text = "Mining" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment = "Center" Width = "100" />
 
-                <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Name="tbxWalletaddress2" HorizontalAlignment="Left" Text="Wallet address" VerticalAlignment="Center" Width="120"/>
+                <Grid x:Name="grdGeneral" Background="OldLace" Grid.Row="0" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width = "Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="2" Content="Subnet:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Row="0" Grid.Column="3"  Name="tbxSubnet2" HorizontalAlignment="Left" Text="Proce per pow" VerticalAlignment="Center" Width="120"/>
-            </Grid>
-            <Grid x:Name="grdMining" Background="OldLace" Grid.Row="2" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width = "Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>                
-                <Grid.RowDefinitions>
-                    <RowDefinition Height = "*" />
-                    <RowDefinition Height = "*" />
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" Grid.Column="1" Content="Gpu list:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <StackPanel Grid.Row="0" Grid.Column="0" >
-                    <Button Name="btnStartBenchmark" Content="Run benchmark" Click="btnStartBenchmark_Click"/>
-                    <Button Name="btnStopBenchmark" Content="Stop benchmark" Click="btnStopBenchmark_Click"/>
-                </StackPanel>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height = "*" />
+                        <RowDefinition Height = "*" />
+                    </Grid.RowDefinitions>
 
-                <Grid x:Name="grdGpuList" Background="OldLace" Grid.Row="1" Grid.Column="1">
+                    <Label Grid.Row="0" Grid.Column="0" Content="Node name:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="1"  Name="txNodeName" HorizontalAlignment="Left" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Name="tbxWalletAddress" HorizontalAlignment="Left" Text="Wallet address" VerticalAlignment="Center" Width="120"/>
+
+                    <Label Grid.Row="0" Grid.Column="2" Content="Subnet:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="3"  Name="tbxSubnet" HorizontalAlignment="Left" Text="Proce per pow" VerticalAlignment="Center" Width="120"/>
+                </Grid>
+                <Grid x:Name="grdWasm" Background="OldLace" Grid.Row="1" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width = "Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height = "*" />
+                        <RowDefinition Height = "*" />
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Grid.Row="0" Grid.Column="0" Name="cbEnableWasm" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Content="Enable Wasm"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Name="tbxWalletaddress2" HorizontalAlignment="Left" Text="Wallet address" VerticalAlignment="Center" Width="120"/>
+
+                    <Label Grid.Row="0" Grid.Column="2" Content="Subnet:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="3"  Name="tbxSubnet2" HorizontalAlignment="Left" Text="Proce per pow" VerticalAlignment="Center" Width="120"/>
+                </Grid>
+                <Grid x:Name="grdMining" Background="OldLace" Grid.Row="2" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width = "Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height = "*" />
+                        <RowDefinition Height = "*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="1" Content="Gpu list:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Row="0" Grid.Column="0" >
+                        <Button Name="btnStartBenchmark" Content="Run benchmark" Click="btnStartBenchmark_Click"/>
+                        <Button Name="btnStopBenchmark" Content="Stop benchmark" Click="btnStopBenchmark_Click"/>
+                    </StackPanel>
+
+                    <Label Name="lblStatus" Content="lblStatus" HorizontalAlignment="Left" Margin="45,25,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                </Grid>
+                <Grid x:Name="grdGpuList" Background="OldLace" Grid.Row="3" Grid.Column="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width = "Auto" />
                         <ColumnDefinition Width = "Auto" />
@@ -100,10 +99,13 @@
                     <Grid.RowDefinitions>
                     </Grid.RowDefinitions>
                 </Grid>
-                <Label Name="lblStatus" Content="lblStatus" HorizontalAlignment="Left" Margin="45,25,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+
             </Grid>
 
-        </Grid>
+            <local:GpuMiningPanelUI x:Name="gpuMiningPanel">
+                
+            </local:GpuMiningPanelUI>
+        </StackPanel>
 
 
     </Grid>

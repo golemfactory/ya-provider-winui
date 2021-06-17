@@ -16,17 +16,7 @@ using System.Threading.Tasks;
 namespace GolemUI
 {
 
-    public class GpuEntry
-    {
-        public Label? lblName { get; set; }
-        public Label? lblProgress { get; set; }
-        public Label? lblPower { get; set; }
 
-       /* public void SetProgress(float progress)
-        {
-
-        }*/
-    }
 
     /// <summary>
     /// Interaction logic for GolemUISettingsWindow.xaml
@@ -34,7 +24,7 @@ namespace GolemUI
     public partial class GolemUISettingsWindow : Window
     {
 
-        Dictionary<int, GpuEntry> _entries = new Dictionary<int, GpuEntry>();
+        Dictionary<int, GpuEntryUI> _entries = new Dictionary<int, GpuEntryUI>();
 
         bool _requestExit = false;
         NameGen _gen;
@@ -71,55 +61,10 @@ namespace GolemUI
         {
             grdGpuList.Children.Clear();
 
-
+        
         }
 
-        private GpuEntry AddSingleGpuInfo(string info, int gpuNo)
-        {
-            bool canMine = false;
-            /*if (info.Memory > 4500000000 && info.Vendor != "Intel")
-            {
-                canMine = true;
-            }*/
 
-            GpuEntry ge = new GpuEntry();
-
-            Brush backgroundBrush = Brushes.LightGreen;
-            if (!canMine)
-            {
-                backgroundBrush = Brushes.Salmon;
-            }
-
-            ge.lblName = new Label();
-            ge.lblName.Content = info;
-
-            ge.lblName.Background = backgroundBrush;
-
-            grdGpuList.Children.Add(ge.lblName);
-
-            Grid.SetColumn(ge.lblName, 0);
-            Grid.SetRow(ge.lblName, gpuNo);
-
-            ge.lblProgress = new Label();
-            ge.lblProgress.Content = "Starting...";
-
-            ge.lblProgress.Background = backgroundBrush;
-            grdGpuList.Children.Add(ge.lblProgress);
-
-            Grid.SetColumn(ge.lblProgress, 1);
-            Grid.SetRow(ge.lblProgress, gpuNo);
-
-            ge.lblPower = new Label();
-            ge.lblPower.Content = "N/A";
-
-            ge.lblPower.Background = backgroundBrush;
-            grdGpuList.Children.Add(ge.lblPower);
-
-            Grid.SetColumn(ge.lblPower, 2);
-            Grid.SetRow(ge.lblPower, gpuNo);
-
-            return ge;
-        }
 
 
         private void AddSingleGpuInfo(ComputeDevice info, int gpuNo)
@@ -234,7 +179,7 @@ namespace GolemUI
                     int gpuNo = gpu.Key;
                     var gpuInfo = gpu.Value;
 
-                    GpuEntry? currentEntry = null;
+                    GpuEntryUI? currentEntry = null;
                     if (_entries.ContainsKey(gpuNo))
                     {
                         currentEntry = _entries[gpuNo];
@@ -246,9 +191,13 @@ namespace GolemUI
                         var rowDef = new RowDefinition();
                         rowDef.Height = GridLength.Auto;
                         grdGpuList.RowDefinitions.Add(rowDef);
-                        currentEntry = AddSingleGpuInfo(gdetails, gpuNo - 1);
+                        currentEntry = gpuMiningPanel.AddSingleGpuInfo(gdetails, gpuNo - 1);
                         _entries.Add(gpuNo, currentEntry);
                     }
+                    currentEntry?.SetDagProgress(gpuInfo.DagProgress);
+                    currentEntry?.SetMiningSpeed(gpuInfo.BenchmarkSpeed);
+
+                    /*
                     if (currentEntry != null)
                     {
                         if (currentEntry.lblProgress != null)
@@ -259,7 +208,7 @@ namespace GolemUI
                         {
                             currentEntry.lblPower.Content = gpuInfo.BenchmarkSpeed.ToString();
                         }
-                    }
+                    }*/
                 }
             }
         }
