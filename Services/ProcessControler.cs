@@ -25,7 +25,8 @@ namespace GolemUI.Services
         private Process? _main;
         private Process? _providerDaemon;
 
-        public LogLineHandler LineHandler { get; set; }
+        public LogLineHandler? LineHandler { get; set; }
+
 
         public void Dispose()
         {
@@ -75,7 +76,7 @@ namespace GolemUI.Services
                 var _test = await _client.GetAsync(_baseUrl);
                 Console.WriteLine($"result={_test.StatusCode}");
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 runYagna = true;
             }
@@ -127,8 +128,16 @@ namespace GolemUI.Services
             }
             var config = _provider.Config;
             var paymentAccount = config?.Account ?? _yagna?.Id?.Address;
-            _yagna.Payment.Init(network, "erc20", paymentAccount);
-            _yagna.Payment.Init(network, "zksync", paymentAccount);
+            if (paymentAccount == null)
+            {
+                throw new Exception("Failed to retrieve payment Account");
+            }
+            _yagna?.Payment.Init(network, "erc20", paymentAccount);
+            _yagna?.Payment.Init(network, "zksync", paymentAccount);
+            if (_appkey == null)
+            {
+                throw new Exception("Appkey cannot be null");
+            }
             _providerDaemon = _provider.Run(_appkey, network);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
@@ -140,7 +149,7 @@ namespace GolemUI.Services
 
         void OnProviderErrorDataRecv(object sender, DataReceivedEventArgs e)
         {
-            if (LineHandler != null)
+            if (LineHandler != null && e.Data != null)
             {
                 LineHandler("provider", e.Data);
             }

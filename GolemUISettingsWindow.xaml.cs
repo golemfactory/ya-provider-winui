@@ -18,9 +18,9 @@ namespace GolemUI
 
     public class GpuEntry
     {
-        public Label lblName { get; set; }
-        public Label lblProgress { get; set; }
-        public Label lblPower { get; set; }
+        public Label? lblName { get; set; }
+        public Label? lblProgress { get; set; }
+        public Label? lblPower { get; set; }
     }
 
     /// <summary>
@@ -175,7 +175,7 @@ namespace GolemUI
             //dB.ShowDialog();
             btnOpenBenchmark.IsEnabled = false;
 
-            lblStatus.Content = $"Benchmarking...";
+            lblStatus.Content = $"Preparing...";
 
             ClaymoreBenchmark cc = new ClaymoreBenchmark(gpuNo: null);
             bool result = cc.RunBenchmark();
@@ -196,6 +196,7 @@ namespace GolemUI
                 //function returns copy, so we can work with safety (even if original value is updated on separate thread)
                 var s = cc.ClaymoreParser.GetLiveStatusCopy();
 
+                //s.BenchmarkTotalSpeed;
 
                 foreach (var gpu in s.GPUs)
                 {
@@ -208,7 +209,7 @@ namespace GolemUI
                         currentEntry = _entries[gpuNo];
                     }
 
-                    string gdetails = gpuInfo.GPUDetails;
+                    string gdetails = gpuInfo.GPUDetails ?? "";
                     if (!String.IsNullOrEmpty(gdetails) && !_entries.ContainsKey(gpuNo))
                     {
                         var rowDef = new RowDefinition();
@@ -219,14 +220,16 @@ namespace GolemUI
                     }
                     if (currentEntry != null)
                     {
-                        currentEntry.lblProgress.Content = gpuInfo.DagProgress.ToString();
-                        currentEntry.lblPower.Content = gpuInfo.BenchmarkSpeed.ToString();
+                        if (currentEntry.lblProgress != null)
+                        {
+                            currentEntry.lblProgress.Content = gpuInfo.DagProgress.ToString();
+                        }
+                        if (currentEntry.lblPower != null)
+                        {
+                            currentEntry.lblPower.Content = gpuInfo.BenchmarkSpeed.ToString();
+                        }
                     }
-
                 }
-
-
-
             }
         }
 

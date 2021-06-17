@@ -26,7 +26,7 @@ namespace GolemUI
         private readonly IProcessControler _processController;
 
 #if DEBUG
-        public DebugWindow DebugWindow { get; set; }
+        public DebugWindow? DebugWindow { get; set; }
 #endif
         public MainWindow(IProcessControler processController)
         {

@@ -17,7 +17,7 @@ namespace GolemUI.Command
 
         private static Mutex mut = new Mutex();
 
-        public LogLineHandler LineHandler { get; set; }
+        public LogLineHandler? LineHandler { get; set; }
 
         string _claymore_working_dir = @"plugins\claymore";
         string _claymore_exe_path = @"plugins\claymore\EthDcrMiner64.exe";
@@ -32,15 +32,15 @@ namespace GolemUI.Command
 
         private object _sync = new object();
 
-        public String GPUVendor = null;
+        public string? GPUVendor { get; set; }
 
-        private String _unsafeGpuDetails;
+        private string? _unsafeGpuDetails;
 
         //private ClaymoreLiveStatus _liveStatus = new ClaymoreLiveStatus();
         private ClaymoreParser _claymoreParser = new ClaymoreParser();
         public ClaymoreParser ClaymoreParser { get { return _claymoreParser; } }
 
-        public String GPUDetails
+        public string? GPUDetails
         {
             get {
                 lock (_sync)
@@ -108,9 +108,13 @@ namespace GolemUI.Command
             //Enable benchmark mode:
             arguments.Add("-benchmark");
             //Set GPU number to test:
-            if (this._gpuNo != null)
+            if (this._gpuNo != null && this._gpuNo.ToString() != null)
             {
-                arguments.AddRange(new string[] { "-di", this._gpuNo.ToString() });
+                string? s = this._gpuNo.ToString();
+                if (s != null)
+                {
+                    arguments.AddRange(new string[] { "-di", s});
+                }
             }
 
             foreach (var arg in arguments)
@@ -131,7 +135,7 @@ namespace GolemUI.Command
             {
                 _claymoreProcess.Start();
             }
-            catch (System.ComponentModel.Win32Exception ex)
+            catch (System.ComponentModel.Win32Exception)
             {
                 BenchmarkError = $"Process {this._claymore_exe_path} cannot be run, check antivirus settings";
                 return false;
@@ -156,7 +160,7 @@ namespace GolemUI.Command
 
         void OnOutputDataRecv(object sender, DataReceivedEventArgs e)
         {
-            string lineText = e.Data;
+            string? lineText = e.Data;
             //output contains spelling error avaiable instead of available, checking for boths:
             if (lineText == null)
                 return;
@@ -276,7 +280,7 @@ namespace GolemUI.Command
 
         void OnErrorDataRecv(object sender, DataReceivedEventArgs e)
         {
-            if (LineHandler != null)
+            if (LineHandler != null && e.Data != null)
             {
                 LineHandler("claymore", e.Data);
             }

@@ -38,11 +38,19 @@ namespace GolemUI
             try
             {
                 var mainWindow = _serviceProvider.GetService<MainWindow>();
+                if (mainWindow == null)
+                {
+                    throw new Exception("Main window not found");
+                }
                 mainWindow.Left = 50;
                 mainWindow.Top = 50;
 
 #if DEBUG
                 var debugWindow = _serviceProvider.GetService<DebugWindow>();
+                if (debugWindow == null)
+                {
+                    throw new Exception("Debug window");
+                }
                 mainWindow.DebugWindow = debugWindow;
 #endif
 

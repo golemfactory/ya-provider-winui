@@ -34,6 +34,27 @@ namespace GolemUI.Claymore
             s.GPUDetails = this.GPUDetails;
             return s;
         }
+
+        public bool IsDagFinished()
+        {
+            if (DagProgress < 1.0f)
+            {
+                return false;
+            }
+            if (IsDagCreating)
+            {
+                return false;
+            }
+            return true;
+        }
+        public bool IsOperationStopped()
+        {
+            if (OutOfMemory || GPUNotFound)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 
     public class ClaymoreLiveStatus : ICloneable
@@ -44,17 +65,16 @@ namespace GolemUI.Claymore
         public Dictionary<int, ClaymoreGpuStatus> GPUs { get { return _gpus; } }
 
         public bool BenchmarkFinished = false;
-        public float BenchmarkProgress = 0.0f;
 
-        public float BenchmarkSpeed = 0.0f;
+        public float BenchmarkTotalSpeed { get; set; }
         public string? ErrorMsg = null;
 
         public object Clone()
         {
             ClaymoreLiveStatus s = new ClaymoreLiveStatus();
             s.BenchmarkFinished = this.BenchmarkFinished;
-            s.BenchmarkSpeed = this.BenchmarkSpeed;
-            s.BenchmarkProgress = this.BenchmarkProgress;
+            s.BenchmarkTotalSpeed = this.BenchmarkTotalSpeed;
+            //s.BenchmarkProgress = this.BenchmarkProgress;
             s.ErrorMsg = this.ErrorMsg;
 
             s._gpus = new Dictionary<int, ClaymoreGpuStatus>();
@@ -65,10 +85,25 @@ namespace GolemUI.Claymore
 
             return s;
         }
+
+        public bool AreAllDagsFinishedOrFailed()
+        {
+            foreach (var gpu in GPUs.Values)
+            {
+                bool gpuDagFinished = gpu.IsDagFinished() || gpu.IsOperationStopped();
+                if (!gpuDagFinished)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
     public class ClaymoreParser
     {
+        const StringComparison STR_COMP_TYPE = StringComparison.InvariantCultureIgnoreCase;
+
         ClaymoreLiveStatus _liveStatus = new ClaymoreLiveStatus();
 
         private readonly object __lockObj = new object();
@@ -87,6 +122,7 @@ namespace GolemUI.Claymore
                 // Your code...
             }
         }
+
 
         /// <summary>
         /// Parse output line of claymore process
@@ -131,8 +167,8 @@ namespace GolemUI.Claymore
                         bool nVidiaGpuFound = false;
                         bool amdGpuFound = false;
 
-                        if (lineText.Contains("NVIDIA", StringComparison.InvariantCultureIgnoreCase) ||
-                            lineText.Contains("GeForce", StringComparison.InvariantCultureIgnoreCase)
+                        if (lineText.Contains("NVIDIA", STR_COMP_TYPE) ||
+                            lineText.Contains("GeForce", STR_COMP_TYPE)
                             )
                         {
                             currentStatus.GPUVendor = "nVidia";
@@ -145,7 +181,7 @@ namespace GolemUI.Claymore
                             currentStatus.GPUDetails = lineText.Split(":")[1].Trim();
                         }
 
-                        if (lineText.Contains("RADEON", StringComparison.InvariantCultureIgnoreCase))
+                        if (lineText.Contains("RADEON", STR_COMP_TYPE))
                         {
                             currentStatus.GPUVendor = "AMD";
                             amdGpuFound = true;
@@ -158,18 +194,18 @@ namespace GolemUI.Claymore
                         }
                     }
 
-                    if (lineText.Contains(": Allocating DAG"))
+                    if (lineText.Contains(": Allocating DAG", STR_COMP_TYPE))
                     {
                         currentStatus.IsDagCreating = true;
                         currentStatus.DagProgress = 0.0f;
                     }
-                    if (lineText.Contains(": Generating DAG"))
+                    if (lineText.Contains(": Generating DAG", STR_COMP_TYPE))
                     {
                         currentStatus.IsDagCreating = true;
                         currentStatus.DagProgress = 0.05f;
                     }
 
-                    if (lineText.Contains(": DAG"))
+                    if (lineText.Contains(": DAG", STR_COMP_TYPE))
                     {
                         var splits = lineText.Split(" ");
 
@@ -190,20 +226,34 @@ namespace GolemUI.Claymore
                             }
                         }
                     }
+
+                    if (lineText.Contains(": DAG generated", STR_COMP_TYPE))
+                    {
+                        currentStatus.IsDagCreating = false;
+                        currentStatus.DagProgress = 1.0f;
+                    }
                 }
-                if (lineText.StartsWith("Eth speed", StringComparison.InvariantCultureIgnoreCase))
+                if (lineText.StartsWith("Eth speed", STR_COMP_TYPE))
                 {
                     _readyForGpusEthInfo = true;
 
+                    var splits = lineText.Split(" ");
+                    double val;
+                    if (splits.Length > 2 && double.TryParse(splits[2], out val))
+                    {
+                        double s = val;
+
+                        _liveStatus.BenchmarkTotalSpeed = (float)val;
+                    }
                 }
 
-                if (_readyForGpusEthInfo && lineText.StartsWith("GPU"))
+                if (_readyForGpusEthInfo && lineText.StartsWith("GPU", STR_COMP_TYPE))
                 {
                     var splits = lineText.Split("MH/s");
 
                     for (int i = 0; i < splits.Length - 1; i++)
                     {
-                        double val;
+                        //double val;
                         //if (split.Length > 2 && double.TryParse(split[2], out val))
                         var s = splits[i].TrimEnd().Split(" ");
 

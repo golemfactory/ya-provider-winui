@@ -108,7 +108,6 @@ namespace GolemUI.Command
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaExePath,
-                Arguments = null,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = false,
@@ -323,7 +322,7 @@ namespace GolemUI.Command
         public List<KeyInfo> List()
         {
             var output = new List<KeyInfo>();
-            Table table = null;
+            Table? table = null;
             int tries = 0;
             while (table == null)
             {

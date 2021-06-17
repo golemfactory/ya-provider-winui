@@ -11,6 +11,13 @@ namespace GolemUI
         public string Name { get; set; }
         public long Memory { get; set; }
         public string Vendor { get; set; }
+
+        public ComputeDevice()
+        {
+            Name = "";
+            Memory = 0;
+            Vendor = "";
+        }
     };
 
     [JsonObject(MemberSerialization.OptIn)]
@@ -123,6 +130,10 @@ namespace GolemUI
 
             List<ComputeDevice> computeDevices = new List<ComputeDevice>();
 
+            if (infos == null)
+            {
+                return computeDevices;
+            }
             foreach (var info in infos)
             {
                 if (info.CudaDevices != null)
