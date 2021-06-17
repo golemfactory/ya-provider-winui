@@ -37,7 +37,7 @@ namespace GolemUI.Command
         private string? _unsafeGpuDetails;
 
         //private ClaymoreLiveStatus _liveStatus = new ClaymoreLiveStatus();
-        private ClaymoreParser _claymoreParser = new ClaymoreParser();
+        private ClaymoreParser _claymoreParser = new ClaymoreParser(isBenchmark:true);
         public ClaymoreParser ClaymoreParser { get { return _claymoreParser; } }
 
         public string? GPUDetails

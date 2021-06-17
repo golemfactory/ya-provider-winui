@@ -8,12 +8,20 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel Name="spMain">
-            <Label x:Name="GpuList" Content="GpuList"></Label>
-            <ScrollViewer VerticalScrollBarVisibility="Visible">
-                <StackPanel x:Name="spGpuList" Orientation="Vertical">
+            <StackPanel>
+                <Label x:Name="lblStatus" Content="Benchmarks status"></Label>
+                <Label x:Name="lblPower" Content="Total Power"></Label>
+                <ProgressBar x:Name="pbBenchmark"></ProgressBar>
+            </StackPanel>
 
-                </StackPanel>
-            </ScrollViewer>
+            <StackPanel>
+                <Label x:Name="GpuList" Content="GpuList"></Label>
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <StackPanel x:Name="spGpuList" Orientation="Vertical">
+
+                    </StackPanel>
+                </ScrollViewer>
+            </StackPanel>
         </StackPanel>   
     </Grid>
 </UserControl>

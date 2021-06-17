@@ -70,16 +70,26 @@ namespace GolemUI.Claymore
         public string? ErrorMsg = null;
         public bool GPUInfosParsed { get; set; }
         public int NumberOfClaymorePerfReports { get; set; }
+        public int TotalClaymoreReportsBenchmark { get; set; }
+
+        public bool IsBenchmark;
+
+        public ClaymoreLiveStatus(bool isBenchmark)
+        {
+            IsBenchmark = isBenchmark;
+            TotalClaymoreReportsBenchmark = 5;
+        }
 
         public object Clone()
         {
-            ClaymoreLiveStatus s = new ClaymoreLiveStatus();
+            ClaymoreLiveStatus s = new ClaymoreLiveStatus(this.IsBenchmark);
             s.BenchmarkFinished = this.BenchmarkFinished;
             s.BenchmarkTotalSpeed = this.BenchmarkTotalSpeed;
             //s.BenchmarkProgress = this.BenchmarkProgress;
             s.ErrorMsg = this.ErrorMsg;
             s.GPUInfosParsed = this.GPUInfosParsed;
             s.NumberOfClaymorePerfReports = this.NumberOfClaymorePerfReports;
+            s.TotalClaymoreReportsBenchmark = this.TotalClaymoreReportsBenchmark;
 
             s._gpus = new Dictionary<int, ClaymoreGpuStatus>();
             foreach (KeyValuePair<int, ClaymoreGpuStatus> entry in this._gpus)
@@ -102,13 +112,40 @@ namespace GolemUI.Claymore
             }
             return true;
         }
+
+        public float GetEstimatedBenchmarkProgress()
+        {
+            const float INFO_PARSED = 0.1f;
+            const float DAG_CREATION_STOP = 0.5f;
+
+            if (!GPUInfosParsed)
+            {
+                return 0.0f;
+            }
+            if (!AreAllDagsFinishedOrFailed())
+            {
+                float minDagProgress = 1.0f;
+                foreach (var gpu in GPUs.Values)
+                {
+                    if (gpu.DagProgress < minDagProgress)
+                    {
+                        minDagProgress = gpu.DagProgress;
+                    }
+                }
+                return INFO_PARSED + minDagProgress * (DAG_CREATION_STOP - INFO_PARSED);
+            }
+            return DAG_CREATION_STOP + (float)NumberOfClaymorePerfReports / TotalClaymoreReportsBenchmark * (1.0f - DAG_CREATION_STOP);
+
+
+
+        }
     }
 
     public class ClaymoreParser
     {
         const StringComparison STR_COMP_TYPE = StringComparison.InvariantCultureIgnoreCase;
 
-        ClaymoreLiveStatus _liveStatus = new ClaymoreLiveStatus();
+        ClaymoreLiveStatus _liveStatus;
 
         private readonly object __lockObj = new object();
 
@@ -119,6 +156,11 @@ namespace GolemUI.Claymore
         public bool AreAllCardInfosParsed()
         {
             return _gpusInfosParsed;
+        }
+
+        public ClaymoreParser(bool isBenchmark)
+        {
+            _liveStatus = new ClaymoreLiveStatus(isBenchmark);
         }
 
         /// <summary>

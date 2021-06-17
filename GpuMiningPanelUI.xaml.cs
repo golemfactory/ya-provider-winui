@@ -21,7 +21,7 @@ namespace GolemUI
     public partial class GpuMiningPanelUI : UserControl
     {
 
-        public GpuEntryUI AddSingleGpuInfo(string info, int gpuNo)
+        public GpuEntryUI AddGpuEntry(string info, string gpuID)
         {
             //bool canMine = false;
             /*if (info.Memory > 4500000000 && info.Vendor != "Intel")
@@ -68,8 +68,6 @@ namespace GolemUI
             GpuEntryUI ge = new GpuEntryUI();
 
             this.spGpuList.Children.Add(ge);
-            Grid.SetColumn(ge, 0);
-            Grid.SetRow(ge, gpuNo);
             ge.SetInfo(info);
             return ge;
         }
