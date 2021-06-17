@@ -21,6 +21,11 @@ namespace GolemUI
         public Label? lblName { get; set; }
         public Label? lblProgress { get; set; }
         public Label? lblPower { get; set; }
+
+       /* public void SetProgress(float progress)
+        {
+
+        }*/
     }
 
     /// <summary>
@@ -169,11 +174,25 @@ namespace GolemUI
 
         }
 
-        private async void btnOpenBenchmark_Click(object sender, RoutedEventArgs e)
+        private void BenchmarkFinished()
+        {
+            this.btnStartBenchmark.IsEnabled = true;
+            this.btnStopBenchmark.IsEnabled = false;
+            
+        }
+
+        private void btnStopBenchmark_Click(object sender, RoutedEventArgs e)
+        {
+            _requestExit = true;
+        }
+
+        private async void btnStartBenchmark_Click(object sender, RoutedEventArgs e)
         {
             //BenchmarkDialog dB = new BenchmarkDialog();
             //dB.ShowDialog();
-            btnOpenBenchmark.IsEnabled = false;
+            _requestExit = false;
+            btnStartBenchmark.IsEnabled = false;
+            btnStopBenchmark.IsEnabled = true;
 
             lblStatus.Content = $"Preparing...";
 
@@ -183,13 +202,15 @@ namespace GolemUI
             {
                 MessageBox.Show(cc.BenchmarkError);
             }
-
+            int totalPerformanceReportsNeeded = 5;
             while (!cc.BenchmarkFinished)
             {
                 await Task.Delay(100);
                 if (_requestExit)
                 {
                     cc.Stop();
+                    lblStatus.Content = "Stopped";
+                    BenchmarkFinished();
                     return;
                 }
 
@@ -197,7 +218,17 @@ namespace GolemUI
                 var s = cc.ClaymoreParser.GetLiveStatusCopy();
 
                 //s.BenchmarkTotalSpeed;
-
+                if (s.GPUInfosParsed && s.AreAllDagsFinishedOrFailed())
+                {
+                    lblStatus.Content = $"Measuring performance {s.NumberOfClaymorePerfReports}/{totalPerformanceReportsNeeded}";
+                }
+                if (s.NumberOfClaymorePerfReports >= totalPerformanceReportsNeeded)
+                {
+                    cc.Stop();
+                    lblStatus.Content = "Finished";
+                    BenchmarkFinished();
+                    return;
+                }
                 foreach (var gpu in s.GPUs)
                 {
                     int gpuNo = gpu.Key;

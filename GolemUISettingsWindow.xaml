@@ -85,7 +85,10 @@
                     <RowDefinition Height = "*" />
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="1" Content="Gpu list:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Button Name="btnOpenBenchmark" Grid.Row="0" Grid.Column="0" Content="Run benchmark..." Click="btnOpenBenchmark_Click"/>
+                <StackPanel Grid.Row="0" Grid.Column="0" >
+                    <Button Name="btnStartBenchmark" Content="Run benchmark" Click="btnStartBenchmark_Click"/>
+                    <Button Name="btnStopBenchmark" Content="Stop benchmark" Click="btnStopBenchmark_Click"/>
+                </StackPanel>
 
                 <Grid x:Name="grdGpuList" Background="OldLace" Grid.Row="1" Grid.Column="1">
                     <Grid.ColumnDefinitions>
