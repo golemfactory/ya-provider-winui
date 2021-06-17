@@ -72,6 +72,38 @@ namespace GolemUI
             return ge;
         }
 
+        public void SetBenchmarkProgress(float benchmarkProgress)
+        {
+            if (benchmarkProgress <= 0.0f)
+            {
+                pbBenchmark.Value = 0.0f;
+            }
+            else if (benchmarkProgress >= 1.0f)
+            {
+                pbBenchmark.Value = 100.0f;
+            }
+            else
+            {
+                pbBenchmark.Value = benchmarkProgress * 100.0f;
+            }
+        }
+        public void FinishBenchmark(bool success)
+        {
+            if (success)
+            {
+                SetBenchmarkProgress(1.0f);
+                lblStatus.Content = "Finished";
+            }
+            else
+            {
+                lblStatus.Content = "Finished - Error";
+            }
+        }
+        public void StopBenchmark()
+        {
+
+        }
+
         public GpuMiningPanelUI()
         {
             InitializeComponent();

@@ -169,7 +169,7 @@ namespace GolemUI
                 if (s.NumberOfClaymorePerfReports >= s.TotalClaymoreReportsBenchmark)
                 {
                     cc.Stop();
-                    gpuMiningPanel.lblStatus.Content = "Finished";
+                    gpuMiningPanel.FinishBenchmark(true);
                     BenchmarkFinished();
                     return;
                 }
@@ -213,7 +213,7 @@ namespace GolemUI
                     }*/
                 }
                 gpuMiningPanel.lblPower.Content = totalMhs.ToString();
-                gpuMiningPanel.pbBenchmark.Value = s.GetEstimatedBenchmarkProgress() * 100.0f;
+                gpuMiningPanel.SetBenchmarkProgress(s.GetEstimatedBenchmarkProgress());
             }
         }
 
