@@ -5,8 +5,10 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using GolemUI.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
 
 namespace GolemUI
 {
@@ -17,11 +19,16 @@ namespace GolemUI
     {
         private readonly ServiceProvider _serviceProvider;
 
+        public LocalSettings Settings {get;set;}
+
         public App()
         {
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
+
+
+
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -35,6 +42,8 @@ namespace GolemUI
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
+
+            
             try
             {
                 var mainWindow = _serviceProvider.GetService<MainWindow>();

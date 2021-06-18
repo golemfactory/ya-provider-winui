@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading.Tasks;
+using GolemUI.Settings;
 
 namespace GolemUI
 {
@@ -215,11 +216,19 @@ namespace GolemUI
                 gpuMiningPanel.lblPower.Content = totalMhs.ToString();
                 gpuMiningPanel.SetBenchmarkProgress(s.GetEstimatedBenchmarkProgress());
             }
+            
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _requestExit = true;
+        }
+
+        private void btnSaveBenchmark_Click(object sender, RoutedEventArgs e)
+        {
+            LocalSettings settings = new LocalSettings();
+            //settings.EthAddress = t
+            SettingsLoader.SaveSettingsToFile(settings);
         }
     }
 }

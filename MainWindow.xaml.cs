@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using GolemUI.Settings;
 
 namespace GolemUI
 {
@@ -33,6 +34,7 @@ namespace GolemUI
             _processController = processController;
 
             InitializeComponent();
+            this.Title = GlobalSettings.AppTitle;
         }
 
         private async void btnStart_Click(object sender, RoutedEventArgs e)

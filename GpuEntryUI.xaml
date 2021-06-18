@@ -9,7 +9,7 @@
     <Grid>
         <StackPanel Orientation="Vertical">
             <Label Name="lblInfo" Content="lblName" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <CheckBox Name="cbEnableMining" Content="Enable mining" IsChecked="True" IsEnabled="False"></CheckBox>
+            <CheckBox Name="cbEnableMining" Content="Enable mining" IsChecked="True"></CheckBox>
             <StackPanel Orientation="Horizontal">
                 <Label Name="lblProgress" Content="lblProgress" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <ProgressBar Name="pbProgress" HorizontalAlignment="Left" Height="10" VerticalAlignment="Top" Width="100"/>

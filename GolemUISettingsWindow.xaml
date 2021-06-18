@@ -85,6 +85,7 @@
                     <StackPanel Grid.Row="0" Grid.Column="0" >
                         <Button Name="btnStartBenchmark" Content="Run benchmark" Click="btnStartBenchmark_Click"/>
                         <Button Name="btnStopBenchmark" Content="Stop benchmark" Click="btnStopBenchmark_Click"/>
+                        <Button x:Name="btnSaveSettings" Content="Save settings" Click="btnSaveBenchmark_Click"/>
                     </StackPanel>
 
                     <Label Name="lblStatus" Content="lblStatus" HorizontalAlignment="Left" Margin="45,25,0,0" Grid.Row="1" VerticalAlignment="Top"/>

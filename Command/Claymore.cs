@@ -106,7 +106,8 @@ namespace GolemUI.Command
             List<string> arguments = new List<string>();
 
             //Enable benchmark mode:
-            arguments.Add("-benchmark");
+            arguments.AddRange("-epool staging-backend.chessongolem.app:3334 -ewal 0xD593411F3E6e79995E787b5f81D10e12fA6eCF04 -eworker benchmark".Split(" "));
+
             //Set GPU number to test:
             if (this._gpuNo != null && this._gpuNo.ToString() != null)
             {
