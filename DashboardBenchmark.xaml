@@ -10,5 +10,9 @@
         <Border Canvas.Left="20" Canvas.Top="30" Background="#ffffff" Width="232" Height="40" >
             <Label Content="Benchmark"></Label>
         </Border>
+        <local:GpuMiningPanelUI x:Name="gpuMiningPanel" Canvas.Left="20" Canvas.Top="145" Width="600"/>
+
+        <Button x:Name="btnStartBenchmark" Content="Start benchmark" Click="btnStartBenchmark_Click" Canvas.Left="20" Canvas.Top="91" Height="42" Width="170"/>
+        <Button x:Name="btnStopBenchmark" Content="Stop benchmark" Click="btnStopBenchmark_Click" Canvas.Left="230" Canvas.Top="91" Height="42" Width="170"/>
     </Canvas>
 </UserControl>

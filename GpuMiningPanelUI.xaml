@@ -11,7 +11,7 @@
             <StackPanel>
                 <Label x:Name="lblStatus" Content="Benchmarks status"></Label>
                 <Label x:Name="lblPower" Content="Total Power"></Label>
-                <ProgressBar x:Name="pbBenchmark"></ProgressBar>
+                <ProgressBar x:Name="pbBenchmark" Height="20"></ProgressBar>
             </StackPanel>
 
             <StackPanel>

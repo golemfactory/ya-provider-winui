@@ -107,5 +107,9 @@ namespace GolemUI
             sb.Begin();
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            DashboardBenchmark.RequestBenchmarkEnd();
+        }
     }
 }

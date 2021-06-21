@@ -11,9 +11,9 @@
             <Label Name="lblInfo" Content="lblName" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <CheckBox Name="cbEnableMining" Content="Enable mining" IsChecked="True"></CheckBox>
             <StackPanel Orientation="Horizontal">
-                <Label Name="lblProgress" Content="lblProgress" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <ProgressBar Name="pbProgress" HorizontalAlignment="Left" Height="10" VerticalAlignment="Top" Width="100"/>
-                <Label Name="lblPower" Content="lblPower" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Name="lblProgress" Width="100" Content="lblProgress" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Name="lblPower" Content="lblPower" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <ProgressBar Name="pbProgress" Height="20" Margin="10, 0" VerticalAlignment="Center" Width="193"/>
             </StackPanel>
         </StackPanel>
 

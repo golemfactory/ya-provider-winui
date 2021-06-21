@@ -81,8 +81,6 @@
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Grid.Column="1" Content="Gpu list:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <StackPanel Grid.Row="0" Grid.Column="0" >
-                        <Button Name="btnStartBenchmark" Content="Run benchmark" Click="btnStartBenchmark_Click"/>
-                        <Button Name="btnStopBenchmark" Content="Stop benchmark" Click="btnStopBenchmark_Click"/>
                         <Button x:Name="btnSaveSettings" Content="Save settings" Click="btnSaveBenchmark_Click"/>
                     </StackPanel>
 
