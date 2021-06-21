@@ -19,16 +19,12 @@ namespace GolemUI
     {
         private readonly ServiceProvider _serviceProvider;
 
-        public LocalSettings Settings {get;set;}
 
         public App()
         {
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
-
-
-
         }
 
         private void ConfigureServices(IServiceCollection services)

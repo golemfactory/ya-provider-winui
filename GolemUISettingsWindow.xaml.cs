@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading.Tasks;
 using GolemUI.Settings;
+using GolemUI.Claymore;
 
 namespace GolemUI
 {
@@ -28,13 +29,26 @@ namespace GolemUI
         Dictionary<int, GpuEntryUI> _entries = new Dictionary<int, GpuEntryUI>();
 
         bool _requestExit = false;
-        NameGen _gen;
+        LocalSettings? localSettings = null;
+
         public GolemUISettingsWindow()
         {
-            _gen = new NameGen();
+   
 
             InitializeComponent();
-            txNodeName.Text = _gen.GenerateElvenName() + "-" + _gen.GenerateElvenName();
+
+            localSettings = SettingsLoader.LoadSettingsFromFileOrDefault();
+            var benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+            if (benchmarkSettings != null && benchmarkSettings.liveStatus != null)
+            {
+                UpdateBenchmarkStatus(benchmarkSettings.liveStatus);
+            }
+
+
+            txNodeName.Text = localSettings.NodeName;
+            txWalletAddress.Text = localSettings.EthAddress;
+            txSubnet.Text = localSettings.Subnet;
+           
             //lbGpus.Items.Add("GPU 1");
             //lbGpus.Items.Add("GPU 2");
 
@@ -132,6 +146,57 @@ namespace GolemUI
             _requestExit = true;
         }
 
+        private void UpdateBenchmarkStatus(ClaymoreLiveStatus s)
+        {
+            //s.BenchmarkTotalSpeed;
+            if (s.GPUInfosParsed && s.AreAllDagsFinishedOrFailed())
+            {
+                gpuMiningPanel.lblStatus.Content = $"Measuring performance {s.NumberOfClaymorePerfReports}/{s.TotalClaymoreReportsBenchmark}";
+            }
+
+            float totalMhs = 0;
+            foreach (var gpu in s.GPUs)
+            {
+                int gpuNo = gpu.Key;
+                var gpuInfo = gpu.Value;
+
+                GpuEntryUI? currentEntry = null;
+                if (_entries.ContainsKey(gpuNo))
+                {
+                    currentEntry = _entries[gpuNo];
+                }
+
+                string gdetails = gpuInfo.GPUDetails ?? "";
+                if (!String.IsNullOrEmpty(gdetails) && !_entries.ContainsKey(gpuNo))
+                {
+                    var rowDef = new RowDefinition();
+                    rowDef.Height = GridLength.Auto;
+                    grdGpuList.RowDefinitions.Add(rowDef);
+                    currentEntry = gpuMiningPanel.AddGpuEntry(gdetails, (gpuNo - 1).ToString());
+                    _entries.Add(gpuNo, currentEntry);
+                }
+                currentEntry?.SetDagProgress(gpuInfo.DagProgress);
+                currentEntry?.SetMiningSpeed(gpuInfo.BenchmarkSpeed);
+
+
+                totalMhs += gpuInfo.BenchmarkSpeed;
+                /*
+                if (currentEntry != null)
+                {
+                    if (currentEntry.lblProgress != null)
+                    {
+                        currentEntry.lblProgress.Content = gpuInfo.DagProgress.ToString();
+                    }
+                    if (currentEntry.lblPower != null)
+                    {
+                        currentEntry.lblPower.Content = gpuInfo.BenchmarkSpeed.ToString();
+                    }
+                }*/
+            }
+            gpuMiningPanel.lblPower.Content = totalMhs.ToString();
+            gpuMiningPanel.SetBenchmarkProgress(s.GetEstimatedBenchmarkProgress());
+        }
+
         private async void btnStartBenchmark_Click(object sender, RoutedEventArgs e)
         {
             //BenchmarkDialog dB = new BenchmarkDialog();
@@ -162,59 +227,23 @@ namespace GolemUI
                 //function returns copy, so we can work with safety (even if original value is updated on separate thread)
                 var s = cc.ClaymoreParser.GetLiveStatusCopy();
 
-                //s.BenchmarkTotalSpeed;
-                if (s.GPUInfosParsed && s.AreAllDagsFinishedOrFailed())
-                {
-                    gpuMiningPanel.lblStatus.Content = $"Measuring performance {s.NumberOfClaymorePerfReports}/{s.TotalClaymoreReportsBenchmark}";
-                }
+                UpdateBenchmarkStatus(s);
+
                 if (s.NumberOfClaymorePerfReports >= s.TotalClaymoreReportsBenchmark)
                 {
                     cc.Stop();
                     gpuMiningPanel.FinishBenchmark(true);
                     BenchmarkFinished();
+                    {
+                        BenchmarkResults res = new BenchmarkResults();
+                        res.liveStatus = s;
+                        SettingsLoader.SaveBenchmarkToFile(res);
+                    }
+
                     return;
                 }
-                float totalMhs = 0;
-                foreach (var gpu in s.GPUs)
-                {
-                    int gpuNo = gpu.Key;
-                    var gpuInfo = gpu.Value;
-
-                    GpuEntryUI? currentEntry = null;
-                    if (_entries.ContainsKey(gpuNo))
-                    {
-                        currentEntry = _entries[gpuNo];
-                    }
-
-                    string gdetails = gpuInfo.GPUDetails ?? "";
-                    if (!String.IsNullOrEmpty(gdetails) && !_entries.ContainsKey(gpuNo))
-                    {
-                        var rowDef = new RowDefinition();
-                        rowDef.Height = GridLength.Auto;
-                        grdGpuList.RowDefinitions.Add(rowDef);
-                        currentEntry = gpuMiningPanel.AddGpuEntry(gdetails, (gpuNo - 1).ToString());
-                        _entries.Add(gpuNo, currentEntry);
-                    }
-                    currentEntry?.SetDagProgress(gpuInfo.DagProgress);
-                    currentEntry?.SetMiningSpeed(gpuInfo.BenchmarkSpeed);
 
 
-                    totalMhs += gpuInfo.BenchmarkSpeed;
-                    /*
-                    if (currentEntry != null)
-                    {
-                        if (currentEntry.lblProgress != null)
-                        {
-                            currentEntry.lblProgress.Content = gpuInfo.DagProgress.ToString();
-                        }
-                        if (currentEntry.lblPower != null)
-                        {
-                            currentEntry.lblPower.Content = gpuInfo.BenchmarkSpeed.ToString();
-                        }
-                    }*/
-                }
-                gpuMiningPanel.lblPower.Content = totalMhs.ToString();
-                gpuMiningPanel.SetBenchmarkProgress(s.GetEstimatedBenchmarkProgress());
             }
             
         }
@@ -228,7 +257,15 @@ namespace GolemUI
         {
             LocalSettings settings = new LocalSettings();
             //settings.EthAddress = t
+            settings.NodeName = txNodeName.Text;
+            settings.EthAddress = txWalletAddress.Text;
+            settings.Subnet = txSubnet.Text;
             SettingsLoader.SaveSettingsToFile(settings);
+        }
+
+        private void txSubnet_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

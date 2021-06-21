@@ -142,7 +142,9 @@ namespace GolemUI.Services
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
             _providerDaemon.Start();
+#if !DEBUG
             _providerDaemon.BeginErrorReadLine();
+#endif
         }
 
         public delegate void LogLine(string logger, string line);

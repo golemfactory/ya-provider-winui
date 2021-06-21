@@ -215,6 +215,8 @@ namespace GolemUI.Claymore
                     }
                     currentStatus = _liveStatus.GPUs[gpuNo];
 
+                    
+
                     if (currentStatus.GPUVendor == null)
                     {
                         bool nVidiaGpuFound = false;

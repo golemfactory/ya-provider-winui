@@ -201,7 +201,7 @@ namespace GolemUI.Command
 #if DEBUG
                 UseShellExecute = false,
                 RedirectStandardOutput = false,
-                RedirectStandardError = true,
+                //RedirectStandardError = true,
                 CreateNoWindow = false
 #else
                 UseShellExecute = false,
