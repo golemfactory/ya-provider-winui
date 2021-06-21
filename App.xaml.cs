@@ -42,6 +42,9 @@ namespace GolemUI
             
             try
             {
+                var dashboardWindows = new Dashboard();
+                dashboardWindows.Show();
+
                 var mainWindow = _serviceProvider.GetService<MainWindow>();
                 if (mainWindow == null)
                 {
