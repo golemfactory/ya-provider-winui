@@ -25,31 +25,36 @@
                 </StackPanel>
             </Canvas>
         </Border>
-        <Border Background="#5823D0" Width="193" Height="89" Canvas.Left="349" Canvas.Top="30">
-            <Canvas>
-                <StackPanel>
-                    <Label Content="Application settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"/>
-                    <CheckBox Content="Run when computer starts" Foreground="#FFFFFF" Margin="10,5"></CheckBox>
-                    <CheckBox Content="Automatically start work" Foreground="#FFFFFF" Margin="10,5"></CheckBox>
-                </StackPanel>
-            </Canvas>
+        <Border Background="#5823D0" Width="193" Height="auto" Canvas.Left="349" Canvas.Top="30">
+            <StackPanel>
+                <Label Content="Application settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"/>
+                <CheckBox Name="cbStartWithWindows" Content="Run when computer starts" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
+                <!--<CheckBox Name="cbStartAutmatically" Content="Automatically start work" Foreground="#FFFFFF" Margin="10,5"></CheckBox>-->
+                <CheckBox Name="cbDebugOutput" Content="Enable debug logs" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
+                <CheckBox Name="cbShowYagnaConsole" Content="Show yagna console" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
+                <CheckBox Name="cbShowProviderConsole" Content="Show provider console" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
+
+            </StackPanel>
         </Border>
 
-        <Border Background="#5823D0" Width="191" Height="200" Canvas.Left="350" Canvas.Top="142">
+        <Border Background="#5823D0" Width="191" Height="158" Canvas.Left="574" Canvas.Top="32">
             <Canvas>
                 <Label Content="WASM settings" Foreground="#FFFFFF"/>
-                <CheckBox Content="Enable WASM unit" Foreground="White" Margin="10,50"></CheckBox>
+                <CheckBox Name="cbEnableWASM" Content="Enable WASM unit" Foreground="White" Margin="10,50" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
             </Canvas>
         </Border>
-        <Border Background="#5823D0" Width="192" Height="200" Canvas.Left="564" Canvas.Top="142">
-            <Canvas>
-                <Label Content="VM Task" Foreground="#FFFFFF"/>
-                <CheckBox Content="Enable VM unit" Foreground="White" Margin="10,50"></CheckBox>
-            </Canvas>
+        <Border Background="#5823D0" Width="192" Height="158" Canvas.Left="574" Canvas.Top="228">
+            <StackPanel>
+                <Label Content="VM Task " Foreground="#FFFFFF"/>
+                <Label Content="(not yet implemented)" Foreground="#FFFFFF"></Label>
+
+                <!--<CheckBox Name="cbEnableVM" Content="Enable VM unit" Foreground="White" Margin="10,50"></CheckBox>-->
+            </StackPanel>
         </Border>
         <Button Name="btnApplySettings" Background="#DDDDDD" Width="200" Height="44" Content="Apply settings" Canvas.Top="362" Canvas.Left="20" Click="btnApplySettings_Click">
 
         </Button>
+        <Button x:Name="btnCancelChanges" Background="#DDDDDD" Width="200" Height="44" Content="Cancel changes" Canvas.Top="362" Canvas.Left="225" Click="btnCancelSettings_Click"/>
 
     </Canvas>
 </UserControl>

@@ -42,25 +42,40 @@ namespace GolemUI
             txNodeName.Text = settings.NodeName;
             txSubnet.Text = settings.Subnet;
             txWalletAddress.Text = settings.EthAddress;
+            cbDebugOutput.IsChecked = settings.EnableDebugLogs;
+            cbEnableWASM.IsChecked = settings.EnableWASMUnit;
+            cbStartWithWindows.IsChecked = settings.StartWithWindows;
+            cbShowYagnaConsole.IsChecked = settings.StartYagnaCommandLine;
+            cbShowProviderConsole.IsChecked = settings.StartProviderCommandLine;
+
 
             btnApplySettings.IsEnabled = false;
+            btnCancelChanges.IsEnabled = false;
         }
 
-        public void SwitchSettingsToReadOnly()
+
+        private void SetSettingsEnabled(bool enabled)
         {
             ResetChanges();
-            txNodeName.IsEnabled = false;
-            txSubnet.IsEnabled = false;
-            txWalletAddress.IsEnabled = false;
-            _readOnly = true;
+            txNodeName.IsEnabled = enabled;
+            txSubnet.IsEnabled = enabled;
+            txWalletAddress.IsEnabled = enabled;
+            cbDebugOutput.IsEnabled = enabled;
+            cbEnableWASM.IsEnabled = enabled;
+            cbStartWithWindows.IsEnabled = enabled;
+            cbShowYagnaConsole.IsEnabled = enabled;
+            cbShowProviderConsole.IsEnabled = enabled;
+
+            _readOnly = !enabled;
+
+        }
+        public void SwitchSettingsToReadOnly()
+        {
+            SetSettingsEnabled(enabled: false);
         }
         public void SwitchSettingsToEdit()
         {
-            ResetChanges();
-            txNodeName.IsEnabled = true;
-            txSubnet.IsEnabled = true;
-            txWalletAddress.IsEnabled = true;
-            _readOnly = false;
+            SetSettingsEnabled(enabled: true);
         }
 
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
@@ -82,15 +97,22 @@ namespace GolemUI
         private void btnApplySettings_Click(object sender, RoutedEventArgs e)
         {
             LocalSettings settings = new LocalSettings();
+
             settings.NodeName = txNodeName.Text;
             settings.Subnet = txSubnet.Text;
             settings.EthAddress = txWalletAddress.Text;
-
+            settings.EnableDebugLogs = cbDebugOutput.IsChecked ?? false;
+            settings.EnableWASMUnit = cbEnableWASM.IsChecked ?? false;
+            settings.StartWithWindows = cbStartWithWindows.IsChecked ?? false;
+            settings.StartYagnaCommandLine = cbShowYagnaConsole.IsChecked ?? false;
+            settings.StartProviderCommandLine = cbShowProviderConsole.IsChecked ?? false;
+            
             SettingsLoader.SaveSettingsToFile(settings);
             ResetChanges();
         }
 
-        private void settingsTextChanged(object sender, TextChangedEventArgs e)
+
+        private void settingsChanged()
         {
             if (!_initialized || _readOnly)
             {
@@ -102,15 +124,37 @@ namespace GolemUI
             if (settings.NodeName != txNodeName.Text) different = true;
             if (settings.EthAddress != txWalletAddress.Text) different = true;
             if (settings.Subnet != txSubnet.Text) different = true;
+            if (settings.EnableDebugLogs != cbDebugOutput.IsChecked) different = true;
+            if (settings.EnableWASMUnit != cbEnableWASM.IsChecked) different = true;
+            if (settings.StartWithWindows != cbStartWithWindows.IsChecked) different = true;
+            if (settings.StartYagnaCommandLine != cbShowYagnaConsole.IsChecked) different = true;
+            if (settings.StartProviderCommandLine != cbShowProviderConsole.IsChecked) different = true;
 
             if (different)
             {
                 btnApplySettings.IsEnabled = true;
+                btnCancelChanges.IsEnabled = true;
             }
             else
             {
                 btnApplySettings.IsEnabled = false;
+                btnCancelChanges.IsEnabled = false;
             }
+        }
+
+        private void settingsTextChanged(object sender, TextChangedEventArgs e)
+        {
+            settingsChanged();
+        }
+
+        private void settingsCheckboxChecked(object sender, RoutedEventArgs e)
+        {
+            settingsChanged();
+        }
+
+        private void btnCancelSettings_Click(object sender, RoutedEventArgs e)
+        {
+            ResetChanges();
         }
     }
 }
