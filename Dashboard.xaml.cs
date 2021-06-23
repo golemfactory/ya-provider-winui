@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 using System.Windows.Media.Animation;
+using GolemUI.Settings;
 
 namespace GolemUI
 {
@@ -37,6 +38,9 @@ namespace GolemUI
             DashboardBenchmark = new DashboardBenchmark();
             DashboardDetails = new DashboardDetails();
             cvMain.Children.Add(DashboardMain);
+
+
+            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
 
             //this.WindowStyle = WindowStyle.None;
             //this.ResizeMode = ResizeMode.NoResize;
@@ -97,6 +101,40 @@ namespace GolemUI
                 cvMain.Children.Clear();
                 cvMain.Children.Add(DashboardDetails);
                 _pageSelected = 3;
+            }
+        }
+
+        public void BlockNavigation()
+        {
+            btnPage1.IsEnabled = false;
+            btnPage2.IsEnabled = false;
+            btnPage3.IsEnabled = false;
+            btnPage4.IsEnabled = false;
+        }
+        public void ResumeNavigation()
+        {
+            btnPage1.IsEnabled = true;
+            btnPage2.IsEnabled = true;
+            btnPage3.IsEnabled = true;
+            btnPage4.IsEnabled = true;
+        }
+
+        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateChangedArgs? args)
+        {
+            if (args != null)
+            {
+                switch (args.action)
+                {
+                    case GlobalApplicationStateAction.yagnaAppStarting:
+                        BlockNavigation();
+                        break;
+                    case GlobalApplicationStateAction.yagnaAppStopped:
+                        ResumeNavigation();
+                        break;
+                    case GlobalApplicationStateAction.yagnaAppStarted:
+                        ResumeNavigation();
+                        break;
+                }
             }
         }
 

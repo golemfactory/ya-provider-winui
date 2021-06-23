@@ -23,10 +23,10 @@
 
         <Border BorderThickness="0" BorderBrush="Black" Background="#67A0C6" Grid.Column="0" Grid.Row="1">
             <StackPanel>
-                <Button Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#dddddd" Margin="0,40,0,0" Click="Page1Click"></Button>
-                <Button Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#dddddd" Margin="0,40,0,0" Click="Page2Click"></Button>
-                <Button Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#dddddd" Margin="0,40,0,0" Click="Page3Click"></Button>
-                <Button Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#dddddd" Margin="0,40,0,0" Click="Page4Click"></Button>
+                <Button x:Name="btnPage1" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#dddddd" Margin="0,40,0,0" Click="Page1Click"></Button>
+                <Button x:Name="btnPage2" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#dddddd" Margin="0,40,0,0" Click="Page2Click"></Button>
+                <Button x:Name="btnPage3" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#dddddd" Margin="0,40,0,0" Click="Page3Click"></Button>
+                <Button x:Name="btnPage4" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#dddddd" Margin="0,40,0,0" Click="Page4Click"></Button>
             </StackPanel>
         </Border>
         
