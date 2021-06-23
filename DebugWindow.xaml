@@ -7,8 +7,15 @@
         mc:Ignorable="d"
         Title="DebugWindow" Height="450" Width="800">
     <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <TextBlock x:Name="txtR"/>
-        </ScrollViewer>            
+        <DockPanel>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <Button Content="OpenCommandLine" Click="Button_Click"></Button>
+            </StackPanel>
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="txtR"/>
+            </ScrollViewer>
+
+        </DockPanel>
+        
     </Grid>
 </Window>

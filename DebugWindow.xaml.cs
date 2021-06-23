@@ -40,6 +40,11 @@ namespace GolemUI
 
 #endif
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("CMD.exe");
+        }
     }
 
 
