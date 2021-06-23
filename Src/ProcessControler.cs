@@ -12,7 +12,7 @@ using GolemUI.Interfaces;
 using GolemUI.Command;
 using GolemUI.Settings;
 
-namespace GolemUI.Services
+namespace GolemUI
 {
     public class ProcessController : IDisposable, IProcessControler, IAppKeyProvider
     {

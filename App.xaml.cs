@@ -31,7 +31,7 @@ namespace GolemUI
 
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<Interfaces.IProcessControler, Services.ProcessController>();
+            //services.AddSingleton<Interfaces.IProcessControler, ProcessController>();
             services.AddSingleton<MainWindow>();
 #if DEBUG
             services.AddSingleton<DebugWindow>();
@@ -44,31 +44,22 @@ namespace GolemUI
             
             try
             {
-                var dashboardWindows = new Dashboard();
-                dashboardWindows.Show();
+                var dashboardWindow = new Dashboard();
+                dashboardWindow.Show();
 
-                var mainWindow = _serviceProvider.GetService<MainWindow>();
-                if (mainWindow == null)
-                {
-                    throw new Exception("Main window not found");
-                }
-                mainWindow.Left = 50;
-                mainWindow.Top = 50;
 
 #if DEBUG
-                var debugWindow = _serviceProvider.GetService<DebugWindow>();
+                var debugWindow = new DebugWindow();
                 if (debugWindow == null)
                 {
                     throw new Exception("Debug window");
                 }
-                mainWindow.DebugWindow = debugWindow;
 #endif
 
-                mainWindow.Show();
 #if DEBUG
-                debugWindow.Owner = mainWindow;
-                debugWindow.Left = mainWindow.Left + mainWindow.Width;
-                debugWindow.Top = mainWindow.Top;
+                debugWindow.Owner = dashboardWindow;
+                debugWindow.Left = dashboardWindow.Left + dashboardWindow.Width;
+                debugWindow.Top = dashboardWindow.Top;
                 debugWindow.Show();
 #endif
             }

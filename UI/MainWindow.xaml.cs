@@ -16,7 +16,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using GolemUI.Settings;
-using GolemUI.Services;
 
 namespace GolemUI
 {
@@ -76,32 +75,7 @@ namespace GolemUI
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
-            Process[] yagnaProcesses;
-            Process[] providerProcesses;
-            Process[] claymoreProcesses;
 
-            ProcessMonitor.GetProcessList(out yagnaProcesses, out providerProcesses, out claymoreProcesses);
-            if (yagnaProcesses.Length > 0 || providerProcesses.Length > 0 || claymoreProcesses.Length > 0)
-            {
-                ExistingProcessesWindow w = new ExistingProcessesWindow();
-                w.Owner = this;
-                var dialogResult = w.ShowDialog();
-                switch (dialogResult)
-                {
-                    case true:
-                        // User accepted dialog box
-                        break;
-                    case false:
-                        // User canceled dialog box
-                        return;
-                    default:
-                        // Indeterminate
-                        break;
-                }
-            }
-            lblRunning.Content = "Not running";
-            lblRunning.Background = Brushes.Red;
-            btnStart.IsEnabled = true;
         }
     }
 }

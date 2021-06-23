@@ -23,35 +23,15 @@ namespace GolemUI
 
     public class GlobalApplicationState
     {
-        private static GlobalApplicationState? _instance = null;
+        ProcessController _processController;
 
-        public static void Initialize()
+        public ProcessController ProcessController { get { return _processController; } }
+
+        private GlobalApplicationState()
         {
-            if (_instance != null)
-            {
-                throw new Exception("Initialize at the program start");
-            }
-            _instance = new GlobalApplicationState();
-        }
-        public static void Finish()
-        {
-            if (_instance == null)
-            {
-                throw new Exception("Finalizing unitialized GlobalApplicationState");
-            }
+            _processController = new ProcessController();
         }
 
-        public static GlobalApplicationState Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    throw new Exception("GlobalApplicationState not initialized");
-                }
-                return _instance;
-            }
-        }
 
         public void NotifyApplicationStateChanged(object sender)
         {
@@ -82,8 +62,38 @@ namespace GolemUI
         public delegate void ApplicationStateChangedDelegate(object sender, GlobalApplicationStateEventArgs? args);
         public ApplicationStateChangedDelegate? ApplicationStateChanged { get; set; }
 
+        /***
+         * static methods 
+         * (GlobalApplicationState is singleton like class initialized at the beggining and finishing at the end of application)
+         */
+        static GlobalApplicationState? _instance = null;
 
+        public static void Initialize()
+        {
+            if (_instance != null)
+            {
+                throw new Exception("Initialize at the program start");
+            }
+            _instance = new GlobalApplicationState();
+        }
+        public static void Finish()
+        {
+            if (_instance == null)
+            {
+                throw new Exception("Finalizing unitialized GlobalApplicationState");
+            }
+        }
+
+        public static GlobalApplicationState Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    throw new Exception("GlobalApplicationState not initialized");
+                }
+                return _instance;
+            }
+        }
     }
-
-
 }
