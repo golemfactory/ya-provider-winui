@@ -1,8 +1,0 @@
-[
-  {
-    "name": "ethminer",
-    "supervisor-path": "mini-exe-unit.exe",
-    "description": "ethminer",
-    "version": "0.2.1"
-  }
-]
