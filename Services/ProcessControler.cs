@@ -100,7 +100,10 @@ namespace GolemUI.Services
                     _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
                 }
                 _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
-
+                if (Subnet == null)
+                {
+                    throw new Exception("Subnet cannot be null"); 
+                }
                 StartupProvider(Network.Rinkeby, Subnet);
             });
 

@@ -119,7 +119,7 @@ namespace GolemUI
             btnPage4.IsEnabled = true;
         }
 
-        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateChangedArgs? args)
+        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {
             if (args != null)
             {

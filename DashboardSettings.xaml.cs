@@ -63,7 +63,7 @@ namespace GolemUI
             _readOnly = false;
         }
 
-        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateChangedArgs? args)
+        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {
             if (args != null)
             {

@@ -72,11 +72,6 @@ namespace GolemUI
 
         }
 
-        private void btnSettings_Click(object sender, RoutedEventArgs e)
-        {
-            var settingsWindow = new GolemUISettingsWindow();
-            settingsWindow.ShowDialog();
-        }
 
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)

@@ -86,7 +86,7 @@ namespace GolemUI
         private void OnExit(object sender, ExitEventArgs e)
         {
             _serviceProvider.Dispose();
-            GlobalApplicationState.Finalize();
+            GlobalApplicationState.Finish();
         }
 
 
