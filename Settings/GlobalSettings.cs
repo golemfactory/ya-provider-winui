@@ -27,6 +27,7 @@ namespace GolemUI.Settings
     public enum GlobalApplicationStateAction {
         emptyAction,
         yagnaAppStarting,
+        yagnaAppStarted,
         yagnaAppStopped
     }
 

@@ -31,6 +31,7 @@ namespace GolemUI
             //_processController = processController;
 
             //this.Title = GlobalSettings.AppTitle;
+            btnStop.IsEnabled = false;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -46,7 +47,6 @@ namespace GolemUI
             lblRunning.Background = Brushes.Yellow;
             btnStart.IsEnabled = false;
 
-
             var settings = SettingsLoader.LoadSettingsFromFileOrDefault();
 
             ((ProcessController)_processController).Subnet = settings.Subnet;
@@ -56,12 +56,20 @@ namespace GolemUI
             lblRunning.Content = "Started";
             lblRunning.Background = Brushes.Green;
             btnStart.IsEnabled = false;
+            btnStop.IsEnabled = true;
+            
+            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStarted);
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             _processController.Stop();
+
+            lblRunning.Content = "Stopped";
+            lblRunning.Background = Brushes.Gray;
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStopped);
+            btnStart.IsEnabled = true;
+            btnStop.IsEnabled = false;
         }
     }
 }
