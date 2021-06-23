@@ -175,19 +175,21 @@ namespace GolemUI
                 _provider.ActivatePreset(preset.Name);
             }
 
-
             _provider.DeactivatePreset("default");
             _provider.ActivatePreset("gminer");
             _provider.ActivatePreset("wasmtime");
-
 
             _providerDaemon = _provider.Run(_appkey, network, subnet);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
             _providerDaemon.Start();
-//#if !DEBUG
-            _providerDaemon.BeginErrorReadLine();
-//#endif
+
+
+            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
+            if (!ls.StartProviderCommandLine)
+            {
+                _providerDaemon.BeginErrorReadLine();
+            }
         }
 
         public delegate void LogLine(string logger, string line);

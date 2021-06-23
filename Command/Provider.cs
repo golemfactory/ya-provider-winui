@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using System.Collections.Specialized;
-
+using GolemUI.Settings;
 
 namespace GolemUI.Command
 {
@@ -203,24 +203,33 @@ namespace GolemUI.Command
 
         public Process Run(string appkey, Network network, string subnet)
         {
+            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
 
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaProviderPath,
                 Arguments = $"run --payment-network {network.Id} --subnet {subnet}",
-#if DEBUG
-                UseShellExecute = false,
-                RedirectStandardOutput = false,
-                RedirectStandardError = true,
-                CreateNoWindow = false
-#else
-                UseShellExecute = false,
-                RedirectStandardError = true,
-                CreateNoWindow = true
-#endif
             };
+            if (ls.StartProviderCommandLine)
+            {
+                startInfo.RedirectStandardOutput = false;
+                startInfo.RedirectStandardError = false;
+                startInfo.CreateNoWindow = false;
+            }
+            else
+            {
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.CreateNoWindow = true;
+            }
+
+            if (ls.EnableDebugLogs)
+            {
+                startInfo.EnvironmentVariables["RUST_LOG"] = "debug";
+            }
+
             startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;
-           // startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
+            //startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
             startInfo.EnvironmentVariables["YAGNA_APPKEY"] = appkey;
 
             var process = new Process

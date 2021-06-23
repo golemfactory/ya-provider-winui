@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using GolemUI.Settings;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -186,21 +187,35 @@ namespace GolemUI.Command
         public Process Run()
         {
 
+            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
+
+            string debugFlag = "";
+            if (ls.EnableDebugLogs)
+            {
+                debugFlag = "--debug";
+            }
+
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaExePath,
-                Arguments = "service run --debug",
-#if DEBUG
-                //UseShellExecute = false,
-                //RedirectStandardOutput = true,
-                //CreateNoWindow = true
-#else
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true
-#endif
+                Arguments = $"service run {debugFlag}",
             };
             //startInfo.EnvironmentVariables.Add();
+
+            if (ls.StartProviderCommandLine)
+            {
+                startInfo.RedirectStandardOutput = false;
+                startInfo.RedirectStandardError = false;
+                startInfo.CreateNoWindow = true;
+            }
+            else
+            {
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.CreateNoWindow = true;
+            }
+
+
             var process = new Process
             {
                 StartInfo = startInfo
