@@ -57,6 +57,7 @@ namespace GolemUI.Command
         {
             Name = name;
             ExeunitName = exeunitName;
+            PricingModel = "linear";
             UsageCoeffs = usageCoeffs;
         }
 
@@ -176,6 +177,15 @@ namespace GolemUI.Command
             }
         }
 
+        public void ActivatePreset(string presetName)
+        {
+            this.ExecToText($"preset activate {presetName}");
+        }
+        public void DeactivatePreset(string presetName)
+        {
+            this.ExecToText($"preset deactivate {presetName}");
+        }
+
         public void AddPreset(Preset preset)
         {
             StringBuilder cmd = new StringBuilder("preset create --no-interactive", 60);
@@ -191,17 +201,17 @@ namespace GolemUI.Command
             this.ExecToText(cmd.ToString());
         }
 
-        public Process Run(string appkey, Network network)
+        public Process Run(string appkey, Network network, string subnet)
         {
 
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaProviderPath,
-                Arguments = $"run --payment-network {network.Id}",
+                Arguments = $"run --payment-network {network.Id} --subnet {subnet}",
 #if DEBUG
                 UseShellExecute = false,
                 RedirectStandardOutput = false,
-                //RedirectStandardError = true,
+                RedirectStandardError = true,
                 CreateNoWindow = false
 #else
                 UseShellExecute = false,
@@ -210,7 +220,7 @@ namespace GolemUI.Command
 #endif
             };
             startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;
-            startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
+           // startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
             startInfo.EnvironmentVariables["YAGNA_APPKEY"] = appkey;
 
             var process = new Process

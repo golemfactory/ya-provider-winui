@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace GolemUI
 {
     /// <summary>
-    /// Interaction logic for DashboardMain.xaml
+    /// Interaction logic for DashboardDetails.xaml
     /// </summary>
-    public partial class DashboardMain : UserControl
+    public partial class DashboardDetails : UserControl
     {
-        public DashboardMain()
+        public DashboardDetails()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

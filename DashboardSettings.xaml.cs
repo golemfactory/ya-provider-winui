@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,22 @@ namespace GolemUI
         public DashboardSettings()
         {
             InitializeComponent();
+
+            LocalSettings settings = SettingsLoader.LoadSettingsFromFileOrDefault();
+
+            txNodeName.Text = settings.NodeName;
+            txSubnet.Text = settings.Subnet;
+            txWalletAddress.Text = settings.EthAddress;
+        }
+
+        private void btnApplySettings(object sender, RoutedEventArgs e)
+        {
+            LocalSettings settings = new LocalSettings();
+            settings.NodeName = txNodeName.Text;
+            settings.Subnet = txSubnet.Text;
+            settings.EthAddress = txWalletAddress.Text;
+
+            SettingsLoader.SaveSettingsToFile(settings);
         }
     }
 }

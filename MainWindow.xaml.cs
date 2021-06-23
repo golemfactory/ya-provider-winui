@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using GolemUI.Settings;
+using GolemUI.Services;
 
 namespace GolemUI
 {
@@ -44,6 +45,10 @@ namespace GolemUI
             btnStart.IsEnabled = false;
 
 
+            var settings = SettingsLoader.LoadSettingsFromFileOrDefault();
+
+            ((ProcessController)_processController).Subnet = settings.Subnet;
+          
             await _processController.Init();
 
             lblRunning.Content = "Started";

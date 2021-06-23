@@ -10,6 +10,7 @@ using System.Threading;
 using System.Diagnostics;
 using GolemUI.Interfaces;
 using GolemUI.Command;
+using GolemUI.Settings;
 
 namespace GolemUI.Services
 {
@@ -22,11 +23,12 @@ namespace GolemUI.Services
         private Command.YagnaSrv _yagna = new Command.YagnaSrv();
         private Command.Provider _provider = new Command.Provider();
         private string? _appkey;
+        public string? Subnet { get; set; }
+
         private Process? _main;
         private Process? _providerDaemon;
 
         public LogLineHandler? LineHandler { get; set; }
-
 
         public void Dispose()
         {
@@ -99,7 +101,7 @@ namespace GolemUI.Services
                 }
                 _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
 
-                StartupProvider(Network.Rinkeby);
+                StartupProvider(Network.Rinkeby, Subnet);
             });
 
             t.Start();
@@ -120,31 +122,54 @@ namespace GolemUI.Services
         }
 
 
-        private void StartupProvider(Network network)
+        private void StartupProvider(Network network, string subnet)
         {
             if (_providerDaemon != null)
             {
                 return;
             }
             var config = _provider.Config;
+            
             var paymentAccount = config?.Account ?? _yagna?.Id?.Address;
             if (paymentAccount == null)
             {
                 throw new Exception("Failed to retrieve payment Account");
             }
+            /*var subnet = config?.Subnet;
+            if (subnet == null)
+            {
+                throw new Exception("Failed to retriece Subnet account");
+            }*/
+
             _yagna?.Payment.Init(network, "erc20", paymentAccount);
             _yagna?.Payment.Init(network, "zksync", paymentAccount);
             if (_appkey == null)
             {
                 throw new Exception("Appkey cannot be null");
             }
-            _providerDaemon = _provider.Run(_appkey, network);
+
+            var providerPresets = _provider.Presets;
+
+            //make sure we are starting from the same preset all the time by clearing configuration before starting provider
+            //otherwise there will be lot of mess to handle (if user changes something or old configuration exist)
+            SettingsLoader.ClearProviderPresetsFile();
+
+            var usageCoef = new Dictionary<string, decimal>();
+            var preset = new Preset("gminer", "gminer", usageCoef);
+            preset.UsageCoeffs.Add("golem.usage.mining.hash", 0);
+            preset.UsageCoeffs.Add("golem.usage.duration_sec", 0);
+            _provider.AddPreset(preset);
+            _provider.ActivatePreset(preset.Name);
+
+            _provider.DeactivatePreset("default");
+
+            _providerDaemon = _provider.Run(_appkey, network, subnet);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
             _providerDaemon.Start();
-#if !DEBUG
+//#if !DEBUG
             _providerDaemon.BeginErrorReadLine();
-#endif
+//#endif
         }
 
         public delegate void LogLine(string logger, string line);

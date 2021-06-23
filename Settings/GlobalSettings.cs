@@ -16,7 +16,9 @@ namespace GolemUI.Settings
     {
         public const string AppName = "LazyMiner";
         public const string AppTitle = "Lazy Miner";
-        public const string SettingsFolder = "LazyMiner";
+        public const string GolemFactoryPath = "GolemFactory";
+        public const string SettingsSubFolder = "LazyMiner";
+
         public const int CurrentSettingsVersion = 348;
         public const int CurrentBenchmarkResultVersion = 138;
 
@@ -59,13 +61,25 @@ namespace GolemUI.Settings
             //_localSettings = new LocalSettings();
         }
 
+        public static string GetLocalGolemFactoryPath()
+        {
+            string settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
+            string localFolder = Path.Combine(settingPath, GlobalSettings.GolemFactoryPath);
+
+            if (!Directory.Exists(localFolder))
+            {
+                Directory.CreateDirectory(localFolder);
+            }
+
+            return localFolder;
+        }
 
         public static string GetLocalPath()
         {
-            string settingPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-            string localFolder = Path.Combine(settingPath, GlobalSettings.SettingsFolder);
+            string localFolder = Path.Combine(settingPath, GlobalSettings.GolemFactoryPath, GlobalSettings.SettingsSubFolder);
 
             if (!Directory.Exists(localFolder))
             {
@@ -85,7 +99,14 @@ namespace GolemUI.Settings
             string result = Path.Combine(GetLocalPath(), "benchmark.json");
             return result;
         }
-
+        public static void ClearProviderPresetsFile()
+        {
+            string path = Path.Combine(GetLocalGolemFactoryPath(), @"ya-provider\data\presets.json");
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
 
         public static LocalSettings LoadSettingsFromFileOrDefault()
         {

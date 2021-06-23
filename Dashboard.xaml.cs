@@ -24,6 +24,7 @@ namespace GolemUI
         public DashboardMain DashboardMain { get; set; }
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardBenchmark DashboardBenchmark { get; set; }
+        public DashboardDetails DashboardDetails { get; set; }
 
         public int _pageSelected = 0;
 
@@ -34,13 +35,14 @@ namespace GolemUI
             DashboardMain = new DashboardMain();
             DashboardSettings = new DashboardSettings();
             DashboardBenchmark = new DashboardBenchmark();
+            DashboardDetails = new DashboardDetails();
             cvMain.Children.Add(DashboardMain);
 
             //this.WindowStyle = WindowStyle.None;
             //this.ResizeMode = ResizeMode.NoResize;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Page1Click(object sender, RoutedEventArgs e)
         {
             /*var position = 0;
             var amount = 500;
@@ -66,7 +68,7 @@ namespace GolemUI
             }
         }
 
-        private void Button_Click2(object sender, RoutedEventArgs e)
+        private void Page2Click(object sender, RoutedEventArgs e)
         {
             //AnimateScroll(cvMain, -500, TimeSpan.FromMilliseconds(500));
             if (_pageSelected != 1)
@@ -78,7 +80,7 @@ namespace GolemUI
             //DashboardSettings.Opacity = 0.5f;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Page3Click(object sender, RoutedEventArgs e)
         {
             if (_pageSelected != 2)
             {
@@ -86,8 +88,18 @@ namespace GolemUI
                 cvMain.Children.Add(DashboardBenchmark);
                 _pageSelected = 2;
             }
-
         }
+
+        private void Page4Click(object sender, RoutedEventArgs e)
+        {
+            if (_pageSelected != 3)
+            {
+                cvMain.Children.Clear();
+                cvMain.Children.Add(DashboardDetails);
+                _pageSelected = 3;
+            }
+        }
+
         static void AnimateScroll(UIElement element, double amount, TimeSpan duration)
         {
             var sb = new Storyboard();
@@ -111,5 +123,7 @@ namespace GolemUI
         {
             DashboardBenchmark.RequestBenchmarkEnd();
         }
+
+
     }
 }

@@ -189,7 +189,7 @@ namespace GolemUI.Command
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaExePath,
-                Arguments = "service run",
+                Arguments = "service run --debug",
 #if DEBUG
                 //UseShellExecute = false,
                 //RedirectStandardOutput = true,
