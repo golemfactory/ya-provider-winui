@@ -193,5 +193,10 @@ namespace GolemUI
         {
             _requestExit = true;
         }
+
+        public void UpdateApplicationState(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -21,8 +21,86 @@ namespace GolemUI.Settings
 
         public const int CurrentSettingsVersion = 348;
         public const int CurrentBenchmarkResultVersion = 138;
+    }
+
+
+    public enum GlobalApplicationStateAction {
+        emptyAction,
+        yagnaAppStarting,
+        yagnaAppStopped
+    }
+
+    public class GlobalApplicationStateChangedArgs
+    {
+        public GlobalApplicationStateAction action { get; set; }
+    }
+
+
+    public class GlobalApplicationState
+    {
+        private static GlobalApplicationState? _instance = null;
+
+        public static void Initialize()
+        {
+            if (_instance != null)
+            {
+                throw new Exception("Initialize at the program start");
+            }
+            _instance = new GlobalApplicationState();
+        }
+        public static void Finalize()
+        {
+            if (_instance == null)
+            {
+                throw new Exception("Finalizing unitialized GlobalApplicationState");
+            }
+        }
+
+        public static GlobalApplicationState Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    throw new Exception("GlobalApplicationState not initialized");
+                }
+                return _instance;
+            }
+        }
+
+        public void NotifyApplicationStateChanged(object sender)
+        {
+            if (ApplicationStateChanged != null)
+            {
+                ApplicationStateChanged(sender, null);
+            }
+        }
+
+        public void NotifyApplicationStateChanged(object sender, GlobalApplicationStateChangedArgs args)
+        {
+            if (ApplicationStateChanged != null)
+            {
+                ApplicationStateChanged(sender, args);
+            }
+        }
+
+        public void NotifyApplicationStateChanged(object sender, GlobalApplicationStateAction action)
+        {
+            if (ApplicationStateChanged != null)
+            {
+                GlobalApplicationStateChangedArgs args = new GlobalApplicationStateChangedArgs();
+                args.action = action;
+                ApplicationStateChanged(sender, args);
+            }
+        }
+
+        public delegate void ApplicationStateChangedDelegate(object sender, GlobalApplicationStateChangedArgs? args);
+        public ApplicationStateChangedDelegate? ApplicationStateChanged { get; set; }
+
 
     }
+
+
 
     public class BenchmarkResults
     { 

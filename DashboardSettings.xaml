@@ -16,13 +16,13 @@
                 <StackPanel>
                     <Label Content="General settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"/>
                     <Label Grid.Row="0" Grid.Column="0" Content="Node name:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Margin="0,10,0,0"/>
-                    <TextBox Grid.Row="0" Grid.Column="1"  Name="txNodeName" HorizontalAlignment="Left" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Center" Width="150" Margin="10,5"/>
+                    <TextBox Grid.Row="0" Grid.Column="1"  Name="txNodeName" HorizontalAlignment="Left" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Center" Width="150" Margin="10,5" TextChanged="settingsTextChanged"/>
 
                     <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Name="txWalletAddress" HorizontalAlignment="Left" Text="Wallet address" Width="276" Margin="10,5" Height="20"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Name="txWalletAddress" HorizontalAlignment="Left" Text="Wallet address" Width="276" Margin="10,5" Height="20" TextChanged="settingsTextChanged"/>
 
                     <Label Grid.Row="2" Grid.Column="0" Content="Subnet:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
-                    <TextBox Grid.Row="2" Grid.Column="1"  Name="txSubnet" HorizontalAlignment="Left" Text="Subnet" VerticalAlignment="Center" Width="150" Margin="10,5"/>
+                    <TextBox Grid.Row="2" Grid.Column="1"  Name="txSubnet" HorizontalAlignment="Left" Text="Subnet" VerticalAlignment="Center" Width="150" Margin="10,5" TextChanged="settingsTextChanged"/>
                 </StackPanel>
             </Canvas>
         </Border>
@@ -38,7 +38,7 @@
                 <CheckBox Content="Enable VM unit" Foreground="White" Margin="10,50"></CheckBox>
             </Canvas>
         </Border>
-        <Button Background="#DDDDDD" Width="200" Height="44" Content="Apply settings" Canvas.Top="362" Canvas.Left="20" Click="btnApplySettings">
+        <Button Name="btnApplySettings" Background="#DDDDDD" Width="200" Height="44" Content="Apply settings" Canvas.Top="362" Canvas.Left="20" Click="btnApplySettings_Click">
 
         </Button>
 

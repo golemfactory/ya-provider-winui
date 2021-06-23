@@ -22,6 +22,8 @@ namespace GolemUI
 
         public App()
         {
+            GlobalApplicationState.Initialize();
+
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
@@ -84,6 +86,7 @@ namespace GolemUI
         private void OnExit(object sender, ExitEventArgs e)
         {
             _serviceProvider.Dispose();
+            GlobalApplicationState.Finalize();
         }
 
 

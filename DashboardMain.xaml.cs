@@ -1,4 +1,7 @@
-﻿using System;
+﻿using GolemUI.Interfaces;
+using GolemUI.Services;
+using GolemUI.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,14 +23,45 @@ namespace GolemUI
     /// </summary>
     public partial class DashboardMain : UserControl
     {
+        private readonly ProcessController _processController = new ProcessController();
         public DashboardMain()
         {
             InitializeComponent();
+
+            //_processController = processController;
+
+            //this.Title = GlobalSettings.AppTitle;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private async void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStarting);
+
+            lblRunning.Content = "Starting";
+            lblRunning.Background = Brushes.Yellow;
+            btnStart.IsEnabled = false;
+
+
+            var settings = SettingsLoader.LoadSettingsFromFileOrDefault();
+
+            ((ProcessController)_processController).Subnet = settings.Subnet;
+
+            await _processController.Init();
+
+            lblRunning.Content = "Started";
+            lblRunning.Background = Brushes.Green;
+            btnStart.IsEnabled = false;
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            _processController.Stop();
+            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStopped);
         }
     }
 }

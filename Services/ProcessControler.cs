@@ -154,14 +154,29 @@ namespace GolemUI.Services
             //otherwise there will be lot of mess to handle (if user changes something or old configuration exist)
             SettingsLoader.ClearProviderPresetsFile();
 
-            var usageCoef = new Dictionary<string, decimal>();
-            var preset = new Preset("gminer", "gminer", usageCoef);
-            preset.UsageCoeffs.Add("golem.usage.mining.hash", 0);
-            preset.UsageCoeffs.Add("golem.usage.duration_sec", 0);
-            _provider.AddPreset(preset);
-            _provider.ActivatePreset(preset.Name);
+            {
+                var usageCoef = new Dictionary<string, decimal>();
+                var preset = new Preset("gminer", "gminer", usageCoef);
+                preset.UsageCoeffs.Add("share", 0);
+                preset.UsageCoeffs.Add("duration", 0);
+                _provider.AddPreset(preset);
+                _provider.ActivatePreset(preset.Name);
+            }
+
+            {
+                var usageCoef = new Dictionary<string, decimal>();
+                var preset = new Preset("wasmtime", "wasmtime", usageCoef);
+                preset.UsageCoeffs.Add("cpu", 0);
+                preset.UsageCoeffs.Add("duration", 0);
+                _provider.AddPreset(preset);
+                _provider.ActivatePreset(preset.Name);
+            }
+
 
             _provider.DeactivatePreset("default");
+            _provider.ActivatePreset("gminer");
+            _provider.ActivatePreset("wasmtime");
+
 
             _providerDaemon = _provider.Run(_appkey, network, subnet);
             _providerDaemon.Exited += OnProviderExit;
