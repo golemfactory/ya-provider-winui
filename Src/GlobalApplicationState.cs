@@ -12,7 +12,9 @@ namespace GolemUI
         emptyAction,
         yagnaAppStarting,
         yagnaAppStarted,
-        yagnaAppStopped
+        yagnaAppStopped,
+        benchmarkStarted,
+        benchmarkStopped
     }
 
     public class GlobalApplicationStateEventArgs

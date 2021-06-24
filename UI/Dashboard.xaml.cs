@@ -135,6 +135,13 @@ namespace GolemUI
                     case GlobalApplicationStateAction.yagnaAppStarted:
                         ResumeNavigation();
                         break;
+                    case GlobalApplicationStateAction.benchmarkStarted:
+                        BlockNavigation();
+                        break;
+                    case GlobalApplicationStateAction.benchmarkStopped:
+                        ResumeNavigation();
+                        break;
+
                 }
             }
         }

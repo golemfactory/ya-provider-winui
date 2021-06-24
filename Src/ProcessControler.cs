@@ -25,7 +25,7 @@ namespace GolemUI
         private string? _appkey;
         public string? Subnet { get; set; }
 
-        private Process? _main;
+        private Process? _yagnaDaemon;
         private Process? _providerDaemon;
 
         public LogLineHandler? LineHandler { get; set; }
@@ -45,11 +45,11 @@ namespace GolemUI
                 _providerDaemon = null;
             }
 
-            if (_main != null)
+            if (_yagnaDaemon != null)
             {
-                _main.Kill();
-                _main.Dispose();
-                _main = null;
+                _yagnaDaemon.Kill();
+                _yagnaDaemon.Dispose();
+                _yagnaDaemon = null;
             }
         }
 
@@ -57,7 +57,7 @@ namespace GolemUI
         {
             get
             {
-                return !((_providerDaemon?.HasExited ?? true) || (_main?.HasExited ?? true));
+                return !((_providerDaemon?.HasExited ?? true) || (_yagnaDaemon?.HasExited ?? true));
             }
         }
 
@@ -72,6 +72,7 @@ namespace GolemUI
 
         public async Task<bool> Init()
         {
+            /*
             bool runYagna = false;
             try
             {
@@ -81,14 +82,16 @@ namespace GolemUI
             catch (HttpRequestException)
             {
                 runYagna = true;
-            }
+            }*/
 
             var t = new Thread(() =>
             {
-                if (runYagna)
-                {
-                    _main = _yagna.Run();
-                }
+                StartupYagna();
+
+                
+                bool runYagna = false;
+
+
                 var _key = _yagna.AppKey.List().Where(key => key.Name == PROVIDER_APP_NAME).FirstOrDefault();
 
                 if (_key != null)
@@ -104,14 +107,24 @@ namespace GolemUI
                 {
                     throw new Exception("Subnet cannot be null"); 
                 }
-                StartupProvider(Network.Rinkeby, Subnet);
+
+                var txt = _client.GetStringAsync($"{_baseUrl}/me").Result;
+                KeyInfo? key = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
+                if (key != null && _key != null && key.Id == _key.Id)
+                {
+                    StartupProvider(Network.Rinkeby, Subnet);
+                }
+                else
+                {
+                    throw new Exception("Failed to get key");
+                }
             });
 
             t.Start();
 
             while (t.IsAlive)
             {
-                await Task.Delay(500);
+                await Task.Delay(200);
             }
 
 
@@ -123,7 +136,19 @@ namespace GolemUI
             var txt = await _client.GetStringAsync($"{_baseUrl}/me");
             return JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? throw new HttpRequestException("null response on /me");
         }
+        private void StartupYagna()
+        {
+            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
 
+            _yagnaDaemon = _yagna.Run();
+            if (!ls.StartYagnaCommandLine)
+            {
+                _yagnaDaemon.ErrorDataReceived += OnYagnaErrorDataRecv;
+                _yagnaDaemon.OutputDataReceived += OnYagnaOutputDataRecv;
+                _yagnaDaemon.BeginErrorReadLine();
+                _yagnaDaemon.BeginOutputReadLine();
+            }
+        }
 
         private void StartupProvider(Network network, string subnet)
         {
@@ -182,8 +207,8 @@ namespace GolemUI
             _providerDaemon = _provider.Run(_appkey, network, subnet);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
+            _providerDaemon.OutputDataReceived += OnProviderOutputDataRecv;
             _providerDaemon.Start();
-
 
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
             if (!ls.StartProviderCommandLine)
@@ -199,6 +224,28 @@ namespace GolemUI
             if (LineHandler != null && e.Data != null)
             {
                 LineHandler("provider", e.Data);
+            }
+        }
+        void OnProviderOutputDataRecv(object sender, DataReceivedEventArgs e)
+        {
+            if (LineHandler != null && e.Data != null)
+            {
+                LineHandler("provider", e.Data);
+            }
+        }
+
+        void OnYagnaErrorDataRecv(object sender, DataReceivedEventArgs e)
+        {
+            if (LineHandler != null && e.Data != null)
+            {
+                LineHandler("yagna", e.Data);
+            }
+        }
+        void OnYagnaOutputDataRecv(object sender, DataReceivedEventArgs e)
+        {
+            if (LineHandler != null && e.Data != null)
+            {
+                LineHandler("yagna", e.Data);
             }
         }
 

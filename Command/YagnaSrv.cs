@@ -202,11 +202,10 @@ namespace GolemUI.Command
             };
             //startInfo.EnvironmentVariables.Add();
 
-            if (ls.StartProviderCommandLine)
+            if (ls.StartYagnaCommandLine)
             {
                 startInfo.RedirectStandardOutput = false;
                 startInfo.RedirectStandardError = false;
-                startInfo.CreateNoWindow = true;
             }
             else
             {

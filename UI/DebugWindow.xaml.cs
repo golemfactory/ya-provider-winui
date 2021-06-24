@@ -23,23 +23,69 @@ namespace GolemUI
             InitializeComponent();
 #if DEBUG
             GlobalApplicationState.Instance.ProcessController.LineHandler += LogLine;
+            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
             NameGen g = new NameGen();
             for (int i = 0; i < 20; i++)
             {
-                txtR.Text += g.GenerateElvenName() + "-" + g.GenerateDwarvenName() + "\n";
+                txtProvider.Text += g.GenerateElvenName() + "-" + g.GenerateDwarvenName() + "\n";
             }
 #endif
         }
+
+        void TrimControlTextSize(TextBlock tb)
+        {
+            int maxLogSize = 100000;
+            int trimLogSize = (int)(maxLogSize * 0.1);
+            if (tb.Text.Length > maxLogSize)
+            {
+                tb.Text = tb.Text.Substring(trimLogSize);
+            }
+        }
+
         void LogLine(string logger, string line)
         {
-#if DEBUG
-            this.Dispatcher.Invoke(() =>
+            if (logger == "provider")
             {
-                txtR.Text += $"{line}\n";
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    TrimControlTextSize(txtProvider);
+                    txtProvider.Text += $"{line}\n";
+                    svProvider.ScrollToBottom();
+                });
+            }
+            if (logger == "yagna")
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    TrimControlTextSize(txtYagna);
+                    txtYagna.Text += $"{line}\n";
+                    svYagna.ScrollToBottom();
+                });
+            }
 
-#endif
         }
+        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
+        {
+            if (args != null)
+            {
+                switch (args.action)
+                {
+                    case GlobalApplicationStateAction.yagnaAppStarting:
+                        txtYagna.Text = "";
+                        txtProvider.Text = "";
+                        break;
+                    case GlobalApplicationStateAction.yagnaAppStopped:
+                        break;
+                    case GlobalApplicationStateAction.yagnaAppStarted:
+                        break;
+                    case GlobalApplicationStateAction.benchmarkStarted:
+                        break;
+                    case GlobalApplicationStateAction.benchmarkStopped:
+                        break;
+                }
+            }
+        }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

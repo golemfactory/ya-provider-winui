@@ -34,7 +34,6 @@ namespace GolemUI
                 UpdateBenchmarkStatus(benchmarkSettings.liveStatus);
             }
 
-
             //txNodeName.Text = localSettings.NodeName;
             //txWalletAddress.Text = localSettings.EthAddress;
             //txSubnet.Text = localSettings.Subnet;
@@ -64,13 +63,9 @@ namespace GolemUI
         bool _requestExit = false;
         LocalSettings? localSettings = null;
 
-
-
         private void ResetGpuList()
         {
            // grdGpuList.Children.Clear();
-
-
         }
 
 
@@ -130,12 +125,15 @@ namespace GolemUI
             this.btnStartBenchmark.IsEnabled = true;
             this.btnStopBenchmark.IsEnabled = false;
 
+            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.benchmarkStopped);
         }
 
         private async void btnStartBenchmark_Click(object sender, RoutedEventArgs e)
         {
             //BenchmarkDialog dB = new BenchmarkDialog();
             //dB.ShowDialog();
+            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.benchmarkStarted);
+
             _requestExit = false;
             btnStartBenchmark.IsEnabled = false;
             btnStopBenchmark.IsEnabled = true;
@@ -168,12 +166,12 @@ namespace GolemUI
                 {
                     cc.Stop();
                     gpuMiningPanel.FinishBenchmark(true);
-                    BenchmarkFinished();
                     {
                         BenchmarkResults res = new BenchmarkResults();
                         res.liveStatus = s;
                         SettingsLoader.SaveBenchmarkToFile(res);
                     }
+                    BenchmarkFinished();
 
                     return;
                 }

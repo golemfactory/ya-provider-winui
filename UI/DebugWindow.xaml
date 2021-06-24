@@ -11,9 +11,25 @@
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                 <Button Content="OpenCommandLine" Click="Button_Click"></Button>
             </StackPanel>
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <TextBlock x:Name="txtR"/>
-            </ScrollViewer>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Yagna output:" Grid.Row="0" Grid.Column="0"></Label>
+                    <Label Content="Provider output:" Grid.Row="0" Grid.Column="1"></Label>
+                    <ScrollViewer Name="svYagna" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="1">
+                        <TextBlock x:Name="txtYagna"/>
+                    </ScrollViewer>
+                    <ScrollViewer Name="svProvider" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="1">
+                        <TextBlock x:Name="txtProvider"/>
+                    </ScrollViewer>
+
+            </Grid>
 
         </DockPanel>
         
