@@ -38,6 +38,7 @@ namespace GolemUI.Settings
         public string? NodeName { get; set; }
         public string? EthAddress { get; set; }
         public string? Subnet { get; set; }
+        public string? MinerSelectedGPUIndices { get; set; }
         public bool EnableDebugLogs { get; set; }
         public bool StartYagnaCommandLine { get; set; }
         public bool StartProviderCommandLine { get; set; }

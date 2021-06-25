@@ -12,7 +12,10 @@
         </Border>
         <local:GpuMiningPanelUI x:Name="gpuMiningPanel" Canvas.Left="20" Canvas.Top="145" Width="600"/>
 
-        <Button x:Name="btnStartBenchmark" Content="Start benchmark" Click="btnStartBenchmark_Click" Canvas.Left="20" Canvas.Top="91" Height="42" Width="170"/>
-        <Button x:Name="btnStopBenchmark" Content="Stop benchmark" Click="btnStopBenchmark_Click" Canvas.Left="230" Canvas.Top="91" Height="42" Width="170"/>
+        <Button x:Name="btnStartBenchmark" Content="Start benchmark" Click="btnStartBenchmark_Click" Canvas.Left="20" Canvas.Top="91" Height="42" Width="146"/>
+        <Button x:Name="btnStopBenchmark" Content="Stop benchmark" Click="btnStopBenchmark_Click" Canvas.Left="190" Canvas.Top="91" Height="42" Width="170"/>
+        <TextBlock TextWrapping="WrapWithOverflow" Canvas.Left="428" Canvas.Top="37" Width="350">Advanced(select which cards you want to run benchmark and mining on). For example 0,2,3 means run on first, third and fourth card. Run benchmark to confirm that your selection is valid. Leave the field empty to run on all cards.</TextBlock>
+        <TextBox x:Name="txRunOnSelectedCards" Text="" Width="150" Canvas.Left="428" Canvas.Top="106"/>
+        
     </Canvas>
 </UserControl>

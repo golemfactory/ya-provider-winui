@@ -96,7 +96,7 @@ namespace GolemUI
 
         private void btnApplySettings_Click(object sender, RoutedEventArgs e)
         {
-            LocalSettings settings = new LocalSettings();
+            LocalSettings settings = SettingsLoader.LoadSettingsFromFileOrDefault();
 
             settings.NodeName = txNodeName.Text;
             settings.Subnet = txSubnet.Text;
