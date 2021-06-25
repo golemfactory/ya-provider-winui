@@ -180,13 +180,13 @@ namespace GolemUI.Settings
             return settings;
         }
 
-        public static void SaveBenchmarkToFile(BenchmarkResults localSettings)
+        public static void SaveBenchmarkToFile(BenchmarkResults benchmarkSettings)
         {
-            localSettings.BenchmarkResultVersion = GlobalSettings.CurrentBenchmarkResultVersion;
+            benchmarkSettings.BenchmarkResultVersion = GlobalSettings.CurrentBenchmarkResultVersion;
 
             string fp = GetLocalBenchmarkPath();
 
-            string s = JsonConvert.SerializeObject(localSettings, Formatting.Indented);
+            string s = JsonConvert.SerializeObject(benchmarkSettings, Formatting.Indented);
 
             File.WriteAllText(fp, s);
         }

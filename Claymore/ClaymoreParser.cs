@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,10 +16,16 @@ namespace GolemUI.Claymore
         public bool GPUNotFound { get; set; }
         public float BenchmarkSpeed { get; set; }
         public bool IsDagCreating { get; set; }
+        public bool IsEnabledByUser { get; set; }
         public float DagProgress { get; set; }
-
         public string? GPUVendor { get; set; }
         public string? GPUDetails { get; set; }
+        public string? GPUError { get; set; }
+
+        public ClaymoreGpuStatus()
+        {
+            IsEnabledByUser = true;
+        }
 
         public object Clone()
         {
@@ -32,6 +39,8 @@ namespace GolemUI.Claymore
             s.DagProgress = this.DagProgress;
             s.GPUVendor = this.GPUVendor;
             s.GPUDetails = this.GPUDetails;
+            s.IsEnabledByUser = this.IsEnabledByUser;
+            s.GPUError = this.GPUError;
             return s;
         }
 
@@ -73,6 +82,20 @@ namespace GolemUI.Claymore
         public int TotalClaymoreReportsBenchmark { get; set; }
 
         public bool IsBenchmark;
+
+        public List<int> GetEnabledGpus()
+        {
+            List<int> result = new List<int>();
+            foreach (KeyValuePair<int, ClaymoreGpuStatus> entry in this._gpus)
+            {
+                ClaymoreGpuStatus st = entry.Value;
+                if (st.BenchmarkSpeed > 0.1 && st.IsDagFinished() && st.IsEnabledByUser)
+                {
+                    result.Add(st.gpuNo);
+                }
+            }
+            return result;
+        }
 
         public ClaymoreLiveStatus(bool isBenchmark)
         {
@@ -186,6 +209,9 @@ namespace GolemUI.Claymore
             {
                 // Your code...
 
+#if DEBUG
+                Debug.WriteLine(line);
+#endif
                 string lineText = line;
                 //output contains spelling error avaiable instead of available, checking for boths:
                 if (lineText == null)
@@ -207,6 +233,11 @@ namespace GolemUI.Claymore
                     }
                 }
 
+                if (lineText == "Fatal error detected")
+                {
+                    _liveStatus.ErrorMsg = lineText;
+                }
+
                 if (gpuNo != -1)
                 {
                     if (!_liveStatus.GPUs.ContainsKey(gpuNo))
@@ -215,7 +246,6 @@ namespace GolemUI.Claymore
                     }
                     currentStatus = _liveStatus.GPUs[gpuNo];
 
-                    
 
                     if (currentStatus.GPUVendor == null)
                     {
@@ -248,6 +278,12 @@ namespace GolemUI.Claymore
                             currentStatus.GPUDetails = lineText.Split(":")[1].Trim();
                         }
                     }
+
+                    if (lineText.Contains(": clSetKernelArg"))
+                    {
+                        currentStatus.GPUError = lineText;
+                    }
+
                     if (lineText.Contains(": Starting up", STR_COMP_TYPE))
                     {
                         _liveStatus.GPUInfosParsed = true;

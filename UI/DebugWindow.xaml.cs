@@ -1,6 +1,8 @@
 ﻿using GolemUI.Interfaces;
+using GolemUI.Settings;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -90,6 +92,11 @@ namespace GolemUI
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("CMD.exe");
+        }
+
+        private void btnOpenSettingsData_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("explorer.exe", SettingsLoader.GetLocalPath());
         }
     }
 

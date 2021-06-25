@@ -57,6 +57,8 @@ namespace GolemUI
                     gpuNo += 1;
                 }
             }
+
+            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
         }
 
         Dictionary<int, GpuEntryUI> _entries = new Dictionary<int, GpuEntryUI>();
@@ -68,6 +70,35 @@ namespace GolemUI
            // grdGpuList.Children.Clear();
         }
 
+        private void ChangeGpuEnabled()
+        {
+            var benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+
+            if (benchmarkSettings != null && benchmarkSettings.liveStatus != null)
+            {
+                bool changed = false;
+                foreach (var gpu in benchmarkSettings.liveStatus.GPUs)
+                {
+                    int gpuNo = gpu.Key;
+                    GpuEntryUI? currentEntry = null;
+                    if (_entries.ContainsKey(gpuNo))
+                    {
+                        currentEntry = _entries[gpuNo];
+                        if (currentEntry != null)
+                        {
+                            gpu.Value.IsEnabledByUser = currentEntry.cbEnableMining.IsChecked ?? false;
+                            changed = true;
+                        }
+                    }
+                }
+                if (changed)
+                {
+                    SettingsLoader.SaveBenchmarkToFile(benchmarkSettings);
+                    UpdateBenchmarkStatus(benchmarkSettings.liveStatus);
+                }
+            }
+
+        }
 
         private void UpdateBenchmarkStatus(ClaymoreLiveStatus s)
         {
@@ -100,7 +131,11 @@ namespace GolemUI
                 }
                 currentEntry?.SetDagProgress(gpuInfo.DagProgress);
                 currentEntry?.SetMiningSpeed(gpuInfo.BenchmarkSpeed);
-
+                currentEntry?.SetEnableByUser(gpuInfo.IsEnabledByUser);
+                if (gpuInfo.GPUError != null)
+                {
+                    currentEntry?.SetFinished(gpuInfo.GPUError);
+                }
 
                 totalMhs += gpuInfo.BenchmarkSpeed;
                 /*
@@ -120,6 +155,8 @@ namespace GolemUI
             gpuMiningPanel.SetBenchmarkProgress(s.GetEstimatedBenchmarkProgress());
         }
 
+
+
         private void BenchmarkFinished()
         {
             this.btnStartBenchmark.IsEnabled = true;
@@ -133,6 +170,9 @@ namespace GolemUI
             //BenchmarkDialog dB = new BenchmarkDialog();
             //dB.ShowDialog();
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.benchmarkStarted);
+
+            _entries.Clear();
+            gpuMiningPanel.ClearGpusEntries();
 
             _requestExit = false;
             btnStartBenchmark.IsEnabled = false;
@@ -192,9 +232,17 @@ namespace GolemUI
             _requestExit = true;
         }
 
-        public void UpdateApplicationState(object sender, RoutedEventArgs e)
+        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {
-
+            if (args != null)
+            {
+                switch (args.action)
+                {
+                    case GlobalApplicationStateAction.benchmarkSettingsChanged:
+                        ChangeGpuEnabled();
+                        break;
+                }
+            }
         }
     }
 }

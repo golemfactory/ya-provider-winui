@@ -9,7 +9,11 @@
     <Grid>
         <StackPanel Orientation="Vertical">
             <Label Name="lblInfo" Content="lblName" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <CheckBox Name="cbEnableMining" Content="Enable mining" IsChecked="True"></CheckBox>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Name="cbEnableMining" Content="Enable mining" IsChecked="True" Checked="cbEnableMining_Changed" Unchecked="cbEnableMining_Changed"></CheckBox>
+                <Label Name="cbError"></Label>
+
+            </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Name="lblProgress" Width="100" Content="lblProgress" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Label Name="lblPower" Content="lblPower" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top"/>

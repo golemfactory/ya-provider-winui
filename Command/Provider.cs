@@ -201,10 +201,8 @@ namespace GolemUI.Command
             this.ExecToText(cmd.ToString());
         }
 
-        public Process Run(string appkey, Network network, string subnet)
+        public Process Run(string appkey, Network network, string subnet, LocalSettings ls, bool enableClaymoreMining, BenchmarkResults br)
         {
-            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
-
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaProviderPath,
@@ -228,6 +226,18 @@ namespace GolemUI.Command
                 startInfo.EnvironmentVariables["RUST_LOG"] = "debug";
             }
 
+            if (enableClaymoreMining && br.liveStatus != null)
+            {
+                List<int> claymoreGpus = br.liveStatus.GetEnabledGpus();
+
+                string diSwitch = "di=";
+                foreach (var claymoreGpuNo in claymoreGpus)
+                {
+                    diSwitch += $"{claymoreGpuNo}";
+                }
+
+                startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = "-altnum 2 " + diSwitch;
+            }
             startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;
             //startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
             startInfo.EnvironmentVariables["YAGNA_APPKEY"] = appkey;

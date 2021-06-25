@@ -166,7 +166,7 @@ namespace GolemUI
             /*var subnet = config?.Subnet;
             if (subnet == null)
             {
-                throw new Exception("Failed to retriece Subnet account");
+                throw new Exception("Failed to retrieve Subnet account");
             }*/
 
             _yagna?.Payment.Init(network, "erc20", paymentAccount);
@@ -182,6 +182,12 @@ namespace GolemUI
             //otherwise there will be lot of mess to handle (if user changes something or old configuration exist)
             SettingsLoader.ClearProviderPresetsFile();
 
+            BenchmarkResults br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
+
+            bool enableClaymoreMining = br.liveStatus != null && /*br.liveStatus.BenchmarkFinished && */br.liveStatus.GetEnabledGpus().Count > 0;
+
+            if (enableClaymoreMining)
             {
                 var usageCoef = new Dictionary<string, decimal>();
                 var preset = new Preset("gminer", "gminer", usageCoef);
@@ -204,16 +210,16 @@ namespace GolemUI
             _provider.ActivatePreset("gminer");
             _provider.ActivatePreset("wasmtime");
 
-            _providerDaemon = _provider.Run(_appkey, network, subnet);
+            _providerDaemon = _provider.Run(_appkey, network, subnet, ls, enableClaymoreMining, br);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
             _providerDaemon.OutputDataReceived += OnProviderOutputDataRecv;
             _providerDaemon.Start();
 
-            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
             if (!ls.StartProviderCommandLine)
             {
                 _providerDaemon.BeginErrorReadLine();
+                _providerDaemon.BeginOutputReadLine();
             }
         }
 

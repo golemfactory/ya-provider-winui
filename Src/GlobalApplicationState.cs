@@ -14,7 +14,8 @@ namespace GolemUI
         yagnaAppStarted,
         yagnaAppStopped,
         benchmarkStarted,
-        benchmarkStopped
+        benchmarkStopped,
+        benchmarkSettingsChanged,
     }
 
     public class GlobalApplicationStateEventArgs
