@@ -329,6 +329,11 @@ namespace GolemUI.Claymore
                         currentStatus.IsDagCreating = false;
                         currentStatus.DagProgress = 1.0f;
                     }
+                    if (lineText.Contains("out of memory", STR_COMP_TYPE))
+                    {
+                        currentStatus.GPUError = lineText;
+                    }
+
                 }
                 if (lineText.StartsWith("Eth speed", STR_COMP_TYPE))
                 {
