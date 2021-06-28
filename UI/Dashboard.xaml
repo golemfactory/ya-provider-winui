@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GolemUI"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
         Title="Dashboard" Height="524" Width="974" MinHeight="524" MinWidth="974" Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
@@ -21,12 +22,20 @@
         <Border BorderThickness="0" BorderBrush="Black" Background="#E6EBFD" Grid.Column="1" Grid.Row="0">
         </Border>
 
-        <Border BorderThickness="0" BorderBrush="Black" Background="#67A0C6" Grid.Column="0" Grid.Row="1">
+
+
+        <Border BorderThickness="0" BorderBrush="Black" Background="#110D39" Grid.Column="0" Grid.Row="1">
             <StackPanel>
-                <Button x:Name="btnPage1" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#dddddd" Margin="0,40,0,0" Click="Page1Click"></Button>
-                <Button x:Name="btnPage2" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#dddddd" Margin="0,40,0,0" Click="Page2Click"></Button>
-                <Button x:Name="btnPage3" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#dddddd" Margin="0,40,0,0" Click="Page3Click"></Button>
-                <Button x:Name="btnPage4" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#dddddd" Margin="0,40,0,0" Click="Page4Click"></Button>
+
+                <Button x:Name="btnPage1" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page1Click">
+                    <svgc:SvgViewbox Source="Media/nav_dashboard.svg"/>
+                </Button>
+                <Button x:Name="btnPage2" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page2Click">
+                    <svgc:SvgViewbox Source="Media/nav_wallet.svg"/>
+                </Button>
+                <Button x:Name="btnPage3" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page3Click">
+                    <svgc:SvgViewbox Source="Media/nav_settings.svg"/>
+                </Button>
             </StackPanel>
         </Border>
         

@@ -56,20 +56,8 @@ namespace GolemUI
 
         }
 
-        private void btnStop_Click(object sender, RoutedEventArgs e)
-        {
-            _processController.Stop();
-        }
 
-        private async void btnId_Click(object sender, RoutedEventArgs e)
-        {
-            await _processController.Init();
-
-
-            await _processController.Me();
-
-
-        }
+ 
 
 
 

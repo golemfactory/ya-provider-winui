@@ -61,7 +61,19 @@ namespace GolemUI
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            GlobalApplicationState.Instance.ProcessController.Stop();
+            bool providerEndedSuccessfully = GlobalApplicationState.Instance.ProcessController.StopProvider();
+            if (!providerEndedSuccessfully)
+            {
+                MessageBox.Show("Provider process failed to shutdown gracefully, killing...");
+                GlobalApplicationState.Instance.ProcessController.KillProvider();
+            }
+            bool yagnaEndedSuccessfully = GlobalApplicationState.Instance.ProcessController.StopYagna();
+            if (!yagnaEndedSuccessfully)
+            {
+                MessageBox.Show("Yagna process failed to shutdown gracefully, killing...");
+                GlobalApplicationState.Instance.ProcessController.KillYagna();
+            }
+
 
             lblRunning.Content = "Stopped";
             lblRunning.Background = Brushes.Gray;

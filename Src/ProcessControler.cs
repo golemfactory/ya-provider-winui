@@ -11,11 +11,57 @@ using System.Diagnostics;
 using GolemUI.Interfaces;
 using GolemUI.Command;
 using GolemUI.Settings;
+using System.Runtime.InteropServices;
+
 
 namespace GolemUI
 {
+
+
+
     public class ProcessController : IDisposable, IProcessControler, IAppKeyProvider
     {
+
+
+        const int CTRL_C_EVENT = 0;
+        [DllImport("kernel32.dll")]
+        static extern bool GenerateConsoleCtrlEvent(uint dwCtrlEvent, uint dwProcessGroupId);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool AttachConsole(uint dwProcessId);
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        static extern bool FreeConsole();
+        [DllImport("kernel32.dll")]
+        static extern bool SetConsoleCtrlHandler(ConsoleCtrlDelegate? HandlerRoutine, bool Add);
+        // Delegate type to be used as the Handler Routine for SCCH
+        delegate Boolean ConsoleCtrlDelegate(uint CtrlType);
+
+
+
+        public bool SendCtrlCToProcess(Process p, int timeoutMillis)
+        {
+            bool succesfullyExited = false;
+            if (AttachConsole((uint)p.Id))
+            {
+                SetConsoleCtrlHandler(null, true);
+
+                try
+                {
+                    if (!GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0))
+                    {
+                        return false;
+                    }
+                    succesfullyExited = p.WaitForExit(timeoutMillis);
+                }
+                finally
+                {
+                    SetConsoleCtrlHandler(null, false);
+                    FreeConsole();
+                }
+            }
+            return succesfullyExited;
+        }
+
+
         const string PROVIDER_APP_NAME = "provider";
 
         private HttpClient _client = new HttpClient();
@@ -32,11 +78,22 @@ namespace GolemUI
 
         public void Dispose()
         {
-            Stop();
+            StopProvider();
+            StopYagna();
             _client.Dispose();
         }
+        public void KillYagna()
+        {
+            if (_yagnaDaemon != null)
+            {
+                _yagnaDaemon.Kill();
+                _yagnaDaemon.Dispose();
+                _yagnaDaemon = null;
+            }
 
-        public void Stop()
+        }
+
+        public void KillProvider()
         {
             if (_providerDaemon != null)
             {
@@ -44,13 +101,42 @@ namespace GolemUI
                 _providerDaemon.Dispose();
                 _providerDaemon = null;
             }
+        }
 
+        public bool StopProvider()
+        {
+            const int PROVIDER_STOPPING_TIMEOUT = 2500;
+            if (_providerDaemon != null)
+            {
+                bool succesfullyExited = SendCtrlCToProcess(_providerDaemon, PROVIDER_STOPPING_TIMEOUT);
+                if (succesfullyExited)
+                {
+                    _providerDaemon = null;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool StopYagna()
+        {
+            const int YAGNA_STOPPING_TIMOUT = 2500; 
             if (_yagnaDaemon != null)
             {
-                _yagnaDaemon.Kill();
-                _yagnaDaemon.Dispose();
-                _yagnaDaemon = null;
+                bool succesfullyExited = SendCtrlCToProcess(_yagnaDaemon, YAGNA_STOPPING_TIMOUT);
+                if (succesfullyExited)
+                {
+                    _yagnaDaemon = null;
+                }
+                else
+                {
+                    return false;
+                }
             }
+            return true;
         }
 
         public bool IsRunning

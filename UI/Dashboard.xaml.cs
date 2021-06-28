@@ -110,14 +110,14 @@ namespace GolemUI
             btnPage1.IsEnabled = false;
             btnPage2.IsEnabled = false;
             btnPage3.IsEnabled = false;
-            btnPage4.IsEnabled = false;
+            //btnPage4.IsEnabled = false;
         }
         public void ResumeNavigation()
         {
             btnPage1.IsEnabled = true;
             btnPage2.IsEnabled = true;
             btnPage3.IsEnabled = true;
-            btnPage4.IsEnabled = true;
+            //btnPage4.IsEnabled = true;
         }
 
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
@@ -168,7 +168,9 @@ namespace GolemUI
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             DashboardBenchmark.RequestBenchmarkEnd();
-            GlobalApplicationState.Instance.ProcessController.Stop();
+            GlobalApplicationState.Instance.ProcessController.StopProvider();
+            GlobalApplicationState.Instance.ProcessController.StopYagna();
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
