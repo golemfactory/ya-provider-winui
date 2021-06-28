@@ -41,8 +41,8 @@ namespace GolemUI
         {
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStarting);
 
-            lblRunning.Content = "Starting";
-            lblRunning.Background = Brushes.Yellow;
+            lblStatus.Content = "Starting";
+            //lblStatus.Background = Brushes.Yellow;
             btnStart.IsEnabled = false;
 
             var settings = SettingsLoader.LoadSettingsFromFileOrDefault();
@@ -51,23 +51,23 @@ namespace GolemUI
 
             await GlobalApplicationState.Instance.ProcessController.Init();
 
-            lblRunning.Content = "Started";
-            lblRunning.Background = Brushes.Green;
+            lblStatus.Content = "Started";
+            //lblStatus.Background = Brushes.Green;
             btnStart.IsEnabled = false;
             btnStop.IsEnabled = true;
             
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStarted);
         }
 
-        private void btnStop_Click(object sender, RoutedEventArgs e)
+        private async void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            bool providerEndedSuccessfully = GlobalApplicationState.Instance.ProcessController.StopProvider();
+            bool providerEndedSuccessfully = await GlobalApplicationState.Instance.ProcessController.StopProvider();
             if (!providerEndedSuccessfully)
             {
                 MessageBox.Show("Provider process failed to shutdown gracefully, killing...");
                 GlobalApplicationState.Instance.ProcessController.KillProvider();
             }
-            bool yagnaEndedSuccessfully = GlobalApplicationState.Instance.ProcessController.StopYagna();
+            bool yagnaEndedSuccessfully = await GlobalApplicationState.Instance.ProcessController.StopYagna();
             if (!yagnaEndedSuccessfully)
             {
                 MessageBox.Show("Yagna process failed to shutdown gracefully, killing...");
@@ -75,8 +75,8 @@ namespace GolemUI
             }
 
 
-            lblRunning.Content = "Stopped";
-            lblRunning.Background = Brushes.Gray;
+            lblStatus.Content = "Stopped";
+            //lblStatus.Background = Brushes.Gray;
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStopped);
             btnStart.IsEnabled = true;
             btnStop.IsEnabled = false;

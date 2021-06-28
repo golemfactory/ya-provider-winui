@@ -37,7 +37,7 @@ namespace GolemUI
 
 
 
-        public bool SendCtrlCToProcess(Process p, int timeoutMillis)
+        public async Task<bool> SendCtrlCToProcess(Process p, int timeoutMillis)
         {
             bool succesfullyExited = false;
             if (AttachConsole((uint)p.Id))
@@ -50,7 +50,16 @@ namespace GolemUI
                     {
                         return false;
                     }
-                    succesfullyExited = p.WaitForExit(timeoutMillis);
+
+                    const int CHECK_EVERY_MILLIS = 350;
+                    int tries = timeoutMillis / CHECK_EVERY_MILLIS;
+                    for (int i = 0; i < tries; i++)
+                    {
+                        succesfullyExited = p.HasExited;
+                        if (succesfullyExited)
+                            break;
+                        await Task.Delay(CHECK_EVERY_MILLIS);
+                    }
                 }
                 finally
                 {
@@ -103,12 +112,12 @@ namespace GolemUI
             }
         }
 
-        public bool StopProvider()
+        public async Task<bool> StopProvider()
         {
             const int PROVIDER_STOPPING_TIMEOUT = 2500;
             if (_providerDaemon != null)
             {
-                bool succesfullyExited = SendCtrlCToProcess(_providerDaemon, PROVIDER_STOPPING_TIMEOUT);
+                bool succesfullyExited = await SendCtrlCToProcess(_providerDaemon, PROVIDER_STOPPING_TIMEOUT);
                 if (succesfullyExited)
                 {
                     _providerDaemon = null;
@@ -121,12 +130,12 @@ namespace GolemUI
             return true;
         }
 
-        public bool StopYagna()
+        public async Task<bool> StopYagna()
         {
             const int YAGNA_STOPPING_TIMOUT = 2500; 
             if (_yagnaDaemon != null)
             {
-                bool succesfullyExited = SendCtrlCToProcess(_yagnaDaemon, YAGNA_STOPPING_TIMOUT);
+                bool succesfullyExited = await SendCtrlCToProcess(_yagnaDaemon, YAGNA_STOPPING_TIMOUT);
                 if (succesfullyExited)
                 {
                     _yagnaDaemon = null;

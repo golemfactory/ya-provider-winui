@@ -127,9 +127,9 @@
             <Label Foreground="#FFFFFF" Content="Dashboard" FontFamily="SegoeUI" FontSize="24"></Label>
             <!--<Label Content="Dashboard"></Label>-->
         </Border>
-        <Border Canvas.Left="20" Canvas.Top="119" Background="#ffffff" Width="300" Height="40" >
-            <Label Name="lblRunning" Content="Status: computing task"></Label>
-        </Border>
+        <Label Canvas.Left="20" Canvas.Top="119" Foreground="#FFFFFF" Name="lblStatusDescr" Content="Status: "></Label>
+        <Label Canvas.Left="80" Canvas.Top="119" Foreground="#FFFFFF" FontWeight="Bold" Name="lblStatus" Content=" computing task"></Label>
+
         <Button Name="btnStart" FocusVisualStyle="{StaticResource FocusVisual}" Style="{StaticResource BlueButtonStyle}" Click="btnStart_Click" Canvas.Top="119" Canvas.Right="20" Width="187" Height="40" Canvas.Left="510">Start Mining</Button>
 
         <Button Name="btnStop" Click="btnStop_Click" Style="{StaticResource BlueButtonStyle}" Canvas.Left="702" Canvas.Right="20" Canvas.Top="119" Height="40" Width="78">Stop Mining</Button>
