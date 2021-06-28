@@ -7,13 +7,114 @@
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             FontFamily="SegoeUI">
+             FontFamily="SegoeUI"
+          
+             >
     <UserControl.Resources>
         <Style x:Key="BorderStyleBlueBox" TargetType="{x:Type Border}">
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="BorderBrush" Value="#7D779E"/>
             <Setter Property="Background" Value="#281E60"/>
             <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style TargetType="Button" x:Key="MyButton2">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="#261D5E" />
+            <Setter Property="Foreground" Value="white" />
+            <Setter Property="FontWeight" Value="bold" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" 
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="{StaticResource Button.MouseOver.Background}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="Background" Value="{StaticResource Button.Pressed.Background}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#261D5E"/>
+                    <Setter Property="Foreground" Value="Gray"/>
+                </Trigger>
+                
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#261D5E"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#74708C"/>
+        <SolidColorBrush x:Key="Button.Static.Foreground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="blue"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#74708C"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Foreground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="white"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#74708C"/>
+        <SolidColorBrush x:Key="Button.Pressed.Foreground" Color="black"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#261D5E"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#74708C"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#AAAAAA"/>
+        <Style x:Key="BlueButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{StaticResource Button.Static.Foreground}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Static.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Static.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Static.Foreground}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.MouseOver.Foreground}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Pressed.Foreground}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
     
@@ -26,18 +127,12 @@
             <Label Foreground="#FFFFFF" Content="Dashboard" FontFamily="SegoeUI" FontSize="24"></Label>
             <!--<Label Content="Dashboard"></Label>-->
         </Border>
-        <Border Canvas.Right="20" Canvas.Top="30" Background="#ffffff" Width="207" Height="40" Canvas.Left="573" >
-            <Label Content="Demo provider"></Label>
-        </Border>
         <Border Canvas.Left="20" Canvas.Top="119" Background="#ffffff" Width="300" Height="40" >
             <Label Name="lblRunning" Content="Status: computing task"></Label>
         </Border>
-        <Border Canvas.Right="20" Canvas.Top="119" Background="#ffffff" Width="187" Height="40" Canvas.Left="515" >
-            <Button Name="btnStart" Click="btnStart_Click">Start Mining</Button>
-        </Border>
-        <Border Canvas.Right="20" Canvas.Top="119" Background="#ffffff" Width="78" Height="40" Canvas.Left="702" >
-            <Button Name="btnStop" Click="btnStop_Click" >Stop Mining</Button>
-        </Border>
+        <Button Name="btnStart" FocusVisualStyle="{StaticResource FocusVisual}" Style="{StaticResource BlueButtonStyle}" Click="btnStart_Click" Canvas.Top="119" Canvas.Right="20" Width="187" Height="40" Canvas.Left="510">Start Mining</Button>
+
+        <Button Name="btnStop" Click="btnStop_Click" Style="{StaticResource BlueButtonStyle}" Canvas.Left="702" Canvas.Right="20" Canvas.Top="119" Height="40" Width="78">Stop Mining</Button>
         <StackPanel Canvas.Top="240" Width="auto" Height="auto" Orientation="Horizontal">
             <Border Style="{DynamicResource BorderStyleBlueBox}" Width="260" Height="200" Margin="40,0,10,0">
                 <Canvas>
