@@ -7,8 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Canvas>
-        <Border Canvas.Left="20" Canvas.Top="30" Background="#ffffff" Width="232" Height="40" >
-            <Label Content="Details"></Label>
+        <Border Canvas.Left="20" Canvas.Top="30" Width="232" Height="40" >
+            <Label Foreground="#FFFFFF" Content="Details"></Label>
         </Border>
         <Border Background="#5823D0" Width="218" Height="200" Canvas.Left="20" Canvas.Top="143">
             <Canvas>

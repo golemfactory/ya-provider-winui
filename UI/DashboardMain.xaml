@@ -3,12 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             FontFamily="SegoeUI">
+    <UserControl.Resources>
+        <Style x:Key="BorderStyleBlueBox" TargetType="{x:Type Border}">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="#7D779E"/>
+            <Setter Property="Background" Value="#281E60"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </UserControl.Resources>
+    
     <Canvas>
-        <Border Canvas.Left="20" Canvas.Top="30" Background="#ffffff" Width="232" Height="40" >
-            <Label Content="Dashboard"></Label>
+
+        <Border Canvas.Right="10" Canvas.Top="36" Background="#ffffff" Width="2" Height="40" Canvas.Left="19" >
+        </Border>
+
+        <Border Canvas.Left="20" Canvas.Top="30" Width="232" Height="40" >
+            <Label Foreground="#FFFFFF" Content="Dashboard" FontFamily="SegoeUI" FontSize="24"></Label>
+            <!--<Label Content="Dashboard"></Label>-->
         </Border>
         <Border Canvas.Right="20" Canvas.Top="30" Background="#ffffff" Width="207" Height="40" Canvas.Left="573" >
             <Label Content="Demo provider"></Label>
@@ -22,19 +38,20 @@
         <Border Canvas.Right="20" Canvas.Top="119" Background="#ffffff" Width="78" Height="40" Canvas.Left="702" >
             <Button Name="btnStop" Click="btnStop_Click" >Stop Mining</Button>
         </Border>
-
         <StackPanel Canvas.Top="240" Width="auto" Height="auto" Orientation="Horizontal">
-            <Border Background="#5823D0" Width="260" Height="200" Margin="40,0,10,0">
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="260" Height="200" Margin="40,0,10,0">
                 <Canvas>
-                    <Border Background="#DDDDDD" Width="40" Height="40" Canvas.Left="10" Canvas.Top="60">
-                    </Border>
-                    <Label Content="MyBalance" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"></Label>
-                    <Label Content="Earned" Foreground="#FFFFFF" Canvas.Left="60" Canvas.Top="50"></Label>
-                    <Label Content="1000$" Foreground="#FFFFFF" Canvas.Left="60" Canvas.Top="80"></Label>
-                    <Label Content="10000.33GLM" Foreground="#FFFFFF" Canvas.Left="60" Canvas.Top="100"></Label>
+                    <svgc:SvgViewbox Source="Media/balance.svg" Canvas.Left="14" Canvas.Top="60" Width="67" Height="71"/>
+                    <Label Content="MyBalance" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" FontFamily="SegoeUI" FontSize="17" Height="35" Width="97"></Label>
+                    <Label Content="Earned" Foreground="#FFFFFF" Canvas.Left="95" Canvas.Top="57"></Label>
+                    <Label Content="1234$" Foreground="#FFFFFF" Canvas.Left="141" Canvas.Top="50" FontFamily="SegoeUIBlack" FontSize="30" RenderTransformOrigin="0.374,0.428" Width="89"></Label>
+                    <Label Content="10000.33GLM" Foreground="#FFFFFF" Canvas.Left="139" Canvas.Top="87"></Label>
+                    <Label Content="Pending:" Foreground="#FFFFFF" Canvas.Left="83" Canvas.Top="131" />
+                    <Label Content="12.34$" Foreground="#FFFFFF" Canvas.Left="133" Canvas.Top="123" FontFamily="SegoeUIBlack" FontSize="30"/>
+                    <Label Content="345.66GLM" Foreground="#FFFFFF" Canvas.Left="145" Canvas.Top="164" FontFamily="SegoeUI"/>
                 </Canvas>
             </Border>
-            <Border Background="#ffffff" Width="130" Height="200" Margin="30,0,10,0">
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="130" Height="200" Margin="30,0,10,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -45,13 +62,13 @@
                         <RowDefinition Height="40" />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
-                    <Border Background="#DDDDDD" Width="40" Height="40" Grid.Column="0" Grid.Row="0">
-                    </Border>
-                    <Label Content="Estimated profit" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"></Label>
-                    <Label Content="10.42$/day" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2"></Label>
+                    <svgc:SvgViewbox Source="Media/profit.svg" Canvas.Left="14" Canvas.Top="60" Width="67" Height="71"/>
+
+                    <Label Content="Estimated profit" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" Foreground="#FFFFFF"></Label>
+                    <Label Content="10.42$/day" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Foreground="#FFFFFF"></Label>
                 </Grid>
             </Border>
-            <Border Background="#ffffff" Width="130" Height="200" Margin="30,0,10,0">
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="130" Height="200" Margin="30,0,10,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -62,14 +79,13 @@
                         <RowDefinition Height="40" />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
-                    <Border Background="#DDDDDD" Width="40" Height="40" Grid.Column="0" Grid.Row="0">
-                    </Border>
-                    <Label Content="GPU Mining" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"></Label>
-                    <CheckBox Content="Idle" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2"></CheckBox>
+                    <svgc:SvgViewbox Source="Media/gpu.svg" Canvas.Left="14" Canvas.Top="60" Width="60" Height="40"/>
+                    <Label Content="GPU Mining" Foreground="White" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"></Label>
+                    <CheckBox Content="Idle" HorizontalAlignment="Center"  Foreground="White" Grid.Column="0" Grid.Row="2"></CheckBox>
                     <Label Content="Advanced" Foreground="Blue" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3"></Label>
                 </Grid>
             </Border>
-            <Border Background="#ffffff" Width="130" Height="200" Margin="30,0,10,0">
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="130" Height="200" Margin="30,0,10,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -80,10 +96,9 @@
                         <RowDefinition Height="40" />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
-                    <Border Background="#DDDDDD" Width="40" Height="40" Grid.Column="0" Grid.Row="0">
-                    </Border>
-                    <Label Content="CPU Mining" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"></Label>
-                    <CheckBox Content="Idle" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2"></CheckBox>
+                    <svgc:SvgViewbox Source="Media/cpu.svg" Canvas.Left="14" Canvas.Top="60" Width="40" Height="40"/>
+                    <Label Content="CPU Mining" Foreground="White"  HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"></Label>
+                    <CheckBox Content="Idle" HorizontalAlignment="Center"  Foreground="White" Grid.Column="0" Grid.Row="2"></CheckBox>
                     <Label Content="Advanced" Foreground="Blue" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3"></Label>
                 </Grid>
             </Border>

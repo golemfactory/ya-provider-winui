@@ -17,29 +17,29 @@
             <ColumnDefinition Width="400*"/>
         </Grid.ColumnDefinitions>
 
-        <Border BorderThickness="0" BorderBrush="Black" Background="#67A0D6" Grid.Column="0" Grid.Row="0">
+        <Border BorderThickness="0" BorderBrush="Black" Background="#710D39" Grid.Column="0" Grid.Row="0"  >
         </Border>
-        <Border BorderThickness="0" BorderBrush="Black" Background="#E6EBFD" Grid.Column="1" Grid.Row="0">
+        <Border BorderThickness="0" BorderBrush="Black" Background="#710D39" Grid.Column="1" Grid.Row="0">
         </Border>
 
 
 
-        <Border BorderThickness="0" BorderBrush="Black" Background="#110D39" Grid.Column="0" Grid.Row="1">
+        <Border BorderBrush="White" Background="#110D39" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 1 0" >
             <StackPanel>
 
-                <Button x:Name="btnPage1" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page1Click">
+                <Button x:Name="btnPage1" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page1Click">
                     <svgc:SvgViewbox Source="Media/nav_dashboard.svg"/>
                 </Button>
-                <Button x:Name="btnPage2" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page2Click">
+                <Button x:Name="btnPage2" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page2Click">
                     <svgc:SvgViewbox Source="Media/nav_wallet.svg"/>
                 </Button>
-                <Button x:Name="btnPage3" Width="40" Height="40" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page3Click">
+                <Button x:Name="btnPage3" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page3Click">
                     <svgc:SvgViewbox Source="Media/nav_settings.svg"/>
                 </Button>
             </StackPanel>
         </Border>
-        
-        <Border BorderThickness="0" BorderBrush="Black" Background="#E6EBED" Grid.Column="1" Grid.Row="1">
+
+        <Border BorderThickness="0" BorderBrush="Black" Background="#110D39" Grid.Column="1" Grid.Row="1">
             <Canvas x:Name="cvMain">
                
             </Canvas>
