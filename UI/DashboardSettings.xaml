@@ -6,11 +6,83 @@
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="BorderStyleBlueBox" TargetType="{x:Type Border}">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="#7D779E"/>
+            <Setter Property="Background" Value="#281E60"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#261D5E"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#74708C"/>
+        <SolidColorBrush x:Key="Button.Static.Foreground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="blue"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#74708C"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Foreground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="white"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#74708C"/>
+        <SolidColorBrush x:Key="Button.Pressed.Foreground" Color="black"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#261D5E"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#74708C"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#AAAAAA"/>
+        <Style x:Key="BlueButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{StaticResource Button.Static.Foreground}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Static.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Static.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Static.Foreground}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.MouseOver.Foreground}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Pressed.Foreground}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Canvas>
-        <Border Canvas.Left="20" Canvas.Top="30" Background="#ffffff" Width="232" Height="40" >
-            <Label Content="Settings"></Label>
+        <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
+            <Label Foreground="#FFFFFF" Content="Settings" FontFamily="SegoeUI" FontSize="24"></Label>
+            <!--<Label Content="Dashboard"></Label>-->
         </Border>
-        <Border Background="#5823D0" Width="305" Height="229" Canvas.Left="20" Canvas.Top="113">
+        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="305" Height="229" Canvas.Left="20" Canvas.Top="113">
             <Canvas>
                 <StackPanel>
                     <Label Content="Node settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"/>
@@ -25,7 +97,7 @@
                 </StackPanel>
             </Canvas>
         </Border>
-        <Border Background="#5823D0" Width="193" Height="auto" Canvas.Left="349" Canvas.Top="30">
+        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="193" Height="auto" Canvas.Left="349" Canvas.Top="30">
             <StackPanel>
                 <Label Content="Application settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"/>
                 <CheckBox Name="cbStartWithWindows" Content="Run when computer starts" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
@@ -37,13 +109,13 @@
             </StackPanel>
         </Border>
 
-        <Border Background="#5823D0" Width="191" Height="158" Canvas.Left="574" Canvas.Top="32">
+        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="191" Height="158" Canvas.Left="574" Canvas.Top="32">
             <Canvas>
                 <Label Content="WASM settings" Foreground="#FFFFFF"/>
                 <CheckBox Name="cbEnableWASM" Content="Enable WASM unit" Foreground="White" Margin="10,50" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
             </Canvas>
         </Border>
-        <Border Background="#5823D0" Width="192" Height="158" Canvas.Left="574" Canvas.Top="228">
+        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="192" Height="158" Canvas.Left="574" Canvas.Top="228">
             <StackPanel>
                 <Label Content="VM Task " Foreground="#FFFFFF"/>
                 <Label Content="(not yet implemented)" Foreground="#FFFFFF"></Label>
@@ -51,10 +123,10 @@
                 <!--<CheckBox Name="cbEnableVM" Content="Enable VM unit" Foreground="White" Margin="10,50"></CheckBox>-->
             </StackPanel>
         </Border>
-        <Button Name="btnApplySettings" Background="#DDDDDD" Width="200" Height="44" Content="Apply settings" Canvas.Top="362" Canvas.Left="20" Click="btnApplySettings_Click">
+        <Button Style="{StaticResource BlueButtonStyle}" Name="btnApplySettings" Width="200" Height="44" Content="Apply settings" Canvas.Top="362" Canvas.Left="20" Click="btnApplySettings_Click">
 
         </Button>
-        <Button x:Name="btnCancelChanges" Background="#DDDDDD" Width="200" Height="44" Content="Cancel changes" Canvas.Top="362" Canvas.Left="225" Click="btnCancelSettings_Click"/>
+        <Button Style="{StaticResource BlueButtonStyle}" x:Name="btnCancelChanges" Width="200" Height="44" Content="Cancel changes" Canvas.Top="362" Canvas.Left="225" Click="btnCancelSettings_Click"/>
 
     </Canvas>
 </UserControl>

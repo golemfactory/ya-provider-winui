@@ -86,8 +86,8 @@ namespace GolemUI
 
         public void Dispose()
         {
-            StopProvider();
-            StopYagna();
+            //StopProvider();
+            //StopYagna();
             _client.Dispose();
         }
         public void KillYagna()
@@ -194,9 +194,6 @@ namespace GolemUI
             {
                 StartupYagna();
 
-                
-                bool runYagna = false;
-
 
                 var _key = _yagna.AppKey.List().Where(key => key.Name == PROVIDER_APP_NAME).FirstOrDefault();
 
@@ -236,7 +233,7 @@ namespace GolemUI
                         }
                         break;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         Thread.Sleep(1000);
                     }

@@ -32,7 +32,6 @@ namespace GolemUI
         private void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<Interfaces.IProcessControler, ProcessController>();
-            services.AddSingleton<MainWindow>();
 #if DEBUG
             services.AddSingleton<DebugWindow>();
 #endif
