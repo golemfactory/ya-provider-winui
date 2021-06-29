@@ -123,6 +123,13 @@ namespace GolemUI
             return txt;
         }
 
+        public PaymentStatus? GetStatus()
+        {
+            PaymentStatus? st = _yagna.Payment?.Status(Network.Rinkeby, "zksync") ?? null;
+
+            return st;
+        }
+
         public async Task<bool> StopProvider()
         {
             const int PROVIDER_STOPPING_TIMEOUT = 2500;

@@ -9,8 +9,8 @@
     <Grid>
         <StackPanel Name="spMain">
             <StackPanel>
-                <Label x:Name="lblStatus" Content="Benchmarks status"></Label>
-                <Label x:Name="lblPower" Content="Total Power"></Label>
+                <Label x:Name="lblStatus" Content="Benchmarks status" Foreground="White"></Label>
+                <Label x:Name="lblPower" Content="Total Power" Foreground="White"></Label>
                 <ProgressBar x:Name="pbBenchmark" Height="20"></ProgressBar>
             </StackPanel>
 

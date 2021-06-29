@@ -124,7 +124,7 @@
             <Button Name="btnStartBenchmark" Style="{StaticResource BlueButtonStyle}" Click="btnStartBenchmark_Click" Width="187" Height="40" Margin="10 10" >Start Benchmark</Button>
             <Button x:Name="btnStopBenchmark" Style="{StaticResource BlueButtonStyle}" Content="Stop benchmark" Click="btnStopBenchmark_Click" Canvas.Left="190" Canvas.Top="91" Height="42" Width="170" Margin="10 10"/>
         </StackPanel>
-        <TextBlock TextWrapping="WrapWithOverflow" Canvas.Left="428" Canvas.Top="37" Width="350">Advanced(select which cards you want to run benchmark and mining on). For example 0,2,3 means run on first, third and fourth card. Run benchmark to confirm that your selection is valid. Leave the field empty to run on all cards.</TextBlock>
+        <TextBlock Foreground="White" TextWrapping="WrapWithOverflow" Canvas.Left="428" Canvas.Top="37" Width="350">Advanced(select which cards you want to run benchmark and mining on). For example 0,2,3 means run on first, third and fourth card. Run benchmark to confirm that your selection is valid. Leave the field empty to run on all cards.</TextBlock>
         <TextBox x:Name="txRunOnSelectedCards" Text="" Width="150" Canvas.Left="428" Canvas.Top="106"/>
         
     </Canvas>

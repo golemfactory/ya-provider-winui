@@ -8,15 +8,15 @@
              d:DesignHeight="100" d:DesignWidth="750">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <Label Name="lblInfo" Content="lblName" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Name="lblInfo" Content="lblName" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <StackPanel Orientation="Horizontal">
-                <CheckBox Name="cbEnableMining" Content="Enable mining" IsChecked="True" Checked="cbEnableMining_Changed" Unchecked="cbEnableMining_Changed"></CheckBox>
+                <CheckBox Name="cbEnableMining" Content="Enable mining" Foreground="White" IsChecked="True" Checked="cbEnableMining_Changed" Unchecked="cbEnableMining_Changed"></CheckBox>
                 <Label Name="cbError"></Label>
 
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Name="lblProgress" Width="100" Content="lblProgress" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <Label Name="lblPower" Content="lblPower" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Name="lblProgress" Width="100" Content="lblProgress" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Name="lblPower" Content="lblPower" Width="100" Foreground="White"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <ProgressBar Name="pbProgress" Height="20" Margin="10, 0" VerticalAlignment="Center" Width="193"/>
             </StackPanel>
         </StackPanel>

@@ -86,7 +86,7 @@ namespace GolemUI
             }
             else
             {
-                this.Background = Brushes.White;
+                this.Background = Brushes.Transparent;
             }
         }
 
