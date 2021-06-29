@@ -111,6 +111,18 @@ namespace GolemUI
             }
         }
 
+        public async Task<string> GetMeInfo()
+        {
+            var txt = await _client.GetStringAsync($"{_baseUrl}/me");
+            return txt;
+        }
+
+        public async Task<string> GetOffers()
+        {
+            var txt = await _client.GetStringAsync($"{_baseUrl}/market-api/v1/offers");
+            return txt;
+        }
+
         public async Task<bool> StopProvider()
         {
             const int PROVIDER_STOPPING_TIMEOUT = 2500;

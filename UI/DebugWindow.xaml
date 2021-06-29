@@ -11,10 +11,11 @@
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                 <Button Content="OpenCommandLine" Click="Button_Click"></Button>
                 <Button x:Name="btnOpenSettingsData" Content="Settings Folder" Click="btnOpenSettingsData_Click"></Button>
+                <Button x:Name="btnVersionInfo" Content="Yagna version" Click="btnVersionInfo_Click"></Button>
             </StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GolemUI.Command
@@ -341,6 +342,7 @@ namespace GolemUI.Command
             while (table == null)
             {
                 table = Exec<Table>("list");
+                Thread.Sleep(1000);
                 tries++;
                 if (tries == 10)
                 {

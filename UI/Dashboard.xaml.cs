@@ -168,8 +168,8 @@ namespace GolemUI
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             DashboardBenchmark.RequestBenchmarkEnd();
-            GlobalApplicationState.Instance.ProcessController.StopProvider();
-            GlobalApplicationState.Instance.ProcessController.StopYagna();
+            GlobalApplicationState.Instance.ProcessController.KillProvider();
+            GlobalApplicationState.Instance.ProcessController.KillYagna();
 
         }
 

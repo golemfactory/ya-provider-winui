@@ -98,6 +98,12 @@ namespace GolemUI
         {
             Process.Start("explorer.exe", SettingsLoader.GetLocalPath());
         }
+
+        private async void btnVersionInfo_Click(object sender, RoutedEventArgs e)
+        {
+            txtYagna.Text = await GlobalApplicationState.Instance.ProcessController.GetOffers();
+
+        }
     }
 
 
