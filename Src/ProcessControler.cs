@@ -203,15 +203,33 @@ namespace GolemUI
                     throw new Exception("Subnet cannot be null"); 
                 }
 
-                var txt = _client.GetStringAsync($"{_baseUrl}/me").Result;
-                KeyInfo? key = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
-                if (key != null && _key != null && key.Id == _key.Id)
+                //yagna is starting and /me won't work until all services are running
+                int tries = 0;
+                while(true)
                 {
-                    StartupProvider(Network.Rinkeby, Subnet);
-                }
-                else
-                {
-                    throw new Exception("Failed to get key");
+                    if (tries >= 10)
+                    {
+                        throw new Exception("Cannot connect to yagna server");
+                    }
+                    try
+                    {
+                        var txt = _client.GetStringAsync($"{_baseUrl}/me").Result;
+                        KeyInfo? key = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
+                        if (key != null && _key != null && key.Id == _key.Id)
+                        {
+                            StartupProvider(Network.Rinkeby, Subnet);
+                        }
+                        else
+                        {
+                            throw new Exception("Failed to get key");
+                        }
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                    tries += 1;
                 }
             });
 
