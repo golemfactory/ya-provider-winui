@@ -16,6 +16,7 @@ namespace GolemUI
         benchmarkStarted,
         benchmarkStopped,
         benchmarkSettingsChanged,
+        timerEvent
     }
 
     public class GlobalApplicationStateEventArgs
@@ -34,7 +35,6 @@ namespace GolemUI
         {
             _processController = new ProcessController();
         }
-
 
         public void NotifyApplicationStateChanged(object sender)
         {

@@ -139,11 +139,11 @@
                     <svgc:SvgViewbox Source="Media/balance.svg" Canvas.Left="14" Canvas.Top="60" Width="67" Height="71"/>
                     <Label Content="MyBalance" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" FontFamily="SegoeUI" FontSize="17" Height="35" Width="97"></Label>
                     <Label Content="Earned" Foreground="#FFFFFF" Canvas.Left="95" Canvas.Top="57"></Label>
-                    <Label Name="lblDollars" Content="1234$" Foreground="#FFFFFF" Canvas.Left="141" Canvas.Top="50" FontFamily="SegoeUIBlack" FontSize="30" RenderTransformOrigin="0.374,0.428" Width="89"></Label>
-                    <Label Content="10000.33GLM" Foreground="#FFFFFF" Canvas.Left="139" Canvas.Top="87"></Label>
+                    <Label Name="lblTotalUSD" Content="1234$" Foreground="#FFFFFF" Canvas.Left="141" Canvas.Top="50" FontFamily="SegoeUIBlack" FontSize="30" RenderTransformOrigin="0.374,0.428" Width="89"></Label>
+                    <Label Name="lblTotalGLM" Content="10000.33GLM" Foreground="#FFFFFF" Canvas.Left="139" Canvas.Top="87"></Label>
                     <Label Content="Pending:" Foreground="#FFFFFF" Canvas.Left="83" Canvas.Top="131" />
-                    <Label Content="12.34$" Foreground="#FFFFFF" Canvas.Left="133" Canvas.Top="123" FontFamily="SegoeUIBlack" FontSize="30"/>
-                    <Label Content="345.66GLM" Foreground="#FFFFFF" Canvas.Left="145" Canvas.Top="164" FontFamily="SegoeUI"/>
+                    <Label Name="lblPendingUSD" Content="12.34$" Foreground="#FFFFFF" Canvas.Left="133" Canvas.Top="123" FontFamily="SegoeUIBlack" FontSize="30"/>
+                    <Label Name="lblPendingGLM" Content="345.66GLM" Foreground="#FFFFFF" Canvas.Left="145" Canvas.Top="164" FontFamily="SegoeUI"/>
                 </Canvas>
             </Border>
             <Border Style="{DynamicResource BorderStyleBlueBox}" Width="130" Height="200" Margin="20,0,10,0">
@@ -160,7 +160,7 @@
                     <svgc:SvgViewbox Source="Media/profit.svg" Canvas.Left="14" Canvas.Top="60" Width="67" Height="71"/>
 
                     <Label Content="Estimated profit" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" Foreground="#FFFFFF"></Label>
-                    <Label Content="10.42$/day" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Foreground="#FFFFFF"></Label>
+                    <Label Name="lblEstimatedProfit" Content="10.42$/day" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Foreground="#FFFFFF"></Label>
                 </Grid>
             </Border>
             <Border Style="{DynamicResource BorderStyleBlueBox}" Width="130" Height="200" Margin="20,0,10,0">

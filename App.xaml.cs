@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using GolemUI.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -24,9 +25,19 @@ namespace GolemUI
         {
             GlobalApplicationState.Initialize();
 
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(10);
+            timer.Tick += timer_Tick;
+            timer.Start();
+
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.timerEvent);
         }
 
         private void ConfigureServices(IServiceCollection services)

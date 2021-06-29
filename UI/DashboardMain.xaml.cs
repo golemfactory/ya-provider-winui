@@ -1,4 +1,5 @@
-﻿using GolemUI.Interfaces;
+﻿using GolemUI.Command;
+using GolemUI.Interfaces;
 using GolemUI.Settings;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,55 @@ namespace GolemUI
 
             //this.Title = GlobalSettings.AppTitle;
             btnStop.IsEnabled = false;
+
+            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
+        }
+
+        public async void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
+        {
+            if (args != null)
+            {
+                switch (args.action)
+                {
+                    case GlobalApplicationStateAction.timerEvent:
+                        if (GlobalApplicationState.Instance.ProcessController.IsRunning)
+                        {
+                            PaymentStatus? st = GlobalApplicationState.Instance.ProcessController.GetStatus();
+                            decimal? totalGLM = st?.Incoming?.Confirmed?.TotalAmount;
+                            string sTotalGLM = "?";
+                            string sTotalUSD = "?";
+                            if (totalGLM != null)
+                            {
+                                sTotalGLM = totalGLM.ToString() + "GLM";
+                                sTotalUSD = String.Format("{0:0.00}$", (double)totalGLM * GlobalSettings.GLMUSD);
+                            }
+                            this.lblTotalGLM.Content = sTotalGLM;
+                            this.lblTotalUSD.Content = sTotalUSD;
+
+                            decimal? pendingGLM = st?.Incoming?.Requested?.TotalAmount;
+                            string sPendingGLM = "?";
+                            string sPendingUSD = "?";
+                            if (pendingGLM != null)
+                            {
+                                sPendingGLM = pendingGLM.ToString() + "GLM";
+                                sPendingUSD = String.Format("{0:0.00}$", (double)pendingGLM * GlobalSettings.GLMUSD);
+                            }
+                            this.lblPendingGLM.Content = sPendingGLM;
+                            this.lblPendingUSD.Content = sPendingUSD;
+                            this.lblEstimatedProfit.Content = "N/A";
+                        }
+                        else
+                        {
+                            this.lblTotalGLM.Content = "N/A";
+                            this.lblTotalUSD.Content = "N/A";
+                            this.lblPendingGLM.Content = "N/A";
+                            this.lblPendingUSD.Content = "N/A";
+                            this.lblEstimatedProfit.Content = "N/A";
+
+                        }
+                        break;
+                }
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

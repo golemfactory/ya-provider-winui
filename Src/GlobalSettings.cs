@@ -21,6 +21,8 @@ namespace GolemUI.Settings
 
         public const int CurrentSettingsVersion = 348;
         public const int CurrentBenchmarkResultVersion = 138;
+
+        public const double GLMUSD = 0.27;
     }
 
 
