@@ -129,7 +129,7 @@
 
         <DockPanel Canvas.Right="10" Canvas.Top="119" Width="390" Canvas.Left="379" >
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Name="btnStart" FocusVisualStyle="{StaticResource FocusVisual}" Style="{StaticResource BlueButtonStyle}" Click="btnStart_Click" Canvas.Right="20" Width="187" Height="40" Margin="10 10" >Start Mining</Button>
+                <Button Name="btnStart" Style="{StaticResource BlueButtonStyle}" Click="btnStart_Click" Canvas.Right="20" Width="187" Height="40" Margin="10 10" >Start Mining</Button>
                 <Button Name="btnStop" Click="btnStop_Click" Style="{StaticResource BlueButtonStyle}" Canvas.Left="702" Canvas.Right="20" Canvas.Top="119" Height="40" Width="90" HorizontalAlignment="Right">Stop Mining</Button>
             </StackPanel>
         </DockPanel>

@@ -346,6 +346,12 @@ namespace GolemUI.Claymore
                         double s = val;
 
                         _liveStatus.BenchmarkTotalSpeed = (float)val;
+
+                        if (_liveStatus.BenchmarkTotalSpeed > 0.1 && _liveStatus.GPUs.Count == 1)
+                        {
+                            _liveStatus.GPUs.First().Value.BenchmarkSpeed = _liveStatus.BenchmarkTotalSpeed;
+                            _liveStatus.NumberOfClaymorePerfReports += 1;
+                        }
                     }
                 }
 
@@ -355,6 +361,7 @@ namespace GolemUI.Claymore
                     //"GPUs: 1: 0.000 MH/s (0) 2: 0.000 MH/s (0)"
 
                     var splits = lineText.Split("MH/s");
+
 
                     for (int i = 0; i < splits.Length - 1; i++)
                     {
@@ -377,12 +384,18 @@ namespace GolemUI.Claymore
                             }
                             _liveStatus.GPUs[parsedGpuNo].BenchmarkSpeed = (float)mhs;
                         }
+
+
                     }
 
                     if (_liveStatus.AreAllDagsFinishedOrFailed())
                     {
                         _liveStatus.NumberOfClaymorePerfReports += 1;
                     }
+
+
+
+
                 }
             }
         }
