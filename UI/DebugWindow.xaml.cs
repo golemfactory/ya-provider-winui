@@ -34,7 +34,7 @@ namespace GolemUI
 #endif
         }
 
-        void TrimControlTextSize(TextBlock tb)
+        void TrimControlTextSize(TextBox tb)
         {
             int maxLogSize = 100000;
             int trimLogSize = (int)(maxLogSize * 0.1);

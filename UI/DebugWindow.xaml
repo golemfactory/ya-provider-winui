@@ -14,7 +14,7 @@
             </StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="30"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -24,10 +24,10 @@
                     <Label Content="Yagna output:" Grid.Row="0" Grid.Column="0"></Label>
                     <Label Content="Provider output:" Grid.Row="0" Grid.Column="1"></Label>
                     <ScrollViewer Name="svYagna" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="1">
-                        <TextBlock x:Name="txtYagna"/>
+                        <TextBox IsReadOnly="True" Text="{Binding Text, Mode=OneWay}" TextWrapping="Wrap" x:Name="txtYagna"/>
                     </ScrollViewer>
                     <ScrollViewer Name="svProvider" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="1">
-                        <TextBlock x:Name="txtProvider"/>
+                        <TextBox IsReadOnly="True" Text="{Binding Text, Mode=OneWay}" TextWrapping="Wrap" x:Name="txtProvider"/>
                     </ScrollViewer>
 
             </Grid>

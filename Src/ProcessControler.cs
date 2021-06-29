@@ -64,7 +64,6 @@ namespace GolemUI
                 finally
                 {
                     SetConsoleCtrlHandler(null, false);
-                    FreeConsole();
                 }
             }
             return succesfullyExited;

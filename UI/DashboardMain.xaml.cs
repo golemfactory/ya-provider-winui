@@ -61,17 +61,29 @@ namespace GolemUI
 
         private async void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            bool providerEndedSuccessfully = await GlobalApplicationState.Instance.ProcessController.StopProvider();
-            if (!providerEndedSuccessfully)
+            bool killProviderInsteadOfStopping = true;
+            if (killProviderInsteadOfStopping)
             {
-                MessageBox.Show("Provider process failed to shutdown gracefully, killing...");
                 GlobalApplicationState.Instance.ProcessController.KillProvider();
-            }
-            bool yagnaEndedSuccessfully = await GlobalApplicationState.Instance.ProcessController.StopYagna();
-            if (!yagnaEndedSuccessfully)
-            {
-                MessageBox.Show("Yagna process failed to shutdown gracefully, killing...");
                 GlobalApplicationState.Instance.ProcessController.KillYagna();
+            }
+            else
+            {
+                //insta kill provider and gracefully shutdown yagna
+                GlobalApplicationState.Instance.ProcessController.KillProvider();
+                
+                bool providerEndedSuccessfully = await GlobalApplicationState.Instance.ProcessController.StopProvider();
+                if (!providerEndedSuccessfully)
+                {
+                    MessageBox.Show("Provider process failed to shutdown gracefully, killing...");
+                    GlobalApplicationState.Instance.ProcessController.KillProvider();
+                }
+                bool yagnaEndedSuccessfully = await GlobalApplicationState.Instance.ProcessController.StopYagna();
+                if (!yagnaEndedSuccessfully)
+                {
+                    MessageBox.Show("Yagna process failed to shutdown gracefully, killing...");
+                    GlobalApplicationState.Instance.ProcessController.KillYagna();
+                }
             }
 
 

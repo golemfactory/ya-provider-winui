@@ -236,7 +236,7 @@ namespace GolemUI.Command
                     diSwitch += $"{claymoreGpuNo}";
                 }
 
-                startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = "-altnum 2 " + diSwitch;
+                startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = diSwitch;
             }
             startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;
             //startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
