@@ -35,7 +35,7 @@ namespace GolemUI
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
-        void timer_Tick(object sender, EventArgs e)
+        void timer_Tick(object? sender, EventArgs e)
         {
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.timerEvent);
         }

@@ -180,7 +180,7 @@ namespace GolemUI.Command
                 || lineText.Contains("No avaiable GPUs for mining", StringComparison.InvariantCultureIgnoreCase))
             {
                 //there should be no need of closing claymore process. It should close automatically.
-                //_claymoreProcess.Kill();
+                //_claymoreProcess.Kill(true);
 
                 GPUNotFound = true;
                 BenchmarkFinished = true;

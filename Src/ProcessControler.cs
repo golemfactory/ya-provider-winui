@@ -84,6 +84,8 @@ namespace GolemUI
 
         public LogLineHandler? LineHandler { get; set; }
 
+        public string ConfigurationInfoOutput;
+
         public void Dispose()
         {
             //StopProvider();
@@ -313,29 +315,37 @@ namespace GolemUI
             BenchmarkResults br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
 
-            bool enableClaymoreMining = br.liveStatus != null && /*br.liveStatus.BenchmarkFinished && */br.liveStatus.GetEnabledGpus().Count > 0;
+            string reason;
+            bool enableClaymoreMining = br.IsClaymoreMiningPossible(out reason);
 
             if (enableClaymoreMining)
             {
                 var usageCoef = new Dictionary<string, decimal>();
                 var preset = new Preset("gminer", "gminer", usageCoef);
-                preset.UsageCoeffs.Add("share", 0);
+                preset.UsageCoeffs.Add("share", new decimal(0.01));
                 preset.UsageCoeffs.Add("duration", 0);
-                _provider.AddPreset(preset);
+                string info, args;
+                _provider.AddPreset(preset, out args, out info);
+                ConfigurationInfoOutput += "Add preset claymore mining: \nargs:\n" + args + "\nresponse:\n" + info;
                 _provider.ActivatePreset(preset.Name);
             }
 
             {
                 var usageCoef = new Dictionary<string, decimal>();
                 var preset = new Preset("wasmtime", "wasmtime", usageCoef);
-                preset.UsageCoeffs.Add("cpu", 0);
-                preset.UsageCoeffs.Add("duration", 0);
-                _provider.AddPreset(preset);
+                preset.UsageCoeffs.Add("cpu", 1);
+                preset.UsageCoeffs.Add("duration", 1);
+                string info, args;
+                _provider.AddPreset(preset, out args, out info);
+                ConfigurationInfoOutput += "Add preset claymore WASM: \nargs:\n" + args + "\nresponse:\n" + info;
                 _provider.ActivatePreset(preset.Name);
             }
 
             _provider.DeactivatePreset("default");
-            _provider.ActivatePreset("gminer");
+            if (enableClaymoreMining)
+            {
+                _provider.ActivatePreset("gminer");
+            }
             _provider.ActivatePreset("wasmtime");
 
             _providerDaemon = _provider.Run(_appkey, network, subnet, ls, enableClaymoreMining, br);

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using System.Collections.Specialized;
 using GolemUI.Settings;
+using System.Globalization;
 
 namespace GolemUI.Command
 {
@@ -186,19 +187,21 @@ namespace GolemUI.Command
             this.ExecToText($"preset deactivate {presetName}");
         }
 
-        public void AddPreset(Preset preset)
+        public void AddPreset(Preset preset, out string args, out string info)
         {
             StringBuilder cmd = new StringBuilder("preset create --no-interactive", 60);
+            
             cmd.Append(" --preset-name \"").Append(preset.Name).Append('"');
             cmd.Append(" --exe-unit \"").Append(preset.ExeunitName).Append('"');
             if (preset.PricingModel != null)
             {
                 foreach (KeyValuePair<string, decimal> kv in preset.UsageCoeffs)
                 {
-                    cmd.Append(" --price ").Append(kv.Key).Append("=").Append(kv.Value);
+                    cmd.Append(" --price ").Append(kv.Key).Append("=").Append(kv.Value.ToString(CultureInfo.InvariantCulture));
                 }
             }
-            this.ExecToText(cmd.ToString());
+            args = cmd.ToString();
+            info = this.ExecToText(cmd.ToString());
         }
 
         public Process Run(string appkey, Network network, string subnet, LocalSettings ls, bool enableClaymoreMining, BenchmarkResults br)

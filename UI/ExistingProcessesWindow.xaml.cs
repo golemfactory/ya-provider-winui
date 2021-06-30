@@ -88,17 +88,16 @@ namespace GolemUI
 
             foreach (var yagnaProcess in yagnaProcesses)
             {
-                yagnaProcess.Kill(true);
+                yagnaProcess.Kill(entireProcessTree: true);
             }
             foreach (var providerProcess in providerProcesses)
             {
-                providerProcess.Kill(true);
+                providerProcess.Kill(entireProcessTree: true);
             }
             foreach (var claymoreProcess in claymoreProcesses)
             {
-                claymoreProcess.Kill(true);
+                claymoreProcess.Kill(entireProcessTree: true);
             }
-
         }
 
         private void btnIgnore_Click(object sender, RoutedEventArgs e)

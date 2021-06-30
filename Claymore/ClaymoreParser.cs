@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -100,7 +101,7 @@ namespace GolemUI.Claymore
         public ClaymoreLiveStatus(bool isBenchmark)
         {
             IsBenchmark = isBenchmark;
-            TotalClaymoreReportsBenchmark = 20;
+            TotalClaymoreReportsBenchmark = 5;
         }
 
         public object Clone()
@@ -312,7 +313,7 @@ namespace GolemUI.Claymore
                             {
                                 string percentDag = split.Trim(new char[] { ' ', '%' });
                                 double res = 0;
-                                if (double.TryParse(percentDag, out res))
+                                if (double.TryParse(percentDag, NumberStyles.Float, CultureInfo.InvariantCulture, out res))
                                 {
                                     currentStatus.DagProgress = (float)(res / 100.0);
                                 }
@@ -341,7 +342,7 @@ namespace GolemUI.Claymore
 
                     var splits = lineText.Split(" ");
                     double val;
-                    if (splits.Length > 2 && double.TryParse(splits[2], out val))
+                    if (splits.Length > 2 && double.TryParse(splits[2], NumberStyles.Float, CultureInfo.InvariantCulture, out val))
                     {
                         double s = val;
 
@@ -372,7 +373,7 @@ namespace GolemUI.Claymore
                         var p = s.Last();
                         double mhs;
 
-                        bool parsedOK = double.TryParse(p, out mhs);
+                        bool parsedOK = double.TryParse(p, NumberStyles.Float, CultureInfo.InvariantCulture, out mhs);
 
                         if (parsedOK)
                         {

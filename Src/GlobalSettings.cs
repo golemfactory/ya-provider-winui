@@ -32,6 +32,27 @@ namespace GolemUI.Settings
         public int BenchmarkResultVersion { get; set; }
 
         public ClaymoreLiveStatus? liveStatus = null;
+
+        public bool IsClaymoreMiningPossible(out string reason)
+        {
+            reason = "";
+            if (this.liveStatus == null)
+            {
+                reason = "No benchmark run";
+                return false;
+            }
+            if (!this.liveStatus.BenchmarkFinished)
+            {
+                reason = "Benchmark not finished";
+                return false;
+            }
+            if (this.liveStatus.GetEnabledGpus().Count <= 0)
+            {
+                reason = "No GPUs detected";
+                return false;
+            }
+            return true;
+        }
     }
 
     public class LocalSettings

@@ -63,6 +63,7 @@ namespace GolemUI
             LocalSettings settings = SettingsLoader.LoadSettingsFromFileOrDefault();
             txRunOnSelectedCards.Text = settings.MinerSelectedGPUIndices;
 
+            
         }
 
         Dictionary<int, GpuEntryUI> _entries = new Dictionary<int, GpuEntryUI>();
@@ -221,6 +222,7 @@ namespace GolemUI
                     {
                         BenchmarkResults res = new BenchmarkResults();
                         res.liveStatus = s;
+                        s.BenchmarkFinished = true;
                         SettingsLoader.SaveBenchmarkToFile(res);
                     }
                     BenchmarkFinished();

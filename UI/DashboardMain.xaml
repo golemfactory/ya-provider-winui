@@ -163,7 +163,7 @@
                     <Label Name="lblEstimatedProfit" Content="10.42$/day" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Foreground="#FFFFFF"></Label>
                 </Grid>
             </Border>
-            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="130" Height="200" Margin="20,0,10,0">
+            <Button Name="MiningBox" Style="{DynamicResource BlueButtonStyle}" Width="130" Height="200" Margin="20,0,10,0" MouseDown="MiningBox_MouseDown">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -176,10 +176,10 @@
                     </Grid.RowDefinitions>
                     <svgc:SvgViewbox Source="Media/gpu.svg" Canvas.Left="14" Canvas.Top="60" Width="60" Height="40"/>
                     <Label Content="GPU Mining" Foreground="White" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"></Label>
-                    <CheckBox Content="Idle" HorizontalAlignment="Center"  Foreground="White" Grid.Column="0" Grid.Row="2"></CheckBox>
-                    <Label Content="Advanced" Foreground="Blue" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3"></Label>
+                    <Label Name="lblGpuStatus" Content="Inactive" Foreground="White" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2"></Label>
+                    <Label Content="Benchmark" Foreground="White" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3"></Label>
                 </Grid>
-            </Border>
+            </Button>
             <Border Style="{DynamicResource BorderStyleBlueBox}" Width="130" Height="200" Margin="20,0,10,0">
                 <Grid>
                     <Grid.ColumnDefinitions>

@@ -3,6 +3,7 @@ using GolemUI.Interfaces;
 using GolemUI.Settings;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,9 +34,18 @@ namespace GolemUI
             btnStop.IsEnabled = false;
 
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
+
+            var br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+
+            string reason; 
+            if (!br.IsClaymoreMiningPossible(out reason))
+            {
+                this.lblGpuStatus.Content = reason;
+            }
+
         }
 
-        public async void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
+        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {
             if (args != null)
             {
@@ -100,6 +110,7 @@ namespace GolemUI
             GlobalApplicationState.Instance.ProcessController.Subnet = settings.Subnet;
 
             await GlobalApplicationState.Instance.ProcessController.Init();
+            File.WriteAllText("debug.txt", GlobalApplicationState.Instance.ProcessController.ConfigurationInfoOutput);
 
             lblStatus.Content = "Started";
             //lblStatus.Background = Brushes.Green;
@@ -142,6 +153,11 @@ namespace GolemUI
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStopped);
             btnStart.IsEnabled = true;
             btnStop.IsEnabled = false;
+        }
+
+        private void MiningBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            lblGpuStatus.Content = "Clicked";
         }
     }
 }
