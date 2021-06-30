@@ -94,7 +94,7 @@ namespace GolemUI
         {
             if (_yagnaDaemon != null)
             {
-                _yagnaDaemon.Kill();
+                _yagnaDaemon.Kill(entireProcessTree: true);
                 _yagnaDaemon.Dispose();
                 _yagnaDaemon = null;
             }
@@ -105,7 +105,7 @@ namespace GolemUI
         {
             if (_providerDaemon != null)
             {
-                _providerDaemon.Kill();
+                _providerDaemon.Kill(entireProcessTree: true);
                 _providerDaemon.Dispose();
                 _providerDaemon = null;
             }
