@@ -82,7 +82,7 @@
             <Label Foreground="#FFFFFF" Content="Settings" FontFamily="SegoeUI" FontSize="24"></Label>
             <!--<Label Content="Dashboard"></Label>-->
         </Border>
-        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="305" Height="229" Canvas.Left="20" Canvas.Top="113">
+        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="300" Height="230" Canvas.Left="20" Canvas.Top="110">
             <Canvas>
                 <StackPanel>
                     <Label Content="Node settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"/>
@@ -97,7 +97,7 @@
                 </StackPanel>
             </Canvas>
         </Border>
-        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="193" Height="auto" Canvas.Left="349" Canvas.Top="30">
+        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="200" Height="auto" Canvas.Left="350" Canvas.Top="110">
             <StackPanel>
                 <Label Content="Application settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"/>
                 <CheckBox Name="cbStartWithWindows" Content="Run when computer starts" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
@@ -109,13 +109,13 @@
             </StackPanel>
         </Border>
 
-        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="191" Height="158" Canvas.Left="574" Canvas.Top="32">
+        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="191" Height="106" Canvas.Left="580" Canvas.Top="110">
             <Canvas>
                 <Label Content="WASM settings" Foreground="#FFFFFF"/>
                 <CheckBox Name="cbEnableWASM" Content="Enable WASM unit" Foreground="White" Margin="10,50" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
             </Canvas>
         </Border>
-        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="192" Height="158" Canvas.Left="574" Canvas.Top="228">
+        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="192" Height="99" Canvas.Left="580" Canvas.Top="243">
             <StackPanel>
                 <Label Content="VM Task " Foreground="#FFFFFF"/>
                 <Label Content="(not yet implemented)" Foreground="#FFFFFF"></Label>
