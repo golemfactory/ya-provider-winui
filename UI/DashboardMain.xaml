@@ -176,7 +176,7 @@
                     </Grid.RowDefinitions>
                     <svgc:SvgViewbox Source="Media/gpu.svg" Canvas.Left="14" Canvas.Top="60" Width="60" Height="40"/>
                     <Label Content="GPU Mining" Foreground="White" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"></Label>
-                    <Label Name="lblGpuStatus" Content="Inactive" Foreground="White" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2"></Label>
+                    <TextBlock Name="txtStatus" Foreground="White" TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2">Inactive</TextBlock>
                     <Label Content="Benchmark" Foreground="White" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3"></Label>
                 </Grid>
             </Button>

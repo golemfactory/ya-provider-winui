@@ -35,15 +35,62 @@ namespace GolemUI
 
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
 
+            RefreshStatus();
+            RefreshPaymentStatus();
+        }
+
+        public void RefreshStatus()
+        {
             var br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
 
-            string reason; 
+            string reason;
             if (!br.IsClaymoreMiningPossible(out reason))
             {
-                this.lblGpuStatus.Content = reason;
+                this.txtStatus.Text = reason;
             }
-
+            else
+            {
+                this.txtStatus.Text = "Ready";
+            }
         }
+        public void RefreshPaymentStatus()
+        {
+            if (GlobalApplicationState.Instance.ProcessController.IsRunning)
+            {
+                PaymentStatus? st = GlobalApplicationState.Instance.ProcessController.GetStatus();
+                decimal? totalGLM = st?.Incoming?.Confirmed?.TotalAmount;
+                string sTotalGLM = "?";
+                string sTotalUSD = "?";
+                if (totalGLM != null)
+                {
+                    sTotalGLM = String.Format("{0:0.000}GLM", (double)totalGLM);
+                    sTotalUSD = String.Format("{0:0.00}$", (double)totalGLM * GlobalSettings.GLMUSD);
+                }
+                this.lblTotalGLM.Content = sTotalGLM;
+                this.lblTotalUSD.Content = sTotalUSD;
+
+                decimal? pendingGLM = st?.Incoming?.Accepted?.TotalAmount;
+                string sPendingGLM = "?";
+                string sPendingUSD = "?";
+                if (pendingGLM != null)
+                {
+                    sPendingGLM = String.Format("{0:0.000}GLM", (double)pendingGLM);
+                    sPendingUSD = String.Format("{0:0.00}$", (double)pendingGLM * GlobalSettings.GLMUSD);
+                }
+                this.lblPendingGLM.Content = sPendingGLM;
+                this.lblPendingUSD.Content = sPendingUSD;
+                this.lblEstimatedProfit.Content = "N/A";
+            }
+            else
+            {
+                this.lblTotalGLM.Content = "N/A";
+                this.lblTotalUSD.Content = "N/A";
+                this.lblPendingGLM.Content = "N/A";
+                this.lblPendingUSD.Content = "N/A";
+                this.lblEstimatedProfit.Content = "N/A";
+            }
+        }
+
 
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {
@@ -52,42 +99,18 @@ namespace GolemUI
                 switch (args.action)
                 {
                     case GlobalApplicationStateAction.timerEvent:
-                        if (GlobalApplicationState.Instance.ProcessController.IsRunning)
-                        {
-                            PaymentStatus? st = GlobalApplicationState.Instance.ProcessController.GetStatus();
-                            decimal? totalGLM = st?.Incoming?.Confirmed?.TotalAmount;
-                            string sTotalGLM = "?";
-                            string sTotalUSD = "?";
-                            if (totalGLM != null)
-                            {
-                                sTotalGLM = String.Format("{0:0.000}GLM", (double)totalGLM);
-                                sTotalUSD = String.Format("{0:0.00}$", (double)totalGLM * GlobalSettings.GLMUSD);
-                            }
-                            this.lblTotalGLM.Content = sTotalGLM;
-                            this.lblTotalUSD.Content = sTotalUSD;
-
-                            decimal? pendingGLM = st?.Incoming?.Requested?.TotalAmount;
-                            string sPendingGLM = "?";
-                            string sPendingUSD = "?";
-                            if (pendingGLM != null)
-                            {
-                                sPendingGLM = String.Format("{0:0.000}GLM", (double)pendingGLM);
-                                sPendingUSD = String.Format("{0:0.00}$", (double)pendingGLM * GlobalSettings.GLMUSD);
-                            }
-                            this.lblPendingGLM.Content = sPendingGLM;
-                            this.lblPendingUSD.Content = sPendingUSD;
-                            this.lblEstimatedProfit.Content = "N/A";
-                        }
-                        else
-                        {
-                            this.lblTotalGLM.Content = "N/A";
-                            this.lblTotalUSD.Content = "N/A";
-                            this.lblPendingGLM.Content = "N/A";
-                            this.lblPendingUSD.Content = "N/A";
-                            this.lblEstimatedProfit.Content = "N/A";
-
-                        }
+                        RefreshStatus();
+                        RefreshPaymentStatus();
                         break;
+                    case GlobalApplicationStateAction.yagnaAppStarted:
+                        RefreshStatus();
+                        RefreshPaymentStatus();
+                        break;
+                    case GlobalApplicationStateAction.yagnaAppStopped:
+                        RefreshStatus();
+                        RefreshPaymentStatus();
+                        break;
+
                 }
             }
         }
@@ -110,7 +133,7 @@ namespace GolemUI
             GlobalApplicationState.Instance.ProcessController.Subnet = settings.Subnet;
 
             await GlobalApplicationState.Instance.ProcessController.Init();
-            File.WriteAllText("debug.txt", GlobalApplicationState.Instance.ProcessController.ConfigurationInfoOutput);
+            //File.WriteAllText("debug.txt", GlobalApplicationState.Instance.ProcessController.ConfigurationInfoOutput);
 
             lblStatus.Content = "Started";
             //lblStatus.Background = Brushes.Green;
@@ -157,7 +180,7 @@ namespace GolemUI
 
         private void MiningBox_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            lblGpuStatus.Content = "Clicked";
+            txtStatus.Text = "Clicked";
         }
     }
 }

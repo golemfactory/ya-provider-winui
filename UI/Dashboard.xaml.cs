@@ -33,7 +33,7 @@ namespace GolemUI
         public Dashboard()
         {
             InitializeComponent();
-
+            
             DashboardMain = new DashboardMain();
             DashboardSettings = new DashboardSettings();
             DashboardBenchmark = new DashboardBenchmark();
@@ -198,6 +198,34 @@ namespace GolemUI
                         break;
                 }
             }
+        }
+
+        private void MinButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void TitleBar_DragEnter(object sender, DragEventArgs e)
+        {
+
+        }
+
+        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

@@ -84,7 +84,7 @@ namespace GolemUI
 
         public LogLineHandler? LineHandler { get; set; }
 
-        public string ConfigurationInfoOutput;
+        public string ConfigurationInfoDebug = "";
 
         public void Dispose()
         {
@@ -282,6 +282,7 @@ namespace GolemUI
 
         private void StartupProvider(Network network, string subnet)
         {
+            ConfigurationInfoDebug = "";
             if (_providerDaemon != null)
             {
                 return;
@@ -326,7 +327,7 @@ namespace GolemUI
                 preset.UsageCoeffs.Add("duration", 0);
                 string info, args;
                 _provider.AddPreset(preset, out args, out info);
-                ConfigurationInfoOutput += "Add preset claymore mining: \nargs:\n" + args + "\nresponse:\n" + info;
+                ConfigurationInfoDebug += "Add preset claymore mining: \nargs:\n" + args + "\nresponse:\n" + info;
                 _provider.ActivatePreset(preset.Name);
             }
 
@@ -337,7 +338,7 @@ namespace GolemUI
                 preset.UsageCoeffs.Add("duration", 1);
                 string info, args;
                 _provider.AddPreset(preset, out args, out info);
-                ConfigurationInfoOutput += "Add preset claymore WASM: \nargs:\n" + args + "\nresponse:\n" + info;
+                ConfigurationInfoDebug += "Add preset claymore WASM: \nargs:\n" + args + "\nresponse:\n" + info;
                 _provider.ActivatePreset(preset.Name);
             }
 

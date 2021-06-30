@@ -46,11 +46,20 @@ namespace GolemUI.Settings
                 reason = "Benchmark not finished";
                 return false;
             }
-            if (this.liveStatus.GetEnabledGpus().Count <= 0)
+            if (this.liveStatus.GPUs.Count <= 0)
             {
                 reason = "No GPUs detected";
                 return false;
             }
+            foreach (var gpu in this.liveStatus.GPUs)
+            {
+                if (!String.IsNullOrEmpty(gpu.Value.GPUError))
+                {
+                    reason = "Benchmark failed: " + gpu.Value.GPUError;
+                    return false;
+                }
+            }
+           
             return true;
         }
     }

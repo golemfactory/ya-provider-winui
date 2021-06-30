@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:GolemUI"
         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
+        WindowStyle="None"
+        ResizeMode="NoResize"
         Title="Dashboard" Height="524" Width="974" MinHeight="524" MinWidth="974" Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
@@ -17,9 +19,18 @@
             <ColumnDefinition Width="400*"/>
         </Grid.ColumnDefinitions>
 
-        <Border BorderThickness="0" BorderBrush="Black" Background="#710D39" Grid.Column="0" Grid.Row="0"  >
+        <Border BorderThickness="0" BorderBrush="Black" Background="#710D39" Grid.Column="0" Grid.Row="0" MouseDown="TitleBar_MouseDown">
+            <Label Foreground="White" VerticalAlignment="Center">GolemUI 0.0.1</Label>
         </Border>
-        <Border BorderThickness="0" BorderBrush="Black" Background="#710D39" Grid.Column="1" Grid.Row="0">
+
+        <Border BorderThickness="0" BorderBrush="Black" Background="#710D39" Grid.Column="1" Grid.Row="0" MouseDown="TitleBar_MouseDown">
+            <DockPanel>
+                <DockPanel x:Name="TitleBar" DockPanel.Dock="Top">
+                    <Button x:Name="CloseButton" Content="X" DockPanel.Dock="Right" Click="CloseButton_Click" />
+                    <Button x:Name="MinButton" Content="Min" DockPanel.Dock="Right" Click="MinButton_Click" />
+                    <TextBlock HorizontalAlignment="Center"> </TextBlock>
+                </DockPanel>
+            </DockPanel>
         </Border>
 
 
