@@ -60,7 +60,7 @@ namespace GolemUI
                             string sTotalUSD = "?";
                             if (totalGLM != null)
                             {
-                                sTotalGLM = totalGLM.ToString() + "GLM";
+                                sTotalGLM = String.Format("{0:0.000}GLM", (double)totalGLM);
                                 sTotalUSD = String.Format("{0:0.00}$", (double)totalGLM * GlobalSettings.GLMUSD);
                             }
                             this.lblTotalGLM.Content = sTotalGLM;
@@ -71,7 +71,7 @@ namespace GolemUI
                             string sPendingUSD = "?";
                             if (pendingGLM != null)
                             {
-                                sPendingGLM = pendingGLM.ToString() + "GLM";
+                                sPendingGLM = String.Format("{0:0.000}GLM", (double)pendingGLM);
                                 sPendingUSD = String.Format("{0:0.00}$", (double)pendingGLM * GlobalSettings.GLMUSD);
                             }
                             this.lblPendingGLM.Content = sPendingGLM;
