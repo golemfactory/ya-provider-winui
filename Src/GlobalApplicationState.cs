@@ -16,14 +16,13 @@ namespace GolemUI
         benchmarkStarted,
         benchmarkStopped,
         benchmarkSettingsChanged,
-        timerEvent
+        timerEvent,
     }
 
     public class GlobalApplicationStateEventArgs
     {
         public GlobalApplicationStateAction action { get; set; }
     }
-
 
     public class GlobalApplicationState
     {

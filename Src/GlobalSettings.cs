@@ -23,6 +23,8 @@ namespace GolemUI.Settings
         public const int CurrentBenchmarkResultVersion = 138;
 
         public const double GLMUSD = 0.27;
+
+        public const bool isDemo = true;
     }
 
 

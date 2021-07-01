@@ -18,6 +18,19 @@ using GolemUI.Settings;
 
 namespace GolemUI
 {
+
+    public enum DashboardPages
+    {
+        PageDashboardMain,
+        PageDashboardSettings,
+        PageDashboardBenchmark,
+        PageDashboardDetails,
+        PageWelcomeStart,
+        PageWelcomeNodeName,
+        PageWelcomeAddress,
+        PageWelcomeBenchmark,
+    }
+
     /// <summary>
     /// Interaction logic for Dashboard.xaml
     /// </summary>
@@ -27,8 +40,12 @@ namespace GolemUI
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardBenchmark DashboardBenchmark { get; set; }
         public DashboardDetails DashboardDetails { get; set; }
+        public WelcomeStart WelcomeStart { get; set; }
+        public WelcomeNodeName WelcomeNodeName { get; set; }
+        public WelcomeAddress WelcomeAddress { get; set; }
+        public WelcomeBenchmark WelcomeBenchmark { get; set; }
 
-        public int _pageSelected = 0;
+        public DashboardPages _pageSelected = DashboardPages.PageWelcomeStart;
 
         public Dashboard()
         {
@@ -38,7 +55,24 @@ namespace GolemUI
             DashboardSettings = new DashboardSettings();
             DashboardBenchmark = new DashboardBenchmark();
             DashboardDetails = new DashboardDetails();
-            cvMain.Children.Add(DashboardMain);
+            WelcomeStart = new WelcomeStart();
+            WelcomeNodeName = new WelcomeNodeName();
+            WelcomeAddress = new WelcomeAddress();
+            WelcomeBenchmark = new WelcomeBenchmark();
+
+            if (GlobalSettings.isDemo)
+            {
+                cvMain.Children.Add(WelcomeStart);
+                cvMain.Children.Add(WelcomeNodeName);
+                cvMain.Children.Add(WelcomeAddress);
+                cvMain.Children.Add(WelcomeBenchmark);
+                _pageSelected = DashboardPages.PageWelcomeStart;
+            }
+            else
+            {
+                cvMain.Children.Add(DashboardMain);
+                _pageSelected = DashboardPages.PageDashboardMain;
+            }
 
 
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
@@ -47,61 +81,60 @@ namespace GolemUI
             //this.ResizeMode = ResizeMode.NoResize;
         }
 
+
         private void Page1Click(object sender, RoutedEventArgs e)
         {
-            /*var position = 0;
-            var amount = 500;
-            TimeSpan duration = new TimeSpan(1000);
-            if (double.IsNaN(position)) position = 0;
-            var animation =
-                new DoubleAnimation
-                {
-                    // fine-tune animation here
-                    From = position,
-                    To = position + amount,
-                    Duration = new Duration(duration),
-                };
-            Storyboard.SetTarget(animation, svName);
-            svName.set*/
-            //AnimateScroll(cvMain, 500, TimeSpan.FromMilliseconds(500));
-            //cvMain.Visibility = Visibility.Visible;
-            if (_pageSelected != 0)
-            {
-                cvMain.Children.Clear();
-                cvMain.Children.Add(DashboardMain);
-                _pageSelected = 0;
-            }
+            SwitchPage(DashboardPages.PageDashboardMain);
         }
 
         private void Page2Click(object sender, RoutedEventArgs e)
         {
-            //AnimateScroll(cvMain, -500, TimeSpan.FromMilliseconds(500));
-            if (_pageSelected != 1)
-            {
-                cvMain.Children.Clear();
-                cvMain.Children.Add(DashboardSettings);
-                _pageSelected = 1;
-            }
-            //DashboardSettings.Opacity = 0.5f;
+            SwitchPage(DashboardPages.PageDashboardSettings);
         }
 
         private void Page3Click(object sender, RoutedEventArgs e)
         {
-            if (_pageSelected != 2)
-            {
-                cvMain.Children.Clear();
-                cvMain.Children.Add(DashboardBenchmark);
-                _pageSelected = 2;
-            }
+            SwitchPage(DashboardPages.PageDashboardBenchmark);
         }
 
         private void Page4Click(object sender, RoutedEventArgs e)
         {
-            if (_pageSelected != 3)
+            SwitchPage(DashboardPages.PageDashboardDetails);
+        }
+
+        public UserControl GetUserControlFromPage(DashboardPages page)
+        {
+            switch (page)
+            {
+                case DashboardPages.PageDashboardMain:
+                    return DashboardMain;
+                case DashboardPages.PageDashboardSettings:
+                    return DashboardSettings;
+                case DashboardPages.PageDashboardBenchmark:
+                    return DashboardBenchmark;
+                case DashboardPages.PageDashboardDetails:
+                    return DashboardDetails;
+                case DashboardPages.PageWelcomeStart:
+                    return WelcomeStart;
+                case DashboardPages.PageWelcomeNodeName:
+                    return WelcomeNodeName;
+                case DashboardPages.PageWelcomeAddress:
+                    return WelcomeAddress;
+                case DashboardPages.PageWelcomeBenchmark:
+                    return WelcomeBenchmark;
+                default:
+                    throw new Exception("GetUserControlFromPage: Page not found");
+            }
+        }
+
+        public void SwitchPage(DashboardPages page)
+        {
+            if (_pageSelected != page)
             {
                 cvMain.Children.Clear();
-                cvMain.Children.Add(DashboardDetails);
-                _pageSelected = 3;
+                cvMain.Children.Add(GetUserControlFromPage(page));
+
+                _pageSelected = page;
             }
         }
 
