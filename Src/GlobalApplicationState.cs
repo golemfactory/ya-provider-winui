@@ -30,6 +30,8 @@ namespace GolemUI
 
         public ProcessController ProcessController { get { return _processController; } }
 
+        public Dashboard Dashboard { get; set; }
+
         private GlobalApplicationState()
         {
             _processController = new ProcessController();

@@ -2,6 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 
+    <Style TargetType="{x:Type Window}">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+    </Style>
+    
+
     <!-- MAIN PANEL -->
 
     <SolidColorBrush x:Key="Dashboard.Background" Color="#110D39"></SolidColorBrush>
@@ -9,6 +14,13 @@
         <Setter Property="Background" Value="{StaticResource Dashboard.Background}"/>
     </Style>
 
+    <Style x:Key="InfoLabel" TargetType="{x:Type Label}">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    
     <!-- BLUE PANEL  -->
 
     <SolidColorBrush x:Key="BlueBox.Background" Color="#7D779E"></SolidColorBrush>
@@ -18,6 +30,21 @@
         <Setter Property="BorderBrush" Value="{StaticResource BlueBox.Background}"/>
         <Setter Property="Background" Value="{StaticResource BlueBox.Border}"/>
         <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <Style x:Key="BlueBoxTitle" TargetType="{x:Type Label}">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style x:Key="BlueBoxTextBlock" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
     </Style>
 
     <!-- BLUE BUTTON  -->
@@ -87,11 +114,11 @@
     </Style>
 
     <!-- PINK BUTTON  -->
-    
-    <SolidColorBrush x:Key="ButtonPink.Static.Background" Color="Pink"/>
+
+    <SolidColorBrush x:Key="ButtonPink.Static.Background" Color="#D119AE"/>
     <SolidColorBrush x:Key="ButtonPink.Static.Border" Color="#74708C"/>
     <SolidColorBrush x:Key="ButtonPink.Static.Foreground" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="ButtonPink.MouseOver.Background" Color="blue"/>
+    <SolidColorBrush x:Key="ButtonPink.MouseOver.Background" Color="#E139DE"/>
     <SolidColorBrush x:Key="ButtonPink.MouseOver.Border" Color="#74708C"/>
     <SolidColorBrush x:Key="ButtonPink.MouseOver.Foreground" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="ButtonPink.Pressed.Background" Color="white"/>

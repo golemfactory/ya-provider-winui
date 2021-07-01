@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -18,32 +19,31 @@
         <Canvas>
             <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
                 <Label Foreground="#FFFFFF" Content="Getting Started" FontFamily="SegoeUI" FontSize="24"></Label>
-                <!--<Label Content="Dashboard"></Label>-->
             </Border>
 
-            <Label Canvas.Left="30" Canvas.Top="80" Foreground="White" FontFamily="SegoeUI" FontSize="14" FontWeight="Bold">Choose your path</Label>
-            <Border Style="{DynamicResource BorderStyleBlueBox}" Canvas.Left="50" Canvas.Top="185" Width="300" Height="182">
+            <Label Canvas.Left="30" Canvas.Top="110" Foreground="White" FontFamily="SegoeUI" FontSize="14" FontWeight="Bold">Choose your path</Label>
+            
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Canvas.Left="30" Canvas.Top="185" Width="330" Height="200">
                 <Canvas>
-                    <Label Foreground="White" Content="I whish to learn" Canvas.Left="27" Canvas.Top="10" ></Label>
-                    <TextBlock Foreground="White" TextWrapping="Wrap" Width="176" Canvas.Left="98" Canvas.Top="41">
+                    <svgc:SvgViewbox Source="Media/onboarding/begginer.svg" Canvas.Left="33" Canvas.Top="55" Width="75" Height="75"/>
+                    <Label Style="{DynamicResource BlueBoxTitle}" Canvas.Left="20" Canvas.Top="10" Content="I whish to learn"></Label>
+                    <TextBlock Style="{DynamicResource BlueBoxTextBlock}" Width="180" Canvas.Right="20" Canvas.Top="50">
                         Choose this option if you would like us to guide you through the process step by step and help learn you about security.
                     </TextBlock>
-                    <Button Style="{StaticResource PinkButtonStyle}" x:Name="btnForwardLearn" Width="176" Height="44" Content="I want to learn" Canvas.Top="126" Canvas.Left="98"/>
-
+                    <Button Style="{StaticResource PinkButtonStyle}" x:Name="btnForwardLearn" Width="180" Height="40" Content="I want to learn" Canvas.Bottom="20" Canvas.Right="20"/>
                 </Canvas>
             </Border>
-            <Border Style="{DynamicResource BorderStyleBlueBox}" Canvas.Left="423" Canvas.Top="185" Width="300" Height="182">
-
+            
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Canvas.Left="400" Canvas.Top="185" Width="330" Height="200">
                 <Canvas>
-                    <Label Foreground="White" Content="I'm quite experienced" Canvas.Left="27" Canvas.Top="10" ></Label>
-                    <TextBlock Foreground="White" TextWrapping="Wrap" Width="176" Canvas.Left="98" Canvas.Top="41">
+                    <svgc:SvgViewbox Source="Media/onboarding/experienced.svg" Canvas.Left="33" Canvas.Top="55" Width="75" Height="75"/>
+                    <Label Style="{DynamicResource BlueBoxTitle}" Foreground="White" Canvas.Left="20" Canvas.Top="10" Content="I'm quite experienced" ></Label>
+                    <TextBlock Foreground="White" TextWrapping="Wrap" Width="180" Canvas.Right="20" Canvas.Top="50">
                         You should know what you are doing and you own your crypto wallet already
                     </TextBlock>
-                    <Button Style="{StaticResource BlueButtonStyle}" x:Name="btnForwardAdvanced" Width="176" Height="44" Content="I know what I'm doing" Canvas.Top="126" Canvas.Left="98"/>
-
+                    <Button Style="{StaticResource BlueButtonStyle}" x:Name="btnForwardAdvanced" Width="180" Height="40" Content="I know what I'm doing" Canvas.Bottom="20" Canvas.Right="20" Click="btnForwardAdvanced_Click"/>
                 </Canvas>
             </Border>
-
         </Canvas>
     </Border>
 </UserControl>

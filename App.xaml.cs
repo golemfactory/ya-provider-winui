@@ -57,6 +57,7 @@ namespace GolemUI
                 var dashboardWindow = new Dashboard();
                 dashboardWindow.Show();
 
+                GlobalApplicationState.Instance.Dashboard = dashboardWindow;
 
 #if DEBUG
                 var debugWindow = new DebugWindow();

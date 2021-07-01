@@ -3,10 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border Style="{DynamicResource PageBackground}">
+        <Canvas>
+            <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
+                <Label Foreground="#FFFFFF" Content="Getting Started" FontFamily="SegoeUI" FontSize="24"></Label>
+            </Border>
+
+            <Label Canvas.Left="30" Canvas.Top="110" Foreground="White" FontFamily="SegoeUI" FontSize="14" FontWeight="Bold">Use only Ethereum address</Label>
+
+            <svgc:SvgViewbox Source="Media/onboarding/use_my_wallet.svg" Canvas.Left="35" Canvas.Top="188" Width="183" Height="181"/>
+            <Label Style="{DynamicResource BlueBoxTitle}" Canvas.Left="20" Canvas.Top="10" Content="I whish to learn"></Label>
+            <TextBlock Style="{DynamicResource BlueBoxTextBlock}" Width="180" Canvas.Right="20" Canvas.Top="50">
+                        Choose this option if you would like us to guide you through the process step by step and help learn you about security.
+            </TextBlock>
+            <Button Style="{StaticResource PinkButtonStyle}" x:Name="btnForwardLearn" Width="180" Height="40" Content="I want to learn" Canvas.Bottom="20" Canvas.Right="20"/>
+
+
+
+        </Canvas>
+    </Border>
 </UserControl>

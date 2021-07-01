@@ -26,6 +26,7 @@ namespace GolemUI
         PageDashboardBenchmark,
         PageDashboardDetails,
         PageWelcomeStart,
+        PageWelcomeDecide,
         PageWelcomeNodeName,
         PageWelcomeAddress,
         PageWelcomeBenchmark,
@@ -44,7 +45,7 @@ namespace GolemUI
         public WelcomeNodeName WelcomeNodeName { get; set; }
         public WelcomeAddress WelcomeAddress { get; set; }
         public WelcomeBenchmark WelcomeBenchmark { get; set; }
-
+        public WelcomeDecide WelcomeDecide { get; set; }
         public DashboardPages _pageSelected = DashboardPages.PageWelcomeStart;
 
         public Dashboard()
@@ -59,7 +60,7 @@ namespace GolemUI
             WelcomeNodeName = new WelcomeNodeName();
             WelcomeAddress = new WelcomeAddress();
             WelcomeBenchmark = new WelcomeBenchmark();
-
+            WelcomeDecide = new WelcomeDecide();
             if (GlobalSettings.isDemo)
             {
                 cvMain.Children.Add(WelcomeStart);
@@ -116,6 +117,8 @@ namespace GolemUI
                     return DashboardDetails;
                 case DashboardPages.PageWelcomeStart:
                     return WelcomeStart;
+                case DashboardPages.PageWelcomeDecide:
+                    return WelcomeDecide;
                 case DashboardPages.PageWelcomeNodeName:
                     return WelcomeNodeName;
                 case DashboardPages.PageWelcomeAddress:

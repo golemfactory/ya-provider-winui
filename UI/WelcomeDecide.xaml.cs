@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace GolemUI
 {
     /// <summary>
-    /// Interaction logic for WelcomeStart.xaml
+    /// Interaction logic for WelcomeDecide.xaml
     /// </summary>
-    public partial class WelcomeStart : UserControl
+    public partial class WelcomeDecide : UserControl
     {
-        public WelcomeStart()
+        public WelcomeDecide()
         {
             InitializeComponent();
-        }
-
-        private void btnForwardAdvanced_Click(object sender, RoutedEventArgs e)
-        {
-            GlobalApplicationState.Instance.Dashboard.SwitchPage(DashboardPages.PageWelcomeDecide);
         }
     }
 }
