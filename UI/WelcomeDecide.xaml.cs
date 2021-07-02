@@ -24,5 +24,10 @@ namespace GolemUI
         {
             InitializeComponent();
         }
+
+        private void btnUseWallet_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalApplicationState.Instance.Dashboard.SwitchPage(DashboardPages.PageWelcomeAddress);
+        }
     }
 }

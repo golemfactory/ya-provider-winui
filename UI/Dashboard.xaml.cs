@@ -64,9 +64,6 @@ namespace GolemUI
             if (GlobalSettings.isDemo)
             {
                 cvMain.Children.Add(WelcomeStart);
-                cvMain.Children.Add(WelcomeNodeName);
-                cvMain.Children.Add(WelcomeAddress);
-                cvMain.Children.Add(WelcomeBenchmark);
                 _pageSelected = DashboardPages.PageWelcomeStart;
             }
             else

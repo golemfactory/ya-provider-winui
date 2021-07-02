@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,37 @@ namespace GolemUI
         public WelcomeAddress()
         {
             InitializeComponent();
+
+            LocalSettings s = SettingsLoader.LoadSettingsFromFileOrDefault();
+            tbWalletAddress.Text = s.EthAddress;
+        }
+
+        private bool validateAddress()
+        {
+            if (String.IsNullOrEmpty(tbWalletAddress.Text))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void btnCheckAddress(object sender, RoutedEventArgs e)
+        {
+            if (validateAddress())
+            {
+                System.Diagnostics.Process.Start("explorer.exe", "https://etherscan.io/address/" + tbWalletAddress.Text);
+            }
+        }
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (validateAddress())
+            {
+                LocalSettings s = SettingsLoader.LoadSettingsFromFileOrDefault();
+                s.EthAddress = tbWalletAddress.Text;
+                SettingsLoader.SaveSettingsToFile(s);
+                GlobalApplicationState.Instance.Dashboard.SwitchPage(DashboardPages.PageWelcomeNodeName);
+            }
         }
     }
 }

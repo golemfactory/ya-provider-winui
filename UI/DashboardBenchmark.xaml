@@ -4,128 +4,38 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GolemUI"
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <Style x:Key="BorderStyleBlueBox" TargetType="{x:Type Border}">
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="BorderBrush" Value="#7D779E"/>
-            <Setter Property="Background" Value="#281E60"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-        <Style TargetType="Button" x:Key="MyButton2">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Background" Value="#261D5E" />
-            <Setter Property="Foreground" Value="white" />
-            <Setter Property="FontWeight" Value="bold" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border Style="{DynamicResource PageBackground}">
+        <Canvas>
+            <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
+                <Label Foreground="#FFFFFF" Content="GPU Benchmark" FontFamily="SegoeUI" FontSize="24"></Label>
+                <!--<Label Content="Dashboard"></Label>-->
+            </Border>
+            <local:GpuMiningPanelUI x:Name="gpuMiningPanel" Canvas.Left="220" Canvas.Top="160" Width="550"/>
 
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid Background="{TemplateBinding Background}">
-                            <ContentPresenter x:Name="MyContentPresenter" 
-                                          Content="{TemplateBinding Content}"
-                                          HorizontalAlignment="Center" 
-                                          VerticalAlignment="Center" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <svgc:SvgViewbox Source="Media/onboarding/hash_power.svg" Canvas.Left="34" Canvas.Top="150" Width="150" Height="150"/>
 
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="Background" Value="{StaticResource Button.MouseOver.Background}"/>
-                    <Setter Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="true">
-                    <Setter Property="Background" Value="{StaticResource Button.Pressed.Background}"/>
-                    <Setter Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}"/>
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="#261D5E"/>
-                    <Setter Property="Foreground" Value="Gray"/>
-                </Trigger>
+            <Button Name="btnStartBenchmark" Style="{StaticResource BlueButtonStyle}" Click="btnStartBenchmark_Click" Width="148" Height="40" Margin="10 10" Canvas.Left="24" Canvas.Top="310" >Start Benchmark</Button>
+            <Button Name="btnStopBenchmark" Style="{StaticResource BlueButtonStyle}" Content="Stop benchmark" Click="btnStopBenchmark_Click" Canvas.Left="24" Canvas.Top="365" Height="42" Width="146" Margin="10 10"/>
+            <StackPanel Orientation="Horizontal" Canvas.Left="20" Canvas.Top="91" >
+            </StackPanel>
+            <Border Name="brdAdvanced" Canvas.Left="410" Canvas.Top="37" Style="{DynamicResource BorderStyleBlueBox}" Height="33" >
+                <StackPanel>
+                    <Label Style="{DynamicResource BlueBoxTitle}" MouseDown="Label_MouseDown">Advanced</Label>
+                    <TextBlock Width="350" Margin="10">Select which cards you want to run benchmark and mining on). For example 0,2,3 means run on first, third and fourth card. Run benchmark to confirm that your selection is valid. Leave the field empty to run on all cards.</TextBlock>
+                    <TextBox HorizontalAlignment="Left" Name="txRunOnSelectedCards" Text="" Width="100" Margin="10,0,0,10"/>
+                </StackPanel>
+            </Border>
 
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <SolidColorBrush x:Key="Button.Static.Background" Color="#261D5E"/>
-        <SolidColorBrush x:Key="Button.Static.Border" Color="#74708C"/>
-        <SolidColorBrush x:Key="Button.Static.Foreground" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="blue"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#74708C"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Foreground" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="Button.Pressed.Background" Color="white"/>
-        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#74708C"/>
-        <SolidColorBrush x:Key="Button.Pressed.Foreground" Color="black"/>
-        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#261D5E"/>
-        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#74708C"/>
-        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#AAAAAA"/>
-        <Style x:Key="BlueButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="{StaticResource Button.Static.Foreground}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Static.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Static.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Static.Foreground}"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.MouseOver.Foreground}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Pressed.Foreground}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>    
-    <Canvas>
-        <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
-            <Label Foreground="#FFFFFF" Content="GPU Benchmark" FontFamily="SegoeUI" FontSize="24"></Label>
-            <!--<Label Content="Dashboard"></Label>-->
-        </Border>        
-        <local:GpuMiningPanelUI x:Name="gpuMiningPanel" Canvas.Left="20" Canvas.Top="145" Width="600"/>
-
-        <StackPanel Orientation="Horizontal" Canvas.Left="20" Canvas.Top="91" >
-            <Button Name="btnStartBenchmark" Style="{StaticResource BlueButtonStyle}" Click="btnStartBenchmark_Click" Width="187" Height="40" Margin="10 10" >Start Benchmark</Button>
-            <Button x:Name="btnStopBenchmark" Style="{StaticResource BlueButtonStyle}" Content="Stop benchmark" Click="btnStopBenchmark_Click" Canvas.Left="190" Canvas.Top="91" Height="42" Width="170" Margin="10 10"/>
-        </StackPanel>
-        <TextBlock Foreground="White" TextWrapping="WrapWithOverflow" Canvas.Left="428" Canvas.Top="37" Width="350">Advanced(select which cards you want to run benchmark and mining on). For example 0,2,3 means run on first, third and fourth card. Run benchmark to confirm that your selection is valid. Leave the field empty to run on all cards.</TextBlock>
-        <TextBox x:Name="txRunOnSelectedCards" Text="" Width="150" Canvas.Left="428" Canvas.Top="106"/>
-        
-    </Canvas>
+        </Canvas>
+    </Border>
 </UserControl>

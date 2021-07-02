@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,29 @@ namespace GolemUI
         public WelcomeNodeName()
         {
             InitializeComponent();
+
+            LocalSettings s = SettingsLoader.LoadSettingsFromFileOrDefault();
+            tbNodeName.Text = s.NodeName;
+        }
+
+        private bool validateName()
+        {
+            if (String.IsNullOrEmpty(tbNodeName.Text))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (validateName())
+            {
+                LocalSettings s = SettingsLoader.LoadSettingsFromFileOrDefault();
+                s.NodeName = tbNodeName.Text;
+                SettingsLoader.SaveSettingsToFile(s);
+                GlobalApplicationState.Instance.Dashboard.SwitchPage(DashboardPages.PageDashboardBenchmark);
+            }
         }
     }
 }

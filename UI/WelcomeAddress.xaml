@@ -23,12 +23,14 @@
 
             <Label Canvas.Left="30" Canvas.Top="110" Foreground="White" FontFamily="SegoeUI" FontSize="14" FontWeight="Bold">Use only Ethereum address</Label>
 
-            <svgc:SvgViewbox Source="Media/onboarding/use_my_wallet.svg" Canvas.Left="35" Canvas.Top="188" Width="183" Height="181"/>
-            <Label Style="{DynamicResource BlueBoxTitle}" Canvas.Left="20" Canvas.Top="10" Content="I whish to learn"></Label>
-            <TextBlock Style="{DynamicResource BlueBoxTextBlock}" Width="180" Canvas.Right="20" Canvas.Top="50">
-                        Choose this option if you would like us to guide you through the process step by step and help learn you about security.
+            <svgc:SvgViewbox Source="Media/onboarding/name_node.svg" Canvas.Left="35" Canvas.Top="188" Width="183" Height="181"/>
+            <Label Style="{DynamicResource BlueBoxTitle}" Canvas.Left="286" Canvas.Top="168" Content="Paste your wallet address"></Label>
+            <TextBlock Style="{DynamicResource BlueBoxTextBlock}" Width="220" Canvas.Right="20" Canvas.Bottom="20">
+                Make sure that provided ethereum address is valid and you have access to funds on this account. Otherwise earned funds won't be accessible.
             </TextBlock>
-            <Button Style="{StaticResource PinkButtonStyle}" x:Name="btnForwardLearn" Width="180" Height="40" Content="I want to learn" Canvas.Bottom="20" Canvas.Right="20"/>
+            <TextBox Name="tbWalletAddress" Canvas.Left="286" Canvas.Top="216" Width="300"></TextBox>
+            <Button Style="{StaticResource PinkButtonStyle}" x:Name="btnNext" Width="180" Height="40" Content="Next" Canvas.Bottom="20" Canvas.Right="20" Canvas.Left="286" Canvas.Top="294" Click="btnNext_Click"/>
+            <Button Style="{StaticResource BlueButtonStyle}" x:Name="btnCheckOnEtherscan" Width="193" Height="40" Content="Check address on etherscan.io" Canvas.Bottom="20" Canvas.Right="20" Click="btnCheckAddress" Canvas.Left="490" Canvas.Top="294"/>
 
 
 

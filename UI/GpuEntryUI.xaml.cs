@@ -25,7 +25,7 @@ namespace GolemUI
         public GpuEntryUI()
         {
             InitializeComponent();
-            this.cbEnableMining.IsEnabled = false;
+            //this.cbEnableMining.IsEnabled = false;
             _supressEvent = false;
 
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
@@ -38,7 +38,7 @@ namespace GolemUI
                 {
                     case GlobalApplicationStateAction.benchmarkStopped:
                         _supressEvent = true;
-                        this.cbEnableMining.IsEnabled = true;
+                        //this.cbEnableMining.IsEnabled = true;
                         _supressEvent = false;
                         break;
                 }
@@ -56,8 +56,8 @@ namespace GolemUI
                 cbError.Content = error;
                 //this.Background = Brushes.Red;
                 this.pbProgress.Foreground = Brushes.Red;
-                this.cbEnableMining.IsChecked = false;
-                this.cbEnableMining.IsEnabled = false;
+                //this.cbEnableMining.IsChecked = false;
+                //this.cbEnableMining.IsEnabled = false;
             }
             else
             {
@@ -68,7 +68,7 @@ namespace GolemUI
         }
         public void SetDagProgress(float progr)
         {
-            this.lblProgress.Content = progr.ToString();
+            //this.lblProgress.Content = progr.ToString();
             this.pbProgress.Value = progr * 100;
         }
         public void SetMiningSpeed(float miningSpeed)
@@ -78,7 +78,7 @@ namespace GolemUI
         public void SetEnableByUser(bool enable)
         {
             _supressEvent = true;
-            this.cbEnableMining.IsChecked = enable;
+            //this.cbEnableMining.IsChecked = enable;
             _supressEvent = false;
             if (!enable)
             {

@@ -83,15 +83,15 @@ namespace GolemUI
         {
             if (benchmarkProgress <= 0.0f)
             {
-                pbBenchmark.Value = 0.0f;
+                //pbBenchmark.Value = 0.0f;
             }
             else if (benchmarkProgress >= 1.0f)
             {
-                pbBenchmark.Value = 100.0f;
+                //pbBenchmark.Value = 100.0f;
             }
             else
             {
-                pbBenchmark.Value = benchmarkProgress * 100.0f;
+                //pbBenchmark.Value = benchmarkProgress * 100.0f;
             }
         }
         public void FinishBenchmark(bool success)

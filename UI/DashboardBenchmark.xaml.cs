@@ -91,7 +91,7 @@ namespace GolemUI
                         currentEntry = _entries[gpuNo];
                         if (currentEntry != null)
                         {
-                            gpu.Value.IsEnabledByUser = currentEntry.cbEnableMining.IsChecked ?? false;
+                           // gpu.Value.IsEnabledByUser = currentEntry.cbEnableMining.IsChecked ?? false;
                             changed = true;
                         }
                     }
@@ -156,7 +156,7 @@ namespace GolemUI
                     }
                 }*/
             }
-            gpuMiningPanel.lblPower.Content = totalMhs.ToString();
+            gpuMiningPanel.lblPower.Content = totalMhs.ToString() + "MH/s";
             gpuMiningPanel.SetBenchmarkProgress(s.GetEstimatedBenchmarkProgress());
         }
 
@@ -257,6 +257,11 @@ namespace GolemUI
                         break;
                 }
             }
+        }
+
+        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            brdAdvanced.Height = double.NaN;
         }
     }
 }

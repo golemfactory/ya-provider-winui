@@ -3,23 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="750">
-    <Grid>
-        <StackPanel Orientation="Vertical">
-            <Label Name="lblInfo" Content="lblName" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <StackPanel Orientation="Horizontal">
-                <CheckBox Name="cbEnableMining" Content="Enable mining" Foreground="White" IsChecked="True" Checked="cbEnableMining_Changed" Unchecked="cbEnableMining_Changed"></CheckBox>
-                <Label Name="cbError"></Label>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border Style="{DynamicResource BorderStyleBlueBox}" Width="550">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <svgc:SvgViewbox Source="Media/gpu.svg" Canvas.Left="14" Canvas.Top="60" Width="50" Height="40" Grid.Column="0" Margin="0,5" VerticalAlignment="top"/>
 
+            <StackPanel Orientation="Vertical" Grid.Column="1">
+                <Label Name="lblInfo" Content="lblName" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Name="lblPower" Content="lblPower" Width="100" Foreground="White"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12"/>
+                    <ProgressBar Name="pbProgress" Height="20" Margin="10, 0" VerticalAlignment="Center" Width="370"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Name="cbError"></Label>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Name="lblProgress" Width="100" Content="lblProgress" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <Label Name="lblPower" Content="lblPower" Width="100" Foreground="White"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <ProgressBar Name="pbProgress" Height="20" Margin="10, 0" VerticalAlignment="Center" Width="193"/>
-            </StackPanel>
-        </StackPanel>
-
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>

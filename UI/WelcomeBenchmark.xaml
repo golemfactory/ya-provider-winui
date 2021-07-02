@@ -3,10 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border Style="{DynamicResource PageBackground}">
+        <Canvas>
+            <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
+                <Label Foreground="#FFFFFF" Content="Getting Started" FontFamily="SegoeUI" FontSize="24"></Label>
+            </Border>
+
+            <Label Canvas.Left="30" Canvas.Top="110" Foreground="White" FontFamily="SegoeUI" FontSize="14" FontWeight="Bold">Benchmark</Label>
+
+            <svgc:SvgViewbox Source="Media/onboarding/hash_power.svg" Canvas.Left="35" Canvas.Top="188" Width="183" Height="181"/>
             
-    </Grid>
+            
+            
+            <TextBlock Style="{DynamicResource BlueBoxTextBlock}" Width="220" Canvas.Right="20" Canvas.Bottom="20">
+                Benchmark will use your GPU for Ethereum mining. It can cause a moderate stress to your graphic card and potentially cause system instability
+            </TextBlock>
+       <!--     <Button Style="{StaticResource PinkButtonStyle}" x:Name="btnNext" Width="180" Height="40" Content="Next" Canvas.Bottom="20" Canvas.Right="20" Canvas.Left="286" Canvas.Top="294" Click="btnNext_Click"/>
+            <Button Style="{StaticResource BlueButtonStyle}" x:Name="btnCheckOnEtherscan" Width="193" Height="40" Content="Check address on etherscan.io" Canvas.Bottom="20" Canvas.Right="20" Click="btnCheckAddress" Canvas.Left="490" Canvas.Top="294"/>-->
+        </Canvas>
+    </Border>
 </UserControl>

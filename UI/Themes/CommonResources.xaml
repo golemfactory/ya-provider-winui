@@ -2,6 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 
+    <!-- Progress bar -->
+
+    <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Background" Value="AliceBlue"/>
+        <Setter Property="Foreground" Value="blue"/>
+    </Style>
+
     <Style TargetType="{x:Type Window}">
         <Setter Property="FontFamily" Value="Segoe UI" />
     </Style>
@@ -13,6 +20,13 @@
     <Style x:Key="PageBackground" TargetType="{x:Type Border}">
         <Setter Property="Background" Value="{StaticResource Dashboard.Background}"/>
     </Style>
+    
+    <Style TargetType="{x:Type Label}">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
 
     <Style x:Key="InfoLabel" TargetType="{x:Type Label}">
         <Setter Property="FontFamily" Value="Segoe UI" />
@@ -20,7 +34,14 @@
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="Foreground" Value="White" />
     </Style>
-    
+
+    <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+    </Style>
     <!-- BLUE PANEL  -->
 
     <SolidColorBrush x:Key="BlueBox.Background" Color="#7D779E"></SolidColorBrush>
