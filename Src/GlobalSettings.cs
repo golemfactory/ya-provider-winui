@@ -37,6 +37,12 @@ namespace GolemUI.Settings
 
         public bool IsClaymoreMiningPossible(out string reason)
         {
+            if (GlobalSettings.isDemo)
+            {
+                reason = "";
+                return true;
+            }
+
             reason = "";
             if (this.liveStatus == null)
             {

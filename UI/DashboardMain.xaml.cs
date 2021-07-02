@@ -31,7 +31,7 @@ namespace GolemUI
             //_processController = processController;
 
             //this.Title = GlobalSettings.AppTitle;
-            btnStop.IsEnabled = false;
+            btnStop.Visibility = Visibility.Collapsed;
 
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
 
@@ -137,9 +137,10 @@ namespace GolemUI
 
             lblStatus.Content = "Started";
             //lblStatus.Background = Brushes.Green;
-            btnStart.IsEnabled = false;
-            btnStop.IsEnabled = true;
-            
+            btnStop.Visibility = Visibility.Visible;
+            btnStart.Visibility = Visibility.Collapsed;
+
+
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStarted);
         }
 
@@ -174,8 +175,8 @@ namespace GolemUI
             lblStatus.Content = "Stopped";
             //lblStatus.Background = Brushes.Gray;
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStopped);
-            btnStart.IsEnabled = true;
-            btnStop.IsEnabled = false;
+            btnStop.Visibility = Visibility.Collapsed;
+            btnStart.Visibility = Visibility.Visible;
         }
 
         private void MiningBox_MouseDown(object sender, MouseButtonEventArgs e)

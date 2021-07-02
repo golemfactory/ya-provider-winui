@@ -45,6 +45,15 @@ namespace GolemUI.Claymore
             return s;
         }
 
+        public bool IsReadyForMining()
+        {
+            if (IsDagFinished() && BenchmarkSpeed > 0.5 && String.IsNullOrEmpty(GPUError))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool IsDagFinished()
         {
             if (DagProgress < 1.0f)

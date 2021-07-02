@@ -24,17 +24,20 @@
 
             <svgc:SvgViewbox Source="Media/onboarding/hash_power.svg" Canvas.Left="34" Canvas.Top="150" Width="150" Height="150"/>
 
-            <Button Name="btnStartBenchmark" Style="{StaticResource BlueButtonStyle}" Click="btnStartBenchmark_Click" Width="148" Height="40" Margin="10 10" Canvas.Left="24" Canvas.Top="310" >Start Benchmark</Button>
-            <Button Name="btnStopBenchmark" Style="{StaticResource BlueButtonStyle}" Content="Stop benchmark" Click="btnStopBenchmark_Click" Canvas.Left="24" Canvas.Top="365" Height="42" Width="146" Margin="10 10"/>
+            <Button Name="btnStartBenchmark" Style="{StaticResource BlueButtonStyle}" Click="btnStartBenchmark_Click" Width="150" Height="40" Margin="10 10" Canvas.Left="25" Canvas.Top="310" >Start Benchmark</Button>
+            <Button Name="btnStopBenchmark" Style="{StaticResource BlueButtonStyle}" Visibility="Hidden" Click="btnStopBenchmark_Click" Width="150" Height="40" Margin="10 10" Canvas.Left="25" Canvas.Top="310" >Stop Benchmark</Button>
             <StackPanel Orientation="Horizontal" Canvas.Left="20" Canvas.Top="91" >
             </StackPanel>
-            <Border Name="brdAdvanced" Canvas.Left="410" Canvas.Top="37" Style="{DynamicResource BorderStyleBlueBox}" Height="33" >
+            <Border Name="brdAdvanced" Canvas.Left="410" Canvas.Top="37" Style="{DynamicResource BorderStyleBlueBox}" >
                 <StackPanel>
                     <Label Style="{DynamicResource BlueBoxTitle}" MouseDown="Label_MouseDown">Advanced</Label>
                     <TextBlock Width="350" Margin="10">Select which cards you want to run benchmark and mining on). For example 0,2,3 means run on first, third and fourth card. Run benchmark to confirm that your selection is valid. Leave the field empty to run on all cards.</TextBlock>
                     <TextBox HorizontalAlignment="Left" Name="txRunOnSelectedCards" Text="" Width="100" Margin="10,0,0,10"/>
                 </StackPanel>
             </Border>
+
+            <Button Name="btnNext" Style="{StaticResource PinkButtonStyle}" IsEnabled="False" Click="btnReady_Click" Width="150" Height="40" Margin="10 10" Canvas.Left="25" Canvas.Top="360">Ready</Button>
+
 
         </Canvas>
     </Border>

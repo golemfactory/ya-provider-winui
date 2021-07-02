@@ -233,7 +233,7 @@ namespace GolemUI.Command
             {
                 List<int> claymoreGpus = br.liveStatus.GetEnabledGpus();
 
-                string diSwitch = "di=";
+                string diSwitch = "-di ";
                 foreach (var claymoreGpuNo in claymoreGpus)
                 {
                     diSwitch += $"{claymoreGpuNo}";

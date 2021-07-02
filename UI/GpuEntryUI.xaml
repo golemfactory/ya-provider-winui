@@ -14,7 +14,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Border Style="{DynamicResource BorderStyleBlueBox}" Width="550">
+    <Border Style="{DynamicResource BorderStyleBlueBox}" Width="550" Margin="0,0,0,5">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="60"></ColumnDefinition>
