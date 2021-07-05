@@ -354,6 +354,14 @@ namespace GolemUI
             }
             _provider.ActivatePreset("wasmtime");
 
+
+
+            var providerConfig = new Config();
+            providerConfig.Account = ls.EthAddress.ToLower();
+            providerConfig.NodeName = ls.NodeName;
+            providerConfig.Subnet = subnet;
+            _provider.Config = providerConfig;
+     
             _providerDaemon = _provider.Run(_appkey, network, subnet, ls, enableClaymoreMining, br);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;

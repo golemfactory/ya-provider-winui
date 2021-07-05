@@ -136,6 +136,10 @@ namespace GolemUI.Command
         {
             var process = _createProcess(arguments);
             string output = process.StandardOutput.ReadToEnd();
+            if (process.ExitCode != 0)
+            {
+                throw new Exception("Yagna call failed");
+            }
             return output;
         }
 
@@ -408,7 +412,7 @@ namespace GolemUI.Command
 
         public void Init(Network network, string driver, string account)
         {
-            _srv.Exec<PaymentStatus>("payment", "init", "--receiver", "--network", network.Id, "--driver", driver, "--acount", account);
+            _srv.Exec<PaymentStatus>("payment", "init", "--receiver", "--network", network.Id, "--driver", driver, "--account", account);
         }
 
         public async Task<PaymentStatus?> PaymentStatus(Network network, string driver)
