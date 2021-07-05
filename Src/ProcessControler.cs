@@ -125,12 +125,19 @@ namespace GolemUI
             return txt;
         }
 
-        public PaymentStatus? GetStatus()
+        public PaymentStatus? GetPaymentStatus()
         {
-            PaymentStatus? st = _yagna.Payment?.Status(Network.Rinkeby, "zksync") ?? null;
+            PaymentStatus? st = _yagna.Payment?.PaymentStatus(Network.Rinkeby, "zksync") ?? null;
 
             return st;
         }
+        public ActivityStatus? GetActivityStatus()
+        {
+            ActivityStatus? st = _yagna.Payment?.ActivityStatus() ?? null;
+
+            return st;
+        }
+
 
         public async Task<bool> StopProvider()
         {
@@ -323,8 +330,8 @@ namespace GolemUI
             {
                 var usageCoef = new Dictionary<string, decimal>();
                 var preset = new Preset("gminer", "gminer", usageCoef);
-                preset.UsageCoeffs.Add("share", new decimal(0.01));
-                preset.UsageCoeffs.Add("duration", 0);
+                preset.UsageCoeffs.Add("share", new decimal(0.1));
+                preset.UsageCoeffs.Add("duration", new decimal(0.0001));
                 string info, args;
                 _provider.AddPreset(preset, out args, out info);
                 ConfigurationInfoDebug += "Add preset claymore mining: \nargs:\n" + args + "\nresponse:\n" + info;

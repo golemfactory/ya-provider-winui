@@ -241,6 +241,7 @@ namespace GolemUI.Command
 
                 startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = diSwitch;
             }
+            startInfo.EnvironmentVariables["MIN_AGREEMENT_EXPIRATION"] = "30s";
             startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;
             //startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
             startInfo.EnvironmentVariables["YAGNA_APPKEY"] = appkey;

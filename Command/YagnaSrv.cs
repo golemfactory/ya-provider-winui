@@ -411,9 +411,14 @@ namespace GolemUI.Command
             _srv.Exec<PaymentStatus>("payment", "init", "--receiver", "--network", network.Id, "--driver", driver, "--acount", account);
         }
 
-        public PaymentStatus? Status(Network network, string driver)
+        public PaymentStatus? PaymentStatus(Network network, string driver)
         {
             return _srv.Exec<PaymentStatus>("--json", "payment", "status", "--network", network.Id, "--driver", driver);
+        }
+
+        public ActivityStatus? ActivityStatus()
+        {
+            return _srv.Exec<ActivityStatus>("--json", "activity", "status");
         }
 
     }

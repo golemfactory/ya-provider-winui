@@ -62,7 +62,7 @@ namespace GolemUI
 
             txRunOnSelectedCards.Text = settings.MinerSelectedGPUIndices;
 
-            
+            brdAdvanced.Height = 33;
         }
 
         Dictionary<int, GpuEntryUI> _entries = new Dictionary<int, GpuEntryUI>();

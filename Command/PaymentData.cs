@@ -50,6 +50,22 @@ namespace GolemUI.Command
 
     }
 
+    public class ActivityCounters
+    {
+        public int? New;
+        public int? Ready;
+        public int? Terminated;
+        public int? Deployed;
+    }
+    public class ActivityStatus
+    {
+        public ActivityCounters? last1h { get; set; }
+        public ActivityCounters? total { get; set; }
+
+        //public 
+    }
+
+
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class StatusNotes
     {

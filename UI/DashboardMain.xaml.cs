@@ -46,19 +46,19 @@ namespace GolemUI
             string reason;
             if (!br.IsClaymoreMiningPossible(out reason))
             {
-                this.txtStatus.Text = reason;
+                this.txtGpuStatus.Text = reason;
             }
             else
             {
-                this.txtStatus.Text = "Ready";
+                this.txtGpuStatus.Text = "Ready";
             }
         }
         public void RefreshPaymentStatus()
         {
             if (GlobalApplicationState.Instance.ProcessController.IsRunning)
             {
-                PaymentStatus? st = GlobalApplicationState.Instance.ProcessController.GetStatus();
-                decimal? totalGLM = st?.Incoming?.Confirmed?.TotalAmount;
+                PaymentStatus? st = GlobalApplicationState.Instance.ProcessController.GetPaymentStatus();
+                decimal? totalGLM = st?.Amount;
                 string sTotalGLM = "?";
                 string sTotalUSD = "?";
                 if (totalGLM != null)
@@ -91,6 +91,20 @@ namespace GolemUI
             }
         }
 
+        public void RefreshActivityStatus()
+        {
+            if (GlobalApplicationState.Instance.ProcessController.IsRunning)
+            {
+                ActivityStatus? st = GlobalApplicationState.Instance.ProcessController.GetActivityStatus();
+                if (st?.last1h?.Ready >= 1)
+                {
+                    txtGpuStatus.Text = "Mining";
+                    
+                }
+            }
+        }
+
+
 
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {
@@ -101,6 +115,7 @@ namespace GolemUI
                     case GlobalApplicationStateAction.timerEvent:
                         RefreshStatus();
                         RefreshPaymentStatus();
+                        RefreshActivityStatus();
                         break;
                     case GlobalApplicationStateAction.yagnaAppStarted:
                         RefreshStatus();
@@ -177,11 +192,13 @@ namespace GolemUI
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStopped);
             btnStop.Visibility = Visibility.Collapsed;
             btnStart.Visibility = Visibility.Visible;
+            btnStart.IsEnabled = true;
+
         }
 
         private void MiningBox_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            txtStatus.Text = "Clicked";
+            txtGpuStatus.Text = "Clicked";
         }
     }
 }
