@@ -53,7 +53,8 @@ namespace GolemUI
                 LocalSettings s = SettingsLoader.LoadSettingsFromFileOrDefault();
                 s.EthAddress = tbWalletAddress.Text;
                 SettingsLoader.SaveSettingsToFile(s);
-                GlobalApplicationState.Instance.Dashboard.SwitchPage(DashboardPages.PageWelcomeNodeName);
+                GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.reloadSettings);
+                GlobalApplicationState.Instance.Dashboard?.SwitchPage(DashboardPages.PageWelcomeNodeName);
             }
         }
     }

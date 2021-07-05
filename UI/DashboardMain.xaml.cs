@@ -53,11 +53,11 @@ namespace GolemUI
                 this.txtGpuStatus.Text = "Ready";
             }
         }
-        public void RefreshPaymentStatus()
+        public async void RefreshPaymentStatus()
         {
             if (GlobalApplicationState.Instance.ProcessController.IsRunning)
             {
-                PaymentStatus? st = GlobalApplicationState.Instance.ProcessController.GetPaymentStatus();
+                PaymentStatus? st = await GlobalApplicationState.Instance.ProcessController.GetPaymentStatus();
                 decimal? totalGLM = st?.Amount;
                 string sTotalGLM = "?";
                 string sTotalUSD = "?";
@@ -91,15 +91,14 @@ namespace GolemUI
             }
         }
 
-        public void RefreshActivityStatus()
+        public async void RefreshActivityStatus()
         {
             if (GlobalApplicationState.Instance.ProcessController.IsRunning)
             {
-                ActivityStatus? st = GlobalApplicationState.Instance.ProcessController.GetActivityStatus();
+                ActivityStatus? st = await GlobalApplicationState.Instance.ProcessController.GetActivityStatus();
                 if (st?.last1h?.Ready >= 1)
                 {
                     txtGpuStatus.Text = "Mining";
-                    
                 }
             }
         }

@@ -24,7 +24,8 @@ namespace GolemUI.Settings
 
         public const double GLMUSD = 0.27;
 
-        public const bool isDemo = true;
+        public static bool isDemo = true;
+        public static bool enableLoggingToDebugWindow = true;
     }
 
 

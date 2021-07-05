@@ -43,9 +43,9 @@ namespace GolemUI
         private void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<Interfaces.IProcessControler, ProcessController>();
-#if DEBUG
-            services.AddSingleton<DebugWindow>();
-#endif
+//#if DEBUG
+  //          services.AddSingleton<DebugWindow>();
+//#endif
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
@@ -55,24 +55,17 @@ namespace GolemUI
             try
             {
                 var dashboardWindow = new Dashboard();
-                dashboardWindow.Show();
-
                 GlobalApplicationState.Instance.Dashboard = dashboardWindow;
 
-#if DEBUG
                 var debugWindow = new DebugWindow();
-                if (debugWindow == null)
-                {
-                    throw new Exception("Debug window");
-                }
-#endif
+                GlobalApplicationState.Instance.DebugWindow = debugWindow;
 
-#if DEBUG
+                dashboardWindow.Show();
                 debugWindow.Owner = dashboardWindow;
                 debugWindow.Left = dashboardWindow.Left + dashboardWindow.Width;
                 debugWindow.Top = dashboardWindow.Top;
                 debugWindow.Show();
-#endif
+
             }
             catch (Exception ex)
             {

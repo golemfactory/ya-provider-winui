@@ -27,7 +27,7 @@ namespace GolemUI
 
         private void btnForwardAdvanced_Click(object sender, RoutedEventArgs e)
         {
-            GlobalApplicationState.Instance.Dashboard.SwitchPage(DashboardPages.PageWelcomeDecide);
+            GlobalApplicationState.Instance.Dashboard?.SwitchPage(DashboardPages.PageWelcomeDecide);
         }
     }
 }

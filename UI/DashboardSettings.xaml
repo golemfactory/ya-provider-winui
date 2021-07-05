@@ -99,7 +99,7 @@
         </Border>
         <Border Style="{DynamicResource BorderStyleBlueBox}" Width="200" Height="auto" Canvas.Left="350" Canvas.Top="110">
             <StackPanel>
-                <Label Content="Application settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"/>
+                <Label Content="Application settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" MouseDown="Label_MouseDown"/>
                 <CheckBox Name="cbStartWithWindows" Content="Run when computer starts" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
                 <!--<CheckBox Name="cbStartAutmatically" Content="Automatically start work" Foreground="#FFFFFF" Margin="10,5"></CheckBox>-->
                 <CheckBox Name="cbDebugOutput" Content="Enable debug logs" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>

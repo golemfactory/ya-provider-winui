@@ -125,19 +125,17 @@ namespace GolemUI
             return txt;
         }
 
-        public PaymentStatus? GetPaymentStatus()
+        public async Task<PaymentStatus?> GetPaymentStatus()
         {
-            PaymentStatus? st = _yagna.Payment?.PaymentStatus(Network.Rinkeby, "zksync") ?? null;
+            PaymentStatus? st = await _yagna.Payment?.PaymentStatus(Network.Rinkeby, "zksync") ?? null;
 
             return st;
         }
-        public ActivityStatus? GetActivityStatus()
+        public async Task<ActivityStatus?> GetActivityStatus()
         {
-            ActivityStatus? st = _yagna.Payment?.ActivityStatus() ?? null;
-
+            ActivityStatus? st = await _yagna.Payment?.ActivityStatus();
             return st;
         }
-
 
         public async Task<bool> StopProvider()
         {

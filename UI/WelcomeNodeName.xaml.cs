@@ -45,8 +45,17 @@ namespace GolemUI
                 LocalSettings s = SettingsLoader.LoadSettingsFromFileOrDefault();
                 s.NodeName = tbNodeName.Text;
                 SettingsLoader.SaveSettingsToFile(s);
-                GlobalApplicationState.Instance.Dashboard.SwitchPage(DashboardPages.PageDashboardBenchmark);
+                GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.reloadSettings);
+                GlobalApplicationState.Instance.Dashboard?.SwitchPage(DashboardPages.PageDashboardBenchmark);
             }
+        }
+
+        private void btnCheckAddress(object sender, RoutedEventArgs e)
+        {
+            NameGen gen = new NameGen();
+            
+            tbNodeName.Text = gen.GenerateElvenName() + "-" + gen.GenerateElvenName();
+
         }
     }
 }

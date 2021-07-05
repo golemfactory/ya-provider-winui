@@ -23,9 +23,11 @@ namespace GolemUI
         public DebugWindow()
         {
             InitializeComponent();
-#if DEBUG
+
             GlobalApplicationState.Instance.ProcessController.LineHandler += LogLine;
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
+
+#if DEBUG
             NameGen g = new NameGen();
             for (int i = 0; i < 20; i++)
             {
@@ -46,25 +48,27 @@ namespace GolemUI
 
         void LogLine(string logger, string line)
         {
-            if (logger == "provider")
+            if (GlobalSettings.enableLoggingToDebugWindow)
             {
-                this.Dispatcher.Invoke(() =>
+                if (logger == "provider")
                 {
-                    TrimControlTextSize(txtProvider);
-                    txtProvider.Text += $"{line}\n";
-                    svProvider.ScrollToBottom();
-                });
-            }
-            if (logger == "yagna")
-            {
-                this.Dispatcher.Invoke(() =>
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        TrimControlTextSize(txtProvider);
+                        txtProvider.Text += $"{line}\n";
+                        svProvider.ScrollToBottom();
+                    });
+                }
+                if (logger == "yagna")
                 {
-                    TrimControlTextSize(txtYagna);
-                    txtYagna.Text += $"{line}\n";
-                    svYagna.ScrollToBottom();
-                });
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        TrimControlTextSize(txtYagna);
+                        txtYagna.Text += $"{line}\n";
+                        svYagna.ScrollToBottom();
+                    });
+                }
             }
-
         }
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {

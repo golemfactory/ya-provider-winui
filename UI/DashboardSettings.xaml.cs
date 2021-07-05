@@ -84,6 +84,9 @@ namespace GolemUI
             {
                 switch(args.action)
                 {
+                    case GlobalApplicationStateAction.reloadSettings:
+                        ResetChanges();
+                        break;
                     case GlobalApplicationStateAction.yagnaAppStarting:
                         SwitchSettingsToReadOnly();
                         break;
@@ -155,6 +158,14 @@ namespace GolemUI
         private void btnCancelSettings_Click(object sender, RoutedEventArgs e)
         {
             ResetChanges();
+        }
+
+        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed)
+            {
+
+            }
         }
     }
 }

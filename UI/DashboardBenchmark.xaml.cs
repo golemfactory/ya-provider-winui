@@ -312,7 +312,7 @@ namespace GolemUI
 
         private void btnReady_Click(object sender, RoutedEventArgs e)
         {
-            GlobalApplicationState.Instance.Dashboard.SwitchPage(DashboardPages.PageDashboardMain);
+            GlobalApplicationState.Instance.Dashboard?.SwitchPage(DashboardPages.PageDashboardMain);
         }
     }
 }
