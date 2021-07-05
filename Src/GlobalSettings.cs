@@ -88,7 +88,7 @@ namespace GolemUI.Settings
         public LocalSettings()
         {
 #if DEBUG
-            EthAddress = "D593411F3E6e79995E787b5f81D10e12fA6eCF04";
+            //EthAddress = "D593411F3E6e79995E787b5f81D10e12fA6eCF04";
             Subnet = "LazySubnet";
 #endif
 
