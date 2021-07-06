@@ -57,7 +57,8 @@ namespace GolemUI
         {
             if (GlobalApplicationState.Instance.ProcessController.IsRunning)
             {
-                PaymentStatus? st = await GlobalApplicationState.Instance.ProcessController.GetPaymentStatus();
+                LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
+                PaymentStatus? st = await GlobalApplicationState.Instance.ProcessController.GetPaymentStatus(ls.EthAddress);
                 decimal? totalGLM = st?.Amount;
                 string sTotalGLM = "?";
                 string sTotalUSD = "?";

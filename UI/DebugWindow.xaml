@@ -12,6 +12,7 @@
                 <Button Content="OpenCommandLine" Click="Button_Click"></Button>
                 <Button x:Name="btnOpenSettingsData" Content="Settings Folder" Click="btnOpenSettingsData_Click"></Button>
                 <Button x:Name="btnVersionInfo" Content="Yagna version" Click="btnVersionInfo_Click"></Button>
+                <CheckBox x:Name="cbCaptureOutput"></CheckBox>
             </StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>

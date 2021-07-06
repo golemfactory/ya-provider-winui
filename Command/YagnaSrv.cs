@@ -345,7 +345,14 @@ namespace GolemUI.Command
             int tries = 0;
             while (table == null)
             {
-                table = Exec<Table>("list");
+                try
+                {
+                    table = Exec<Table>("list");
+                }
+                catch(Exception)
+                {
+                    //do nothing
+                }
                 Thread.Sleep(1000);
                 tries++;
                 if (tries == 10)
@@ -415,9 +422,9 @@ namespace GolemUI.Command
             _srv.Exec<PaymentStatus>("payment", "init", "--receiver", "--network", network.Id, "--driver", driver, "--account", account);
         }
 
-        public async Task<PaymentStatus?> PaymentStatus(Network network, string driver)
+        public async Task<PaymentStatus?> PaymentStatus(Network network, string driver, string account)
         {
-            return await _srv.ExecAsync<PaymentStatus>("--json", "payment", "status", "--network", network.Id, "--driver", driver);
+            return await _srv.ExecAsync<PaymentStatus>("--json", "payment", "status", "--network", network.Id, "--driver", driver, "--account", account);
         }
 
         public async Task<ActivityStatus?> ActivityStatus()

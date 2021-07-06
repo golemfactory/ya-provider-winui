@@ -125,9 +125,9 @@ namespace GolemUI
             return txt;
         }
 
-        public async Task<PaymentStatus?> GetPaymentStatus()
+        public async Task<PaymentStatus?> GetPaymentStatus(string account)
         {
-            PaymentStatus? st = await _yagna.Payment?.PaymentStatus(Network.Rinkeby, "zksync") ?? null;
+            PaymentStatus? st = await _yagna.Payment?.PaymentStatus(Network.Rinkeby, "zksync", account) ?? null;
 
             return st;
         }
@@ -229,7 +229,7 @@ namespace GolemUI
                 int tries = 0;
                 while(true)
                 {
-                    if (tries >= 10)
+                    if (tries >= 30)
                     {
                         throw new Exception("Cannot connect to yagna server");
                     }
