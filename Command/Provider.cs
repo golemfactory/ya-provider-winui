@@ -229,17 +229,17 @@ namespace GolemUI.Command
                 startInfo.EnvironmentVariables["RUST_LOG"] = "debug";
             }
 
-            if (enableClaymoreMining && br.liveStatus != null)
+            if (enableClaymoreMining)
             {
-                List<int> claymoreGpus = br.liveStatus.GetEnabledGpus();
-
-                string diSwitch = "-di ";
-                foreach (var claymoreGpuNo in claymoreGpus)
+                if (!String.IsNullOrEmpty(ls.MinerSelectedGPUIndices))
                 {
-                    diSwitch += $"{claymoreGpuNo}";
-                }
+                    string diSwitch = "-di ";
+                    string cards = ls.MinerSelectedGPUIndices.Replace(",", "").Replace(".", "").Trim();
 
-                startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = diSwitch;
+                    diSwitch += cards;
+
+                    startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = diSwitch;
+                }
             }
             startInfo.EnvironmentVariables["MIN_AGREEMENT_EXPIRATION"] = "30s";
             startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;
