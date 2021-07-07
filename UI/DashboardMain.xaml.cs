@@ -165,7 +165,8 @@ namespace GolemUI
             if (killProviderInsteadOfStopping)
             {
                 GlobalApplicationState.Instance.ProcessController.KillProvider();
-                GlobalApplicationState.Instance.ProcessController.KillYagna();
+				//do not kill yagna here
+                //GlobalApplicationState.Instance.ProcessController.KillYagna();
             }
             else
             {

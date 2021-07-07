@@ -218,56 +218,54 @@ namespace GolemUI
 
             var t = new Thread(() =>
             {
-
-                bool startYagna = true;
-                if (startYagna)
+                if (_yagnaDaemon == null)
                 {
 
                     StartupYagna();
-
-                    var keyInfo = GetFirstAppKey();
-                    if (keyInfo != null)
-                    {
-                        _appkey = keyInfo.Key;
-                    }
-                    else
-                    {
-                        _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
-                        keyInfo = GetFirstAppKey();
-                    }
-                    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
-
-
-                    //yagna is starting and /me won't work until all services are running
-                    int tries = 0;
-                    while(true)
-                    {
-                        if (tries >= 30)
-                        {
-                            throw new Exception("Cannot connect to yagna server");
-                        }
-                        try
-                        {
-                            var txt = _client.GetStringAsync($"{_baseUrl}/me").Result;
-                            KeyInfo? keyMe = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
-                            //sanity check
-                            if (keyMe != null && keyInfo != null && keyMe.Id == keyInfo.Id)
-                            {
-                                break;
-                            }
-                            throw new Exception("Failed to get key");
-                        }
-                        catch (Exception)
-                        {
-                            Thread.Sleep(1000);
-                        }
-                        tries += 1;
-                    }
-                    Thread.Sleep(1000);
                 }
 
-                StartupProvider(Network.Rinkeby, Subnet);
+                var keyInfo = GetFirstAppKey();
+                if (keyInfo != null)
+                {
+                    _appkey = keyInfo.Key;
+                }
+                else
+                {
+                    _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
+                    keyInfo = GetFirstAppKey();
+                }
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
 
+
+                //yagna is starting and /me won't work until all services are running
+                int tries = 0;
+                while(true)
+                {
+                    if (tries >= 30)
+                    {
+                        throw new Exception("Cannot connect to yagna server");
+                    }
+                    try
+                    {
+                        var txt = _client.GetStringAsync($"{_baseUrl}/me").Result;
+                        KeyInfo? keyMe = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
+                        //sanity check
+                        if (keyMe != null && keyInfo != null && keyMe.Id == keyInfo.Id)
+                        {
+                            break;
+                        }
+                        throw new Exception("Failed to get key");
+                    }
+                    catch (Exception)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                    tries += 1;
+                }
+
+                Thread.Sleep(1000);
+
+                StartupProvider(Network.Rinkeby, Subnet);
             });
 
             t.Start();

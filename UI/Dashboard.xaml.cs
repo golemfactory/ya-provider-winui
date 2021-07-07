@@ -48,6 +48,8 @@ namespace GolemUI
         public WelcomeDecide WelcomeDecide { get; set; }
         public DashboardPages _pageSelected = DashboardPages.PageWelcomeStart;
 
+        private bool _forceExit = false;
+
         public Dashboard()
         {
             InitializeComponent();
@@ -200,10 +202,36 @@ namespace GolemUI
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            DashboardBenchmark.RequestBenchmarkEnd();
-            GlobalApplicationState.Instance.ProcessController.KillProvider();
-            GlobalApplicationState.Instance.ProcessController.KillYagna();
+            //Note: this event is called one or twice during normal shutdown
 
+            if (_forceExit)
+            {
+                //if somehow yagna failed to close itself gently just kill it
+                GlobalApplicationState.Instance.ProcessController.KillProvider();
+                GlobalApplicationState.Instance.ProcessController.KillYagna();
+                return;
+            }
+            DashboardBenchmark.RequestBenchmarkEnd();
+            if (!GlobalApplicationState.Instance.ProcessController.IsRunning)
+            {
+                return;
+            }
+            //there is no way for now of gently stopping provider so kill it
+            GlobalApplicationState.Instance.ProcessController.KillProvider();
+            Task.Run(async () =>
+                {
+                    //try to gently stop yagna
+                    await GlobalApplicationState.Instance.ProcessController.StopYagna();
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        //force exit know after trying to gently stop yagna (which may succeeded or failed)
+                        this._forceExit = true;
+                        this.Close();
+                    });
+                });
+                
+            //wait for yagna until it is stopped asynchronously
+            e.Cancel = true;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
