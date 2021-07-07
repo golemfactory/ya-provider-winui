@@ -190,6 +190,12 @@ namespace GolemUI
             return _appkey ?? throw new InvalidOperationException();
         }
 
+        public KeyInfo? GetFirstAppKey()
+        {
+            var key = _yagna.AppKey.List().Where(key => key.Name == PROVIDER_APP_NAME).FirstOrDefault();
+            return key;
+        }
+
         public async Task<bool> Init()
         {
             /*
@@ -204,55 +210,64 @@ namespace GolemUI
                 runYagna = true;
             }*/
 
+            if (Subnet == null)
+            {
+                throw new Exception("Subnet cannot be null");
+            }
+
+
             var t = new Thread(() =>
             {
-                StartupYagna();
 
+                bool startYagna = true;
+                if (startYagna)
+                {
 
-                var _key = _yagna.AppKey.List().Where(key => key.Name == PROVIDER_APP_NAME).FirstOrDefault();
+                    StartupYagna();
 
-                if (_key != null)
-                {
-                    _appkey = _key.Key;
-                }
-                else
-                {
-                    _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
-                }
-                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
-                if (Subnet == null)
-                {
-                    throw new Exception("Subnet cannot be null"); 
-                }
-
-                //yagna is starting and /me won't work until all services are running
-                int tries = 0;
-                while(true)
-                {
-                    if (tries >= 30)
+                    var keyInfo = GetFirstAppKey();
+                    if (keyInfo != null)
                     {
-                        throw new Exception("Cannot connect to yagna server");
+                        _appkey = keyInfo.Key;
                     }
-                    try
+                    else
                     {
-                        var txt = _client.GetStringAsync($"{_baseUrl}/me").Result;
-                        KeyInfo? key = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
-                        if (key != null && _key != null && key.Id == _key.Id)
+                        _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
+                        keyInfo = GetFirstAppKey();
+                    }
+                    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
+
+
+                    //yagna is starting and /me won't work until all services are running
+                    int tries = 0;
+                    while(true)
+                    {
+                        if (tries >= 30)
                         {
-                            StartupProvider(Network.Rinkeby, Subnet);
+                            throw new Exception("Cannot connect to yagna server");
                         }
-                        else
+                        try
                         {
+                            var txt = _client.GetStringAsync($"{_baseUrl}/me").Result;
+                            KeyInfo? keyMe = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
+                            //sanity check
+                            if (keyMe != null && keyInfo != null && keyMe.Id == keyInfo.Id)
+                            {
+                                break;
+                            }
                             throw new Exception("Failed to get key");
                         }
-                        break;
+                        catch (Exception)
+                        {
+                            Thread.Sleep(1000);
+                        }
+                        tries += 1;
                     }
-                    catch (Exception)
-                    {
-                        Thread.Sleep(1000);
-                    }
-                    tries += 1;
+                    Thread.Sleep(1000);
                 }
+
+                StartupProvider(Network.Rinkeby, Subnet);
+
             });
 
             t.Start();
@@ -287,8 +302,15 @@ namespace GolemUI
 
         private void StartupProvider(Network network, string subnet)
         {
+            BenchmarkResults br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
+
             ConfigurationInfoDebug = "";
             if (_providerDaemon != null)
+            {
+                return;
+            }
+            if (ls.EthAddress == null)
             {
                 return;
             }
@@ -305,8 +327,8 @@ namespace GolemUI
                 throw new Exception("Failed to retrieve Subnet account");
             }*/
 
-            _yagna?.Payment.Init(network, "erc20", paymentAccount);
-            _yagna?.Payment.Init(network, "zksync", paymentAccount);
+            _yagna?.Payment.Init(network, "erc20", ls.EthAddress);
+            _yagna?.Payment.Init(network, "zksync", ls.EthAddress);
             if (_appkey == null)
             {
                 throw new Exception("Appkey cannot be null");
@@ -318,8 +340,6 @@ namespace GolemUI
             //otherwise there will be lot of mess to handle (if user changes something or old configuration exist)
             SettingsLoader.ClearProviderPresetsFile();
 
-            BenchmarkResults br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
-            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
 
             string reason;
             bool enableClaymoreMining = br.IsClaymoreMiningPossible(out reason);
@@ -353,8 +373,6 @@ namespace GolemUI
                 _provider.ActivatePreset("gminer");
             }
             _provider.ActivatePreset("wasmtime");
-
-
 
             var providerConfig = new Config();
             providerConfig.Account = ls.EthAddress.ToLower();

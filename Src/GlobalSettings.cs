@@ -93,6 +93,7 @@ namespace GolemUI.Settings
             Subnet = "LazySubnet";
 #endif
 
+            Subnet = "LazySubnet";
             var _gen = new NameGen();
             NodeName = _gen.GenerateElvenName() + "-" + _gen.GenerateElvenName();
         }
