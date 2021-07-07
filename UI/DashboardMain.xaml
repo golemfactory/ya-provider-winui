@@ -14,6 +14,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+                <ResourceDictionary Source="Themes/balance.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -37,6 +38,7 @@
             <Border Style="{DynamicResource BorderStyleBlueBox}" Width="260" Height="200" Margin="30,0,10,0">
                 <Canvas>
                     <svgc:SvgViewbox Source="Media/balance.svg" Canvas.Left="14" Canvas.Top="60" Width="67" Height="71"/>
+                    <!--<ContentPresenter Content="{StaticResource balance}" Canvas.Left="94" Canvas.Top="60" Width="67" Height="71"></ContentPresenter>-->
                     <Label Content="MyBalance" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" FontFamily="SegoeUI" FontSize="17" Height="35" Width="97"></Label>
                     <Label Content="Earned" Foreground="#FFFFFF" Canvas.Left="95" Canvas.Top="57"></Label>
                     <Label Name="lblTotalUSD" Content="1234$" Foreground="#FFFFFF" Canvas.Left="141" Canvas.Top="50" FontFamily="SegoeUIBlack" FontSize="20" RenderTransformOrigin="0.374,0.428" Width="107"></Label>

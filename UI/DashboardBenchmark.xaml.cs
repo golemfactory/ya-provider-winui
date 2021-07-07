@@ -176,7 +176,10 @@ namespace GolemUI
                 {
                     if (gpu.Value.IsReadyForMining()) 
                     {
-                        claymoreString += gpu.Value.gpuNo.ToString();
+                        if (gpu.Value.gpuNo > 0)
+                        {
+                            claymoreString += (gpu.Value.gpuNo - 1).ToString();
+                        }
                     }
                 }
             }

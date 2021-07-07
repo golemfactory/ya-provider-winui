@@ -23,15 +23,15 @@ namespace GolemUI.Claymore
         public string? GPUDetails { get; set; }
         public string? GPUError { get; set; }
 
-        public ClaymoreGpuStatus()
+        public ClaymoreGpuStatus(int gpuNo)
         {
             IsEnabledByUser = true;
+            this.gpuNo = gpuNo;
         }
 
         public object Clone()
         {
-            ClaymoreGpuStatus s = new ClaymoreGpuStatus();
-            s.gpuNo = this.gpuNo;
+            ClaymoreGpuStatus s = new ClaymoreGpuStatus(this.gpuNo);
             s.gpuName = this.gpuName;
             s.OutOfMemory = this.OutOfMemory;
             s.GPUNotFound = this.GPUNotFound;
@@ -252,7 +252,7 @@ namespace GolemUI.Claymore
                 {
                     if (!_liveStatus.GPUs.ContainsKey(gpuNo))
                     {
-                        _liveStatus.GPUs.Add(gpuNo, new ClaymoreGpuStatus());
+                        _liveStatus.GPUs.Add(gpuNo, new ClaymoreGpuStatus(gpuNo));
                     }
                     currentStatus = _liveStatus.GPUs[gpuNo];
 
@@ -390,7 +390,7 @@ namespace GolemUI.Claymore
 
                             if (!_liveStatus.GPUs.ContainsKey(parsedGpuNo))
                             {
-                                _liveStatus.GPUs.Add(parsedGpuNo, new ClaymoreGpuStatus());
+                                _liveStatus.GPUs.Add(parsedGpuNo, new ClaymoreGpuStatus(parsedGpuNo));
                             }
                             _liveStatus.GPUs[parsedGpuNo].BenchmarkSpeed = (float)mhs;
                         }
