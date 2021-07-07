@@ -164,7 +164,10 @@ namespace GolemUI
         {
             if (e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed)
             {
-
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                {
+                    GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.startDebugWindow);
+                }
             }
         }
     }

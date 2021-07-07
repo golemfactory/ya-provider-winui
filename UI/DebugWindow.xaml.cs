@@ -108,6 +108,11 @@ namespace GolemUI
             //txtYagna.Text = await GlobalApplicationState.Instance.ProcessController.GetOffers();
             //txtYagna.Text = GlobalApplicationState.Instance.ProcessController.GetStatus().ToString();
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.debugWindowClosed);
+        }
     }
 
 

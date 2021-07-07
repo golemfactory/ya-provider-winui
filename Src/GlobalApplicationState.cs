@@ -17,7 +17,9 @@ namespace GolemUI
         benchmarkStopped,
         benchmarkSettingsChanged,
         timerEvent,
-        reloadSettings
+        reloadSettings,
+        startDebugWindow,
+        debugWindowClosed
     }
 
     public class GlobalApplicationStateEventArgs
@@ -37,6 +39,11 @@ namespace GolemUI
         private GlobalApplicationState()
         {
             _processController = new ProcessController();
+        }
+
+        void StartDebugWindow()
+        {
+
         }
 
         public void NotifyApplicationStateChanged(object sender)

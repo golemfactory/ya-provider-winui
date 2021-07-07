@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GolemUI"
         mc:Ignorable="d"
-        Title="DebugWindow" Height="450" Width="800">
+        Title="DebugWindow" Height="450" Width="800" Closed="Window_Closed"  >
     <Grid>
         <DockPanel>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
@@ -14,27 +14,28 @@
                 <Button x:Name="btnVersionInfo" Content="Yagna version" Click="btnVersionInfo_Click"></Button>
                 <CheckBox x:Name="cbCaptureOutput"></CheckBox>
             </StackPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Label Content="Yagna output:" Grid.Row="0" Grid.Column="0"></Label>
-                    <Label Content="Provider output:" Grid.Row="0" Grid.Column="1"></Label>
-                    <ScrollViewer Name="svYagna" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="1">
-                        <TextBox IsReadOnly="True" Text="{Binding Text, Mode=OneWay}" TextWrapping="Wrap" x:Name="txtYagna"/>
-                    </ScrollViewer>
-                    <ScrollViewer Name="svProvider" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="1">
-                        <TextBox IsReadOnly="True" Text="{Binding Text, Mode=OneWay}" TextWrapping="Wrap" x:Name="txtProvider"/>
-                    </ScrollViewer>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="400*"/>
+                    <ColumnDefinition Width="353*"/>
+                    <ColumnDefinition Width="47*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Content="Yagna output:" Grid.Row="0" Grid.Column="0"></Label>
+                <Label Content="Provider output:" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"></Label>
+                <ScrollViewer Name="svYagna" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="1">
+                    <TextBox IsReadOnly="True" Text="{Binding Text, Mode=OneWay}" TextWrapping="Wrap" x:Name="txtYagna"/>
+                </ScrollViewer>
+                <ScrollViewer Name="svProvider" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+                    <TextBox IsReadOnly="True" Text="{Binding Text, Mode=OneWay}" TextWrapping="Wrap" x:Name="txtProvider"/>
+                </ScrollViewer>
 
             </Grid>
 
         </DockPanel>
-        
+
     </Grid>
 </Window>

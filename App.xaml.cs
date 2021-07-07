@@ -25,6 +25,8 @@ namespace GolemUI
         {
             GlobalApplicationState.Initialize();
 
+            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
+
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(10);
             timer.Tick += timer_Tick;
@@ -57,15 +59,11 @@ namespace GolemUI
                 var dashboardWindow = new Dashboard();
                 GlobalApplicationState.Instance.Dashboard = dashboardWindow;
 
-                var debugWindow = new DebugWindow();
-                GlobalApplicationState.Instance.DebugWindow = debugWindow;
-
                 dashboardWindow.Show();
-                debugWindow.Owner = dashboardWindow;
-                debugWindow.Left = dashboardWindow.Left + dashboardWindow.Width;
-                debugWindow.Top = dashboardWindow.Top;
-                debugWindow.Show();
 
+#if DEBUG
+                GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.startDebugWindow);
+#endif
             }
             catch (Exception ex)
             {
@@ -84,7 +82,33 @@ namespace GolemUI
             GlobalApplicationState.Finish();
         }
 
+        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
+        {
+            if (args != null)
+            {
+                switch (args.action)
+                {
+                    case GlobalApplicationStateAction.startDebugWindow:
+                        if (GlobalApplicationState.Instance.DebugWindow == null)
+                        {
+                            var debugWindow = new DebugWindow();
+                            GlobalApplicationState.Instance.DebugWindow = debugWindow;
 
-
+                            var dashboard = GlobalApplicationState.Instance.Dashboard;
+                            if (dashboard != null)
+                            {
+                                debugWindow.Owner = dashboard;
+                                debugWindow.Left = dashboard.Left + dashboard.Width;
+                                debugWindow.Top = dashboard.Top;
+                                debugWindow.Show();
+                            }
+                        }
+                        break;
+                    case GlobalApplicationStateAction.debugWindowClosed:
+                        GlobalApplicationState.Instance.DebugWindow = null;
+                        break;
+                }
+            }
+        }
     }
 }
