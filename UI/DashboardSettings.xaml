@@ -7,126 +7,64 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <Style x:Key="BorderStyleBlueBox" TargetType="{x:Type Border}">
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="BorderBrush" Value="#7D779E"/>
-            <Setter Property="Background" Value="#281E60"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <SolidColorBrush x:Key="Button.Static.Background" Color="#261D5E"/>
-        <SolidColorBrush x:Key="Button.Static.Border" Color="#74708C"/>
-        <SolidColorBrush x:Key="Button.Static.Foreground" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="blue"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#74708C"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Foreground" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="Button.Pressed.Background" Color="white"/>
-        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#74708C"/>
-        <SolidColorBrush x:Key="Button.Pressed.Foreground" Color="black"/>
-        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#261D5E"/>
-        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#74708C"/>
-        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#AAAAAA"/>
-        <Style x:Key="BlueButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="{StaticResource Button.Static.Foreground}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Static.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Static.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Static.Foreground}"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.MouseOver.Foreground}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Pressed.Foreground}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
-    <Canvas>
-        <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
-            <Label Foreground="#FFFFFF" Content="Settings" FontFamily="SegoeUI" FontSize="24"></Label>
-            <!--<Label Content="Dashboard"></Label>-->
-        </Border>
-        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="300" Height="230" Canvas.Left="20" Canvas.Top="110">
-            <Canvas>
+    <Border Style="{DynamicResource PageBackground}">
+        <Canvas>
+            <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
+                <Label Foreground="#FFFFFF" Content="Settings" FontFamily="SegoeUI" FontSize="24"></Label>
+                <!--<Label Content="Dashboard"></Label>-->
+            </Border>
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="300" Height="230" Canvas.Left="20" Canvas.Top="110">
+                <Canvas>
+                    <StackPanel>
+                        <Label Content="Node settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"/>
+                        <Label Grid.Row="0" Grid.Column="0" Content="Node name:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Margin="0,10,0,0"/>
+                        <TextBox Grid.Row="0" Grid.Column="1"  Name="txNodeName" HorizontalAlignment="Left" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Center" Width="150" Margin="10,5" TextChanged="settingsTextChanged"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Name="txWalletAddress" HorizontalAlignment="Left" Text="Wallet address" Width="276" Margin="10,5" Height="20" TextChanged="settingsTextChanged"/>
+
+                        <Label Grid.Row="2" Grid.Column="0" Content="Subnet:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
+                        <TextBox Grid.Row="2" Grid.Column="1"  Name="txSubnet" HorizontalAlignment="Left" Text="Subnet" VerticalAlignment="Center" Width="150" Margin="10,5" TextChanged="settingsTextChanged"/>
+                    </StackPanel>
+                </Canvas>
+            </Border>
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="200" Height="auto" Canvas.Left="350" Canvas.Top="110">
                 <StackPanel>
-                    <Label Content="Node settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"/>
-                    <Label Grid.Row="0" Grid.Column="0" Content="Node name:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Margin="0,10,0,0"/>
-                    <TextBox Grid.Row="0" Grid.Column="1"  Name="txNodeName" HorizontalAlignment="Left" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Center" Width="150" Margin="10,5" TextChanged="settingsTextChanged"/>
+                    <Label Content="Application settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" MouseDown="Label_MouseDown"/>
+                    <CheckBox Name="cbStartWithWindows" Content="Run when computer starts" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
+                    <!--<CheckBox Name="cbStartAutmatically" Content="Automatically start work" Foreground="#FFFFFF" Margin="10,5"></CheckBox>-->
+                    <CheckBox Name="cbDebugOutput" Content="Enable debug logs" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
+                    <CheckBox Name="cbShowYagnaConsole" Content="Show yagna console" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
+                    <CheckBox Name="cbShowProviderConsole" Content="Show provider console" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
 
-                    <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Name="txWalletAddress" HorizontalAlignment="Left" Text="Wallet address" Width="276" Margin="10,5" Height="20" TextChanged="settingsTextChanged"/>
-
-                    <Label Grid.Row="2" Grid.Column="0" Content="Subnet:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
-                    <TextBox Grid.Row="2" Grid.Column="1"  Name="txSubnet" HorizontalAlignment="Left" Text="Subnet" VerticalAlignment="Center" Width="150" Margin="10,5" TextChanged="settingsTextChanged"/>
                 </StackPanel>
-            </Canvas>
-        </Border>
-        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="200" Height="auto" Canvas.Left="350" Canvas.Top="110">
-            <StackPanel>
-                <Label Content="Application settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" MouseDown="Label_MouseDown"/>
-                <CheckBox Name="cbStartWithWindows" Content="Run when computer starts" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
-                <!--<CheckBox Name="cbStartAutmatically" Content="Automatically start work" Foreground="#FFFFFF" Margin="10,5"></CheckBox>-->
-                <CheckBox Name="cbDebugOutput" Content="Enable debug logs" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
-                <CheckBox Name="cbShowYagnaConsole" Content="Show yagna console" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
-                <CheckBox Name="cbShowProviderConsole" Content="Show provider console" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
+            </Border>
 
-            </StackPanel>
-        </Border>
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="191" Height="106" Canvas.Left="580" Canvas.Top="110">
+                <Canvas>
+                    <Label Content="WASM settings" Foreground="#FFFFFF"/>
+                    <CheckBox Name="cbEnableWASM" Content="Enable WASM unit" Foreground="White" Margin="10,50" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
+                </Canvas>
+            </Border>
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="192" Height="99" Canvas.Left="580" Canvas.Top="243">
+                <StackPanel>
+                    <Label Content="VM Task " Foreground="#FFFFFF"/>
+                    <Label Content="(not yet implemented)" Foreground="#FFFFFF"></Label>
 
-        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="191" Height="106" Canvas.Left="580" Canvas.Top="110">
-            <Canvas>
-                <Label Content="WASM settings" Foreground="#FFFFFF"/>
-                <CheckBox Name="cbEnableWASM" Content="Enable WASM unit" Foreground="White" Margin="10,50" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
-            </Canvas>
-        </Border>
-        <Border Style="{DynamicResource BorderStyleBlueBox}" Width="192" Height="99" Canvas.Left="580" Canvas.Top="243">
-            <StackPanel>
-                <Label Content="VM Task " Foreground="#FFFFFF"/>
-                <Label Content="(not yet implemented)" Foreground="#FFFFFF"></Label>
+                    <!--<CheckBox Name="cbEnableVM" Content="Enable VM unit" Foreground="White" Margin="10,50"></CheckBox>-->
+                </StackPanel>
+            </Border>
+            <Button Style="{StaticResource BlueButtonStyle}" Name="btnApplySettings" Width="200" Height="44" Content="Apply settings" Canvas.Top="362" Canvas.Left="20" Click="btnApplySettings_Click">
 
-                <!--<CheckBox Name="cbEnableVM" Content="Enable VM unit" Foreground="White" Margin="10,50"></CheckBox>-->
-            </StackPanel>
-        </Border>
-        <Button Style="{StaticResource BlueButtonStyle}" Name="btnApplySettings" Width="200" Height="44" Content="Apply settings" Canvas.Top="362" Canvas.Left="20" Click="btnApplySettings_Click">
+            </Button>
+            <Button Style="{StaticResource BlueButtonStyle}" x:Name="btnCancelChanges" Width="200" Height="44" Content="Cancel changes" Canvas.Top="362" Canvas.Left="225" Click="btnCancelSettings_Click"/>
 
-        </Button>
-        <Button Style="{StaticResource BlueButtonStyle}" x:Name="btnCancelChanges" Width="200" Height="44" Content="Cancel changes" Canvas.Top="362" Canvas.Left="225" Click="btnCancelSettings_Click"/>
-
-    </Canvas>
+        </Canvas>
+    </Border>
 </UserControl>
