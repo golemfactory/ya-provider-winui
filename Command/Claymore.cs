@@ -147,6 +147,7 @@ namespace GolemUI.Command
                 BenchmarkError = $"Process {this._claymore_exe_path} cannot be run, check antivirus settings";
                 return false;
             }
+            _claymoreParser.BeforeParsing();
             _claymoreProcess.OutputDataReceived += OnOutputDataRecv;
             _claymoreProcess.ErrorDataReceived += OnErrorDataRecv;
             _claymoreProcess.BeginErrorReadLine();
@@ -175,115 +176,6 @@ namespace GolemUI.Command
 
             _claymoreParser.ParseLine(lineText);
 
-            /*
-            if (lineText.Contains("No avaiable GPUs for mining", StringComparison.InvariantCultureIgnoreCase) 
-                || lineText.Contains("No avaiable GPUs for mining", StringComparison.InvariantCultureIgnoreCase))
-            {
-                //there should be no need of closing claymore process. It should close automatically.
-                //_claymoreProcess.Kill(true);
-
-                GPUNotFound = true;
-                BenchmarkFinished = true;
-            }
-
-
-
-            //parse once only at the start of the benchmark
-            if (this._unsafeGpuDetails == null && lineText.StartsWith("GPU1:", StringComparison.InvariantCultureIgnoreCase))
-            {
-                
-
-
-                bool nVidiaGpuFound = false;
-                bool amdGpuFound = false;
-                if (lineText.Contains("NVIDIA", StringComparison.InvariantCultureIgnoreCase) ||
-                    lineText.Contains("GeForce", StringComparison.InvariantCultureIgnoreCase)
-                    )
-                {
-                    this.GPUVendor = "nVidia";
-                    nVidiaGpuFound = true;
-                }
-                if (nVidiaGpuFound && lineText.Contains(":"))
-                {
-                    //todo - what happens when details contains :
-                    this.GPUDetails = lineText.Split(":")[1].Trim();
-                }
-                if (lineText.Contains("RADEON", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    this.GPUVendor = "AMD";
-                    amdGpuFound = true;
-                }
-                if ((nVidiaGpuFound || amdGpuFound) && lineText.Contains(":"))
-                {
-                    //todo - what happens when details contains :
-                    this.GPUDetails = lineText.Split(":")[1].Trim();
-                }
-            }
-
-            if (lineText.StartsWith("GPU1: Allocating DAG"))
-            {
-                this.BenchmarkProgress = 0.2f;
-            }
-            if (lineText.StartsWith("GPU1: Generating DAG"))
-            {
-                this.BenchmarkProgress = 0.25f;
-            }
-            if (lineText.StartsWith("GPU1: DAG") )
-            {
-                var splits = lineText.Split(" ");
-
-                foreach (var split in splits)
-                {
-                    if (split.Contains("%"))
-                    {
-                        string percentDag = split.Trim(new char[] { ' ', '%' });
-                        double res = 0;
-                        if (double.TryParse(percentDag, out res))
-                        {
-                            this.BenchmarkProgress = 0.3f + (float)((res / 100.0) * (0.8 - 0.4));
-                        }
-                        else
-                        {
-                            //handle error somehow??
-                        }
-                    }
-                }
-            }
-            if (lineText.StartsWith("Eth speed", StringComparison.InvariantCultureIgnoreCase))
-            {
-                if (this.BenchmarkProgress < 0.8f)
-                {
-                    this.BenchmarkProgress = 0.8f;
-                }
-                var splits = lineText.Split(" ");
-                double val;
-                if (splits.Length > 2 && double.TryParse(splits[2], out val))
-                {
-                    double s = val;
-
-                    this.BenchmarkSpeed = (float)val;
-                    this.BenchmarkProgress += 0.05f;
-
-                }
-            }
-
-            if (this.BenchmarkProgress >= 1.0f)
-            {
-                this.Stop();
-                this.BenchmarkProgress = 1.0f;
-                this.BenchmarkFinished = true;
-            }
-
-            if (lineText.Contains("out of memory", StringComparison.InvariantCultureIgnoreCase))
-            {
-                OutOfMemory = true;
-            }
-
-            if (LineHandler != null)
-            {
-                LineHandler("claymore", e.Data);
-            }
-            */
         }
 
         void OnErrorDataRecv(object sender, DataReceivedEventArgs e)

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using GolemUI.Settings;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -174,6 +176,12 @@ namespace GolemUI.Claymore
         }
     }
 
+    public class ClaymoreBenchmarkLine
+    {
+        public long delta_time_ms { get; set; }
+        public string line;
+    }
+
     public class ClaymoreParser
     {
         const StringComparison STR_COMP_TYPE = StringComparison.InvariantCultureIgnoreCase;
@@ -183,6 +191,9 @@ namespace GolemUI.Claymore
         private readonly object __lockObj = new object();
 
         private bool _readyForGpusEthInfo = false;
+
+        private DateTime _start;
+        private string? _benchmarkRecordingPath = null;
 
 
         private bool _gpusInfosParsed = false;
@@ -209,6 +220,29 @@ namespace GolemUI.Claymore
             }
         }
 
+        /// <summary>
+        /// call before parsing to get good recording
+        /// </summary>
+        public void BeforeParsing()
+        {
+            _start = DateTime.Now;
+            string benchmarkRecordingFolder = SettingsLoader.GetLocalPath();
+            string benchmarkRecordingFile = "Benchmark_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".recording";
+            _benchmarkRecordingPath = Path.Combine(benchmarkRecordingFolder, benchmarkRecordingFile);
+            StreamWriter sw = null;
+            try
+            {
+                sw = new StreamWriter(_benchmarkRecordingPath, false);
+                sw.WriteLine("0: Start recording");
+            }
+            finally
+            {
+                if (sw != null)
+                {
+                    sw.Close();
+                }
+            }
+        }
 
         /// <summary>
         /// Parse output line of claymore process
@@ -220,7 +254,23 @@ namespace GolemUI.Claymore
                 // Your code...
 
 #if DEBUG
-                Debug.WriteLine(line);
+                ClaymoreBenchmarkLine benchLine = new ClaymoreBenchmarkLine();
+                benchLine.line = line;
+                benchLine.delta_time_ms = (long)(DateTime.Now - _start).TotalMilliseconds;
+                Debug.WriteLine(String.Format("{0}: {1}", benchLine.delta_time_ms, line));
+                StreamWriter sw = null;
+                try
+                {
+                    sw = new StreamWriter(_benchmarkRecordingPath, true);
+                    sw.WriteLine(String.Format("{0}: {1}", benchLine.delta_time_ms, line));
+                }
+                finally
+                {
+                    if (sw != null)
+                    {
+                        sw.Close();
+                    }
+                }
 #endif
                 string lineText = line;
                 //output contains spelling error avaiable instead of available, checking for boths:
@@ -402,10 +452,6 @@ namespace GolemUI.Claymore
                     {
                         _liveStatus.NumberOfClaymorePerfReports += 1;
                     }
-
-
-
-
                 }
             }
         }
