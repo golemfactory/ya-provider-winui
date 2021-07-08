@@ -37,8 +37,8 @@
                 <Label Foreground="#FFFFFF" Content="Dashboard" FontFamily="SegoeUI" FontSize="24"></Label>
                 <!--<Label Content="Dashboard"></Label>-->
             </Border>
-            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <Label Margin="10,0,0,10" Name="lblStatusDescr" Content="Status: " VerticalAlignment="Bottom"></Label>
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="30,0,0,0">
+                <Label Margin="0,0,0,10" Name="lblStatusDescr" Content="Status: " VerticalAlignment="Bottom"></Label>
                 <Label Margin="0,0,0,10" FontWeight="Bold" Name="lblStatus" Content="computing task" VerticalAlignment="Bottom"></Label>
             </StackPanel>
 
@@ -46,7 +46,7 @@
                 <Button Name="btnStart" Style="{StaticResource PinkButtonStyle}" Click="btnStart_Click" Width="187" Height="40" Margin="10,0,0,10" >Start Mining</Button>
                 <Button Name="btnStop" Click="btnStop_Click" Style="{StaticResource BlueButtonStyle}" Height="40" Width="90" Margin="10,0,0,10">Stop Mining</Button>
             </StackPanel>
-            <Grid Canvas.Top="220" Width="auto" Height="auto" Grid.Row="2" Grid.ColumnSpan="3">
+            <Grid Margin="30, 0, 30, 0" Canvas.Top="220" Width="auto" Height="auto" Grid.Row="2" Grid.ColumnSpan="3">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
@@ -56,7 +56,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="0">
+                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,10,10" Grid.Column="0">
                     <Canvas>
                         <svgc:SvgViewbox Source="Media/balance.svg" Canvas.Left="14" Canvas.Top="60" Width="67" Height="71"/>
                         <!--<ContentPresenter Content="{StaticResource balance}" Canvas.Left="94" Canvas.Top="60" Width="67" Height="71"></ContentPresenter>-->
@@ -103,7 +103,7 @@
                         <Label Content="Benchmark" Foreground="White" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3"></Label>
                     </Grid>
                 </Button>
-                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="3">
+                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,0,10" Grid.Column="3">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
