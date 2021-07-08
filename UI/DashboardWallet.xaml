@@ -61,8 +61,8 @@
                             <svgc:SvgViewbox Source="Media/Profit.svg" Width="80"/>
                         </StackPanel>
                         <StackPanel Margin="5">
-                            <Label HorizontalAlignment="Center" FontFamily="Arial" FontSize="12" Margin="10">Estimated Profit</Label>
-                            <Label HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" Margin="10">$41.32 / day</Label>
+                            <Label HorizontalAlignment="Center" FontFamily="Arial" FontSize="12" Margin="0, 10, 0, 10">Estimated Profit</Label>
+                            <Label HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" Margin="0, 10, 0, 10">$41.32 / day</Label>
                         </StackPanel>
                     </StackPanel>
                 </Border>
