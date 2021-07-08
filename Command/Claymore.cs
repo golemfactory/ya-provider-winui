@@ -313,8 +313,8 @@ namespace GolemUI.Command
                         {
                             sleepFor = 5000;
                         }
-                        Thread.Sleep(sleepFor);
-                        OutputDataReceived(this, args);
+                        Thread.Sleep(sleepFor / 2);
+                        OutputDataReceived(this, args); 
                     }
                 }
             });
