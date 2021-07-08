@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="446.658" d:DesignWidth="934.149">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,11 +15,59 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Border Style="{DynamicResource PageBackground}">
-        <Canvas>
-            <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
-                <Label Content="Wallet" FontFamily="SegoeUI" FontSize="24"></Label>
+        <StackPanel Orientation="Vertical" Margin="30">
+            <Border Height="40" BorderThickness="1 0 0 0" BorderBrush="White">
+                <Label Content="Wallet" FontFamily="SegoeUI" FontSize="24"></Label>                
                 <!--<Label Content="Dashboard"></Label>-->
             </Border>
-        </Canvas>
+            <Canvas Height="50"></Canvas>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label FontFamily="SegoeUI" FontSize="12" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">Your Address: 0xa1a7c282badfa6bd188a6d42b5bc7fa1e836d1f8</Label>
+                <StackPanel Margin="8 2 8 2" Grid.Row="0" Grid.Column="2">
+                    <Button Style="{StaticResource PinkButtonStyle}" >Withdraw</Button>
+                </StackPanel>
+                <Border Grid.Column="0" Grid.Row="1"  Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8">
+                    <StackPanel Margin="20">
+                        <Label Content="MyBalance" Foreground="#ccc" FontFamily="Arial" FontSize="12"/>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Margin="12">
+                                <svgc:SvgViewbox Source="Media/balance.svg" Width="32" Height="32" VerticalAlignment="Top"/>
+                            </StackPanel>                            
+                            <StackPanel>
+                                <Label Content="Earned" Foreground="#aaa" FontFamily="SegoeUIBlack"></Label>
+                                <Label Content="$50.12" Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="25" RenderTransformOrigin="0.374,0.428"></Label>
+                                <Label Content="0.0003 GLM" Foreground="#a88" FontFamily="Arial" FontSize="12"></Label>
+                                <Canvas Height="20"></Canvas>
+                                <Label Content="Pending" Foreground="#aaa" FontFamily="Arial" FontSize="12"/>
+                                <Label Content="$12.34" Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="16"/>
+                                <Label Content="2323.0000 GLM" Foreground="#a88" FontFamily="Arial" FontSize="12"/>
+                            </StackPanel>
+                        </StackPanel>                        
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="8">
+                    <StackPanel>
+                        <StackPanel Margin="0, 30, 0, 30">
+                            <svgc:SvgViewbox Source="Media/Profit.svg" Width="80"/>
+                        </StackPanel>
+                        <StackPanel Margin="5">
+                            <Label HorizontalAlignment="Center" FontFamily="Arial" FontSize="12" Margin="10">Estimated Profit</Label>
+                            <Label HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" Margin="10">$41.32 / day</Label>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8"></Border>
+            </Grid>            
+        </StackPanel>
     </Border>
 </UserControl>
