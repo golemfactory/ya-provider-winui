@@ -6,7 +6,7 @@
              xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d"
-             FontFamily="SegoeUI" Height="456" Width="811"
+             FontFamily="SegoeUI" d:DesignHeight="450" d:DesignWidth="850"
           
              >
     <UserControl.Resources>
@@ -18,86 +18,109 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Canvas>
+    <Border Style="{DynamicResource PageBackground}" BorderThickness="1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="250"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
-            <Label Foreground="#FFFFFF" Content="Dashboard" FontFamily="SegoeUI" FontSize="24"></Label>
-            <!--<Label Content="Dashboard"></Label>-->
-        </Border>
-        <Label Canvas.Left="30" Canvas.Top="135" Foreground="#FFFFFF" Name="lblStatusDescr" Content="Status: "></Label>
-        <Label Canvas.Left="92" Canvas.Top="135" Foreground="#FFFFFF" FontWeight="Bold" Name="lblStatus" Content=" computing task"></Label>
 
-        <DockPanel Canvas.Right="10" Canvas.Top="119" Width="390" Canvas.Left="379" >
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Name="btnStart" Style="{StaticResource PinkButtonStyle}" Click="btnStart_Click" Canvas.Right="20" Width="187" Height="40" Margin="10 10" >Start Mining</Button>
-                <Button Name="btnStop" Click="btnStop_Click" Style="{StaticResource BlueButtonStyle}" Canvas.Left="702" Canvas.Right="20" Canvas.Top="119" Height="40" Width="90" HorizontalAlignment="Right">Stop Mining</Button>
+            <Border Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
+                <Label Foreground="#FFFFFF" Content="Dashboard" FontFamily="SegoeUI" FontSize="24"></Label>
+                <!--<Label Content="Dashboard"></Label>-->
+            </Border>
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Label Margin="10,0,0,10" Name="lblStatusDescr" Content="Status: " VerticalAlignment="Bottom"></Label>
+                <Label Margin="0,0,0,10" FontWeight="Bold" Name="lblStatus" Content="computing task" VerticalAlignment="Bottom"></Label>
             </StackPanel>
-        </DockPanel>
-        <StackPanel Canvas.Top="220" Width="auto" Height="auto" Orientation="Horizontal">
-            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="260" Height="200" Margin="30,0,10,0">
-                <Canvas>
-                    <svgc:SvgViewbox Source="Media/balance.svg" Canvas.Left="14" Canvas.Top="60" Width="67" Height="71"/>
-                    <!--<ContentPresenter Content="{StaticResource balance}" Canvas.Left="94" Canvas.Top="60" Width="67" Height="71"></ContentPresenter>-->
-                    <Label Content="MyBalance" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" FontFamily="SegoeUI" FontSize="17" Height="35" Width="97"></Label>
-                    <Label Content="Earned" Foreground="#FFFFFF" Canvas.Left="95" Canvas.Top="57"></Label>
-                    <Label Name="lblTotalUSD" Content="1234$" Foreground="#FFFFFF" Canvas.Left="141" Canvas.Top="50" FontFamily="SegoeUIBlack" FontSize="20" RenderTransformOrigin="0.374,0.428" Width="107"></Label>
-                    <Label Name="lblTotalGLM" Content="10000.33GLM" Foreground="#FFFFFF" Canvas.Left="139" Canvas.Top="87"></Label>
-                    <Label Content="Pending:" Foreground="#FFFFFF" Canvas.Left="83" Canvas.Top="131" />
-                    <Label Name="lblPendingUSD" Content="12.34$" Foreground="#FFFFFF" Canvas.Left="140" Canvas.Top="126" FontFamily="SegoeUIBlack" FontSize="20"/>
-                    <Label Name="lblPendingGLM" Content="345.66GLM" Foreground="#FFFFFF" Canvas.Left="139" Canvas.Top="160" FontFamily="SegoeUI"/>
-                </Canvas>
-            </Border>
-            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="130" Height="200" Margin="20,0,10,0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="100" />
-                        <RowDefinition Height="30" />
-                        <RowDefinition Height="40" />
-                        <RowDefinition Height="40" />
-                    </Grid.RowDefinitions>
-                    <svgc:SvgViewbox Source="Media/profit.svg" Canvas.Left="14" Canvas.Top="60" Width="67" Height="71"/>
 
-                    <Label Content="Estimated profit" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" Foreground="#FFFFFF"></Label>
-                    <Label Name="lblEstimatedProfit" Content="10.42$/day" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Foreground="#FFFFFF"></Label>
-                </Grid>
-            </Border>
-            <Button Name="MiningBox" Style="{DynamicResource BlueButtonStyle}" Width="130" Height="200" Margin="20,0,10,0" MouseDown="MiningBox_MouseDown">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="100" />
-                        <RowDefinition Height="30" />
-                        <RowDefinition Height="40" />
-                        <RowDefinition Height="40" />
-                    </Grid.RowDefinitions>
-                    <svgc:SvgViewbox Source="Media/gpu.svg" Canvas.Left="14" Canvas.Top="60" Width="60" Height="40"/>
-                    <Label Content="GPU Mining" Foreground="White" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"></Label>
-                    <TextBlock Name="txtGpuStatus" Foreground="White" TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2">Inactive</TextBlock>
-                    <Label Content="Benchmark" Foreground="White" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3"></Label>
-                </Grid>
-            </Button>
-            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="130" Height="200" Margin="20,0,10,0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="100" />
-                        <RowDefinition Height="30" />
-                        <RowDefinition Height="40" />
-                        <RowDefinition Height="40" />
-                    </Grid.RowDefinitions>
-                    <svgc:SvgViewbox Source="Media/cpu.svg" Canvas.Left="14" Canvas.Top="60" Width="40" Height="40"/>
-                    <Label Content="CPU Mining" Foreground="White"  HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"></Label>
-                    <CheckBox Content="Idle" HorizontalAlignment="Center"  Foreground="White" Grid.Column="0" Grid.Row="2"></CheckBox>
-                    <Label Content="Advanced" Foreground="Blue" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3"></Label>
-                </Grid>
-            </Border>
-        </StackPanel>
-    </Canvas>
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+                <Button Name="btnStart" Style="{StaticResource PinkButtonStyle}" Click="btnStart_Click" Width="187" Height="40" Margin="10,10,10,10" >Start Mining</Button>
+                <Button Name="btnStop" Click="btnStop_Click" Style="{StaticResource BlueButtonStyle}" Height="40" Width="90" Margin="10,10,10,10">Stop Mining</Button>
+            </StackPanel>
+            <Grid Canvas.Top="220" Width="auto" Height="auto" Grid.Row="2" Grid.ColumnSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.8*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="0">
+                    <Canvas>
+                        <svgc:SvgViewbox Source="Media/balance.svg" Canvas.Left="14" Canvas.Top="60" Width="67" Height="71"/>
+                        <!--<ContentPresenter Content="{StaticResource balance}" Canvas.Left="94" Canvas.Top="60" Width="67" Height="71"></ContentPresenter>-->
+                        <Label Content="MyBalance" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" FontFamily="SegoeUI" FontSize="17" Height="35" Width="97"></Label>
+                        <Label Content="Earned" Foreground="#FFFFFF" Canvas.Left="95" Canvas.Top="57"></Label>
+                        <Label Name="lblTotalUSD" Content="1234$" Foreground="#FFFFFF" Canvas.Left="141" Canvas.Top="50" FontFamily="SegoeUIBlack" FontSize="20" RenderTransformOrigin="0.374,0.428" Width="107"></Label>
+                        <Label Name="lblTotalGLM" Content="10000.33GLM" Foreground="#FFFFFF" Canvas.Left="139" Canvas.Top="87"></Label>
+                        <Label Content="Pending:" Foreground="#FFFFFF" Canvas.Left="83" Canvas.Top="131" />
+                        <Label Name="lblPendingUSD" Content="12.34$" Foreground="#FFFFFF" Canvas.Left="140" Canvas.Top="126" FontFamily="SegoeUIBlack" FontSize="20"/>
+                        <Label Name="lblPendingGLM" Content="345.66GLM" Foreground="#FFFFFF" Canvas.Left="139" Canvas.Top="160" FontFamily="SegoeUI"/>
+                    </Canvas>
+                </Border>
+                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                        <svgc:SvgViewbox Source="Media/profit.svg" Canvas.Left="14" Canvas.Top="60" Width="67" Height="71"/>
+
+                        <Label Content="Estimated profit" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" Foreground="#FFFFFF"></Label>
+                        <Label Name="lblEstimatedProfit" Content="10.42$/day" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Foreground="#FFFFFF"></Label>
+                    </Grid>
+                </Border>
+                <Button Name="MiningBox" Style="{DynamicResource BlueButtonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" MouseDown="MiningBox_MouseDown" Grid.Column="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                        <svgc:SvgViewbox Source="Media/gpu.svg" Canvas.Left="14" Canvas.Top="60" Width="60" Height="40"/>
+                        <Label Content="GPU Mining" Foreground="White" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"></Label>
+                        <TextBlock Name="txtGpuStatus" Foreground="White" TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2">Inactive</TextBlock>
+                        <Label Content="Benchmark" Foreground="White" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3"></Label>
+                    </Grid>
+                </Button>
+                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="3">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                        <svgc:SvgViewbox Source="Media/cpu.svg" Canvas.Left="14" Canvas.Top="60" Width="40" Height="40"/>
+                        <Label Content="CPU Mining" Foreground="White"  HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"></Label>
+                        <CheckBox Content="Idle" HorizontalAlignment="Center"  Foreground="White" Grid.Column="0" Grid.Row="2"></CheckBox>
+                        <Label Content="Advanced" Foreground="Blue" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3"></Label>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
 </UserControl>
