@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="GolemUI.DashboardAdvancedSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GolemUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border Style="{DynamicResource PageBackground}">
+        <Canvas>
+            <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
+                <Label Foreground="#FFFFFF" Content="Advanced settings" FontFamily="SegoeUI" FontSize="24"></Label>
+                <!--<Label Content="Dashboard"></Label>-->
+            </Border>
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="300" Height="230" Canvas.Left="20" Canvas.Top="110">
+                <Canvas>
+                    <StackPanel>
+                        <Label Content="Node settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"/>
+                        <Label Grid.Row="0" Grid.Column="0" Content="Node name:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Margin="0,10,0,0"/>
+                        <TextBox Grid.Row="0" Grid.Column="1"  Name="txNodeName" HorizontalAlignment="Left" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Center" Width="150" Margin="10,5" TextChanged="settingsTextChanged"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Name="txWalletAddress" HorizontalAlignment="Left" Text="Wallet address" Width="276" Margin="10,5" Height="20" TextChanged="settingsTextChanged"/>
+
+                        <Label Grid.Row="2" Grid.Column="0" Content="Subnet:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
+                        <TextBox Grid.Row="2" Grid.Column="1"  Name="txSubnet" HorizontalAlignment="Left" Text="Subnet" VerticalAlignment="Center" Width="150" Margin="10,5" TextChanged="settingsTextChanged"/>
+                    </StackPanel>
+                </Canvas>
+            </Border>
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="200" Height="auto" Canvas.Left="350" Canvas.Top="110">
+                <StackPanel>
+                    <Label Content="Application settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" MouseDown="Label_MouseDown"/>
+                    <CheckBox Name="cbStartWithWindows" Content="Run when computer starts" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
+                    <!--<CheckBox Name="cbStartAutmatically" Content="Automatically start work" Foreground="#FFFFFF" Margin="10,5"></CheckBox>-->
+                    <CheckBox Name="cbDebugOutput" Content="Enable debug logs" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
+                    <CheckBox Name="cbShowYagnaConsole" Content="Show yagna console" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
+                    <CheckBox Name="cbShowProviderConsole" Content="Show provider console" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
+
+                </StackPanel>
+            </Border>
+
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="191" Height="106" Canvas.Left="580" Canvas.Top="110">
+                <Canvas>
+                    <Label Content="WASM settings" Foreground="#FFFFFF"/>
+                    <CheckBox Name="cbEnableWASM" Content="Enable WASM unit" Foreground="White" Margin="10,50" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
+                </Canvas>
+            </Border>
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="192" Height="99" Canvas.Left="580" Canvas.Top="243">
+                <StackPanel>
+                    <Label Content="VM Task " Foreground="#FFFFFF"/>
+                    <Label Content="(not yet implemented)" Foreground="#FFFFFF"></Label>
+
+                    <!--<CheckBox Name="cbEnableVM" Content="Enable VM unit" Foreground="White" Margin="10,50"></CheckBox>-->
+                </StackPanel>
+            </Border>
+            <Button Style="{StaticResource BlueButtonStyle}" Name="btnApplySettings" Width="200" Height="44" Content="Apply settings" Canvas.Top="362" Canvas.Left="20" Click="btnApplySettings_Click">
+
+            </Button>
+            <Button Style="{StaticResource BlueButtonStyle}" x:Name="btnCancelChanges" Width="200" Height="44" Content="Cancel changes" Canvas.Top="362" Canvas.Left="225" Click="btnCancelSettings_Click"/>
+
+        </Canvas>
+    </Border>
+</UserControl>

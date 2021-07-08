@@ -19,18 +19,16 @@ namespace GolemUI
     /// <summary>
     /// Interaction logic for DashboardSettings.xaml
     /// </summary>
-    public partial class DashboardSettings : UserControl
+    public partial class DashboardWallet : UserControl
     {
 
-        public DashboardSettings()
+        public DashboardWallet()
         {
             InitializeComponent();
 
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
 
         }
-
-
 
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {

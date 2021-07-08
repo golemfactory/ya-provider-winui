@@ -40,6 +40,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="UI\DashboardAdvancedSettings.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\DashboardWallet.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Media\balance.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -88,6 +97,17 @@
     <None Update="Media\settings.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="UI\DashboardAdvancedSettings.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UI\DashboardWallet.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

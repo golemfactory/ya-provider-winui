@@ -23,7 +23,9 @@ namespace GolemUI
     {
         PageDashboardMain,
         PageDashboardSettings,
+        PageDashboardAdvancedSettings,
         PageDashboardBenchmark,
+        PageDashboardWallet,
         PageDashboardDetails,
         PageWelcomeStart,
         PageWelcomeDecide,
@@ -39,6 +41,8 @@ namespace GolemUI
     {
         public DashboardMain DashboardMain { get; set; }
         public DashboardSettings DashboardSettings { get; set; }
+        public DashboardAdvancedSettings DashboardAdvancedSettings { get; set; }
+        public DashboardWallet DashboardWallet { get; set; }
         public DashboardBenchmark DashboardBenchmark { get; set; }
         public DashboardDetails DashboardDetails { get; set; }
         public WelcomeStart WelcomeStart { get; set; }
@@ -56,6 +60,8 @@ namespace GolemUI
             
             DashboardMain = new DashboardMain();
             DashboardSettings = new DashboardSettings();
+            DashboardAdvancedSettings = new DashboardAdvancedSettings();
+            DashboardWallet = new DashboardWallet();
             DashboardBenchmark = new DashboardBenchmark();
             DashboardDetails = new DashboardDetails();
             WelcomeStart = new WelcomeStart();
@@ -102,6 +108,16 @@ namespace GolemUI
             SwitchPage(DashboardPages.PageDashboardDetails);
         }
 
+        private void Page5Click(object sender, RoutedEventArgs e)
+        {
+            SwitchPage(DashboardPages.PageDashboardAdvancedSettings);
+        }
+        private void Page6Click(object sender, RoutedEventArgs e)
+        {
+            SwitchPage(DashboardPages.PageDashboardWallet);
+        }
+
+
         public UserControl GetUserControlFromPage(DashboardPages page)
         {
             switch (page)
@@ -110,6 +126,10 @@ namespace GolemUI
                     return DashboardMain;
                 case DashboardPages.PageDashboardSettings:
                     return DashboardSettings;
+                case DashboardPages.PageDashboardAdvancedSettings:
+                    return DashboardAdvancedSettings;
+                case DashboardPages.PageDashboardWallet:
+                    return DashboardWallet;
                 case DashboardPages.PageDashboardBenchmark:
                     return DashboardBenchmark;
                 case DashboardPages.PageDashboardDetails:
