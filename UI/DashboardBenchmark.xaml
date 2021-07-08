@@ -15,20 +15,22 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Border Style="{DynamicResource PageBackground}">
-        <Canvas>
-            <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
+        <Grid Margin="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 0, 0, 0">
                 <Label Foreground="#FFFFFF" Content="GPU Benchmark" FontFamily="SegoeUI" FontSize="24"></Label>
                 <!--<Label Content="Dashboard"></Label>-->
-            </Border>
-            <local:GpuMiningPanelUI x:Name="gpuMiningPanel" Canvas.Left="220" Canvas.Top="160" Width="550"/>
+            </Border>            
+            <local:GpuMiningPanelUI x:Name="gpuMiningPanel" Grid.Column="1" Grid.Row="1"/>
 
-            <svgc:SvgViewbox Source="Media/onboarding/hash_power.svg" Canvas.Left="34" Canvas.Top="150" Width="150" Height="150"/>
-
-            <Button Name="btnStartBenchmark" Style="{StaticResource PinkButtonStyle}" Click="btnStartBenchmark_Click" Width="150" Height="40" Margin="10 10" Canvas.Left="25" Canvas.Top="310" >Start Benchmark</Button>
-            <Button Name="btnStopBenchmark" Style="{StaticResource BlueButtonStyle}" Visibility="Hidden" Click="btnStopBenchmark_Click" Width="150" Height="40" Margin="10 10" Canvas.Left="25" Canvas.Top="310" >Stop Benchmark</Button>
-            <StackPanel Orientation="Horizontal" Canvas.Left="20" Canvas.Top="91" >
-            </StackPanel>
-            <Border Name="brdAdvanced" Canvas.Left="410" Canvas.Top="37" Style="{DynamicResource BorderStyleBlueBox}" >
+            <Border Name="brdAdvanced" Height="145" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{DynamicResource BorderStyleBlueBox}" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
                 <StackPanel>
                     <Label Style="{DynamicResource BlueBoxTitle}" MouseDown="Label_MouseDown">Advanced</Label>
                     <TextBlock Width="350" Margin="10">Select which cards you want to run benchmark and mining on). For example 0,2,3 means run on first, third and fourth card. Run benchmark to confirm that your selection is valid. Leave the field empty to run on all cards.</TextBlock>
@@ -36,9 +38,16 @@
                 </StackPanel>
             </Border>
 
-            <Button Name="btnNext" Style="{StaticResource PinkButtonStyle}" IsEnabled="False" Click="btnReady_Click" Width="150" Height="40" Margin="10 10" Canvas.Left="25" Canvas.Top="360">Ready</Button>
+            <StackPanel Grid.Row="1" Grid.Column="0">
+                
+                <svgc:SvgViewbox Source="Media/onboarding/hash_power.svg" Canvas.Left="34" Canvas.Top="150" Width="150" Height="150"/>
+
+                <Button Name="btnStartBenchmark" Style="{StaticResource PinkButtonStyle}" Click="btnStartBenchmark_Click" Width="150" Height="40" Margin="10 10 10 0" >Start Benchmark</Button>
+                <Button Name="btnStopBenchmark" Style="{StaticResource BlueButtonStyle}" Click="btnStopBenchmark_Click" Width="150" Height="40" Margin="10 10 10 0" >Stop Benchmark</Button>
+                <Button Name="btnNext" Style="{StaticResource PinkButtonStyle}" IsEnabled="False" Click="btnReady_Click" Width="150" Height="40" Margin="10 10 10 0">Ready</Button>
+            </StackPanel>
 
 
-        </Canvas>
+        </Grid>
     </Border>
 </UserControl>

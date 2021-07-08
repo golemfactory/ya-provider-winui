@@ -14,17 +14,21 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Border Style="{DynamicResource PageBackground}">
-        <Canvas>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-            <Label x:Name="lblStatus" Content="Benchmarks status" Canvas.Top="28" Canvas.Right="20" Foreground="Beige"></Label>
-            <Label x:Name="lblPower" Content="Total Power" Canvas.Top="23" FontSize="20" Foreground="White" FontWeight="Bold"/>
+            <Label x:Name="lblStatus" Content="Benchmarks status" Foreground="Beige" Grid.Row="0" Margin="0"></Label>
+            <Label x:Name="lblPower" Content="Total Power" FontSize="20" Foreground="White" FontWeight="Bold" Grid.Row="1" Margin="0"/>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Canvas.Top="70" Width="580" MinHeight="40" Height="200px" Canvas.Left="0" Canvas.Right="0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" MinHeight="40" Grid.Row="2">
                 <StackPanel x:Name="spGpuList" Orientation="Vertical">
 
                 </StackPanel>
             </ScrollViewer>
-            <Label x:Name="lblPower_Copy" Content="Total mining hashrate:" Canvas.Top="1" FontSize="10" Foreground="White"/>
-        </Canvas>
+        </Grid>
     </Border>
 </UserControl>

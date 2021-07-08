@@ -14,7 +14,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Left" Width="550" Margin="0,0,0,5">
+    <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="0,0,0,5">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="60"></ColumnDefinition>
@@ -24,10 +24,14 @@
 
             <StackPanel Orientation="Vertical" Grid.Column="1">
                 <Label Name="lblInfo" Content="lblName" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <StackPanel Orientation="Horizontal">
-                    <Label Name="lblPower" Content="lblPower" Width="100" Foreground="White"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12"/>
-                    <ProgressBar Name="pbProgress" Height="20" Margin="10, 0" VerticalAlignment="Center" Width="370"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Name="lblPower" Content="lblPower" Width="100" Foreground="White"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" Grid.Column="0"/>
+                    <ProgressBar Name="pbProgress" Height="20" Margin="10, 0" VerticalAlignment="Center" Grid.Column="1"/>
+                </Grid>
                 <StackPanel Orientation="Horizontal">
                     <Label Name="cbError"></Label>
                 </StackPanel>
