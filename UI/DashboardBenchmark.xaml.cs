@@ -235,10 +235,19 @@ namespace GolemUI
 
             ClaymoreBenchmark cc = new ClaymoreBenchmark(gpuNo: null);
             string cards = selectedIndices.Replace(",", "").Replace(".", "").Trim();
-            bool result = cc.RunBenchmark(cards);
+
+            bool result = cc.RunBenchmarkRecording(@"test.recording");
+            if (result)
+            {
+                MessageBox.Show(GlobalApplicationState.Instance.Dashboard, "WARNING: Running test recording. Remove test.recording to run real benchmark.");
+            }
             if (!result)
             {
-                MessageBox.Show(cc.BenchmarkError);
+                result = cc.RunBenchmark(cards);
+                if (!result)
+                {
+                    MessageBox.Show(cc.BenchmarkError);
+                }
             }
             while (!cc.BenchmarkFinished)
             {

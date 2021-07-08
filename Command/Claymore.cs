@@ -3,7 +3,9 @@ using GolemUI.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -80,6 +82,25 @@ namespace GolemUI.Command
                 _claymoreProcess.Kill(entireProcessTree: true);
                 _claymoreProcess = null;
             }
+        }
+        public bool RunBenchmarkRecording(string brFile)
+        {
+            var imitate = new ClaymoreImitateBenchmarkFromFile();
+            _claymoreParser.BeforeParsing();
+
+            if (!File.Exists(brFile))
+            {
+                return false;
+            }
+            string readText = File.ReadAllText(brFile);
+
+            imitate.PrepareLines(readText);
+
+            imitate.OutputDataReceived += OnOutputDataRecv;
+            imitate.OutputErrorReceived += OnErrorDataRecv;
+
+            imitate.Run();
+            return true;
         }
 
         public bool RunBenchmark(string cards)
@@ -185,6 +206,121 @@ namespace GolemUI.Command
                 LineHandler("claymore", e.Data);
             }
         }
+
+
+    }
+
+
+    struct ImitateBenchmarkEntry
+    {
+        public int millis;
+        public string line;
+    }
+
+    /// <summary>
+    /// This class is for debug purposes only, it's not used in production code
+    /// </summary>
+    public class ClaymoreImitateBenchmarkFromFile
+    {
+        public DataReceivedEventHandler? OutputDataReceived;
+        public DataReceivedEventHandler? OutputErrorReceived;
+
+        List<ImitateBenchmarkEntry> _entries = new List<ImitateBenchmarkEntry>();
+
+
+        //public delegate void DataReceivedEventHandler(object sender, DataReceivedEventArgs e);
+
+        public void PrepareLines(string input)
+        {
+            string[] lines = input.Split("\n");
+
+            _entries.Clear();
+            foreach (var line in lines)
+            {
+                var parsedStrs = line.Split(":", 2);
+
+                if (parsedStrs.Length < 2)
+                {
+                    continue;
+                }
+                int millis;
+                if (!int.TryParse(parsedStrs[0], out millis))
+                {
+                    continue;
+                }
+                string outputLine = parsedStrs[1].Trim();
+
+                if (!String.IsNullOrEmpty(outputLine))
+                {
+                    var entry = new ImitateBenchmarkEntry();
+                    entry.millis = millis;
+                    entry.line = outputLine;
+                    _entries.Add(entry);
+                }
+            }
+        }
+
+
+        private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string TestData)
+        {
+            if (String.IsNullOrEmpty(TestData))
+                throw new ArgumentException("Data is null or empty.", "Data");
+
+            DataReceivedEventArgs MockEventArgs =
+                (DataReceivedEventArgs)System.Runtime.Serialization.FormatterServices
+                 .GetUninitializedObject(typeof(DataReceivedEventArgs));
+
+            FieldInfo[] EventFields = typeof(DataReceivedEventArgs)
+                .GetFields(
+                    BindingFlags.NonPublic |
+                    BindingFlags.Instance |
+                    BindingFlags.DeclaredOnly);
+
+            if (EventFields.Count() > 0)
+            {
+                EventFields[0].SetValue(MockEventArgs, TestData);
+            }
+            else
+            {
+                throw new ApplicationException(
+                    "Failed to find _data field!");
+            }
+
+            return MockEventArgs;
+        }
+
+        public void Run()
+        {
+            var t = new Thread(() =>
+            {
+                int lastMillis = 0;
+                for (int i = 0; i < _entries.Count; i++)
+                {
+                    var entry = _entries[i];
+
+                    if (OutputDataReceived != null)
+                    {
+                        //this is dirty implementation only for replaying data for debug reasons
+                        var args = CreateMockDataReceivedEventArgs(entry.line);
+                        int sleepFor = entry.millis - lastMillis;
+                        lastMillis = entry.millis;
+
+                        if (sleepFor < 0)
+                        {
+                            sleepFor = 0;
+                        }
+                        if (sleepFor > 5000)
+                        {
+                            sleepFor = 5000;
+                        }
+                        Thread.Sleep(sleepFor);
+                        OutputDataReceived(this, args);
+                    }
+                }
+            });
+            t.Start();
+        }
+
 
 
     }
