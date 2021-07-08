@@ -13,7 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Border Style="{DynamicResource PageBackground}" BorderThickness="1" BorderBrush="AliceBlue">
+    <Border Style="{DynamicResource PageBackground}">
         <Canvas>
 
             <Label x:Name="lblStatus" Content="Benchmarks status" Canvas.Top="28" Canvas.Right="20" Foreground="Beige"></Label>
