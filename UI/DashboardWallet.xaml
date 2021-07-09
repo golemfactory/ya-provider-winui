@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
-             xmlns:lv="clr-namespace:GolemUI.ViewModel"
-             d:DataContext="{d:DesignInstance Type=lv:WalletViewModel, IsDesignTimeCreatable=True}"
+             xmlns:lv="clr-namespace:GolemUI.DesignViewModel"
+             d:DataContext="{d:DesignInstance Type=lv:WalletView, IsDesignTimeCreatable=True}"
              mc:Ignorable="d" 
              d:DesignHeight="446.658" d:DesignWidth="934.149">
     <UserControl.Resources>
@@ -60,12 +60,12 @@
                             </StackPanel>                            
                             <StackPanel>
                                 <Label Content="Earned" Foreground="#aaa" FontFamily="SegoeUIBlack"></Label>
-                                <Label Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="25" RenderTransformOrigin="0.374,0.428" Content="{Binding Path=Amount, Converter={StaticResource AmountConverter}}"/>
+                                <Label Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="25" RenderTransformOrigin="0.374,0.428" Content="{Binding Path=AmountUSD, Converter={StaticResource AmountConverter}}"/>
 
-                                <Label Content="{Binding Path=PendingAmount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#a88" FontFamily="Arial" FontSize="12"></Label>
+                                <Label Content="{Binding Path=Amount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#a88" FontFamily="Arial" FontSize="12"></Label>
                                 <Canvas Height="20"></Canvas>
                                 <Label Content="Pending" Foreground="#aaa" FontFamily="Arial" FontSize="12"/>
-                                <Label Content="{Binding Path=PendingAmount, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="16"/>
+                                <Label Content="{Binding Path=PendingAmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="16"/>
                                 <Label Content="{Binding Path=PendingAmount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#a88" FontFamily="Arial" FontSize="12"/>
                             </StackPanel>
                         </StackPanel>                        
@@ -79,7 +79,7 @@
                         <StackPanel Margin="5">
                             <Label HorizontalAlignment="Center" FontFamily="Arial" FontSize="12" Margin="0, 10, 0, 10">Estimated Profit</Label>
                             <TextBlock HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" Margin="0, 10, 0, 10">
-                                <Run Text="{Binding Path=Amount, Converter={StaticResource AmountConverter}, Mode=OneWay}"/> / day
+                                <Run Text="{Binding Path=UsdPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay}"/> / day
                             </TextBlock>                            
                         </StackPanel>
                     </StackPanel>
