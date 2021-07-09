@@ -59,7 +59,7 @@ namespace GolemUI
             InitializeComponent();
             
             DashboardMain = new DashboardMain();
-            DashboardSettings = new DashboardSettings();
+            DashboardSettings = new DashboardSettings(new Src.StaticPriceProvider());
             DashboardAdvancedSettings = new DashboardAdvancedSettings();
             DashboardWallet = _dashboardWallet;
             DashboardBenchmark = new DashboardBenchmark();
