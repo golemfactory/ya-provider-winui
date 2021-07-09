@@ -3,10 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:dvm="clr-namespace:GolemUI"
+             d:DataContext ="{d:DesignInstance {x:Type dvm:SettingsDataContext}, IsDesignTimeCreatable=True}"
+             >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -24,8 +27,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="250"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -41,41 +43,40 @@
                     <Label Foreground="#FFFFFF" Content="101.9 TH/s" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
                 </StackPanel>
             </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="30,0,0,0">
-                <Label Margin="0,0,0,10" Name="lblStatusDescr" Content="Select your resources: " VerticalAlignment="Bottom"></Label>
-            </StackPanel>
-
-            <StackPanel Margin="0,0,30,0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
-                <Button Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}" Width="187" Height="40" Margin="10,0,0,10" >Run Benchmark</Button>
-                
-            </StackPanel>
-            <Grid Margin="30, 0, 30, 0" Canvas.Top="220" Width="auto" Height="auto" Grid.Row="2" Grid.ColumnSpan="3">
+           
+            <Grid Margin="30, 0, 30, 0" Canvas.Top="220" Width="auto" Height="auto" Grid.Row="1" Grid.ColumnSpan="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.8*"/>
+                    <ColumnDefinition Width="0.6*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                    
                 </Grid.ColumnDefinitions>
-                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,10,10" Grid.Column="0" Width="auto">
-                    
-                        <Grid Margin="0, 0, 0, 0"  Width="auto"  Height="auto" HorizontalAlignment="center" VerticalAlignment="center" >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="4*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions >
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
+                
+                <Label Margin="0,0,0,0" Name="lblStatusDescr" Content="Select your resources: " VerticalAlignment="Top" />
+                <Button Grid.Row="0" Grid.Column="2" Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}" Width="Auto" Height="Auto" Margin="10,0,0,10" >Run Benchmark</Button>
+                
+                
+                <Border Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,10,10" Grid.Column="0" Width="auto">
 
-                            <svgc:SvgViewbox Source="Media/balance.svg" VerticalAlignment="Stretch" MinHeight="30" Margin="10"/>
+                    <Grid Margin="0, 0, 0, 0"  Width="auto"  Height="auto" HorizontalAlignment="center" VerticalAlignment="center" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="4*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
 
-                            <Label Grid.Row="1" Content="Task types" Foreground="#FFFFFF" FontFamily="SegoeUI" FontSize="12" HorizontalContentAlignment="Center" FontWeight="Bold"></Label>
+                        <svgc:SvgViewbox Source="Media/balance.svg" VerticalAlignment="Stretch" MinHeight="30" Margin="10"/>
+
+                        <Label Grid.Row="1" Content="Task types" Foreground="#FFFFFF" FontFamily="SegoeUI" FontSize="12" HorizontalContentAlignment="Center" FontWeight="Bold"></Label>
                         <StackPanel Grid.Row="2"  Orientation="Horizontal">
                             <CheckBox Style="{DynamicResource CheckBoxSlider}" />
                             <Label Grid.Row="2" Content="Mining tasks" Foreground="#FFFFFF" FontWeight="Light" />
@@ -85,40 +86,61 @@
                             <Label Grid.Row="2" Content="Golem Network Tasks" Foreground="#FFFFFF" FontWeight="Light" />
                         </StackPanel>
                     </Grid>
-                  
+
                 </Border>
-                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="1">
+                <Border Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="1">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
+                            <RowDefinition Height="0.3*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <svgc:SvgViewbox Source="Media/profit.svg" Canvas.Left="14" Canvas.Top="60" Width="67" Height="71"/>
+                        <svgc:SvgViewbox Source="Media/profit.svg"  Grid.Column="0" Grid.Row="1" Width="67" Height="71" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding GpuList}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" Margin="10,0,0,0"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox IsChecked="{Binding Path=IsActive}" Margin="0,2,0,0"  Style="{DynamicResource CheckBoxGpu}" />
+                                        <Label Content="{Binding Path=Name}" Margin="0"/>
 
-                        <Label Content="GPU LIST" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" Foreground="#FFFFFF"></Label>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Label Content="GPU" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF"></Label>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.3*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <svgc:SvgViewbox Source="Media/profit.svg"  Grid.Column="0" Grid.Row="1" Width="67" Height="71" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                        <Label Content="CPU" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF"></Label>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
+                            <Label Content="Cores" FontWeight="Light" Margin="0" Padding="0,0,5,0" Foreground="#FFFFFF" />
+                            <Label Content="3" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
+                            <Label Content="/" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
+                            <Label Content="7" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
+                        </StackPanel>
                         
                     </Grid>
                 </Border>
-                <Button Name="MiningBox" Style="{DynamicResource BlueButtonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="2">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                        </Grid.RowDefinitions>
-                       
-                    </Grid>
-                </Button>
-                
+
             </Grid>
         </Grid>
     </Border>
