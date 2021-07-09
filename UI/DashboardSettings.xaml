@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              xmlns:dvm="clr-namespace:GolemUI"
-             d:DataContext ="{d:DesignInstance {x:Type dvm:SettingsDataContext}, IsDesignTimeCreatable=True}"
+             d:DataContext ="{d:DesignInstance {x:Type dvm:SettingsViewModel}, IsDesignTimeCreatable=True}"
              >
     <UserControl.Resources>
         <ResourceDictionary>
@@ -133,13 +133,15 @@
                         <Label Content="CPU" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF"></Label>
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
                             <Label Content="Cores" FontWeight="Light" Margin="0" Padding="0,0,5,0" Foreground="#FFFFFF" />
-                            <Label Content="3" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
+                            <Label Content="{Binding Path=ActiveCpusCountAsString, Mode=OneWay}" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
                             <Label Content="/" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
-                            <Label Content="7" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
+                            <Label Content="{Binding Path=TotalCpusCountAsString, Mode=OneWay}" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
                         </StackPanel>
                         
+                        <Slider x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Top" Margin="15" Width="160" Minimum="0" Maximum="7"/>
                     </Grid>
                 </Border>
+                
 
             </Grid>
         </Grid>
