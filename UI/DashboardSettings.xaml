@@ -81,7 +81,7 @@
                             <Label Grid.Row="2" Content="Mining tasks" Foreground="#FFFFFF" FontWeight="Light" />
                         </StackPanel>
                         <StackPanel Grid.Row="3"  Orientation="Horizontal">
-                            <CheckBox Style="{DynamicResource CheckBoxSlider}" />
+                            <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="True" />
                             <Label Grid.Row="2" Content="Golem Network Tasks" Foreground="#FFFFFF" FontWeight="Light" />
                         </StackPanel>
                     </Grid>

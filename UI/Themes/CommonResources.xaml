@@ -245,6 +245,9 @@
         </Setter>
     </Style>
 
+
+    <SolidColorBrush x:Key="CheckBox.Slider.Active" Color="#FF0FB2AB"/>
+    <SolidColorBrush x:Key="CheckBox.Slider.Inactive" Color="#FFFF0000"/>
     <Style x:Key="CheckBoxSlider" TargetType="{x:Type CheckBox}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
@@ -253,15 +256,18 @@
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <ControlTemplate.Resources>
                         <Storyboard x:Key="OnChecking">
-                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                                <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="25"/>
+                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SliderCircle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="11"/>
                             </DoubleAnimationUsingKeyFrames>
+
                         </Storyboard>
                         <Storyboard x:Key="OnUnchecking">
-                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+
+
+                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SliderCircle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
                                 <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
                             </DoubleAnimationUsingKeyFrames>
-                            <ThicknessAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(FrameworkElement.Margin)">
+                            <ThicknessAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SliderCircle" Storyboard.TargetProperty="(FrameworkElement.Margin)">
                                 <SplineThicknessKeyFrame KeyTime="00:00:00.3000000" Value="1,1,1,1"/>
                             </ThicknessAnimationUsingKeyFrames>
                         </Storyboard>
@@ -272,15 +278,14 @@
                         <!--<Grid Margin="5,5,0,5" Width="50" Background="#FF00FFDC">-->
                             <!--<TextBlock Text="ON" TextWrapping="Wrap" FontWeight="Bold" FontSize="12" HorizontalAlignment="Right" Margin="0,0,3,0"/>-->
                             <!--<TextBlock HorizontalAlignment="Left" Margin="2,0,0,0" FontSize="12" FontWeight="Bold" Text="OFF" TextWrapping="Wrap"/>-->
-                        <Border HorizontalAlignment="Left" x:Name="bg" Width="35" BorderThickness="1,1,1,1" CornerRadius="10,10,10,10"  Height="15" RenderTransformOrigin="0.5,0.5" Margin="1,1,1,1" Background="#FF00FFDC">
-
-                                <Ellipse HorizontalAlignment="Left" x:Name="slider" Width="10" Height="10"  RenderTransformOrigin="0.5,0.5" Fill="White" >
+                        <Border HorizontalAlignment="Left" x:Name="SliderBg" Width="25" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"  Height="15" RenderTransformOrigin="0.5,0.5" Margin="1,1,1,1" >
+                            <Ellipse HorizontalAlignment="Left" x:Name="SliderCircle" Width="10" Height="10"  RenderTransformOrigin="0.5,0.5" Fill="White" >
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="1" ScaleY="1"/>
                                         <SkewTransform AngleX="0" AngleY="0"/>
                                         <RotateTransform Angle="0"/>
-                                        <TranslateTransform X="0" Y="0"/>
+                                        <TranslateTransform X="2" Y="0"/>
                                     </TransformGroup>
                                 </Ellipse.RenderTransform>
                             </Ellipse>
@@ -295,8 +300,13 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard Storyboard="{StaticResource OnChecking}" x:Name="OnChecking_BeginStoryboard"/>
                             </Trigger.EnterActions>
+                            <Setter TargetName="SliderBg" Property="Background" Value="{StaticResource CheckBox.Slider.Active}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="SliderBg" Property="Background" Value="{StaticResource CheckBox.Slider.Inactive}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
+                            
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
