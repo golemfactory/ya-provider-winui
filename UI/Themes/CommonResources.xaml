@@ -190,18 +190,34 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="HyperLinkButtonStyle" TargetType="Button">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <TextBlock>
+                    <Hyperlink TextDecorations="None" Foreground="#88f" FontFamily="Arial">
+                        <Run Text="{TemplateBinding Content}" />
+                    </Hyperlink>
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <SolidColorBrush x:Key="ButtonGradient.Static.BackgroundGradientStopLeft" Color="#FF003AFF"/>
     <SolidColorBrush x:Key="ButtonGradient.Static.BackgroundGradientStopRight" Color="#D119AE"/>
     <Style x:Key="GradientButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <!--<Setter Property="Background" Value="{StaticResource ButtonPink.Static.Background}"/>-->
-     
+
             <Setter Property="Background">
                 <Setter.Value>
                     <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="{Binding Source={StaticResource ButtonGradient.Static.BackgroundGradientStopLeft},Path=Color}" Offset="0"/>
                     <GradientStop Color="{Binding Source={StaticResource ButtonGradient.Static.BackgroundGradientStopRight},Path=Color}" Offset="1"/>
-                    
+
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
