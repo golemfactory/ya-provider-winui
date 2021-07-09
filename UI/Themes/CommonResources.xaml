@@ -265,49 +265,37 @@
     <SolidColorBrush x:Key="CheckBox.Slider.Active" Color="#FF0FB2AB"/>
     <SolidColorBrush x:Key="CheckBox.Slider.Inactive" Color="#FFFF0000"/>
     <Style x:Key="CheckBoxSlider" TargetType="{x:Type CheckBox}">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <ControlTemplate.Resources>
                         <Storyboard x:Key="OnChecking">
-                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SliderCircle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                                <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="11"/>
+                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SliderCircle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value="11"/>
                             </DoubleAnimationUsingKeyFrames>
-
                         </Storyboard>
                         <Storyboard x:Key="OnUnchecking">
-
-
-                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SliderCircle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                                <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SliderCircle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0"/>
                             </DoubleAnimationUsingKeyFrames>
                             <ThicknessAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SliderCircle" Storyboard.TargetProperty="(FrameworkElement.Margin)">
-                                <SplineThicknessKeyFrame KeyTime="00:00:00.3000000" Value="1,1,1,1"/>
+                                <SplineThicknessKeyFrame KeyTime="00:00:00.2000000" Value="1,1,1,1"/>
                             </ThicknessAnimationUsingKeyFrames>
                         </Storyboard>
                     </ControlTemplate.Resources>
 
                     <DockPanel x:Name="dockPanel">
                         <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" RecognizesAccessKey="True" VerticalAlignment="Center"/>
-                        <!--<Grid Margin="5,5,0,5" Width="50" Background="#FF00FFDC">-->
-                            <!--<TextBlock Text="ON" TextWrapping="Wrap" FontWeight="Bold" FontSize="12" HorizontalAlignment="Right" Margin="0,0,3,0"/>-->
-                            <!--<TextBlock HorizontalAlignment="Left" Margin="2,0,0,0" FontSize="12" FontWeight="Bold" Text="OFF" TextWrapping="Wrap"/>-->
                         <Border HorizontalAlignment="Left" x:Name="SliderBg" Width="25" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"  Height="15" RenderTransformOrigin="0.5,0.5" Margin="1,1,1,1" >
                             <Ellipse HorizontalAlignment="Left" x:Name="SliderCircle" Width="10" Height="10"  RenderTransformOrigin="0.5,0.5" Fill="White" >
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
-                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                        <SkewTransform AngleX="0" AngleY="0"/>
-                                        <RotateTransform Angle="0"/>
                                         <TranslateTransform X="2" Y="0"/>
                                     </TransformGroup>
                                 </Ellipse.RenderTransform>
                             </Ellipse>
                         </Border>
                     </DockPanel>
-
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Trigger.ExitActions>
@@ -322,8 +310,58 @@
                             <Setter TargetName="SliderBg" Property="Background" Value="{StaticResource CheckBox.Slider.Inactive}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextColor}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <SolidColorBrush x:Key="CheckBox.Gpu.Active" Color="#FF1E9231"/>
+    <SolidColorBrush x:Key="CheckBox.Gpu.Inactive" Color="#FFdddddd"/>
+    <SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="OptionMark.Static.Border" Color="#FF707070"/>
+    <Style x:Key="OptionMarkFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="14,0,0,0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="#FF212121"/>
+    <SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070"/>
+    <SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="#FF212121"/>
+    <SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="#FF212121"/>
+    <Style x:Key="CheckBoxGpu" TargetType="{x:Type CheckBox}">
+        
+        
+        <Setter Property="Cursor" Value="Hand"></Setter>
+        <Setter Property="Content" Value=""></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Grid>
+                        <Border HorizontalAlignment="Left" x:Name="GpuCheckboxBG" Width="15" Height="15" BorderThickness="1,1,1,1" CornerRadius="3,3,3,3"  Margin="0" >
+                            <Grid x:Name="markGrid">
+                                <Path x:Name="optionMark" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{StaticResource OptionMark.Static.Glyph}" Margin="1" Opacity="0" Stretch="None"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="GpuCheckboxBG" Property="Background" Value="{StaticResource CheckBox.Gpu.Active}" />
+                            <Setter Property="Opacity" TargetName="optionMark" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="GpuCheckboxBG" Property="Background" Value="{StaticResource CheckBox.Gpu.Inactive}" />
+                            <Setter Property="Opacity" TargetName="optionMark" Value="0"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
