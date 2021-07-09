@@ -190,4 +190,20 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="HyperLinkButtonStyle" TargetType="Button">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <TextBlock>
+                    <Hyperlink TextDecorations="None" Foreground="#88f" FontFamily="Arial">
+                        <Run Text="{TemplateBinding Content}" />
+                    </Hyperlink>
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

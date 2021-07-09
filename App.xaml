@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:GolemUI"
              Startup="OnStartup" Exit="OnExit">
     <Application.Resources>
-
+        <local:AmountConverter x:Key="AmountConverter"/>
     </Application.Resources>
 </Application>
 

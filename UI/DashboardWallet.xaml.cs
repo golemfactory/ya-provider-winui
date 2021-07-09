@@ -22,12 +22,13 @@ namespace GolemUI
     public partial class DashboardWallet : UserControl
     {
 
+
         public DashboardWallet()
         {
             InitializeComponent();
 
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
-
+            this.DataContext = new ViewModel.WalletViewModel();
         }
 
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
