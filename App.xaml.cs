@@ -44,10 +44,9 @@ namespace GolemUI
 
         private void ConfigureServices(IServiceCollection services)
         {
-            //services.AddSingleton<Interfaces.IProcessControler, ProcessController>();
-//#if DEBUG
-  //          services.AddSingleton<DebugWindow>();
-//#endif
+            services.AddSingleton<Interfaces.IPriceProvider, Src.StaticPriceProvider>();
+            services.AddTransient(typeof(Dashboard));
+            services.AddTransient(typeof(DashboardWallet));
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
@@ -56,7 +55,7 @@ namespace GolemUI
             
             try
             {
-                var dashboardWindow = new Dashboard();
+                var dashboardWindow = _serviceProvider.GetRequiredService<Dashboard>();
                 GlobalApplicationState.Instance.Dashboard = dashboardWindow;
 
                 dashboardWindow.Show();

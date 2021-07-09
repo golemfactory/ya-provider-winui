@@ -54,14 +54,14 @@ namespace GolemUI
 
         private bool _forceExit = false;
 
-        public Dashboard()
+        public Dashboard(DashboardWallet _dashboardWallet)
         {
             InitializeComponent();
             
             DashboardMain = new DashboardMain();
             DashboardSettings = new DashboardSettings();
             DashboardAdvancedSettings = new DashboardAdvancedSettings();
-            DashboardWallet = new DashboardWallet();
+            DashboardWallet = _dashboardWallet;
             DashboardBenchmark = new DashboardBenchmark();
             DashboardDetails = new DashboardDetails();
             WelcomeStart = new WelcomeStart();
