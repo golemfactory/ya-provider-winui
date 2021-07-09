@@ -77,11 +77,11 @@
 
                             <Label Grid.Row="1" Content="Task types" Foreground="#FFFFFF" FontFamily="SegoeUI" FontSize="12" HorizontalContentAlignment="Center" FontWeight="Bold"></Label>
                         <StackPanel Grid.Row="2"  Orientation="Horizontal">
-                            <CheckBox Style="{DynamicResource CheckBoxStyle1}" />
+                            <CheckBox Style="{DynamicResource CheckBoxSlider}" />
                             <Label Grid.Row="2" Content="Mining tasks" Foreground="#FFFFFF" FontWeight="Light" />
                         </StackPanel>
                         <StackPanel Grid.Row="3"  Orientation="Horizontal">
-                            <CheckBox Style="{DynamicResource CheckBoxStyle1}" />
+                            <CheckBox Style="{DynamicResource CheckBoxSlider}" />
                             <Label Grid.Row="2" Content="Golem Network Tasks" Foreground="#FFFFFF" FontWeight="Light" />
                         </StackPanel>
                     </Grid>
