@@ -63,6 +63,7 @@ namespace GolemUI
             txRunOnSelectedCards.Text = settings.MinerSelectedGPUIndices;
 
             brdAdvanced.Height = 33;
+            btnStopBenchmark.Visibility = Visibility.Collapsed;
         }
 
         Dictionary<int, GpuEntryUI> _entries = new Dictionary<int, GpuEntryUI>();
@@ -192,7 +193,7 @@ namespace GolemUI
 
 
             this.btnStartBenchmark.Visibility = Visibility.Visible;
-            this.btnStopBenchmark.Visibility = Visibility.Hidden;
+            this.btnStopBenchmark.Visibility = Visibility.Collapsed;
 
             this.btnNext.IsEnabled = true;
 
@@ -225,7 +226,7 @@ namespace GolemUI
             _requestExit = false;
 
 
-            this.btnStartBenchmark.Visibility = Visibility.Hidden;
+            this.btnStartBenchmark.Visibility = Visibility.Collapsed;
             this.btnStopBenchmark.Visibility = Visibility.Visible;
             this.btnNext.IsEnabled = false;
 
