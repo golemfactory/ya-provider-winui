@@ -23,7 +23,7 @@
 
             <Label Canvas.Left="30" Canvas.Top="110" Foreground="White" FontFamily="SegoeUI" FontSize="14" FontWeight="Bold">Use only Ethereum address</Label>
 
-            <svgc:SvgViewbox Source="Media/onboarding/name_node.svg" Canvas.Left="35" Canvas.Top="188" Width="183" Height="181"/>
+            <svgc:SvgViewbox Source="/Media/onboarding/name_node.svg" Canvas.Left="35" Canvas.Top="188" Width="183" Height="181"/>
             <Label Style="{DynamicResource BlueBoxTitle}" Canvas.Left="286" Canvas.Top="168" Content="Node name"></Label>
             <TextBlock Style="{DynamicResource BlueBoxTextBlock}" Width="220" Canvas.Right="20" Canvas.Bottom="20">
                 You can choose any node name you like. It's human friendly description of your node.

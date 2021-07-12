@@ -23,7 +23,7 @@
 
             <Label Canvas.Left="30" Canvas.Top="110" Foreground="White" FontFamily="SegoeUI" FontSize="14" FontWeight="Bold">Benchmark</Label>
 
-            <svgc:SvgViewbox Source="Media/onboarding/hash_power.svg" Canvas.Left="35" Canvas.Top="188" Width="183" Height="181"/>
+            <svgc:SvgViewbox Source="/Media/onboarding/hash_power.svg" Canvas.Left="35" Canvas.Top="188" Width="183" Height="181"/>
             
             
             

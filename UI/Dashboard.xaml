@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GolemUI"
         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        xmlns:tb="http://www.hardcodet.net/taskbar"        
         mc:Ignorable="d"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
@@ -19,6 +20,8 @@
             <ColumnDefinition Width="400*"/>
         </Grid.ColumnDefinitions>
 
+       <!-- <tb:TaskbarIcon x:Name="MyNotifyIcon" IconSource="/Media/tray.ico" ToolTipText="hello world" />-->
+        
         <Border BorderThickness="0" BorderBrush="Black" Background="#710D39" Grid.Column="0" Grid.Row="0" MouseDown="TitleBar_MouseDown">
             <Label Foreground="White" VerticalAlignment="Center">GolemUI 0.0.1</Label>
         </Border>
@@ -38,19 +41,19 @@
         <Border BorderBrush="White" Background="#110D39" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 1 0" >
             <StackPanel>
                 <Button x:Name="btnPage1" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page1Click">
-                    <svgc:SvgViewbox Source="Media/nav_dashboard.svg"/>
+                    <svgc:SvgViewbox Source="/Media/nav_dashboard.svg"/>
                 </Button>
                 <Button x:Name="btnPage2" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page2Click">
-                    <svgc:SvgViewbox Source="Media/nav_settings.svg"/>
+                    <svgc:SvgViewbox Source="/Media/nav_settings.svg"/>
                 </Button>
                 <Button x:Name="btnPage5" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page5Click">
-                    <svgc:SvgViewbox Source="Media/nav_settings.svg"/>
+                    <svgc:SvgViewbox Source="/Media/nav_settings.svg"/>
                 </Button>
                 <Button x:Name="btnPage6" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page6Click">
-                    <svgc:SvgViewbox Source="Media/nav_wallet.svg"/>
+                    <svgc:SvgViewbox Source="/Media/nav_wallet.svg"/>
                 </Button>
                 <Button x:Name="btnPage3" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page3Click">
-                    <svgc:SvgViewbox Source="Media/nav_wallet.svg"/>
+                    <svgc:SvgViewbox Source="/Media/nav_wallet.svg"/>
                 </Button>
             </StackPanel>
         </Border>
