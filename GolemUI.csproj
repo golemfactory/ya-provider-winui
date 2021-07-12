@@ -31,6 +31,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Media\balance.svg" />
+    <None Remove="Media\content-copy.svg" />
+    <None Remove="Media\cpu.svg" />
+    <None Remove="Media\gpu.svg" />
+    <None Remove="Media\nav_dashboard.svg" />
+    <None Remove="Media\nav_settings.svg" />
+    <None Remove="Media\nav_wallet.svg" />
+    <None Remove="Media\onboarding\begginer.svg" />
+    <None Remove="Media\onboarding\create_wallet.svg" />
+    <None Remove="Media\onboarding\experienced.svg" />
+    <None Remove="Media\onboarding\hash_power.svg" />
+    <None Remove="Media\onboarding\name_node.svg" />
+    <None Remove="Media\onboarding\prepare.svg" />
+    <None Remove="Media\onboarding\use_my_wallet.svg" />
+    <None Remove="Media\onboarding\wallet_info.svg" />
+    <None Remove="Media\profit.svg" />
+    <None Remove="Media\tray.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
@@ -49,51 +70,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Media\balance.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\cpu.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\gpu.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\nav_dashboard.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\nav_settings.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\nav_wallet.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\onboarding\begginer.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\onboarding\create_wallet.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\onboarding\experienced.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\onboarding\hash_power.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\onboarding\name_node.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\onboarding\prepare.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\onboarding\use_my_wallet.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\onboarding\wallet_info.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Media\profit.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Media\settings.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -108,6 +84,29 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Media\balance.svg" />
+    <Resource Include="Media\content-copy.svg" />
+    <Resource Include="Media\cpu.svg" />
+    <Resource Include="Media\gpu.svg" />
+    <Resource Include="Media\nav_dashboard.svg" />
+    <Resource Include="Media\nav_settings.svg" />
+    <Resource Include="Media\nav_wallet.svg" />
+    <Resource Include="Media\onboarding\begginer.svg" />
+    <Resource Include="Media\onboarding\create_wallet.svg" />
+    <Resource Include="Media\onboarding\experienced.svg" />
+    <Resource Include="Media\onboarding\hash_power.svg" />
+    <Resource Include="Media\onboarding\name_node.svg" />
+    <Resource Include="Media\onboarding\prepare.svg" />
+    <Resource Include="Media\onboarding\use_my_wallet.svg" />
+    <Resource Include="Media\onboarding\wallet_info.svg" />
+    <Resource Include="Media\profit.svg" />
   </ItemGroup>
 
 </Project>

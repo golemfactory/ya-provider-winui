@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="60"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <svgc:SvgViewbox Source="Media/gpu.svg" Canvas.Left="14" Canvas.Top="60" Width="50" Height="40" Grid.Column="0" Margin="0,5" VerticalAlignment="top"/>
+            <svgc:SvgViewbox Source="/Media/gpu.svg" Canvas.Left="14" Canvas.Top="60" Width="50" Height="40" Grid.Column="0" Margin="0,5" VerticalAlignment="top"/>
 
             <StackPanel Orientation="Vertical" Grid.Column="1">
                 <Label Name="lblInfo" Content="lblName" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"/>

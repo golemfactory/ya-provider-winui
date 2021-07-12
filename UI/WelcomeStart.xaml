@@ -48,7 +48,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Style="{DynamicResource BlueBoxTitle}" Margin="10,0,0,0" Grid.ColumnSpan="2" Content="I whish to learn"></Label>
-                    <svgc:SvgViewbox Source="Media/onboarding/begginer.svg" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Top" Margin="15"/>
+                    <svgc:SvgViewbox Source="/Media/onboarding/begginer.svg" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Top" Margin="15"/>
                     <TextBlock Style="{DynamicResource BlueBoxTextBlock}" Grid.Row="1" Grid.Column="1" Margin="0, 0, 10, 0">
                         Choose this option if you would like us to guide you through the process step by step and help learn you about security.
                     </TextBlock>
@@ -68,7 +68,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Style="{DynamicResource BlueBoxTitle}"  Margin="10,0,0,0" Grid.ColumnSpan="2">I'm quite experienced</Label>
-                    <svgc:SvgViewbox Source="Media/onboarding/experienced.svg" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Top" Margin="15"/>
+                    <svgc:SvgViewbox Source="/Media/onboarding/experienced.svg" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Top" Margin="15"/>
                     <TextBlock Style="{DynamicResource BlueBoxTextBlock}" Grid.Row="1" Grid.Column="1" Margin="0, 0, 10, 0">
                         You should know what you are doing and you own your crypto wallet already
                     </TextBlock>
@@ -79,7 +79,7 @@
             <!--
             <Border Style="{DynamicResource BorderStyleBlueBox}" Grid.Row="2" Grid.Column="1">
                 <StackPanel>
-                    <svgc:SvgViewbox Source="Media/onboarding/experienced.svg" Canvas.Left="33" Canvas.Top="55" Width="75" Height="75"/>
+                    <svgc:SvgViewbox Source="/Media/onboarding/experienced.svg" Canvas.Left="33" Canvas.Top="55" Width="75" Height="75"/>
                     <Label Style="{DynamicResource BlueBoxTitle}" Foreground="White" Canvas.Left="20" Canvas.Top="10" Content="I'm quite experienced" ></Label>
                     <TextBlock Foreground="White" TextWrapping="Wrap" Width="180" Canvas.Right="20" Canvas.Top="50">
                         You should know what you are doing and you own your crypto wallet already
