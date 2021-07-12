@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GolemUI"
         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
-        xmlns:tb="http://www.hardcodet.net/taskbar"        
+        xmlns:tb="http://www.hardcodet.net/taskbar"     
+        xmlns:commands="clr-namespace:GolemUI.Notifications"
         mc:Ignorable="d"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
@@ -20,8 +21,16 @@
             <ColumnDefinition Width="400*"/>
         </Grid.ColumnDefinitions>
 
-       <!-- <tb:TaskbarIcon x:Name="MyNotifyIcon" IconSource="/Media/tray.ico" ToolTipText="hello world" />-->
-        
+        <tb:TaskbarIcon Visibility="Hidden" x:Name="tbNotificationIcon" IconSource="/Media/tray.ico" ToolTipText="GolemUI" DoubleClickCommand="{commands:ShowWindowCommand}">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Show" Command="{commands:ShowWindowCommand2}"/>
+                    <Separator />
+                    <MenuItem Header="Close" Command="{commands:CloseWindowCommand}"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+
         <Border BorderThickness="0" BorderBrush="Black" Background="#710D39" Grid.Column="0" Grid.Row="0" MouseDown="TitleBar_MouseDown">
             <Label Foreground="White" VerticalAlignment="Center">GolemUI 0.0.1</Label>
         </Border>

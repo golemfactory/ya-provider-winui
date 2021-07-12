@@ -94,6 +94,7 @@
     <Resource Include="Media\balance.svg" />
     <Resource Include="Media\content-copy.svg" />
     <Resource Include="Media\cpu.svg" />
+    <Resource Include="Media\tray.ico" />
     <Resource Include="Media\gpu.svg" />
     <Resource Include="Media\nav_dashboard.svg" />
     <Resource Include="Media\nav_settings.svg" />

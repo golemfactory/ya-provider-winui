@@ -15,6 +15,7 @@ using System.Diagnostics;
 
 using System.Windows.Media.Animation;
 using GolemUI.Settings;
+using GolemUI.Notifications;
 
 namespace GolemUI
 {
@@ -56,6 +57,8 @@ namespace GolemUI
         public Dictionary<DashboardPages, UserControl> _pages = new Dictionary<DashboardPages, UserControl>();
 
         private bool _forceExit = false;
+        bool _minimizeOnly = true;
+
 
         public Dashboard(DashboardWallet _dashboardWallet)
         {
@@ -84,7 +87,6 @@ namespace GolemUI
             _pages.Add(DashboardPages.PageWelcomeAddress, WelcomeAddress);
             _pages.Add(DashboardPages.PageWelcomeBenchmark, WelcomeBenchmark);
             _pages.Add(DashboardPages.PageWelcomeDecide, WelcomeDecide);
-
 
 
 
@@ -263,10 +265,34 @@ namespace GolemUI
             sb.Begin();
         }
 
+        public void RequestClose()
+        {
+            DashboardBenchmark.RequestBenchmarkEnd();
+            if (!GlobalApplicationState.Instance.ProcessController.IsRunning)
+            {
+                this._forceExit = true;
+                this.Close();
+            }
+            //there is no way for now of gently stopping provider so kill it
+            GlobalApplicationState.Instance.ProcessController.KillProvider();
+            Task.Run(async () =>
+            {
+                //try to gently stop yagna
+                await GlobalApplicationState.Instance.ProcessController.StopYagna();
+                this.Dispatcher.Invoke(() =>
+                {
+                    //force exit know after trying to gently stop yagna (which may succeeded or failed)
+                    this._forceExit = true;
+                    this.Close();
+                });
+            });
+
+            //wait for yagna until it is stopped asynchronously
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Note: this event is called one or twice during normal shutdown
-
             if (_forceExit)
             {
                 //if somehow yagna failed to close itself gently just kill it
@@ -274,27 +300,14 @@ namespace GolemUI
                 GlobalApplicationState.Instance.ProcessController.KillYagna();
                 return;
             }
-            DashboardBenchmark.RequestBenchmarkEnd();
-            if (!GlobalApplicationState.Instance.ProcessController.IsRunning)
+            if (_minimizeOnly)
             {
-                return;
+                tbNotificationIcon.Visibility = Visibility.Visible;
+                e.Cancel = true;
+                this.WindowState = WindowState.Minimized;
             }
-            //there is no way for now of gently stopping provider so kill it
-            GlobalApplicationState.Instance.ProcessController.KillProvider();
-            Task.Run(async () =>
-                {
-                    //try to gently stop yagna
-                    await GlobalApplicationState.Instance.ProcessController.StopYagna();
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        //force exit know after trying to gently stop yagna (which may succeeded or failed)
-                        this._forceExit = true;
-                        this.Close();
-                    });
-                });
-                
-            //wait for yagna until it is stopped asynchronously
             e.Cancel = true;
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
