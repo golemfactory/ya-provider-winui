@@ -37,7 +37,7 @@
                 <WrapPanel Margin="8 2 8 2" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center">
                     <TextBlock>
                         Your Address: 
-                        <Run Text="{Binding WalletAddress}" />
+                        <Run Text="{Binding WalletAddress, Mode=OneWay}" />
                     </TextBlock>
                     
                     <Button Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0">

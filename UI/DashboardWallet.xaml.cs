@@ -21,12 +21,9 @@ namespace GolemUI
     /// </summary>
     public partial class DashboardWallet : UserControl
     {
-
-
         public DashboardWallet(Interfaces.IPriceProvider priceProv)
         {
             InitializeComponent();
-
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
             this.DataContext = new ViewModel.WalletViewModel(priceProv);
         }

@@ -37,10 +37,10 @@
                     <Label Foreground="#FFFFFF" Content="Settings" FontFamily="SegoeUI" FontSize="24" />
                 </Border>
                 <StackPanel  Orientation="Horizontal"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 10, 0, 0" >
-                    <Label Foreground="#FFFFFF" Content="Estimated profit: " FontFamily="SegoeUI" FontSize="12" FontWeight="Light" Margin="0" Padding="0"/>
-                    <Label Foreground="#FFFFFF" Content="$41.32 / day" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
-                    <Label Foreground="#FFFFFF" Content="Current Hashrate: " FontFamily="SegoeUI" FontSize="12" FontWeight="Light" Margin="0" Padding="20,0,0,0"/>
-                    <Label Foreground="#FFFFFF" Content="101.9 TH/s" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
+                    <Label Content="Estimated profit: " FontFamily="SegoeUI" FontSize="12" FontWeight="Light" Margin="0" Padding="0"/>
+                    <Label Content="{Binding Path=EstimatedProfit, Mode=OneWay}" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
+                    <Label Content="Current Hashrate: " FontFamily="SegoeUI" FontSize="12" FontWeight="Light" Margin="0" Padding="20,0,0,0"/>
+                    <Label Content="{Binding Path=Hashrate, Mode=OneWay}" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
                 </StackPanel>
             </StackPanel>
            
