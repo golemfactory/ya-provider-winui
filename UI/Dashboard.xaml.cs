@@ -52,6 +52,9 @@ namespace GolemUI
         public WelcomeDecide WelcomeDecide { get; set; }
         public DashboardPages _pageSelected = DashboardPages.PageWelcomeStart;
 
+
+        public Dictionary<DashboardPages, UserControl> _pages = new Dictionary<DashboardPages, UserControl>();
+
         private bool _forceExit = false;
 
         public Dashboard(DashboardWallet _dashboardWallet)
@@ -69,20 +72,53 @@ namespace GolemUI
             WelcomeAddress = new WelcomeAddress();
             WelcomeBenchmark = new WelcomeBenchmark();
             WelcomeDecide = new WelcomeDecide();
+
+            _pages.Add(DashboardPages.PageDashboardMain, DashboardMain);
+            _pages.Add(DashboardPages.PageDashboardSettings, DashboardSettings);
+            _pages.Add(DashboardPages.PageDashboardAdvancedSettings, DashboardAdvancedSettings);
+            _pages.Add(DashboardPages.PageDashboardWallet, DashboardWallet);
+            _pages.Add(DashboardPages.PageDashboardBenchmark, DashboardBenchmark);
+            _pages.Add(DashboardPages.PageDashboardDetails, DashboardDetails);
+            _pages.Add(DashboardPages.PageWelcomeStart, WelcomeStart);
+            _pages.Add(DashboardPages.PageWelcomeNodeName, WelcomeNodeName);
+            _pages.Add(DashboardPages.PageWelcomeAddress, WelcomeAddress);
+            _pages.Add(DashboardPages.PageWelcomeBenchmark, WelcomeBenchmark);
+            _pages.Add(DashboardPages.PageWelcomeDecide, WelcomeDecide);
+
+
+
+
+
             if (GlobalSettings.isDemo)
             {
-                cvMain.Children.Add(WelcomeStart);
+                //cvMain.Children.Add(WelcomeStart);
                 _pageSelected = DashboardPages.PageWelcomeStart;
             }
             else
             {
-                cvMain.Children.Add(DashboardMain);
+               // cvMain.Children.Add(DashboardMain);
                 _pageSelected = DashboardPages.PageDashboardMain;
             }
 
 
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
 
+
+            foreach (var pair in _pages)
+            {
+                UserControl control = pair.Value;
+                control.Visibility = Visibility.Hidden;
+                control.Opacity = 0;
+                tcNo1.Children.Add(control);
+            }
+
+
+            _pages[_pageSelected].Visibility = Visibility.Visible;
+            _pages[_pageSelected].Opacity = 1.0f;
+
+            /*Style s = new Style();
+            s.Setters.Add(new Setter(UIElement.VisibilityProperty, Visibility.Collapsed));
+            tcNo1.ItemContainerStyle = s;*/
             //this.WindowStyle = WindowStyle.None;
             //this.ResizeMode = ResizeMode.NoResize;
         }
@@ -120,41 +156,34 @@ namespace GolemUI
 
         public UserControl GetUserControlFromPage(DashboardPages page)
         {
-            switch (page)
+            if (!_pages.ContainsKey(page))
             {
-                case DashboardPages.PageDashboardMain:
-                    return DashboardMain;
-                case DashboardPages.PageDashboardSettings:
-                    return DashboardSettings;
-                case DashboardPages.PageDashboardAdvancedSettings:
-                    return DashboardAdvancedSettings;
-                case DashboardPages.PageDashboardWallet:
-                    return DashboardWallet;
-                case DashboardPages.PageDashboardBenchmark:
-                    return DashboardBenchmark;
-                case DashboardPages.PageDashboardDetails:
-                    return DashboardDetails;
-                case DashboardPages.PageWelcomeStart:
-                    return WelcomeStart;
-                case DashboardPages.PageWelcomeDecide:
-                    return WelcomeDecide;
-                case DashboardPages.PageWelcomeNodeName:
-                    return WelcomeNodeName;
-                case DashboardPages.PageWelcomeAddress:
-                    return WelcomeAddress;
-                case DashboardPages.PageWelcomeBenchmark:
-                    return WelcomeBenchmark;
-                default:
-                    throw new Exception("GetUserControlFromPage: Page not found");
+                throw new Exception(String.Format("Requested page not added to _pages. Page: {0}", (int) page));
             }
+            return _pages[page];
         }
 
         public void SwitchPage(DashboardPages page)
         {
-            if (_pageSelected != page)
+            if (page != _pageSelected)
             {
-                cvMain.Children.Clear();
-                cvMain.Children.Add(GetUserControlFromPage(page));
+                foreach (var pair in _pages)
+                {
+                    if (pair.Key != _pageSelected && pair.Key != page)
+                    {
+                        pair.Value.Visibility = Visibility.Hidden;
+                        pair.Value.Opacity = 0.0f;
+                    }
+                }
+
+                UserControl ucOld = GetUserControlFromPage(_pageSelected);
+                ucOld.Opacity = 0.0f;
+                ucOld.Visibility = Visibility.Hidden;
+
+
+                UserControl uc = GetUserControlFromPage(page);
+                uc.Visibility = Visibility.Visible;
+                ShowSlowly(uc, TimeSpan.FromMilliseconds(250));
 
                 _pageSelected = page;
             }
@@ -173,6 +202,12 @@ namespace GolemUI
             btnPage2.IsEnabled = true;
             btnPage3.IsEnabled = true;
             //btnPage4.IsEnabled = true;
+        }
+
+        private void ShowSlowly(UserControl uc, TimeSpan duration)
+        {
+            DoubleAnimation animation = new DoubleAnimation(0.0, 1.0, duration);
+            uc.BeginAnimation(UserControl.OpacityProperty, animation);
         }
 
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)

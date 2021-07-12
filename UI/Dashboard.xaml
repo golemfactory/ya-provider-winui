@@ -56,8 +56,7 @@
         </Border>
 
         <Border BorderThickness="0" BorderBrush="Black" Background="#110D39" Grid.Column="1" Grid.Row="1">
-            <Grid x:Name="cvMain">
-               
+            <Grid x:Name="tcNo1" >
             </Grid>
         </Border>
     </Grid>
