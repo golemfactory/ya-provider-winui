@@ -1,4 +1,6 @@
-﻿using GolemUI.Interfaces;
+﻿using GolemUI.Command;
+using GolemUI.Interfaces;
+using GolemUI.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,30 +13,61 @@ namespace GolemUI.ViewModel
 {
   
 
-    public class WalletViewModel : INotifyPropertyChanged
+    public class WalletViewModel : INotifyPropertyChanged, IDisposable
     {
         private IPriceProvider _priceProvider;
+        private IPaymentService _paymentService;
+        private Command.Provider _provider;
+        private readonly IProviderConfig _providerConfig;
+        private PropertyChangedEventHandler _handler;
+        
+
         private string _walletAddress;
         private decimal _amount;
         private decimal _pendingAmount;
         private decimal _glmPerDay;
 
-        public static WalletViewModel Example
-        {
-            get
-            {
-                return new WalletViewModel(new Src.StaticPriceProvider());
-            }
-        }
-
-        public WalletViewModel(IPriceProvider priceProvider)
+        public WalletViewModel(IPriceProvider priceProvider, IPaymentService paymentService, Command.Provider provider, IProviderConfig providerConfig)
         {
             _priceProvider = priceProvider;
-            this._walletAddress = "0xa1a7c282badfa6bd188a6d42b5bc7fa1e836d1f8";
+            _paymentService = paymentService;
+            _provider = provider;
+            _providerConfig = providerConfig;
+
+            var wallet = _providerConfig.Config.Account;
+            
+            this._walletAddress = wallet;
             this._amount = 0;
             this._pendingAmount = 0;
-            this._glmPerDay = 13;
+            this._glmPerDay = 0;
+            this.Tickler = "GLM";
+            var state = _paymentService.State;
+            if (state != null)
+            {
+                this._amount = state.Balance ?? 0m;
+                this._pendingAmount = state.PendingBalance ?? 0m;
+            }
+            _handler = this.OnPaymentStateChanged;
+            paymentService.PropertyChanged += _handler;
+            IsInternal = false;
+        }
 
+        
+        private void OnPaymentStateChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            var state = _paymentService.State;
+
+            if (state != null)
+            {
+                this._amount = state.Balance ?? 0m;
+                this._pendingAmount = state.PendingBalance ?? 0m;
+                this.Tickler = state.Tickler;
+                OnPropertyChanged("Amount");
+                OnPropertyChanged("AmountUSD");
+                OnPropertyChanged("PendingAmount");
+                OnPropertyChanged("PendingAmountUSD");
+                OnPropertyChanged("Tickler");
+            }
         }
 
         public string WalletAddress
@@ -86,6 +119,10 @@ namespace GolemUI.ViewModel
             }
         }
 
+        public string Tickler { get; private set; }
+
+        public bool IsInternal { get; private set; }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
@@ -93,6 +130,11 @@ namespace GolemUI.ViewModel
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public void Dispose()
+        {
+            _paymentService.PropertyChanged -= _handler;
         }
     }
 }

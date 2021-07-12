@@ -12,7 +12,8 @@ using GolemUI.Interfaces;
 using GolemUI.Command;
 using GolemUI.Settings;
 using System.Runtime.InteropServices;
-
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace GolemUI
 {
@@ -85,6 +86,8 @@ namespace GolemUI
         public LogLineHandler? LineHandler { get; set; }
 
         public string ConfigurationInfoDebug = "";
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void Dispose()
         {
@@ -181,6 +184,10 @@ namespace GolemUI
             }
         }
 
+        public bool IsProviderRunning => !(_providerDaemon?.HasExited ?? true);
+
+        public bool IsServerRunning => !(_yagnaDaemon?.HasExited ?? true);
+
         public async Task<string> GetAppKey()
         {
             if (_appkey == null)
@@ -235,8 +242,8 @@ namespace GolemUI
                     keyInfo = GetFirstAppKey();
                 }
                 _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
-
-
+                OnPropertyChanged("IsServerRunning");
+               
                 //yagna is starting and /me won't work until all services are running
                 int tries = 0;
                 while(true)
@@ -278,6 +285,15 @@ namespace GolemUI
 
             return true;
         }
+
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
 
         public async Task<Command.KeyInfo> Me()
         {

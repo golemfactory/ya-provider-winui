@@ -45,8 +45,18 @@ namespace GolemUI
         private void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<Interfaces.IPriceProvider, Src.StaticPriceProvider>();
+            services.AddSingleton(typeof(Interfaces.IProcessControler), GlobalApplicationState.Instance.ProcessController);
+            services.AddSingleton(typeof(Command.YagnaSrv));
+            services.AddSingleton(typeof(Command.Provider));
+
+            services.AddSingleton(Command.Network.Rinkeby);
+            services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
+            services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
+
+
             services.AddTransient(typeof(Dashboard));
             services.AddTransient(typeof(DashboardWallet));
+            services.AddTransient(typeof(ViewModel.WalletViewModel));
         }
 
         private void OnStartup(object sender, StartupEventArgs e)

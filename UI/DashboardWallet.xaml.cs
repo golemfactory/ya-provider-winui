@@ -1,6 +1,7 @@
 ﻿using GolemUI.Settings;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace GolemUI
 {
@@ -21,11 +23,11 @@ namespace GolemUI
     /// </summary>
     public partial class DashboardWallet : UserControl
     {
-        public DashboardWallet(Interfaces.IPriceProvider priceProv)
+        public DashboardWallet(ViewModel.WalletViewModel model)
         {
             InitializeComponent();
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
-            this.DataContext = new ViewModel.WalletViewModel(priceProv);
+            this.DataContext = model;           
         }
 
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
@@ -44,6 +46,9 @@ namespace GolemUI
             }
         }
 
-
+        private void BtnOpenZkSync_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "https://wallet.zksync.io/");
+        }
     }
 }
