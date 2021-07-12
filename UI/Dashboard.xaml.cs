@@ -163,7 +163,7 @@ namespace GolemUI
             return _pages[page];
         }
 
-        public void SwitchPage(DashboardPages page)
+        public void SwitchPage(DashboardPages page, bool animate = true)
         {
             if (page != _pageSelected)
             {
@@ -182,8 +182,16 @@ namespace GolemUI
 
 
                 UserControl uc = GetUserControlFromPage(page);
-                uc.Visibility = Visibility.Visible;
-                ShowSlowly(uc, TimeSpan.FromMilliseconds(250));
+                if (animate)
+                {
+                    uc.Visibility = Visibility.Visible;
+                    ShowSlowly(uc, TimeSpan.FromMilliseconds(250));
+                }
+                else
+                {
+                    uc.Visibility = Visibility.Visible;
+                    uc.Opacity = 1.0f;
+                }
 
                 _pageSelected = page;
             }
