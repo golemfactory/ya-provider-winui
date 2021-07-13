@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Windows.Media.Animation;
 using GolemUI.Settings;
 using GolemUI.Notifications;
+using GolemUI.Controllers;
 
 namespace GolemUI
 {
@@ -54,7 +55,7 @@ namespace GolemUI
         public DashboardPages _pageSelected = DashboardPages.PageWelcomeStart;
 
 
-        public Dictionary<DashboardPages, DashboardPageDescriptor> _pages = new Dictionary<DashboardPages, DashboardPageDescriptor>();
+        public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
         private bool _forceExit = false;
         bool _minimizeOnly = true;
@@ -76,17 +77,17 @@ namespace GolemUI
             WelcomeBenchmark = new WelcomeBenchmark();
             WelcomeDecide = new WelcomeDecide();
 
-            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPageDescriptor(  DashboardMain));
-            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPageDescriptor(DashboardSettings, DashboardSettings.ViewModel));
-            _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPageDescriptor(DashboardAdvancedSettings));
-            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPageDescriptor(DashboardWallet));
-            _pages.Add(DashboardPages.PageDashboardBenchmark, new DashboardPageDescriptor(DashboardBenchmark));
-            _pages.Add(DashboardPages.PageDashboardDetails, new DashboardPageDescriptor(DashboardDetails));
-            _pages.Add(DashboardPages.PageWelcomeStart, new DashboardPageDescriptor(WelcomeStart));
-            _pages.Add(DashboardPages.PageWelcomeNodeName, new DashboardPageDescriptor(WelcomeNodeName));
-            _pages.Add(DashboardPages.PageWelcomeAddress, new DashboardPageDescriptor(WelcomeAddress));
-            _pages.Add(DashboardPages.PageWelcomeBenchmark, new DashboardPageDescriptor(WelcomeBenchmark));
-            _pages.Add(DashboardPages.PageWelcomeDecide, new DashboardPageDescriptor(WelcomeDecide));
+            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(  DashboardMain));
+            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
+            _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPage(DashboardAdvancedSettings));
+            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
+            _pages.Add(DashboardPages.PageDashboardBenchmark, new DashboardPage(DashboardBenchmark));
+            _pages.Add(DashboardPages.PageDashboardDetails, new DashboardPage(DashboardDetails));
+            _pages.Add(DashboardPages.PageWelcomeStart, new DashboardPage(WelcomeStart));
+            _pages.Add(DashboardPages.PageWelcomeNodeName, new DashboardPage(WelcomeNodeName));
+            _pages.Add(DashboardPages.PageWelcomeAddress, new DashboardPage(WelcomeAddress));
+            _pages.Add(DashboardPages.PageWelcomeBenchmark, new DashboardPage(WelcomeBenchmark));
+            _pages.Add(DashboardPages.PageWelcomeDecide, new DashboardPage(WelcomeDecide));
 
 
 
@@ -157,7 +158,7 @@ namespace GolemUI
 
 
       
-        public DashboardPageDescriptor GetPageDescriptorFromPage(DashboardPages page)
+        public DashboardPage GetPageDescriptorFromPage(DashboardPages page)
         {
             if (!_pages.ContainsKey(page))
             {
@@ -168,47 +169,21 @@ namespace GolemUI
 
         public void SwitchPage(DashboardPages page, bool animate = true)
         {
-            if (page != _pageSelected)
-            {
-                foreach (var pair in _pages)
-                {
-                    if (pair.Key != _pageSelected && pair.Key != page)
-                    {
-                        pair.Value.View.Visibility = Visibility.Hidden;
-                        pair.Value.View.Opacity = 0.0f;
-                    }
-                }
+            if (page == _pageSelected) return;
 
-                var lastPage = GetPageDescriptorFromPage(_pageSelected);
-                lastPage.Unmount();
-                UserControl ucOld =lastPage.View;
-                if (animate)
-                {
-                    HideSlowly(ucOld, TimeSpan.FromMilliseconds(300));
-                }
-                else
-                {
-                    ucOld.Opacity = 0.0f;
-                    ucOld.Visibility = Visibility.Hidden;
-                }
+            _pages.ToList().Where(x => x.Key != _pageSelected && x.Key != page).ToList().ForEach(x => x.Value.Clear());
+
+
+            var lastPage = GetPageDescriptorFromPage(_pageSelected);
+            lastPage.Unmount();
+            lastPage.Hide();
              
-
-                var currentPage = GetPageDescriptorFromPage(page);
-                currentPage.Mount();
-                UserControl uc = currentPage.View;
-                if (animate)
-                {
-                    uc.Visibility = Visibility.Visible;
-                    ShowSlowly(uc, TimeSpan.FromMilliseconds(250));
-                }
-                else
-                {
-                    uc.Visibility = Visibility.Visible;
-                    uc.Opacity = 1.0f;
-                }
-
-                _pageSelected = page;
-            }
+            var currentPage = GetPageDescriptorFromPage(page);
+            currentPage.Mount();
+            currentPage.Show();
+                
+            _pageSelected = page;
+            
         }
 
         public void BlockNavigation()
@@ -226,32 +201,8 @@ namespace GolemUI
             //btnPage4.IsEnabled = true;
         }
 
-        private void ShowSlowly(UserControl uc, TimeSpan duration)
-        {
-
-            DoubleAnimation animation = new DoubleAnimation(0.0, 1.0, duration);
-            DoubleAnimation animation2 = new DoubleAnimation(0.9, 1.0, duration);
-
-            uc.RenderTransform = new ScaleTransform(0.9,0.9,0.5,0.5);
-            uc.RenderTransform.BeginAnimation(ScaleTransform.ScaleYProperty, animation2);
-            uc.RenderTransform.BeginAnimation(ScaleTransform.ScaleXProperty, animation2);
-            uc.BeginAnimation(UserControl.OpacityProperty, animation);
-
-        }
-        private void HideSlowly(UserControl uc, TimeSpan duration)
-        {
-            EventHandler handler = null;
-            DoubleAnimation anim1 = new DoubleAnimation(1, 0,duration);
-            anim1.Completed  += handler = new EventHandler(delegate (object s, EventArgs ev)
-            {
-                uc.Visibility = Visibility.Hidden;
-            });
-            uc.BeginAnimation(UserControl.OpacityProperty, anim1);
-
-            /*DoubleAnimation animation = new DoubleAnimation(1.0, 0.0, duration);
-            uc.BeginAnimation(UserControl.OpacityProperty, animation);*/
-        }
-
+      
+      
        
 
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)

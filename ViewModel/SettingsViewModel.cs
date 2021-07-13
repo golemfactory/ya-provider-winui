@@ -9,7 +9,8 @@ namespace GolemUI
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-      
+        private Command.Provider _provider;
+        private IProviderConfig _providerConfig;
         public ObservableCollection<SingleGpuDescriptor> GpuList { get; set; }
        
         private IPriceProvider _priceProvider;
@@ -30,9 +31,11 @@ namespace GolemUI
         {
 
         }
-        private void Init(IPriceProvider priceProvider)
+        private void Init(IPriceProvider priceProvider, Command.Provider provider, IProviderConfig providerConfig)
         {
-            _priceProvider = priceProvider; 
+            _priceProvider = priceProvider;
+            _provider = provider;
+            _providerConfig = providerConfig;
             GpuList = new ObservableCollection<SingleGpuDescriptor>();
             GpuList.Add(new SingleGpuDescriptor("1st GPU", false));
             GpuList.Add(new SingleGpuDescriptor("second GPU", true));
@@ -46,12 +49,12 @@ namespace GolemUI
       
         public SettingsViewModel()
         {
-            Init(new Src.StaticPriceProvider());
+            Init(new Src.StaticPriceProvider(),null,null);
 
         }
-        public SettingsViewModel(IPriceProvider priceProvider)
+        public SettingsViewModel(IPriceProvider priceProvider, Command.Provider provider, IProviderConfig providerConfig)
         {
-            Init(priceProvider);
+            Init(priceProvider, provider,providerConfig);
 
 
         }
