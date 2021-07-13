@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,27 @@ namespace GolemUI.UI
     /// </summary>
     public partial class DlgEditAddress : Window
     {
-        public DlgEditAddress()
+        public DlgEditAddress(EditAddressViewModel model)
         {
             InitializeComponent();
+            DataContext = model;
+        }
+
+        public EditAddressViewModel? Model => DataContext as EditAddressViewModel;
+
+        private void Confirm_Click(object sender, RoutedEventArgs e)
+        {
+            Model.ChangeAction = EditAddressViewModel.Action.Change;
+            DialogResult = true;
+            Close();
+        }
+            
+
+        private void TransferOUt_Click(object sender, RoutedEventArgs e)
+        {
+            Model.ChangeAction = EditAddressViewModel.Action.TransferOut;
+            DialogResult = true;
+            Close();
         }
     }
 }

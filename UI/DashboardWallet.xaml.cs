@@ -1,4 +1,5 @@
-﻿using GolemUI.Settings;
+﻿using GolemUI.Interfaces;
+using GolemUI.Settings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,32 +24,38 @@ namespace GolemUI
     /// </summary>
     public partial class DashboardWallet : UserControl
     {
-        public DashboardWallet(ViewModel.WalletViewModel model)
+        private readonly IPaymentService _paymentService;
+        public ViewModel.WalletViewModel Model => (DataContext as ViewModel.WalletViewModel)!;
+        public DashboardWallet(ViewModel.WalletViewModel model, IPaymentService paymentService)
         {
+            _paymentService = paymentService;
             InitializeComponent();
-            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
-            this.DataContext = model;           
-        }
-
-        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
-        {
-            if (args != null)
-            {
-                switch(args.action)
-                {
-                    case GlobalApplicationStateAction.reloadSettings:
-                        break;
-                    case GlobalApplicationStateAction.yagnaAppStarting:
-                        break;
-                    case GlobalApplicationStateAction.yagnaAppStopped:
-                        break;
-                }
-            }
+            DataContext = model;
         }
 
         private void BtnOpenZkSync_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", "https://wallet.zksync.io/");
+        }
+
+        private void BtnWithdraw_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void BtnEditWalletAddress_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new UI.DlgEditAddress(Model.EditModel);
+            dlg.Owner = Window.GetWindow(this);
+            if (dlg.ShowDialog() ?? false)
+            {
+                
+            }
+        }
+
+        private void Copy_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(Model.WalletAddress);
         }
     }
 }

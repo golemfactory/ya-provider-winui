@@ -13,5 +13,11 @@ namespace GolemUI.Interfaces
         WalletState? State { get; }
 
         string Address { get; }
+
+        string InternalAddress { get; }
+
+        bool TransferOutTo(string address);
+
+        bool SetAddress(string newAddress);
     }
 }

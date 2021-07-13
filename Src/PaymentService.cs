@@ -52,6 +52,8 @@ namespace GolemUI.Src
 
         public string Address => _walletAddress ?? _buildInAdress;
 
+        public string InternalAddress => _buildInAdress ?? "";
+
         private void OnProcessControllerStateChange(object? sender, PropertyChangedEventArgs ev)
         {
             if (ev.PropertyName == "IsServerRunning" && this._processControler.IsServerRunning)
@@ -62,7 +64,7 @@ namespace GolemUI.Src
 
         private void OnProviderConfigChange(object? sender, PropertyChangedEventArgs ev)
         {
-            _walletAddress = _providerConfig.Config?.Account ?? _srv.Id?.Address;
+            _walletAddress = _providerConfig.Config?.Account ?? _buildInAdress;
             UpdateState();
             OnPropertyChanged("Address");
         }
@@ -80,6 +82,7 @@ namespace GolemUI.Src
                 {
                     OnPropertyChanged("Address");
                 }
+                OnPropertyChanged("InternalAddress");
             }
             var walletAddress = _walletAddress ?? _buildInAdress;
 
@@ -112,6 +115,15 @@ namespace GolemUI.Src
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-                
+
+        public bool TransferOutTo(string address)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SetAddress(string newAddress)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

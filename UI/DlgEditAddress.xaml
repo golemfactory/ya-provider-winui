@@ -4,20 +4,75 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GolemUI.UI"
+        xmlns:lm="clr-namespace:GolemUI.Model"
+        xmlns:lc="clr-namespace:GolemUI.Validators"        
         mc:Ignorable="d"
-        Title="Edit Wallet Address" Width="600">
+        WindowStartupLocation="CenterOwner"
+        Title="Edit Wallet Address" Width="600" VerticalAlignment="Center" Height="Auto" ResizeMode="CanResizeWithGrip" SizeToContent="Height">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="ValidationTemplate">
+                <DockPanel>
+                    <TextBlock Foreground="Red" FontSize="16" Margin="4" FontFamily="Arial Black">!</TextBlock>
+                    <AdornedElementPlaceholder/>                    
+                </DockPanel>
+            </ControlTemplate>
+
+            <Style x:Key="TextBoxInError" TargetType="{x:Type TextBox}">
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="true">
+                        <Setter Property="ToolTip"
+              Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                              Path=(Validation.Errors)[0].ErrorContent}"/>
+                        <Setter Property="Background" Value="#faa"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="SaveButton" TargetType="{x:Type Button}" BasedOn="{StaticResource PinkButtonStyle}">
+                <Setter Property="IsEnabled" Value="False"/>
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Path=(Validation.HasError), ElementName=TxtAddress}" Value="False"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>        
+    </Window.Resources>
+    <Border BorderThickness="0" BorderBrush="Black" Background="#710D39">
     <StackPanel Orientation="Vertical">
         <Grid Margin="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Address" Grid.Column="0" Margin="8"></Label>
-            <TextBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="8"/>
+            <Label Content="Address" Grid.Column="0" Margin="8" Foreground="#fff"></Label>
+                <TextBox Name="TxtAddress" Grid.Column="1" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Margin="8" Padding="2" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
+                    <TextBox.Text>
+                        <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <lc:EthAddrValidator/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>        
+        <Grid VerticalAlignment="Bottom" Margin="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Cancel" Margin="8" Padding="8" IsCancel="True" Style="{StaticResource BlueButtonStyle}" HorizontalAlignment="Stretch" Grid.Column="0"></Button>
+                <Button Content="Confirm" Margin="8" Padding="8" HorizontalAlignment="Stretch" Style="{StaticResource SaveButton}" Grid.Column="2" Click="Confirm_Click"></Button>
+                <Button Content="Transfer Funds" Margin="8" Padding="8" Style="{StaticResource SaveButton}" HorizontalAlignment="Stretch" Grid.Column="1"
+                        Visibility="{Binding Path=CanTransferOut, Converter={StaticResource BoolToVisibleConverter}}" Click="TransferOUt_Click"></Button>
         </Grid>
-        <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="15">
-            <Button Content="Confirm" Margin="8" Padding="8" HorizontalAlignment="Stretch"></Button>
-            <Button Content="Cancel" Margin="8" Padding="8"></Button>
-        </WrapPanel>
     </StackPanel>
+    </Border>
 </Window>

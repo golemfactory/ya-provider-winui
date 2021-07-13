@@ -39,7 +39,7 @@ namespace GolemUI.DesignViewModel
             PendingAmountUSD = PendingAmount * glmp;
 
             WalletAddress = "0xa1a7c282badfa6bd188a6d42b5bc7fa1e836d1f8";
-            IsInternal = false;
+            IsInternal = true;
             Tickler = "tGLM";
         }
     }

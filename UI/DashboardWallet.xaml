@@ -40,16 +40,16 @@
                         <Run Text="{Binding WalletAddress, Mode=OneWay}" />
                     </TextBlock>
                     
-                    <Button Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0">
+                    <Button Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0" Click="Copy_Click">
                         Copy &#x2398;
                     </Button>
-                    <Button Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0">
+                    <Button Name="BtnEditWalletAddress" Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0" Click="BtnEditWalletAddress_Click">
                         Edit &#x270D;
                     </Button>
                 </WrapPanel>
 
                 <StackPanel Margin="8 2 8 2" Grid.Row="0" Grid.Column="2">
-                    <Button Name="BtnWithdraw" Style="{StaticResource PinkButtonStyle}" Padding="8" Visibility="{Binding Path=IsInternal, Converter={StaticResource BoolToVisibleConverter}}">Withdraw</Button>
+                    <Button Name="BtnWithdraw" Style="{StaticResource PinkButtonStyle}" Padding="8" Visibility="{Binding Path=IsInternal, Converter={StaticResource BoolToVisibleConverter}}" Click="BtnWithdraw_Click">Withdraw</Button>
                     <Button Name="BtnOpenZkSync" Style="{StaticResource PinkButtonStyle}" Padding="8" Visibility="{Binding Path=IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenZkSync_Click">Open ZkSync</Button>
                 </StackPanel>
                 <Border Grid.Column="0" Grid.Row="1"  Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8">

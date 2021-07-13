@@ -132,6 +132,8 @@ namespace GolemUI.ViewModel
             }
         }
 
+        public EditAddressViewModel EditModel => new EditAddressViewModel(_paymentService);
+
         public void Dispose()
         {
             _paymentService.PropertyChanged -= _handler;
