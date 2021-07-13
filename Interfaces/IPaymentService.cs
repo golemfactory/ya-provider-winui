@@ -16,8 +16,7 @@ namespace GolemUI.Interfaces
 
         string InternalAddress { get; }
 
-        bool TransferOutTo(string address);
+        Task<bool> TransferOutTo(string address);
 
-        bool SetAddress(string newAddress);
     }
 }

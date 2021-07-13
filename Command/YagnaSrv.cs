@@ -422,9 +422,14 @@ namespace GolemUI.Command
             _srv.Exec<PaymentStatus>("payment", "init", "--receiver", "--network", network.Id, "--driver", driver, "--account", account);
         }
 
-        public async Task<PaymentStatus?> PaymentStatus(Network network, string driver, string account)
+        public async Task<PaymentStatus?> Status(Network network, string driver, string account)
         {
             return await _srv.ExecAsync<PaymentStatus>("--json", "payment", "status", "--network", network.Id, "--driver", driver, "--account", account);
+        }
+
+        public async Task<string?> ExitTo(Network network, string driver, string account, string? destination)
+        {
+            return await _srv.ExecToTextAsync("--json", "payment", "exit", "--network", network.Id, "--driver", driver, "--account", account, "--to-address", destination);
         }
 
         public async Task<ActivityStatus?> ActivityStatus()
