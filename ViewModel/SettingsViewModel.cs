@@ -4,9 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
+
 namespace GolemUI
 {
-    public class SettingsViewModel : INotifyPropertyChanged
+    public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
       
         public ObservableCollection<SingleGpuDescriptor> GpuList { get; set; }
@@ -21,19 +22,17 @@ namespace GolemUI
         public String ActiveCpusCountAsString { get { return this.ActiveCpusCount.ToString(); } }
         public String TotalCpusCountAsString { get { return this.TotalCpusCount.ToString(); } }
 
-
-        public static SettingsViewModel Example
+        public void LoadData()
         {
-            get
-            {
-                return new SettingsViewModel(new Src.StaticPriceProvider());
-            }
+
         }
-
-        public SettingsViewModel(IPriceProvider priceProvider)
+        public void SaveData()
         {
-            _priceProvider = priceProvider;
 
+        }
+        private void Init(IPriceProvider priceProvider)
+        {
+            _priceProvider = priceProvider; 
             GpuList = new ObservableCollection<SingleGpuDescriptor>();
             GpuList.Add(new SingleGpuDescriptor("1st GPU", false));
             GpuList.Add(new SingleGpuDescriptor("second GPU", true));
@@ -43,7 +42,18 @@ namespace GolemUI
             TotalCpusCount = 7;
             Hashrate = "101.9 TH/s";
             EstimatedProfit = "$41,32 / day";
-          
+        }
+      
+        public SettingsViewModel()
+        {
+            Init(new Src.StaticPriceProvider());
+
+        }
+        public SettingsViewModel(IPriceProvider priceProvider)
+        {
+            Init(priceProvider);
+
+
         }
         public int ActiveCpusCount
         {

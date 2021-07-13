@@ -18,12 +18,12 @@ namespace GolemUI
     public partial class DashboardSettings : UserControl
     {
 
-        SettingsViewModel ctx;
-        public DashboardSettings(Interfaces.IPriceProvider priceProvider)
+        public SettingsViewModel ctx;
+        public DashboardSettings(SettingsViewModel _ctx)
         {
             
             InitializeComponent();
-            ctx = new SettingsViewModel(priceProvider);
+            ctx = _ctx;
             ctx.GpuList.Add(new SingleGpuDescriptor("4th GPU", true));
             this.DataContext = this.ctx;
         }

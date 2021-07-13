@@ -54,18 +54,18 @@ namespace GolemUI
         public DashboardPages _pageSelected = DashboardPages.PageWelcomeStart;
 
 
-        public Dictionary<DashboardPages, UserControl> _pages = new Dictionary<DashboardPages, UserControl>();
+        public Dictionary<DashboardPages, DashboardPageDescriptor> _pages = new Dictionary<DashboardPages, DashboardPageDescriptor>();
 
         private bool _forceExit = false;
         bool _minimizeOnly = true;
 
 
-        public Dashboard(DashboardWallet _dashboardWallet)
+        public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings)
         {
             InitializeComponent();
             
             DashboardMain = new DashboardMain();
-            DashboardSettings = new DashboardSettings(new Src.StaticPriceProvider());
+            DashboardSettings = _dashboardSettings;
             DashboardAdvancedSettings = new DashboardAdvancedSettings();
             DashboardWallet = _dashboardWallet;
             DashboardBenchmark = new DashboardBenchmark();
@@ -76,17 +76,17 @@ namespace GolemUI
             WelcomeBenchmark = new WelcomeBenchmark();
             WelcomeDecide = new WelcomeDecide();
 
-            _pages.Add(DashboardPages.PageDashboardMain, DashboardMain);
-            _pages.Add(DashboardPages.PageDashboardSettings, DashboardSettings);
-            _pages.Add(DashboardPages.PageDashboardAdvancedSettings, DashboardAdvancedSettings);
-            _pages.Add(DashboardPages.PageDashboardWallet, DashboardWallet);
-            _pages.Add(DashboardPages.PageDashboardBenchmark, DashboardBenchmark);
-            _pages.Add(DashboardPages.PageDashboardDetails, DashboardDetails);
-            _pages.Add(DashboardPages.PageWelcomeStart, WelcomeStart);
-            _pages.Add(DashboardPages.PageWelcomeNodeName, WelcomeNodeName);
-            _pages.Add(DashboardPages.PageWelcomeAddress, WelcomeAddress);
-            _pages.Add(DashboardPages.PageWelcomeBenchmark, WelcomeBenchmark);
-            _pages.Add(DashboardPages.PageWelcomeDecide, WelcomeDecide);
+            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPageDescriptor(  DashboardMain));
+            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPageDescriptor(DashboardSettings));
+            _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPageDescriptor(DashboardAdvancedSettings));
+            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPageDescriptor(DashboardWallet));
+            _pages.Add(DashboardPages.PageDashboardBenchmark, new DashboardPageDescriptor(DashboardBenchmark));
+            _pages.Add(DashboardPages.PageDashboardDetails, new DashboardPageDescriptor(DashboardDetails));
+            _pages.Add(DashboardPages.PageWelcomeStart, new DashboardPageDescriptor(WelcomeStart));
+            _pages.Add(DashboardPages.PageWelcomeNodeName, new DashboardPageDescriptor(WelcomeNodeName));
+            _pages.Add(DashboardPages.PageWelcomeAddress, new DashboardPageDescriptor(WelcomeAddress));
+            _pages.Add(DashboardPages.PageWelcomeBenchmark, new DashboardPageDescriptor(WelcomeBenchmark));
+            _pages.Add(DashboardPages.PageWelcomeDecide, new DashboardPageDescriptor(WelcomeDecide));
 
 
 
@@ -108,15 +108,15 @@ namespace GolemUI
 
             foreach (var pair in _pages)
             {
-                UserControl control = pair.Value;
+                UserControl control = pair.Value.View;
                 control.Visibility = Visibility.Hidden;
                 control.Opacity = 0;
                 tcNo1.Children.Add(control);
             }
 
 
-            _pages[_pageSelected].Visibility = Visibility.Visible;
-            _pages[_pageSelected].Opacity = 1.0f;
+            _pages[_pageSelected].View.Visibility = Visibility.Visible;
+            _pages[_pageSelected].View.Opacity = 1.0f;
 
             /*Style s = new Style();
             s.Setters.Add(new Setter(UIElement.VisibilityProperty, Visibility.Collapsed));
@@ -162,7 +162,7 @@ namespace GolemUI
             {
                 throw new Exception(String.Format("Requested page not added to _pages. Page: {0}", (int) page));
             }
-            return _pages[page];
+            return _pages[page].View;
         }
 
         public void SwitchPage(DashboardPages page, bool animate = true)
@@ -173,8 +173,8 @@ namespace GolemUI
                 {
                     if (pair.Key != _pageSelected && pair.Key != page)
                     {
-                        pair.Value.Visibility = Visibility.Hidden;
-                        pair.Value.Opacity = 0.0f;
+                        pair.Value.View.Visibility = Visibility.Hidden;
+                        pair.Value.View.Opacity = 0.0f;
                     }
                 }
 
