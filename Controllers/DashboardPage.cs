@@ -22,7 +22,7 @@ namespace GolemUI.Controllers
             View = view;
             ViewModel = viewModel;
             ShouldAutoLoad = true;
-            ShouldAutoLoad = true;
+            ShouldAutoSave = true;
         }
         public void Unmount()
         {

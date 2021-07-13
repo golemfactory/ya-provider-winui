@@ -1,7 +1,10 @@
 ﻿using GolemUI.Interfaces;
+using GolemUI.Settings;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 
@@ -10,6 +13,7 @@ namespace GolemUI
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
         private Command.Provider _provider;
+        private BenchmarkResults _benchmarkSettings;
         private IProviderConfig _providerConfig;
         public ObservableCollection<SingleGpuDescriptor> GpuList { get; set; }
        
@@ -25,11 +29,25 @@ namespace GolemUI
 
         public void LoadData()
         {
-
+            GpuList.Clear();
+            _benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+            _benchmarkSettings.liveStatus.GPUs.ToList().Where(gpu => gpu.Value.IsReadyForMining()).ToList().ForEach(gpu =>
+             {
+                 GpuList.Add(new SingleGpuDescriptor(gpu.Value.gpuNo, gpu.Value.gpuName, gpu.Value.IsEnabledByUser));
+             });
         }
         public void SaveData()
         {
-
+            GpuList.ToList().ForEach(gpu =>
+            {
+                var res = _benchmarkSettings.liveStatus.GPUs.ToList().Find(x => x.Value.gpuNo == gpu.Id);
+                if (!res.Equals(default(KeyValuePair<int, Claymore.ClaymoreGpuStatus>)))
+                {
+                    res.Value.IsEnabledByUser = gpu.IsActive;
+                }
+            });
+            
+            SettingsLoader.SaveBenchmarkToFile(_benchmarkSettings);
         }
         private void Init(IPriceProvider priceProvider, Command.Provider provider, IProviderConfig providerConfig)
         {
@@ -37,9 +55,9 @@ namespace GolemUI
             _provider = provider;
             _providerConfig = providerConfig;
             GpuList = new ObservableCollection<SingleGpuDescriptor>();
-            GpuList.Add(new SingleGpuDescriptor("1st GPU", false));
-            GpuList.Add(new SingleGpuDescriptor("second GPU", true));
-            GpuList.Add(new SingleGpuDescriptor("3rd GPU", false));
+            GpuList.Add(new SingleGpuDescriptor(1,"1st GPU", false));
+            GpuList.Add(new SingleGpuDescriptor(2,"second GPU", true));
+            GpuList.Add(new SingleGpuDescriptor(3,"3rd GPU", false));
 
             ActiveCpusCount = 3;
             TotalCpusCount = 7;

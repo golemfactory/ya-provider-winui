@@ -167,12 +167,11 @@ namespace GolemUI
             return _pages[page];
         }
 
-        public void SwitchPage(DashboardPages page, bool animate = true)
+        public void SwitchPage(DashboardPages page)
         {
             if (page == _pageSelected) return;
 
             _pages.ToList().Where(x => x.Key != _pageSelected && x.Key != page).ToList().ForEach(x => x.Value.Clear());
-
 
             var lastPage = GetPageDescriptorFromPage(_pageSelected);
             lastPage.Unmount();
@@ -183,7 +182,6 @@ namespace GolemUI
             currentPage.Show();
                 
             _pageSelected = page;
-            
         }
 
         public void BlockNavigation()
@@ -202,9 +200,6 @@ namespace GolemUI
         }
 
       
-      
-       
-
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {
             if (args != null)
