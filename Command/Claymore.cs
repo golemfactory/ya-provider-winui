@@ -128,21 +128,12 @@ namespace GolemUI.Command
 
             //Enable benchmark mode:
 
-            arguments.AddRange("-epool staging-backend.chessongolem.app:3334 -ewal 0xD593411F3E6e79995E787b5f81D10e12fA6eCF04 -eworker benchmark -clnew 1 -clKernel 0".Split(" "));
+            arguments.AddRange("-epool staging-backend.chessongolem.app:3334 -ewal 0xD593411F3E6e79995E787b5f81D10e12fA6eCF04 -eworker benchmark -li 200 -clnew 1 -clKernel 0".Split(" "));
 
             if (!string.IsNullOrEmpty(cards))
             {
-                arguments.Add("-di");
+                arguments.Add("-gpus");
                 arguments.Add(cards);
-            }
-            //Set GPU number to test:
-            if (this._gpuNo != null && this._gpuNo.ToString() != null)
-            {
-                string? s = this._gpuNo.ToString();
-                if (s != null)
-                {
-                    arguments.AddRange(new string[] { "-di", s});
-                }
             }
 
             foreach (var arg in arguments)

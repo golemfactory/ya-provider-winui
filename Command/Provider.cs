@@ -231,6 +231,7 @@ namespace GolemUI.Command
 
             if (enableClaymoreMining)
             {
+                string extraParams = "- ";
                 if (!String.IsNullOrEmpty(ls.MinerSelectedGPUIndices))
                 {
                     string diSwitch = "-di ";
@@ -238,8 +239,9 @@ namespace GolemUI.Command
 
                     diSwitch += cards;
 
-                    startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = diSwitch;
+                    extraParams += diSwitch;
                 }
+                startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = extraParams;
             }
             startInfo.EnvironmentVariables["MIN_AGREEMENT_EXPIRATION"] = "30s";
             startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;

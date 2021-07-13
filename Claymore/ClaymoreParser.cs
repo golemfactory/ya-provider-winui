@@ -255,25 +255,30 @@ namespace GolemUI.Claymore
             {
                 // Your code...
 
-#if DEBUG
                 ClaymoreBenchmarkLine benchLine = new ClaymoreBenchmarkLine();
                 benchLine.line = line;
                 benchLine.delta_time_ms = (long)(DateTime.Now - _start).TotalMilliseconds;
+#if DEBUG
                 Debug.WriteLine(String.Format("{0}: {1}", benchLine.delta_time_ms, line));
-                StreamWriter sw = null;
-                try
+#endif
+
+                StreamWriter? sw = null;
+                if (_benchmarkRecordingPath != null)
                 {
-                    sw = new StreamWriter(_benchmarkRecordingPath, true);
-                    sw.WriteLine(String.Format("{0}: {1}", benchLine.delta_time_ms, line));
-                }
-                finally
-                {
-                    if (sw != null)
+                    try
                     {
-                        sw.Close();
+                        sw = new StreamWriter(_benchmarkRecordingPath, true);
+                        sw.WriteLine(String.Format("{0}: {1}", benchLine.delta_time_ms, line));
+                    }
+                    finally
+                    {
+                        if (sw != null)
+                        {
+                            sw.Close();
+                        }
                     }
                 }
-#endif
+
                 string lineText = line;
                 //output contains spelling error avaiable instead of available, checking for boths:
                 if (lineText == null)
