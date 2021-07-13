@@ -77,7 +77,7 @@ namespace GolemUI
             WelcomeDecide = new WelcomeDecide();
 
             _pages.Add(DashboardPages.PageDashboardMain, new DashboardPageDescriptor(  DashboardMain));
-            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPageDescriptor(DashboardSettings, DashboardSettings.ctx));
+            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPageDescriptor(DashboardSettings, DashboardSettings.ViewModel));
             _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPageDescriptor(DashboardAdvancedSettings));
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPageDescriptor(DashboardWallet));
             _pages.Add(DashboardPages.PageDashboardBenchmark, new DashboardPageDescriptor(DashboardBenchmark));
