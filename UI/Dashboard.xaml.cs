@@ -15,6 +15,8 @@ using System.Diagnostics;
 
 using System.Windows.Media.Animation;
 using GolemUI.Settings;
+using GolemUI.Notifications;
+using GolemUI.Controllers;
 
 namespace GolemUI
 {
@@ -53,16 +55,18 @@ namespace GolemUI
         public DashboardPages _pageSelected = DashboardPages.PageWelcomeStart;
 
 
-        public Dictionary<DashboardPages, UserControl> _pages = new Dictionary<DashboardPages, UserControl>();
+        public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
         private bool _forceExit = false;
+        bool _minimizeOnly = true;
 
-        public Dashboard(DashboardWallet _dashboardWallet)
+
+        public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings)
         {
             InitializeComponent();
             
             DashboardMain = new DashboardMain();
-            DashboardSettings = new DashboardSettings(new Src.StaticPriceProvider());
+            DashboardSettings = _dashboardSettings;
             DashboardAdvancedSettings = new DashboardAdvancedSettings();
             DashboardWallet = _dashboardWallet;
             DashboardBenchmark = new DashboardBenchmark();
@@ -73,18 +77,17 @@ namespace GolemUI
             WelcomeBenchmark = new WelcomeBenchmark();
             WelcomeDecide = new WelcomeDecide();
 
-            _pages.Add(DashboardPages.PageDashboardMain, DashboardMain);
-            _pages.Add(DashboardPages.PageDashboardSettings, DashboardSettings);
-            _pages.Add(DashboardPages.PageDashboardAdvancedSettings, DashboardAdvancedSettings);
-            _pages.Add(DashboardPages.PageDashboardWallet, DashboardWallet);
-            _pages.Add(DashboardPages.PageDashboardBenchmark, DashboardBenchmark);
-            _pages.Add(DashboardPages.PageDashboardDetails, DashboardDetails);
-            _pages.Add(DashboardPages.PageWelcomeStart, WelcomeStart);
-            _pages.Add(DashboardPages.PageWelcomeNodeName, WelcomeNodeName);
-            _pages.Add(DashboardPages.PageWelcomeAddress, WelcomeAddress);
-            _pages.Add(DashboardPages.PageWelcomeBenchmark, WelcomeBenchmark);
-            _pages.Add(DashboardPages.PageWelcomeDecide, WelcomeDecide);
-
+            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(  DashboardMain));
+            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
+            _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPage(DashboardAdvancedSettings));
+            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
+            _pages.Add(DashboardPages.PageDashboardBenchmark, new DashboardPage(DashboardBenchmark));
+            _pages.Add(DashboardPages.PageDashboardDetails, new DashboardPage(DashboardDetails));
+            _pages.Add(DashboardPages.PageWelcomeStart, new DashboardPage(WelcomeStart));
+            _pages.Add(DashboardPages.PageWelcomeNodeName, new DashboardPage(WelcomeNodeName));
+            _pages.Add(DashboardPages.PageWelcomeAddress, new DashboardPage(WelcomeAddress));
+            _pages.Add(DashboardPages.PageWelcomeBenchmark, new DashboardPage(WelcomeBenchmark));
+            _pages.Add(DashboardPages.PageWelcomeDecide, new DashboardPage(WelcomeDecide));
 
 
 
@@ -106,15 +109,15 @@ namespace GolemUI
 
             foreach (var pair in _pages)
             {
-                UserControl control = pair.Value;
+                UserControl control = pair.Value.View;
                 control.Visibility = Visibility.Hidden;
                 control.Opacity = 0;
                 tcNo1.Children.Add(control);
             }
 
 
-            _pages[_pageSelected].Visibility = Visibility.Visible;
-            _pages[_pageSelected].Opacity = 1.0f;
+            _pages[_pageSelected].View.Visibility = Visibility.Visible;
+            _pages[_pageSelected].View.Opacity = 1.0f;
 
             /*Style s = new Style();
             s.Setters.Add(new Setter(UIElement.VisibilityProperty, Visibility.Collapsed));
@@ -154,47 +157,31 @@ namespace GolemUI
         }
 
 
-        public UserControl GetUserControlFromPage(DashboardPages page)
+      
+        public DashboardPage GetPageDescriptorFromPage(DashboardPages page)
         {
             if (!_pages.ContainsKey(page))
             {
-                throw new Exception(String.Format("Requested page not added to _pages. Page: {0}", (int) page));
+                throw new Exception(String.Format("Requested page not added to _pages. Page: {0}", (int)page));
             }
             return _pages[page];
         }
 
-        public void SwitchPage(DashboardPages page, bool animate = true)
+        public void SwitchPage(DashboardPages page)
         {
-            if (page != _pageSelected)
-            {
-                foreach (var pair in _pages)
-                {
-                    if (pair.Key != _pageSelected && pair.Key != page)
-                    {
-                        pair.Value.Visibility = Visibility.Hidden;
-                        pair.Value.Opacity = 0.0f;
-                    }
-                }
+            if (page == _pageSelected) return;
 
-                UserControl ucOld = GetUserControlFromPage(_pageSelected);
-                ucOld.Opacity = 0.0f;
-                ucOld.Visibility = Visibility.Hidden;
+            _pages.ToList().Where(x => x.Key != _pageSelected && x.Key != page).ToList().ForEach(x => x.Value.Clear());
 
-
-                UserControl uc = GetUserControlFromPage(page);
-                if (animate)
-                {
-                    uc.Visibility = Visibility.Visible;
-                    ShowSlowly(uc, TimeSpan.FromMilliseconds(250));
-                }
-                else
-                {
-                    uc.Visibility = Visibility.Visible;
-                    uc.Opacity = 1.0f;
-                }
-
-                _pageSelected = page;
-            }
+            var lastPage = GetPageDescriptorFromPage(_pageSelected);
+            lastPage.Unmount();
+            lastPage.Hide();
+             
+            var currentPage = GetPageDescriptorFromPage(page);
+            currentPage.Mount();
+            currentPage.Show();
+                
+            _pageSelected = page;
         }
 
         public void BlockNavigation()
@@ -212,12 +199,7 @@ namespace GolemUI
             //btnPage4.IsEnabled = true;
         }
 
-        private void ShowSlowly(UserControl uc, TimeSpan duration)
-        {
-            DoubleAnimation animation = new DoubleAnimation(0.0, 1.0, duration);
-            uc.BeginAnimation(UserControl.OpacityProperty, animation);
-        }
-
+      
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {
             if (args != null)
@@ -263,10 +245,34 @@ namespace GolemUI
             sb.Begin();
         }
 
+        public void RequestClose()
+        {
+            DashboardBenchmark.RequestBenchmarkEnd();
+            if (!GlobalApplicationState.Instance.ProcessController.IsRunning)
+            {
+                this._forceExit = true;
+                this.Close();
+            }
+            //there is no way for now of gently stopping provider so kill it
+            GlobalApplicationState.Instance.ProcessController.KillProvider();
+            Task.Run(async () =>
+            {
+                //try to gently stop yagna
+                await GlobalApplicationState.Instance.ProcessController.StopYagna();
+                this.Dispatcher.Invoke(() =>
+                {
+                    //force exit know after trying to gently stop yagna (which may succeeded or failed)
+                    this._forceExit = true;
+                    this.Close();
+                });
+            });
+
+            //wait for yagna until it is stopped asynchronously
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Note: this event is called one or twice during normal shutdown
-
             if (_forceExit)
             {
                 //if somehow yagna failed to close itself gently just kill it
@@ -274,27 +280,14 @@ namespace GolemUI
                 GlobalApplicationState.Instance.ProcessController.KillYagna();
                 return;
             }
-            DashboardBenchmark.RequestBenchmarkEnd();
-            if (!GlobalApplicationState.Instance.ProcessController.IsRunning)
+            if (_minimizeOnly)
             {
-                return;
+                tbNotificationIcon.Visibility = Visibility.Visible;
+                e.Cancel = true;
+                this.WindowState = WindowState.Minimized;
             }
-            //there is no way for now of gently stopping provider so kill it
-            GlobalApplicationState.Instance.ProcessController.KillProvider();
-            Task.Run(async () =>
-                {
-                    //try to gently stop yagna
-                    await GlobalApplicationState.Instance.ProcessController.StopYagna();
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        //force exit know after trying to gently stop yagna (which may succeeded or failed)
-                        this._forceExit = true;
-                        this.Close();
-                    });
-                });
-                
-            //wait for yagna until it is stopped asynchronously
             e.Cancel = true;
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

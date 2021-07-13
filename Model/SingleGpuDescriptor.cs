@@ -18,6 +18,16 @@ namespace GolemUI
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
         public string _Name { get; set; }
+        public int _Id { get; set; }
+        public int Id
+        {
+            get { return _Id; }
+            set
+            {
+                _Id = value;
+                NotifyChange("Id");
+            }
+        }
         public bool _IsActive { get; set; }
         public string Name
         {
@@ -26,6 +36,13 @@ namespace GolemUI
             {
                 _Name = value;
                 NotifyChange("Name");
+            }
+        }
+        public string DisplayName
+        {
+            get
+            {
+                return Id + ". " + Name;
             }
         }
         public bool IsActive
@@ -37,8 +54,9 @@ namespace GolemUI
                 NotifyChange("Name");
             }
         }
-        public SingleGpuDescriptor(string name, bool isActive)
+        public SingleGpuDescriptor(int id, string name, bool isActive)
         {
+            Id = id;
             Name = name;
             IsActive = isActive;
         }
