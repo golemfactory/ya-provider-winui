@@ -15,6 +15,7 @@ namespace GolemUI.Claymore
     {
         public int gpuNo { get; set; }
         public string? gpuName { get; set; }
+        public int? PciExpressLane { get; set; }
         public bool OutOfMemory { get; set; }
         public bool GPUNotFound { get; set; }
         public float BenchmarkSpeed { get; set; }
@@ -42,6 +43,7 @@ namespace GolemUI.Claymore
             s.DagProgress = this.DagProgress;
             s.GPUVendor = this.GPUVendor;
             s.GPUDetails = this.GPUDetails;
+            s.PciExpressLane = this.PciExpressLane;
             s.IsEnabledByUser = this.IsEnabledByUser;
             s.GPUError = this.GPUError;
             return s;
@@ -322,12 +324,6 @@ namespace GolemUI.Claymore
                             nVidiaGpuFound = true;
                         }
 
-                        if (nVidiaGpuFound && lineText.Contains(":"))
-                        {
-                            //todo - what happens when details contains :
-                            currentStatus.GPUDetails = lineText.Split(":")[1].Trim();
-                        }
-
                         if (lineText.Contains("RADEON", STR_COMP_TYPE))
                         {
                             currentStatus.GPUVendor = "AMD";
@@ -338,6 +334,25 @@ namespace GolemUI.Claymore
                         {
                             //todo - what happens when details contains :
                             currentStatus.GPUDetails = lineText.Split(":")[1].Trim();
+
+                            if (currentStatus.GPUDetails.Contains(','))
+                            {
+                                currentStatus.gpuName = currentStatus.GPUDetails.Split(',')[0];
+                                if (currentStatus.gpuName.Contains("(pcie"))
+                                {
+                                    var split2 = currentStatus.gpuName.Split("(pcie");
+                                    currentStatus.gpuName = split2[0].Trim();
+                                    int pciExpressLane;
+                                    if (split2.Length >= 2)
+                                    {
+                                        bool success = int.TryParse(split2[1].Trim(new char[] { ' ', ')' }), out pciExpressLane);
+                                        if (success)
+                                        {
+                                            currentStatus.PciExpressLane = pciExpressLane;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
 
