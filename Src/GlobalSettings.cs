@@ -83,6 +83,10 @@ namespace GolemUI.Settings
         public bool EnableDebugLogs { get; set; }
         public bool StartYagnaCommandLine { get; set; }
         public bool StartProviderCommandLine { get; set; }
+        public bool DisableNotificationsWhenMinimized { get; set; }
+        public bool MinimizeToTrayOnMinimize { get; set; }
+        public bool CloseOnExit { get; set; }
+
         public bool StartWithWindows { get; set; }
         public bool EnableWASMUnit { get; set; }
 
@@ -97,6 +101,8 @@ namespace GolemUI.Settings
 
             var _gen = new NameGen();
             NodeName = _gen.GenerateElvenName() + "-" + _gen.GenerateElvenName();
+            
+            
         }
     }
 

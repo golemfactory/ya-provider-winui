@@ -245,13 +245,16 @@ namespace GolemUI
             sb.Begin();
         }
 
-        public void RequestClose()
+        public void RequestClose(bool isAlreadyClosing = false)
         {
             DashboardBenchmark.RequestBenchmarkEnd();
             if (!GlobalApplicationState.Instance.ProcessController.IsRunning)
             {
                 this._forceExit = true;
-                this.Close();
+                if (!isAlreadyClosing)
+                {
+                    this.Close();
+                }
             }
             //there is no way for now of gently stopping provider so kill it
             GlobalApplicationState.Instance.ProcessController.KillProvider();
@@ -280,11 +283,16 @@ namespace GolemUI
                 GlobalApplicationState.Instance.ProcessController.KillYagna();
                 return;
             }
-            if (_minimizeOnly)
+            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
+            if (ls.CloseOnExit)
+            {
+                RequestClose(true);
+            }
+            else
             {
                 tbNotificationIcon.Visibility = Visibility.Visible;
-                e.Cancel = true;
                 this.WindowState = WindowState.Minimized;
+                this.ShowInTaskbar = false;
             }
             e.Cancel = true;
 
@@ -319,7 +327,18 @@ namespace GolemUI
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Minimized;
+            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
+
+            if (ls.MinimizeToTrayOnMinimize)
+            {
+                tbNotificationIcon.Visibility = Visibility.Visible;
+                this.WindowState = WindowState.Minimized;
+                this.ShowInTaskbar = false;
+            }
+            else
+            {
+                this.WindowState = WindowState.Minimized;
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

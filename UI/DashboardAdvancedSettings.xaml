@@ -34,11 +34,15 @@
                     </StackPanel>
                 </Canvas>
             </Border>
-            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="200" Height="auto" Canvas.Left="350" Canvas.Top="110">
+            <Border Style="{DynamicResource BorderStyleBlueBox}" Width="300" Height="280" Canvas.Left="350" Canvas.Top="60">
                 <StackPanel>
-                    <Label Content="Application settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" MouseDown="Label_MouseDown"/>
+                    <Label Content="Application settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" />
                     <CheckBox Name="cbStartWithWindows" Content="Run when computer starts" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
+                    <CheckBox Name="cbMinimizeToTrayOnMinimize" Content="Minimize to tray on Minimize" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
+                    <CheckBox Name="cbCloseOnExit" Content="Close on exit" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
+                    <CheckBox Name="cbDisableNotificationsWhenMinimized" Content="No notifications when Minimized" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
                     <!--<CheckBox Name="cbStartAutmatically" Content="Automatically start work" Foreground="#FFFFFF" Margin="10,5"></CheckBox>-->
+                    <Label MouseDown="Debug_MouseDown" ToolTip="Ctrl+click to show debug window">Debug options</Label>
                     <CheckBox Name="cbDebugOutput" Content="Enable debug logs" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
                     <CheckBox Name="cbShowYagnaConsole" Content="Show yagna console" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
                     <CheckBox Name="cbShowProviderConsole" Content="Show provider console" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
@@ -46,6 +50,7 @@
                 </StackPanel>
             </Border>
 
+            <!--
             <Border Style="{DynamicResource BorderStyleBlueBox}" Width="191" Height="106" Canvas.Left="580" Canvas.Top="110">
                 <Canvas>
                     <Label Content="WASM settings" Foreground="#FFFFFF"/>
@@ -57,9 +62,8 @@
                     <Label Content="VM Task " Foreground="#FFFFFF"/>
                     <Label Content="(not yet implemented)" Foreground="#FFFFFF"></Label>
 
-                    <!--<CheckBox Name="cbEnableVM" Content="Enable VM unit" Foreground="White" Margin="10,50"></CheckBox>-->
                 </StackPanel>
-            </Border>
+            </Border>-->
             <Button Style="{StaticResource BlueButtonStyle}" Name="btnApplySettings" Width="200" Height="44" Content="Apply settings" Canvas.Top="362" Canvas.Left="20" Click="btnApplySettings_Click">
 
             </Button>

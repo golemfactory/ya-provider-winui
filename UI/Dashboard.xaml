@@ -24,7 +24,7 @@
         <tb:TaskbarIcon Visibility="Hidden" x:Name="tbNotificationIcon" IconSource="/Media/tray.ico" ToolTipText="GolemUI" DoubleClickCommand="{commands:ShowWindowCommand}">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Show" Command="{commands:ShowWindowCommand2}"/>
+                    <MenuItem Header="Show" Command="{commands:ShowWindowCommand}"/>
                     <Separator />
                     <MenuItem Header="Close" Command="{commands:CloseWindowCommand}"/>
                 </ContextMenu>

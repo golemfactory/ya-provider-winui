@@ -14,7 +14,8 @@ namespace GolemUI.Notifications
             if (GlobalApplicationState.Instance.Dashboard != null)
             {
                 GlobalApplicationState.Instance.Dashboard.WindowState = WindowState.Normal;
-
+                GlobalApplicationState.Instance.Dashboard.ShowInTaskbar = true;
+                GlobalApplicationState.Instance.Dashboard.tbNotificationIcon.Visibility = Visibility.Hidden;
             }
         }
 
@@ -24,19 +25,4 @@ namespace GolemUI.Notifications
         }
     }
 
-    public class ShowWindowCommand2 : CommandBase<ShowWindowCommand2>
-    {
-        public override void Execute(object? parameter)
-        {
-            if (GlobalApplicationState.Instance.Dashboard != null)
-            {
-                GlobalApplicationState.Instance.Dashboard.WindowState = WindowState.Normal;
-            }
-        }
-
-        public override bool CanExecute(object? parameter)
-        {
-            return true;
-        }
-    }
 }

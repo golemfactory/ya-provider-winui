@@ -43,10 +43,13 @@ namespace GolemUI
             txSubnet.Text = settings.Subnet;
             txWalletAddress.Text = settings.EthAddress;
             cbDebugOutput.IsChecked = settings.EnableDebugLogs;
-            cbEnableWASM.IsChecked = settings.EnableWASMUnit;
+            //cbEnableWASM.IsChecked = settings.EnableWASMUnit;
             cbStartWithWindows.IsChecked = settings.StartWithWindows;
             cbShowYagnaConsole.IsChecked = settings.StartYagnaCommandLine;
             cbShowProviderConsole.IsChecked = settings.StartProviderCommandLine;
+            cbMinimizeToTrayOnMinimize.IsChecked = settings.MinimizeToTrayOnMinimize;
+            cbDisableNotificationsWhenMinimized.IsChecked = settings.DisableNotificationsWhenMinimized;
+            cbCloseOnExit.IsChecked = settings.CloseOnExit;
 
 
             btnApplySettings.IsEnabled = false;
@@ -61,7 +64,7 @@ namespace GolemUI
             txSubnet.IsEnabled = enabled;
             txWalletAddress.IsEnabled = enabled;
             cbDebugOutput.IsEnabled = enabled;
-            cbEnableWASM.IsEnabled = enabled;
+            //cbEnableWASM.IsEnabled = enabled;
             cbStartWithWindows.IsEnabled = enabled;
             cbShowYagnaConsole.IsEnabled = enabled;
             cbShowProviderConsole.IsEnabled = enabled;
@@ -105,10 +108,13 @@ namespace GolemUI
             settings.Subnet = txSubnet.Text;
             settings.EthAddress = txWalletAddress.Text;
             settings.EnableDebugLogs = cbDebugOutput.IsChecked ?? false;
-            settings.EnableWASMUnit = cbEnableWASM.IsChecked ?? false;
+           // settings.EnableWASMUnit = cbEnableWASM.IsChecked ?? false;
             settings.StartWithWindows = cbStartWithWindows.IsChecked ?? false;
             settings.StartYagnaCommandLine = cbShowYagnaConsole.IsChecked ?? false;
             settings.StartProviderCommandLine = cbShowProviderConsole.IsChecked ?? false;
+            settings.DisableNotificationsWhenMinimized = cbDisableNotificationsWhenMinimized.IsChecked ?? false;
+            settings.CloseOnExit = cbCloseOnExit.IsChecked ?? false;
+            settings.MinimizeToTrayOnMinimize = cbMinimizeToTrayOnMinimize.IsChecked ?? false;
             
             SettingsLoader.SaveSettingsToFile(settings);
             ResetChanges();
@@ -128,10 +134,13 @@ namespace GolemUI
             if (settings.EthAddress != txWalletAddress.Text) different = true;
             if (settings.Subnet != txSubnet.Text) different = true;
             if (settings.EnableDebugLogs != cbDebugOutput.IsChecked) different = true;
-            if (settings.EnableWASMUnit != cbEnableWASM.IsChecked) different = true;
+           // if (settings.EnableWASMUnit != cbEnableWASM.IsChecked) different = true;
             if (settings.StartWithWindows != cbStartWithWindows.IsChecked) different = true;
             if (settings.StartYagnaCommandLine != cbShowYagnaConsole.IsChecked) different = true;
             if (settings.StartProviderCommandLine != cbShowProviderConsole.IsChecked) different = true;
+            if (settings.DisableNotificationsWhenMinimized != cbDisableNotificationsWhenMinimized.IsChecked) different = true;
+            if (settings.MinimizeToTrayOnMinimize != cbMinimizeToTrayOnMinimize.IsChecked) different = true;
+            if (settings.CloseOnExit != cbCloseOnExit.IsChecked) different = true;
 
             if (different)
             {
@@ -160,7 +169,7 @@ namespace GolemUI
             ResetChanges();
         }
 
-        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Debug_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed)
             {
