@@ -49,10 +49,22 @@ namespace GolemUI.ViewModel
             }
             _handler = this.OnPaymentStateChanged;
             paymentService.PropertyChanged += _handler;
-            IsInternal = false;
         }
 
-        
+        public async void UpdateAddress(EditAddressViewModel.Action changeAction, string address)
+        {
+            if (changeAction == EditAddressViewModel.Action.TransferOut)
+            {
+                var trnsferOut = _paymentService.TransferOutTo(address);
+                _providerConfig.UpdateWalletAddress(address);
+                await trnsferOut;
+            }
+            else
+            {
+                _providerConfig.UpdateWalletAddress(address);
+            }            
+        }
+
         private void OnPaymentStateChanged(object? sender, PropertyChangedEventArgs e)
         {
             var state = _paymentService.State;
@@ -68,20 +80,14 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged("PendingAmountUSD");
                 OnPropertyChanged("Tickler");
             }
+            if (e.PropertyName == "Address" || e.PropertyName == "InternalAddress")
+            {
+                OnPropertyChanged("WalletAddress");                
+                OnPropertyChanged("IsInternal");
+            }
         }
 
-        public string WalletAddress
-        {
-            get
-            {
-                return this._walletAddress;
-            }
-            set
-            {
-                _walletAddress = value;
-                OnPropertyChanged("WalletAddress");
-            }
-        }
+        public string WalletAddress => _paymentService.Address;        
 
         public decimal Amount
         {
@@ -121,7 +127,7 @@ namespace GolemUI.ViewModel
 
         public string Tickler { get; private set; }
 
-        public bool IsInternal { get; private set; }
+        public bool IsInternal => _paymentService.Address == _paymentService.InternalAddress;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string? propertyName = null)

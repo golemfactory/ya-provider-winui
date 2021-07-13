@@ -128,7 +128,7 @@ namespace GolemUI.Command
 
             //Enable benchmark mode:
 
-            arguments.AddRange("-epool staging-backend.chessongolem.app:3334 -ewal 0xD593411F3E6e79995E787b5f81D10e12fA6eCF04 -eworker benchmark".Split(" "));
+            arguments.AddRange("-epool staging-backend.chessongolem.app:3334 -ewal 0xD593411F3E6e79995E787b5f81D10e12fA6eCF04 -eworker benchmark -clnew 1 -clKernel 0".Split(" "));
 
             if (!string.IsNullOrEmpty(cards))
             {

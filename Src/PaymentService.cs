@@ -86,8 +86,8 @@ namespace GolemUI.Src
             }
             var walletAddress = _walletAddress ?? _buildInAdress;
 
-            var statusOnL2 = await _srv.Payment.PaymentStatus(_network, "zksync", walletAddress);
-            var statusOnL1 = await _srv.Payment.PaymentStatus(_network, "erc20", walletAddress);
+            var statusOnL2 = await _srv.Payment.Status(_network, "zksync", walletAddress);
+            var statusOnL1 = await _srv.Payment.Status(_network, "erc20", walletAddress);
 
             var pending = (statusOnL2?.Incoming?.Accepted?.TotalAmount ?? 0m) + (statusOnL2?.Incoming?.Confirmed?.TotalAmount ?? 0m);
             var amountOnL2 = statusOnL2?.Amount ?? 0;
@@ -116,14 +116,11 @@ namespace GolemUI.Src
             }
         }
 
-        public bool TransferOutTo(string address)
+        public async Task<bool> TransferOutTo(string address)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool SetAddress(string newAddress)
-        {
-            throw new NotImplementedException();
+            var result = await _srv.Payment.ExitTo(_network, "zksync", _buildInAdress, address);
+            // TODO: Implement transfer out in yagna
+            return true;
         }
     }
 }

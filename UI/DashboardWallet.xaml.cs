@@ -49,7 +49,7 @@ namespace GolemUI
             dlg.Owner = Window.GetWindow(this);
             if (dlg.ShowDialog() ?? false)
             {
-                
+                Model.UpdateAddress(dlg.Model.ChangeAction, dlg.Model.Address);
             }
         }
 
