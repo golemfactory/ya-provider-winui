@@ -18,7 +18,7 @@ namespace GolemUI
             ShouldAutoLoad = true;
             ShouldAutoLoad = true;
         }
-        public void Save()
+        public void Unmount()
         {
             if (ShouldAutoSave && ViewModel != null)
             {
@@ -26,7 +26,7 @@ namespace GolemUI
             }
         }
 
-        public void Load()
+        public void Mount()
         {
             if (ShouldAutoLoad && ViewModel != null)
             {
