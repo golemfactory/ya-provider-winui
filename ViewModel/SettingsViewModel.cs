@@ -32,9 +32,9 @@ namespace GolemUI
             GpuList.Clear();
             _benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
             if (IsBenchmarkSettingsCorrupted()) return;
-            _benchmarkSettings.liveStatus.GPUs.ToList().Where(gpu => gpu.Value.IsReadyForMining()).ToList().ForEach(gpu =>
+            _benchmarkSettings.liveStatus.GPUs.ToList().Where(gpu => gpu.Value!=null && gpu.Value.IsReadyForMining()).ToList().ForEach(gpu =>
              {
-                 GpuList.Add(new SingleGpuDescriptor(gpu.Value.gpuNo, gpu.Value.gpuName, gpu.Value.IsEnabledByUser));
+                 GpuList.Add(new SingleGpuDescriptor(gpu.Value.gpuNo, gpu.Value.gpuName==null?"video card":gpu.Value.gpuName, gpu.Value.IsEnabledByUser));
              });
         }
 
