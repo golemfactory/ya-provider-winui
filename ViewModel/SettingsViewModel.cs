@@ -31,15 +31,22 @@ namespace GolemUI
         {
             GpuList.Clear();
             _benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+            if (IsBenchmarkSettingsCorrupted()) return;
             _benchmarkSettings.liveStatus.GPUs.ToList().Where(gpu => gpu.Value.IsReadyForMining()).ToList().ForEach(gpu =>
              {
                  GpuList.Add(new SingleGpuDescriptor(gpu.Value.gpuNo, gpu.Value.gpuName, gpu.Value.IsEnabledByUser));
              });
         }
+
+        bool IsBenchmarkSettingsCorrupted()
+        {
+            return (_benchmarkSettings == null || _benchmarkSettings.liveStatus == null || _benchmarkSettings.liveStatus.GPUs == null);
+        }
         public void SaveData()
         {
             GpuList.ToList().ForEach(gpu =>
             {
+                if (IsBenchmarkSettingsCorrupted())return;
                 var res = _benchmarkSettings.liveStatus.GPUs.ToList().Find(x => x.Value.gpuNo == gpu.Id);
                 if (!res.Equals(default(KeyValuePair<int, Claymore.ClaymoreGpuStatus>)))
                 {
