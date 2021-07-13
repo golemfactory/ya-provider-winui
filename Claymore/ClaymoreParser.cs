@@ -179,7 +179,7 @@ namespace GolemUI.Claymore
     public class ClaymoreBenchmarkLine
     {
         public long delta_time_ms { get; set; }
-        public string line;
+        public string line = "";
     }
 
     public class ClaymoreParser
@@ -229,7 +229,7 @@ namespace GolemUI.Claymore
             string benchmarkRecordingFolder = SettingsLoader.GetLocalPath();
             string benchmarkRecordingFile = "Benchmark_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".recording";
             _benchmarkRecordingPath = Path.Combine(benchmarkRecordingFolder, benchmarkRecordingFile);
-            StreamWriter sw = null;
+            StreamWriter? sw = null;
             try
             {
                 sw = new StreamWriter(_benchmarkRecordingPath, false);
@@ -313,7 +313,9 @@ namespace GolemUI.Claymore
                         bool amdGpuFound = false;
 
                         if (lineText.Contains("NVIDIA", STR_COMP_TYPE) ||
-                            lineText.Contains("GeForce", STR_COMP_TYPE)
+                            lineText.Contains("GeForce", STR_COMP_TYPE) ||
+                            lineText.Contains("Quadro", STR_COMP_TYPE) ||
+                            lineText.Contains("CUDA", STR_COMP_TYPE)
                             )
                         {
                             currentStatus.GPUVendor = "nVidia";
