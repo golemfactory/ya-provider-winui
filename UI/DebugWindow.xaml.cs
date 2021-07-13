@@ -111,6 +111,8 @@ namespace GolemUI
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            GlobalApplicationState.Instance.ApplicationStateChanged -= OnGlobalApplicationStateChanged;
+
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.debugWindowClosed);
         }
     }
