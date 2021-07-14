@@ -53,16 +53,18 @@ namespace GolemUI
         {
             if (!String.IsNullOrEmpty(error))
             {
-                cbError.Content = error;
                 //this.Background = Brushes.Red;
                 this.pbProgress.Foreground = Brushes.Red;
+                this.tbProgress.Text = "Unable to mine: " + error;
+                this.pbProgress.Value = 100;
                 //this.cbEnableMining.IsChecked = false;
                 //this.cbEnableMining.IsEnabled = false;
             }
             else
             {
-                cbError.Content = "";
+                this.tbProgress.Text = "Ready for mining";
                 this.pbProgress.Foreground = Brushes.Green;
+                this.pbProgress.Value = 100;
                 //this.Background = Brushes.Blue;
             }
         }
@@ -70,10 +72,25 @@ namespace GolemUI
         {
             //this.lblProgress.Content = progr.ToString();
             this.pbProgress.Value = progr * 100;
+            this.tbProgress.Text = "Mining initialization";
         }
-        public void SetMiningSpeed(float miningSpeed)
+        public void SetMiningProgress(float progr)
         {
-            this.lblPower.Content = miningSpeed.ToString();
+            //this.lblProgress.Content = progr.ToString();
+            this.pbProgress.Value = progr * 100;
+            this.tbProgress.Text = "Measuring performance";
+        }
+
+        public void SetMiningSpeed(float? miningSpeed)
+        {
+            if (miningSpeed == null)
+            {
+                this.lblPower.Content = "";
+            }
+            else
+            {
+                this.lblPower.Content = String.Format("{0:0.00}MH/s", miningSpeed);
+            }
         }
         public void SetEnableByUser(bool enable)
         {
@@ -82,11 +99,13 @@ namespace GolemUI
             _supressEvent = false;
             if (!enable)
             {
-                this.Background = Brushes.Gray;
+                this.pbProgress.Foreground = Brushes.Gray;
+                this.tbProgress.Text = "Not used in mining";
+                this.pbProgress.Value = 100;
             }
             else
             {
-                this.Background = Brushes.Transparent;
+                this.pbProgress.Foreground = Brushes.Blue;
             }
         }
 

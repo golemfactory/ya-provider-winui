@@ -164,7 +164,7 @@ namespace GolemUI.Command
 
 
 
-        public bool RunBenchmark(string cards)
+        public bool RunBenchmark(string cards, string niceness, string pool, string ethereumAddress)
         {
             BenchmarkError = "";
             BenchmarkFinished = false;
@@ -187,12 +187,19 @@ namespace GolemUI.Command
 
             //Enable benchmark mode:
 
-            arguments.AddRange("-epool staging-backend.chessongolem.app:3334 -ewal 0xD593411F3E6e79995E787b5f81D10e12fA6eCF04 -eworker benchmark -li 200 -clnew 1 -clKernel 0".Split(" "));
+
+
+            arguments.AddRange($"-epool {pool} -ewal {ethereumAddress} -eworker benchmark -clnew 1 -clKernel 0".Split(" "));
 
             if (!string.IsNullOrEmpty(cards))
             {
                 arguments.Add("-gpus");
                 arguments.Add(cards);
+            }
+            if (!string.IsNullOrEmpty(niceness))
+            {
+                arguments.Add("-li");
+                arguments.Add(niceness);
             }
 
             foreach (var arg in arguments)

@@ -72,7 +72,7 @@ namespace GolemUI.Claymore
         }
         public bool IsOperationStopped()
         {
-            if (OutOfMemory || GPUNotFound)
+            if (OutOfMemory || GPUNotFound || !IsEnabledByUser)
             {
                 return true;
             }
@@ -177,11 +177,12 @@ namespace GolemUI.Claymore
 
         }
 
-        public void MergeFromBaseLiveStatus(ClaymoreLiveStatus baseLiveStatus, string cards)
+        public void MergeFromBaseLiveStatus(ClaymoreLiveStatus baseLiveStatus, string cards, out bool allExpectedGpusFound)
         {
             int numberOfBaseGpus = baseLiveStatus.GPUs.Count;
             if (numberOfBaseGpus == 0)
             {
+                allExpectedGpusFound = false;
                 return;
             }
 
@@ -189,6 +190,7 @@ namespace GolemUI.Claymore
             if (numberOfBaseGpus == numberOfUsedGpus)
             {
                 //no merging needed, because all gpus where used in benchmark
+                allExpectedGpusFound = true;
                 return;
             }
 
@@ -209,19 +211,29 @@ namespace GolemUI.Claymore
             {
                 //something went wrong
                 Debug.Assert(false, "numberOfUsedGpus cannot be greater than numberOfSelectedCards");
+                allExpectedGpusFound = false;
                 return;
             }
 
 
+            allExpectedGpusFound = true;
             Dictionary<int, int> indexMap = new Dictionary<int, int>();
             {
                 int targetIdx = 1;
                 for (int baseIdx = 1; baseIdx <= numberOfBaseGpus; baseIdx++)
                 {
-                    if (selectedIndices.Contains(baseIdx) && this.GPUs.ContainsKey(targetIdx))
+                    if (selectedIndices.Contains(baseIdx))
                     {
-                        indexMap.Add(baseIdx, targetIdx);
-                        targetIdx += 1;
+                        if (this.GPUs.ContainsKey(targetIdx))
+                        {
+                            indexMap.Add(baseIdx, targetIdx);
+                            targetIdx += 1;
+                        }
+                        else
+                        {
+                            indexMap.Add(baseIdx, -1);
+                            allExpectedGpusFound = false;
+                        }
                     }
                     else
                     {
@@ -233,14 +245,18 @@ namespace GolemUI.Claymore
             Dictionary<int, ClaymoreGpuStatus> newDictionary = new Dictionary<int, ClaymoreGpuStatus>();
             for (int baseIdx = 1; baseIdx <= numberOfBaseGpus; baseIdx++)
             {
+                ClaymoreGpuStatus gpuInfo;
                 if (indexMap[baseIdx] == -1)
                 {
-                    newDictionary.Add(baseIdx, baseLiveStatus.GPUs[baseIdx]);
+                    gpuInfo = baseLiveStatus.GPUs[baseIdx];
+                    gpuInfo.IsEnabledByUser = false;
                 }
                 else
                 {
-                    newDictionary.Add(baseIdx, this.GPUs[indexMap[baseIdx]]);
+                    gpuInfo = this.GPUs[indexMap[baseIdx]];
+                    gpuInfo.IsEnabledByUser = true;
                 }
+                newDictionary.Add(baseIdx, gpuInfo);
             }
 
             _gpus = newDictionary;

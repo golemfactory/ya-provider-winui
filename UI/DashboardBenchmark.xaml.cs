@@ -31,7 +31,7 @@ namespace GolemUI
             var benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
             if (benchmarkSettings != null && benchmarkSettings.liveStatus != null)
             {
-                UpdateBenchmarkStatus(benchmarkSettings.liveStatus);
+                UpdateBenchmarkStatus(benchmarkSettings.liveStatus, true);
             }
 
             //txNodeName.Text = localSettings.NodeName;
@@ -77,6 +77,7 @@ namespace GolemUI
 
         private void ChangeGpuEnabled()
         {
+            /*
             var benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
 
             if (benchmarkSettings != null && benchmarkSettings.liveStatus != null)
@@ -99,13 +100,13 @@ namespace GolemUI
                 if (changed)
                 {
                     SettingsLoader.SaveBenchmarkToFile(benchmarkSettings);
-                    UpdateBenchmarkStatus(benchmarkSettings.liveStatus);
+                    UpdateBenchmarkStatus(benchmarkSettings.liveStatus, );
                 }
-            }
+            }*/
 
         }
 
-        private void UpdateBenchmarkStatus(ClaymoreLiveStatus? s)
+        private void UpdateBenchmarkStatus(ClaymoreLiveStatus? s, bool allExpectedGPUsFound)
         {
             if (s == null)
             {
@@ -119,6 +120,11 @@ namespace GolemUI
             if (s.BenchmarkFinished)
             {
                 gpuMiningPanel.lblStatus.Content = $"Finished";
+            }
+
+            if (!allExpectedGPUsFound)
+            {
+                return;
             }
 
             float totalMhs = 0;
@@ -142,15 +148,42 @@ namespace GolemUI
                     currentEntry = gpuMiningPanel.AddGpuEntry(gdetails, (gpuNo - 1).ToString());
                     _entries.Add(gpuNo, currentEntry);
                 }
-                currentEntry?.SetDagProgress(gpuInfo.DagProgress);
-                currentEntry?.SetMiningSpeed(gpuInfo.BenchmarkSpeed);
                 currentEntry?.SetEnableByUser(gpuInfo.IsEnabledByUser);
-                if (gpuInfo.GPUError != null)
+                currentEntry?.SetMiningSpeed(gpuInfo.BenchmarkSpeed);
+                if (!gpuInfo.IsEnabledByUser)
                 {
-                    currentEntry?.SetFinished(gpuInfo.GPUError);
+                    //do nothing
+                    //currentEntry?.SetEnableByUser(false);
+                }
+                else if (s.BenchmarkFinished)
+                {
+                    currentEntry?.SetFinished("");
+                }
+                else
+                {
+                    if (!allExpectedGPUsFound)
+                    {
+                        break;
+                    }
+
+                    if (s.GPUInfosParsed && s.AreAllDagsFinishedOrFailed())
+                    {
+                        currentEntry?.SetMiningProgress((float)s.NumberOfClaymorePerfReports / (float)s.TotalClaymoreReportsBenchmark);
+                    }
+                    else
+                    {
+                        currentEntry?.SetDagProgress(gpuInfo.DagProgress);
+                    }
+
+                    if (gpuInfo.GPUError != null)
+                    {
+                        currentEntry?.SetFinished(gpuInfo.GPUError);
+                    }
+
+                    totalMhs += gpuInfo.BenchmarkSpeed;
                 }
 
-                totalMhs += gpuInfo.BenchmarkSpeed;
+
                 /*
                 if (currentEntry != null)
                 {
@@ -205,6 +238,7 @@ namespace GolemUI
 
             this.btnNext.IsEnabled = true;
 
+            UpdateBenchmarkStatus(benchmark.liveStatus, true);
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.benchmarkStopped);
         }
 
@@ -221,9 +255,20 @@ namespace GolemUI
 
         private async void btnStartBenchmark_Click(object sender, RoutedEventArgs e)
         {
+            DateTime benchmarkStartTime = DateTime.Now;
+            double? initializeTime = null;
+            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
+
+            string? ethAddress = ls.EthAddress;
+            if (string.IsNullOrEmpty(ethAddress))
+            {
+                MessageBox.Show("WARNING, No ethereum address provided, default address will be used");
+                ethAddress = "0xD593411F3E6e79995E787b5f81D10e12fA6eCF04";
+            }
             ClaymoreLiveStatus? baseLiveStatus = null;
 
             string selectedIndices = txRunOnSelectedCards.Text;
+            string niceness = txNiceness.Text;
             SaveSelectedCardsSetting();
 
             //BenchmarkDialog dB = new BenchmarkDialog();
@@ -262,13 +307,15 @@ namespace GolemUI
                         break;
                     }
                 }
-                gpuMiningPanel.lblStatus.Content = "GPU Info acquired";
+                gpuMiningPanel.lblStatus.Content = String.Format("GPU Info acquired {0:0.00}s", (DateTime.Now - benchmarkStartTime).TotalSeconds);
+                gpuMiningPanel.lblTimeElapsed.Content = String.Format("Time elapsed: {0:0.00}s", (DateTime.Now - benchmarkStartTime).TotalSeconds);
 
-                UpdateBenchmarkStatus(baseLiveStatus);
+                UpdateBenchmarkStatus(baseLiveStatus, false);
 
                 await Task.Delay(30);
 
-                result = cc.RunBenchmark(selectedIndices);
+                
+                result = cc.RunBenchmark(selectedIndices, niceness, GlobalSettings.DefaultProxy, ethAddress);
                 if (!result)
                 {
                     MessageBox.Show(cc.BenchmarkError);
@@ -276,6 +323,7 @@ namespace GolemUI
             }
             while (!cc.BenchmarkFinished)
             {
+                gpuMiningPanel.lblTimeElapsed.Content = String.Format("Time elapsed: {0:0.0}s", (DateTime.Now - benchmarkStartTime).TotalSeconds);
                 await Task.Delay(100);
                 if (_requestExit)
                 {
@@ -287,9 +335,16 @@ namespace GolemUI
 
                 //function returns copy, so we can work with safety (even if original value is updated on separate thread)
                 var s = cc.ClaymoreParserBenchmark.GetLiveStatusCopy();
+                bool allExpectedGPUsFound = false;
                 if (baseLiveStatus != null)
                 {
-                    s.MergeFromBaseLiveStatus(baseLiveStatus, selectedIndices);
+                    s.MergeFromBaseLiveStatus(baseLiveStatus, selectedIndices, out allExpectedGPUsFound);
+                }
+                if (initializeTime == null && s.AreAllDagsFinishedOrFailed() && allExpectedGPUsFound)
+                {
+                    initializeTime = (DateTime.Now - benchmarkStartTime).TotalSeconds;
+                    gpuMiningPanel.lblInitializeTime.Content = String.Format("Prepare mining time: {0:0.0}s", initializeTime);
+
                 }
 
                 if (s.NumberOfClaymorePerfReports >= s.TotalClaymoreReportsBenchmark)
@@ -302,12 +357,12 @@ namespace GolemUI
                         s.BenchmarkFinished = true;
                         SettingsLoader.SaveBenchmarkToFile(res);
                     }
-                    UpdateBenchmarkStatus(s);
+                    UpdateBenchmarkStatus(s, allExpectedGPUsFound);
                     BenchmarkFinished();
 
                     return;
                 }
-                UpdateBenchmarkStatus(s);
+                UpdateBenchmarkStatus(s, allExpectedGPUsFound);
 
 
             }
