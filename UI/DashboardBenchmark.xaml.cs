@@ -105,8 +105,12 @@ namespace GolemUI
 
         }
 
-        private void UpdateBenchmarkStatus(ClaymoreLiveStatus s)
+        private void UpdateBenchmarkStatus(ClaymoreLiveStatus? s)
         {
+            if (s == null)
+            {
+                return;
+            }
             //s.BenchmarkTotalSpeed;
             if (s.GPUInfosParsed && s.AreAllDagsFinishedOrFailed())
             {
@@ -214,8 +218,11 @@ namespace GolemUI
             }
         }
 
+
         private async void btnStartBenchmark_Click(object sender, RoutedEventArgs e)
         {
+            ClaymoreLiveStatus? baseLiveStatus = null;
+
             string selectedIndices = txRunOnSelectedCards.Text;
             SaveSelectedCardsSetting();
 
@@ -223,10 +230,9 @@ namespace GolemUI
             //dB.ShowDialog();
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.benchmarkStarted);
 
+
             _entries.Clear();
             gpuMiningPanel.ClearGpusEntries();
-           
-
             _requestExit = false;
 
 
@@ -234,12 +240,9 @@ namespace GolemUI
             this.btnStopBenchmark.Visibility = Visibility.Visible;
             this.btnNext.IsEnabled = false;
 
+            gpuMiningPanel.lblStatus.Content = $"Scanning GPUs...";
 
-
-            gpuMiningPanel.lblStatus.Content = $"Preparing...";
-
-            ClaymoreBenchmark cc = new ClaymoreBenchmark(gpuNo: null);
-            string cards = selectedIndices.Replace(",", "").Replace(".", "").Trim();
+            ClaymoreBenchmark cc = new ClaymoreBenchmark();
 
             bool result = cc.RunBenchmarkRecording(@"test.recording");
             if (result)
@@ -248,7 +251,24 @@ namespace GolemUI
             }
             if (!result)
             {
-                result = cc.RunBenchmark(cards);
+                cc.RunPreBenchmark();
+                while (!cc.PreBenchmarkFinished)
+                {
+                    await Task.Delay(30);
+                    baseLiveStatus = cc.ClaymoreParserPreBenchmark.GetLiveStatusCopy();
+                    if (baseLiveStatus.GPUInfosParsed)
+                    {
+                        cc.Stop();
+                        break;
+                    }
+                }
+                gpuMiningPanel.lblStatus.Content = "GPU Info acquired";
+
+                UpdateBenchmarkStatus(baseLiveStatus);
+
+                await Task.Delay(30);
+
+                result = cc.RunBenchmark(selectedIndices);
                 if (!result)
                 {
                     MessageBox.Show(cc.BenchmarkError);
@@ -266,8 +286,11 @@ namespace GolemUI
                 }
 
                 //function returns copy, so we can work with safety (even if original value is updated on separate thread)
-                var s = cc.ClaymoreParser.GetLiveStatusCopy();
-
+                var s = cc.ClaymoreParserBenchmark.GetLiveStatusCopy();
+                if (baseLiveStatus != null)
+                {
+                    s.MergeFromBaseLiveStatus(baseLiveStatus, selectedIndices);
+                }
 
                 if (s.NumberOfClaymorePerfReports >= s.TotalClaymoreReportsBenchmark)
                 {

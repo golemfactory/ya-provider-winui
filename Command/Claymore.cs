@@ -29,6 +29,7 @@ namespace GolemUI.Command
         public volatile bool GPUNotFound;
         public volatile bool OutOfMemory;
         public volatile bool BenchmarkFinished;
+        public volatile bool PreBenchmarkFinished;
         public volatile float BenchmarkProgress;
         public volatile float BenchmarkSpeed;
 
@@ -39,8 +40,11 @@ namespace GolemUI.Command
         private string? _unsafeGpuDetails;
 
         //private ClaymoreLiveStatus _liveStatus = new ClaymoreLiveStatus();
-        private ClaymoreParser _claymoreParser = new ClaymoreParser(isBenchmark:true);
-        public ClaymoreParser ClaymoreParser { get { return _claymoreParser; } }
+        private ClaymoreParser _claymoreParserBenchmark = new ClaymoreParser(isBenchmark:true, isPreBenchmark: false);
+        private ClaymoreParser _claymoreParserPreBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: true);
+
+        public ClaymoreParser ClaymoreParserBenchmark { get { return _claymoreParserBenchmark; } }
+        public ClaymoreParser ClaymoreParserPreBenchmark { get { return _claymoreParserPreBenchmark; } }
 
         public string? GPUDetails
         {
@@ -68,11 +72,8 @@ namespace GolemUI.Command
 
         Process? _claymoreProcess;
 
-        int? _gpuNo;
-        public ClaymoreBenchmark(int? gpuNo)
+        public ClaymoreBenchmark()
         {
-            _gpuNo = gpuNo;
-
         }
 
         public void Stop()
@@ -86,7 +87,7 @@ namespace GolemUI.Command
         public bool RunBenchmarkRecording(string brFile)
         {
             var imitate = new ClaymoreImitateBenchmarkFromFile();
-            _claymoreParser.BeforeParsing();
+            _claymoreParserPreBenchmark.BeforeParsing();
 
             if (!File.Exists(brFile))
             {
@@ -102,6 +103,66 @@ namespace GolemUI.Command
             imitate.Run();
             return true;
         }
+
+
+        public bool RunPreBenchmark()
+        {
+            BenchmarkError = "";
+            BenchmarkFinished = false;
+            GPUNotFound = false;
+
+            this.BenchmarkProgress = 0.0f;
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = this._claymore_exe_path,
+                WorkingDirectory = this._claymore_working_dir,
+                //Arguments = null,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            List<string> arguments = new List<string>();
+
+            //Enable benchmark mode:
+
+            arguments.AddRange("-epool test -li 200".Split(" "));
+
+            foreach (var arg in arguments)
+            {
+                if (arg == null)
+                {
+                    throw new ArgumentNullException();
+                }
+                startInfo.ArgumentList.Add(arg);
+            }
+
+            _claymoreProcess = new Process
+            {
+                StartInfo = startInfo
+            };
+
+            try
+            {
+                _claymoreProcess.Start();
+            }
+            catch (System.ComponentModel.Win32Exception)
+            {
+                BenchmarkError = $"Process {this._claymore_exe_path} cannot be run, check antivirus settings";
+                return false;
+            }
+            _claymoreParserPreBenchmark.BeforeParsing();
+            _claymoreProcess.OutputDataReceived += OnOutputDataPreRecv;
+            _claymoreProcess.ErrorDataReceived += OnErrorDataRecv;
+            _claymoreProcess.BeginErrorReadLine();
+            _claymoreProcess.BeginOutputReadLine();
+
+            return true;
+        }
+
+
 
         public bool RunBenchmark(string cards)
         {
@@ -121,8 +182,6 @@ namespace GolemUI.Command
                 RedirectStandardError = true,
                 CreateNoWindow = true
             };
-
-            
 
             List<string> arguments = new List<string>();
 
@@ -159,7 +218,7 @@ namespace GolemUI.Command
                 BenchmarkError = $"Process {this._claymore_exe_path} cannot be run, check antivirus settings";
                 return false;
             }
-            _claymoreParser.BeforeParsing();
+            _claymoreParserBenchmark.BeforeParsing();
             _claymoreProcess.OutputDataReceived += OnOutputDataRecv;
             _claymoreProcess.ErrorDataReceived += OnErrorDataRecv;
             _claymoreProcess.BeginErrorReadLine();
@@ -186,9 +245,19 @@ namespace GolemUI.Command
             if (lineText == null)
                 return;
 
-            _claymoreParser.ParseLine(lineText);
-
+            _claymoreParserBenchmark.ParseLine(lineText);
         }
+
+        void OnOutputDataPreRecv(object sender, DataReceivedEventArgs e)
+        {
+            string? lineText = e.Data;
+            //output contains spelling error avaiable instead of available, checking for boths:
+            if (lineText == null)
+                return;
+
+            _claymoreParserPreBenchmark.ParseLine(lineText);
+        }
+
 
         void OnErrorDataRecv(object sender, DataReceivedEventArgs e)
         {

@@ -176,7 +176,78 @@ namespace GolemUI.Claymore
 
 
         }
+
+        public void MergeFromBaseLiveStatus(ClaymoreLiveStatus baseLiveStatus, string cards)
+        {
+            int numberOfBaseGpus = baseLiveStatus.GPUs.Count;
+            if (numberOfBaseGpus == 0)
+            {
+                return;
+            }
+
+            int numberOfUsedGpus = this.GPUs.Count;
+            if (numberOfBaseGpus == numberOfUsedGpus)
+            {
+                //no merging needed, because all gpus where used in benchmark
+                return;
+            }
+
+            var cardSplit = cards.Split(',');
+            List<int> selectedIndices = new List<int>();
+            foreach (var str in cardSplit)
+            {
+                int parsed;
+                if (int.TryParse(str, out parsed))
+                {
+                    selectedIndices.Add(parsed);
+                }
+            }
+
+            int numberOfSelectedCards = selectedIndices.Count;
+
+            if (numberOfSelectedCards < numberOfUsedGpus)
+            {
+                //something went wrong
+                Debug.Assert(false, "numberOfUsedGpus cannot be greater than numberOfSelectedCards");
+                return;
+            }
+
+
+            Dictionary<int, int> indexMap = new Dictionary<int, int>();
+            {
+                int targetIdx = 1;
+                for (int baseIdx = 1; baseIdx <= numberOfBaseGpus; baseIdx++)
+                {
+                    if (selectedIndices.Contains(baseIdx) && this.GPUs.ContainsKey(targetIdx))
+                    {
+                        indexMap.Add(baseIdx, targetIdx);
+                        targetIdx += 1;
+                    }
+                    else
+                    {
+                        indexMap.Add(baseIdx, -1);
+                    }
+                }
+            }
+
+            Dictionary<int, ClaymoreGpuStatus> newDictionary = new Dictionary<int, ClaymoreGpuStatus>();
+            for (int baseIdx = 1; baseIdx <= numberOfBaseGpus; baseIdx++)
+            {
+                if (indexMap[baseIdx] == -1)
+                {
+                    newDictionary.Add(baseIdx, baseLiveStatus.GPUs[baseIdx]);
+                }
+                else
+                {
+                    newDictionary.Add(baseIdx, this.GPUs[indexMap[baseIdx]]);
+                }
+            }
+
+            _gpus = newDictionary;
+        }
     }
+
+
 
     public class ClaymoreBenchmarkLine
     {
@@ -193,6 +264,7 @@ namespace GolemUI.Claymore
         private readonly object __lockObj = new object();
 
         private bool _readyForGpusEthInfo = false;
+        private bool _isPreBenchmark;
 
         private DateTime _start;
         private string? _benchmarkRecordingPath = null;
@@ -204,8 +276,9 @@ namespace GolemUI.Claymore
             return _gpusInfosParsed;
         }
 
-        public ClaymoreParser(bool isBenchmark)
+        public ClaymoreParser(bool isBenchmark, bool isPreBenchmark)
         {
+            _isPreBenchmark = isPreBenchmark;
             _liveStatus = new ClaymoreLiveStatus(isBenchmark);
         }
 
@@ -304,6 +377,14 @@ namespace GolemUI.Claymore
                 {
                     _liveStatus.ErrorMsg = lineText;
                 }
+                if (_isPreBenchmark)
+                {
+                    if (lineText.Contains("Missing host or wallet"))
+                    {
+                        _liveStatus.GPUInfosParsed = true;
+                    }
+                }
+
 
                 if (gpuNo != -1)
                 {
@@ -360,6 +441,7 @@ namespace GolemUI.Claymore
                             }
                         }
                     }
+
 
                     if (lineText.Contains(": clSetKernelArg"))
                     {
@@ -478,5 +560,4 @@ namespace GolemUI.Claymore
             }
         }
     }
-
 }

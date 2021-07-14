@@ -30,12 +30,23 @@
             </Border>            
             <local:GpuMiningPanelUI x:Name="gpuMiningPanel" Grid.Column="1" Grid.Row="1"/>
 
-            <Border Name="brdAdvanced" Height="145" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{DynamicResource BorderStyleBlueBox}" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
-                <StackPanel>
+            <Border Name="brdAdvanced" Height="145" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{DynamicResource BorderStyleBlueBox}" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="400*"/>
+                        <ColumnDefinition Width="70"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
                     <Label Style="{DynamicResource BlueBoxTitle}" MouseDown="Label_MouseDown">Advanced</Label>
-                    <TextBlock Width="350" Margin="10">Select which cards you want to run benchmark and mining on). For example 1,3,4 means run on first, third and fourth card. Run benchmark to confirm that your selection is valid. Leave the field empty to run on all cards.</TextBlock>
-                    <TextBox HorizontalAlignment="Left" Name="txRunOnSelectedCards" Text="" Width="100" Margin="10,0,0,10"/>
-                </StackPanel>
+                    <TextBlock Grid.Row="1" TextAlignment="Right" VerticalAlignment="Center">Select which cards you want to run benchmark and mining on). For example 1,3,4 means run on first, third and fourth card. Run benchmark to confirm that your selection is valid. Leave the field empty to run on all cards:</TextBlock>
+                    <TextBox Grid.Row="1" Grid.Column="2"  Name="txRunOnSelectedCards" VerticalAlignment="Center" Text="" Width="100"/>
+                    <TextBlock Grid.Row="2" TextAlignment="Right" VerticalAlignment="Center">Niceness of the mining (gpus separated by the coma, 0 means fastest, 100 is around 50% of mining power):</TextBlock>
+                    <TextBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Name="txNiceness" VerticalAlignment="Center" Text="" Width="100"/>
+                </Grid>
             </Border>
 
             <StackPanel Grid.Row="1" Grid.Column="0">
