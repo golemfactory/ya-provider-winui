@@ -30,7 +30,10 @@ namespace GolemUI.UI
 
         private void Confirm_Click(object sender, RoutedEventArgs e)
         {
-            Model.ChangeAction = EditAddressViewModel.Action.Change;
+            if (Model != null)
+            {
+                Model.ChangeAction = EditAddressViewModel.Action.Change;
+            }
             DialogResult = true;
             Close();
         }
@@ -38,7 +41,10 @@ namespace GolemUI.UI
 
         private void TransferOUt_Click(object sender, RoutedEventArgs e)
         {
-            Model.ChangeAction = EditAddressViewModel.Action.TransferOut;
+            if (Model != null)
+            {
+                Model.ChangeAction = EditAddressViewModel.Action.TransferOut;
+            }
             DialogResult = true;
             Close();
         }
