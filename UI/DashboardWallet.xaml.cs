@@ -47,7 +47,7 @@ namespace GolemUI
         {
             var dlg = new UI.DlgEditAddress(Model.EditModel);
             dlg.Owner = Window.GetWindow(this);
-            if (dlg.ShowDialog() ?? false)
+            if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
             {
                 Model.UpdateAddress(dlg.Model.ChangeAction, dlg.Model.Address);
             }

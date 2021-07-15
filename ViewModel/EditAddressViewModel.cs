@@ -13,8 +13,8 @@ namespace GolemUI.ViewModel
 
         public bool HaveInternalBalance { get; }
 
-        private string _address;
-        public string Address { get {
+        private string? _address;
+        public string? Address { get {
                 return _address;
             }
             set {
@@ -25,7 +25,7 @@ namespace GolemUI.ViewModel
             } 
         }
 
-        public bool IsInternal => _address.Equals(InternalAddress, StringComparison.OrdinalIgnoreCase);
+        public bool IsInternal => _address?.Equals(InternalAddress, StringComparison.OrdinalIgnoreCase) ?? false;
 
         public bool CanTransferOut => !IsInternal && HaveInternalBalance;
 

@@ -36,7 +36,7 @@ namespace GolemUI.Src
             
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(20);
-            _timer.Tick += async (object? s, EventArgs a) => this.UpdateState();
+            _timer.Tick += (object? s, EventArgs a) => this.UpdateState();
             _timer.Start();
             if (processControler.IsServerRunning)
             {                
@@ -50,7 +50,7 @@ namespace GolemUI.Src
 
         public WalletState? State { get; private set; }
 
-        public string Address => _walletAddress ?? _buildInAdress;
+        public string? Address => _walletAddress ?? _buildInAdress;
 
         public string InternalAddress => _buildInAdress ?? "";
 
@@ -86,6 +86,11 @@ namespace GolemUI.Src
             }
             var walletAddress = _walletAddress ?? _buildInAdress;
 
+            if (walletAddress == null)
+            {
+                throw new Exception("Wallet address is null");
+            }
+
             var statusOnL2 = await _srv.Payment.Status(_network, "zksync", walletAddress);
             var statusOnL1 = await _srv.Payment.Status(_network, "erc20", walletAddress);
 
@@ -118,6 +123,10 @@ namespace GolemUI.Src
 
         public async Task<bool> TransferOutTo(string address)
         {
+            if (_buildInAdress == null)
+            {
+                return false;
+            }
             var result = await _srv.Payment.ExitTo(_network, "zksync", _buildInAdress, address);
             // TODO: Implement transfer out in yagna
             return true;

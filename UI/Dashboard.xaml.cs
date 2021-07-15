@@ -58,7 +58,7 @@ namespace GolemUI
         public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
         private bool _forceExit = false;
-        bool _minimizeOnly = true;
+        //bool _minimizeOnly = true;
 
 
         public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings)
@@ -180,7 +180,18 @@ namespace GolemUI
             var currentPage = GetPageDescriptorFromPage(page);
             currentPage.Mount();
             currentPage.Show();
-                
+            
+            if (page == DashboardPages.PageDashboardBenchmark)
+            {
+                brdNavigation.Visibility = Visibility.Collapsed;
+                grdMain.ColumnDefinitions[0].Width = new GridLength(0, GridUnitType.Pixel);
+            }
+            else
+            {
+                brdNavigation.Visibility = Visibility.Visible;
+                grdMain.ColumnDefinitions[0].Width = new GridLength(120, GridUnitType.Pixel);
+            }
+
             _pageSelected = page;
         }
 

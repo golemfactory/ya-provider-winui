@@ -11,7 +11,7 @@
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
         Title="Dashboard" Height="524" Width="974" MinHeight="524" MinWidth="974" Closing="Window_Closing" Loaded="Window_Loaded">
-    <Grid>
+    <Grid x:Name="grdMain">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="300*"/>
@@ -47,7 +47,7 @@
 
 
 
-        <Border BorderBrush="White" Background="#110D39" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 1 0" >
+        <Border x:Name="brdNavigation" BorderBrush="White" Background="#110D39" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 1 0" >
             <StackPanel>
                 <Button x:Name="btnPage1" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page1Click">
                     <svgc:SvgViewbox Source="/Media/nav_dashboard.svg"/>

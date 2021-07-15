@@ -130,14 +130,21 @@ namespace GolemUI
 
         public async Task<PaymentStatus?> GetPaymentStatus(string account)
         {
-            PaymentStatus? st = await _yagna.Payment?.Status(Network.Rinkeby, "zksync", account) ?? null;
-
-            return st;
+            if (_yagna.Payment != null)
+            {
+                PaymentStatus? st = await _yagna.Payment.Status(Network.Rinkeby, "zksync", account);
+                return st;
+            }
+            return null;
         }
         public async Task<ActivityStatus?> GetActivityStatus()
         {
-            ActivityStatus? st = await _yagna.Payment?.ActivityStatus();
-            return st;
+            if (_yagna.Payment != null)
+            {
+                ActivityStatus? st = await _yagna.Payment.ActivityStatus();
+                return st;
+            }
+            return null;
         }
 
         public async Task<bool> StopProvider()

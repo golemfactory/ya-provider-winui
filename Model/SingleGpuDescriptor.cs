@@ -17,7 +17,7 @@ namespace GolemUI
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-        public string _Name { get; set; }
+        public string? _Name { get; set; }
         public int _Id { get; set; }
         public int Id
         {
@@ -29,7 +29,7 @@ namespace GolemUI
             }
         }
         public bool _IsActive { get; set; }
-        public string Name
+        public string? Name
         {
             get { return _Name; }
             set

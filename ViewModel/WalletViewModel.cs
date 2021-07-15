@@ -18,11 +18,11 @@ namespace GolemUI.ViewModel
         private IPriceProvider _priceProvider;
         private IPaymentService _paymentService;
         private Command.Provider _provider;
-        private readonly IProviderConfig _providerConfig;
+        private readonly IProviderConfig? _providerConfig;
         private PropertyChangedEventHandler _handler;
         
 
-        private string _walletAddress;
+        private string? _walletAddress;
         private decimal _amount;
         private decimal _pendingAmount;
         private decimal _glmPerDay;
@@ -34,7 +34,7 @@ namespace GolemUI.ViewModel
             _provider = provider;
             _providerConfig = providerConfig;
 
-            var wallet = _providerConfig.Config.Account;
+            var wallet = _providerConfig?.Config?.Account;
             
             this._walletAddress = wallet;
             this._amount = 0;
@@ -51,17 +51,21 @@ namespace GolemUI.ViewModel
             paymentService.PropertyChanged += _handler;
         }
 
-        public async void UpdateAddress(EditAddressViewModel.Action changeAction, string address)
+        public async void UpdateAddress(EditAddressViewModel.Action changeAction, string? address)
         {
+            if (address == null)
+            {
+                return;
+            }
             if (changeAction == EditAddressViewModel.Action.TransferOut)
             {
                 var trnsferOut = _paymentService.TransferOutTo(address);
-                _providerConfig.UpdateWalletAddress(address);
+                _providerConfig?.UpdateWalletAddress(address);
                 await trnsferOut;
             }
             else
             {
-                _providerConfig.UpdateWalletAddress(address);
+                _providerConfig?.UpdateWalletAddress(address);
             }            
         }
 
@@ -87,7 +91,7 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public string WalletAddress => _paymentService.Address;        
+        public string? WalletAddress => _paymentService.Address;        
 
         public decimal Amount
         {

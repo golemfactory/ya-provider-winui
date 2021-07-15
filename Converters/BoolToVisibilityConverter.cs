@@ -22,7 +22,7 @@ namespace GolemUI.Converters
             FalseValue = Visibility.Collapsed;
         }
 
-        public object Convert(object value, Type targetType,
+        public object? Convert(object value, Type targetType,
             object parameter, CultureInfo culture)
         {
             if (!(value is bool))
@@ -30,7 +30,7 @@ namespace GolemUI.Converters
             return (bool)value ? TrueValue : FalseValue;
         }
 
-        public object ConvertBack(object value, Type targetType,
+        public object? ConvertBack(object value, Type targetType,
             object parameter, CultureInfo culture)
         {
             if (Equals(value, TrueValue))
