@@ -9,7 +9,7 @@ namespace GolemUI.Controllers
     public class DashboardPage
     {
         public UserControl View;
-        ISavableLoadableDashboardPage ViewModel=null;
+        ISavableLoadableDashboardPage? ViewModel = null;
         public bool ShouldAutoLoad=false;
         public bool ShouldAutoSave=false;
         bool ShouldAnimate = true;
@@ -84,9 +84,8 @@ namespace GolemUI.Controllers
         }
         private void HideSlowly(TimeSpan duration)
         {
-            EventHandler handler = null;
             DoubleAnimation anim1 = new DoubleAnimation(1, 0, duration);
-            anim1.Completed += handler = new EventHandler(delegate (object s, EventArgs ev)
+            anim1.Completed += new EventHandler(delegate (object? s, EventArgs ev)
             {
                 View.Visibility = Visibility.Hidden;
             });
