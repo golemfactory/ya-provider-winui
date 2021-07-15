@@ -429,6 +429,10 @@ namespace GolemUI.Command
 
         public async Task<string?> ExitTo(Network network, string driver, string account, string? destination)
         {
+            if (destination == null)
+            {
+                return null;
+            }
             return await _srv.ExecToTextAsync("--json", "payment", "exit", "--network", network.Id, "--driver", driver, "--account", account, "--to-address", destination);
         }
 

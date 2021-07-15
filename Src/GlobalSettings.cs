@@ -230,8 +230,12 @@ namespace GolemUI.Settings
             return settings;
         }
 
-        public static void SaveBenchmarkToFile(BenchmarkResults benchmarkSettings)
+        public static void SaveBenchmarkToFile(BenchmarkResults? benchmarkSettings)
         {
+            if (benchmarkSettings == null)
+            {
+                return;
+            }
             benchmarkSettings.BenchmarkResultVersion = GlobalSettings.CurrentBenchmarkResultVersion;
 
             string fp = GetLocalBenchmarkPath();

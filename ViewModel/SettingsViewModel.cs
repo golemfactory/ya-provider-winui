@@ -12,16 +12,16 @@ namespace GolemUI
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-        private Command.Provider _provider;
-        private BenchmarkResults _benchmarkSettings;
-        private IProviderConfig _providerConfig;
-        public ObservableCollection<SingleGpuDescriptor> GpuList { get; set; }
+        private Command.Provider? _provider;
+        private BenchmarkResults? _benchmarkSettings;
+        private IProviderConfig? _providerConfig;
+        public ObservableCollection<SingleGpuDescriptor>? GpuList { get; set; }
        
-        private IPriceProvider _priceProvider;
+        private IPriceProvider? _priceProvider;
         public int _activeCpusCount { get; set; }
-        public string _estimatedProfit { get; set; }
-        private decimal _glmPerDay; 
-        public string _hashrate { get; set; }
+        public string? _estimatedProfit { get; set; }
+        private decimal _glmPerDay = 0.0m; 
+        public string? _hashrate { get; set; }
         public int _totalCpusCount { get; set; }
         
         public String ActiveCpusCountAsString { get { return this.ActiveCpusCount.ToString(); } }
@@ -29,12 +29,12 @@ namespace GolemUI
 
         public void LoadData()
         {
-            GpuList.Clear();
+            GpuList?.Clear();
             _benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
             if (IsBenchmarkSettingsCorrupted()) return;
-            _benchmarkSettings.liveStatus.GPUs.ToList().Where(gpu => gpu.Value!=null && gpu.Value.IsReadyForMining()).ToList().ForEach(gpu =>
+            _benchmarkSettings?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value!=null && gpu.Value.IsReadyForMining()).ToList().ForEach(gpu =>
              {
-                 GpuList.Add(new SingleGpuDescriptor(gpu.Value.gpuNo, gpu.Value.gpuName==null?"video card":gpu.Value.gpuName, gpu.Value.IsEnabledByUser));
+                 GpuList?.Add(new SingleGpuDescriptor(gpu.Value.gpuNo, gpu.Value.gpuName==null?"video card":gpu.Value.gpuName, gpu.Value.IsEnabledByUser));
              });
         }
 
@@ -44,19 +44,20 @@ namespace GolemUI
         }
         public void SaveData()
         {
-            GpuList.ToList().ForEach(gpu =>
+            GpuList?.ToList().ForEach(gpu =>
             {
                 if (IsBenchmarkSettingsCorrupted())return;
-                var res = _benchmarkSettings.liveStatus.GPUs.ToList().Find(x => x.Value.gpuNo == gpu.Id);
-                if (!res.Equals(default(KeyValuePair<int, Claymore.ClaymoreGpuStatus>)))
+                var res = _benchmarkSettings?.liveStatus?.GPUs.ToList().Find(x => x.Value.gpuNo == gpu.Id);
+                if (res != null && res.HasValue && !res.Equals(default(KeyValuePair<int, Claymore.ClaymoreGpuStatus>)))
                 {
-                    res.Value.IsEnabledByUser = gpu.IsActive;
+                    KeyValuePair<int, Claymore.ClaymoreGpuStatus> keyVal = res.Value;
+                    keyVal.Value.IsEnabledByUser = gpu.IsActive;
                 }
             });
             
             SettingsLoader.SaveBenchmarkToFile(_benchmarkSettings);
         }
-        private void Init(IPriceProvider priceProvider, Command.Provider provider, IProviderConfig providerConfig)
+        private void Init(IPriceProvider? priceProvider, Command.Provider? provider, IProviderConfig? providerConfig)
         {
             _priceProvider = priceProvider;
             _provider = provider;
@@ -103,7 +104,7 @@ namespace GolemUI
                 NotifyChange("TotalCpusCountAsString");
             }
         }
-        public string Hashrate
+        public string? Hashrate
         {
             get { return _hashrate; }
             set
@@ -113,7 +114,7 @@ namespace GolemUI
             }
         }
 
-        public string EstimatedProfit
+        public string? EstimatedProfit
         {
             get { return _estimatedProfit; }
             set
@@ -134,6 +135,10 @@ namespace GolemUI
         {
             get
             {
+                if (_priceProvider == null)
+                {
+                    return new Decimal(0.0);
+                }
                 return _priceProvider.glmToUsd(_glmPerDay);
             }
         }
