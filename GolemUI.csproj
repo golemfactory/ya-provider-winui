@@ -78,6 +78,7 @@
     <None Remove="Media\SetV1\Status_Ready_icon.svg" />
     <None Remove="Media\SetV1\Task_Type.svg" />
     <None Remove="Media\tray.ico" />
+    <None Remove="UI\Icons\GPU_icon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -161,6 +162,7 @@
     <Resource Include="Media\onboarding\use_my_wallet.svg" />
     <Resource Include="Media\onboarding\wallet_info.svg" />
     <Resource Include="Media\profit.svg" />
+    <Resource Include="UI\Icons\GPU_icon.png" />
   </ItemGroup>
 
 </Project>
