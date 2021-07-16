@@ -20,7 +20,7 @@ namespace GolemUI.Settings
         public const string SettingsSubFolder = "LazyMiner";
         public const string DefaultProxy = "staging-backend.chessongolem.app:3334";
         public const int CurrentSettingsVersion = 348;
-        public const int CurrentBenchmarkResultVersion = 139;
+        public const int CurrentBenchmarkResultVersion = 140;
 
         public const double GLMUSD = 0.27;
 

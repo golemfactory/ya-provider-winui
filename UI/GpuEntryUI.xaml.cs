@@ -29,6 +29,10 @@ namespace GolemUI
             _supressEvent = false;
 
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
+
+            this.iconError.Visibility = Visibility.Collapsed;
+            this.iconReady.Visibility = Visibility.Collapsed;
+
         }
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {
@@ -55,16 +59,22 @@ namespace GolemUI
             {
                 //this.Background = Brushes.Red;
                 this.pbProgress.Foreground = Brushes.Red;
-                this.tbProgress.Text = "Unable to mine: " + error;
+                this.lblMiningAbility.Content = "Unable to mine: " + error;
+                this.grdProgress.Visibility = Visibility.Hidden;
                 this.pbProgress.Value = 100;
+                this.iconError.Visibility = Visibility.Visible;
+                this.iconReady.Visibility = Visibility.Collapsed;
                 //this.cbEnableMining.IsChecked = false;
                 //this.cbEnableMining.IsEnabled = false;
             }
             else
             {
-                this.tbProgress.Text = "Ready for mining";
+                this.lblMiningAbility.Content = "Ability to mine: Full";
                 this.pbProgress.Foreground = Brushes.Green;
+                this.grdProgress.Visibility = Visibility.Hidden;
                 this.pbProgress.Value = 100;
+                this.iconError.Visibility = Visibility.Collapsed;
+                this.iconReady.Visibility = Visibility.Visible;
                 //this.Background = Brushes.Blue;
             }
         }
@@ -73,11 +83,15 @@ namespace GolemUI
             //this.lblProgress.Content = progr.ToString();
             this.pbProgress.Value = progr * 100;
             this.tbProgress.Text = "Mining initialization";
+            this.lblMiningAbility.Content = "Ability to mine: Checking...";
+            this.grdProgress.Visibility = Visibility.Visible;
+            
         }
         public void SetMiningProgress(float progr)
         {
             //this.lblProgress.Content = progr.ToString();
             this.pbProgress.Value = progr * 100;
+            this.lblMiningAbility.Content = "Ability to mine: Checking...";
             this.tbProgress.Text = "Measuring performance";
         }
 
@@ -100,8 +114,10 @@ namespace GolemUI
             if (!enable)
             {
                 this.pbProgress.Foreground = Brushes.Gray;
+                this.grdProgress.Visibility = Visibility.Hidden;
                 this.tbProgress.Text = "Not used in mining";
                 this.pbProgress.Value = 100;
+                this.lblMiningAbility.Content = "Not used in mining";
             }
             else
             {

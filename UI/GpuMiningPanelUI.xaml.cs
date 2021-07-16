@@ -21,7 +21,7 @@ namespace GolemUI
     public partial class GpuMiningPanelUI : UserControl
     {
 
-        public GpuEntryUI AddGpuEntry(string info, string gpuID)
+        public GpuEntryUI AddGpuEntry(string info)
         {
             //bool canMine = false;
             /*if (info.Memory > 4500000000 && info.Vendor != "Intel")
@@ -99,11 +99,12 @@ namespace GolemUI
             if (success)
             {
                 SetBenchmarkProgress(1.0f);
-                lblStatus.Content = "Finished";
+                lblTimeElapsed.Content = "Finished";
+                lblTimeElapsed.Foreground = Brushes.White;
             }
             else
             {
-                lblStatus.Content = "Finished - Error";
+                lblTimeElapsed.Content = "Finished - Error";
             }
         }
         public void StopBenchmark()

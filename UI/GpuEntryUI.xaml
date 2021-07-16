@@ -6,7 +6,7 @@
              xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="750">
+             d:DesignHeight="110" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,30 +14,30 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="0,0,0,5">
+    <Border Style="{DynamicResource PageBackground}" HorizontalAlignment="Stretch" Margin="0,5,0,5">
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <svgc:SvgViewbox Source="/Media/gpu.svg" Canvas.Left="14" Canvas.Top="60" Width="50" Height="40" Grid.Column="0" Margin="0,5" VerticalAlignment="top"/>
 
-            <StackPanel Orientation="Vertical" Grid.Column="1">
-                <Label Name="lblInfo" Content="lblName" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Name="lblPower" Content="lblPower" Width="100" Foreground="White"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Grid.Column="0"/>
-                    <Grid Grid.Column="1">
-                        <ProgressBar Name="pbProgress"  Height="20" Margin="10, 0" VerticalAlignment="Center" />
-                        <TextBlock Name="tbProgress" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Name="lblInfo" Content="lblName" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <Label Grid.Row="1" Name="lblPower" Content="lblPower" Foreground="White"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Grid.Column="0"/>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Label Name="lblMiningAbility" Content="Mining ability" Foreground="White" FontSize="10" FontWeight="Bold" />
+                    <svgc:SvgViewbox Name="iconError" Source="pack://application:,,,/Media/SetV1/Status_Card_error.svg" Height="20" Margin="0"/>
+                    <svgc:SvgViewbox Name="iconReady" Source="pack://application:,,,/Media/SetV1/Status_Ready_icon.svg" Height="20" Margin="0"/>
+                </StackPanel>
+                <Grid Name="grdProgress" Grid.Row="3">
+                    <ProgressBar Name="pbProgress"  Height="20" Margin="5, 0" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
+                    <TextBlock Name="tbProgress" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
                             Initilization progress
-                        </TextBlock>
-                    </Grid>
+                    </TextBlock>
                 </Grid>
-            </StackPanel>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

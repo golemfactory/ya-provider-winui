@@ -34,7 +34,8 @@ namespace GolemUI
             if (IsBenchmarkSettingsCorrupted()) return;
             _benchmarkSettings?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value!=null && gpu.Value.IsReadyForMining()).ToList().ForEach(gpu =>
              {
-                 GpuList?.Add(new SingleGpuDescriptor(gpu.Value.gpuNo, gpu.Value.gpuName==null?"video card":gpu.Value.gpuName, gpu.Value.IsEnabledByUser));
+                 var val = gpu.Value;
+                 GpuList?.Add(new SingleGpuDescriptor(val.gpuNo, val.gpuName==null?"video card": val.gpuName, val.BenchmarkSpeed, val.IsEnabledByUser, val.IsReadyForMining()));
              });
         }
 
@@ -63,9 +64,9 @@ namespace GolemUI
             _provider = provider;
             _providerConfig = providerConfig;
             GpuList = new ObservableCollection<SingleGpuDescriptor>();
-            GpuList.Add(new SingleGpuDescriptor(1,"1st GPU", false));
-            GpuList.Add(new SingleGpuDescriptor(2,"second GPU", true));
-            GpuList.Add(new SingleGpuDescriptor(3,"3rd GPU", false));
+            GpuList.Add(new SingleGpuDescriptor(1,"1st GPU",20.12f, false,true));
+            GpuList.Add(new SingleGpuDescriptor(2,"second GPU",12.10f, true,false));
+            GpuList.Add(new SingleGpuDescriptor(3,"3rd GPU",9.00f, false,true));
 
             ActiveCpusCount = 3;
             TotalCpusCount = 7;
@@ -114,6 +115,8 @@ namespace GolemUI
             }
         }
 
+            
+        
         public string? EstimatedProfit
         {
             get { return _estimatedProfit; }
