@@ -30,7 +30,7 @@
             </Border>            
             <local:GpuMiningPanelUI x:Name="gpuMiningPanel" Grid.Column="1" Grid.Row="1"/>
 
-            <Border Name="brdAdvanced" Height="145" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{DynamicResource BorderStyleBlueBox}" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+            <Border Name="brdAdvanced" Height="145" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{DynamicResource BorderStyleBlueBox}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="400*"/>
@@ -50,10 +50,13 @@
             </Border>
 
             <StackPanel Grid.Row="1" Grid.Column="0">
-                
-                <svgc:SvgViewbox Source="/Media/onboarding/hash_power.svg" Canvas.Left="34" Canvas.Top="150" Width="150" Height="150"/>
 
-                <Button Name="btnStartBenchmark" Style="{StaticResource PinkButtonStyle}" Click="btnStartBenchmark_Click" Width="150" Height="40" Margin="10 10 10 0" >Start Benchmark</Button>
+                <Grid Width="150" Height="150">
+                    <svgc:SvgViewbox Name="svgBenchmarkWorking" Source="/Media/SetV1/onboarding/hash_power.svg" Visibility="Hidden" />
+                    <svgc:SvgViewbox Name="svgBenchmarkEnjoy" Source="/Media/SetV1/onboarding/Enjoy.svg" Visibility="Hidden"/>
+                </Grid>
+
+                <Button Name="btnStartBenchmark" Style="{StaticResource GradientButtonStyle}" Click="btnStartBenchmark_Click" Width="150" Height="40" Margin="10 10 10 0" >Start Benchmark</Button>
                 <Button Name="btnStopBenchmark" Style="{StaticResource BlueButtonStyle}" Click="btnStopBenchmark_Click" Width="150" Height="40" Margin="10 10 10 0" >Stop Benchmark</Button>
                 <Button Name="btnNext" Style="{StaticResource PinkButtonStyle}" IsEnabled="False" Click="btnReady_Click" Width="150" Height="40" Margin="10 10 10 0">Ready</Button>
             </StackPanel>

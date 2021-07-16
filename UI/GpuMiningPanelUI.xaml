@@ -16,23 +16,32 @@
     <Border Style="{DynamicResource PageBackground}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="40"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Label x:Name="lblStatus" Content="Benchmarks status" Foreground="Beige" Grid.Row="0" Margin="0"></Label>
-            <Label x:Name="lblTimeElapsed" Grid.Column="1" Content="Time elapsed" Foreground="Beige" Grid.Row="0" Margin="0"></Label>
-            <Label x:Name="lblInitializeTime" Grid.Column="2" Content="Initialize time" Foreground="Beige" Grid.Row="0" Margin="0"></Label>
 
-            <Label x:Name="lblPower" Content="Total Power" FontSize="20" Foreground="White" FontWeight="Bold" Grid.Row="1" Margin="0"/>
+            <StackPanel Grid.Column="2" Grid.Row="2">
+                <Label x:Name="lblPower" Content="Total Power" FontSize="20" Foreground="White" FontWeight="Bold" Margin="0"/>
+                <Label x:Name="lblEstimated" Content="Estimated earnings" FontSize="10" Foreground="White" FontWeight="Bold" Margin="0"/>
+                <Grid>
+                    <Label x:Name="lblGatherGpuInfo" Content="Gather gpu info" Foreground="Gray" Margin="0"></Label>
+                </Grid>
+                <Grid>
+                    <Label x:Name="lblInitializeTime"  Content="Initialize time" Foreground="Gray"  Margin="0"></Label>
+                </Grid>
+                <Grid>
+                    <Label x:Name="lblBenchmarkTime"  Content="Benchmark time" Foreground="Gray"  Margin="0"></Label>
+                </Grid>
+                <Grid>
+                    <Label x:Name="lblTimeElapsed" Content="Estimating earnings" Foreground="Gray" Margin="0"></Label>
+                </Grid>
+            </StackPanel>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" MinHeight="40" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" MinHeight="40" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1">
                 <StackPanel x:Name="spGpuList" Orientation="Vertical">
 
                 </StackPanel>

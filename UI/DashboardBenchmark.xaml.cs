@@ -115,11 +115,13 @@ namespace GolemUI
             //s.BenchmarkTotalSpeed;
             if (s.GPUInfosParsed && s.AreAllDagsFinishedOrFailed())
             {
-                gpuMiningPanel.lblStatus.Content = $"Measuring performance {s.NumberOfClaymorePerfReports}/{s.TotalClaymoreReportsBenchmark}";
+                gpuMiningPanel.lblBenchmarkTime.Content = $"Measuring performance {s.NumberOfClaymorePerfReports}/{s.TotalClaymoreReportsBenchmark}";
             }
             if (s.BenchmarkFinished)
             {
-                gpuMiningPanel.lblStatus.Content = $"Finished";
+                gpuMiningPanel.lblTimeElapsed.Content = $"Finished";
+                svgBenchmarkWorking.Visibility = Visibility.Hidden;
+                svgBenchmarkEnjoy.Visibility = Visibility.Visible;
             }
 
             if (!allExpectedGPUsFound)
@@ -139,13 +141,13 @@ namespace GolemUI
                     currentEntry = _entries[gpuNo];
                 }
 
-                string gdetails = gpuInfo.GPUDetails ?? "";
+                string gdetails = gpuInfo.gpuName ?? "";
                 if (!String.IsNullOrEmpty(gdetails) && !_entries.ContainsKey(gpuNo))
                 {
                     var rowDef = new RowDefinition();
                     rowDef.Height = GridLength.Auto;
                     //grdGpuList.RowDefinitions.Add(rowDef);
-                    currentEntry = gpuMiningPanel.AddGpuEntry(gdetails, (gpuNo - 1).ToString());
+                    currentEntry = gpuMiningPanel.AddGpuEntry(gdetails);
                     _entries.Add(gpuNo, currentEntry);
                 }
                 currentEntry?.SetEnableByUser(gpuInfo.IsEnabledByUser);
@@ -158,6 +160,7 @@ namespace GolemUI
                 else if (s.BenchmarkFinished)
                 {
                     currentEntry?.SetFinished("");
+                    totalMhs += gpuInfo.BenchmarkSpeed;
                 }
                 else
                 {
@@ -198,7 +201,8 @@ namespace GolemUI
                 }*/
             }
             gpuMiningPanel.lblPower.Content = totalMhs.ToString() + "MH/s";
-            gpuMiningPanel.SetBenchmarkProgress(s.GetEstimatedBenchmarkProgress());
+            gpuMiningPanel.lblEstimated.Content = String.Format("Estimated profit: {0:0.00} USD/day", totalMhs * 0.05);
+            //gpuMiningPanel.SetBenchmarkProgress(s.GetEstimatedBenchmarkProgress());
         }
 
 
@@ -237,7 +241,7 @@ namespace GolemUI
             this.btnStopBenchmark.Visibility = Visibility.Collapsed;
 
             this.btnNext.IsEnabled = true;
-
+            
             UpdateBenchmarkStatus(benchmark.liveStatus, true);
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.benchmarkStopped);
         }
@@ -255,6 +259,11 @@ namespace GolemUI
 
         private async void btnStartBenchmark_Click(object sender, RoutedEventArgs e)
         {
+            svgBenchmarkWorking.Visibility = Visibility.Visible;
+            svgBenchmarkEnjoy.Visibility = Visibility.Hidden;
+
+            
+
             DateTime benchmarkStartTime = DateTime.Now;
             double? initializeTime = null;
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
@@ -285,7 +294,8 @@ namespace GolemUI
             this.btnStopBenchmark.Visibility = Visibility.Visible;
             this.btnNext.IsEnabled = false;
 
-            gpuMiningPanel.lblStatus.Content = $"Scanning GPUs...";
+            gpuMiningPanel.lblGatherGpuInfo.Content = $"Scanning GPUs...";
+            gpuMiningPanel.lblGatherGpuInfo.Foreground = Brushes.White;
 
             ClaymoreBenchmark cc = new ClaymoreBenchmark();
 
@@ -307,7 +317,8 @@ namespace GolemUI
                         break;
                     }
                 }
-                gpuMiningPanel.lblStatus.Content = String.Format("GPU Info acquired {0:0.00}s", (DateTime.Now - benchmarkStartTime).TotalSeconds);
+                gpuMiningPanel.lblGatherGpuInfo.Foreground = Brushes.White;
+                gpuMiningPanel.lblGatherGpuInfo.Content = String.Format("GPU Info acquired {0:0.00}s", (DateTime.Now - benchmarkStartTime).TotalSeconds);
                 gpuMiningPanel.lblTimeElapsed.Content = String.Format("Time elapsed: {0:0.00}s", (DateTime.Now - benchmarkStartTime).TotalSeconds);
 
                 UpdateBenchmarkStatus(baseLiveStatus, false);
@@ -328,7 +339,7 @@ namespace GolemUI
                 if (_requestExit)
                 {
                     cc.Stop();
-                    gpuMiningPanel.lblStatus.Content = "Stopped";
+                    gpuMiningPanel.lblTimeElapsed.Content = "Stopped";
                     BenchmarkFinished();
                     return;
                 }
@@ -344,7 +355,14 @@ namespace GolemUI
                 {
                     initializeTime = (DateTime.Now - benchmarkStartTime).TotalSeconds;
                     gpuMiningPanel.lblInitializeTime.Content = String.Format("Prepare mining time: {0:0.0}s", initializeTime);
+                    gpuMiningPanel.lblBenchmarkTime.Foreground = Brushes.White;
+                }
 
+                if (!s.AreAllDagsFinishedOrFailed())
+                {
+                    gpuMiningPanel.lblInitializeTime.Content = String.Format("Initializing: {0:0.0}s", (DateTime.Now - benchmarkStartTime).TotalSeconds);
+                    gpuMiningPanel.lblInitializeTime.Foreground = Brushes.White;
+                    gpuMiningPanel.lblBenchmarkTime.Content = "Measuring performance";
                 }
 
                 if (s.NumberOfClaymorePerfReports >= s.TotalClaymoreReportsBenchmark)
