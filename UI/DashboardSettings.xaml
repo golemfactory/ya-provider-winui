@@ -45,7 +45,6 @@
                     <Label Content="{Binding Path=Hashrate, Mode=OneWay}" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
                 </StackPanel>
             </StackPanel>
-           
 
             <Grid Margin="30, 0, 30, 0" Canvas.Top="220" Width="auto" Height="auto" Grid.Row="1" Grid.ColumnSpan="3">
                 <Grid.RowDefinitions>
@@ -56,20 +55,15 @@
                     <ColumnDefinition Width="0.6*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
-                   
 
                 </Grid.ColumnDefinitions>
-                
 
                 <Label Margin="0,0,0,0" Name="lblStatusDescr" Content="Select your resources: " VerticalAlignment="Top" />
                 <Button Grid.Row="0" Grid.Column="2" Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}" Width="Auto" Height="Auto" Margin="10,0,0,10" >Run Benchmark</Button>
-                
-                
 
 
                 <Border Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,10,10" Grid.Column="0" Width="auto">
 
-                    <Grid Margin="0, 0, 0, 0"  Width="auto"  Height="auto" HorizontalAlignment="center" VerticalAlignment="center" >
                     <Grid Margin="0, 0, 0, 0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -78,29 +72,20 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions >
-                            <ColumnDefinition Width="auto" />
                             <ColumnDefinition  />
                         </Grid.ColumnDefinitions>
 
-                        <svgc:SvgViewbox Source="pack://application:,,,/Media/balance.svg" OptimizePath="False" TextAsGeometry="True" VerticalAlignment="Stretch" MinHeight="30" Margin="10"/>
                         <Label Grid.Row="1" Content="Task type" Foreground="#FFFFFF" FontFamily="SegoeUI" FontSize="12" HorizontalContentAlignment="Left" FontWeight="Bold"></Label>
                         <ContentControl Grid.Row="2"  Content="{DynamicResource Task_Type}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="0"/>
 
-                        <Label Grid.Row="1" Content="Task types" Foreground="#FFFFFF" FontFamily="SegoeUI" FontSize="12" HorizontalContentAlignment="Center" FontWeight="Bold"></Label>
-                        <StackPanel Grid.Row="2"  Orientation="Horizontal">
                         <StackPanel Grid.Row="3"  Orientation="Horizontal">
-
                             <CheckBox Style="{DynamicResource CheckBoxSlider}" />
-                            <Label Grid.Row="2" Content="Mining tasks" Foreground="#FFFFFF" FontWeight="Light" />
                             <Label Grid.Row="4" FontSize="10"  Content="Mining (GPU)" Foreground="#FFFFFF" FontWeight="Light" />
                         </StackPanel>
-                        <StackPanel Grid.Row="3"  Orientation="Horizontal">
                         <StackPanel Grid.Row="4"  Orientation="Horizontal">
                             <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="True" />
-                            <Label Grid.Row="2" Content="Golem Network Tasks" Foreground="#FFFFFF" FontWeight="Light" />
                             <Label Grid.Row="2" FontSize="10" Content="Golem Network (CPU)" Foreground="#FFFFFF" FontWeight="Light" />
                         </StackPanel>
                     </Grid>
@@ -116,7 +101,6 @@
                             <RowDefinition Height="0.2*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <svgc:SvgViewbox Source="/Media/gpu.svg"  Grid.Column="0" Grid.Row="1" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                         <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/GPU_icon.png" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="6" Stretch="Uniform" />
 
 
@@ -124,27 +108,17 @@
                         <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding GpuList}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical" Margin="10,0,0,0"/>
                                     <StackPanel Orientation="Vertical" Margin="10,0,0,0" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Vertical">
-                                        
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="{Binding Path=IsActive}" Margin="0,2,0,0"  Style="{DynamicResource CheckBoxGpu}" />
-                                        <Label FontFamily="Segoe Ui" FontWeight="Regular"  FontSize="16"  Content="{Binding Path=DisplayName}" Margin="0"/>
                                     <StackPanel Orientation="Vertical" Margin="0,0,0,10">
 
-                                    </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <CheckBox IsChecked="{Binding Path=IsActive}" Margin="0,2,0,0"  Style="{DynamicResource CheckBoxGpu}" />
                                             <Label FontFamily="Segoe Ui" FontWeight="Regular"  FontSize="12"  Content="{Binding Path=DisplayName}" Margin="0"/>
 
-                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Hashrate: " Margin="0"/>
-                                            <Label FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="12" Content="{Binding Path=HashrateAsString, Mode=OneWay}" Padding="0" Margin="0"/>
-                                            <Label FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="12" Padding="0"  Content=" MH/s" Margin="0"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
 
@@ -155,8 +129,6 @@
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
 
-                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Mining ability: " Margin="0"/>
-                                            
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mining ability: " Margin="0"/>
 
                                         </StackPanel>
@@ -170,7 +142,6 @@
                 <Border Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="2">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.3*"/>
                             <ColumnDefinition Width="0.6*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
@@ -178,7 +149,6 @@
                             <RowDefinition Height="0.3*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <svgc:SvgViewbox Source="/Media/cpu.svg"  Grid.Column="0" Grid.Row="1" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                         <ContentControl Grid.Row="1"  Content="{DynamicResource CPU_icon}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" Padding="0" />
 
                         <Label Content="CPU" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF"></Label>
@@ -188,12 +158,10 @@
                             <Label Content="/" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
                             <Label Content="{Binding Path=TotalCpusCountAsString, Mode=OneWay}" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
                         </StackPanel>
-                        
 
                         <Slider x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Center"  Grid.Row="1" VerticalAlignment="Top" Margin="15" Width="160" Minimum="0" Maximum="7"/>
                     </Grid>
                 </Border>
-                
 
 
             </Grid>
