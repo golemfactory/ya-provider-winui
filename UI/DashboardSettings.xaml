@@ -15,7 +15,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/CommonResources.xaml"/>
                 <ResourceDictionary Source="Icons/Task_Type.xaml"/>
-                <ResourceDictionary Source="Icons/GPU_icon.xaml"/>
+                <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -101,7 +101,7 @@
                             <RowDefinition Height="0.2*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Image Source="Icons/GPU_icon.png" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="6" />
+                        <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/GPU_icon.png" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="6" Stretch="Uniform" />
 
 
 
@@ -142,14 +142,14 @@
                 <Border Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="2">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="0.6*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.3*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <svgc:SvgViewbox Source="/Media/cpu.svg"  Grid.Column="0" Grid.Row="1" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <ContentControl Grid.Row="1"  Content="{DynamicResource CPU_icon}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" Padding="0" />
 
                         <Label Content="CPU" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF"></Label>
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
