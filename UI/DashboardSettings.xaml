@@ -14,9 +14,11 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+                <ResourceDictionary Source="Icons/Task_Type.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
+   
 
     <Border Style="{DynamicResource PageBackground}" BorderThickness="1">
         <Grid>
@@ -73,8 +75,7 @@
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
 
-                        <svgc:SvgViewbox Source="pack://application:,,,/Media/balance.svg" OptimizePath="False" TextAsGeometry="True" VerticalAlignment="Stretch" MinHeight="30" Margin="10"/>
-
+                        <ContentControl Content="{DynamicResource Task_Type}"></ContentControl>
                         <Label Grid.Row="1" Content="Task types" Foreground="#FFFFFF" FontFamily="SegoeUI" FontSize="12" HorizontalContentAlignment="Center" FontWeight="Bold"></Label>
                         <StackPanel Grid.Row="2"  Orientation="Horizontal">
                             <CheckBox Style="{DynamicResource CheckBoxSlider}" />
