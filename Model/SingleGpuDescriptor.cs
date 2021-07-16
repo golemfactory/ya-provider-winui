@@ -28,10 +28,21 @@ namespace GolemUI
                 NotifyChange("Id");
             }
         }
+        public float  _hashrate { get; set; }
+        public float Hashrate
+        {
+            get { return _hashrate; }
+            set
+            {
+                _hashrate = value;
+                NotifyChange("Hashrate");
+            }
+        }
+        public string? HashrateAsString => _hashrate.ToString();
         public bool _IsActive { get; set; }
         public string? Name
         {
-            get { return _Name; }
+            get { return _Name; }   
             set
             {
                 _Name = value;
@@ -54,10 +65,11 @@ namespace GolemUI
                 NotifyChange("Name");
             }
         }
-        public SingleGpuDescriptor(int id, string name, bool isActive)
+        public SingleGpuDescriptor(int id, string name, float hashrate, bool isActive)
         {
             Id = id;
             Name = name;
+            Hashrate = hashrate;
             IsActive = isActive;
         }
     }

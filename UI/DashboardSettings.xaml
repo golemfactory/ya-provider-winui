@@ -27,7 +27,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
-                <RowDefinition Height="250"/>
+                <RowDefinition Height="320"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -94,7 +94,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="0.3*" />
+                            <RowDefinition Height="0.2*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <svgc:SvgViewbox Source="/Media/gpu.svg"  Grid.Column="0" Grid.Row="1" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Top"/>
@@ -106,10 +106,25 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        
                                     <StackPanel Orientation="Horizontal">
                                         <CheckBox IsChecked="{Binding Path=IsActive}" Margin="0,2,0,0"  Style="{DynamicResource CheckBoxGpu}" />
-                                        <Label Content="{Binding Path=DisplayName}" Margin="0"/>
+                                        <Label FontFamily="Segoe Ui" FontWeight="Regular"  FontSize="16"  Content="{Binding Path=DisplayName}" Margin="0"/>
 
+                                    </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+
+                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Hashrate: " Margin="0"/>
+                                            <Label FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="12" Content="{Binding Path=HashrateAsString, Mode=OneWay}" Padding="0" Margin="0"/>
+                                            <Label FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="12" Padding="0"  Content=" MH/s" Margin="0"/>
+
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+
+                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Mining ability: " Margin="0"/>
+                                            
+                                        </StackPanel>
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
