@@ -29,6 +29,10 @@ namespace GolemUI
             _supressEvent = false;
 
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
+
+            this.iconError.Visibility = Visibility.Collapsed;
+            this.iconReady.Visibility = Visibility.Collapsed;
+
         }
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {
@@ -58,6 +62,8 @@ namespace GolemUI
                 this.lblMiningAbility.Content = "Unable to mine: " + error;
                 this.grdProgress.Visibility = Visibility.Hidden;
                 this.pbProgress.Value = 100;
+                this.iconError.Visibility = Visibility.Visible;
+                this.iconReady.Visibility = Visibility.Collapsed;
                 //this.cbEnableMining.IsChecked = false;
                 //this.cbEnableMining.IsEnabled = false;
             }
@@ -67,6 +73,8 @@ namespace GolemUI
                 this.pbProgress.Foreground = Brushes.Green;
                 this.grdProgress.Visibility = Visibility.Hidden;
                 this.pbProgress.Value = 100;
+                this.iconError.Visibility = Visibility.Collapsed;
+                this.iconReady.Visibility = Visibility.Visible;
                 //this.Background = Brushes.Blue;
             }
         }
