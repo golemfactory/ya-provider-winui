@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:lv="clr-namespace:GolemUI.DesignViewModel"   
+             xmlns:lv="clr-namespace:GolemUI.DesignViewModel"
              d:DataContext="{d:DesignInstance Type=lv:WalletView, IsDesignTimeCreatable=True}"
              xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d"
-             FontFamily="SegoeUI" d:DesignHeight="550" d:DesignWidth="850"
+             FontFamily="Segoe UI" d:DesignHeight="450" d:DesignWidth="850"
           
              >
     <UserControl.Resources>
@@ -38,7 +38,7 @@
 
 
             <Border Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30, 30, 0, 0">
-                <Label Foreground="#FFFFFF" Content="Dashboard" FontFamily="SegoeUI" FontSize="24"></Label>
+                <Label Foreground="#FFFFFF" Content="Dashboard" FontFamily="Segoe UI" FontSize="24"></Label>
                 <!--<Label Content="Dashboard"></Label>-->
             </Border>
             <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="30,0,0,0">
@@ -79,7 +79,7 @@
                             <Label Content="Pending" Foreground="#99b" FontFamily="Segoe UI" FontSize="14" Margin="0, 20, 0, 0"/>
                             <Label Content="{Binding Path=PendingAmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" Canvas.Left="140" Canvas.Top="126" FontFamily="Segoe UI Black" FontSize="20"/>
                             <Label Content="{Binding Path=PendingAmount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#99b" Canvas.Left="139" Canvas.Top="160" FontFamily="Segoe UI" Margin="0, -5"/>
-                        </StackPanel>                        
+                        </StackPanel>
                     </Grid>
                 </Border>
                 <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="1">
@@ -133,7 +133,7 @@
                             <RowDefinition Height="3*"/>
                         </Grid.RowDefinitions>
                         <ContentControl Grid.Row="1"  Content="{DynamicResource CPU_icon}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" Padding="0" />
-                        
+
                         <StackPanel Grid.Row="2" HorizontalAlignment="Center">
                             <Label Content="CPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="14" ></Label>
                             <StackPanel Orientation="Horizontal">

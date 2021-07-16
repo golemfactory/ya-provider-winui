@@ -18,6 +18,15 @@ using System.Windows.Shapes;
 
 namespace GolemUI
 {
+
+    public enum NavigationType
+    {
+        NavigationType1,
+        NavigationType2,
+        NavigationType3,
+
+    }
+
     /// <summary>
     /// Interaction logic for DashboardBenchmark.xaml
     /// </summary>
@@ -64,6 +73,8 @@ namespace GolemUI
 
             brdAdvanced.Height = 33;
             btnStopBenchmark.Visibility = Visibility.Collapsed;
+
+            SetActiveNavigationType(NavigationType.NavigationType2);
         }
 
         Dictionary<int, GpuEntryUI> _entries = new Dictionary<int, GpuEntryUI>();
@@ -73,6 +84,21 @@ namespace GolemUI
         private void ResetGpuList()
         {
            // grdGpuList.Children.Clear();
+        }
+
+
+        public void SetActiveNavigationType(NavigationType navigationType)
+        {
+            if (navigationType == NavigationType.NavigationType1)
+            {
+                brdNavigationType1.Visibility = Visibility.Visible;
+                brdNavigationType2.Visibility = Visibility.Collapsed;
+            }
+            if (navigationType == NavigationType.NavigationType2)
+            {
+                brdNavigationType1.Visibility = Visibility.Collapsed;
+                brdNavigationType2.Visibility = Visibility.Visible;
+            }
         }
 
         private void ChangeGpuEnabled()
@@ -426,6 +452,11 @@ namespace GolemUI
         private void btnReady_Click(object sender, RoutedEventArgs e)
         {
             GlobalApplicationState.Instance.Dashboard?.SwitchPage(DashboardPages.PageDashboardMain);
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            GlobalApplicationState.Instance.Dashboard?.SwitchPageBack();
         }
     }
 }

@@ -12,6 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/CommonResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
         </ResourceDictionary>
     </UserControl.Resources>
     <Border Style="{DynamicResource PageBackground}">
@@ -21,23 +22,65 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Border Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 0, 0, 0">
-                <Label Foreground="#FFFFFF" Content="GPU Benchmark" FontFamily="SegoeUI" FontSize="24"></Label>
+                <Label Foreground="#FFFFFF" Content="GPU Benchmark" FontFamily="Segoe UI" FontSize="24"></Label>
                 <!--<Label Content="Dashboard"></Label>-->
-            </Border>            
-            <local:GpuMiningPanelUI x:Name="gpuMiningPanel" Grid.Column="1" Grid.Row="1"/>
+            </Border>
 
-            <Border Name="brdAdvanced" Height="145" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{DynamicResource BorderStyleBlueBox}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <Border x:Name="brdNavigationType1" Visibility="Collapsed" Grid.Row="1" Grid.ColumnSpan="3" Height="30" MouseDown="Border_MouseDown" >
+                <StackPanel Orientation="Horizontal">
+                    <Path Stretch="Fill" Fill="White" Data="M 0,110 70,110 45,90 75,90 120,120 75,150 45,150 70,130 0,130 Z" HorizontalAlignment="Right"  Width="30" Height="20" 
+                          Margin="0,0,2,0"
+                            RenderTransformOrigin=".5,.5">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="180" />
+                        </Path.RenderTransform>
+                    </Path>
+                    <Label FontSize="14">Back to dashboard</Label>
+                    <!--<Rectangle Fill="White" Width="40" Height="3" Margin="4,0,4,9"/>
+                    <Label FontWeight="Bold" FontSize="14">Benchmark</Label>-->
+                </StackPanel>
+            </Border>
+
+            <Border x:Name="brdNavigationType2" Visibility="Visible" Grid.Row="1" Grid.ColumnSpan="3" Height="30" MouseDown="Border_MouseDown" >
+                <StackPanel Orientation="Horizontal">
+                    <Grid Style="{DynamicResource NavigationRibbon}">
+                        <Ellipse></Ellipse>
+                        <Label Content="1"></Label>
+                    </Grid>
+                    <Label Style="{DynamicResource NavigationRibbonElementInactive}">ETH Address</Label>
+                    <Rectangle Fill="White" Width="40" Height="3" Margin="4,0,4,0"/>
+
+                    <Grid Style="{DynamicResource NavigationRibbon}">
+                        <Ellipse></Ellipse>
+                        <Label Content="2"></Label>
+                    </Grid>
+                    <Label Style="{DynamicResource NavigationRibbonElementInactive}">Node name</Label>
+                    <Rectangle Fill="White" Width="40" Height="3" Margin="4,0,4,0"/>
+
+
+                    <Grid Style="{DynamicResource NavigationRibbon}">
+                        <Ellipse Style="{DynamicResource NavigationRibbonActiveEllipse}"></Ellipse>
+                        <Label Content="3"></Label>
+                    </Grid>
+                    <Label Style="{DynamicResource NavigationRibbonElementActive}">Benchmark</Label>
+                </StackPanel>
+            </Border>
+
+            <local:GpuMiningPanelUI x:Name="gpuMiningPanel" Grid.Column="1" Grid.Row="2"/>
+
+            <Border Name="brdAdvanced" Height="145" VerticalAlignment="Top" HorizontalAlignment="Stretch" Style="{DynamicResource BorderStyleBlueBox}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="400*"/>
                         <ColumnDefinition Width="70"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="40"/>
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
@@ -49,7 +92,7 @@
                 </Grid>
             </Border>
 
-            <StackPanel Grid.Row="1" Grid.Column="0">
+            <StackPanel Grid.Row="2" Grid.Column="0">
 
                 <Grid Width="150" Height="150">
                     <svgc:SvgViewbox Name="svgBenchmarkWorking" Source="/Media/SetV1/onboarding/hash_power.svg" Visibility="Hidden" />

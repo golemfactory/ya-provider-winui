@@ -21,7 +21,7 @@
     <Border Style="{DynamicResource PageBackground}">
         <StackPanel Orientation="Vertical" Margin="30">
             <Border Height="40" BorderThickness="1 0 0 0" BorderBrush="White">
-                <Label Content="Wallet" FontFamily="SegoeUI" FontSize="24"></Label>                
+                <Label Content="Wallet" FontFamily="Segoe UI" FontSize="24"></Label>
                 <!--<Label Content="Dashboard"></Label>-->
             </Border>
             <Canvas Height="50"></Canvas>

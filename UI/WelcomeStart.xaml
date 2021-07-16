@@ -30,11 +30,11 @@
             </Grid.RowDefinitions>
             <Border Height="40" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 0, 0, 0" ClipToBounds="True">
                 <Grid>
-                    <Label Name="lblTitle" Foreground="#FFFFFF" Content="Getting Started" FontFamily="SegoeUI" FontSize="24"></Label>
+                    <Label Name="lblTitle" Foreground="#FFFFFF" Content="Getting Started" FontFamily="Segoe UI" FontSize="24"></Label>
                 </Grid>
             </Border>
 
-            <Label Name="lblChoose" Canvas.Left="30" Canvas.Top="110" Foreground="White" FontFamily="SegoeUI" FontSize="14" FontWeight="Bold" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="0">Choose your path</Label>
+            <Label Name="lblChoose" Canvas.Left="30" Canvas.Top="110" Foreground="White" FontFamily="Segoe UI" FontSize="14" FontWeight="Bold" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="0">Choose your path</Label>
 
             <Border x:Name="brdLeft" Style="{DynamicResource BorderStyleBlueBox}" Grid.Row="2" Grid.Column="0" Height="200" Margin="0,0,15,0" HorizontalAlignment="Stretch">
                 <Grid>

@@ -53,6 +53,8 @@ namespace GolemUI
         public WelcomeDecide WelcomeDecide { get; set; }
         public DashboardPages _pageSelected = DashboardPages.PageWelcomeStart;
 
+        public DashboardPages LastPage { get; set; }
+
 
         public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
@@ -74,7 +76,7 @@ namespace GolemUI
             WelcomeBenchmark = new WelcomeBenchmark();
             WelcomeDecide = new WelcomeDecide();
 
-            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(  DashboardMain));
+            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain));
             _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
             _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPage(DashboardAdvancedSettings));
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
@@ -162,6 +164,11 @@ namespace GolemUI
             return _pages[page];
         }
 
+        public void SwitchPageBack()
+        {
+            SwitchPage(LastPage);
+        }
+
         public void SwitchPage(DashboardPages page)
         {
             if (page == _pageSelected) return;
@@ -175,6 +182,7 @@ namespace GolemUI
             var currentPage = GetPageDescriptorFromPage(page);
             currentPage.Mount();
             currentPage.Show();
+
             
             if (page == DashboardPages.PageDashboardBenchmark)
             {
@@ -186,6 +194,8 @@ namespace GolemUI
                 brdNavigation.Visibility = Visibility.Visible;
                 grdMain.ColumnDefinitions[0].Width = new GridLength(120, GridUnitType.Pixel);
             }
+
+            LastPage = _pageSelected;
 
             _pageSelected = page;
         }
