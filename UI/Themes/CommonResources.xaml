@@ -17,6 +17,7 @@
     <!-- MAIN PANEL -->
 
     <SolidColorBrush x:Key="Dashboard.Background" Color="#110D39"></SolidColorBrush>
+    
     <Style x:Key="PageBackground" TargetType="{x:Type Border}">
         <Setter Property="Background" Value="{StaticResource Dashboard.Background}"/>
     </Style>
@@ -44,13 +45,19 @@
     </Style>
     <!-- BLUE PANEL  -->
 
-    <SolidColorBrush x:Key="BlueBox.Background" Color="#7D779E"></SolidColorBrush>
-    <SolidColorBrush x:Key="BlueBox.Border" Color="#281E60"></SolidColorBrush>
+    <BlurEffect x:Key="BlueBox.Effect2" Radius="2" KernelType="Gaussian" />
+
+
+    <DropShadowEffect x:Key="BlueBox.Effect" BlurRadius="10"  ShadowDepth="5" Color="#06D0BA" Opacity="0.25" Direction="-45">
+    </DropShadowEffect>
+    <SolidColorBrush x:Key="BlueBox.Background" Color="#120539" Opacity="0.60"></SolidColorBrush>
+    <SolidColorBrush x:Key="BlueBox.Border" Color="#bbb" Opacity="0.3"></SolidColorBrush>
     <Style x:Key="BorderStyleBlueBox" TargetType="{x:Type Border}">
         <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="BorderBrush" Value="{StaticResource BlueBox.Background}"/>
-        <Setter Property="Background" Value="{StaticResource BlueBox.Border}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BlueBox.Border}"/>
+        <Setter Property="Background" Value="{StaticResource BlueBox.Background}"/>
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Effect" Value="{StaticResource BlueBox.Effect}"/>
     </Style>
 
     <Style x:Key="BlueBoxTitle" TargetType="{x:Type Label}">

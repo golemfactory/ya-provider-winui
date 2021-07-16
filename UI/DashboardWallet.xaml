@@ -62,7 +62,7 @@
                                 <ContentControl Content="{DynamicResource Wallet_icon}" Width="42"></ContentControl>                                
                             </StackPanel>                            
                             <StackPanel>
-                                <Label Content="Earned" Foreground="#aaa" FontFamily="SegoeUIBlack"></Label>
+                                <Label Content="Earned" Foreground="#aaa" FontFamily="Segoe UI Black"></Label>
                                 <Label Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="25" RenderTransformOrigin="0.374,0.428" Content="{Binding Path=AmountUSD, Converter={StaticResource AmountConverter}}"/>
 
                                 <Label Content="{Binding Path=Amount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#a88" FontFamily="Arial" FontSize="12"/>

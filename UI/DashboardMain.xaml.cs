@@ -1,6 +1,7 @@
 ﻿using GolemUI.Command;
 using GolemUI.Interfaces;
 using GolemUI.Settings;
+using GolemUI.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,19 +25,10 @@ namespace GolemUI
     /// </summary>
     public partial class DashboardMain : UserControl
     {
-        public DashboardMain()
+        public DashboardMain(DashboardMainViewModel viewModel)
         {
             InitializeComponent();
-
-            //_processController = processController;
-
-            //this.Title = GlobalSettings.AppTitle;
-            btnStop.Visibility = Visibility.Collapsed;
-
-            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
-
-            RefreshStatus();
-            RefreshPaymentStatus();
+            DataContext = viewModel;
         }
 
         public void RefreshStatus()
@@ -46,58 +38,14 @@ namespace GolemUI
             string reason;
             if (!br.IsClaymoreMiningPossible(out reason))
             {
-                this.txtGpuStatus.Text = reason;
+                //this.txtGpuStatus.Text = reason;
             }
             else
             {
-                this.txtGpuStatus.Text = "Ready";
+                //this.txtGpuStatus.Text = "Ready";
             }
         }
-        public async void RefreshPaymentStatus()
-        {
-            if (GlobalApplicationState.Instance.ProcessController.IsRunning)
-            {
-                LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
-                if (ls.EthAddress == null)
-                {
-                    this.lblTotalGLM.Content = "N/A";
-                    this.lblTotalUSD.Content = "N/A";
-                    return;
-                }
-                PaymentStatus? st = await GlobalApplicationState.Instance.ProcessController.GetPaymentStatus(ls.EthAddress);
-                decimal? totalGLM = st?.Amount;
-                string sTotalGLM = "?";
-                string sTotalUSD = "?";
-                if (totalGLM != null)
-                {
-                    sTotalGLM = String.Format("{0:0.000}GLM", (double)totalGLM);
-                    sTotalUSD = String.Format("{0:0.00}$", (double)totalGLM * GlobalSettings.GLMUSD);
-                }
-                this.lblTotalGLM.Content = sTotalGLM;
-                this.lblTotalUSD.Content = sTotalUSD;
-
-                decimal? pendingGLM = st?.Incoming?.Accepted?.TotalAmount;
-                string sPendingGLM = "?";
-                string sPendingUSD = "?";
-                if (pendingGLM != null)
-                {
-                    sPendingGLM = String.Format("{0:0.000}GLM", (double)pendingGLM);
-                    sPendingUSD = String.Format("{0:0.00}$", (double)pendingGLM * GlobalSettings.GLMUSD);
-                }
-                this.lblPendingGLM.Content = sPendingGLM;
-                this.lblPendingUSD.Content = sPendingUSD;
-                this.lblEstimatedProfit.Content = "N/A";
-            }
-            else
-            {
-                this.lblTotalGLM.Content = "N/A";
-                this.lblTotalUSD.Content = "N/A";
-                this.lblPendingGLM.Content = "N/A";
-                this.lblPendingUSD.Content = "N/A";
-                this.lblEstimatedProfit.Content = "N/A";
-            }
-        }
-
+        
         public async void RefreshActivityStatus()
         {
             if (GlobalApplicationState.Instance.ProcessController.IsRunning)
@@ -105,33 +53,7 @@ namespace GolemUI
                 ActivityStatus? st = await GlobalApplicationState.Instance.ProcessController.GetActivityStatus();
                 if (st?.last1h?.Ready >= 1)
                 {
-                    txtGpuStatus.Text = "Mining";
-                }
-            }
-        }
-
-
-
-        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
-        {
-            if (args != null)
-            {
-                switch (args.action)
-                {
-                    case GlobalApplicationStateAction.timerEvent:
-                        RefreshStatus();
-                        RefreshPaymentStatus();
-                        RefreshActivityStatus();
-                        break;
-                    case GlobalApplicationStateAction.yagnaAppStarted:
-                        RefreshStatus();
-                        RefreshPaymentStatus();
-                        break;
-                    case GlobalApplicationStateAction.yagnaAppStopped:
-                        RefreshStatus();
-                        RefreshPaymentStatus();
-                        break;
-
+                    // txtGpuStatus.Text = "Mining";
                 }
             }
         }
@@ -203,9 +125,5 @@ namespace GolemUI
 
         }
 
-        private void MiningBox_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            txtGpuStatus.Text = "Clicked";
-        }
     }
 }
