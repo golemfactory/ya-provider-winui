@@ -29,7 +29,7 @@
                 You can choose any node name you like. It's human friendly description of your node.
             </TextBlock>
             <TextBox Name="tbNodeName" Canvas.Left="286" Canvas.Top="216" Width="300"></TextBox>
-            <Button Style="{StaticResource PinkButtonStyle}" x:Name="btnNext" Width="180" Height="40" Content="Next" Canvas.Bottom="20" Canvas.Right="20" Canvas.Left="286" Canvas.Top="294" Click="btnNext_Click"/>
+            <Button Style="{StaticResource GradientButtonStyle}" x:Name="btnNext" Width="180" Height="40" Content="Next" Canvas.Bottom="20" Canvas.Right="20" Canvas.Left="286" Canvas.Top="294" Click="btnNext_Click"/>
             <Button Style="{StaticResource BlueButtonStyle}" x:Name="btnCheckOnEtherscan" Width="193" Height="40" Content="New Random" Canvas.Bottom="20" Canvas.Right="20" Click="btnCheckAddress" Canvas.Left="393" Canvas.Top="163"/>
         </Canvas>
     </Border>
