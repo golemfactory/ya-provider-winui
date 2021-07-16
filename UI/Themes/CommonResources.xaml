@@ -277,8 +277,8 @@
     </Style>
 
 
-    <SolidColorBrush x:Key="CheckBox.Slider.Active" Color="#FF0FB2AB"/>
-    <SolidColorBrush x:Key="CheckBox.Slider.Inactive" Color="#FFFF0000"/>
+    <SolidColorBrush x:Key="CheckBox.Slider.Active" Color="#0FB2AB"/>
+    <SolidColorBrush x:Key="CheckBox.Slider.Inactive" Color="#F36986"/>
     <Style x:Key="CheckBoxSlider" TargetType="{x:Type CheckBox}">
         <Setter Property="Template">
             <Setter.Value>
@@ -337,7 +337,7 @@
     </Style>
 
 
-    <SolidColorBrush x:Key="CheckBox.Gpu.Active" Color="#FF1E9231"/>
+    <SolidColorBrush x:Key="CheckBox.Gpu.Active" Color="#0FB2AB"/>
     <SolidColorBrush x:Key="CheckBox.Gpu.Inactive" Color="#FFdddddd"/>
     <SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF"/>
     <SolidColorBrush x:Key="OptionMark.Static.Border" Color="#FF707070"/>
