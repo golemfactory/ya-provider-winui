@@ -101,28 +101,28 @@
                         <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding GpuList}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical" Margin="10,0,0,0"/>
+                                    <StackPanel Orientation="Vertical" Margin="10,0,0,0" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Vertical" Margin="0,0,0,10">
                                         
                                     <StackPanel Orientation="Horizontal">
                                         <CheckBox IsChecked="{Binding Path=IsActive}" Margin="0,2,0,0"  Style="{DynamicResource CheckBoxGpu}" />
-                                        <Label FontFamily="Segoe Ui" FontWeight="Regular"  FontSize="16"  Content="{Binding Path=DisplayName}" Margin="0"/>
+                                        <Label FontFamily="Segoe Ui" FontWeight="Regular"  FontSize="12"  Content="{Binding Path=DisplayName}" Margin="0"/>
 
                                     </StackPanel>
                                         <StackPanel Orientation="Horizontal">
 
-                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Hashrate: " Margin="0"/>
-                                            <Label FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="12" Content="{Binding Path=HashrateAsString, Mode=OneWay}" Padding="0" Margin="0"/>
-                                            <Label FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="12" Padding="0"  Content=" MH/s" Margin="0"/>
+                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Hashrate: " Margin="0"/>
+                                            <Label FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="10" Content="{Binding Path=HashrateAsString, Mode=OneWay}" Padding="0" Margin="0"/>
+                                            <Label FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="10" Padding="0"  Content=" MH/s" Margin="0"/>
 
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
 
-                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Mining ability: " Margin="0"/>
+                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mining ability: " Margin="0"/>
                                             
                                         </StackPanel>
                                     </StackPanel>
