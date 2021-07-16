@@ -26,7 +26,11 @@
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Name="lblInfo" Content="lblName" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <Label Grid.Row="1" Name="lblPower" Content="lblPower" Foreground="White"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Grid.Column="0"/>
-                <Label Grid.Row="2"  Name="lblMiningAbility" Content="Mining ability" Foreground="White"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" FontWeight="Bold" Grid.Column="0"/>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Label Name="lblMiningAbility" Content="Mining ability" Foreground="White" FontSize="10" FontWeight="Bold" />
+                    <svgc:SvgViewbox Name="iconError" Source="pack://application:,,,/Media/SetV1/Status_Card_error.svg" Height="20" Margin="0"/>
+                    <svgc:SvgViewbox Name="iconReady" Source="pack://application:,,,/Media/SetV1/Status_Ready_icon.svg" Height="20" Margin="0"/>
+                </StackPanel>
                 <Grid Name="grdProgress" Grid.Row="3">
                     <ProgressBar Name="pbProgress"  Height="20" Margin="5, 0" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
                     <TextBlock Name="tbProgress" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center">

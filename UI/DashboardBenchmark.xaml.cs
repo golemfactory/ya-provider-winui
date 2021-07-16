@@ -159,7 +159,7 @@ namespace GolemUI
                 }
                 else if (s.BenchmarkFinished)
                 {
-                    currentEntry?.SetFinished("");
+                    currentEntry?.SetFinished(gpuInfo.GPUError);
                     totalMhs += gpuInfo.BenchmarkSpeed;
                 }
                 else
