@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Viewbox Width="58" Height="76" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="Profit_icon">
+    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="Profit_icon">
         <Viewbox.Resources>
             <LinearGradientBrush x:Key="linearGradient-1" StartPoint="0.909171104431152,0.276158660650253" EndPoint="0.512583494186401,0.512863337993622" MappingMode="RelativeToBoundingBox">
                 <LinearGradientBrush.GradientStops>
