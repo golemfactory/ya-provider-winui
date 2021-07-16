@@ -20,7 +20,6 @@ using GolemUI.Controllers;
 
 namespace GolemUI
 {
-
     public enum DashboardPages
     {
         PageDashboardMain,
@@ -58,8 +57,6 @@ namespace GolemUI
         public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
         private bool _forceExit = false;
-        //bool _minimizeOnly = true;
-
 
         public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings)
         {
@@ -88,8 +85,6 @@ namespace GolemUI
             _pages.Add(DashboardPages.PageWelcomeAddress, new DashboardPage(WelcomeAddress));
             _pages.Add(DashboardPages.PageWelcomeBenchmark, new DashboardPage(WelcomeBenchmark));
             _pages.Add(DashboardPages.PageWelcomeDecide, new DashboardPage(WelcomeDecide));
-
-
 
 
             if (GlobalSettings.isDemo)
@@ -232,7 +227,6 @@ namespace GolemUI
                     case GlobalApplicationStateAction.benchmarkStopped:
                         ResumeNavigation();
                         break;
-
                 }
             }
         }

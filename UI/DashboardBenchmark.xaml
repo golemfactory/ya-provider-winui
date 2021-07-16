@@ -53,7 +53,7 @@
                 
                 <svgc:SvgViewbox Source="/Media/onboarding/hash_power.svg" Canvas.Left="34" Canvas.Top="150" Width="150" Height="150"/>
 
-                <Button Name="btnStartBenchmark" Style="{StaticResource PinkButtonStyle}" Click="btnStartBenchmark_Click" Width="150" Height="40" Margin="10 10 10 0" >Start Benchmark</Button>
+                <Button Name="btnStartBenchmark" Style="{StaticResource GradientButtonStyle}" Click="btnStartBenchmark_Click" Width="150" Height="40" Margin="10 10 10 0" >Start Benchmark</Button>
                 <Button Name="btnStopBenchmark" Style="{StaticResource BlueButtonStyle}" Click="btnStopBenchmark_Click" Width="150" Height="40" Margin="10 10 10 0" >Stop Benchmark</Button>
                 <Button Name="btnNext" Style="{StaticResource PinkButtonStyle}" IsEnabled="False" Click="btnReady_Click" Width="150" Height="40" Margin="10 10 10 0">Ready</Button>
             </StackPanel>

@@ -52,7 +52,7 @@
                     <TextBlock Style="{DynamicResource BlueBoxTextBlock}" Grid.Row="1" Grid.Column="1" Margin="0, 0, 10, 0">
                         Choose this option if you would like us to guide you through the process step by step and help learn you about security.
                     </TextBlock>
-                    <Button Style="{StaticResource PinkButtonStyle}" x:Name="btnForwardLearn" Height="40" Content="I want to learn" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top" Margin="0, 0, 10, 0"/>
+                    <Button Style="{StaticResource GradientButtonStyle}" x:Name="btnForwardLearn" Height="40" Content="I want to learn" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top" Margin="0, 0, 10, 0"/>
                 </Grid>
             </Border>
 
@@ -72,7 +72,7 @@
                     <TextBlock Style="{DynamicResource BlueBoxTextBlock}" Grid.Row="1" Grid.Column="1" Margin="0, 0, 10, 0">
                         You should know what you are doing and you own your crypto wallet already
                     </TextBlock>
-                    <Button Style="{StaticResource PinkButtonStyle}" x:Name="btnForwardAdvanced" Height="40" Content="I know what I'm doing" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top" Margin="0, 0, 10, 0" Click="btnForwardAdvanced_Click"/>
+                    <Button Style="{StaticResource GradientButtonStyle}" x:Name="btnForwardAdvanced" Height="40" Content="I know what I'm doing" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top" Margin="0, 0, 10, 0" Click="btnForwardAdvanced_Click"/>
                 </Grid>
             </Border>            
             

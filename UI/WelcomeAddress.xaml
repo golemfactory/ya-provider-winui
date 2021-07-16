@@ -29,7 +29,7 @@
                 Make sure that provided ethereum address is valid and you have access to funds on this account. Otherwise earned funds won't be accessible.
             </TextBlock>
             <TextBox Name="tbWalletAddress" Canvas.Left="286" Canvas.Top="216" Width="300"></TextBox>
-            <Button Style="{StaticResource PinkButtonStyle}" x:Name="btnNext" Width="180" Height="40" Content="Next" Canvas.Bottom="20" Canvas.Right="20" Canvas.Left="286" Canvas.Top="294" Click="btnNext_Click"/>
+            <Button Style="{StaticResource GradientButtonStyle}" x:Name="btnNext" Width="180" Height="40" Content="Next" Canvas.Bottom="20" Canvas.Right="20" Canvas.Left="286" Canvas.Top="294" Click="btnNext_Click"/>
             <Button Style="{StaticResource BlueButtonStyle}" x:Name="btnCheckOnEtherscan" Width="193" Height="40" Content="Check address on etherscan.io" Canvas.Bottom="20" Canvas.Right="20" Click="btnCheckAddress" Canvas.Left="490" Canvas.Top="294"/>
 
 

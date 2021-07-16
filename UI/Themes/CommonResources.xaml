@@ -206,8 +206,12 @@
         </Setter>
     </Style>
 
-    <SolidColorBrush x:Key="ButtonGradient.Static.BackgroundGradientStopLeft" Color="#FF003AFF"/>
-    <SolidColorBrush x:Key="ButtonGradient.Static.BackgroundGradientStopRight" Color="#D119AE"/>
+    <SolidColorBrush x:Key="ButtonGradient.Static.BackgroundGradientStopLeft" Color="#00FFD7"/>
+    <SolidColorBrush x:Key="ButtonGradient.Static.BackgroundGradientStopCenter" Color="#006CFF"/>
+    <SolidColorBrush x:Key="ButtonGradient.Static.BackgroundGradientStopRight" Color="#FF0697"/>
+    <SolidColorBrush x:Key="ButtonGradient.Static.LighterBackgroundGradientStopLeft" Color="#FFA3FFF1"/>
+    <SolidColorBrush x:Key="ButtonGradient.Static.LighterBackgroundGradientStopCenter" Color="#FF4B97FF"/>
+    <SolidColorBrush x:Key="ButtonGradient.Static.LighterBackgroundGradientStopRight" Color="#FFFF56B8"/>
     <Style x:Key="GradientButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <!--<Setter Property="Background" Value="{StaticResource ButtonPink.Static.Background}"/>-->
@@ -216,9 +220,10 @@
                 <Setter.Value>
                     <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="{Binding Source={StaticResource ButtonGradient.Static.BackgroundGradientStopLeft},Path=Color}" Offset="0"/>
+                    <GradientStop Color="{Binding Source={StaticResource ButtonGradient.Static.BackgroundGradientStopCenter},Path=Color}" Offset="0.5"/>
                     <GradientStop Color="{Binding Source={StaticResource ButtonGradient.Static.BackgroundGradientStopRight},Path=Color}" Offset="1"/>
 
-                    </LinearGradientBrush>
+                </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
             <Setter Property="BorderBrush" Value="{StaticResource ButtonPink.Static.Border}"/>
@@ -241,7 +246,17 @@
                             <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource ButtonPink.Static.Foreground}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="border" Value="{StaticResource ButtonPink.MouseOver.Background}"/>
+                            <Setter Property="Cursor" Value="Hand"></Setter>
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="{Binding Source={StaticResource ButtonGradient.Static.LighterBackgroundGradientStopLeft},Path=Color}" Offset="0"/>
+                                        <GradientStop Color="{Binding Source={StaticResource ButtonGradient.Static.LighterBackgroundGradientStopCenter},Path=Color}" Offset="0.5"/>
+                                        <GradientStop Color="{Binding Source={StaticResource ButtonGradient.Static.LighterBackgroundGradientStopRight},Path=Color}" Offset="1"/>
+
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ButtonPink.MouseOver.Border}"/>
                             <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource ButtonPink.MouseOver.Foreground}"/>
                         </Trigger>
