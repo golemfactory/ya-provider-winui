@@ -527,7 +527,7 @@ namespace GolemUI.Claymore
 
                         _liveStatus.BenchmarkTotalSpeed = (float)val;
 
-                        if (_liveStatus.BenchmarkTotalSpeed > 0.1 && _liveStatus.GPUs.Count == 1)
+                        if (_liveStatus.BenchmarkTotalSpeed > 0.1 && _liveStatus.GPUs.Count == 1 && _liveStatus.AreAllDagsFinishedOrFailed())
                         {
                             _liveStatus.GPUs.First().Value.BenchmarkSpeed = _liveStatus.BenchmarkTotalSpeed;
                             _liveStatus.NumberOfClaymorePerfReports += 1;
