@@ -18,10 +18,10 @@
     <Border Style="{DynamicResource PageBackground}">
         <Canvas>
             <Border Canvas.Left="30" Canvas.Top="30" Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" >
-                <Label Foreground="#FFFFFF" Content="Getting Started" FontFamily="SegoeUI" FontSize="24"></Label>
+                <Label Foreground="#FFFFFF" Content="Getting Started" FontFamily="Segoe UI" FontSize="24"></Label>
             </Border>
 
-            <Label Canvas.Left="30" Canvas.Top="110" Foreground="White" FontFamily="SegoeUI" FontSize="14" FontWeight="Bold">Use only Ethereum address</Label>
+            <Label Canvas.Left="30" Canvas.Top="110" Foreground="White" FontFamily="Segoe UI" FontSize="14" FontWeight="Bold">Use only Ethereum address</Label>
 
             <svgc:SvgViewbox Source="/Media/onboarding/name_node.svg" Canvas.Left="35" Canvas.Top="188" Width="183" Height="181"/>
             <Label Style="{DynamicResource BlueBoxTitle}" Canvas.Left="286" Canvas.Top="168" Content="Node name"></Label>

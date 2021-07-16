@@ -20,7 +20,7 @@
     <Border Style="{DynamicResource PageBackground}">
         <StackPanel Orientation="Vertical" Margin="30">
             <Border Height="40" BorderThickness="1 0 0 0" BorderBrush="White">
-                <Label Content="Wallet" FontFamily="SegoeUI" FontSize="24"></Label>                
+                <Label Content="Wallet" FontFamily="Segoe UI" FontSize="24"></Label>                
                 <!--<Label Content="Dashboard"></Label>-->
             </Border>
             <Canvas Height="50"></Canvas>
@@ -61,7 +61,7 @@
                                 <svgc:SvgViewbox Source="/Media/balance.svg" Width="32" Height="32" VerticalAlignment="Top"/>
                             </StackPanel>                            
                             <StackPanel>
-                                <Label Content="Earned" Foreground="#aaa" FontFamily="SegoeUIBlack"></Label>
+                                <Label Content="Earned" Foreground="#aaa" FontFamily="Segoe UIBlack"></Label>
                                 <Label Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="25" RenderTransformOrigin="0.374,0.428" Content="{Binding Path=AmountUSD, Converter={StaticResource AmountConverter}}"/>
 
                                 <Label Content="{Binding Path=Amount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#a88" FontFamily="Arial" FontSize="12"/>

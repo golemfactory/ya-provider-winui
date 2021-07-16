@@ -6,7 +6,7 @@
              xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d"
-             FontFamily="SegoeUI" d:DesignHeight="450" d:DesignWidth="850"
+             FontFamily="Segoe UI" d:DesignHeight="450" d:DesignWidth="850"
           
              >
     <UserControl.Resources>
@@ -33,7 +33,7 @@
 
 
             <Border Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30, 30, 0, 0">
-                <Label Foreground="#FFFFFF" Content="Dashboard" FontFamily="SegoeUI" FontSize="24"></Label>
+                <Label Foreground="#FFFFFF" Content="Dashboard" FontFamily="Segoe UI" FontSize="24"></Label>
                 <!--<Label Content="Dashboard"></Label>-->
             </Border>
             <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="30,0,0,0">
@@ -59,13 +59,13 @@
                     <Canvas>
                         <svgc:SvgViewbox Source="/Media/balance.svg" Canvas.Left="14" Canvas.Top="60" Width="67" Height="71"/>
                         <!--<ContentPresenter Content="{StaticResource balance}" Canvas.Left="94" Canvas.Top="60" Width="67" Height="71"></ContentPresenter>-->
-                        <Label Content="MyBalance" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" FontFamily="SegoeUI" FontSize="17" Height="35" Width="97"></Label>
+                        <Label Content="MyBalance" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10" FontFamily="Segoe UI" FontSize="17" Height="35" Width="97"></Label>
                         <Label Content="Earned" Foreground="#FFFFFF" Canvas.Left="95" Canvas.Top="57"></Label>
-                        <Label Name="lblTotalUSD" Content="1234$" Foreground="#FFFFFF" Canvas.Left="141" Canvas.Top="50" FontFamily="SegoeUIBlack" FontSize="20" RenderTransformOrigin="0.374,0.428" Width="107"></Label>
+                        <Label Name="lblTotalUSD" Content="1234$" Foreground="#FFFFFF" Canvas.Left="141" Canvas.Top="50" FontFamily="Segoe UIBlack" FontSize="20" RenderTransformOrigin="0.374,0.428" Width="107"></Label>
                         <Label Name="lblTotalGLM" Content="10000.33GLM" Foreground="#FFFFFF" Canvas.Left="139" Canvas.Top="87"></Label>
                         <Label Content="Pending:" Foreground="#FFFFFF" Canvas.Left="83" Canvas.Top="131" />
-                        <Label Name="lblPendingUSD" Content="12.34$" Foreground="#FFFFFF" Canvas.Left="140" Canvas.Top="126" FontFamily="SegoeUIBlack" FontSize="20"/>
-                        <Label Name="lblPendingGLM" Content="345.66GLM" Foreground="#FFFFFF" Canvas.Left="139" Canvas.Top="160" FontFamily="SegoeUI"/>
+                        <Label Name="lblPendingUSD" Content="12.34$" Foreground="#FFFFFF" Canvas.Left="140" Canvas.Top="126" FontFamily="Segoe UIBlack" FontSize="20"/>
+                        <Label Name="lblPendingGLM" Content="345.66GLM" Foreground="#FFFFFF" Canvas.Left="139" Canvas.Top="160" FontFamily="Segoe UI"/>
                     </Canvas>
                 </Border>
                 <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="1">

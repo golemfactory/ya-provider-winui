@@ -68,6 +68,56 @@
         <Setter Property="TextWrapping" Value="WrapWithOverflow" />
     </Style>
 
+
+    <!-- Navigation control styles -->
+
+    <Style x:Key="NavigationRibbon" TargetType="{x:Type Grid}">
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="30" />
+        <Style.Resources>
+            <Style TargetType="{x:Type Ellipse}">
+                <Setter Property="Width" Value="24" />
+                <Setter Property="Height" Value="24" />
+                <Setter Property="Margin" Value="0,0,0,0" />
+                <Setter Property="Fill" Value="Green" />
+            </Style>
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="Arial" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style x:Key="NavigationRibbonElementInactive" TargetType="{x:Type Label}">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="Gray" />
+    </Style>
+
+    <Style x:Key="NavigationRibbonElementActive" TargetType="{x:Type Label}">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style x:Key="NavigationRibbonSeparator" TargetType="{x:Type Rectangle}">
+        <Setter Property="Fill" Value="White" />
+        <Setter Property="Width" Value="40" />
+        <Setter Property="Height" Value="3" />
+        <Setter Property="Margin" Value="4,0,4,0" />
+    </Style>
+
+    <Style x:Key="NavigationRibbonActiveEllipse" TargetType="{x:Type Ellipse}">
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Margin" Value="0,0,0,0" />
+        <Setter Property="Fill" Value="Green" />
+    </Style>
+
     <!-- BLUE BUTTON  -->
     
     <Style x:Key="FocusVisual">
