@@ -14,8 +14,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/CommonResources.xaml"/>
-                <ResourceDictionary Source="Icons/Task_Type.xaml"/>
-                <ResourceDictionary Source="Icons/GPU_icon.xaml"/>
+                <ResourceDictionary Source="Icons/Task_Type.xaml"/>                
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
