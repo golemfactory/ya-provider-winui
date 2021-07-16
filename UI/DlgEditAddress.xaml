@@ -69,8 +69,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Button Content="Cancel" Margin="8" Padding="8" IsCancel="True" Style="{StaticResource BlueButtonStyle}" HorizontalAlignment="Stretch" Grid.Column="0"></Button>
-                <Button Content="Confirm" Margin="8" Padding="8" HorizontalAlignment="Stretch" Style="{StaticResource SaveButton}" Grid.Column="2" Click="Confirm_Click"></Button>
-                <Button Content="Transfer Funds" Margin="8" Padding="8" Style="{StaticResource SaveButton}" HorizontalAlignment="Stretch" Grid.Column="1"
+                <Button Content="Confirm" Margin="8" Padding="8" HorizontalAlignment="Stretch" Style="{StaticResource GradientButtonStyle}" Grid.Column="2" Click="Confirm_Click"></Button>
+                <Button Content="Transfer Funds" Margin="8" Padding="8" Style="{StaticResource GradientButtonStyle}" HorizontalAlignment="Stretch" Grid.Column="1"
                         Visibility="{Binding Path=CanTransferOut, Converter={StaticResource BoolToVisibleConverter}}" Click="TransferOUt_Click"></Button>
         </Grid>
     </StackPanel>

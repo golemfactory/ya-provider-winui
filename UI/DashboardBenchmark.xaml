@@ -56,9 +56,9 @@
                     <svgc:SvgViewbox Name="svgBenchmarkEnjoy" Source="/Media/SetV1/onboarding/Enjoy.svg" Visibility="Hidden"/>
                 </Grid>
 
-                <Button Name="btnStartBenchmark" Style="{StaticResource GradientButtonStyle}" Click="btnStartBenchmark_Click" Width="150" Height="40" Margin="10 10 10 0" >Start Benchmark</Button>
-                <Button Name="btnStopBenchmark" Style="{StaticResource BlueButtonStyle}" Click="btnStopBenchmark_Click" Width="150" Height="40" Margin="10 10 10 0" >Stop Benchmark</Button>
-                <Button Name="btnNext" Style="{StaticResource PinkButtonStyle}" IsEnabled="False" Click="btnReady_Click" Width="150" Height="40" Margin="10 10 10 0">Ready</Button>
+                <Button Name="btnStartBenchmark" Style="{StaticResource GradientButtonStyle}" Click="btnStartBenchmark_Click" Width="180" Height="40" Margin="10 10 10 0" >Start Benchmark</Button>
+                <Button Name="btnStopBenchmark" Style="{StaticResource BlueButtonStyle}" Click="btnStopBenchmark_Click" Width="180" Height="40" Margin="10 10 10 0" >Stop Benchmark</Button>
+                <Button Name="btnNext" Style="{StaticResource PinkButtonStyle}" IsEnabled="False" Click="btnReady_Click" Width="180" Height="40" Margin="10 10 10 0">Ready</Button>
             </StackPanel>
 
 

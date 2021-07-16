@@ -38,7 +38,7 @@ namespace GolemUI
              });
         }
 
-        bool IsBenchmarkSettingsCorrupted()
+        private bool IsBenchmarkSettingsCorrupted()
         {
             return (_benchmarkSettings == null || _benchmarkSettings.liveStatus == null || _benchmarkSettings.liveStatus.GPUs == null);
         }
