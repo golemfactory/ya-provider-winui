@@ -101,7 +101,9 @@
                             <RowDefinition Height="0.2*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <ContentControl Grid.Row="2"  Content="{DynamicResource GPU_icon}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="0"/>
+                        <Image Source="Icons/GPU_icon.png" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="6" />
+
+
 
                         <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding GpuList}">
                             <ItemsControl.ItemsPanel>
