@@ -1,0 +1,15 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GolemUI.UI"
+        xmlns:DataAccess="clr-namespace:GolemUI.DataAccess" x:Class="GolemUI.UI.SetupWindow"
+        mc:Ignorable="d"
+        Title="SetupWindow" Height="720" Width="1280">
+    <Window.DataContext>
+        <DataAccess:DataAccess />
+    </Window.DataContext>
+    
+    <Grid/>
+</Window>
