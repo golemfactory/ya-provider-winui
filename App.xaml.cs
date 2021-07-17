@@ -55,20 +55,30 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
 
-
-            services.AddTransient(typeof(Dashboard));
             services.AddTransient(typeof(DashboardWallet));
             services.AddTransient(typeof(ViewModel.WalletViewModel));
             services.AddTransient(typeof(ViewModel.DashboardMainViewModel));
+            services.AddTransient(typeof(ViewModel.SetupViewModel));
 
             services.AddTransient(typeof(DashboardMain));
             services.AddTransient(typeof(DashboardSettings));
             services.AddTransient(typeof(SettingsViewModel));
 
+            // Top-Level Windows
+            services.AddTransient(typeof(Dashboard));
+            services.AddTransient(typeof(UI.SetupWindow));
+
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
+            var args = e.Args;
+            if (args.Length > 0 && args[0] == "setup")
+            {
+                var window = _serviceProvider.GetRequiredService<UI.SetupWindow>();
+                window.Show();
+                return;
+            }
 
             
             try

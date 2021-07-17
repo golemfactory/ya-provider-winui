@@ -10,15 +10,19 @@
         mc:Ignorable="d"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
-        Title="Dashboard" Height="524" Width="974" MinHeight="524" MinWidth="974" Closing="Window_Closing" Loaded="Window_Loaded">
-    <Grid x:Name="grdMain">
+        Background="{DynamicResource MainWindow.Background}"
+        Title="Dashboard" Height="524" Width="974" MinHeight="524" MinWidth="974" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/tray.ico">
+    <Window.Resources>        
+        <ResourceDictionary Source="Themes/CommonResources.xaml"/>        
+    </Window.Resources>
+    <Grid x:Name="grdMain" HorizontalAlignment="Stretch" Margin="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="300*"/>
+            <RowDefinition Height="Auto" MinHeight="32"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120"/>
-            <ColumnDefinition Width="400*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <tb:TaskbarIcon Visibility="Hidden" x:Name="tbNotificationIcon" IconSource="/Media/tray.ico" ToolTipText="GolemUI" DoubleClickCommand="{commands:ShowWindowCommand}">
@@ -31,22 +35,18 @@
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
 
-        <Border BorderThickness="0" BorderBrush="Black" Background="#710D39" Grid.Column="0" Grid.Row="0" MouseDown="TitleBar_MouseDown">
-            <Label Foreground="White" VerticalAlignment="Center">GolemUI 0.0.1</Label>
+        <Border Grid.Column="0" Grid.Row="0" MouseDown="TitleBar_MouseDown" Style="{DynamicResource MainWindow}">
+            <Label Foreground="White" VerticalAlignment="Center" Visibility="Hidden">GolemUI 0.0.1</Label>
         </Border>
-
-        <Border BorderThickness="0" BorderBrush="Black" Background="#710D39" Grid.Column="1" Grid.Row="0" MouseDown="TitleBar_MouseDown">
+        <Border Grid.Column="1" Grid.Row="0" MouseDown="TitleBar_MouseDown" Style="{DynamicResource MainWindow}">
             <DockPanel>
                 <DockPanel x:Name="TitleBar" DockPanel.Dock="Top">
-                    <Button x:Name="CloseButton" Content="X" DockPanel.Dock="Right" Click="CloseButton_Click" />
-                    <Button x:Name="MinButton" Content="Min" DockPanel.Dock="Right" Click="MinButton_Click" />
+                    <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="CloseButton_Click" Style="{DynamicResource CloseWindowButton}"/>
+                    <Button x:Name="MinButton" Content="Min" DockPanel.Dock="Right" Click="MinButton_Click" Style="{DynamicResource MinWindowButton}"/>
                     <TextBlock HorizontalAlignment="Center"> </TextBlock>
                 </DockPanel>
             </DockPanel>
         </Border>
-
-
-
         <Border x:Name="brdNavigation" BorderBrush="White" Background="#110D39" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 1 0" >
             <StackPanel>
                 <Button x:Name="btnPage1" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page1Click">
@@ -67,7 +67,7 @@
             </StackPanel>
         </Border>
 
-        <Border BorderThickness="0" BorderBrush="Black" Background="#110D39" Grid.Column="1" Grid.Row="1">
+        <Border BorderThickness="0" Grid.Column="1" Grid.Row="1" Style="{DynamicResource MainWindow}">
             <Grid x:Name="tcNo1" >
             </Grid>
         </Border>

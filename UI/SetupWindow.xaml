@@ -5,11 +5,105 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GolemUI.UI"
         xmlns:DataAccess="clr-namespace:GolemUI.DataAccess" x:Class="GolemUI.UI.SetupWindow"
+        xmlns:lv="clr-namespace:GolemUI.DesignViewModel"             
+        d:DataContext="{d:DesignInstance Type=lv:SetupViewModel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
+        WindowStyle="None"        
+        Background="{DynamicResource SetupWindow.Background}"
         Title="SetupWindow" Height="720" Width="1280">
-    <Window.DataContext>
-        <DataAccess:DataAccess />
-    </Window.DataContext>
-    
-    <Grid/>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+                <ResourceDictionary Source="Icons/SetupResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" MouseDown="TitleBar_MouseDown"></Label>
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <Button Style="{DynamicResource MinWindowButton}" Click="MinimizeApp" Grid.Column="1"/>
+            <Button Style="{DynamicResource CloseWindowButton}" Click="CloseApp" Grid.Column="2"/>
+        </StackPanel>
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="216"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label FontFamily="Segoe UI" FontSize="22" Grid.Column="1" Margin="0, -14">Getting Started</Label>
+            <TabControl Grid.Row="1" Grid.Column="1" Background="Transparent" BorderBrush="Transparent" SelectedIndex="{Binding Path=Flow, Mode=OneWay}">
+                <TabControl.ItemContainerStyle>                    
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Visibility" Value="{Binding Path=IsDesingMode, Converter={StaticResource BoolToVisibleConverter}}"></Setter>
+                    </Style>                    
+                </TabControl.ItemContainerStyle>
+                <TabItem Header="Start">
+                    <StackPanel Orientation="Vertical">
+                        <Label FontSize="16" FontWeight="Bold" Margin="0, 50">Choose your path</Label>
+                        <UniformGrid Columns="2" Rows="1">
+                            <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8">
+                                <StackPanel Margin="32">
+                                    <Label FontFamily="Segoe UI Black" FontSize="14">I wish To Learn</Label>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ContentControl Content="{DynamicResource Whish_to_learn_icon}" Margin="22, 16"/>
+                                        <StackPanel Grid.Column="1" Margin="28, 8">
+                                            <TextBlock FontFamily="Arial" FontSize="12" Margin="8">Choose this option if you would like us to guide you trough the process step by step and help you learn about safety</TextBlock>
+                                            <Button Style="{DynamicResource GradientButtonStyle}" Margin="8" MinHeight="32" Content="I Want to Learn" Click="WantToLearn_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <StackPanel Orientation="Horizontal">
+
+
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8">
+                                <StackPanel Margin="32">
+                                    <Label FontFamily="Segoe UI Black" FontSize="14">I’m quite experienced</Label>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ContentControl Content="{DynamicResource i_em_expert_icon}" Margin="22, 16"/>
+                                        <StackPanel Grid.Column="1" Margin="28, 8">
+                                            <TextBlock FontFamily="Arial" FontSize="12" Margin="8">
+                                                You should know what you are doing and you own your own cryoto wallet allready.
+                                            </TextBlock>
+                                            <Button Style="{DynamicResource GradientButtonStyle}" Margin="8" MinHeight="32" Content="I'm an expert" Click="ExpertMode_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                 </StackPanel>
+                            </Border>
+                        </UniformGrid>
+                    </StackPanel>
+                    
+                </TabItem>
+                <TabItem Header="WantToLearn">
+                    <Label>I Want To Learn</Label>
+                </TabItem>
+                <TabItem Header="Expert">
+                    <Label>Expert</Label>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
 </Window>
