@@ -21,13 +21,13 @@ namespace GolemUI
         public SettingsViewModel ViewModel;
         public DashboardSettings(SettingsViewModel viewModel)
         {
-            
+
             InitializeComponent();
             ViewModel = viewModel;
-            ViewModel.GpuList?.Add(new SingleGpuDescriptor(4,"4th GPU",12.12f, true,true));
+            ViewModel.GpuList?.Add(new SingleGpuDescriptor(4, "4th GPU", 12.12f, true, true));
             this.DataContext = this.ViewModel;
         }
 
-    
+
     }
 }

@@ -131,7 +131,7 @@ namespace GolemUI.Claymore
             s._gpus = new Dictionary<int, ClaymoreGpuStatus>();
             foreach (KeyValuePair<int, ClaymoreGpuStatus> entry in this._gpus)
             {
-                s._gpus.Add(entry.Key, (ClaymoreGpuStatus) entry.Value.Clone());
+                s._gpus.Add(entry.Key, (ClaymoreGpuStatus)entry.Value.Clone());
             }
 
             return s;

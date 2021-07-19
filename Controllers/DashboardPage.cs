@@ -10,8 +10,8 @@ namespace GolemUI.Controllers
     {
         public UserControl View;
         ISavableLoadableDashboardPage? ViewModel = null;
-        public bool ShouldAutoLoad=false;
-        public bool ShouldAutoSave=false;
+        public bool ShouldAutoLoad = false;
+        public bool ShouldAutoSave = false;
         bool ShouldAnimate = true;
         public DashboardPage(UserControl view)
         {
@@ -52,7 +52,7 @@ namespace GolemUI.Controllers
                 View.Opacity = 1.0f;
             }
         }
-       
+
         public void Hide()
         {
             if (ShouldAnimate)

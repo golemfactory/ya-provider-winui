@@ -80,7 +80,7 @@ namespace GolemUI
                 return;
             }
 
-            
+
             try
             {
                 var dashboardWindow = _serviceProvider.GetRequiredService<Dashboard>();

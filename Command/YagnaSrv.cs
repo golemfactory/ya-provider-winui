@@ -349,7 +349,7 @@ namespace GolemUI.Command
                 {
                     table = Exec<Table>("list");
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     //do nothing
                 }

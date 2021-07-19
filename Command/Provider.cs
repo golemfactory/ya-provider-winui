@@ -190,7 +190,7 @@ namespace GolemUI.Command
         public void AddPreset(Preset preset, out string args, out string info)
         {
             StringBuilder cmd = new StringBuilder("preset create --no-interactive", 60);
-            
+
             cmd.Append(" --preset-name \"").Append(preset.Name).Append('"');
             cmd.Append(" --exe-unit \"").Append(preset.ExeunitName).Append('"');
             if (preset.PricingModel != null)

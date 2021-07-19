@@ -40,7 +40,7 @@ namespace GolemUI.Command
         private string? _unsafeGpuDetails;
 
         //private ClaymoreLiveStatus _liveStatus = new ClaymoreLiveStatus();
-        private ClaymoreParser _claymoreParserBenchmark = new ClaymoreParser(isBenchmark:true, isPreBenchmark: false);
+        private ClaymoreParser _claymoreParserBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: false);
         private ClaymoreParser _claymoreParserPreBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: true);
 
         public ClaymoreParser ClaymoreParserBenchmark { get { return _claymoreParserBenchmark; } }
@@ -48,7 +48,8 @@ namespace GolemUI.Command
 
         public string? GPUDetails
         {
-            get {
+            get
+            {
                 lock (_sync)
                 {
                     //return copy to be more thread safe
@@ -381,7 +382,7 @@ namespace GolemUI.Command
                             sleepFor = 5000;
                         }
                         Thread.Sleep(sleepFor / 2);
-                        OutputDataReceived(this, args); 
+                        OutputDataReceived(this, args);
                     }
                 }
             });

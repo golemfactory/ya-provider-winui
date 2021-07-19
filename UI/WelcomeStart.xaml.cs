@@ -29,7 +29,7 @@ namespace GolemUI
 
         private void btnForwardAdvanced_Click(object sender, RoutedEventArgs e)
         {
-            
+
             var sb = new Storyboard();
             /*
             {
@@ -129,7 +129,7 @@ namespace GolemUI
             }*/
             sb.Completed += AnimationCompleted;
             sb.Begin();
-            
+
 
         }
 

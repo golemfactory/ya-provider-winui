@@ -31,7 +31,7 @@ namespace GolemUI.Settings
 
 
     public class BenchmarkResults
-    { 
+    {
         public int BenchmarkResultVersion { get; set; }
 
         public ClaymoreLiveStatus? liveStatus = null;
@@ -68,7 +68,7 @@ namespace GolemUI.Settings
                     return false;
                 }
             }
-           
+
             return true;
         }
     }
@@ -101,8 +101,8 @@ namespace GolemUI.Settings
 
             var _gen = new NameGen();
             NodeName = _gen.GenerateElvenName() + "-" + _gen.GenerateElvenName();
-            
-            
+
+
         }
     }
 

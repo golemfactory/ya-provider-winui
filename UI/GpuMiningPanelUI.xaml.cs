@@ -70,7 +70,7 @@ namespace GolemUI
             this.spGpuList.Children.Add(ge);
             ge.SetInfo(info);
             return ge;
-        
+
         }
 
         public void ClearGpusEntries()

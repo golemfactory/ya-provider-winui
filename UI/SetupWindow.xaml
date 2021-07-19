@@ -8,8 +8,10 @@
         xmlns:lv="clr-namespace:GolemUI.DesignViewModel"             
         d:DataContext="{d:DesignInstance Type=lv:SetupViewModel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
-        WindowStyle="None"        
-        Background="{DynamicResource SetupWindow.Background}"
+        WindowStyle="None"  
+    ResizeMode="CanResizeWithGrip"
+    AllowsTransparency="True"
+    Background="Transparent"        
         Title="SetupWindow" Height="720" Width="1280">
     <Window.Resources>
         <ResourceDictionary>
@@ -19,7 +21,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid Background="{DynamicResource SetupWindow.Background}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
@@ -45,10 +47,10 @@
             </Grid.RowDefinitions>
             <Label FontFamily="Segoe UI" FontSize="22" Grid.Column="1" Margin="0, -14">Getting Started</Label>
             <TabControl Grid.Row="1" Grid.Column="1" Background="Transparent" BorderBrush="Transparent" SelectedIndex="{Binding Path=Flow, Mode=OneWay}">
-                <TabControl.ItemContainerStyle>                    
+                <TabControl.ItemContainerStyle>
                     <Style TargetType="{x:Type TabItem}">
                         <Setter Property="Visibility" Value="{Binding Path=IsDesingMode, Converter={StaticResource BoolToVisibleConverter}}"></Setter>
-                    </Style>                    
+                    </Style>
                 </TabControl.ItemContainerStyle>
                 <TabItem Header="Start">
                     <StackPanel Orientation="Vertical">
@@ -91,11 +93,11 @@
                                             <Button Style="{DynamicResource GradientButtonStyle}" Margin="8" MinHeight="32" Content="I'm an expert" Click="ExpertMode_Click"/>
                                         </StackPanel>
                                     </Grid>
-                                 </StackPanel>
+                                </StackPanel>
                             </Border>
                         </UniformGrid>
                     </StackPanel>
-                    
+
                 </TabItem>
                 <TabItem Header="WantToLearn">
                     <Label>I Want To Learn</Label>

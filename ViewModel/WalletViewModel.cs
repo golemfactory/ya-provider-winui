@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GolemUI.ViewModel
 {
-  
+
 
     public class WalletViewModel : INotifyPropertyChanged, IDisposable
     {
@@ -20,7 +20,7 @@ namespace GolemUI.ViewModel
         private Command.Provider _provider;
         private readonly IProviderConfig? _providerConfig;
         private PropertyChangedEventHandler _handler;
-        
+
 
         private string? _walletAddress;
         private decimal _amount;
@@ -35,7 +35,7 @@ namespace GolemUI.ViewModel
             _providerConfig = providerConfig;
 
             var wallet = _providerConfig?.Config?.Account;
-            
+
             this._walletAddress = wallet;
             this._amount = 0;
             this._pendingAmount = 0;
@@ -66,7 +66,7 @@ namespace GolemUI.ViewModel
             else
             {
                 _providerConfig?.UpdateWalletAddress(address);
-            }            
+            }
         }
 
         private void OnPaymentStateChanged(object? sender, PropertyChangedEventArgs e)
@@ -86,12 +86,12 @@ namespace GolemUI.ViewModel
             }
             if (e.PropertyName == "Address" || e.PropertyName == "InternalAddress")
             {
-                OnPropertyChanged("WalletAddress");                
+                OnPropertyChanged("WalletAddress");
                 OnPropertyChanged("IsInternal");
             }
         }
 
-        public string? WalletAddress => _paymentService.Address;        
+        public string? WalletAddress => _paymentService.Address;
 
         public decimal Amount
         {

@@ -53,7 +53,7 @@ namespace GolemUI
         private void btnCheckAddress(object sender, RoutedEventArgs e)
         {
             NameGen gen = new NameGen();
-            
+
             tbNodeName.Text = gen.GenerateElvenName() + "-" + gen.GenerateElvenName();
 
         }

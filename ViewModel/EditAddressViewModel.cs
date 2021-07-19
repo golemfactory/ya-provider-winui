@@ -14,15 +14,19 @@ namespace GolemUI.ViewModel
         public bool HaveInternalBalance { get; }
 
         private string? _address;
-        public string? Address { get {
+        public string? Address
+        {
+            get
+            {
                 return _address;
             }
-            set {
+            set
+            {
                 _address = value;
                 OnPropertyChanged("Address");
                 OnPropertyChanged("IsInternal");
                 OnPropertyChanged("CanTransferOut");
-            } 
+            }
         }
 
         public bool IsInternal => _address?.Equals(InternalAddress, StringComparison.OrdinalIgnoreCase) ?? false;

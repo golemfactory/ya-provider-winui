@@ -17,7 +17,7 @@ namespace GolemUI.Model
         public decimal? PendingBalance { get; set; }
 
         public decimal? BalanceOnL2 { get; set; }
- 
+
         public string Tickler { get; set; }
     }
 }

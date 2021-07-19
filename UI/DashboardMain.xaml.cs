@@ -45,7 +45,7 @@ namespace GolemUI
                 //this.txtGpuStatus.Text = "Ready";
             }
         }
-        
+
         public async void RefreshActivityStatus()
         {
             if (GlobalApplicationState.Instance.ProcessController.IsRunning)
@@ -93,14 +93,14 @@ namespace GolemUI
             if (killProviderInsteadOfStopping)
             {
                 GlobalApplicationState.Instance.ProcessController.KillProvider();
-				//do not kill yagna here
+                //do not kill yagna here
                 //GlobalApplicationState.Instance.ProcessController.KillYagna();
             }
             else
             {
                 //insta kill provider and gracefully shutdown yagna
                 GlobalApplicationState.Instance.ProcessController.KillProvider();
-                
+
                 bool providerEndedSuccessfully = await GlobalApplicationState.Instance.ProcessController.StopProvider();
                 if (!providerEndedSuccessfully)
                 {

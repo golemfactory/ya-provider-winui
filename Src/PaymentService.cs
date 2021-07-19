@@ -30,16 +30,16 @@ namespace GolemUI.Src
             _srv = srv;
             _processControler = processControler;
             _providerConfig = providerConfig;
-                        
+
             _walletAddress = _providerConfig.Config?.Account;
             _providerConfig.PropertyChanged += this.OnProviderConfigChange;
-            
+
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(20);
             _timer.Tick += (object? s, EventArgs a) => this.UpdateState();
             _timer.Start();
             if (processControler.IsServerRunning)
-            {                
+            {
                 UpdateState();
             }
             else

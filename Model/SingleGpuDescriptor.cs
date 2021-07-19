@@ -28,7 +28,7 @@ namespace GolemUI
                 NotifyChange("Id");
             }
         }
-        public float  _hashrate { get; set; }
+        public float _hashrate { get; set; }
         public float Hashrate
         {
             get { return _hashrate; }
@@ -39,10 +39,10 @@ namespace GolemUI
             }
         }
         public string? HashrateAsString => _hashrate.ToString();
-    
+
         public string? Name
         {
-            get { return _Name; }   
+            get { return _Name; }
             set
             {
                 _Name = value;

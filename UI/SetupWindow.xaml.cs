@@ -20,7 +20,7 @@ namespace GolemUI.UI
     public partial class SetupWindow : Window
     {
         protected ViewModel.SetupViewModel? Model => DataContext as ViewModel.SetupViewModel;
-        
+
         public SetupWindow(ViewModel.SetupViewModel model)
         {
             InitializeComponent();

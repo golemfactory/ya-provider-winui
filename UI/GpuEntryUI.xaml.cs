@@ -85,7 +85,7 @@ namespace GolemUI
             this.tbProgress.Text = "Mining initialization";
             this.lblMiningAbility.Content = "Ability to mine: Checking...";
             this.grdProgress.Visibility = Visibility.Visible;
-            
+
         }
         public void SetMiningProgress(float progr)
         {

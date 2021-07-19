@@ -24,7 +24,7 @@ namespace GolemUI
     public class JsonOpenCLDevice
     {
         [JsonProperty("_CL_DEVICE_NAME")]
-        public string? ClDeviceName {get;set; }
+        public string? ClDeviceName { get; set; }
 
         [JsonProperty("BUS_ID")]
         public string? BusID { get; set; }
@@ -51,7 +51,7 @@ namespace GolemUI
         public string? ClDriverVersion { get; set; }
 
     };
-    
+
     public class JsonCudaDevice
     {
         [JsonProperty("DeviceName")]
@@ -138,7 +138,7 @@ namespace GolemUI
             {
                 if (info.CudaDevices != null)
                 {
-                    foreach(var cudaDevice in info.CudaDevices)
+                    foreach (var cudaDevice in info.CudaDevices)
                     {
                         var newDevice = new ComputeDevice();
                         newDevice.Name = cudaDevice.DeviceName ?? "";
@@ -149,7 +149,7 @@ namespace GolemUI
                 }
                 if (info.Platforms != null)
                 {
-                    foreach(var platform in info.Platforms)
+                    foreach (var platform in info.Platforms)
                     {
                         if (platform.Devices != null)
                         {

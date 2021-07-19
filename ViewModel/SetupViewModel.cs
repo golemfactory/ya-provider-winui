@@ -20,8 +20,9 @@ namespace GolemUI.ViewModel
             _flow = 0;
         }
 
-        public int Flow { 
-            get { return _flow; } 
+        public int Flow
+        {
+            get { return _flow; }
             set
             {
                 _flow = value;

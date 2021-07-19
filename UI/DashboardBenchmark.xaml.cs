@@ -79,11 +79,11 @@ namespace GolemUI
 
         Dictionary<int, GpuEntryUI> _entries = new Dictionary<int, GpuEntryUI>();
         bool _requestExit = false;
-        
-        
+
+
         private void ResetGpuList()
         {
-           // grdGpuList.Children.Clear();
+            // grdGpuList.Children.Clear();
         }
 
 
@@ -242,7 +242,7 @@ namespace GolemUI
             {
                 foreach (var gpu in benchmark.liveStatus.GPUs)
                 {
-                    if (gpu.Value.IsReadyForMining()) 
+                    if (gpu.Value.IsReadyForMining())
                     {
                         if (gpu.Value.gpuNo > 0 && gpu.Value.gpuNo < 10)
                         {
@@ -267,7 +267,7 @@ namespace GolemUI
             this.btnStopBenchmark.Visibility = Visibility.Collapsed;
 
             this.btnNext.IsEnabled = true;
-            
+
             UpdateBenchmarkStatus(benchmark.liveStatus, true);
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.benchmarkStopped);
         }
@@ -288,7 +288,7 @@ namespace GolemUI
             svgBenchmarkWorking.Visibility = Visibility.Visible;
             svgBenchmarkEnjoy.Visibility = Visibility.Hidden;
 
-            
+
 
             DateTime benchmarkStartTime = DateTime.Now;
             double? initializeTime = null;
@@ -351,7 +351,7 @@ namespace GolemUI
 
                 await Task.Delay(30);
 
-                
+
                 result = cc.RunBenchmark(selectedIndices, niceness, GlobalSettings.DefaultProxy, ethAddress);
                 if (!result)
                 {

@@ -40,7 +40,7 @@ namespace GolemUI
 
         private void BtnWithdraw_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void BtnEditWalletAddress_Click(object sender, RoutedEventArgs e)

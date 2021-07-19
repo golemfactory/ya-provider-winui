@@ -72,7 +72,7 @@ namespace GolemUI.Notifications
             {
                 return (bool)
                     DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty,
-                        typeof (FrameworkElement))
+                        typeof(FrameworkElement))
                         .Metadata.DefaultValue;
             }
         }

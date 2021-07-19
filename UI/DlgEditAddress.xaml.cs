@@ -37,7 +37,7 @@ namespace GolemUI.UI
             DialogResult = true;
             Close();
         }
-            
+
 
         private void TransferOUt_Click(object sender, RoutedEventArgs e)
         {

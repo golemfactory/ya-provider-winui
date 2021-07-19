@@ -167,7 +167,7 @@ namespace GolemUI
 
         public async Task<bool> StopYagna()
         {
-            const int YAGNA_STOPPING_TIMOUT = 2500; 
+            const int YAGNA_STOPPING_TIMOUT = 2500;
             if (_yagnaDaemon != null)
             {
                 bool succesfullyExited = await SendCtrlCToProcess(_yagnaDaemon, YAGNA_STOPPING_TIMOUT);
@@ -250,10 +250,10 @@ namespace GolemUI
                 }
                 _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
                 OnPropertyChanged("IsServerRunning");
-               
+
                 //yagna is starting and /me won't work until all services are running
                 int tries = 0;
-                while(true)
+                while (true)
                 {
                     if (tries >= 30)
                     {
@@ -336,7 +336,7 @@ namespace GolemUI
                 return;
             }
             var config = _provider.Config;
-            
+
             var paymentAccount = config?.Account ?? _yagna?.Id?.Address;
             if (paymentAccount == null)
             {
@@ -400,7 +400,7 @@ namespace GolemUI
             providerConfig.NodeName = ls.NodeName;
             providerConfig.Subnet = subnet;
             _provider.Config = providerConfig;
-     
+
             _providerDaemon = _provider.Run(_appkey, network, subnet, ls, enableClaymoreMining, br);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;

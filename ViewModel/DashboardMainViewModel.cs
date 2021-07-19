@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GolemUI.ViewModel
 {
-   
+
     public class DashboardMainViewModel : INotifyPropertyChanged
     {
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService)
@@ -37,7 +37,7 @@ namespace GolemUI.ViewModel
         public decimal? PendingAmountUSD => _priceProvider.glmToUsd(PendingAmount ?? 0m);
 
 
-        private void OnPropertyChanged(string? propertyName )
+        private void OnPropertyChanged(string? propertyName)
         {
             if (PropertyChanged != null)
             {
