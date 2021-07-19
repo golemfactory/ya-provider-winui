@@ -37,7 +37,7 @@ namespace GolemUI
             InitializeComponent();
 
             
-            SetActiveNavigationType(NavigationType.NavigationType2);
+            SetActiveNavigationType(NavigationType.NavigationType1);
         }
 
         
