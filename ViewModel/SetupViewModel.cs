@@ -9,15 +9,31 @@ namespace GolemUI.ViewModel
 {
     public class SetupViewModel : INotifyPropertyChanged
     {
+        private readonly Interfaces.IProviderConfig _providerConfig;
+
         private int _flow;
+
+        private int _noobStep;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public bool IsDesingMode => false;
 
-        public SetupViewModel()
+        public SetupViewModel(Interfaces.IProviderConfig providerConfig)
         {
             _flow = 0;
+            _noobStep = 0;
+            _providerConfig = providerConfig;
+
+            _providerConfig.PropertyChanged += OnProviderConfigChanged;
+        }
+
+        private void OnProviderConfigChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "NodeName")
+            {
+                OnPropertyChanged("NodeName");
+            }
         }
 
         public int Flow
@@ -27,6 +43,16 @@ namespace GolemUI.ViewModel
             {
                 _flow = value;
                 OnPropertyChanged("Flow");
+            }
+        }
+
+        public int NoobStep
+        {
+            get => _noobStep;
+            set
+            {
+                _noobStep = value;
+                OnPropertyChanged("NoobStep");
             }
         }
 
@@ -41,6 +67,15 @@ namespace GolemUI.ViewModel
         public void GoToExpertMode()
         {
             Flow = 2;
+        }
+
+        public string? NodeName
+        {
+            get => _providerConfig.Config?.NodeName;
+            set
+            {
+                _providerConfig.UpdateNodeName(value);
+            }
         }
 
         private void OnPropertyChanged(string? propertyName)

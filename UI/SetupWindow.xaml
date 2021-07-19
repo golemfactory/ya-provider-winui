@@ -101,14 +101,13 @@
 
                 </TabItem>
                 <TabItem Header="WantToLearn">
-                    <StackPanel>
-                        <Label>I Want To Learn</Label>
-                        <TabControl Background="Transparent" BorderThickness="0">
-                            <!--TabControl.ItemContainerStyle>
+                    <StackPanel>                        
+                        <TabControl Background="Transparent" BorderThickness="0" SelectedIndex="{Binding NoobStep}">
+                            <TabControl.ItemContainerStyle>
                                 <Style TargetType="{x:Type TabItem}">
                                     <Setter Property="Visibility" Value="{Binding Path=IsDesingMode, Converter={StaticResource BoolToVisibleConverter}}"></Setter>
                                 </Style>
-                            </TabControl.ItemContainerStyle-->
+                            </TabControl.ItemContainerStyle>
                             <TabItem Header="Prepare">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -192,17 +191,72 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             <TextBlock FontFamily="Arial" FontSize="16">12. Yeah</TextBlock>
                                         </UniformGrid>
                                     </StackPanel>
-                                    <Button Content="Got them all" Margin="50, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep2"
+                                    <Button Content="Got them all" Margin="50, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep3Next"
                                             Grid.Row="1" Grid.Column="1"/>
-                                    <Button Content="Print" Margin="18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep2"
+                                    <Button Content="Print" Margin="18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep3Print"
                                             Grid.Row="1" Grid.Column="0" />
                                     <Label Grid.Row="2" Grid.ColumnSpan="3" Margin="10"/>
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Name">
-
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" MinWidth="275"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="64"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="20,20,20,46"/>
+                                    <StackPanel MaxWidth="400" Margin="50,50,79,7" Grid.Column="1">
+                                        <TextBlock FontFamily="Arial" FontSize="22" FontWeight="Bold" Margin="20, 0, 0 15">Name your node</TextBlock>
+                                        <TextBox ToolTip="Give your node a name" Margin="20, 40" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" Text="{Binding NodeName}" CaretBrush="#fff"/>                                        
+                                        <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep4Next"
+                                            />
+                                    </StackPanel>
+                                    
+                                    <Label Grid.Row="2" Grid.ColumnSpan="3" Margin="10"/>
+                                </Grid>
                             </TabItem>
                             <TabItem Header="Benchmark">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" MinWidth="275"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="64"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <ContentControl Content="{DynamicResource Benchmark_Step_icon}" Margin="20,20,20,46"/>
+                                    <StackPanel MaxWidth="400" Margin="50,50,79,7" Grid.Column="1">
+                                        <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Calculating your hash power</TextBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                        <ListBox Background="Transparent" Margin="10">
+                                            <ListBoxItem>
+                                                <TextBlock>AMD RX 6800</TextBlock>
+                                            </ListBoxItem>
+                                            <ListBoxItem>
+                                                <TextBlock>AMD RX 6800</TextBlock>
+                                            </ListBoxItem>
+                                        </ListBox>
+                                            <StackPanel Margin="20">
+                                                <TextBlock Margin="0, 0, 0, 20">Estimated Profilt</TextBlock>
+                                                <TextBlock FontFamily="Segoe UI Black" FontSize="28">$0 / Day</TextBlock>
+                                            </StackPanel>
+                                        
+                                        </StackPanel>
+                                        <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep4Next"
+                                            />
+                                    </StackPanel>
+
+                                    <Label Grid.Row="2" Grid.ColumnSpan="3" Margin="10"/>
+                                </Grid>
 
                             </TabItem>
 

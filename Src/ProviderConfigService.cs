@@ -23,6 +23,17 @@ namespace GolemUI.Src
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        public void UpdateNodeName(string? nodeName)
+        {
+            var config = Config ?? _provider.Config;
+            if (config != null)
+            {
+                config.NodeName = nodeName;
+                _provider.Config = Config;
+            }
+            OnPropertyChanged("Config");
+        }
+
         public void UpdateWalletAddress(string? walletAddress = null)
         {
             var config = Config ?? _provider.Config;

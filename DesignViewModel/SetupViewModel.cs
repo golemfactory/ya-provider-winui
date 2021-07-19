@@ -12,10 +12,13 @@ namespace GolemUI.DesignViewModel
 
         public int Flow { get; set; }
 
+        public int NoobStep { get; set; }
+
         public SetupViewModel()
         {
             IsDesingMode = true;
             Flow = 0;
+            NoobStep = 0;
         }
     }
 }
