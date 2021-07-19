@@ -89,9 +89,10 @@
   <ItemGroup>
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Nethereum.HdWallet" Version="3.8.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SharpVectors" Version="1.7.5" />
     <PackageReference Include="System.Management" Version="5.0.0" />
   </ItemGroup>
@@ -120,10 +121,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Converters\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -167,7 +164,6 @@
     <Resource Include="Media\onboarding\use_my_wallet.svg" />
     <Resource Include="Media\onboarding\wallet_info.svg" />
     <Resource Include="Media\profit.svg" />
-    <Resource Include="UI\Icons\GPU_icon.png" />
     <Resource Include="UI\Icons\Setup\benchmark.png" />
     <Resource Include="UI\Icons\Setup\nodeName.png" />
     <Resource Include="UI\Icons\Setup\prepare.png">

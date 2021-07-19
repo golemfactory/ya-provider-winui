@@ -95,7 +95,7 @@
             <StackPanel Grid.Row="2" Grid.Column="0">
 
                 <Grid Width="150" Height="150">
-                    <svgc:SvgViewbox Name="svgBenchmarkWorking" Source="/Media/SetV1/onboarding/hash_power.svg" Visibility="Hidden" />
+                    <svgc:SvgViewbox Name="svgBenchmarkWorking" Source="/Media/SetV1/onboarding/hash_power.svg" Visibility="Hidden"/>
                     <svgc:SvgViewbox Name="svgBenchmarkEnjoy" Source="/Media/SetV1/onboarding/Enjoy.svg" Visibility="Hidden"/>
                 </Grid>
 

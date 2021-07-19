@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:lm="clr-namespace:GolemUI.Model"
+             xmlns:lui="clr-namespace:GolemUI.UI"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:GolemUI.UI"
         xmlns:DataAccess="clr-namespace:GolemUI.DataAccess" x:Class="GolemUI.UI.SetupWindow"
@@ -19,6 +21,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/CommonResources.xaml"/>
                 <ResourceDictionary Source="Icons/SetupResources.xaml"/>
+                <ResourceDictionary Source="Icons/Wallet_Icon.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -101,7 +104,15 @@
 
                 </TabItem>
                 <TabItem Header="WantToLearn">
-                    <StackPanel>                        
+                    <StackPanel>
+                        <lui:NavBar Step="{Binding NoobStep}">
+                            <lui:NavBar.Items>
+                                <lm:NavBarItem StepName="Prepare"/>
+                                <lm:NavBarItem StepName="Seed Phrase"/>
+                                <lm:NavBarItem StepName="Name" StepIndex="3"/>
+                                <lm:NavBarItem StepName="Benchmark"/>
+                            </lui:NavBar.Items>
+                        </lui:NavBar>
                         <TabControl Background="Transparent" BorderThickness="0" SelectedIndex="{Binding NoobStep}">
                             <TabControl.ItemContainerStyle>
                                 <Style TargetType="{x:Type TabItem}">
@@ -116,7 +127,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
+                                    </Grid.RowDefinitions>                                    
                                     <ContentControl Content="{DynamicResource Prepare_Step_icon}" Margin="20"/>
                                     <StackPanel Width="400" Margin="50" Grid.Column="1">
                                         <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="0, 0, 0 15">We will create a wallet for you</TextBlock>
@@ -265,7 +276,33 @@ They are a backup for your wallet and in case your disk fails or any other unexp
 
                 </TabItem>
                 <TabItem Header="Expert">
-                    <Label>Expert</Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>                            
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" FontFamily="Arial" FontWeight="Bold" FontSize="18" Margin="60, 0">
+                            Decide if you would like to:
+                        </TextBlock>
+                        <UniformGrid Grid.Row="1" Grid.Column="0" Columns="2" Rows="1">
+                            <StackPanel Orientation="Vertical" Margin="60, 0">
+                                <Viewbox Margin="20,20">
+                                    <Canvas Width="310" Height="310">
+                                        <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
+                                        <ContentControl Content="{DynamicResource Wallet_icon}" Width="180" Canvas.Top="50" Canvas.Left="70"/>
+                                    </Canvas>
+                                </Viewbox>
+                                <Button Content="New Wallet" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" Click="OnWTLStep4Next"/>
+                            </StackPanel>
+                            <StackPanel Margin="60, 0">
+                                <ContentControl Content="{DynamicResource Benchmark_Step_icon}" Margin="20,20"/>
+                                <Button Content="Use my own" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" Click="OnWTLStep4Next"/>
+                            </StackPanel>
+                        </UniformGrid>
+                    </Grid>
                 </TabItem>
             </TabControl>
         </Grid>
