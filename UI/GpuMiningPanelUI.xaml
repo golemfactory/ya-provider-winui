@@ -74,6 +74,8 @@
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Style="{DynamicResource BlueBoxTitle}" MouseDown="Label_MouseDown" Grid.ColumnSpan="5">Advanced</Label>
                     <Label Grid.Row="1" Grid.Column="0" Style="{DynamicResource BlueBoxTitle}" MouseDown="Label_MouseDown" HorizontalAlignment="Right" Margin="5">Detailed view:</Label>
@@ -84,11 +86,17 @@
                     <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Name="txNiceness" VerticalAlignment="Center" Text="" Width="100"  Margin="5"/>
                     <TextBlock Grid.Row="4" TextAlignment="Right" VerticalAlignment="Center"  Margin="5">Benchmark length:</TextBlock>
                     <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Name="txBenchmarkLength" VerticalAlignment="Center" Text="" Width="100"  Margin="5"/>
+                    <TextBlock Grid.Row="5" TextAlignment="Right" VerticalAlignment="Center"  Margin="5">Override Pool:</TextBlock>
+                    <TextBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" Name="txPool" VerticalAlignment="Center" Text="" Width="100"  Margin="5"/>
+                    <TextBlock Grid.Row="6" TextAlignment="Right" VerticalAlignment="Center"  Margin="5">Email:</TextBlock>
+                    <TextBox Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" Name="txEmail" VerticalAlignment="Center" Text="" Width="100"  Margin="5"/>
 
                     <svgc:SvgViewbox Grid.Row="1" Grid.Column="2" Width="24" Height="24" Source="/Media/SetV1/Nav_Info_icon.svg" MouseDown="ShowDetailedInfo"/>
                     <svgc:SvgViewbox Grid.Row="2" Grid.Column="2" Width="24" Height="24" Source="/Media/SetV1/Nav_Info_icon.svg" MouseDown="ShowCardSelectInfo"/>
                     <svgc:SvgViewbox Grid.Row="3" Grid.Column="2" Width="24" Height="24" Source="/Media/SetV1/Nav_Info_icon.svg" MouseDown="ShowNicenessInfo" />
                     <svgc:SvgViewbox Grid.Row="4" Grid.Column="2" Width="24" Height="24" Source="/Media/SetV1/Nav_Info_icon.svg" MouseDown="ShowBenchLengthInfo" />
+                    <svgc:SvgViewbox Grid.Row="5" Grid.Column="2" Width="24" Height="24" Source="/Media/SetV1/Nav_Info_icon.svg" MouseDown="ShowCustomPoolInfo" />
+                    <svgc:SvgViewbox Grid.Row="6" Grid.Column="2" Width="24" Height="24" Source="/Media/SetV1/Nav_Info_icon.svg" MouseDown="ShowEmailInfo" />
                 </Grid>
             </Border>
 

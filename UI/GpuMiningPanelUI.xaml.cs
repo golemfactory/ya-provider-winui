@@ -61,6 +61,10 @@ namespace GolemUI
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
 
             txRunOnSelectedCards.Text = settings.MinerSelectedGPUIndices;
+            txBenchmarkLength.Text = settings.BenchmarkLength;
+            txNiceness.Text = settings.MinerSelectedGPUsNiceness;
+            txPool.Text = settings.CustomPool;
+            txEmail.Text = settings.OptionalEmail;
             cbDetailedView.IsChecked = settings.EnableDetailedBenchmarkInfo;
 
             SetAdvancedSettingsVisibility(_advancedSettingsVisible);
@@ -304,11 +308,23 @@ namespace GolemUI
         private void SaveSelectedCardsSetting()
         {
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
-            if (txRunOnSelectedCards.Text != ls.MinerSelectedGPUIndices)
+            if (txRunOnSelectedCards.Text != ls.MinerSelectedGPUIndices
+                || txNiceness.Text != ls.MinerSelectedGPUsNiceness
+                || txBenchmarkLength.Text != ls.BenchmarkLength
+                || ls.EnableDetailedBenchmarkInfo != (cbDetailedView.IsChecked ?? false)
+                || ls.CustomPool != txPool.Text
+                || ls.OptionalEmail != txEmail.Text)
             {
                 ls.MinerSelectedGPUIndices = txRunOnSelectedCards.Text;
+                ls.MinerSelectedGPUsNiceness = txNiceness.Text;
+                ls.BenchmarkLength = txBenchmarkLength.Text;
+                ls.EnableDetailedBenchmarkInfo = cbDetailedView.IsChecked ?? false;
+                ls.OptionalEmail = txEmail.Text;
+                ls.CustomPool = txPool.Text;
+
                 SettingsLoader.SaveSettingsToFile(ls);
             }
+            
         }
 
 
@@ -330,6 +346,18 @@ namespace GolemUI
                 ethAddress = "0xD593411F3E6e79995E787b5f81D10e12fA6eCF04";
             }
             ClaymoreLiveStatus? baseLiveStatus = null;
+
+            string poolAddr = GlobalSettings.DefaultProxy;
+            if (!string.IsNullOrEmpty(txPool.Text))
+            {
+                poolAddr = txPool.Text;
+                ethAddress += "/" + ls.NodeName;
+                
+                if (!string.IsNullOrEmpty(txEmail.Text))
+                {
+                    ethAddress += "/" + txEmail.Text;
+                }
+            }
 
             string selectedIndices = txRunOnSelectedCards.Text;
             string niceness = txNiceness.Text;
@@ -393,7 +421,7 @@ namespace GolemUI
                 await Task.Delay(30);
 
 
-                result = cc.RunBenchmark(selectedIndices, niceness, GlobalSettings.DefaultProxy, ethAddress);
+                result = cc.RunBenchmark(selectedIndices, niceness, poolAddr, ethAddress);
                 if (!result)
                 {
                     MessageBox.Show(cc.BenchmarkError);
@@ -587,7 +615,17 @@ namespace GolemUI
 
         private void ShowBenchLengthInfo(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Benchmark length (one unit is around 10 seconds). Use this option to check if your mining setup is stable.");
+            MessageBox.Show("Benchmark length (one unit is around 10 seconds). Use this option to check if your mining setup is stable. You can also check if it's not too taxing on your computer, you can modify niceness parameter if that's the case.");
+        }
+
+        private void ShowCustomPoolInfo(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("If you don't like running benchmark with default pool, you can set pool of your choise");
+        }
+
+        private void ShowEmailInfo(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Optionally add your email");
         }
     }
 }

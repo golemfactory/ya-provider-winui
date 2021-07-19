@@ -114,7 +114,7 @@ namespace GolemUI.Claymore
         public ClaymoreLiveStatus(bool isBenchmark, int totalClaymoreReportsNeeded)
         {
             IsBenchmark = isBenchmark;
-            TotalClaymoreReportsBenchmark = 5;
+            TotalClaymoreReportsBenchmark = totalClaymoreReportsNeeded;
         }
 
         public object Clone()
