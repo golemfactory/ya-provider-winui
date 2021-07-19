@@ -23,7 +23,7 @@ namespace GolemUI
         private decimal _glmPerDay = 0.0m;
         public string? _hashrate { get; set; }
         public int _totalCpusCount { get; set; }
-
+        public string? _nodeName { get; set; }
         public String ActiveCpusCountAsString { get { return this.ActiveCpusCount.ToString(); } }
         public String TotalCpusCountAsString { get { return this.TotalCpusCount.ToString(); } }
 
@@ -72,6 +72,8 @@ namespace GolemUI
             TotalCpusCount = 7;
             Hashrate = "101.9 TH/s";
             EstimatedProfit = "$41,32 / day";
+            NodeName = "Randome_elfish_name_yo_long name name name name ";
+            NodeName = providerConfig?.Config?.NodeName;
         }
 
         public SettingsViewModel()
@@ -115,7 +117,15 @@ namespace GolemUI
             }
         }
 
-
+        public string? NodeName
+        {
+            get { return _nodeName; }
+            set
+            {
+                _nodeName = value;
+                NotifyChange("NodeName");
+            }
+        }
 
         public string? EstimatedProfit
         {

@@ -40,8 +40,8 @@ namespace GolemUI.Command
         private string? _unsafeGpuDetails;
 
         //private ClaymoreLiveStatus _liveStatus = new ClaymoreLiveStatus();
-        private ClaymoreParser _claymoreParserBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: false);
-        private ClaymoreParser _claymoreParserPreBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: true);
+        private ClaymoreParser _claymoreParserBenchmark;
+        private ClaymoreParser _claymoreParserPreBenchmark;
 
         public ClaymoreParser ClaymoreParserBenchmark { get { return _claymoreParserBenchmark; } }
         public ClaymoreParser ClaymoreParserPreBenchmark { get { return _claymoreParserPreBenchmark; } }
@@ -73,8 +73,11 @@ namespace GolemUI.Command
 
         Process? _claymoreProcess;
 
-        public ClaymoreBenchmark()
+        public ClaymoreBenchmark(int totalClaymoreReportsNeeded)
         {
+            _claymoreParserBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: false, totalClaymoreReportsNeeded);
+            _claymoreParserPreBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: true, totalClaymoreReportsNeeded);
+
         }
 
         public void Stop()

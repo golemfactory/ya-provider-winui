@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 3</title>
+    <defs>
+        <polygon id="path-1" points="0 0 14 0 14 14 0 14"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Mining-Provider-Windows-Wallet-Design" transform="translate(-1074.000000, -378.000000)">
+            <g id="Mining-app-design" transform="translate(320.000000, 160.000000)">
+                <g id="Group-5" transform="translate(217.000000, 209.000000)">
+                    <g id="Group-2-Copy-3" transform="translate(498.000000, 4.000000)">
+                        <g id="Group-3" transform="translate(39.000000, 5.000000)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <g id="Clip-2"></g>
+                            <path d="M8.04667857,2.54707143 L1.6875,8.90625 L1,12 L4.09335714,11.3125 L10.4529286,4.95332143 L8.04667857,2.54707143 Z M10.2808571,1 C9.89389286,1 9.53717857,1.12807143 9.25,1.34375 L8.56210714,2.03164286 L10.9683571,4.4375 L11.65625,3.75039286 C11.8719286,3.46282143 12,3.10610714 12,2.71875 C12,1.76960714 11.2303929,1 10.2808571,1 L10.2808571,1 Z M8.04667857,3.65846429 L9.34192857,4.95332143 L3.70010714,10.5951429 L2.03439286,10.9652143 L2.40485714,9.30028571 L8.04667857,3.65846429 L8.04667857,3.65846429 Z M10.2808571,1.78610714 C10.7955,1.78610714 11.2142857,2.2045 11.2142857,2.71875 C11.2142857,2.90692857 11.1592857,3.08607143 11.0551786,3.23967857 L10.9683571,3.3265 L9.6735,2.03164286 L9.75992857,1.94482143 C9.91432143,1.84071429 10.0930714,1.78610714 10.2808571,1.78610714 L10.2808571,1.78610714 Z" id="Fill-1" fill="#FFFFFF" mask="url(#mask-2)"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
