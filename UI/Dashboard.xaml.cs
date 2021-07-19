@@ -262,7 +262,6 @@ namespace GolemUI
 
         public void RequestClose(bool isAlreadyClosing = false)
         {
-            DashboardBenchmark.RequestBenchmarkEnd();
             if (!GlobalApplicationState.Instance.ProcessController.IsRunning)
             {
                 this._forceExit = true;
