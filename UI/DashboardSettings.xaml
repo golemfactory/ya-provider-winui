@@ -101,7 +101,7 @@
                             <RowDefinition Height="0.2*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/GPU_icon.png" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="6" Stretch="Uniform" />
+                        <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/Settings/GPU_icon.png" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="6" Stretch="Uniform" />
 
 
 
