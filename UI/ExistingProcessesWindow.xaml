@@ -5,13 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GolemUI"
         mc:Ignorable="d"
-<<<<<<< Updated upstream:UI/ExistingProcessesWindow.xaml
         Title="ExistingProcessesWindow" Height="450" Width="800" Loaded="Window_Loaded_1"
         >
-=======
-        Title="ExistingProcessesWindow" Height="450" Width="800"
-        Loaded="Window_Loaded">
->>>>>>> Stashed changes:ExistingProcessesWindow.xaml
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
