@@ -547,4 +547,22 @@
             <Path Data="M69.6499 31.4433C71.3949 31.3509 73.1183 31.0143 74.7699 30.4433L75.6299 30.2033C76.606 29.9363 77.6218 29.8449 78.6299 29.9333V29.7033C77.592 29.609 76.5457 29.7005 75.5399 29.9733L74.6799 30.2133C72.6799 30.7933 69.0599 31.8733 66.5999 30.4533C63.5999 28.7133 61.5299 25.2933 60.8599 24.1733L60.7299 23.9533C59.6199 22.1033 57.0299 17.7633 54.7299 16.4433C52.0599 14.9033 48.7299 16.8433 47.1799 17.7633L46.5699 18.1133L46.6699 18.3233C46.8299 18.2433 47.0399 18.1133 47.2899 17.9733C48.8399 17.0633 52.0699 15.1833 54.6099 16.6433C56.8499 17.9333 59.4199 22.2433 60.5199 24.0833L60.6499 24.2933C61.3299 25.4333 63.4099 28.8833 66.4699 30.6633C67.4416 31.2018 68.5394 31.471 69.6499 31.4433Z" Fill="#EC82FF" />
         </Canvas>
     </Viewbox>
+    <Viewbox x:Key="Prepare_Step_icon">
+        <Canvas Width="310" Height="310">
+            <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
+            <Image Source="\UI\Icons\Setup\prepare.png" Canvas.Top="78" Width="233" Height="144" Canvas.Left="28"/>
+        </Canvas>        
+    </Viewbox>
+    <Viewbox x:Key="Seed_Step_icon">
+        <Canvas Width="310" Height="310">
+            <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
+            <Image Source="\UI\Icons\Setup\seed.png" Canvas.Top="78" Width="180" Height="172" Canvas.Left="47"/>
+        </Canvas>
+    </Viewbox>
+    <Viewbox x:Key="Print_Step_icon">
+        <Canvas Width="310" Height="310">
+            <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
+            <Image Source="\UI\Icons\Setup\print.png" Canvas.Top="78" Width="180" Height="172" Canvas.Left="42"/>
+        </Canvas>
+    </Viewbox>
 </ResourceDictionary>

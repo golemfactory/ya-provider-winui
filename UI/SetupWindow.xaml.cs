@@ -54,5 +54,16 @@ namespace GolemUI.UI
         {
             Model!.GoToExpertMode();
         }
+
+
+        private void OnWTLStep1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnWTLStep2(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
