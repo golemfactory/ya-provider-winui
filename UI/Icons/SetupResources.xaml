@@ -565,4 +565,16 @@
             <Image Source="\UI\Icons\Setup\print.png" Canvas.Top="78" Width="180" Height="172" Canvas.Left="42"/>
         </Canvas>
     </Viewbox>
+    <Viewbox x:Key="NodeName_Step_icon">
+        <Canvas Width="310" Height="310">
+            <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
+            <Image Source="\UI\Icons\Setup\nodeName.png" Canvas.Top="72" Width="180" Height="172" Canvas.Left="67"/>
+        </Canvas>
+    </Viewbox>
+    <Viewbox x:Key="Benchmark_Step_icon">
+        <Canvas Width="310" Height="310">
+            <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
+            <Image Source="\UI\Icons\Setup\benchmark.png" Canvas.Top="72" Width="180" Height="172" Canvas.Left="67"/>
+        </Canvas>
+    </Viewbox>
 </ResourceDictionary>

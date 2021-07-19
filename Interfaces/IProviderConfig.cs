@@ -12,5 +12,6 @@ namespace GolemUI.Interfaces
         Command.Config? Config { get; }
 
         void UpdateWalletAddress(string? walletAddress = null);
+        void UpdateNodeName(string? value);
     }
 }

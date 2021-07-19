@@ -80,6 +80,11 @@
     <None Remove="Media\tray.ico" />
     <None Remove="UI\Icons\Common\edit.png" />
     <None Remove="UI\Icons\GPU_icon.png" />
+    <None Remove="UI\Icons\Setup\benchmark.png" />
+    <None Remove="UI\Icons\Setup\nodeName.png" />
+    <None Remove="UI\Icons\Setup\prepare.png" />
+    <None Remove="UI\Icons\Setup\print.png" />
+    <None Remove="UI\Icons\Setup\seed.png" />
     <None Remove="UI\Icons\Settings\GPU_icon.png" />
   </ItemGroup>
 
@@ -164,6 +169,14 @@
     <Resource Include="Media\onboarding\use_my_wallet.svg" />
     <Resource Include="Media\onboarding\wallet_info.svg" />
     <Resource Include="Media\profit.svg" />
+    <Resource Include="UI\Icons\GPU_icon.png" />
+    <Resource Include="UI\Icons\Setup\benchmark.png" />
+    <Resource Include="UI\Icons\Setup\nodeName.png" />
+    <Resource Include="UI\Icons\Setup\prepare.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Icons\Setup\print.png" />
+    <Resource Include="UI\Icons\Setup\seed.png" />
     <Resource Include="UI\Icons\Common\edit.png" />
     <Resource Include="UI\Icons\Settings\GPU_icon.png" />
   </ItemGroup>

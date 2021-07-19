@@ -58,12 +58,27 @@ namespace GolemUI.UI
 
         private void OnWTLStep1(object sender, RoutedEventArgs e)
         {
-
+            Model!.NoobStep = 1;
         }
 
         private void OnWTLStep2(object sender, RoutedEventArgs e)
         {
+            Model!.NoobStep = 2;
+        }
 
+        private void OnWTLStep3Print(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void OnWTLStep3Next(object sender, RoutedEventArgs e)
+        {
+            Model!.NoobStep = 3;
+        }
+
+        private void OnWTLStep4Next(object sender, RoutedEventArgs e)
+        {
+            Model!.NoobStep = 4;
         }
     }
 }
