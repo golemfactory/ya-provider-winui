@@ -40,7 +40,9 @@
                 </Style.Triggers>
             </Style>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/PinkButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/BlueButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>        
     </Window.Resources>

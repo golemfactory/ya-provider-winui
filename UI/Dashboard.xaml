@@ -12,8 +12,18 @@
         ResizeMode="CanResizeWithGrip"
         Background="{DynamicResource MainWindow.Background}"
         Title="Dashboard" Height="524" Width="974" MinHeight="524" MinWidth="974" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/tray.ico">
-    <Window.Resources>        
-        <ResourceDictionary Source="Themes/CommonResources.xaml"/>        
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Defaults.xaml"/>
+            <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
+            <ResourceDictionary Source="Themes/WindowControls.xaml"/>
+        
+            <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
+            <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
+            <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid x:Name="grdMain" HorizontalAlignment="Stretch" Margin="0">
         <Grid.RowDefinitions>

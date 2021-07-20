@@ -14,7 +14,17 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+                <ResourceDictionary Source="Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/PinkButton.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
+                <ResourceDictionary Source="Themes/CheckBox/SliderCheckBox.xaml"/>
+                
+                <ResourceDictionary Source="Themes/Buttons/BlueButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
                 <ResourceDictionary Source="Icons/Wallet_icon.xaml"/>
                 <ResourceDictionary Source="Icons/Profit_icon.xaml"/>
                 <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
@@ -112,7 +122,7 @@
                             <RowDefinition Height="2*" />
                             <RowDefinition Height="3*"/>
                         </Grid.RowDefinitions>
-                        <Image Source="Icons/GPU_Icon.png" Grid.Column="0" Grid.Row="1" Margin="25, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <Image Source="Icons/Settings/GPU_Icon.png" Grid.Column="0" Grid.Row="1" Margin="25, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
                         <StackPanel Grid.Row="2" HorizontalAlignment="Center">
                             <Label Content="GPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="14" ></Label>
                             <StackPanel Orientation="Horizontal">
