@@ -21,6 +21,7 @@ namespace GolemUI
     public partial class GpuEntryUI : UserControl
     {
         bool _supressEvent = true;
+        public bool ExtendedView { get; set; }
 
         public GpuEntryUI()
         {
@@ -81,6 +82,19 @@ namespace GolemUI
         public void SetDagProgress(float progr)
         {
             //this.lblProgress.Content = progr.ToString();
+
+            if (ExtendedView)
+            {
+                this.pbProgress.Visibility = Visibility.Visible;
+                this.tbProgress.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.pbProgress.Visibility = Visibility.Hidden;
+                this.tbProgress.Visibility = Visibility.Hidden;
+            }
+
+
             this.pbProgress.Value = progr * 100;
             this.tbProgress.Text = "Mining initialization";
             this.lblMiningAbility.Content = "Ability to mine: Checking...";

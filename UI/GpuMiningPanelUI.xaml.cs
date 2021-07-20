@@ -23,6 +23,54 @@ namespace GolemUI
     /// </summary>
     public partial class GpuMiningPanelUI : UserControl
     {
+        ClaymoreLiveStatus? _currentLiveStatus;
+
+        bool _advancedSettingsVisible = false;
+
+        public GpuMiningPanelUI()
+        {
+            InitializeComponent();
+
+
+
+            LocalSettings settings = SettingsLoader.LoadSettingsFromFileOrDefault();
+            var benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+            if (benchmarkSettings != null && benchmarkSettings.liveStatus != null)
+            {
+                _currentLiveStatus = benchmarkSettings.liveStatus;
+                UpdateBenchmarkStatus(_currentLiveStatus, true);
+            }
+
+            bool bUseInfoCommand = false;
+            if (bUseInfoCommand)
+            {
+                GpuInfoCommand gic = new GpuInfoCommand();
+
+                var deviceList = gic.GetGpuInfo(hideNvidiaOpenCLDevices: true);
+                int gpuNo = 0;
+                foreach (var device in deviceList)
+                {
+                    var rowDef = new RowDefinition();
+                    rowDef.Height = GridLength.Auto;
+                    //grdGpuList.RowDefinitions.Add(rowDef);
+                    //AddSingleGpuInfo(device, gpuNo);
+                    gpuNo += 1;
+                }
+            }
+
+            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
+
+            txRunOnSelectedCards.Text = settings.MinerSelectedGPUIndices;
+            txBenchmarkLength.Text = settings.BenchmarkLength;
+            txNiceness.Text = settings.MinerSelectedGPUsNiceness;
+            txPool.Text = settings.CustomPool;
+            txEmail.Text = settings.OptionalEmail;
+            cbDetailedView.IsChecked = settings.EnableDetailedBenchmarkInfo;
+
+            SetAdvancedSettingsVisibility(_advancedSettingsVisible);
+            btnStopBenchmark.Visibility = Visibility.Collapsed;
+            grdMainBenchmark.ColumnDefinitions[3].Width = new GridLength(100);
+        }
 
         public GpuEntryUI AddGpuEntry(string info)
         {
@@ -73,7 +121,6 @@ namespace GolemUI
             this.spGpuList.Children.Add(ge);
             ge.SetInfo(info);
             return ge;
-
         }
 
         Dictionary<int, GpuEntryUI> _entries = new Dictionary<int, GpuEntryUI>();
@@ -119,11 +166,19 @@ namespace GolemUI
 
         }
 
-        public GpuMiningPanelUI()
-        {
-            InitializeComponent();
+        
 
-            this.brdAdvanced.Height = 33;
+        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
+        {
+            if (args != null)
+            {
+                switch (args.action)
+                {
+                    case GlobalApplicationStateAction.benchmarkSettingsChanged:
+                        //ChangeGpuEnabled();
+                        break;
+                }
+            }
         }
 
         private void UpdateBenchmarkStatus(ClaymoreLiveStatus? s, bool allExpectedGPUsFound)
@@ -132,6 +187,24 @@ namespace GolemUI
             {
                 return;
             }
+
+            bool isDetailedInfo = this.cbDetailedView.IsChecked ?? false;
+
+            if (!isDetailedInfo)
+            {
+                this.lblTimeElapsed.Visibility = Visibility.Collapsed;
+                this.lblGatherGpuInfo.Visibility = Visibility.Collapsed;
+                this.lblInitializeTime.Visibility = Visibility.Collapsed;
+                this.lblBenchmarkTime.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                this.lblTimeElapsed.Visibility = Visibility.Visible;
+                this.lblGatherGpuInfo.Visibility = Visibility.Visible;
+                this.lblInitializeTime.Visibility = Visibility.Visible;
+                this.lblBenchmarkTime.Visibility = Visibility.Visible;
+            }
+
             //s.BenchmarkTotalSpeed;
             if (s.GPUInfosParsed && s.AreAllDagsFinishedOrFailed())
             {
@@ -169,6 +242,10 @@ namespace GolemUI
                     //grdGpuList.RowDefinitions.Add(rowDef);
                     currentEntry = this.AddGpuEntry(gdetails);
                     _entries.Add(gpuNo, currentEntry);
+                }
+                if (currentEntry != null)
+                {
+                    currentEntry.ExtendedView = isDetailedInfo;
                 }
                 currentEntry?.SetEnableByUser(gpuInfo.IsEnabledByUser);
                 currentEntry?.SetMiningSpeed(gpuInfo.BenchmarkSpeed);
@@ -220,20 +297,34 @@ namespace GolemUI
                     }
                 }*/
             }
-            this.lblPower.Content = totalMhs.ToString() + "MH/s";
+            this.lblPower.Content = String.Format("{0:0.00}MH/s", totalMhs);
             this.lblEstimated.Content = String.Format("Estimated profit: {0:0.00} USD/day", totalMhs * 0.05);
             //this.SetBenchmarkProgress(s.GetEstimatedBenchmarkProgress());
+
+
         }
 
 
         private void SaveSelectedCardsSetting()
         {
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
-            if (txRunOnSelectedCards.Text != ls.MinerSelectedGPUIndices)
+            if (txRunOnSelectedCards.Text != ls.MinerSelectedGPUIndices
+                || txNiceness.Text != ls.MinerSelectedGPUsNiceness
+                || txBenchmarkLength.Text != ls.BenchmarkLength
+                || ls.EnableDetailedBenchmarkInfo != (cbDetailedView.IsChecked ?? false)
+                || ls.CustomPool != txPool.Text
+                || ls.OptionalEmail != txEmail.Text)
             {
                 ls.MinerSelectedGPUIndices = txRunOnSelectedCards.Text;
+                ls.MinerSelectedGPUsNiceness = txNiceness.Text;
+                ls.BenchmarkLength = txBenchmarkLength.Text;
+                ls.EnableDetailedBenchmarkInfo = cbDetailedView.IsChecked ?? false;
+                ls.OptionalEmail = txEmail.Text;
+                ls.CustomPool = txPool.Text;
+
                 SettingsLoader.SaveSettingsToFile(ls);
             }
+            
         }
 
 
@@ -256,6 +347,18 @@ namespace GolemUI
             }
             ClaymoreLiveStatus? baseLiveStatus = null;
 
+            string poolAddr = GlobalSettings.DefaultProxy;
+            if (!string.IsNullOrEmpty(txPool.Text))
+            {
+                poolAddr = txPool.Text;
+                ethAddress += "/" + ls.NodeName;
+                
+                if (!string.IsNullOrEmpty(txEmail.Text))
+                {
+                    ethAddress += "/" + txEmail.Text;
+                }
+            }
+
             string selectedIndices = txRunOnSelectedCards.Text;
             string niceness = txNiceness.Text;
             SaveSelectedCardsSetting();
@@ -277,7 +380,18 @@ namespace GolemUI
             this.lblGatherGpuInfo.Content = $"Scanning GPUs...";
             this.lblGatherGpuInfo.Foreground = Brushes.White;
 
-            ClaymoreBenchmark cc = new ClaymoreBenchmark();
+            int totalClaymoreReportsNeeded = 5;
+
+            int outVal;
+            if (int.TryParse(this.txBenchmarkLength.Text, out outVal))
+            {
+                if (outVal >= 5)
+                {
+                    totalClaymoreReportsNeeded = outVal;
+                }
+            }
+            ClaymoreBenchmark cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded);
+            
 
             bool result = cc.RunBenchmarkRecording(@"test.recording");
             if (result)
@@ -290,8 +404,9 @@ namespace GolemUI
                 while (!cc.PreBenchmarkFinished)
                 {
                     await Task.Delay(30);
-                    baseLiveStatus = cc.ClaymoreParserPreBenchmark.GetLiveStatusCopy();
-                    if (baseLiveStatus.GPUInfosParsed)
+                    _currentLiveStatus = cc.ClaymoreParserPreBenchmark.GetLiveStatusCopy();
+                    baseLiveStatus = _currentLiveStatus;
+                    if (_currentLiveStatus.GPUInfosParsed)
                     {
                         cc.Stop();
                         break;
@@ -301,12 +416,12 @@ namespace GolemUI
                 this.lblGatherGpuInfo.Content = String.Format("GPU Info acquired {0:0.00}s", (DateTime.Now - benchmarkStartTime).TotalSeconds);
                 this.lblTimeElapsed.Content = String.Format("Time elapsed: {0:0.00}s", (DateTime.Now - benchmarkStartTime).TotalSeconds);
 
-                UpdateBenchmarkStatus(baseLiveStatus, false);
+                UpdateBenchmarkStatus(_currentLiveStatus, false);
 
                 await Task.Delay(30);
 
 
-                result = cc.RunBenchmark(selectedIndices, niceness, GlobalSettings.DefaultProxy, ethAddress);
+                result = cc.RunBenchmark(selectedIndices, niceness, poolAddr, ethAddress);
                 if (!result)
                 {
                     MessageBox.Show(cc.BenchmarkError);
@@ -325,42 +440,42 @@ namespace GolemUI
                 }
 
                 //function returns copy, so we can work with safety (even if original value is updated on separate thread)
-                var s = cc.ClaymoreParserBenchmark.GetLiveStatusCopy();
+                var _currentLiveStatus = cc.ClaymoreParserBenchmark.GetLiveStatusCopy();
                 bool allExpectedGPUsFound = false;
                 if (baseLiveStatus != null)
                 {
-                    s.MergeFromBaseLiveStatus(baseLiveStatus, selectedIndices, out allExpectedGPUsFound);
+                    _currentLiveStatus.MergeFromBaseLiveStatus(baseLiveStatus, selectedIndices, out allExpectedGPUsFound);
                 }
-                if (initializeTime == null && s.AreAllDagsFinishedOrFailed() && allExpectedGPUsFound)
+                if (initializeTime == null && _currentLiveStatus.AreAllDagsFinishedOrFailed() && allExpectedGPUsFound)
                 {
                     initializeTime = (DateTime.Now - benchmarkStartTime).TotalSeconds;
                     this.lblInitializeTime.Content = String.Format("Prepare mining time: {0:0.0}s", initializeTime);
                     this.lblBenchmarkTime.Foreground = Brushes.White;
                 }
 
-                if (!s.AreAllDagsFinishedOrFailed())
+                if (!_currentLiveStatus.AreAllDagsFinishedOrFailed())
                 {
                     this.lblInitializeTime.Content = String.Format("Initializing: {0:0.0}s", (DateTime.Now - benchmarkStartTime).TotalSeconds);
                     this.lblInitializeTime.Foreground = Brushes.White;
                     this.lblBenchmarkTime.Content = "Measuring performance";
                 }
 
-                if (s.NumberOfClaymorePerfReports >= s.TotalClaymoreReportsBenchmark)
+                if (_currentLiveStatus.NumberOfClaymorePerfReports >= _currentLiveStatus.TotalClaymoreReportsBenchmark)
                 {
                     cc.Stop();
                     this.FinishBenchmark(true);
                     {
                         BenchmarkResults res = new BenchmarkResults();
-                        res.liveStatus = s;
-                        s.BenchmarkFinished = true;
+                        res.liveStatus = _currentLiveStatus;
+                        _currentLiveStatus.BenchmarkFinished = true;
                         SettingsLoader.SaveBenchmarkToFile(res);
                     }
-                    UpdateBenchmarkStatus(s, allExpectedGPUsFound);
+                    UpdateBenchmarkStatus(_currentLiveStatus, allExpectedGPUsFound);
                     BenchmarkFinished();
 
                     return;
                 }
-                UpdateBenchmarkStatus(s, allExpectedGPUsFound);
+                UpdateBenchmarkStatus(_currentLiveStatus, allExpectedGPUsFound);
 
 
             }
@@ -417,16 +532,100 @@ namespace GolemUI
 
         }
 
-        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        private void SetAdvancedSettingsVisibility(bool visible)
         {
-            if (double.IsNaN(brdAdvanced.Height))
+            if (visible)
             {
-                brdAdvanced.Height = 33;
+                brdAdvanced.Height = double.NaN;
+                grdMainBenchmark.ColumnDefinitions[0].Width = new GridLength(200, GridUnitType.Star);
+                grdMainBenchmark.ColumnDefinitions[0].MinWidth = 100;
+                grdMainBenchmark.ColumnDefinitions[1].Width = new GridLength(250, GridUnitType.Star);
+                grdMainBenchmark.ColumnDefinitions[1].MinWidth = 200;
+                grdMainBenchmark.ColumnDefinitions[1].MaxWidth = 300;
+                grdMainBenchmark.ColumnDefinitions[2].Width = new GridLength(150);
+                grdMainBenchmark.ColumnDefinitions[2].MinWidth = 170;
+                grdMainBenchmark.ColumnDefinitions[3].Width = new GridLength(220, GridUnitType.Star);
+                grdMainBenchmark.ColumnDefinitions[3].MinWidth = 220;
             }
             else
             {
-                brdAdvanced.Height = double.NaN;
+                brdAdvanced.Height = 33;
+                grdMainBenchmark.ColumnDefinitions[0].Width = new GridLength(200, GridUnitType.Star);
+                grdMainBenchmark.ColumnDefinitions[0].MinWidth = 200;
+                grdMainBenchmark.ColumnDefinitions[0].MaxWidth = 300;
+                grdMainBenchmark.ColumnDefinitions[1].Width = new GridLength(250, GridUnitType.Star);
+                grdMainBenchmark.ColumnDefinitions[1].MinWidth = 200;
+                grdMainBenchmark.ColumnDefinitions[1].MaxWidth = 300;
+                grdMainBenchmark.ColumnDefinitions[2].Width = new GridLength(150);
+                grdMainBenchmark.ColumnDefinitions[2].MinWidth = 170;
+                grdMainBenchmark.ColumnDefinitions[3].Width = new GridLength(80, GridUnitType.Star);
+                grdMainBenchmark.ColumnDefinitions[3].MinWidth = 100;
             }
+        }
+
+        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _advancedSettingsVisible = !_advancedSettingsVisible;
+            SetAdvancedSettingsVisibility(_advancedSettingsVisible);
+        }
+
+        private void DetailViewChanged()
+        {
+            UpdateBenchmarkStatus(_currentLiveStatus, true);
+        }
+
+        private void cbDetailedView_Checked(object sender, RoutedEventArgs e)
+        {
+            DetailViewChanged();
+        }
+
+        private void cbDetailedView_Unchecked(object sender, RoutedEventArgs e)
+        {
+            DetailViewChanged();
+        }
+
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void ShowCardSelectInfo(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Select which cards you want to run benchmark and mining on). For example 1,3,4 means run on first, third and fourth card. Run benchmark to confirm that your selection is valid. Leave the field empty to run on all cards");
+        }
+
+        private void ShowNicenessInfo(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Enter niceness parameters for selected cards 0 means full power, 1 means almost full power. Separate with coma for specify cards.");
+        }
+
+        private void ShowDetailedInfo(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Additional progress information during benchmark");
+        }
+
+        private void cbShowAdvanced_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbShowAdvanced_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowBenchLengthInfo(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Benchmark length (one unit is around 10 seconds). Use this option to check if your mining setup is stable. You can also check if it's not too taxing on your computer, you can modify niceness parameter if that's the case.");
+        }
+
+        private void ShowCustomPoolInfo(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("If you don't like running benchmark with default pool, you can set pool of your choise");
+        }
+
+        private void ShowEmailInfo(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Optionally add your email");
         }
     }
 }

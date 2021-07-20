@@ -68,7 +68,7 @@ namespace GolemUI.UI
 
         private void OnWTLStep3Print(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void OnWTLStep3Next(object sender, RoutedEventArgs e)

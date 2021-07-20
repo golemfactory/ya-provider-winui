@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="GolemUI.UI.NavBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lm="clr-namespace:GolemUI.Model"
+             xmlns:dlm="clr-namespace:GolemUI.Model"
+             xmlns:lui="clr-namespace:GolemUI.UI"
+             mc:Ignorable="d dlm"
+             x:Name="uc"
+             xmlns:lc="clr-namespace:GolemUI.Converters"                
+             d:DesignHeight="210.875" d:DesignWidth="578.75" Loaded="OnReady">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+                <ResourceDictionary>
+                    <lc:EnumToBrush x:Key="StatusToBrush"/>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal">
+        <ListBox Background="#000" Foreground="#aaa" ItemsSource="{Binding Path=Items, ElementName=uc}">
+            <d:ListBox.ItemsSource>
+                <d:DesignInstance IsDesignTimeCreatable="True" Type="{x:Type dlm:NavBarItems}"/>
+            </d:ListBox.ItemsSource>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Canvas Width="25" Height="25">
+                            <Ellipse Fill="{Binding Path=Status, Converter={StaticResource StatusToBrush}}" Stroke="Transparent" Width="26" Height="26"></Ellipse>
+                            <StackPanel Width="25" Height="25" >
+                                <Label Content="{Binding Index}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Canvas>
+                        <Label Content="{Binding StepName}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBox}}"></Label>
+                        <Rectangle Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBox}}" Width="40" Height="3" Margin="4,0,4,0" 
+                                   Visibility="{Binding Path=IsLast, Converter={StaticResource BoolToHiddenConverter}}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.Template>
+                <ControlTemplate TargetType="ListBox">
+                    <StackPanel IsItemsHost="True"  Orientation="Horizontal"/>
+                </ControlTemplate>
+            </ListBox.Template>
+        </ListBox>
+    </StackPanel>
+</UserControl>

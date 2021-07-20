@@ -111,15 +111,15 @@ namespace GolemUI.Claymore
             return result;
         }
 
-        public ClaymoreLiveStatus(bool isBenchmark)
+        public ClaymoreLiveStatus(bool isBenchmark, int totalClaymoreReportsNeeded)
         {
             IsBenchmark = isBenchmark;
-            TotalClaymoreReportsBenchmark = 5;
+            TotalClaymoreReportsBenchmark = totalClaymoreReportsNeeded;
         }
 
         public object Clone()
         {
-            ClaymoreLiveStatus s = new ClaymoreLiveStatus(this.IsBenchmark);
+            ClaymoreLiveStatus s = new ClaymoreLiveStatus(this.IsBenchmark, this.TotalClaymoreReportsBenchmark);
             s.BenchmarkFinished = this.BenchmarkFinished;
             s.BenchmarkTotalSpeed = this.BenchmarkTotalSpeed;
             //s.BenchmarkProgress = this.BenchmarkProgress;
@@ -292,10 +292,10 @@ namespace GolemUI.Claymore
             return _gpusInfosParsed;
         }
 
-        public ClaymoreParser(bool isBenchmark, bool isPreBenchmark)
+        public ClaymoreParser(bool isBenchmark, bool isPreBenchmark, int totalClaymoreReportsNeeded)
         {
             _isPreBenchmark = isPreBenchmark;
-            _liveStatus = new ClaymoreLiveStatus(isBenchmark);
+            _liveStatus = new ClaymoreLiveStatus(isBenchmark, totalClaymoreReportsNeeded);
         }
 
         /// <summary>
