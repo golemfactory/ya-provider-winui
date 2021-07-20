@@ -121,7 +121,7 @@ namespace GolemUI.Command
                 {
                     throw new ArgumentNullException();
                 }
-                startInfo.ArgumentList.Add(arg);
+                //startInfo.ArgumentList.Add(arg);
             }
 
             var p = new Process

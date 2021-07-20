@@ -235,7 +235,7 @@ namespace GolemUI.Command
                 if (!String.IsNullOrEmpty(ls.MinerSelectedGPUIndices))
                 {
                     string diSwitch = "-di ";
-                    string cards = ls.MinerSelectedGPUIndices.Replace(",", "").Replace(".", "").Trim();
+                    string cards = ls.MinerSelectedGPUIndices?.Replace(",", "")?.Replace(".", "")?.Trim();
 
                     diSwitch += cards;
 

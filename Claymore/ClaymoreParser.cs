@@ -407,17 +407,17 @@ namespace GolemUI.Claymore
                         bool nVidiaGpuFound = false;
                         bool amdGpuFound = false;
 
-                        if (lineText.Contains("NVIDIA", STR_COMP_TYPE) ||
-                            lineText.Contains("GeForce", STR_COMP_TYPE) ||
-                            lineText.Contains("Quadro", STR_COMP_TYPE) ||
-                            lineText.Contains("CUDA", STR_COMP_TYPE)
+                        if (lineText.Contains("NVIDIA"/*, STR_COMP_TYPE*/) ||
+                            lineText.Contains("GeForce"/*, STR_COMP_TYPE*/) ||
+                            lineText.Contains("Quadro"/*, STR_COMP_TYPE*/) ||
+                            lineText.Contains("CUDA"/*, STR_COMP_TYPE*/)
                             )
                         {
                             currentStatus.GPUVendor = "nVidia";
                             nVidiaGpuFound = true;
                         }
 
-                        if (lineText.Contains("RADEON", STR_COMP_TYPE))
+                        if (lineText.Contains("RADEON"/*, STR_COMP_TYPE*/))
                         {
                             currentStatus.GPUVendor = "AMD";
                             amdGpuFound = true;
@@ -426,14 +426,14 @@ namespace GolemUI.Claymore
                         if ((nVidiaGpuFound || amdGpuFound) && lineText.Contains(":"))
                         {
                             //todo - what happens when details contains :
-                            currentStatus.GPUDetails = lineText.Split(":")[1].Trim();
+                            currentStatus.GPUDetails = lineText.Split(':')[1].Trim();
 
                             if (currentStatus.GPUDetails.Contains(','))
                             {
                                 currentStatus.gpuName = currentStatus.GPUDetails.Split(',')[0];
                                 if (currentStatus.gpuName.Contains("(pcie"))
                                 {
-                                    var split2 = currentStatus.gpuName.Split("(pcie");
+                                    var split2 = currentStatus.gpuName.Replace("(pcie","^").Split('^');
                                     currentStatus.gpuName = split2[0].Trim();
                                     int pciExpressLane;
                                     if (split2.Length >= 2)
@@ -455,27 +455,27 @@ namespace GolemUI.Claymore
                         currentStatus.GPUError = lineText;
                     }
 
-                    if (lineText.Contains(": Starting up", STR_COMP_TYPE))
+                    if (lineText.Contains(": Starting up"/*, STR_COMP_TYPE*/))
                     {
                         _liveStatus.GPUInfosParsed = true;
                     }
 
-                    if (lineText.Contains(": Allocating DAG", STR_COMP_TYPE))
+                    if (lineText.Contains(": Allocating DAG"/*, STR_COMP_TYPE*/))
                     {
                         _liveStatus.GPUInfosParsed = true;
                         currentStatus.IsDagCreating = true;
                         currentStatus.DagProgress = 0.0f;
                     }
-                    if (lineText.Contains(": Generating DAG", STR_COMP_TYPE))
+                    if (lineText.Contains(": Generating DAG"/*, STR_COMP_TYPE*/))
                     {
                         _liveStatus.GPUInfosParsed = true;
                         currentStatus.IsDagCreating = true;
                         currentStatus.DagProgress = 0.05f;
                     }
 
-                    if (lineText.Contains(": DAG", STR_COMP_TYPE))
+                    if (lineText.Contains(": DAG"/*, STR_COMP_TYPE*/))
                     {
-                        var splits = lineText.Split(" ");
+                        var splits = lineText.Split(' ');
 
                         foreach (var split in splits)
                         {
@@ -495,22 +495,22 @@ namespace GolemUI.Claymore
                         }
                     }
 
-                    if (lineText.Contains(": DAG generated", STR_COMP_TYPE))
+                    if (lineText.Contains(": DAG generated"/*, STR_COMP_TYPE*/))
                     {
                         currentStatus.IsDagCreating = false;
                         currentStatus.DagProgress = 1.0f;
                     }
-                    if (lineText.Contains("out of memory", STR_COMP_TYPE))
+                    if (lineText.Contains("out of memory"/*, STR_COMP_TYPE*/))
                     {
                         currentStatus.GPUError = lineText;
                     }
 
                 }
-                if (lineText.StartsWith("Eth speed", STR_COMP_TYPE))
+                if (lineText.StartsWith("Eth speed"/*, STR_COMP_TYPE*/))
                 {
                     _readyForGpusEthInfo = true;
 
-                    var splits = lineText.Split(" ");
+                    var splits = lineText.Split(' ');
                     double val;
                     if (splits.Length > 2 && double.TryParse(splits[2], NumberStyles.Float, CultureInfo.InvariantCulture, out val))
                     {
@@ -531,14 +531,14 @@ namespace GolemUI.Claymore
                     //sample:
                     //"GPUs: 1: 0.000 MH/s (0) 2: 0.000 MH/s (0)"
 
-                    var splits = lineText.Split("MH/s");
+                    var splits = lineText.Replace("MH/s","^").Split('^');
 
 
                     for (int i = 0; i < splits.Length - 1; i++)
                     {
                         //double val;
                         //if (split.Length > 2 && double.TryParse(split[2], out val))
-                        var s = splits[i].TrimEnd().Split(" ");
+                        var s = splits[i].TrimEnd().Split(' ');
 
                         var p = s.Last();
                         double mhs;
