@@ -339,7 +339,7 @@ namespace GolemUI
             double? initializeTime = null;
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
 
-            string? ethAddress = ls.EthAddress;
+            string ethAddress = ls.EthAddress ?? "";
             if (string.IsNullOrEmpty(ethAddress))
             {
                 MessageBox.Show("WARNING, No ethereum address provided, default address will be used");

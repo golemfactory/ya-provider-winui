@@ -232,7 +232,7 @@ namespace GolemUI.Command
             if (enableClaymoreMining)
             {
                 string extraParams = "- ";
-                if (!String.IsNullOrEmpty(ls.MinerSelectedGPUIndices))
+                if (ls.MinerSelectedGPUIndices != null && !String.IsNullOrEmpty(ls.MinerSelectedGPUIndices))
                 {
                     string diSwitch = "-di ";
                     string cards = ls.MinerSelectedGPUIndices.Replace(",", "").Replace(".", "").Trim();
