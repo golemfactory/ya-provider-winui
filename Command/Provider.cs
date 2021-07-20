@@ -210,6 +210,7 @@ namespace GolemUI.Command
             {
                 FileName = this._yaProviderPath,
                 Arguments = $"run --payment-network {network.Id} --subnet {subnet}",
+                UseShellExecute = false
             };
             if (ls.StartProviderCommandLine)
             {

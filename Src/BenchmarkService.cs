@@ -49,7 +49,8 @@ namespace GolemUI.Src
                 else
                 {
                     cc.RunPreBenchmark();
-                    while (!cc.PreBenchmarkFinished)
+                    var retry = 30;
+                    while (!cc.PreBenchmarkFinished && --retry > 0)
                     {
                         await Task.Delay(30);
                         _claymoreLiveStatus = cc.ClaymoreParserPreBenchmark.GetLiveStatusCopy();
@@ -62,6 +63,12 @@ namespace GolemUI.Src
                     }
                 }
                 await Task.Delay(30);
+
+                if (_claymoreLiveStatus != null && _claymoreLiveStatus.GPUs.Count == 0)
+                {
+                    return;
+                }
+
                 result = cc.RunBenchmark("", "", poolAddr, walletAddress);
                 if (!result)
                 {

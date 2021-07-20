@@ -10,6 +10,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace GolemUI.Command
 {
@@ -105,6 +106,14 @@ namespace GolemUI.Command
             }
         }
 
+        private string _escapeArgument(string argument)
+        {
+            if (argument.Contains(" ") || argument.StartsWith("\""))
+            {
+                return $"\"{argument.Replace("\"", "\\\"")}\"";
+            }
+            return argument;
+        }
         private Process _createProcess(params string[] arguments)
         {
             var startInfo = new ProcessStartInfo
@@ -112,18 +121,11 @@ namespace GolemUI.Command
                 FileName = this._yaExePath,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = false,
-                CreateNoWindow = true
+                RedirectStandardError = true,
+                CreateNoWindow = true,
+                Arguments = String.Join(" ", (from arg in arguments where arg != null select _escapeArgument(arg)))
             };
-            foreach (var arg in arguments)
-            {
-                if (arg == null)
-                {
-                    throw new ArgumentNullException();
-                }
-                //startInfo.ArgumentList.Add(arg);
-            }
-
+           
             var p = new Process
             {
                 StartInfo = startInfo
@@ -138,6 +140,7 @@ namespace GolemUI.Command
             string output = process.StandardOutput.ReadToEnd();
             if (process.ExitCode != 0)
             {
+                var error = process.StandardError.ReadToEnd();
                 throw new Exception("Yagna call failed");
             }
             return output;
@@ -217,6 +220,7 @@ namespace GolemUI.Command
                 startInfo.RedirectStandardOutput = true;
                 startInfo.RedirectStandardError = true;
                 startInfo.CreateNoWindow = true;
+                startInfo.UseShellExecute = false;
             }
 
 
@@ -321,9 +325,6 @@ namespace GolemUI.Command
             return await _yagnaSrv.ExecAsync<T>(prepareArgs(arguments));
         }
 
-
-
-
         public string? Create(string name)
         {
             return Exec<string>("create", name);
@@ -349,8 +350,9 @@ namespace GolemUI.Command
                 {
                     table = Exec<Table>("list");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Console.Error.WriteLine(e.ToString());
                     //do nothing
                 }
                 Thread.Sleep(1000);

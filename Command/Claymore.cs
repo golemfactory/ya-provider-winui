@@ -84,7 +84,10 @@ namespace GolemUI.Command
         {
             if (_claymoreProcess != null)
             {
-                _claymoreProcess.Kill(/*entireProcessTree: true*/);
+                if (!_claymoreProcess.HasExited)
+                {
+                    _claymoreProcess.Kill(/*entireProcessTree: true*/);
+                }
                 _claymoreProcess = null;
             }
         }

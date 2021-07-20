@@ -586,7 +586,7 @@
     <Viewbox x:Key="Use_my_wallet_icon">
         <Canvas Width="310" Height="310">
             <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
-            <Image Source="\UI\Icons\Setup\Use_my_wallet.png" Canvas.Top="72" Width="190" Height="114" Canvas.Left="67"/>
+            <Image Source="Setup\Use_my_wallet.png" Canvas.Top="72" Width="190" Height="114" Canvas.Left="67"/>
         </Canvas>
     </Viewbox>
 </ResourceDictionary>
