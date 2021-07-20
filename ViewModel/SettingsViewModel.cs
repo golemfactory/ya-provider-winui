@@ -37,6 +37,7 @@ namespace GolemUI
                    var val = gpu.Value;
                    GpuList?.Add(new SingleGpuDescriptor(val.gpuNo, val.gpuName == null ? "video card" : val.gpuName, val.BenchmarkSpeed, val.IsEnabledByUser, val.IsReadyForMining));
                });
+            NodeName = _providerConfig?.Config?.NodeName;
         }
 
         private bool IsBenchmarkSettingsCorrupted()
@@ -72,8 +73,8 @@ namespace GolemUI
             TotalCpusCount = 7;
             Hashrate = "101.9 TH/s";
             EstimatedProfit = "$41,32 / day";
-            NodeName = "Randome_elfish_name_yo_long name name name name ";
-            NodeName = providerConfig?.Config?.NodeName;
+            NodeName = "Randome_elfish_name_yo";
+           
         }
 
         public SettingsViewModel()

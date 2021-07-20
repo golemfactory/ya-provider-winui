@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:local="clr-namespace:GolemUI">
+
+  
+
+    <SolidColorBrush x:Key="CheckBox.Slider.Active" Color="#0FB2AB"/>
+    <SolidColorBrush x:Key="CheckBox.Slider.Inactive" Color="#F36986"/>
+    <Style x:Key="CheckBoxSlider" TargetType="{x:Type CheckBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="OnChecking">
+                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SliderCircle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value="11"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="OnUnchecking">
+                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SliderCircle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <ThicknessAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SliderCircle" Storyboard.TargetProperty="(FrameworkElement.Margin)">
+                                <SplineThicknessKeyFrame KeyTime="00:00:00.2000000" Value="1,1,1,1"/>
+                            </ThicknessAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+
+                    <DockPanel x:Name="dockPanel">
+                        <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" RecognizesAccessKey="True" VerticalAlignment="Center"/>
+                        <Border HorizontalAlignment="Left" x:Name="SliderBg" Width="25" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"  Height="15" RenderTransformOrigin="0.5,0.5" Margin="1,1,1,1" >
+                            <Ellipse HorizontalAlignment="Left" x:Name="SliderCircle" Width="10" Height="10"  RenderTransformOrigin="0.5,0.5" Fill="White" >
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <TranslateTransform X="2" Y="0"/>
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </Border>
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource OnUnchecking}" x:Name="OnUnchecking_BeginStoryboard"/>
+                            </Trigger.ExitActions>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource OnChecking}" x:Name="OnChecking_BeginStoryboard"/>
+                            </Trigger.EnterActions>
+                            <Setter TargetName="SliderBg" Property="Background" Value="{StaticResource CheckBox.Slider.Active}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="SliderBg" Property="Background" Value="{StaticResource CheckBox.Slider.Inactive}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextColor}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

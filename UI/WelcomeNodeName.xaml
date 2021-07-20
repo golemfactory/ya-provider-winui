@@ -10,7 +10,11 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+                <ResourceDictionary Source="Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/BlueButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

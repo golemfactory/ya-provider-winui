@@ -55,6 +55,7 @@ namespace GolemUI
 
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
+            if(Model.WalletAddress!=null)
             Clipboard.SetText(Model.WalletAddress);
         }
     }

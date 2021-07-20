@@ -10,7 +10,9 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="Themes/Ribbons/NavigationRibbon.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
@@ -70,12 +72,7 @@
                     <Label Style="{DynamicResource NavigationRibbonElementActive}">Benchmark</Label>
                 </StackPanel>
             </Border>
-
             <local:GpuMiningPanelUI x:Name="gpuMiningPanel" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"/>
-
-
-
-
         </Grid>
     </Border>
 </UserControl>

@@ -19,7 +19,12 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+                <ResourceDictionary Source="Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="Themes/WindowControls.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary Source="Icons/SetupResources.xaml"/>
                 <ResourceDictionary Source="Icons/Wallet_Icon.xaml"/>
                 <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
