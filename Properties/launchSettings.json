@@ -2,7 +2,7 @@
   "profiles": {
     "GolemUI": {
       "commandName": "Project",
-      "commandLineArgs": "setup"
+      "commandLineArgs": "--setup"
     }
   }
 }
