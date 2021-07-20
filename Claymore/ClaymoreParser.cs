@@ -442,7 +442,7 @@ namespace GolemUI.Claymore
                                 currentStatus.gpuName = currentStatus.GPUDetails.Split(',')[0];
                                 if (currentStatus.gpuName.Contains("(pcie"))
                                 {
-                                    var split2 = currentStatus.gpuName.Replace("(pcie","^").Split('^');
+                                    var split2 = currentStatus.gpuName.Replace("(pcie", "^").Split('^');
                                     currentStatus.gpuName = split2[0].Trim();
                                     int pciExpressLane;
                                     if (split2.Length >= 2)
@@ -540,7 +540,7 @@ namespace GolemUI.Claymore
                     //sample:
                     //"GPUs: 1: 0.000 MH/s (0) 2: 0.000 MH/s (0)"
 
-                    var splits = lineText.Replace("MH/s","^").Split('^');
+                    var splits = lineText.Replace("MH/s", "^").Split('^');
 
 
                     for (int i = 0; i < splits.Length - 1; i++)

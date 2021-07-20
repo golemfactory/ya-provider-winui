@@ -74,7 +74,7 @@ namespace GolemUI
             Hashrate = "101.9 TH/s";
             EstimatedProfit = "$41,32 / day";
             NodeName = "Randome_elfish_name_yo";
-           
+
         }
 
         public SettingsViewModel()

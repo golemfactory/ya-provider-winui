@@ -125,7 +125,7 @@ namespace GolemUI.Command
                 CreateNoWindow = true,
                 Arguments = String.Join(" ", (from arg in arguments where arg != null select _escapeArgument(arg)))
             };
-           
+
             var p = new Process
             {
                 StartInfo = startInfo

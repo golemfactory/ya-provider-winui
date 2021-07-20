@@ -127,7 +127,7 @@ namespace GolemUI.UI
 
         private void OnChooseNewWallet(object sender, RoutedEventArgs e)
         {
-            Model!.NoobStep = (int) ViewModel.SetupViewModel.NoobSteps.Prepare;
+            Model!.NoobStep = (int)ViewModel.SetupViewModel.NoobSteps.Prepare;
             Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.Noob;
         }
 
