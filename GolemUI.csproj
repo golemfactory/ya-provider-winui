@@ -30,7 +30,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-	<Nullable>enable</Nullable>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -484,6 +484,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="UI\Icons\Setup\Enjoy.png" />
+    <Resource Include="UI\Icons\Setup\Use_my_wallet.png" />
     <Resource Include="Media\balance.svg" />
     <Resource Include="Media\content-copy.svg" />
     <Resource Include="Media\cpu.svg" />
