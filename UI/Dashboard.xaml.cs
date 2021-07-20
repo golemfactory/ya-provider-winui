@@ -27,12 +27,7 @@ namespace GolemUI
         PageDashboardAdvancedSettings,
         PageDashboardBenchmark,
         PageDashboardWallet,
-        PageDashboardDetails,
-        PageWelcomeStart,
-        PageWelcomeDecide,
-        PageWelcomeNodeName,
-        PageWelcomeAddress,
-        PageWelcomeBenchmark,
+        PageDashboardDetails
     }
 
     /// <summary>
@@ -46,12 +41,8 @@ namespace GolemUI
         public DashboardWallet DashboardWallet { get; set; }
         public DashboardBenchmark DashboardBenchmark { get; set; }
         public DashboardDetails DashboardDetails { get; set; }
-        public WelcomeStart WelcomeStart { get; set; }
-        public WelcomeNodeName WelcomeNodeName { get; set; }
-        public WelcomeAddress WelcomeAddress { get; set; }
-        public WelcomeBenchmark WelcomeBenchmark { get; set; }
-        public WelcomeDecide WelcomeDecide { get; set; }
-        public DashboardPages _pageSelected = DashboardPages.PageWelcomeStart;
+
+        public DashboardPages _pageSelected = DashboardPages.PageDashboardMain;
 
         public DashboardPages LastPage { get; set; }
 
@@ -70,11 +61,7 @@ namespace GolemUI
             DashboardWallet = _dashboardWallet;
             DashboardBenchmark = new DashboardBenchmark();
             DashboardDetails = new DashboardDetails();
-            WelcomeStart = new WelcomeStart();
-            WelcomeNodeName = new WelcomeNodeName();
-            WelcomeAddress = new WelcomeAddress();
-            WelcomeBenchmark = new WelcomeBenchmark();
-            WelcomeDecide = new WelcomeDecide();
+
 
             _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain));
             _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
@@ -82,24 +69,7 @@ namespace GolemUI
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
             _pages.Add(DashboardPages.PageDashboardBenchmark, new DashboardPage(DashboardBenchmark));
             _pages.Add(DashboardPages.PageDashboardDetails, new DashboardPage(DashboardDetails));
-            _pages.Add(DashboardPages.PageWelcomeStart, new DashboardPage(WelcomeStart));
-            _pages.Add(DashboardPages.PageWelcomeNodeName, new DashboardPage(WelcomeNodeName));
-            _pages.Add(DashboardPages.PageWelcomeAddress, new DashboardPage(WelcomeAddress));
-            _pages.Add(DashboardPages.PageWelcomeBenchmark, new DashboardPage(WelcomeBenchmark));
-            _pages.Add(DashboardPages.PageWelcomeDecide, new DashboardPage(WelcomeDecide));
-
-
-            if (GlobalSettings.isDemo)
-            {
-                //cvMain.Children.Add(WelcomeStart);
-                _pageSelected = DashboardPages.PageWelcomeStart;
-            }
-            else
-            {
-                // cvMain.Children.Add(DashboardMain);
-                _pageSelected = DashboardPages.PageDashboardMain;
-            }
-
+            _pageSelected = DashboardPages.PageDashboardMain;
 
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
 
@@ -115,12 +85,6 @@ namespace GolemUI
 
             _pages[_pageSelected].View.Visibility = Visibility.Visible;
             _pages[_pageSelected].View.Opacity = 1.0f;
-
-            /*Style s = new Style();
-            s.Setters.Add(new Setter(UIElement.VisibilityProperty, Visibility.Collapsed));
-            tcNo1.ItemContainerStyle = s;*/
-            //this.WindowStyle = WindowStyle.None;
-            //this.ResizeMode = ResizeMode.NoResize;
         }
 
 

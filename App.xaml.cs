@@ -97,11 +97,6 @@ namespace GolemUI
             {
                 MessageBox.Show(ex.Message);
             }
-
-
-
-
-
         }
 
         private void OnExit(object sender, ExitEventArgs e)

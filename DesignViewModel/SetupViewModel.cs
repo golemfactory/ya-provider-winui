@@ -41,6 +41,12 @@ namespace GolemUI.DesignViewModel
                 new Claymore.ClaymoreGpuStatus(2)
                 {
                     gpuName = "Radeon RX 5500 XT (pcie 8), OpenCL 2.0, 8 GB VRAM, 22 CUs"
+                },
+                new Claymore.ClaymoreGpuStatus(3)
+                {
+                    gpuName = "Radeon RX 5500 XT (pcie 8), OpenCL 2.0, 8 GB VRAM, 22 CUs",
+                    DagProgress = 0.5f,
+                    GPUError = "Fail"
                 }
             };
         }

@@ -15,6 +15,24 @@ namespace GolemUI.ViewModel
         private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;
 
+        public enum FlowSteps
+        {
+            Start = 0,
+            Noob,
+            Expert,
+            OwnWallet
+        }
+
+        public enum NoobSteps
+        {
+            Prepare = 0,
+            SeedPhase,
+            SeedPhase2,
+            Name,
+            Benchmark,
+            Enjoy
+        }
+
         private int _flow;
 
         private int _noobStep;
@@ -53,6 +71,10 @@ namespace GolemUI.ViewModel
                             _gpus.Add(_newGpus[i]);
                         }
                     }
+                    while (_newGpus.Length < _gpus.Count)
+                    {
+                        _gpus.RemoveAt(_gpus.Count-1);
+                    }
                 }
 
                 OnPropertyChanged("GPUs");
@@ -63,6 +85,10 @@ namespace GolemUI.ViewModel
             {
                 OnPropertyChanged("BenchmarkIsRunning");
                 OnPropertyChanged("ExpectedProfit");
+                if (_noobStep == (int)NoobSteps.Benchmark && !BenchmarkIsRunning)
+                {
+                    NoobStep = (int) NoobSteps.Enjoy;
+                }
             }
         }
 

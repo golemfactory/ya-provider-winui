@@ -44,7 +44,7 @@ namespace GolemUI.Src
                 bool result = cc.RunBenchmarkRecording(@"test.recording");
                 if (result)
                 {
-                    MessageBox.Show(GlobalApplicationState.Instance.Dashboard, "WARNING: Running test recording. Remove test.recording to run real benchmark.");
+                    // TODO: Info
                 }
                 else
                 {
@@ -73,6 +73,10 @@ namespace GolemUI.Src
                     _claymoreLiveStatus = cc.ClaymoreParserBenchmark.GetLiveStatusCopy();
                     OnPropertyChanged("Status");
                     OnPropertyChanged("TotalMhs");
+                    if (_claymoreLiveStatus.NumberOfClaymorePerfReports >= _claymoreLiveStatus.TotalClaymoreReportsBenchmark)
+                    {
+                        break;
+                    }
                     await Task.Delay(100);
                 }
             }
@@ -80,7 +84,18 @@ namespace GolemUI.Src
             {
                 IsRunning = false;
                 cc.Stop();
+                if (_claymoreLiveStatus != null)
+                {
+                    foreach (var gpu in _claymoreLiveStatus.GPUs.Values)
+                    {
+                        if (!gpu.IsReadyForMining && !gpu.IsOperationStopped)
+                        {
+                            gpu.GPUError = "Timeout";
+                        }
+                    }                    
+                }
                 OnPropertyChanged("IsRunning");
+                OnPropertyChanged("Status");
             }
         }
 

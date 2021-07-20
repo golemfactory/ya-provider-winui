@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
-        Background="{DynamicResource MainWindow.Background}"
+        Background="Transparent"
         Title="Dashboard" Height="524" Width="974" MinHeight="524" MinWidth="974" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/tray.ico">
     <Window.Resources>
         <ResourceDictionary>
@@ -25,7 +25,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid x:Name="grdMain" HorizontalAlignment="Stretch" Margin="0">
+    <Grid x:Name="grdMain" HorizontalAlignment="Stretch" Margin="0" Background="{DynamicResource MainWindow.Background}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MinHeight="32"/>
             <RowDefinition Height="*"/>

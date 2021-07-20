@@ -27,7 +27,7 @@ namespace GolemUI.UI
                                 new PropertyChangedCallback(OnStepChanged)));
 
         public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register("Items", typeof(Model.NavBarItems), typeof(NavBar), new FrameworkPropertyMetadata(
-                        new Model.NavBarItems(),
+                        null,
                         new PropertyChangedCallback(OnItemsChanged)));
 
         private Model.NavBar _model = new Model.NavBar();
@@ -36,12 +36,12 @@ namespace GolemUI.UI
         {
             NavBar ctrl = (NavBar)d;
             var model = ctrl._model;
-            if (model.Items != ctrl.Items)
+            if (ctrl.Items != null && model.Items != ctrl.Items)
             {
                 model.Items = ctrl.Items;
             }
             model.Step = (int)e.NewValue;
-            ctrl.Items.UpdateItems(model.Step);
+            ctrl.Items?.UpdateItems(model.Step);
 
             //ctrl.SetValue(ItemsProperty, ctrl!.Model.Items);
         }
@@ -50,14 +50,14 @@ namespace GolemUI.UI
         {
             NavBar ctrl = (NavBar)d;
 
-            ctrl.Items.UpdateItems(ctrl.Step);
+            ctrl.Items?.UpdateItems(ctrl.Step);
 
             //ctrl.Model!.Items = (ObservableCollection<Model.NavBarItem>)e.NewValue;
         }
 
 
         [Bindable(true)]
-        public Model.NavBarItems Items => (Model.NavBarItems)GetValue(ItemsProperty);
+        public Model.NavBarItems? Items => (Model.NavBarItems)GetValue(ItemsProperty);
 
         [Bindable(true)]
         public int Step
@@ -71,12 +71,16 @@ namespace GolemUI.UI
 
         public NavBar()
         {
+            if (Items == null)
+            {
+                SetValue(ItemsProperty, new Model.NavBarItems());
+            }
             InitializeComponent();
         }
 
         private void OnReady(object sender, RoutedEventArgs e)
         {
-            Items.UpdateItems(Step);
+            Items?.UpdateItems(Step);
         }
     }
 }

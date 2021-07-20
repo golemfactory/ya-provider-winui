@@ -24,11 +24,31 @@
                 <ResourceDictionary Source="Themes/WindowControls.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/CancelButton.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary Source="Icons/SetupResources.xaml"/>
                 <ResourceDictionary Source="Icons/Wallet_Icon.xaml"/>
                 <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
                 <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
+                <ResourceDictionary>
+                    <DataTemplate x:Key="DTGPU">
+                        <StackPanel Margin="1" MaxWidth="250" ToolTip="{Binding Path=GPUError}">
+                            <TextBlock Text="{Binding gpuName}" Foreground="#aaa" TextWrapping="WrapWithOverflow"/>
+                            <TextBlock Text="{Binding Path=BenchmarkSpeed, Converter={StaticResource HashRateConverter}}"></TextBlock>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Mining ablity " Foreground="#aaa" Margin="0, 5" />
+                                <Grid Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToVisibleConverter}}">
+                                    <ProgressBar IsIndeterminate="True" Margin="5" BorderThickness="0" Background="Transparent" />
+                                    <TextBlock Foreground="#aaa"  VerticalAlignment="Center">checking...</TextBlock>
+                                </Grid>
+                                <StackPanel Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
+                                    <ContentControl Content="{StaticResource Status_Card_error}" Visibility="{Binding Path=IsReadyForMining, Converter={StaticResource BoolToHiddenConverter}}"/>
+                                    <ContentControl Content="{StaticResource Status_Ready_Icon}" Visibility="{Binding Path=IsReadyForMining, Converter={StaticResource BoolToVisibleConverter}}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>                    
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -266,27 +286,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                     <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
                                         <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Calculating your hash power</TextBlock>
                                         <UniformGrid Rows="1" Columns="2">
-                                            <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0">
-                                                <ListBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Margin="1" MaxWidth="250">
-                                                            <TextBlock Text="{Binding gpuName}" Foreground="#aaa" TextWrapping="WrapWithOverflow"/>
-                                                            
-                                                            <TextBlock Text="{Binding Path=BenchmarkSpeed, StringFormat={}Hash rate {0}}"></TextBlock>
-                                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">                                                                
-                                                                <TextBlock Text="Mining ablity " Foreground="#aaa" Margin="0, 5" />
-                                                                <Grid Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToVisibleConverter}}">
-                                                                    <ProgressBar IsIndeterminate="True" Margin="5" BorderThickness="0" Background="Transparent" />
-                                                                    <TextBlock Foreground="#aaa"  VerticalAlignment="Center">checking...</TextBlock>                                                                    
-                                                                </Grid>
-                                                                <StackPanel Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
-                                                                    <ContentControl Content="{StaticResource Status_Card_error}" Visibility="{Binding Path=IsOperationStopped, Converter={StaticResource BoolToVisibleConverter}}"/>
-                                                                    <ContentControl Content="{StaticResource Status_Ready_Icon}" Visibility="{Binding Path=IsReadyForMining, Converter={StaticResource BoolToVisibleConverter}}"/>
-                                                                </StackPanel>
-                                                            </StackPanel>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ListBox.ItemTemplate>
+                                            <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
                                                 <ListBox.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <UniformGrid Columns="1"/>
@@ -305,6 +305,45 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                            
                                         </UniformGrid>
                                         
+                                    </StackPanel>
+
+                                    <Label Grid.Row="2" Grid.ColumnSpan="3" Margin="10"/>
+                                </Grid>
+
+                            </TabItem>
+                            <TabItem Header="Enjoy!">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" MinWidth="275"/>
+                                        <ColumnDefinition Width="6*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="64"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="20,20,20,46"/>
+                                    <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
+                                        <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Enjoy!</TextBlock>
+                                        <UniformGrid Rows="1" Columns="2">
+                                            <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
+                                                <ListBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <UniformGrid Columns="1"/>
+                                                    </ItemsPanelTemplate>
+                                                </ListBox.ItemsPanel>
+                                            </ListBox>
+                                            <StackPanel Margin="10" HorizontalAlignment="Stretch">
+                                                <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
+                                                <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
+                                                <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
+                                                <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnNoobFinish"
+                                                       
+                                            />
+                                            </StackPanel>
+                                        </UniformGrid>
                                     </StackPanel>
 
                                     <Label Grid.Row="2" Grid.ColumnSpan="3" Margin="10"/>
@@ -336,14 +375,25 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <ContentControl Content="{DynamicResource Wallet_icon}" Width="180" Canvas.Top="50" Canvas.Left="70"/>
                                     </Canvas>
                                 </Viewbox>
-                                <Button Content="New Wallet" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" Click="OnWTLStep4Next"/>
+                                <Button Content="New Wallet" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" Click="OnChooseNewWallet"/>
                             </StackPanel>
                             <StackPanel Margin="60, 0">
-                                <ContentControl Content="{DynamicResource Benchmark_Step_icon}" Margin="20,20"/>
-                                <Button Content="Use my own" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" Click="OnWTLStep4Next"/>
+                                <ContentControl Content="{DynamicResource Use_my_wallet_icon}" Margin="20,20"/>
+                                <Button Content="Use my own" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" Click="OnChooseOwnWallet"/>
                             </StackPanel>
                         </UniformGrid>
                     </Grid>
+                </TabItem>
+                <TabItem Header="OwnWallet">
+                    <StackPanel>
+                        <lui:NavBar Step="0">
+                            <lui:NavBar.Items>
+                                <lm:NavBarItem StepName="Wallet"/>
+                                <lm:NavBarItem StepName="Name"/>
+                                <lm:NavBarItem StepName="Benchmark"/>
+                            </lui:NavBar.Items>
+                        </lui:NavBar>
+                    </StackPanel>
                 </TabItem>
             </TabControl>
         </Grid>

@@ -81,6 +81,8 @@ namespace GolemUI
          */
         static GlobalApplicationState? _instance = null;
 
+        public static GlobalApplicationState Instance => _instance!;
+
         public static void Initialize()
         {
             if (_instance != null)
@@ -94,18 +96,6 @@ namespace GolemUI
             if (_instance == null)
             {
                 throw new Exception("Finalizing unitialized GlobalApplicationState");
-            }
-        }
-
-        public static GlobalApplicationState Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    throw new Exception("GlobalApplicationState not initialized");
-                }
-                return _instance;
             }
         }
     }

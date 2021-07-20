@@ -19,10 +19,12 @@ namespace GolemUI.UI
     /// </summary>
     public partial class SetupWindow : Window
     {
+        private readonly IServiceProvider _serviceProvider;
         protected ViewModel.SetupViewModel? Model => DataContext as ViewModel.SetupViewModel;
 
-        public SetupWindow(ViewModel.SetupViewModel model)
+        public SetupWindow(ViewModel.SetupViewModel model, IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
             InitializeComponent();
             DataContext = model;
         }
@@ -114,6 +116,24 @@ namespace GolemUI.UI
         private void OnCancelNoobFlow(object sender, RoutedEventArgs e)
         {
             Model!.Flow = 0;
+        }
+
+        private void OnNoobFinish(object sender, RoutedEventArgs e)
+        {
+            var wnd = _serviceProvider.GetService(typeof(GolemUI.Dashboard)) as GolemUI.Dashboard;
+            wnd?.Show();
+            Close();
+        }
+
+        private void OnChooseNewWallet(object sender, RoutedEventArgs e)
+        {
+            Model!.NoobStep = (int) ViewModel.SetupViewModel.NoobSteps.Prepare;
+            Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.Noob;
+        }
+
+        private void OnChooseOwnWallet(object sender, RoutedEventArgs e)
+        {
+            Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.OwnWallet;
         }
     }
 }
