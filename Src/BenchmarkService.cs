@@ -99,7 +99,7 @@ namespace GolemUI.Src
                         {
                             gpu.GPUError = "Timeout";
                         }
-                    }                    
+                    }
                 }
                 OnPropertyChanged("IsRunning");
                 OnPropertyChanged("Status");

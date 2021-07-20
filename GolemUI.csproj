@@ -85,6 +85,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ChildProcessManager.cs" />
     <Compile Include="Claymore\ClaymoreParser.cs" />
     <Compile Include="Command\Claymore.cs" />
     <Compile Include="Command\GpuInfo.cs" />

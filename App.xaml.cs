@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -20,10 +22,13 @@ namespace GolemUI
     public partial class App : Application
     {
         private readonly ServiceProvider _serviceProvider;
-
+        private readonly GolemUI.ChildProcessManager _childProcessManager;
 
         public App()
         {
+            _childProcessManager = new GolemUI.ChildProcessManager();
+            _childProcessManager.AddProcess(Process.GetCurrentProcess());
+
             GlobalApplicationState.Initialize();
 
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;

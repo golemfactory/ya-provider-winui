@@ -73,7 +73,7 @@ namespace GolemUI.ViewModel
                     }
                     while (_newGpus.Length < _gpus.Count)
                     {
-                        _gpus.RemoveAt(_gpus.Count-1);
+                        _gpus.RemoveAt(_gpus.Count - 1);
                     }
                 }
 
@@ -87,7 +87,7 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged("ExpectedProfit");
                 if (_noobStep == (int)NoobSteps.Benchmark && !BenchmarkIsRunning)
                 {
-                    NoobStep = (int) NoobSteps.Enjoy;
+                    NoobStep = (int)NoobSteps.Enjoy;
                 }
             }
         }
