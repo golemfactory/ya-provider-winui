@@ -57,7 +57,7 @@ namespace GolemUI.Command
                     {
                         return null;
                     }
-                    return new String(_unsafeGpuDetails);
+                    return new String(_unsafeGpuDetails?.ToCharArray());
                 }
             }
             set
@@ -84,7 +84,7 @@ namespace GolemUI.Command
         {
             if (_claymoreProcess != null)
             {
-                _claymoreProcess.Kill(entireProcessTree: true);
+                _claymoreProcess.Kill(/*entireProcessTree: true*/);
                 _claymoreProcess = null;
             }
         }
@@ -132,7 +132,7 @@ namespace GolemUI.Command
 
             //Enable benchmark mode:
 
-            arguments.AddRange("-epool test -li 200".Split(" "));
+            arguments.AddRange("-epool test -li 200".Split(' '));
 
             foreach (var arg in arguments)
             {
@@ -140,7 +140,8 @@ namespace GolemUI.Command
                 {
                     throw new ArgumentNullException();
                 }
-                startInfo.ArgumentList.Add(arg);
+                startInfo.Arguments += arg + " ";
+                //startInfo.ArgumentList.Add(arg);
             }
 
             _claymoreProcess = new Process
@@ -193,7 +194,7 @@ namespace GolemUI.Command
 
 
 
-            arguments.AddRange($"-epool {pool} -ewal {ethereumAddress} -eworker benchmark -clnew 1 -clKernel 0".Split(" "));
+            arguments.AddRange($"-epool {pool} -ewal {ethereumAddress} -eworker benchmark -clnew 1 -clKernel 0".Split(' '));
 
             if (!string.IsNullOrEmpty(cards))
             {
@@ -212,7 +213,8 @@ namespace GolemUI.Command
                 {
                     throw new ArgumentNullException();
                 }
-                startInfo.ArgumentList.Add(arg);
+                startInfo.Arguments += arg + " ";
+                //startInfo.ArgumentList.Add(arg);
             }
 
             _claymoreProcess = new Process
@@ -303,12 +305,12 @@ namespace GolemUI.Command
 
         public void PrepareLines(string input)
         {
-            string[] lines = input.Split("\n");
+            string[] lines = input.Split('\n');
 
             _entries.Clear();
             foreach (var line in lines)
             {
-                var parsedStrs = line.Split(":", 2);
+                var parsedStrs = line.Split(':');
 
                 if (parsedStrs.Length < 2)
                 {
