@@ -17,7 +17,6 @@
                 <ResourceDictionary Source="Themes/Buttons/PinkButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/SliderCheckBox.xaml"/>
-=
                 <ResourceDictionary Source="Icons/Nav_Info_icon.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
