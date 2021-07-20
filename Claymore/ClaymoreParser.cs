@@ -8,9 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace GolemUI.Claymore
 {
-
     public class ClaymoreGpuStatus : ICloneable
     {
         public int gpuNo { get; set; }
@@ -48,6 +49,7 @@ namespace GolemUI.Claymore
             s.GPUError = this.GPUError;
             return s;
         }
+
 
         public bool IsReadyForMining()
         {
@@ -298,6 +300,16 @@ namespace GolemUI.Claymore
             _liveStatus = new ClaymoreLiveStatus(isBenchmark, totalClaymoreReportsNeeded);
         }
 
+
+        static int FindInStrEx(string baseStr, string searchedString)
+        {
+            return CultureInfo.InvariantCulture.CompareInfo.IndexOf(baseStr, searchedString, CompareOptions.IgnoreCase);
+        }
+        static bool ContainsInStrEx(string baseStr, string searchedString)
+        {
+            return CultureInfo.InvariantCulture.CompareInfo.IndexOf(baseStr, searchedString, CompareOptions.IgnoreCase) >= 0;
+        }
+
         /// <summary>
         /// Thread safe 
         /// </summary>
@@ -416,17 +428,17 @@ namespace GolemUI.Claymore
                         bool nVidiaGpuFound = false;
                         bool amdGpuFound = false;
 
-                        if (lineText.Contains("NVIDIA"/*, STR_COMP_TYPE*/) ||
-                            lineText.Contains("GeForce"/*, STR_COMP_TYPE*/) ||
-                            lineText.Contains("Quadro"/*, STR_COMP_TYPE*/) ||
-                            lineText.Contains("CUDA"/*, STR_COMP_TYPE*/)
+                        if (ContainsInStrEx(lineText, "NVIDIA") ||
+                            ContainsInStrEx(lineText, "GeForce") ||
+                            ContainsInStrEx(lineText, "Quadro") ||
+                            ContainsInStrEx(lineText, "CUDA")
                             )
                         {
                             currentStatus.GPUVendor = "nVidia";
                             nVidiaGpuFound = true;
                         }
 
-                        if (lineText.Contains("RADEON"/*, STR_COMP_TYPE*/))
+                        if (ContainsInStrEx(lineText, "RADEON"))
                         {
                             currentStatus.GPUVendor = "AMD";
                             amdGpuFound = true;
@@ -459,30 +471,30 @@ namespace GolemUI.Claymore
                     }
 
 
-                    if (lineText.Contains(": clSetKernelArg"))
+                    if (ContainsInStrEx(lineText, ": clSetKernelArg"))
                     {
                         currentStatus.GPUError = lineText;
                     }
 
-                    if (lineText.Contains(": Starting up"/*, STR_COMP_TYPE*/))
+                    if (ContainsInStrEx(lineText, ": Starting up"))
                     {
                         _liveStatus.GPUInfosParsed = true;
                     }
 
-                    if (lineText.Contains(": Allocating DAG"/*, STR_COMP_TYPE*/))
+                    if (ContainsInStrEx(lineText, ": Allocating DAG"))
                     {
                         _liveStatus.GPUInfosParsed = true;
                         currentStatus.IsDagCreating = true;
                         currentStatus.DagProgress = 0.0f;
                     }
-                    if (lineText.Contains(": Generating DAG"/*, STR_COMP_TYPE*/))
+                    if (ContainsInStrEx(lineText, ": Generating DAG"))
                     {
                         _liveStatus.GPUInfosParsed = true;
                         currentStatus.IsDagCreating = true;
                         currentStatus.DagProgress = 0.05f;
                     }
 
-                    if (lineText.Contains(": DAG"/*, STR_COMP_TYPE*/))
+                    if (ContainsInStrEx(lineText, ": DAG"/*, STR_COMP_TYPE*/))
                     {
                         var splits = lineText.Split(' ');
 
@@ -504,12 +516,12 @@ namespace GolemUI.Claymore
                         }
                     }
 
-                    if (lineText.Contains(": DAG generated"/*, STR_COMP_TYPE*/))
+                    if (ContainsInStrEx(lineText, ": DAG generated"))
                     {
                         currentStatus.IsDagCreating = false;
                         currentStatus.DagProgress = 1.0f;
                     }
-                    if (lineText.Contains("out of memory"/*, STR_COMP_TYPE*/))
+                    if (ContainsInStrEx(lineText, "out of memory"))
                     {
                         currentStatus.GPUError = lineText;
                     }
