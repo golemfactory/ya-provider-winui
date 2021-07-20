@@ -232,15 +232,28 @@ namespace GolemUI.Command
 
             if (enableClaymoreMining)
             {
-                string extraParams = "- ";
+                string extraParams = "";
                 if (ls.MinerSelectedGPUIndices != null && !String.IsNullOrEmpty(ls.MinerSelectedGPUIndices))
                 {
-                    string diSwitch = "-di ";
-                    string cards = ls.MinerSelectedGPUIndices?.Replace(",", "")?.Replace(".", "")?.Trim();
+                    string gpuSwitch = "-gpus ";
+                    string cards = ls.MinerSelectedGPUIndices;
 
-                    diSwitch += cards;
+                    gpuSwitch += cards;
 
-                    extraParams += diSwitch;
+                    extraParams += gpuSwitch;
+                }
+                if (ls.MinerSelectedGPUsNiceness != null && !String.IsNullOrEmpty(ls.MinerSelectedGPUsNiceness))
+                {
+                    if (extraParams != "")
+                    {
+                        extraParams += " ";
+                    }
+                    string nicenessSwitch = "-li ";
+                    string niceness = ls.MinerSelectedGPUsNiceness;
+
+                    nicenessSwitch += niceness;
+
+                    extraParams += nicenessSwitch;
                 }
                 startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = extraParams;
             }
