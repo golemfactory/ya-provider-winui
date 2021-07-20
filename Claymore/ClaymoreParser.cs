@@ -494,7 +494,7 @@ namespace GolemUI.Claymore
                         currentStatus.DagProgress = 0.05f;
                     }
 
-                    if (ContainsInStrEx(lineText, ": DAG"/*, STR_COMP_TYPE*/))
+                    if (ContainsInStrEx(lineText, ": DAG"))
                     {
                         var splits = lineText.Split(' ');
 
@@ -527,7 +527,7 @@ namespace GolemUI.Claymore
                     }
 
                 }
-                if (lineText.StartsWith("Eth speed"/*, STR_COMP_TYPE*/))
+                if (lineText.StartsWith("Eth speed", STR_COMP_TYPE))
                 {
                     _readyForGpusEthInfo = true;
 
