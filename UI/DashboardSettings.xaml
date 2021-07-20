@@ -108,7 +108,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="0.2*" />
+                            <RowDefinition Height="0.12*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/Settings/GPU_icon.png" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="6" Stretch="Uniform" />
@@ -140,6 +140,11 @@
                                         <StackPanel Orientation="Horizontal">
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mining ability: " Margin="0"/>
+
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+
+                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mode: " Margin="0"/>
 
                                         </StackPanel>
                                     </StackPanel>
