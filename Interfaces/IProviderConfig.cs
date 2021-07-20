@@ -11,6 +11,10 @@ namespace GolemUI.Interfaces
     {
         Command.Config? Config { get; }
 
+        bool IsMiningActive { get; set; }
+
+        bool IsCpuActive { get; set; }
+
         void UpdateWalletAddress(string? walletAddress = null);
         void UpdateNodeName(string? value);
     }

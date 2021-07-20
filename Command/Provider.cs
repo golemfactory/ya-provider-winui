@@ -178,6 +178,14 @@ namespace GolemUI.Command
             }
         }
 
+        public IList<string> ActivePresets
+        {
+            get
+            {
+                return this.Exec<List<string>>("--json preset active") ?? new List<string>();
+            }
+        }
+
         public void ActivatePreset(string presetName)
         {
             this.ExecToText($"preset activate {presetName}");

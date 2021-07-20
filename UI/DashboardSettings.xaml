@@ -21,8 +21,7 @@
                 <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/SliderCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
                 <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
                 <ResourceDictionary Source="Icons/Task_Type.xaml"/>
                 <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
@@ -91,11 +90,11 @@
                         <ContentControl Grid.Row="2"  Content="{DynamicResource Task_Type}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="0"/>
 
                         <StackPanel Grid.Row="3"  Orientation="Horizontal">
-                            <CheckBox Style="{DynamicResource CheckBoxSlider}" />
+                            <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsMiningActive}"/>
                             <Label Grid.Row="4" FontSize="10"  Content="Mining (GPU)" Foreground="#FFFFFF" FontWeight="Light" />
                         </StackPanel>
                         <StackPanel Grid.Row="4"  Orientation="Horizontal">
-                            <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="True" />
+                            <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuActive}" />
                             <Label Grid.Row="2" FontSize="10" Content="Golem Network (CPU)" Foreground="#FFFFFF" FontWeight="Light" />
                         </StackPanel>
                     </Grid>
@@ -186,17 +185,9 @@
                         <StackPanel>
                             <Label Content="Node name" FontFamily="Segoe UI" FontWeight="Bold" Margin="20,10,0,10" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF" Padding="0"/>
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,0">
-                                <TextBlock  Text="{Binding Path=NodeName, Mode=OneWay}" TextAlignment="Left" FontFamily="Segoe UI" FontWeight="Light" Margin="0,0,0,0" Padding="0,5,5,0" Foreground="#FFFFFF" />
-
-                                <Button Name="BtnEditNodeName" Style="{DynamicResource PinkButtonStyle}" Margin="5, 0, 5, 0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label Content="Edit" Padding="15,4,10,4" />
-                                        <Image Source="Icons/Common/edit.png" Width="16" Margin="0,0,10,0"/>
-
-
-
-                                    </StackPanel>
-                                </Button>
+                                <TextBox Text="{Binding Path=NodeName, Mode=OneWay, FallbackValue=NoName}" IsReadOnly="True"/>
+                                <TextBlock Text="" TextAlignment="Left" FontFamily="Segoe UI" FontWeight="Light" Margin="5" Foreground="#FFFFFF" />
+                                <Button Name="BtnEditNodeName" Style="{DynamicResource HyperLinkButtonStyle}" Margin="5" Content="Edit &#x270D;"/>
                             </StackPanel>
                         </StackPanel>
 

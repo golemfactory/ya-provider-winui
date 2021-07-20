@@ -21,6 +21,47 @@ namespace GolemUI.Src
 
         public Config? Config { get; }
 
+        private IList<string>? _activePresets;
+
+        private bool _isPresetActive(string presetName)
+        {
+            if (_activePresets == null)
+            {
+                _activePresets = _provider.ActivePresets;
+            }
+            return _activePresets.Contains(presetName);
+        }
+        private void _setPreset(string presetName, bool value)
+        {
+            if (value)
+            {
+                _provider.ActivatePreset(presetName);
+            }
+            else
+            {
+                _provider.DeactivatePreset(presetName);
+            }
+            _activePresets = _provider.ActivePresets;
+            OnPropertyChanged("IsMiningActive");
+            OnPropertyChanged("IsCpuActive");
+        }
+
+        public bool IsMiningActive
+        {
+            get => _isPresetActive("gminer");
+            set
+            {
+                _setPreset("gminer", value);
+            }
+        }
+
+
+        public bool IsCpuActive
+        {
+            get => _isPresetActive("wasmtime");
+            set { _setPreset("wasmtime", value); }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public void UpdateNodeName(string? nodeName)

@@ -12,7 +12,7 @@ namespace GolemUI
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-        private Command.Provider? _provider;
+        private Command.Provider _provider;
         private BenchmarkResults? _benchmarkSettings;
         private IProviderConfig? _providerConfig;
         public ObservableCollection<SingleGpuDescriptor>? GpuList { get; set; }
@@ -26,6 +26,25 @@ namespace GolemUI
         public string? _nodeName { get; set; }
         public String ActiveCpusCountAsString { get { return this.ActiveCpusCount.ToString(); } }
         public String TotalCpusCountAsString { get { return this.TotalCpusCount.ToString(); } }
+
+
+        public bool IsMiningActive
+        {
+            get => _providerConfig.IsMiningActive;
+            set
+            {
+                _providerConfig.IsMiningActive = value;
+            }
+        }
+
+        public bool IsCpuActive
+        {
+            get => _providerConfig.IsCpuActive;
+            set
+            {
+                _providerConfig.IsCpuActive = value;
+            }
+        }
 
         public void LoadData()
         {
@@ -64,6 +83,9 @@ namespace GolemUI
             _priceProvider = priceProvider;
             _provider = provider;
             _providerConfig = providerConfig;
+
+            _providerConfig.PropertyChanged += OnProviderCofigChanged;
+
             GpuList = new ObservableCollection<SingleGpuDescriptor>();
             GpuList.Add(new SingleGpuDescriptor(1, "1st GPU", 20.12f, false, true));
             GpuList.Add(new SingleGpuDescriptor(2, "second GPU", 12.10f, true, false));
@@ -73,8 +95,18 @@ namespace GolemUI
             TotalCpusCount = 7;
             Hashrate = "101.9 TH/s";
             EstimatedProfit = "$41,32 / day";
-            NodeName = "Randome_elfish_name_yo";
+        }
 
+        private void OnProviderCofigChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Config")
+            {
+                NotifyChange("NodeName");
+            }
+            if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
+            {
+                NotifyChange(e.PropertyName);
+            }
         }
 
         public SettingsViewModel()
@@ -120,11 +152,10 @@ namespace GolemUI
 
         public string? NodeName
         {
-            get { return _nodeName; }
+            get => _providerConfig?.Config?.NodeName;
             set
             {
-                _nodeName = value;
-                NotifyChange("NodeName");
+                _providerConfig?.UpdateNodeName(value);
             }
         }
 
