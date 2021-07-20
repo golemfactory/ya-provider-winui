@@ -41,8 +41,8 @@ namespace GolemUI.Src
             var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded);
             try
             {
-                bool result = cc.RunBenchmarkRecording(@"test.recording");
-                if (result)
+                bool benchmarkRecordingActive = cc.RunBenchmarkRecording(@"test.recording");
+                if (benchmarkRecordingActive)
                 {
                     // TODO: Info
                 }
@@ -68,11 +68,13 @@ namespace GolemUI.Src
                 {
                     return;
                 }
-
-                result = cc.RunBenchmark("", "", poolAddr, walletAddress);
-                if (!result)
+                if (!benchmarkRecordingActive)
                 {
-                    return;
+                    bool result = cc.RunBenchmark("", "", poolAddr, walletAddress);
+                    if (!result)
+                    {
+                        return;
+                    }
                 }
 
                 while (!cc.BenchmarkFinished && IsRunning)

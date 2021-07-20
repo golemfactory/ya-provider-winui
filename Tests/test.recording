@@ -1,0 +1,86 @@
+0: Start recording
+19: Phoenix Miner 5.6a Windows/msvc - Release build
+20: -----------------------------------------------
+21: 
+69: CUDA version: 11.0, CUDA runtime: 8.0
+510: Unknown OpenCL driver version! Hashrate and stale shares may suffer
+511: OpenCL platform: OpenCL 2.1 AMD-APP (3180.7)
+516: Available GPUs for mining:
+518: GPU1: NVIDIA GeForce RTX 3060 Laptop GPU (pcie 5), CUDA cap. 8.6, 6 GB VRAM, 30 CUs
+518: GPU2: AMD Radeon(TM) Graphics (pcie 3), OpenCL 2.0, 12 GB VRAM, 8 CUs
+518: GPU3: NVIDIA GeForce RTX 3070 (pcie 2), CUDA cap. 8.6, 12 GB VRAM, 50 CUs
+518: GPU4: AMD Radeon(TM) Graphics (pcie 7), OpenCL 2.0, 8 GB VRAM, 16 CUs
+527: Nvidia driver version: 466.77
+1153: Eth: Loading pools from epools.txt
+1154: Eth: the pool list contains 9 pools (1 from command-line)
+1155: Eth: primary pool: staging-backend.chessongolem.app:3334
+1156: Starting GPU mining
+1156: ADL Overdrive not supported on GPU2
+1157: ADL adapter index not found for GPU2
+1158: GPU1: unable to get fan speed - Not Supported (3)
+1283: Eth: Connecting to ethash pool staging-backend.chessongolem.app:3334 (proto: EthProxy)
+1284: GPU1: 21W, GPU2: N/A
+1285: GPUs power: 21.2 W
+1304: Eth: Connected to ethash pool staging-backend.chessongolem.app:3334 (51.116.177.10)
+1354: Eth: New job #553e5391 from staging-backend.chessongolem.app:3334; diff: 4295MH
+1355: GPU1: Starting up... (0)
+1356: GPU1: Generating ethash light cache for epoch #426
+1360: GPU2: Starting up... (0)
+1360: GPU3: Starting up... (0)
+1449: Eth: New job #a641d4c7 from staging-backend.chessongolem.app:3334; diff: 4295MH
+1483: Listening for CDM remote manager at port 3333 in read-only mode
+3714: Light cache generated in 2.4 s (29.4 MB/s)
+4328: GPU2: Free VRAM: 12.023 GB; used: 0.066 GB
+4329: GPU2: Allocating DAG (4.34) GB; good for epoch up to #428
+4329: GPU3: Allocating DAG (4.34) GB; good for epoch up to #428
+4337: GPU2: Generating DAG for epoch #426
+4337: GPU3: Generating DAG for epoch #426
+4337: GPU4: Generating DAG for epoch #426
+4405: Eth: New job #2ba3aa65 from staging-backend.chessongolem.app:3334; diff: 4295MH
+4990: GPU1: Allocating DAG (4.34) GB; good for epoch up to #428
+5001: GPU1: Generating DAG for epoch #426
+6380: Eth speed: 0.000 MH/s, shares: 0/0/0, time: 0:00
+6382: GPUs: 1: 0.000 MH/s (0) 2: 0.000 MH/s (0) 3: 0.000 MH/s (0) 4: 0.000 MH/s (0)
+6436: GPU2: DAG   4%
+6728: GPU1: DAG  14%
+7959: GPU2: DAG   8%
+7959: GPU3: DAG   8%
+8284: GPU1: DAG  30%
+8401: Eth: New job #22c83d6a from staging-backend.chessongolem.app:3334; diff: 4295MH
+9487: GPU2: DAG  12%
+9832: GPU1: DAG  45%
+11020: GPU2: DAG  16%
+11433: GPU1: DAG  61%
+11475: Eth speed: 0.000 MH/s, shares: 0/0/0, time: 0:00
+11477: GPUs: 1: 0.000 MH/s (0) 2: 0.000 MH/s (0) 3: 0.000 MH/s (0) 4: 0.000 MH/s (0)
+12553: GPU2: DAG  20%
+12981: GPU1: DAG  77%
+13785: Eth: New job #84b294be from staging-backend.chessongolem.app:3334; diff: 4295MH
+13787: Eth: New job #8002ca55 from staging-backend.chessongolem.app:3334; diff: 4295MH
+14077: GPU2: DAG  24%
+14077: GPU4: DAG  50%
+14077: GPU4: DAG generated in 50.3 s (115.7 MB/s)
+14535: GPU1: DAG  92%
+15174: GPU1: DAG generated in 10.2 s (435.7 MB/s)
+15176: GPU1: Using v2 Ethash CUDA kernels (NVIDIA GeForce RTX 3060 Laptop GPU)
+15607: GPU2: DAG  28%
+16555: Eth speed: 35.035 MH/s, shares: 0/0/0, time: 0:00
+16557: GPUs: 1: 35.035 MH/s (0) 2: 0.000 MH/s (0) 3: 0.140 MH/s (0) 4: 11.200 MH/s (0)
+17134: GPU2: DAG  32%
+17804: Eth: New job #71543f32 from staging-backend.chessongolem.app:3334; diff: 4295MH
+18658: GPU2: DAG  37%
+20188: GPU2: DAG  41%
+20188: GPU3: DAG generated in 50.3 s (115.7 MB/s)
+21188: Eth speed: 35.044 MH/s, shares: 0/0/0, time: 0:00
+21190: GPUs: 1: 35.044 MH/s (0) 2: 0.000 MH/s (0) 3: 0.150 MH/s (0) 4: 11.300 MH/s (0)
+21213: GPU2: DAG  45%
+21411: Eth: New job #3a72caea from staging-backend.chessongolem.app:3334; diff: 4295MH
+21434: GPU2: DAG  97%
+22168: Eth speed: 35.048 MH/s, shares: 0/0/0, time: 0:00
+22170: GPUs: 1: 35.048 MH/s (0) 2: 0.000 MH/s (0) 3: 0.130 MH/s (0) 4: 12.420 MH/s (0)
+22637: GPU2: DAG generated in 38.3 s (115.7 MB/s)
+22638: GPU2: Using Ethash OCL kernels (gfx902; -clkernel 1 -clnew 0)
+22639: GPU2: no -gt value specified, switching to auto-tune
+22640: GPU2: starting auto-tune process
+22641: GPU2: clSetKernelArg (-48)
+22642: Fatal error detected. Restarting.

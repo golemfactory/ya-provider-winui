@@ -313,7 +313,7 @@ namespace GolemUI.Command
             _entries.Clear();
             foreach (var line in lines)
             {
-                var parsedStrs = line.Split(':');
+                var parsedStrs = line.Split(new char[] { ':' }, 2);
 
                 if (parsedStrs.Length < 2)
                 {
