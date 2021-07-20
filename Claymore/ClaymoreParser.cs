@@ -49,14 +49,11 @@ namespace GolemUI.Claymore
             return s;
         }
 
-        public bool IsReadyForMining()
-        {
-            if (IsDagFinished() && BenchmarkSpeed > 0.5 && String.IsNullOrEmpty(GPUError))
-            {
-                return true;
-            }
-            return false;
-        }
+        public bool InProgress => !IsReadyForMining && !IsOperationStopped;
+
+        public bool IsReadyForMining => (IsDagFinished() && BenchmarkSpeed > 0.5 && String.IsNullOrEmpty(GPUError));
+
+        public bool IsOperationStopped => (OutOfMemory || GPUNotFound || !IsEnabledByUser);
 
         public bool IsDagFinished()
         {
@@ -70,14 +67,8 @@ namespace GolemUI.Claymore
             }
             return true;
         }
-        public bool IsOperationStopped()
-        {
-            if (OutOfMemory || GPUNotFound || !IsEnabledByUser)
-            {
-                return true;
-            }
-            return false;
-        }
+
+
     }
 
     public class ClaymoreLiveStatus : ICloneable
@@ -141,7 +132,7 @@ namespace GolemUI.Claymore
         {
             foreach (var gpu in GPUs.Values)
             {
-                bool gpuDagFinished = gpu.IsDagFinished() || gpu.IsOperationStopped();
+                bool gpuDagFinished = gpu.IsDagFinished() || gpu.IsOperationStopped;
                 if (!gpuDagFinished)
                 {
                     return false;

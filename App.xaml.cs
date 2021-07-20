@@ -54,6 +54,7 @@ namespace GolemUI
             services.AddSingleton(Command.Network.Rinkeby);
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
+            services.AddSingleton<Src.BenchmarkService>();
 
             services.AddTransient(typeof(DashboardWallet));
             services.AddTransient(typeof(ViewModel.WalletViewModel));

@@ -303,6 +303,20 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="CancelButtonStyle" TargetType="Button">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2">
+                    <Hyperlink TextDecorations="None" Foreground="#fff" FontFamily="Arial" FontWeight="Bold">
+                        <Run Text="{TemplateBinding Content}" />
+                    </Hyperlink>
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <SolidColorBrush x:Key="EditButton.Static.Background" Color="#D119AE"/>
     <SolidColorBrush x:Key="EditButton.Static.Border" Color="#74708C"/>

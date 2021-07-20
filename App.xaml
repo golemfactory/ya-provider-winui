@@ -6,8 +6,10 @@
              Startup="OnStartup" Exit="OnExit">
     <Application.Resources>
         <lc:AmountConverter x:Key="AmountConverter"/>
+        <lc:CounterConverter x:Key="CounterConverter"/>
         <lc:BoolToVisibilityConverter x:Key="BoolToHiddenConverter" TrueValue="Collapsed" FalseValue="Visible"/>
         <lc:BoolToVisibilityConverter x:Key="BoolToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <lc:HashRateConverter x:Key="HashRateConverter"/>
     </Application.Resources>
 </Application>
 

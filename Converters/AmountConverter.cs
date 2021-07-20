@@ -12,12 +12,25 @@ namespace GolemUI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+            {
+                return "N/A";
+            }
+
             var dv = value as decimal?;
+            if (dv == null && value.GetType() == typeof(double))
+            {
+                dv = (decimal?)(value as Double?);
+            }
             if (dv != null)
             {
                 if (parameter?.ToString() == "GLM")
                 {
                     return $"{dv?.ToString("F5")} GLM";
+                }
+                if (parameter?.ToString() == "usdday")
+                {
+                    return $"${dv?.ToString("F3")} / day";
                 }
                 return "$" + dv?.ToString("F3");
             }

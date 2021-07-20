@@ -16,6 +16,10 @@ namespace GolemUI.Src
             if (miningType == MiningType.MiningTypeEth)
             {
                 earnings = 0.05 * hashrate;
+                if (miningEarningsPeriod == MiningEarningsPeriod.MiningEarningsPeriodDay)
+                {
+                    return earnings;
+                }
                 if (miningEarningsPeriod == MiningEarningsPeriod.MiningEarningsPeriodWeek)
                 {
                     return earnings * 7;

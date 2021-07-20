@@ -166,7 +166,7 @@ namespace GolemUI
 
         }
 
-        
+
 
         public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
         {
@@ -324,7 +324,7 @@ namespace GolemUI
 
                 SettingsLoader.SaveSettingsToFile(ls);
             }
-            
+
         }
 
 
@@ -352,7 +352,7 @@ namespace GolemUI
             {
                 poolAddr = txPool.Text;
                 ethAddress += "/" + ls.NodeName;
-                
+
                 if (!string.IsNullOrEmpty(txEmail.Text))
                 {
                     ethAddress += "/" + txEmail.Text;
@@ -391,7 +391,7 @@ namespace GolemUI
                 }
             }
             ClaymoreBenchmark cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded);
-            
+
 
             bool result = cc.RunBenchmarkRecording(@"test.recording");
             if (result)
@@ -476,8 +476,6 @@ namespace GolemUI
                     return;
                 }
                 UpdateBenchmarkStatus(_currentLiveStatus, allExpectedGPUsFound);
-
-
             }
         }
 
@@ -491,7 +489,7 @@ namespace GolemUI
             {
                 foreach (var gpu in benchmark.liveStatus.GPUs)
                 {
-                    if (gpu.Value.IsReadyForMining())
+                    if (gpu.Value.IsReadyForMining)
                     {
                         if (gpu.Value.gpuNo > 0 && gpu.Value.gpuNo < 10)
                         {

@@ -61,14 +61,43 @@ namespace GolemUI.UI
             Model!.NoobStep = 1;
         }
 
+        // Genetate Seed
         private void OnWTLStep2(object sender, RoutedEventArgs e)
         {
-            Model!.NoobStep = 2;
+            Model!.GenerateSeed();
         }
 
         private void OnWTLStep3Print(object sender, RoutedEventArgs e)
         {
+            var printDlg = new PrintDialog();
+            var table = new Table();
+            var rg = new TableRowGroup();
+            var _words = Model?.MnemonicWords;
+            if (_words == null)
+            {
+                return;
+            }
+            var row = new TableRow();
+            for (var i = 0; i < _words.Length; ++i)
+            {
+                var cell = new TableCell(new Paragraph(new Run($"{i + 1}. {_words[i]}")));
+                row.Cells.Add(cell);
+                if (row.Cells.Count >= 3)
+                {
+                    rg.Rows.Add(row);
+                    row = new TableRow();
+                }
+            }
+            rg.Rows.Add(row);
+            table.RowGroups.Add(rg);
 
+            FlowDocument doc = new FlowDocument(new Paragraph(new Run("Wallet Recovery Words")) { FontWeight = FontWeights.Bold });
+            doc.Blocks.Add(table);
+            doc.Name = "RecoveryDoc";
+            // Create IDocumentPaginatorSource from FlowDocument  
+            IDocumentPaginatorSource idpSource = doc;
+            // Call PrintDocument method to send document to printer  
+            printDlg.PrintDocument(idpSource.DocumentPaginator, "Wallet Recovery Sheet");
         }
 
         private void OnWTLStep3Next(object sender, RoutedEventArgs e)
@@ -78,7 +107,13 @@ namespace GolemUI.UI
 
         private void OnWTLStep4Next(object sender, RoutedEventArgs e)
         {
+            Model!.BenchmarkService.StartBenchmark();
             Model!.NoobStep = 4;
+        }
+
+        private void OnCancelNoobFlow(object sender, RoutedEventArgs e)
+        {
+            Model!.Flow = 0;
         }
     }
 }

@@ -36,11 +36,11 @@ namespace GolemUI
         {
             InitializeComponent();
 
-            
+
             SetActiveNavigationType(NavigationType.NavigationType1);
         }
 
-        
+
 
         private void ResetGpuList()
         {

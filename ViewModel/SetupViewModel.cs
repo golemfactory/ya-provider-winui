@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NBitcoin;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,8 @@ namespace GolemUI.ViewModel
     public class SetupViewModel : INotifyPropertyChanged
     {
         private readonly Interfaces.IProviderConfig _providerConfig;
+        private readonly Src.BenchmarkService _benchmarkService;
+        private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;
 
         private int _flow;
 
@@ -19,13 +23,47 @@ namespace GolemUI.ViewModel
 
         public bool IsDesingMode => false;
 
-        public SetupViewModel(Interfaces.IProviderConfig providerConfig)
+        public SetupViewModel(Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator)
         {
             _flow = 0;
             _noobStep = 0;
             _providerConfig = providerConfig;
+            _benchmarkService = benchmarkService;
+            _profitEstimator = profitEstimator;
 
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
+            _benchmarkService.PropertyChanged += OnBenchmarkChanged;
+        }
+
+        private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Status")
+            {
+                var _newGpus = _benchmarkService.Status?.GPUs.Values?.ToArray();
+                if (_newGpus != null)
+                {
+                    for (var i = 0; i < _newGpus.Length; ++i)
+                    {
+                        if (i < _gpus.Count)
+                        {
+                            _gpus[i] = _newGpus[i];
+                        }
+                        else
+                        {
+                            _gpus.Add(_newGpus[i]);
+                        }
+                    }
+                }
+
+                OnPropertyChanged("GPUs");
+                OnPropertyChanged("TotalHashRate");
+                OnPropertyChanged("ExpectedProfit");
+            }
+            if (e.PropertyName == "IsRunning")
+            {
+                OnPropertyChanged("BenchmarkIsRunning");
+                OnPropertyChanged("ExpectedProfit");
+            }
         }
 
         private void OnProviderConfigChanged(object? sender, PropertyChangedEventArgs e)
@@ -56,6 +94,28 @@ namespace GolemUI.ViewModel
             }
         }
 
+        public Src.BenchmarkService BenchmarkService => _benchmarkService;
+
+        private ObservableCollection<Claymore.ClaymoreGpuStatus> _gpus = new ObservableCollection<Claymore.ClaymoreGpuStatus>();
+        public ObservableCollection<Claymore.ClaymoreGpuStatus>? GPUs => _gpus;
+
+        public float? TotalHashRate => _benchmarkService.TotalMhs;
+
+        public double? ExpectedProfit
+        {
+            get
+            {
+                var totalHr = TotalHashRate;
+                if (totalHr != null)
+                {
+                    return _profitEstimator.EthHashRateToDailyEarnigns((double)totalHr, Interfaces.MiningType.MiningTypeEth, Interfaces.MiningEarningsPeriod.MiningEarningsPeriodDay);
+                }
+                return null;
+            }
+        }
+
+        public bool BenchmarkIsRunning => _benchmarkService.IsRunning;
+
         public void GoToStart()
         {
             Flow = 0;
@@ -77,6 +137,19 @@ namespace GolemUI.ViewModel
                 _providerConfig.UpdateNodeName(value);
             }
         }
+
+        private Mnemonic? _mnemo;
+        public void GenerateSeed()
+        {
+            if (_mnemo == null)
+            {
+                _mnemo = new Mnemonic(Wordlist.English, WordCount.Twelve);
+                OnPropertyChanged("MnemonicWords");
+            }
+            NoobStep = 2;
+        }
+
+        public string[]? MnemonicWords => _mnemo?.Words;
 
         private void OnPropertyChanged(string? propertyName)
         {
