@@ -135,5 +135,16 @@ namespace GolemUI.UI
         {
             Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.OwnWallet;
         }
+
+        private void OnEMWalletStepDone(object sender, RoutedEventArgs e)
+        {
+            Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Name;
+        }
+
+        private void OnEMNameStepDone(object sender, RoutedEventArgs e)
+        {
+            Model!.BenchmarkService.StartBenchmark();
+            Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
+        }
     }
 }

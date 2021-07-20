@@ -12,7 +12,7 @@ namespace GolemUI
 {
     internal sealed class ChildProcessManager : IDisposable
     {
-        private SafeJobHandle _handle;
+        private SafeJobHandle? _handle;
         private bool _disposed;
 
         public ChildProcessManager()
@@ -44,19 +44,20 @@ namespace GolemUI
         {
             if (_disposed) return;
 
-            _handle.Dispose();
+            _handle?.Dispose();
             _handle = null;
             _disposed = true;
         }
 
         private void ValidateDisposed()
         {
-            if (_disposed) throw new ObjectDisposedException(nameof(ChildProcessManager));
+            if (_disposed || _handle == null) throw new ObjectDisposedException(nameof(ChildProcessManager));
         }
 
         public void AddProcess(SafeProcessHandle processHandle)
         {
             ValidateDisposed();
+
             if (!AssignProcessToJobObject(_handle, processHandle))
             {
                 throw new InvalidOperationException("Unable to add the process");
@@ -102,7 +103,7 @@ namespace GolemUI
         // ReSharper disable InconsistentNaming
 
         [DllImport("kernel32", CharSet = CharSet.Unicode)]
-        private static extern IntPtr CreateJobObject(IntPtr a, string lpName);
+        private static extern IntPtr CreateJobObject(IntPtr a, string? lpName);
 
         [DllImport("kernel32")]
         private static extern bool SetInformationJobObject(SafeJobHandle hJob, JobObjectInfoType infoType, IntPtr lpJobObjectInfo, uint cbJobObjectInfoLength);

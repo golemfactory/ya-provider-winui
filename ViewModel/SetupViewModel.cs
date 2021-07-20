@@ -33,9 +33,19 @@ namespace GolemUI.ViewModel
             Enjoy
         }
 
+        public enum ExpertSteps
+        {
+            Wallet = 0,
+            Name,            
+            Benchmark,
+            Enjoy
+        }
+
         private int _flow;
 
         private int _noobStep;
+
+        private ExpertSteps _expertStep;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -85,9 +95,19 @@ namespace GolemUI.ViewModel
             {
                 OnPropertyChanged("BenchmarkIsRunning");
                 OnPropertyChanged("ExpectedProfit");
-                if (_noobStep == (int)NoobSteps.Benchmark && !BenchmarkIsRunning)
+                if (_flow == (int)FlowSteps.Noob)
                 {
-                    NoobStep = (int)NoobSteps.Enjoy;
+                    if (_noobStep == (int)NoobSteps.Benchmark && !BenchmarkIsRunning)
+                    {
+                        NoobStep = (int)NoobSteps.Enjoy;
+                    }
+                }
+                else if (_flow == (int)FlowSteps.OwnWallet)
+                {
+                    if (_expertStep == ExpertSteps.Benchmark && !BenchmarkIsRunning)
+                    {
+                        ExpertStep = (int)ExpertSteps.Enjoy;
+                    }
                 }
             }
         }
@@ -117,6 +137,25 @@ namespace GolemUI.ViewModel
             {
                 _noobStep = value;
                 OnPropertyChanged("NoobStep");
+            }
+        }
+
+        public int ExpertStep
+        {
+            get => (int)_expertStep;
+            set
+            {
+                _expertStep = (ExpertSteps)value;
+                OnPropertyChanged("ExpertStep");
+            }
+        }
+
+        public string? Address
+        {
+            get => _providerConfig?.Config?.Account;
+            set
+            {
+                _providerConfig?.UpdateWalletAddress(value);
             }
         }
 
