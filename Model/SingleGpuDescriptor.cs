@@ -8,7 +8,7 @@ namespace GolemUI
     /// </summary>
     /// 
 
-    
+
     public class SingleGpuDescriptor : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -37,10 +37,9 @@ namespace GolemUI
             {
                 _hashrate = value;
                 NotifyChange("Hashrate");
-                NotifyChange("HashrateAsString");
             }
         }
-        public string? HashrateAsString => _hashrate.ToString();
+        
 
         public string? Name
         {
@@ -89,7 +88,7 @@ namespace GolemUI
             {
                 _inProgress = value;
                 NotifyChange("InProgress");
-             
+
             }
         }
 

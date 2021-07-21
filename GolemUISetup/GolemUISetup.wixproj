@@ -21,9 +21,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <WixVariables>A=5</WixVariables>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GolemUI.wxs" />
+    <Compile Include="ProductInstallFiles.wxs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -38,6 +42,16 @@
       <Name>WixUIExtension</Name>
     </WixExtension>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ya-provider-winui\GolemUI.csproj">
+      <Name>GolemUI</Name>
+      <Project>{f03ff034-8a27-457b-a8ea-a36b33689ebd}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
   <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
@@ -46,9 +60,10 @@
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
 	Other similar extension points exist, see Wix.targets.
-	<Target Name="BeforeBuild">
-	</Target>
-	<Target Name="AfterBuild">
-	</Target>
 	-->
+  <Target Name="BeforeBuild">
+    <HeatDirectory OutputFile="$(ProjectDir)\ProductInstallFiles.wxs" Directory="..\bin\Release" ComponentGroupName="ProductFilesComponentGroup" DirectoryRefId="APPLICATIONFOLDER" AutogenerateGuids="true" PreprocessorVariable="var.GolemUI.TargetDir" SuppressRegistry="true" SuppressRootDirectory="true" ToolPath="$(WixToolPath)" NoLogo="true" />
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
 </Project>
