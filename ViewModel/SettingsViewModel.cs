@@ -21,7 +21,7 @@ namespace GolemUI
         public ObservableCollection<SingleGpuDescriptor>? GpuList { get; set; }
 
         private IPriceProvider? _priceProvider;
-        public int _activeCpusCount { get; set; }
+        private int _activeCpusCount=0;
 
         private decimal _glmPerDay = 0.0m;
 
@@ -30,7 +30,7 @@ namespace GolemUI
             BenchmarkService.StartBenchmark();
         }
 
-        public int _totalCpusCount { get; set; }
+        private int _totalCpusCount=0;
    
 
         public bool IsMiningActive
@@ -52,23 +52,17 @@ namespace GolemUI
         }
         public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator)
         {
+            GpuList = new ObservableCollection<SingleGpuDescriptor>();
             _priceProvider = priceProvider;
             _provider = provider;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
             _providerConfig.PropertyChanged += OnProviderCofigChanged;
             _benchmarkService.PropertyChanged += OnBenchmarkChanged;
-            
             _profitEstimator = profitEstimator;
-
-
-            GpuList = new ObservableCollection<SingleGpuDescriptor>();
-            GpuList.Add(new SingleGpuDescriptor(1, "1st GPU", 20.12f, false, true, 0, false));
-            GpuList.Add(new SingleGpuDescriptor(2, "second GPU", 12.10f, true, false, 5, true));
-            GpuList.Add(new SingleGpuDescriptor(3, "3rd GPU", 9.00f, false, true, 10, true));
-
+      
             ActiveCpusCount = 3;
-            TotalCpusCount = 7;
+            TotalCpusCount = GetCpuCount();
 
         }
         public void LoadData()
@@ -111,7 +105,9 @@ namespace GolemUI
         {
             if (e.PropertyName == "Status")
             {
+
                 var _newGpus = _benchmarkService.Status?.GPUs.Values?.ToArray();
+                //_benchmarkService.Status?.GPUInfosParsed
                 if (_newGpus.Length == 0) return;
                 if (_newGpus != null)
                 {
