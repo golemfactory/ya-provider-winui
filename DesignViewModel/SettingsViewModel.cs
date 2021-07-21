@@ -9,7 +9,7 @@ namespace GolemUI.DesignViewModel
 {
     public class SettingsViewModel
     {
-        public double? EstimatedProfit => 300;
+        public double? ExpectedProfit => 300;
 
         public float? Hashrate => 78.0f;
 
@@ -33,6 +33,7 @@ namespace GolemUI.DesignViewModel
         public int TotalCpusCount => 7;
 
         public bool BenchmarkIsRunning => false;
+
 
     }
 }
