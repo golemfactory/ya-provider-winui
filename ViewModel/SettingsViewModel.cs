@@ -22,9 +22,8 @@ namespace GolemUI
 
         private IPriceProvider? _priceProvider;
         public int _activeCpusCount { get; set; }
-        //public string? _estimatedProfit { get; set; }
+
         private decimal _glmPerDay = 0.0m;
-        public float? _hashrate { get; set; }
 
         public void StartBenchmark()
         {
