@@ -168,8 +168,11 @@
     <Compile Include="Converters\CounterConverter.cs" />
     <Compile Include="Converters\EnumToBrush.cs" />
     <Compile Include="Converters\HashRateConverter.cs" />
+    <Compile Include="Converters\StringToClaymorePerformanceThrottlingConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="CustomControls\EditButton.cs" />
     <Compile Include="DataAccess\DataAccess.cs" />
+    <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\SettingsViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
@@ -181,6 +184,7 @@
     <Compile Include="Interfaces\IProcessControler.cs" />
     <Compile Include="Interfaces\IProviderConfig.cs" />
     <Compile Include="Interfaces\ISavableLoadableDashboardPage.cs" />
+    <Compile Include="Model\claymorePerformanceThrottlingEnum.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
     <Compile Include="Model\SingleGpuDescriptor.cs" />

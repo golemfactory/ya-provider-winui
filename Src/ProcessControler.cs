@@ -147,7 +147,7 @@ namespace GolemUI
             return null;
         }
 
-        public async Task<bool> StopProvider()
+        private async Task<bool> StopProvider()
         {
             const int PROVIDER_STOPPING_TIMEOUT = 2500;
             if (_providerDaemon != null)
@@ -158,10 +158,10 @@ namespace GolemUI
                     _providerDaemon = null;
                 }
                 else
-                {
+                {                    
                     return false;
                 }
-            }
+            }            
             return true;
         }
 
@@ -195,11 +195,31 @@ namespace GolemUI
 
         public bool IsServerRunning => !(_yagnaDaemon?.HasExited ?? true);
 
+
+        private int _startCnt = 0;
+        public bool IsStarting => _startCnt > 0;
+
+        private void _lock()
+        {
+            if (++_startCnt == 1)
+            {
+                OnPropertyChanged("IsStarting");
+            }
+        }
+
+        private void _unlock()
+        {
+            if (--_startCnt == 0)
+            {
+                OnPropertyChanged("IsStarting");
+            }
+        }
+
         public async Task<string> GetAppKey()
         {
             if (_appkey == null)
             {
-                await Init();
+                await Prepare();
             }
             return _appkey ?? throw new InvalidOperationException();
         }
@@ -210,86 +230,68 @@ namespace GolemUI
             return key;
         }
 
-        public async Task<bool> Init()
+        public async Task<bool> Start()
         {
-            /*
-            bool runYagna = false;
+            _lock();
             try
             {
-                var _test = await _client.GetAsync(_baseUrl);
-                Console.WriteLine($"result={_test.StatusCode}");
-            }
-            catch (HttpRequestException)
-            {
-                runYagna = true;
-            }*/
-
-            if (Subnet == null)
-            {
-                throw new Exception("Subnet cannot be null");
-            }
-
-
-            var t = new Thread(() =>
-            {
-                if (_yagnaDaemon == null)
+                await Task.Run(() =>
                 {
+                    if (_yagnaDaemon == null)
+                    {
 
-                    StartupYagna();
-                }
+                        StartupYagna();
+                    }
 
-                var keyInfo = GetFirstAppKey();
-                if (keyInfo != null)
-                {
-                    _appkey = keyInfo.Key;
-                }
-                else
-                {
-                    _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
-                    keyInfo = GetFirstAppKey();
-                }
-                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
-                OnPropertyChanged("IsServerRunning");
+                    var keyInfo = GetFirstAppKey();
+                    if (keyInfo != null)
+                    {
+                        _appkey = keyInfo.Key;
+                    }
+                    else
+                    {
+                        _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
+                        keyInfo = GetFirstAppKey();
+                    }
+                    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);                    
 
                 //yagna is starting and /me won't work until all services are running
                 int tries = 0;
-                while (true)
-                {
-                    if (tries >= 30)
+                    while (true)
                     {
-                        throw new Exception("Cannot connect to yagna server");
-                    }
-                    try
-                    {
-                        var txt = _client.GetStringAsync($"{_baseUrl}/me").Result;
-                        KeyInfo? keyMe = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
+                        if (tries >= 30)
+                        {
+                            throw new Exception("Cannot connect to yagna server");
+                        }
+                        try
+                        {
+                            var txt = _client.GetStringAsync($"{_baseUrl}/me").Result;
+                            KeyInfo? keyMe = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
                         //sanity check
                         if (keyMe != null && keyInfo != null && keyMe.Id == keyInfo.Id)
-                        {
-                            break;
+                            {
+                                break;
+                            }
+                            throw new Exception("Failed to get key");
                         }
-                        throw new Exception("Failed to get key");
+                        catch (Exception)
+                        {
+                            Thread.Sleep(1000);
+                        }
+                        tries += 1;
                     }
-                    catch (Exception)
-                    {
-                        Thread.Sleep(1000);
-                    }
-                    tries += 1;
-                }
 
-                Thread.Sleep(1000);
+                    Thread.Sleep(1000);                  
 
-                StartupProvider(Network.Rinkeby, Subnet);
-            });
+                    StartupProvider(Network.Rinkeby, Subnet);
+                });
+                OnPropertyChanged("IsServerRunning");
 
-            t.Start();
-
-            while (t.IsAlive)
-            {
-                await Task.Delay(200);
             }
-
-
+            finally
+            {
+                _unlock();
+            }
             return true;
         }
 
@@ -321,17 +323,13 @@ namespace GolemUI
             }
         }
 
-        private void StartupProvider(Network network, string subnet)
+        private void StartupProvider(Network network, string? subnet)
         {
             BenchmarkResults br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
 
             ConfigurationInfoDebug = "";
             if (_providerDaemon != null)
-            {
-                return;
-            }
-            if (ls.EthAddress == null)
             {
                 return;
             }
@@ -342,14 +340,9 @@ namespace GolemUI
             {
                 throw new Exception("Failed to retrieve payment Account");
             }
-            /*var subnet = config?.Subnet;
-            if (subnet == null)
-            {
-                throw new Exception("Failed to retrieve Subnet account");
-            }*/
 
-            _yagna?.Payment.Init(network, "erc20", ls.EthAddress);
-            _yagna?.Payment.Init(network, "zksync", ls.EthAddress);
+            _yagna?.Payment.Init(network, "erc20", paymentAccount);
+            _yagna?.Payment.Init(network, "zksync", paymentAccount);
             if (_appkey == null)
             {
                 throw new Exception("Appkey cannot be null");
@@ -394,14 +387,7 @@ namespace GolemUI
                 _provider.ActivatePreset("gminer");
             }
             _provider.ActivatePreset("wasmtime");
-
-            var providerConfig = new Config();
-            providerConfig.Account = ls.EthAddress.ToLower();
-            providerConfig.NodeName = ls.NodeName;
-            providerConfig.Subnet = subnet;
-            _provider.Config = providerConfig;
-
-            _providerDaemon = _provider.Run(_appkey, network, subnet, ls, enableClaymoreMining, br);
+            _providerDaemon = _provider.Run(_appkey, network, ls, enableClaymoreMining, br);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
             _providerDaemon.OutputDataReceived += OnProviderOutputDataRecv;
@@ -412,6 +398,7 @@ namespace GolemUI
                 _providerDaemon.BeginErrorReadLine();
                 _providerDaemon.BeginOutputReadLine();
             }
+            OnPropertyChanged("IsProviderRunning");
         }
 
         public delegate void LogLine(string logger, string line);
@@ -453,6 +440,46 @@ namespace GolemUI
                 LineHandler("provider", "provider exit");
             }
         }
+
+        public async Task<bool> Prepare()
+        {
+            if (_yagnaDaemon == null) 
+            {
+                _lock();
+                try
+                {
+                    await Task.Run(() => StartupYagna());
+                    await Task.Delay(2000);
+                    OnPropertyChanged("IsServerRunning");
+                }
+                finally
+                {
+                    _unlock();
+                }
+            }
+            return true;
+        }
+
+        public async Task<bool> Stop()
+        {
+            try
+            {
+                _lock();
+                bool providerEndedSuccessfully = await StopProvider();
+                if (!providerEndedSuccessfully)
+                {
+                    KillProvider();
+                }
+            }
+            finally
+            {
+                OnPropertyChanged("IsProviderRunning");
+                _unlock();
+            }
+
+            return true;
+        }
+
     }
 
 

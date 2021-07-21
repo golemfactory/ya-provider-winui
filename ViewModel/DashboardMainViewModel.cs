@@ -11,13 +11,15 @@ namespace GolemUI.ViewModel
 
     public class DashboardMainViewModel : INotifyPropertyChanged
     {
-        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig)
+        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler)
         {
             _priceProvider = priceProvider;
             _paymentService = paymentService;
-            _paymentService.PropertyChanged += OnPaymentServiceChanged;
+            _processController = processControler;
             _providerConfig = providerConfig;
-            _providerConfig.PropertyChanged += OnProviderConfigChanged;
+
+            _paymentService.PropertyChanged += OnPaymentServiceChanged;            
+            _providerConfig.PropertyChanged += OnProviderConfigChanged;            
         }
 
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
@@ -38,6 +40,7 @@ namespace GolemUI.ViewModel
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        public IProcessControler Process => _processController;
         public decimal? Amount => _paymentService.State?.Balance;
 
         public decimal? AmountUSD => _priceProvider.glmToUsd(Amount ?? 0);
@@ -64,6 +67,18 @@ namespace GolemUI.ViewModel
             }
         }
 
+        public void Stop()
+        {
+            _processController.Stop();
+            //insta kill provider and gracefully shutdown yagna
+            
+
+        }
+
+        public async void Start()
+        {
+            await _processController.Start();
+        }
 
         private void OnPropertyChanged(string? propertyName)
         {
@@ -77,5 +92,6 @@ namespace GolemUI.ViewModel
         private readonly IPriceProvider _priceProvider;
         private readonly IPaymentService _paymentService;
         private readonly IProviderConfig _providerConfig;
+        private readonly IProcessControler _processController;
     }
 }

@@ -108,6 +108,17 @@ namespace GolemUI.Src
             }
         }
 
+
+        public void Save()
+        {
+            var results = new BenchmarkResults()
+            {
+                BenchmarkResultVersion = GlobalSettings.CurrentBenchmarkResultVersion,
+                liveStatus = _claymoreLiveStatus
+            };
+            SettingsLoader.SaveBenchmarkToFile(results);
+        }
+
         public BenchmarkService(IProviderConfig providerConfig)
         {
             _providerConfig = providerConfig;
