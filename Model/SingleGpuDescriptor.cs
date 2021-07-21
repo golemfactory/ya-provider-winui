@@ -8,6 +8,7 @@ namespace GolemUI
     /// </summary>
     /// 
 
+
     public class SingleGpuDescriptor : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -74,25 +75,78 @@ namespace GolemUI
             get { return _canMine; }
             set
             {
-                _IsActive = value;
+                _canMine = value;
                 NotifyChange("CanMine");
                 NotifyChange("StatusIcon");
             }
         }
-        public string StatusIcon
+
+        public bool _inProgress { get; set; }
+        public bool InProgress
+        {
+            get { return _inProgress; }
+            set
+            {
+                _inProgress = value;
+                NotifyChange("InProgress");
+
+            }
+        }
+
+        public int _claymorePerformanceThrottling { get; set; }
+        public int ClaymorePerformanceThrottling
+        {
+            get { return _claymorePerformanceThrottling; }
+            set
+            {
+                _claymorePerformanceThrottling = value;
+                NotifyChange("ClaymorePerformanceThrottling");
+                NotifyChange("ClaymorePerformanceThrottlingDebug");
+            }
+        }
+
+        public string ClaymorePerformanceThrottlingDebug =>  "(debug: "+ClaymorePerformanceThrottling+") ";
+
+       public PerformanceThrottlingEnum SelectedMiningMode
         {
             get
             {
-                return "MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_" + (CanMine ? "ready" : "error") + ".png";
+                return PerformanceThrottlingEnumConverter.FromInt(ClaymorePerformanceThrottling);
+            }
+            set
+            {
+                ClaymorePerformanceThrottling = (int)value;
             }
         }
-        public SingleGpuDescriptor(int id, string name, float hashrate, bool isActive, bool canMine)
+        public SingleGpuDescriptor(int id, string name, float hashrate, bool isActive, bool canMine, int claymorePerformanceThrottling, bool inProgress)
         {
             Id = id;
             Name = name;
             Hashrate = hashrate;
             IsActive = isActive;
             CanMine = canMine;
+            ClaymorePerformanceThrottling = claymorePerformanceThrottling;
+            InProgress = InProgress;
+        }
+        public SingleGpuDescriptor(Claymore.ClaymoreGpuStatus val)
+        {
+            Id = val.gpuNo;
+            Name = val.gpuName == null ? "video card" : val.gpuName;
+            Hashrate = val.BenchmarkSpeed;
+            IsActive = val.IsEnabledByUser;
+            CanMine = val.IsReadyForMining;
+            ClaymorePerformanceThrottling = val.ClaymorePerformanceThrottling;
+            InProgress = val.InProgress;
+        }
+        public SingleGpuDescriptor(Claymore.ClaymoreGpuStatus val, bool isEnabledByUser, int claymorePerformanceThrottling)
+        {
+            Id = val.gpuNo;
+            Name = val.gpuName == null ? "video card" : val.gpuName;
+            Hashrate = val.BenchmarkSpeed;
+            CanMine = val.IsReadyForMining;
+            InProgress = val.InProgress;
+            IsActive = isEnabledByUser;
+            ClaymorePerformanceThrottling = claymorePerformanceThrottling;
         }
     }
 }

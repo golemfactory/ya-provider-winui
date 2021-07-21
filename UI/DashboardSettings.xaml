@@ -8,6 +8,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:enumAlias="clr-namespace:GolemUI.Model"
              d:DataContext ="{d:DesignInstance {x:Type dvm:SettingsViewModel}, IsDesignTimeCreatable=True}"
              >
     <UserControl.Resources>
@@ -26,11 +28,18 @@
                 <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
                 <ResourceDictionary Source="Icons/Task_Type.xaml"/>
                 <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
+                <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
+                <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
+                <ResourceDictionary>
+                    <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                        <ObjectDataProvider.MethodParameters>
+                            <x:Type TypeName="local:PerformanceThrottlingEnum"/>
+                        </ObjectDataProvider.MethodParameters>
+                    </ObjectDataProvider>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-
-
     <Border Style="{DynamicResource PageBackground}" BorderThickness="1">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -50,13 +59,14 @@
                 </Border>
                 <StackPanel  Orientation="Horizontal"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 10, 0, 0" >
                     <Label Content="Estimated profit: " FontFamily="SegoeUI" FontSize="12" FontWeight="Light" Margin="0" Padding="0"/>
-                    <Label Content="{Binding Path=EstimatedProfit, Mode=OneWay, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
+                    <TextBlock FontFamily="Segoe UI Black" FontSize="16" Margin="5, -5, 0, 0" Padding="0" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
                     <Label Content="Current Hashrate: " FontFamily="SegoeUI" FontSize="12" FontWeight="Light" Margin="0" Padding="20,0,0,0"/>
-                    <Label Content="{Binding Path=Hashrate, Mode=OneWay, Converter={StaticResource HashRateConverter}}" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
+                    <TextBlock FontFamily="Segoe UI Black" FontSize="16" Margin="5, -5, 0, 0" Foreground="#fff" Text="{Binding Path=Hashrate, Converter={StaticResource HashRateConverter}}"/>
                 </StackPanel>
             </StackPanel>
+            <!--<local:GpuMiningPanelUI x:Name="gpuMiningPanel" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Visible"/>-->
 
-            <Grid Margin="30, 0, 30, 0" Canvas.Top="220" Width="auto" Height="auto" Grid.Row="1" Grid.ColumnSpan="3">
+            <Grid Margin="30, 0, 30, 0" Canvas.Top="220" Width="auto" Height="auto" Grid.Row="1" Grid.ColumnSpan="3" Visibility="Visible">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.2*" />
                     <RowDefinition Height="*" />
@@ -69,7 +79,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Margin="0,0,0,0" Name="lblStatusDescr" Content="Select your resources: " VerticalAlignment="Top" />
-                <Button Grid.Row="0" Grid.Column="2" Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}" Width="Auto" Height="Auto" Margin="10,0,0,10" >Run Benchmark</Button>
+                <Button Grid.Row="0" Grid.Column="2" Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}" Width="Auto" Height="Auto" Margin="10,0,0,10" Click="btnRunBenchmark_Click" >Run Benchmark</Button>
 
 
                 <Border Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,10,10" Grid.Column="0" Width="auto">
@@ -113,8 +123,6 @@
                         </Grid.RowDefinitions>
                         <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/Settings/GPU_icon.png" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="6" Stretch="Uniform" />
 
-
-
                         <ItemsControl Grid.Column="1" ItemsSource="{Binding GpuList}" Margin="0,21,0,5" Grid.RowSpan="2">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -123,7 +131,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+                                    <StackPanel Orientation="Vertical" Margin="0,0,0,2">
                                         <StackPanel Orientation="Horizontal">
                                             <CheckBox IsChecked="{Binding Path=IsActive}" Margin="0,2,0,0"  Style="{DynamicResource CheckBoxGpu}" />
                                             <Label FontFamily="Segoe Ui" FontWeight="Regular"  FontSize="12"  Content="{Binding Path=DisplayName}" Margin="0"/>
@@ -139,21 +147,22 @@
                                         <StackPanel Orientation="Horizontal">
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mining ability: " Margin="0"/>
-                                            <Image Source="{Binding StatusIcon, Mode=OneWay}" Width="10" />
+                                         
+                                            <Grid Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToVisibleConverter}}">
+                                                <ProgressBar IsIndeterminate="True" Margin="0" BorderThickness="0" Height="10" Background="Transparent" />
+                                                <TextBlock FontSize="10" Foreground="#aaa" Margin="0" Padding="0" VerticalAlignment="Center">checking...</TextBlock>
+                                            </Grid>
+                                            <StackPanel Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
+                                                <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_error.png" Width="10" Height="10"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToHiddenConverter}}"/>
+                                                <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_ready.png" Width="10" Height="10"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToVisibleConverter}}"/>
+                                            </StackPanel>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mode: " Margin="0,3.5,0,0"/>
-                                            <ComboBox FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedIndex="0" Width="90" >
-                                                <ComboBoxItem>
-                                                    <Label Margin="0" Padding="0" FontSize="10">All in</Label>
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-                                                    <Label Margin="0" Padding="0" FontSize="10">Medium Rare</Label>
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-                                                    <Label Margin="0" Padding="0" FontSize="10">Comfort</Label>
-                                                </ComboBoxItem>
+                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="{Binding ClaymorePerformanceThrottlingDebug}" Margin="0,2,5,0"/>
+                                            <ComboBox ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode}"  Width="90" >
+                                              
                                             </ComboBox>
                                         </StackPanel>
                                     </StackPanel>

@@ -16,13 +16,20 @@ namespace GolemUI
         private BenchmarkResults? _benchmarkSettings;
         private IProviderConfig _providerConfig;
         private Src.BenchmarkService _benchmarkService;
-        public ObservableCollection<SingleGpuDescriptor> GpuList { get; set; }
+        public Src.BenchmarkService BenchmarkService => _benchmarkService;
+        public ObservableCollection<SingleGpuDescriptor>? GpuList { get; set; }
 
         private IPriceProvider? _priceProvider;
         public int _activeCpusCount { get; set; }
-        public string? _estimatedProfit { get; set; }
+        //public string? _estimatedProfit { get; set; }
         private decimal _glmPerDay = 0.0m;
-        public string? _hashrate { get; set; }
+        public float? _hashrate { get; set; }
+
+        public void StartBenchmark()
+        {
+            BenchmarkService.StartBenchmark();
+        }
+
         public int _totalCpusCount { get; set; }
 
         public bool IsMiningActive
@@ -49,10 +56,10 @@ namespace GolemUI
             _benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
             if (IsBenchmarkSettingsCorrupted()) return;
             _benchmarkSettings?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null && gpu.Value.IsReadyForMining).ToList().ForEach(gpu =>
-               {
-                   var val = gpu.Value;
-                   GpuList?.Add(new SingleGpuDescriptor(val.gpuNo, val.gpuName == null ? "video card" : val.gpuName, val.BenchmarkSpeed, val.IsEnabledByUser, val.IsReadyForMining));
-               });
+            {
+                var val = gpu.Value;
+                GpuList?.Add(new SingleGpuDescriptor(val));
+            });
             NodeName = _providerConfig?.Config?.NodeName;
             TotalCpusCount = GetCpuCount();
         }
@@ -71,6 +78,7 @@ namespace GolemUI
                 {
                     KeyValuePair<int, Claymore.ClaymoreGpuStatus> keyVal = res.Value;
                     keyVal.Value.IsEnabledByUser = gpu.IsActive;
+                    keyVal.Value.ClaymorePerformanceThrottling = gpu.ClaymorePerformanceThrottling;
                 }
             });
 
@@ -95,9 +103,62 @@ namespace GolemUI
             _provider = provider;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
+            _providerConfig.PropertyChanged += OnProviderCofigChanged;
+            _benchmarkService.PropertyChanged += OnBenchmarkChanged;
+            _profitEstimator = profitEstimator;
 
-            _providerConfig.PropertyChanged += OnProviderConfigChanged;
+
             GpuList = new ObservableCollection<SingleGpuDescriptor>();
+        }
+
+        private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Status")
+            {
+                var _newGpus = _benchmarkService.Status?.GPUs.Values?.ToArray();
+                if (_newGpus.Length == 0) return;
+                if (_newGpus != null)
+                {
+                    for (var i = 0; i < _newGpus.Length; ++i)
+                    {
+                        if (i < GpuList.Count)
+                        {
+                            GpuList[i] = new SingleGpuDescriptor(_newGpus[i], GpuList[i].IsActive, GpuList[i].ClaymorePerformanceThrottling);
+                        }
+                        else
+                        {
+                            GpuList.Add(new SingleGpuDescriptor(_newGpus[i]));
+                        }
+                    }
+                    while (_newGpus.Length < GpuList.Count)
+                    {
+                        GpuList.RemoveAt(GpuList.Count - 1);
+                    }
+                }
+
+                NotifyChange("GpuList"); // ok
+                NotifyChange("HashRate");
+                NotifyChange("ExpectedProfit");
+            }
+            if (e.PropertyName == "IsRunning")
+            {
+                /*OnPropertyChanged("BenchmarkIsRunning");
+                OnPropertyChanged("ExpectedProfit");
+                if (_flow == (int)FlowSteps.Noob)
+                {
+                    if (_noobStep == (int)NoobSteps.Benchmark && !BenchmarkIsRunning)
+                    {
+                        NoobStep = (int)NoobSteps.Enjoy;
+                    }
+                }
+                else if (_flow == (int)FlowSteps.OwnWallet)
+                {
+                    if (_expertStep == ExpertSteps.Benchmark && !BenchmarkIsRunning)
+                    {
+                        ExpertStep = (int)ExpertSteps.Enjoy;
+                    }
+                }*/
+            }
         }
 
         public int ActiveCpusCount
@@ -129,13 +190,16 @@ namespace GolemUI
             }
         }
 
-        public string? EstimatedProfit
+        public double? ExpectedProfit
         {
-            get { return _estimatedProfit; }
-            set
+            get
             {
-                _estimatedProfit = value;
-                NotifyChange("EstimatedProfit");
+                var totalHr = Hashrate;
+                if (totalHr != null)
+                {
+                    return _profitEstimator.EthHashRateToDailyEarnigns((double)totalHr, Interfaces.MiningType.MiningTypeEth, Interfaces.MiningEarningsPeriod.MiningEarningsPeriodDay);
+                }
+                return null;
             }
         }
         public decimal GlmPerDay
@@ -157,7 +221,6 @@ namespace GolemUI
                 return _priceProvider.glmToUsd(_glmPerDay);
             }
         }
-
         public event PropertyChangedEventHandler? PropertyChanged;
         private void NotifyChange([CallerMemberName] string? propertyName = null)
         {
