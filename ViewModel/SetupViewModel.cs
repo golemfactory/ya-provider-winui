@@ -214,6 +214,12 @@ namespace GolemUI.ViewModel
             NoobStep = 2;
         }
 
+        public bool Save()
+        {
+            _benchmarkService.Save();
+            return true;
+        }
+
         public string[]? MnemonicWords => _mnemo?.Words;
 
         private void OnPropertyChanged(string? propertyName)
@@ -223,7 +229,5 @@ namespace GolemUI.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
-
     }
 }

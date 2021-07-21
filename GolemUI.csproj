@@ -166,8 +166,10 @@
     <Compile Include="Converters\CounterConverter.cs" />
     <Compile Include="Converters\EnumToBrush.cs" />
     <Compile Include="Converters\HashRateConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="CustomControls\EditButton.cs" />
     <Compile Include="DataAccess\DataAccess.cs" />
+    <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\SettingsViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />

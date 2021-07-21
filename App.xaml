@@ -10,6 +10,7 @@
         <lc:BoolToVisibilityConverter x:Key="BoolToHiddenConverter" TrueValue="Collapsed" FalseValue="Visible"/>
         <lc:BoolToVisibilityConverter x:Key="BoolToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed"/>
         <lc:HashRateConverter x:Key="HashRateConverter"/>
+        <lc:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </Application.Resources>
 </Application>
 

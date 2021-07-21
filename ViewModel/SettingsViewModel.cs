@@ -14,8 +14,9 @@ namespace GolemUI
     {
         private Command.Provider _provider;
         private BenchmarkResults? _benchmarkSettings;
-        private IProviderConfig? _providerConfig;
-        public ObservableCollection<SingleGpuDescriptor>? GpuList { get; set; }
+        private IProviderConfig _providerConfig;
+        private Src.BenchmarkService _benchmarkService;
+        public ObservableCollection<SingleGpuDescriptor> GpuList { get; set; }
 
         private IPriceProvider? _priceProvider;
         public int _activeCpusCount { get; set; }
@@ -23,10 +24,6 @@ namespace GolemUI
         private decimal _glmPerDay = 0.0m;
         public string? _hashrate { get; set; }
         public int _totalCpusCount { get; set; }
-        public string? _nodeName { get; set; }
-        public String ActiveCpusCountAsString { get { return this.ActiveCpusCount.ToString(); } }
-        public String TotalCpusCountAsString { get { return this.TotalCpusCount.ToString(); } }
-
 
         public bool IsMiningActive
         {
@@ -78,26 +75,8 @@ namespace GolemUI
 
             SettingsLoader.SaveBenchmarkToFile(_benchmarkSettings);
         }
-        private void Init(IPriceProvider? priceProvider, Command.Provider? provider, IProviderConfig? providerConfig)
-        {
-            _priceProvider = priceProvider;
-            _provider = provider;
-            _providerConfig = providerConfig;
-
-            _providerConfig.PropertyChanged += OnProviderCofigChanged;
-
-            GpuList = new ObservableCollection<SingleGpuDescriptor>();
-            GpuList.Add(new SingleGpuDescriptor(1, "1st GPU", 20.12f, false, true));
-            GpuList.Add(new SingleGpuDescriptor(2, "second GPU", 12.10f, true, false));
-            GpuList.Add(new SingleGpuDescriptor(3, "3rd GPU", 9.00f, false, true));
-
-            ActiveCpusCount = 3;
-            TotalCpusCount = 7;
-            Hashrate = "101.9 TH/s";
-            EstimatedProfit = "$41,32 / day";
-        }
-
-        private void OnProviderCofigChanged(object sender, PropertyChangedEventArgs e)
+        
+        private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Config")
             {
@@ -109,17 +88,17 @@ namespace GolemUI
             }
         }
 
-        public SettingsViewModel()
+        public SettingsViewModel(IPriceProvider priceProvider, Command.Provider provider, IProviderConfig providerConfig, Src.BenchmarkService benchmarkService)
         {
-            Init(new Src.StaticPriceProvider(), null, null);
+            _priceProvider = priceProvider;
+            _provider = provider;
+            _providerConfig = providerConfig;
+            _benchmarkService = benchmarkService;
 
+            _providerConfig.PropertyChanged += OnProviderConfigChanged;
+            GpuList = new ObservableCollection<SingleGpuDescriptor>();
         }
-        public SettingsViewModel(IPriceProvider priceProvider, Command.Provider provider, IProviderConfig providerConfig)
-        {
-            Init(priceProvider, provider, providerConfig);
 
-
-        }
         public int ActiveCpusCount
         {
             get { return _activeCpusCount; }
@@ -127,7 +106,6 @@ namespace GolemUI
             {
                 _activeCpusCount = value;
                 NotifyChange("ActiveCpusCount");
-                NotifyChange("ActiveCpusCountAsString");
             }
         }
         public int TotalCpusCount
@@ -137,18 +115,9 @@ namespace GolemUI
             {
                 _totalCpusCount = value;
                 NotifyChange("TotalCpusCount");
-                NotifyChange("TotalCpusCountAsString");
             }
         }
-        public string? Hashrate
-        {
-            get { return _hashrate; }
-            set
-            {
-                _hashrate = value;
-                NotifyChange("Hashrate");
-            }
-        }
+        public float? Hashrate => _benchmarkService.TotalMhs;
 
         public string? NodeName
         {
@@ -187,6 +156,7 @@ namespace GolemUI
                 return _priceProvider.glmToUsd(_glmPerDay);
             }
         }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         private void NotifyChange([CallerMemberName] string? propertyName = null)
         {
