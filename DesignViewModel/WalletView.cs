@@ -26,6 +26,12 @@ namespace GolemUI.DesignViewModel
 
         public string Tickler { get; }
 
+        public bool IsMiningActive { get; set; } = true;
+
+        public bool IsCpuActive { get; set; } = false;
+
+
+
         public WalletView()
         {
             Amount = 13.166m;

@@ -472,7 +472,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="UI\.WelcomeAddress.xaml.cs.swp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

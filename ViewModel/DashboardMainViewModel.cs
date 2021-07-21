@@ -11,11 +11,21 @@ namespace GolemUI.ViewModel
 
     public class DashboardMainViewModel : INotifyPropertyChanged
     {
-        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService)
+        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig)
         {
             _priceProvider = priceProvider;
             _paymentService = paymentService;
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
+            _providerConfig = providerConfig;
+            _providerConfig.PropertyChanged += OnProviderConfigChanged;
+        }
+
+        private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
+            {
+                OnPropertyChanged(e.PropertyName);
+            }            
         }
 
         private void OnPaymentServiceChanged(object? sender, PropertyChangedEventArgs e)
@@ -36,6 +46,24 @@ namespace GolemUI.ViewModel
 
         public decimal? PendingAmountUSD => _priceProvider.glmToUsd(PendingAmount ?? 0m);
 
+        public bool IsMiningActive
+        {
+            get => _providerConfig.IsMiningActive;
+            set
+            {
+                _providerConfig.IsMiningActive = value;
+            }
+        }
+
+        public bool IsCpuActive
+        {
+            get => _providerConfig.IsCpuActive;
+            set
+            {
+                _providerConfig.IsCpuActive = value;
+            }
+        }
+
 
         private void OnPropertyChanged(string? propertyName)
         {
@@ -48,5 +76,6 @@ namespace GolemUI.ViewModel
 
         private readonly IPriceProvider _priceProvider;
         private readonly IPaymentService _paymentService;
+        private readonly IProviderConfig _providerConfig;
     }
 }

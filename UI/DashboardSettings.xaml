@@ -189,13 +189,8 @@
 
                         <StackPanel>
                             <Label Content="Node name" FontFamily="Segoe UI" FontWeight="Bold" Margin="20,10,0,10" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF" Padding="0"/>
-                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,0">
-                                <TextBox Text="{Binding Path=NodeName, Mode=OneWay, FallbackValue=NoName}" IsReadOnly="True"/>
-                                <TextBlock Text="" TextAlignment="Left" FontFamily="Segoe UI" FontWeight="Light" Margin="5" Foreground="#FFFFFF" />
-                                <Button Name="BtnEditNodeName" Style="{DynamicResource HyperLinkButtonStyle}" Margin="5" Content="Edit &#x270D;"/>
-                            </StackPanel>
+                            <TextBox BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Text="{Binding NodeName}" Margin="20, 0"/>
                         </StackPanel>
-
                     </Border>
                 </Grid>
 

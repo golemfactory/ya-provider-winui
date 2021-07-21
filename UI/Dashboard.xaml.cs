@@ -71,6 +71,7 @@ namespace GolemUI
             _pages.Add(DashboardPages.PageDashboardDetails, new DashboardPage(DashboardDetails));
             _pageSelected = DashboardPages.PageDashboardMain;
 
+            GlobalApplicationState.Instance.Dashboard = this;
             GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
 
 
@@ -86,7 +87,6 @@ namespace GolemUI
             _pages[_pageSelected].View.Visibility = Visibility.Visible;
             _pages[_pageSelected].View.Opacity = 1.0f;
         }
-
 
         private void Page1Click(object sender, RoutedEventArgs e)
         {
@@ -168,14 +168,12 @@ namespace GolemUI
         {
             btnPage1.IsEnabled = false;
             btnPage2.IsEnabled = false;
-            btnPage3.IsEnabled = false;
             //btnPage4.IsEnabled = false;
         }
         public void ResumeNavigation()
         {
             btnPage1.IsEnabled = true;
             btnPage2.IsEnabled = true;
-            btnPage3.IsEnabled = true;
             //btnPage4.IsEnabled = true;
         }
 
