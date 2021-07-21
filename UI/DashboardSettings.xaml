@@ -142,7 +142,8 @@
                                         <StackPanel Orientation="Horizontal">
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mining ability: " Margin="0"/>
-                                            <StackPanel Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
+                                            <!--Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}"-->
+                                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                                                 <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_error.png" Width="10" Height="10"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToHiddenConverter}}"/>
                                                 <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_ready.png" Width="10" Height="10"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToVisibleConverter}}"/>
                                             </StackPanel>
