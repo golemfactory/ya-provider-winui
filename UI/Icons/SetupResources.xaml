@@ -550,43 +550,43 @@
     <Viewbox x:Key="Prepare_Step_icon">
         <Canvas Width="310" Height="310">
             <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
-            <Image Source="\UI\Icons\Setup\prepare.png" Canvas.Top="78" Width="233" Height="144" Canvas.Left="28"/>
+            <Image Source="Setup/prepare.png" Canvas.Top="78" Width="233" Height="144" Canvas.Left="28"/>
         </Canvas>        
     </Viewbox>
     <Viewbox x:Key="Seed_Step_icon">
         <Canvas Width="310" Height="310">
             <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
-            <Image Source="\UI\Icons\Setup\seed.png" Canvas.Top="78" Width="180" Height="172" Canvas.Left="47"/>
+            <Image Source="Setup/seed.png" Canvas.Top="78" Width="180" Height="172" Canvas.Left="47"/>
         </Canvas>
     </Viewbox>
     <Viewbox x:Key="Print_Step_icon">
         <Canvas Width="310" Height="310">
             <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
-            <Image Source="\UI\Icons\Setup\print.png" Canvas.Top="78" Width="180" Height="172" Canvas.Left="42"/>
+            <Image Source="Setup/print.png" Canvas.Top="78" Width="180" Height="172" Canvas.Left="42"/>
         </Canvas>
     </Viewbox>
     <Viewbox x:Key="NodeName_Step_icon">
         <Canvas Width="310" Height="310">
             <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
-            <Image Source="\UI\Icons\Setup\nodeName.png" Canvas.Top="72" Width="180" Height="172" Canvas.Left="67"/>
+            <Image Source="Setup/nodeName.png" Canvas.Top="72" Width="180" Height="172" Canvas.Left="67"/>
         </Canvas>
     </Viewbox>
     <Viewbox x:Key="Benchmark_Step_icon">
         <Canvas Width="310" Height="310">
             <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
-            <Image Source="\UI\Icons\Setup\benchmark.png" Canvas.Top="72" Width="180" Height="172" Canvas.Left="67"/>
+            <Image Source="Setup/benchmark.png" Canvas.Top="72" Width="180" Height="172" Canvas.Left="67"/>
         </Canvas>
     </Viewbox>
     <Viewbox x:Key="Enjoy_Step_icon">
         <Canvas Width="310" Height="310">
             <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
-            <Image Source="\UI\Icons\Setup\Enjoy.png" Canvas.Top="72" Width="180" Height="172" Canvas.Left="67"/>
+            <Image Source="Setup/Enjoy.png" Canvas.Top="72" Width="180" Height="172" Canvas.Left="67"/>
         </Canvas>
     </Viewbox>
     <Viewbox x:Key="Use_my_wallet_icon">
         <Canvas Width="310" Height="310">
             <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
-            <Image Source="Setup\Use_my_wallet.png" Canvas.Top="72" Width="190" Height="114" Canvas.Left="67"/>
+            <Image Source="Setup/Use_my_wallet.png" Canvas.Top="72" Width="190" Height="114" Canvas.Left="67"/>
         </Canvas>
     </Viewbox>
 </ResourceDictionary>

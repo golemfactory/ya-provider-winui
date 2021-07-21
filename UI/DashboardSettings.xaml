@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GolemUI.DashboardSettings"
+﻿ <UserControl x:Class="GolemUI.DashboardSettings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -161,7 +161,7 @@
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mode: " Margin="0,3.5,0,0"/>
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="{Binding ClaymorePerformanceThrottlingDebug}" Margin="0,2,5,0"/>
-                                            <ComboBox ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode}"  Width="90" >
+                                            <ComboBox IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:SettingsViewModel}, Path=BenchmarkReadyToRun}" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode}"  Width="90" >
                                               
                                             </ComboBox>
                                         </StackPanel>
