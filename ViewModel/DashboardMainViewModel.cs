@@ -18,8 +18,8 @@ namespace GolemUI.ViewModel
             _processController = processControler;
             _providerConfig = providerConfig;
 
-            _paymentService.PropertyChanged += OnPaymentServiceChanged;            
-            _providerConfig.PropertyChanged += OnProviderConfigChanged;            
+            _paymentService.PropertyChanged += OnPaymentServiceChanged;
+            _providerConfig.PropertyChanged += OnProviderConfigChanged;
         }
 
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
@@ -71,7 +71,7 @@ namespace GolemUI.ViewModel
         {
             _processController.Stop();
             //insta kill provider and gracefully shutdown yagna
-            
+
 
         }
 

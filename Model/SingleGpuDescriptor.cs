@@ -81,9 +81,10 @@ namespace GolemUI
         }
         public string StatusIcon
         {
-            get {
-                    return "MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_" + (CanMine ? "ready" : "error") + ".png";
-                }
+            get
+            {
+                return "MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_" + (CanMine ? "ready" : "error") + ".png";
+            }
         }
         public SingleGpuDescriptor(int id, string name, float hashrate, bool isActive, bool canMine)
         {

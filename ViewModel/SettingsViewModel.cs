@@ -76,7 +76,7 @@ namespace GolemUI
 
             SettingsLoader.SaveBenchmarkToFile(_benchmarkSettings);
         }
-        
+
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Config")
