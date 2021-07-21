@@ -143,16 +143,16 @@
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
 
-                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mode: " Margin="0"/>
-                                            <ComboBox FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedIndex="0" Width="100" >
+                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mode: " Margin="0,3.5,0,0"/>
+                                            <ComboBox FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedIndex="0" Width="90" >
                                                 <ComboBoxItem>
-                                                    <Label >All in</Label>
+                                                    <Label Margin="0" Padding="0" FontSize="10">All in</Label>
                                                 </ComboBoxItem>
                                                 <ComboBoxItem>
-                                                    <Label >Medium Rare</Label>
+                                                    <Label Margin="0" Padding="0" FontSize="10">Medium Rare</Label>
                                                 </ComboBoxItem>
                                                 <ComboBoxItem>
-                                                    <Label >Comfort</Label>
+                                                    <Label Margin="0" Padding="0" FontSize="10">Comfort</Label>
                                                 </ComboBoxItem>
                                             </ComboBox>
                                         </StackPanel>
