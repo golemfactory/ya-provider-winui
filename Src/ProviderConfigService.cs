@@ -71,13 +71,7 @@ namespace GolemUI.Src
        
         public void UpdateActiveCpuThreadsCount(int threadsCount)
         {
-            var config = Config ?? _provider.Config;
-            if (config != null)
-            {
-                _provider.UpdateDefaultProfile("--cpu-threads", threadsCount.ToString());
-              
-            }
-            OnPropertyChanged("Config");
+            _provider.UpdateDefaultProfile("--cpu-threads", threadsCount.ToString());   
         }
         public void UpdateNodeName(string? nodeName)
         {
