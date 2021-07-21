@@ -101,10 +101,23 @@ namespace GolemUI
             {
                 _claymorePerformanceThrottling = value;
                 NotifyChange("ClaymorePerformanceThrottling");
- 
+                NotifyChange("ClaymorePerformanceThrottlingDebug");
             }
         }
-      
+
+        public string ClaymorePerformanceThrottlingDebug =>  "(debug: "+ClaymorePerformanceThrottling+") ";
+
+       public PerformanceThrottlingEnum SelectedMiningMode
+        {
+            get
+            {
+                return PerformanceThrottlingEnumConverter.FromInt(ClaymorePerformanceThrottling);
+            }
+            set
+            {
+                ClaymorePerformanceThrottling = (int)value;
+            }
+        }
         public SingleGpuDescriptor(int id, string name, float hashrate, bool isActive, bool canMine, int claymorePerformanceThrottling, bool inProgress)
         {
             Id = id;

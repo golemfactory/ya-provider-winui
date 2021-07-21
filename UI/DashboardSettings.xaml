@@ -8,6 +8,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:enumAlias="clr-namespace:GolemUI.Model"
              d:DataContext ="{d:DesignInstance {x:Type dvm:SettingsViewModel}, IsDesignTimeCreatable=True}"
              >
     <UserControl.Resources>
@@ -28,11 +30,16 @@
                 <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
                 <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
                 <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
+                <ResourceDictionary>
+                    <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                        <ObjectDataProvider.MethodParameters>
+                            <x:Type TypeName="local:PerformanceThrottlingEnum"/>
+                        </ObjectDataProvider.MethodParameters>
+                    </ObjectDataProvider>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-
-
     <Border Style="{DynamicResource PageBackground}" BorderThickness="1">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -116,8 +123,6 @@
                         </Grid.RowDefinitions>
                         <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/Settings/GPU_icon.png" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="6" Stretch="Uniform" />
 
-
-
                         <ItemsControl Grid.Column="1" ItemsSource="{Binding GpuList}" Margin="0,21,0,5" Grid.RowSpan="2">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -142,7 +147,7 @@
                                         <StackPanel Orientation="Horizontal">
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mining ability: " Margin="0"/>
-                                            <!--Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}"-->
+                                         
                                             <Grid Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToVisibleConverter}}">
                                                 <ProgressBar IsIndeterminate="True" Margin="0" BorderThickness="0" Height="10" Background="Transparent" />
                                                 <TextBlock FontSize="10" Foreground="#aaa" Margin="0" Padding="0" VerticalAlignment="Center">checking...</TextBlock>
@@ -155,17 +160,9 @@
                                         <StackPanel Orientation="Horizontal">
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mode: " Margin="0,3.5,0,0"/>
-                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="{Binding ClaymorePerformanceThrottling}" Margin="0,2,5,0"/>
-                                            <ComboBox FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedIndex="0" Width="90" >
-                                                <ComboBoxItem>
-                                                    <Label Margin="0" Padding="0" FontSize="10">All in</Label>
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-                                                    <Label Margin="0" Padding="0" FontSize="10">Medium Rare</Label>
-                                                </ComboBoxItem>
-                                                <ComboBoxItem>
-                                                    <Label Margin="0" Padding="0" FontSize="10">Comfort</Label>
-                                                </ComboBoxItem>
+                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="{Binding ClaymorePerformanceThrottlingDebug}" Margin="0,2,5,0"/>
+                                            <ComboBox ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode}"  Width="90" >
+                                              
                                             </ComboBox>
                                         </StackPanel>
                                     </StackPanel>

@@ -29,7 +29,7 @@ namespace GolemUI.Claymore
         public ClaymoreGpuStatus(int gpuNo,bool isEnabledByUser,int claymorePerformanceThrottling)
         {
             this.IsEnabledByUser = isEnabledByUser;
-            this.ClaymorePerformanceThrottling = 0;
+            this.ClaymorePerformanceThrottling = claymorePerformanceThrottling;
             this.gpuNo = gpuNo;
         }
 
