@@ -14,7 +14,7 @@ namespace GolemUI
     {
         private Command.Provider _provider;
         private BenchmarkResults? _benchmarkSettings;
-        private IProviderConfig? _providerConfig; 
+        private IProviderConfig? _providerConfig;
         private Src.BenchmarkService _benchmarkService;
         public Src.BenchmarkService BenchmarkService => _benchmarkService;
         public ObservableCollection<SingleGpuDescriptor>? GpuList { get; set; }
@@ -60,10 +60,10 @@ namespace GolemUI
             _benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
             if (IsBenchmarkSettingsCorrupted()) return;
             _benchmarkSettings?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null && gpu.Value.IsReadyForMining).ToList().ForEach(gpu =>
-               {
-                   var val = gpu.Value;
-                   GpuList?.Add(new SingleGpuDescriptor(val));
-               });
+            {
+                var val = gpu.Value;
+                GpuList?.Add(new SingleGpuDescriptor(val));
+            });
             NodeName = _providerConfig?.Config?.NodeName;
             TotalCpusCount = GetCpuCount();
         }
@@ -99,9 +99,9 @@ namespace GolemUI
 
 
             GpuList = new ObservableCollection<SingleGpuDescriptor>();
-            GpuList.Add(new SingleGpuDescriptor(1, "1st GPU", 20.12f, false, true,0));
-            GpuList.Add(new SingleGpuDescriptor(2, "second GPU", 12.10f, true, false,5));
-            GpuList.Add(new SingleGpuDescriptor(3, "3rd GPU", 9.00f, false, true,10));
+            GpuList.Add(new SingleGpuDescriptor(1, "1st GPU", 20.12f, false, true, 0));
+            GpuList.Add(new SingleGpuDescriptor(2, "second GPU", 12.10f, true, false, 5));
+            GpuList.Add(new SingleGpuDescriptor(3, "3rd GPU", 9.00f, false, true, 10));
 
             ActiveCpusCount = 3;
             TotalCpusCount = 7;
@@ -120,7 +120,7 @@ namespace GolemUI
                     {
                         if (i < GpuList.Count)
                         {
-                            GpuList[i] =  new SingleGpuDescriptor(_newGpus[i],GpuList[i].IsActive,GpuList[i].ClaymorePerformanceThrottling);
+                            GpuList[i] = new SingleGpuDescriptor(_newGpus[i], GpuList[i].IsActive, GpuList[i].ClaymorePerformanceThrottling);
                         }
                         else
                         {
@@ -170,14 +170,14 @@ namespace GolemUI
             }
         }
 
-       /* public SettingsViewModel()
-        {
-            Init(new Src.StaticPriceProvider(), null, null,null);
+        /* public SettingsViewModel()
+         {
+             Init(new Src.StaticPriceProvider(), null, null,null);
 
-        }*/
+         }*/
         public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig)
         {
-            Init(priceProvider,benchmarkService, provider, providerConfig);
+            Init(priceProvider, benchmarkService, provider, providerConfig);
 
 
         }

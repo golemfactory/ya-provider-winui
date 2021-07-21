@@ -212,12 +212,12 @@ namespace GolemUI.Command
             info = this.ExecToText(cmd.ToString());
         }
 
-        public Process Run(string appkey, Network network, string subnet, LocalSettings ls, bool enableClaymoreMining, BenchmarkResults br)
+        public Process Run(string appkey, Network network, LocalSettings ls, bool enableClaymoreMining, BenchmarkResults br)
         {
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaProviderPath,
-                Arguments = $"run --payment-network {network.Id} --subnet {subnet}",
+                Arguments = $"run --payment-network {network.Id}",
                 UseShellExecute = false
             };
             if (ls.StartProviderCommandLine)

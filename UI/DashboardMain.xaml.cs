@@ -25,6 +25,8 @@ namespace GolemUI
     /// </summary>
     public partial class DashboardMain : UserControl
     {
+        public DashboardMainViewModel? Model => DataContext as DashboardMainViewModel;
+
         public DashboardMain(DashboardMainViewModel viewModel)
         {
             InitializeComponent();
@@ -65,64 +67,18 @@ namespace GolemUI
 
         private async void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStarting);
-
-            lblStatus.Content = "Starting";
-            //lblStatus.Background = Brushes.Yellow;
-            btnStart.IsEnabled = false;
-
-            var settings = SettingsLoader.LoadSettingsFromFileOrDefault();
-
-            GlobalApplicationState.Instance.ProcessController.Subnet = settings.Subnet;
-
-            await GlobalApplicationState.Instance.ProcessController.Init();
-            //File.WriteAllText("debug.txt", GlobalApplicationState.Instance.ProcessController.ConfigurationInfoOutput);
-
-            lblStatus.Content = "Started";
-            //lblStatus.Background = Brushes.Green;
-            btnStop.Visibility = Visibility.Visible;
-            btnStart.Visibility = Visibility.Collapsed;
-
-
-            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStarted);
+            Model!.Start();
         }
 
         private async void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            bool killProviderInsteadOfStopping = true;
-            if (killProviderInsteadOfStopping)
-            {
-                GlobalApplicationState.Instance.ProcessController.KillProvider();
-                //do not kill yagna here
-                //GlobalApplicationState.Instance.ProcessController.KillYagna();
-            }
-            else
-            {
-                //insta kill provider and gracefully shutdown yagna
-                GlobalApplicationState.Instance.ProcessController.KillProvider();
-
-                bool providerEndedSuccessfully = await GlobalApplicationState.Instance.ProcessController.StopProvider();
-                if (!providerEndedSuccessfully)
-                {
-                    MessageBox.Show("Provider process failed to shutdown gracefully, killing...");
-                    GlobalApplicationState.Instance.ProcessController.KillProvider();
-                }
-                bool yagnaEndedSuccessfully = await GlobalApplicationState.Instance.ProcessController.StopYagna();
-                if (!yagnaEndedSuccessfully)
-                {
-                    MessageBox.Show("Yagna process failed to shutdown gracefully, killing...");
-                    GlobalApplicationState.Instance.ProcessController.KillYagna();
-                }
-            }
+            Model!.Stop();
+            
 
 
             lblStatus.Content = "Stopped";
             //lblStatus.Background = Brushes.Gray;
             GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStopped);
-            btnStop.Visibility = Visibility.Collapsed;
-            btnStart.Visibility = Visibility.Visible;
-            btnStart.IsEnabled = true;
-
         }
 
     }

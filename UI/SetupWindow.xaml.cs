@@ -120,6 +120,7 @@ namespace GolemUI.UI
 
         private void OnNoobFinish(object sender, RoutedEventArgs e)
         {
+            Model!.Save();
             var wnd = _serviceProvider.GetService(typeof(GolemUI.Dashboard)) as GolemUI.Dashboard;
             wnd?.Show();
             Close();

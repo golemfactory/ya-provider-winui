@@ -51,8 +51,10 @@ namespace GolemUI
 
         private bool _forceExit = false;
 
-        public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardMain dashboardMain)
+        public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardMain dashboardMain, Interfaces.IProcessControler processControler)
         {
+            _processControler = processControler;
+
             InitializeComponent();
 
             DashboardMain = dashboardMain;
@@ -274,7 +276,7 @@ namespace GolemUI
 
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Process[] yagnaProcesses;
             Process[] providerProcesses;
@@ -299,6 +301,8 @@ namespace GolemUI
                         break;
                 }
             }
+
+            await _processControler.Prepare();
         }
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
@@ -339,5 +343,7 @@ namespace GolemUI
         {
 
         }
+
+        private readonly Interfaces.IProcessControler _processControler;
     }
 }

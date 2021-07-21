@@ -11,8 +11,9 @@ namespace GolemUI.Interfaces
 
     public interface IProcessControler : INotifyPropertyChanged
     {
+        public Task<bool> Prepare();
 
-        public Task<bool> Init();
+        public Task<bool> Start();
 
         public Task<Command.KeyInfo> Me();
 
@@ -20,8 +21,10 @@ namespace GolemUI.Interfaces
 
         bool IsServerRunning { get; }
 
+        bool IsStarting { get; }
 
         LogLineHandler? LineHandler { get; set; }
 
+        Task<bool> Stop();
     }
 }
