@@ -24,10 +24,17 @@ namespace GolemUI
 
             InitializeComponent();
             ViewModel = viewModel;
-            ViewModel.GpuList?.Add(new SingleGpuDescriptor(4, "4th GPU", 12.12f, true, true));
+            ViewModel.GpuList?.Add(new SingleGpuDescriptor(4, "4th GPU", 12.12f, true, true,0));
             this.DataContext = this.ViewModel;
         }
 
+        private void btnRunBenchmark_Click(object sender, RoutedEventArgs e)
+        {
 
+            ViewModel!.StartBenchmark();
+               
+            
+
+        }
     }
 }

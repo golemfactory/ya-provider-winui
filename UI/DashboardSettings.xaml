@@ -26,6 +26,8 @@
                 <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
                 <ResourceDictionary Source="Icons/Task_Type.xaml"/>
                 <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
+                <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
+                <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -55,8 +57,9 @@
                     <Label Content="{Binding Path=Hashrate, Mode=OneWay, Converter={StaticResource HashRateConverter}}" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
                 </StackPanel>
             </StackPanel>
+            <!--<local:GpuMiningPanelUI x:Name="gpuMiningPanel" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Visible"/>-->
 
-            <Grid Margin="30, 0, 30, 0" Canvas.Top="220" Width="auto" Height="auto" Grid.Row="1" Grid.ColumnSpan="3">
+            <Grid Margin="30, 0, 30, 0" Canvas.Top="220" Width="auto" Height="auto" Grid.Row="1" Grid.ColumnSpan="3" Visibility="Visible">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.2*" />
                     <RowDefinition Height="*" />
@@ -69,7 +72,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Margin="0,0,0,0" Name="lblStatusDescr" Content="Select your resources: " VerticalAlignment="Top" />
-                <Button Grid.Row="0" Grid.Column="2" Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}" Width="Auto" Height="Auto" Margin="10,0,0,10" >Run Benchmark</Button>
+                <Button Grid.Row="0" Grid.Column="2" Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}" Width="Auto" Height="Auto" Margin="10,0,0,10" Click="btnRunBenchmark_Click" >Run Benchmark</Button>
 
 
                 <Border Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,10,10" Grid.Column="0" Width="auto">
@@ -123,7 +126,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+                                    <StackPanel Orientation="Vertical" Margin="0,0,0,2">
                                         <StackPanel Orientation="Horizontal">
                                             <CheckBox IsChecked="{Binding Path=IsActive}" Margin="0,2,0,0"  Style="{DynamicResource CheckBoxGpu}" />
                                             <Label FontFamily="Segoe Ui" FontWeight="Regular"  FontSize="12"  Content="{Binding Path=DisplayName}" Margin="0"/>
@@ -139,11 +142,15 @@
                                         <StackPanel Orientation="Horizontal">
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mining ability: " Margin="0"/>
-                                            <Image Source="{Binding StatusIcon, Mode=OneWay}" Width="10" />
+                                            <StackPanel Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
+                                                <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_error.png" Width="10" Height="10"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToHiddenConverter}}"/>
+                                                <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_ready.png" Width="10" Height="10"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToVisibleConverter}}"/>
+                                            </StackPanel>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mode: " Margin="0,3.5,0,0"/>
+                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="{Binding ClaymorePerformanceThrottling}" Margin="0,2,5,0"/>
                                             <ComboBox FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedIndex="0" Width="90" >
                                                 <ComboBoxItem>
                                                     <Label Margin="0" Padding="0" FontSize="10">All in</Label>
