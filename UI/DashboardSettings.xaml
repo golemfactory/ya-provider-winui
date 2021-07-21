@@ -22,6 +22,7 @@
                 <ResourceDictionary Source="Themes/CheckBox/SliderCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="Themes/ComboBox/MiningModeComboBox.xaml"/>
                 <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
                 <ResourceDictionary Source="Icons/Task_Type.xaml"/>
                 <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
@@ -114,7 +115,7 @@
 
 
 
-                        <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding GpuList}">
+                        <ItemsControl Grid.Column="1" ItemsSource="{Binding GpuList}" Margin="0,21,0,5" Grid.RowSpan="2">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Vertical" Margin="10,0,0,0" />
@@ -138,12 +139,22 @@
                                         <StackPanel Orientation="Horizontal">
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mining ability: " Margin="0"/>
-
+                                            <Image Source="{Binding StatusIcon, Mode=OneWay}" Width="10" />
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
 
-                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mode: " Margin="0"/>
-
+                                            <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mode: " Margin="0,3.5,0,0"/>
+                                            <ComboBox FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedIndex="0" Width="90" >
+                                                <ComboBoxItem>
+                                                    <Label Margin="0" Padding="0" FontSize="10">All in</Label>
+                                                </ComboBoxItem>
+                                                <ComboBoxItem>
+                                                    <Label Margin="0" Padding="0" FontSize="10">Medium Rare</Label>
+                                                </ComboBoxItem>
+                                                <ComboBoxItem>
+                                                    <Label Margin="0" Padding="0" FontSize="10">Comfort</Label>
+                                                </ComboBoxItem>
+                                            </ComboBox>
                                         </StackPanel>
                                     </StackPanel>
                                 </DataTemplate>
@@ -181,7 +192,7 @@
                                 <Label Content="{Binding Path=TotalCpusCount, Mode=OneWay}" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
                             </StackPanel>
 
-                            <Slider  Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Margin="23,16,0,0" Width="121" Minimum="0" Maximum="7"/>
+                            <Slider  Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Margin="23,16,0,0" Width="121" Minimum="0" Maximum="{Binding TotalCpusCount, Mode=OneWay}"/>
                         </Grid>
                     </Border>
                     <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Row="1"  Grid.Column="0">

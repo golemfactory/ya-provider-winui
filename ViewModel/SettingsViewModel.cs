@@ -54,6 +54,7 @@ namespace GolemUI
                    GpuList?.Add(new SingleGpuDescriptor(val.gpuNo, val.gpuName == null ? "video card" : val.gpuName, val.BenchmarkSpeed, val.IsEnabledByUser, val.IsReadyForMining));
                });
             NodeName = _providerConfig?.Config?.NodeName;
+            TotalCpusCount = GetCpuCount();
         }
 
         private bool IsBenchmarkSettingsCorrupted()
@@ -164,5 +165,15 @@ namespace GolemUI
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private int GetCpuCount()
+        {
+            int coreCount = 0;
+            foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
+            {
+                coreCount += int.Parse(item["NumberOfCores"].ToString());
+            }
+
+            return coreCount;
+        }
     }
 }

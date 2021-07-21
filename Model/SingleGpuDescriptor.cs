@@ -36,6 +36,7 @@ namespace GolemUI
             {
                 _hashrate = value;
                 NotifyChange("Hashrate");
+                NotifyChange("HashrateAsString");
             }
         }
         public string? HashrateAsString => _hashrate.ToString();
@@ -75,7 +76,14 @@ namespace GolemUI
             {
                 _IsActive = value;
                 NotifyChange("CanMine");
+                NotifyChange("StatusIcon");
             }
+        }
+        public string StatusIcon
+        {
+            get {
+                    return "MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_" + (CanMine ? "ready" : "error") + ".png";
+                }
         }
         public SingleGpuDescriptor(int id, string name, float hashrate, bool isActive, bool canMine)
         {
