@@ -141,13 +141,9 @@
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Hashrate: " Margin="0"/>
                                             <Label FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="10" Content="{Binding Path=Hashrate, Converter={StaticResource HashRateConverter}}" Padding="0" Margin="0"/>
-
-
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
-
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mining ability: " Margin="0"/>
-                                         
                                             <Grid Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToVisibleConverter}}">
                                                 <ProgressBar IsIndeterminate="True" Margin="0" BorderThickness="0" Height="10" Background="Transparent" />
                                                 <TextBlock FontSize="10" Foreground="#aaa" Margin="0" Padding="0" VerticalAlignment="Center">checking...</TextBlock>
@@ -161,7 +157,7 @@
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mode: " Margin="0,3.5,0,0"/>
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="{Binding ClaymorePerformanceThrottlingDebug}" Margin="0,2,5,0"/>
-                                            <ComboBox IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:SettingsViewModel}, Path=BenchmarkReadyToRun}" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode}"  Width="90" >
+                                            <ComboBox IsEnabled="{Binding DataContext.BenchmarkReadyToRun, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode}"  Width="90" >
                                               
                                             </ComboBox>
                                         </StackPanel>

@@ -32,6 +32,7 @@ namespace GolemUI.DesignViewModel
 
         public int TotalCpusCount => 7;
 
+        public bool BenchmarkIsRunning => false;
 
     }
 }
