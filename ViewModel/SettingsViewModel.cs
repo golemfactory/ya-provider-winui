@@ -14,7 +14,8 @@ namespace GolemUI
     {
         private Command.Provider _provider;
         private BenchmarkResults? _benchmarkSettings;
-        private IProviderConfig _providerConfig;
+        private IProviderConfig? _providerConfig;
+        private Interfaces.IEstimatedProfitProvider _profitEstimator;
         private Src.BenchmarkService _benchmarkService;
         public Src.BenchmarkService BenchmarkService => _benchmarkService;
         public ObservableCollection<SingleGpuDescriptor>? GpuList { get; set; }
@@ -31,6 +32,10 @@ namespace GolemUI
         }
 
         public int _totalCpusCount { get; set; }
+        public string? _nodeName { get; set; }
+        public String ActiveCpusCountAsString { get { return this.ActiveCpusCount.ToString(); } }
+        public String TotalCpusCountAsString { get { return this.TotalCpusCount.ToString(); } }
+
 
         public bool IsMiningActive
         {
@@ -84,20 +89,7 @@ namespace GolemUI
 
             SettingsLoader.SaveBenchmarkToFile(_benchmarkSettings);
         }
-
-        private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Config")
-            {
-                NotifyChange("NodeName");
-            }
-            if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
-            {
-                NotifyChange(e.PropertyName);
-            }
-        }
-
-        public SettingsViewModel(IPriceProvider priceProvider, Command.Provider provider, IProviderConfig providerConfig, Src.BenchmarkService benchmarkService)
+        private void Init(IPriceProvider? priceProvider, Src.BenchmarkService benchmarkService, Command.Provider? provider, IProviderConfig? providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator)
         {
             _priceProvider = priceProvider;
             _provider = provider;
@@ -109,6 +101,14 @@ namespace GolemUI
 
 
             GpuList = new ObservableCollection<SingleGpuDescriptor>();
+            GpuList.Add(new SingleGpuDescriptor(1, "1st GPU", 20.12f, false, true, 0,false));
+            GpuList.Add(new SingleGpuDescriptor(2, "second GPU", 12.10f, true, false, 5,true));
+            GpuList.Add(new SingleGpuDescriptor(3, "3rd GPU", 9.00f, false, true, 10,true));
+
+            ActiveCpusCount = 3;
+            TotalCpusCount = 7;
+           // Hashrate = 101.9f;
+            //EstimatedProfit = "$41,32 / day";
         }
 
         private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
@@ -136,7 +136,7 @@ namespace GolemUI
                     }
                 }
 
-                NotifyChange("GpuList"); // ok
+                NotifyChange("GpuList"); // ok 
                 NotifyChange("HashRate");
                 NotifyChange("ExpectedProfit");
             }
@@ -161,6 +161,29 @@ namespace GolemUI
             }
         }
 
+        private void OnProviderCofigChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Config")
+            {
+                NotifyChange("NodeName");
+            }
+            if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
+            {
+                NotifyChange(e.PropertyName);
+            }
+        }
+
+        /* public SettingsViewModel()
+         {
+             Init(new Src.StaticPriceProvider(), null, null,null);
+
+         }*/
+        public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator)
+        {
+            Init(priceProvider, benchmarkService, provider, providerConfig,profitEstimator);
+
+
+        }
         public int ActiveCpusCount
         {
             get { return _activeCpusCount; }
@@ -168,6 +191,7 @@ namespace GolemUI
             {
                 _activeCpusCount = value;
                 NotifyChange("ActiveCpusCount");
+                NotifyChange("ActiveCpusCountAsString");
             }
         }
         public int TotalCpusCount
@@ -177,9 +201,13 @@ namespace GolemUI
             {
                 _totalCpusCount = value;
                 NotifyChange("TotalCpusCount");
+                NotifyChange("TotalCpusCountAsString");
             }
         }
-        public float? Hashrate => _benchmarkService.TotalMhs;
+        public float? Hashrate
+        {
+            get { return _benchmarkService.TotalMhs; ; }
+        }
 
         public string? NodeName
         {
