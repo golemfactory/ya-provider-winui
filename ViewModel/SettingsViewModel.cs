@@ -22,7 +22,6 @@ namespace GolemUI
         public ObservableCollection<SingleGpuDescriptor>? GpuList { get; set; }
 
         private int _activeCpusCount=0;
-        private decimal _glmPerDay = 0.0m;
         private readonly int _totalCpusCount = 0;
         public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator)
         {
@@ -54,6 +53,8 @@ namespace GolemUI
                 GpuList?.Add(new SingleGpuDescriptor(val));
             });
             NodeName = _providerConfig?.Config?.NodeName;
+            ActiveCpusCount = _providerConfig?.ActiveCpuCount ?? 0;
+
         }
 
         private bool IsBenchmarkSettingsCorrupted()
@@ -74,6 +75,8 @@ namespace GolemUI
                 }
             });
 
+
+            _providerConfig?.UpdateActiveCpuThreadsCount(ActiveCpusCount);
             SettingsLoader.SaveBenchmarkToFile(_benchmarkSettings);
         }
 

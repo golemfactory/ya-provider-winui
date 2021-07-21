@@ -14,7 +14,8 @@ namespace GolemUI.Interfaces
         bool IsMiningActive { get; set; }
 
         bool IsCpuActive { get; set; }
-
+        public int ActiveCpuCount { get; }
+        public void UpdateActiveCpuThreadsCount(int threadsCount);
         void UpdateWalletAddress(string? walletAddress = null);
         void UpdateNodeName(string? value);
     }

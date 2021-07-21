@@ -17,6 +17,9 @@ namespace GolemUI.Src
         {
             _provider = provider;
             Config = _provider.Config;
+
+            string name = Config.NodeName;
+            int count = ActiveCpuCount;
         }
 
         public Config? Config { get; }
@@ -64,6 +67,18 @@ namespace GolemUI.Src
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        public int ActiveCpuCount => _provider?.DefaultProfile?.CpuThreads ?? 0;
+       
+        public void UpdateActiveCpuThreadsCount(int threadsCount)
+        {
+            var config = Config ?? _provider.Config;
+            if (config != null)
+            {
+                _provider.UpdateDefaultProfile("--cpu-threads", threadsCount.ToString());
+              
+            }
+            OnPropertyChanged("Config");
+        }
         public void UpdateNodeName(string? nodeName)
         {
             var config = Config ?? _provider.Config;

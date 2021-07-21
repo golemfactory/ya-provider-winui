@@ -74,7 +74,26 @@ namespace GolemUI.Command
         [JsonProperty("usage-coeffs")]
         public Dictionary<string, decimal> UsageCoeffs { get; set; }
     }
+    public class Profile
+    {
+        [JsonConstructor]
+        public Profile(int cpuThreads, double memGib, double storageGib)
+        {
 
+            CpuThreads = cpuThreads;
+            MemGib = memGib;
+            StorageGib = storageGib;
+        }
+
+        [JsonProperty("cpu_threads")]
+        public int CpuThreads { get; set; }
+
+        [JsonProperty("mem_gib")]
+        public double MemGib { get; set; }
+
+        [JsonProperty("storage_gib")]
+        public double StorageGib { get; set; }
+    }
     public class Provider
     {
         private string _yaProviderPath;
@@ -176,6 +195,21 @@ namespace GolemUI.Command
             {
                 return this.Exec<List<Preset>>("--json preset list") ?? new List<Preset>();
             }
+        }
+        public Profile? DefaultProfile
+        {
+            get
+            {
+                var text = this.ExecToText("--json profile list");
+                dynamic json= JsonConvert.DeserializeObject(text);
+                var child = JsonConvert.SerializeObject(json["default"]);
+                var profile = JsonConvert.DeserializeObject<Profile>(child);
+                return profile;           
+            }
+        }
+        public void UpdateDefaultProfile(String param, String value)
+        {
+            this.ExecToText("profile update "+param +" "+value+" default");
         }
 
         public IList<string> ActivePresets
