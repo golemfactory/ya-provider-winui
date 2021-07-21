@@ -1,14 +1,16 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
 <?define Win64 = "yes" ?>
-<?define Version="0.0.1"?>
-<?define PubDir="..\bin\Release\net5.0-windows\publish"?>
+<?define Version="0.0.3"?>
+<?define BuildOutputDir="..\bin\Release"?>
+<?define YaPubDir="F:\gminer"?>
+<?define YaBuildOutputDir="F:\yagna\target\release"?>
 <?define ClaymoreDir="F:\gminer\plugins\claymore-real"?>
 <?define MediaDir="$(var.SolutionDir)\Media"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product
         Id='*'
-        Name='Golem Provider'        
+        Name='Golem Provider'
         UpgradeCode='{96497EC7-11EA-4257-A0E4-37688d0C7EC0}'
         Manufacturer='golemfactory'
         Language='1033'
@@ -23,182 +25,138 @@
             InstallScope='perMachine'
             SummaryCodepage='1252'
             Platform='x64'/>
-        <MajorUpgrade
-            Schedule='afterInstallInitialize'
-            DowngradeErrorMessage='A newer version of [ProductName] is already installed. Setup will now exit.'/>
+    <MajorUpgrade
+        Schedule='afterInstallInitialize'
+        DowngradeErrorMessage='A newer version of [ProductName] is already installed. Setup will now exit.'/>
 
-        <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1'/>
-        <!-- Allow upgrades and prevent downgrades -->
-        <!--MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." /-->
-        <Property Id='DiskPrompt' Value='Golem Installation'/>
+    <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1'/>
+    <!-- Allow upgrades and prevent downgrades -->
+    <!--MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." /-->
+    <Property Id='DiskPrompt' Value='Golem Installation'/>
 
-	<!--Condition Message="Required vc++ runtime version 14.22.27812.0 or newer">
+    <!--Condition Message="Required vc++ runtime version 14.22.27812.0 or newer">
     		<![CDATA[Installed OR VCRUNTIMEVERSION]]>
 	</Condition-->
+    
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="fa2a64b9-19f8-4830-a931-18de65ed4e26">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="Golem Provider UI"
+                  Target="[APPLICATIONFOLDER]GolemUI.Exe"
+                  WorkingDirectory="APPLICATIONFOLDER"/>
+        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\GolemFactory\GolemProviderUI" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Golem"/>
+      </Directory>
+      <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
+        <Directory Id='APPLICATIONFOLDER' Name='GolemProvider'>
+          <Component Id='License' Guid='8aa900e0-cca3-49e0-9e1f-0692d8a3ab29' Win64='$(var.Win64)'>
+            <File Id='LicenseFile'
+                Name='License'
+                DiskId='1'
+                Source='LICENSE.rtf'
+                KeyPath='yes'/>
+          </Component>
+          <Component Id='GolemNode' Guid='a2223e0a-f321-4895-a84c-fcaff67633a0' Win64='$(var.Win64)'>
+            <File Id='yagnaExe'
+                  Name='yagna.exe'
+                  DiskId='1'
+                  Source='$(var.YaBuildOutputDir)\yagna.exe'
+                  KeyPath='yes'>
+            </File>
 
-        <Directory Id='TARGETDIR' Name='SourceDir'>
-            <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
-                <Directory Id='APPLICATIONFOLDER' Name='GolemProvider'>
-                    <Component Id='License' Guid='8aa900e0-cca3-49e0-9e1f-0692d8a3ab29' Win64='$(var.Win64)'>
-                        <File Id='LicenseFile'
-                            Name='License'
-                            DiskId='1'
-                            Source='LICENSE.rtf'
-                            KeyPath='yes'/>
-                    </Component>
-                  <Component Id='GolemNode' Guid='a2223e0a-f321-4895-a84c-fcaff67633a0' Win64='$(var.Win64)'>
-                    <File Id='yagnaExe'
-                          Name='yagna.exe'
-                          DiskId='1'
-                          Source='$(var.PubDir)\yagna.exe'
-                          KeyPath='yes'>                      
-                    </File>
-                    
-                  </Component>
-                  <Component Id='GolemProvider' Guid='8ffef653-0847-4789-8b37-8c0f90f6a43f' Win64='$(var.Win64)'>
-                    <File Id='yaproviderExe'
-                          Name='ya-provider.exe'
-                          DiskId='1'
-                          Source='$(var.PubDir)\ya-provider.exe'
-                          KeyPath='yes'>
-                    </File>
-                  </Component>
-                  <Component Id='GolemProviderUI' Guid='dfb1d4cf-66ed-45ba-854f-35195381e702' Win64='$(var.Win64)'>
-                        <File Id='GolemUIExe'
-                              Name='GolemUI.exe'
-                              DiskId='1'
-                              Source='$(var.PubDir)\GolemUI.exe'
-                              KeyPath='yes'>
-                        </File>                   
-                    </Component>
-                    <Component Id='GolemProviderUIDeps' Guid='60161a37-6849-4212-bd0a-e282d4fb6058' Win64='$(var.Win64)'>
-                      <File Id='GolemUIdll' Name='GolemUI.dll' DiskId='1' Source='$(var.PubDir)\GolemUI.dll' KeyPath='no'/>
-                      <File Id='GolemUIdepsjson' Name='GolemUI.deps.json' DiskId='1' Source='$(var.PubDir)\GolemUI.deps.json' KeyPath='no'/>
-                      <File Id='GolemUIruntimeconfigjson' Name='GolemUI.runtimeconfig.json' DiskId='1' Source='$(var.PubDir)\GolemUI.runtimeconfig.json' KeyPath='no'/>                     
-                      <File Id='MicrosoftExtensionsConfigurationAbstractionsdll' Name='Microsoft.Extensions.Configuration.Abstractions.dll' DiskId='1' Source='$(var.PubDir)\Microsoft.Extensions.Configuration.Abstractions.dll' KeyPath='no'/>
-                      <File Id='MicrosoftExtensionsConfigurationdll' Name='Microsoft.Extensions.Configuration.dll' DiskId='1' Source='$(var.PubDir)\Microsoft.Extensions.Configuration.dll' KeyPath='no'/>
-                      <File Id='MicrosoftExtensionsDependencyInjectionAbstractionsdll' Name='Microsoft.Extensions.DependencyInjection.Abstractions.dll' DiskId='1' Source='$(var.PubDir)\Microsoft.Extensions.DependencyInjection.Abstractions.dll' KeyPath='no'/>
-                      <File Id='MicrosoftExtensionsDependencyInjectiondll' Name='Microsoft.Extensions.DependencyInjection.dll' DiskId='1' Source='$(var.PubDir)\Microsoft.Extensions.DependencyInjection.dll' KeyPath='no'/>
-                      <File Id='MicrosoftExtensionsLoggingAbstractionsdll' Name='Microsoft.Extensions.Logging.Abstractions.dll' DiskId='1' Source='$(var.PubDir)\Microsoft.Extensions.Logging.Abstractions.dll' KeyPath='no'/>
-                      <File Id='MicrosoftExtensionsLoggingdll' Name='Microsoft.Extensions.Logging.dll' DiskId='1' Source='$(var.PubDir)\Microsoft.Extensions.Logging.dll' KeyPath='no'/>
-                      <File Id='MicrosoftExtensionsOptionsdll' Name='Microsoft.Extensions.Options.dll' DiskId='1' Source='$(var.PubDir)\Microsoft.Extensions.Options.dll' KeyPath='no'/>
-                      <File Id='MicrosoftExtensionsPrimitives.dll' Name='Microsoft.Extensions.Primitives.dll' DiskId='1' Source='$(var.PubDir)\Microsoft.Extensions.Primitives.dll' KeyPath='no'/>
-                      <File Id='SystemManagementdll' Name='System.Management.dll' DiskId='1' Source='$(var.PubDir)\System.Management.dll' KeyPath='no'/>
-                      <File Id='NewtonsoftJsondll' Name='Newtonsoft.Json.dll' DiskId='1' Source='$(var.PubDir)\Newtonsoft.Json.dll' KeyPath='no'/>
-                      <File Id='SharpVectorsCoredll' Name='SharpVectors.Core.dll' DiskId='1' Source='$(var.PubDir)\SharpVectors.Core.dll' KeyPath='no'/>
-                      <File Id='SharpVectorsCssdll' Name='SharpVectors.Css.dll' DiskId='1' Source='$(var.PubDir)\SharpVectors.Css.dll' KeyPath='no'/>
-                      <File Id='SharpVectorsDomdll' Name='SharpVectors.Dom.dll' DiskId='1' Source='$(var.PubDir)\SharpVectors.Dom.dll' KeyPath='no'/>
-                      <File Id='SharpVectorsModeldll' Name='SharpVectors.Model.dll' DiskId='1' Source='$(var.PubDir)\SharpVectors.Model.dll' KeyPath='no'/>
-                      <File Id='SharpVectorsConvertersWpfdll' Name='SharpVectors.Converters.Wpf.dll' DiskId='1' Source='$(var.PubDir)\SharpVectors.Converters.Wpf.dll' KeyPath='no'/>
-                      <File Id='SharpVectorsRenderingGdidll' Name='SharpVectors.Rendering.Gdi.dll' DiskId='1' Source='$(var.PubDir)\SharpVectors.Rendering.Gdi.dll' KeyPath='no'/>
-                      <File Id='SharpVectorsRenderingWpfdll' Name='SharpVectors.Rendering.Wpf.dll' DiskId='1' Source='$(var.PubDir)\SharpVectors.Rendering.Wpf.dll' KeyPath='no'/>
-                      <File Id='SharpVectorsRuntimeWpfdll' Name='SharpVectors.Runtime.Wpf.dll' DiskId='1' Source='$(var.PubDir)\SharpVectors.Runtime.Wpf.dll' KeyPath='no'/>
-                    </Component>
-                  
-                  <Directory Id='Media' Name='Media'>
-                    <Component Id='GolemProviderUIMedia' Guid='ec9dc67a-6db7-449d-8d4f-4597cfd03d8e' Win64='$(var.Win64)'>
-                      <File Name='balance.svg' DiskId='1' Source='$(var.MediaDir)\balance.svg' KeyPath='no'/>
-                      <File Name='cpu.svg' DiskId='1' Source='$(var.MediaDir)\cpu.svg' KeyPath='no'/>
-                      <File Name='gpu.svg' DiskId='1' Source='$(var.MediaDir)\gpu.svg' KeyPath='no'/>
-                      <File Name='nav_dashboard.svg' DiskId='1' Source='$(var.MediaDir)\nav_dashboard.svg' KeyPath='no'/>
-                      <File Name='nav_settings.svg' DiskId='1' Source='$(var.MediaDir)\nav_settings.svg' KeyPath='no'/>
-                      <File Name='nav_wallet.svg' DiskId='1' Source='$(var.MediaDir)\nav_wallet.svg' KeyPath='no'/>
-                      <File Name='profit.svg' DiskId='1' Source='$(var.MediaDir)\profit.svg' KeyPath='no'/>
-                    </Component>
-                    <Directory Id='onboarding' Name='onboarding'>
-                      <Component Id='GolemProviderUIMediaOnboarding' Guid='be8644a9-6493-4cfb-b064-71a49aaccee8' Win64='$(var.Win64)'>
-                        <File Name='begginer.svg' DiskId='1' Source='$(var.MediaDir)\onboarding\begginer.svg' KeyPath='no'/>
-                        <File Name='create_wallet.svg' DiskId='1' Source='$(var.MediaDir)\onboarding\create_wallet.svg' KeyPath='no'/>
-                        <File Name='experienced.svg' DiskId='1' Source='$(var.MediaDir)\onboarding\experienced.svg' KeyPath='no'/>
-                        <File Name='hash_power.svg' DiskId='1' Source='$(var.MediaDir)\onboarding\hash_power.svg' KeyPath='no'/>
-                        <File Name='name_node.svg' DiskId='1' Source='$(var.MediaDir)\onboarding\name_node.svg' KeyPath='no'/>
-                        <File Name='prepare.svg' DiskId='1' Source='$(var.MediaDir)\onboarding\prepare.svg' KeyPath='no'/>
-                        <File Name='use_my_wallet.svg' DiskId='1' Source='$(var.MediaDir)\onboarding\use_my_wallet.svg' KeyPath='no'/>
-                        <File Name='wallet_info.svg' DiskId='1' Source='$(var.MediaDir)\onboarding\wallet_info.svg' KeyPath='no'/>
-                      </Component>
-                    </Directory>                    
-                  </Directory>                  
-                    <Directory Id="Plugins" Name="plugins">
-                        <Component Id="WasmDriver" Guid="c7bd0747-16aa-4c7c-a895-9e2b39394dc9" Win64="$(var.Win64)">
-				                  <File Id="wasmDriverExe" Name="ya-runtime-wasi.exe" DiskId="1" Source="$(var.PubDir)\plugins\ya-runtime-wasi.exe" KeyPath="yes"/>
-                        </Component>
-                        <Component Id="WasmDriverManifest" Guid="f07ae8b2-d3cb-46d7-badc-e1b432e5945c" Win64="$(var.Win64)">
-                          <File Id="wasmDriverManifest" Name="ya-runtime-wasi.json" DiskId="1" Source="$(var.PubDir)\plugins\ya-runtime-wasi.json" KeyPath="yes"/>
-                        </Component>
-                      <Component Id="CoreExeUnit" Guid="5aa3012f-93d4-4605-970f-c3eb2d66e486" Win64="$(var.Win64)">
-                        <File Name="exe-unit.exe" DiskId="1" Source="$(var.PubDir)\plugins\exe-unit.exe" KeyPath="yes"/>
-                      </Component>
-                      <Component Id='GMineDriver' Guid="eebc7614-db08-4129-8619-461c07feb3b8" Win64="$(var.Win64)">
-                        <File Name='ya-runtime-gminer.exe' DiskId='1' Source='$(var.PubDir)\plugins\ya-runtime-gminer.exe' KeyPath='no'/>
-                        <File Name='ya-runtime-gminer.json' DiskId='1' Source='$(var.PubDir)\plugins\ya-runtime-gminer.json' KeyPath='no'/>
-                      </Component>
-                      <Directory Id='dir29FA238D75D949F99B06F199E7C9EE82' Name='claymore'>
-                        <Directory Id="dir00796F504E8DC0DE85A40C6033069E84" Name="cuda10" />
-                      </Directory> 
-                    </Directory>
-               </Directory> 
+          </Component>
+          <Component Id='GolemProvider' Guid='8ffef653-0847-4789-8b37-8c0f90f6a43f' Win64='$(var.Win64)'>
+            <File Id='yaproviderExe'
+                  Name='ya-provider.exe'
+                  DiskId='1'
+                  Source='$(var.YaBuildOutputDir)\ya-provider.exe'
+                  KeyPath='yes'>
+            </File>
+          </Component>
+          <Directory Id="Plugins" Name="plugins">
+            <Component Id="WasmDriver" Guid="c7bd0747-16aa-4c7c-a895-9e2b39394dc9" Win64="$(var.Win64)">
+              <File Id="wasmDriverExe" Name="ya-runtime-wasi.exe" DiskId="1" Source="$(var.YaPubDir)\plugins\ya-runtime-wasi.exe" KeyPath="yes"/>
+            </Component>
+            <Component Id="WasmDriverManifest" Guid="f07ae8b2-d3cb-46d7-badc-e1b432e5945c" Win64="$(var.Win64)">
+              <File Id="wasmDriverManifest" Name="ya-runtime-wasi.json" DiskId="1" Source="$(var.YaPubDir)\plugins\ya-runtime-wasi.json" KeyPath="yes"/>
+            </Component>
+            <Component Id="CoreExeUnit" Guid="5aa3012f-93d4-4605-970f-c3eb2d66e486" Win64="$(var.Win64)">
+              <File Name="exe-unit.exe" DiskId="1" Source="$(var.YaPubDir)\plugins\exe-unit.exe" KeyPath="yes"/>
+            </Component>
+            <Component Id='GMineDriver' Guid="eebc7614-db08-4129-8619-461c07feb3b8" Win64="$(var.Win64)">
+              <File Name='ya-runtime-gminer.exe' DiskId='1' Source='$(var.YaPubDir)\plugins\ya-runtime-gminer.exe' KeyPath='no'/>
+              <File Name='ya-runtime-gminer.json' DiskId='1' Source='$(var.YaPubDir)\plugins\ya-runtime-gminer.json' KeyPath='no'/>
+            </Component>
+            <Directory Id='dir29FA238D75D949F99B06F199E7C9EE82' Name='claymore'>
+              <Directory Id="dir00796F504E8DC0DE85A40C6033069E84" Name="cuda10" />
             </Directory>
+          </Directory>
         </Directory>
+      </Directory>
+    </Directory>
 
-        <Feature
-            Id='MainProgram'
-            Title='Provider Runtime'
-            Description='Installs the executable and license.'
-            Level='1'
-            ConfigurableDirectory='APPLICATIONFOLDER'
-            AllowAdvertise='no'
-            Display='expand'
-            Absent='disallow'>
-            <ComponentRef Id='License'/>
+    <Feature
+        Id='MainProgram'
+        Title='Provider Runtime'
+        Description='Installs the executable and license.'
+        Level='1'
+        ConfigurableDirectory='APPLICATIONFOLDER'
+        AllowAdvertise='no'
+        Display='expand'
+        Absent='disallow'>
+      <ComponentRef Id='License'/>
 
-          <ComponentRef Id='GolemNode'/>
-          <ComponentRef Id='GolemProvider'/>
-          <ComponentRef Id='GolemProviderUI'/>
-          <ComponentRef Id='GolemProviderUIDeps'/>
-          <ComponentRef Id='GolemProviderUIMedia'/>
-          <ComponentRef Id='GolemProviderUIMediaOnboarding'/>
-            
-        </Feature>
-        <Feature
-            Id='f.wasm'
-            Title='Wasm Driver'
-            Description='Installs Golem Wasm Driver'
-            Level='1'
-            ConfigurableDirectory='APPLICATIONFOLDER'
-            AllowAdvertise='no'
-            Display='expand'
-            Absent='allow'>
-          <ComponentRef Id='License'/>
-          <ComponentRef Id='WasmDriver'/>
-          <ComponentRef Id='WasmDriverManifest'/>
-          <ComponentRef Id='CoreExeUnit'/>
-        </Feature>
-        <Feature
-            Id='f.gmine'
-            Title='Eth mining Driver'
-            Description='Installs Golem Mining Driver'
-            Level='1'
-            ConfigurableDirectory='APPLICATIONFOLDER'
-            AllowAdvertise='no'
-            Display='expand'
-            Absent='allow'>
-          <ComponentRef Id='License'/>
-          <ComponentRef Id='GMineDriver'/>
-          <ComponentGroupRef Id='Claymore'/>      
-        </Feature>
+      <ComponentRef Id='GolemNode'/>
+      <ComponentRef Id='GolemProvider'/>
+      <ComponentGroupRef Id='ProductFilesComponentGroup'/>
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+    <Feature
+        Id='f.wasm'
+        Title='Wasm Driver'
+        Description='Installs Golem Wasm Driver'
+        Level='1'
+        ConfigurableDirectory='APPLICATIONFOLDER'
+        AllowAdvertise='no'
+        Display='expand'
+        Absent='allow'>
+      <ComponentRef Id='License'/>
+      <ComponentRef Id='WasmDriver'/>
+      <ComponentRef Id='WasmDriverManifest'/>
+      <ComponentRef Id='CoreExeUnit'/>
+    </Feature>
+    <Feature
+        Id='f.gmine'
+        Title='Eth mining Driver'
+        Description='Installs Golem Mining Driver'
+        Level='1'
+        ConfigurableDirectory='APPLICATIONFOLDER'
+        AllowAdvertise='no'
+        Display='expand'
+        Absent='allow'>
+      <ComponentRef Id='License'/>
+      <ComponentRef Id='GMineDriver'/>
+      <ComponentGroupRef Id='Claymore'/>
+    </Feature>
 
 
     <SetProperty Id='ARPINSTALLLOCATION' Value='[APPLICATIONFOLDER]' After='CostFinalize'/>
-        <SetProperty Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" After='CostFinalize' />
-        <UI>
-          <UIRef Id='WixUI_FeatureTree'/>
-          <!--UIRef Id='WixUI_Minimal'/-->
-          <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" 
-          Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
-        </UI>
-        <WixVariable Id='WixUILicenseRtf' Value='LICENSE.rtf'/>
-        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Start Golem" />
-        <CustomAction Id='LaunchApplication' ExeCommand='[APPLICATIONFOLDER]GolemUI.Exe' Return="asyncNoWait" Directory="APPLICATIONFOLDER"/>
+    <SetProperty Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" After='CostFinalize' />
+    <UI>
+      <UIRef Id='WixUI_FeatureTree'/>
+      <!--UIRef Id='WixUI_Minimal'/-->
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction"
+      Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+    </UI>
+    <WixVariable Id='WixUILicenseRtf' Value='LICENSE.rtf'/>
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Start Golem" />
+    <CustomAction Id='LaunchApplication' ExeCommand='[APPLICATIONFOLDER]GolemUI.Exe setup' Return="asyncNoWait" Directory="APPLICATIONFOLDER"/>
 
   </Product>
   <Fragment>
@@ -251,17 +209,16 @@
     </ComponentGroup>
   </Fragment>
   <Fragment>
-	  	<Property Id="VCRUNTIMEVERSION">
-    		<DirectorySearch Id="SystemFolderDriverVersion" Path="[SystemFolder]">
-        		<FileSearch Name="vcruntime140.dll" MinVersion="14.22.27821.0"/>
-    		</DirectorySearch>
-	</Property>
-	<PackageGroup Id="redist_vc140">
-		 <ExePackage Id="vc140" Cache="yes" PerMachine="yes" Permanent="yes" Vital="yes" Compressed="yes"
-            SourceFile="redist\vcredist_x64.exe"
-            InstallCommand="/quiet /norestart"
-	    DetectCondition="(VCRUNTIMEVERSION &gt;= 14.22.27821.0)" />
-    	</PackageGroup>
-
+    <Property Id="VCRUNTIMEVERSION">
+      <DirectorySearch Id="SystemFolderDriverVersion" Path="[SystemFolder]">
+        <FileSearch Name="vcruntime140.dll" MinVersion="14.22.27821.0"/>
+      </DirectorySearch>
+    </Property>
+    <PackageGroup Id="redist_vc140">
+      <ExePackage Id="vc140" Cache="yes" PerMachine="yes" Permanent="yes" Vital="yes" Compressed="yes"
+             SourceFile="redist\vcredist_x64.exe"
+             InstallCommand="/quiet /norestart"
+       DetectCondition="(VCRUNTIMEVERSION &gt;= 14.22.27821.0)" />
+    </PackageGroup>
   </Fragment>
 </Wix>

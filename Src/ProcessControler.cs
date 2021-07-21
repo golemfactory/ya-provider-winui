@@ -158,10 +158,10 @@ namespace GolemUI
                     _providerDaemon = null;
                 }
                 else
-                {                    
+                {
                     return false;
                 }
-            }            
+            }
             return true;
         }
 
@@ -253,10 +253,10 @@ namespace GolemUI
                         _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
                         keyInfo = GetFirstAppKey();
                     }
-                    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);                    
+                    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
 
-                //yagna is starting and /me won't work until all services are running
-                int tries = 0;
+                    //yagna is starting and /me won't work until all services are running
+                    int tries = 0;
                     while (true)
                     {
                         if (tries >= 30)
@@ -267,8 +267,8 @@ namespace GolemUI
                         {
                             var txt = _client.GetStringAsync($"{_baseUrl}/me").Result;
                             KeyInfo? keyMe = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
-                        //sanity check
-                        if (keyMe != null && keyInfo != null && keyMe.Id == keyInfo.Id)
+                            //sanity check
+                            if (keyMe != null && keyInfo != null && keyMe.Id == keyInfo.Id)
                             {
                                 break;
                             }
@@ -281,7 +281,7 @@ namespace GolemUI
                         tries += 1;
                     }
 
-                    Thread.Sleep(1000);                  
+                    Thread.Sleep(1000);
 
                     StartupProvider(Network.Rinkeby, Subnet);
                 });
@@ -443,7 +443,7 @@ namespace GolemUI
 
         public async Task<bool> Prepare()
         {
-            if (_yagnaDaemon == null) 
+            if (_yagnaDaemon == null)
             {
                 _lock();
                 try

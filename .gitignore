@@ -353,3 +353,4 @@ MigrationBackup/
 /GolemUISetup/ExternalBinaries/GolemUI.exe
 /GolemUISetup/ExternalBinaries/data_dir
 /GolemUISetup/ExternalBinaries/plugins/claymore/log*.txt
+/GolemUISetup/ProductInstallFiles.wxs

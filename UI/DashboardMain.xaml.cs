@@ -73,7 +73,7 @@ namespace GolemUI
         private async void btnStop_Click(object sender, RoutedEventArgs e)
         {
             Model!.Stop();
-            
+
 
 
             lblStatus.Content = "Stopped";

@@ -8,7 +8,7 @@ namespace GolemUI
     /// </summary>
     /// 
 
-    
+
     public class SingleGpuDescriptor : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -88,7 +88,7 @@ namespace GolemUI
             {
                 _inProgress = value;
                 NotifyChange("InProgress");
-             
+
             }
         }
 
