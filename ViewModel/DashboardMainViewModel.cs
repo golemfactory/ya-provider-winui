@@ -25,7 +25,7 @@ namespace GolemUI.ViewModel
             if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
             {
                 OnPropertyChanged(e.PropertyName);
-            }            
+            }
         }
 
         private void OnPaymentServiceChanged(object? sender, PropertyChangedEventArgs e)

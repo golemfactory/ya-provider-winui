@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             xmlns:dvm="clr-namespace:GolemUI"
+             xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
              d:DataContext ="{d:DesignInstance {x:Type dvm:SettingsViewModel}, IsDesignTimeCreatable=True}"
              >
     <UserControl.Resources>
@@ -49,9 +49,9 @@
                 </Border>
                 <StackPanel  Orientation="Horizontal"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 10, 0, 0" >
                     <Label Content="Estimated profit: " FontFamily="SegoeUI" FontSize="12" FontWeight="Light" Margin="0" Padding="0"/>
-                    <Label Content="{Binding Path=EstimatedProfit, Mode=OneWay}" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
+                    <Label Content="{Binding Path=EstimatedProfit, Mode=OneWay, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
                     <Label Content="Current Hashrate: " FontFamily="SegoeUI" FontSize="12" FontWeight="Light" Margin="0" Padding="20,0,0,0"/>
-                    <Label Content="{Binding Path=Hashrate, Mode=OneWay}" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
+                    <Label Content="{Binding Path=Hashrate, Mode=OneWay, Converter={StaticResource HashRateConverter}}" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
                 </StackPanel>
             </StackPanel>
 
@@ -123,7 +123,6 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical" Margin="0,0,0,10">
-
                                         <StackPanel Orientation="Horizontal">
                                             <CheckBox IsChecked="{Binding Path=IsActive}" Margin="0,2,0,0"  Style="{DynamicResource CheckBoxGpu}" />
                                             <Label FontFamily="Segoe Ui" FontWeight="Regular"  FontSize="12"  Content="{Binding Path=DisplayName}" Margin="0"/>
@@ -177,9 +176,9 @@
                             <Label Content="CPU" FontFamily="Segoe UI" FontWeight="Bold" Margin="20,10,0,0" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF" Padding="0"/>
                             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
                                 <Label Content="Cores" FontWeight="Light" Margin="0" Padding="0,0,5,0" Foreground="#FFFFFF" />
-                                <Label Content="{Binding Path=ActiveCpusCountAsString, Mode=OneWay}" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
+                                <Label Content="{Binding Path=ActiveCpusCount, Mode=OneWay}" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
                                 <Label Content="/" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
-                                <Label Content="{Binding Path=TotalCpusCountAsString, Mode=OneWay}" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
+                                <Label Content="{Binding Path=TotalCpusCount, Mode=OneWay}" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF" />
                             </StackPanel>
 
                             <Slider  Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Margin="23,16,0,0" Width="121" Minimum="0" Maximum="7"/>

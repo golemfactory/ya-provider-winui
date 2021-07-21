@@ -36,7 +36,7 @@ namespace GolemUI.ViewModel
         public enum ExpertSteps
         {
             Wallet = 0,
-            Name,            
+            Name,
             Benchmark,
             Enjoy
         }
