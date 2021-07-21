@@ -32,10 +32,7 @@ namespace GolemUI
         }
 
         public int _totalCpusCount { get; set; }
-        public string? _nodeName { get; set; }
-        public String ActiveCpusCountAsString { get { return this.ActiveCpusCount.ToString(); } }
-        public String TotalCpusCountAsString { get { return this.TotalCpusCount.ToString(); } }
-
+   
 
         public bool IsMiningActive
         {
@@ -54,7 +51,27 @@ namespace GolemUI
                 _providerConfig.IsCpuActive = value;
             }
         }
+        public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator)
+        {
+            _priceProvider = priceProvider;
+            _provider = provider;
+            _providerConfig = providerConfig;
+            _benchmarkService = benchmarkService;
+            _providerConfig.PropertyChanged += OnProviderCofigChanged;
+            _benchmarkService.PropertyChanged += OnBenchmarkChanged;
+            
+            _profitEstimator = profitEstimator;
 
+
+            GpuList = new ObservableCollection<SingleGpuDescriptor>();
+            GpuList.Add(new SingleGpuDescriptor(1, "1st GPU", 20.12f, false, true, 0, false));
+            GpuList.Add(new SingleGpuDescriptor(2, "second GPU", 12.10f, true, false, 5, true));
+            GpuList.Add(new SingleGpuDescriptor(3, "3rd GPU", 9.00f, false, true, 10, true));
+
+            ActiveCpusCount = 3;
+            TotalCpusCount = 7;
+
+        }
         public void LoadData()
         {
             GpuList?.Clear();
@@ -89,27 +106,7 @@ namespace GolemUI
 
             SettingsLoader.SaveBenchmarkToFile(_benchmarkSettings);
         }
-        private void Init(IPriceProvider? priceProvider, Src.BenchmarkService benchmarkService, Command.Provider? provider, IProviderConfig? providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator)
-        {
-            _priceProvider = priceProvider;
-            _provider = provider;
-            _providerConfig = providerConfig;
-            _benchmarkService = benchmarkService;
-            _providerConfig.PropertyChanged += OnProviderCofigChanged;
-            _benchmarkService.PropertyChanged += OnBenchmarkChanged;
-            _profitEstimator = profitEstimator;
-
-
-            GpuList = new ObservableCollection<SingleGpuDescriptor>();
-            GpuList.Add(new SingleGpuDescriptor(1, "1st GPU", 20.12f, false, true, 0,false));
-            GpuList.Add(new SingleGpuDescriptor(2, "second GPU", 12.10f, true, false, 5,true));
-            GpuList.Add(new SingleGpuDescriptor(3, "3rd GPU", 9.00f, false, true, 10,true));
-
-            ActiveCpusCount = 3;
-            TotalCpusCount = 7;
-           // Hashrate = 101.9f;
-            //EstimatedProfit = "$41,32 / day";
-        }
+       
 
         private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -139,28 +136,18 @@ namespace GolemUI
                 NotifyChange("GpuList"); // ok 
                 NotifyChange("HashRate");
                 NotifyChange("ExpectedProfit");
+                NotifyChange("BenchmarkIsRunning");
+                NotifyChange("BenchmarkReadyToRun");
             }
             if (e.PropertyName == "IsRunning")
             {
-                /*OnPropertyChanged("BenchmarkIsRunning");
-                OnPropertyChanged("ExpectedProfit");
-                if (_flow == (int)FlowSteps.Noob)
-                {
-                    if (_noobStep == (int)NoobSteps.Benchmark && !BenchmarkIsRunning)
-                    {
-                        NoobStep = (int)NoobSteps.Enjoy;
-                    }
-                }
-                else if (_flow == (int)FlowSteps.OwnWallet)
-                {
-                    if (_expertStep == ExpertSteps.Benchmark && !BenchmarkIsRunning)
-                    {
-                        ExpertStep = (int)ExpertSteps.Enjoy;
-                    }
-                }*/
+                NotifyChange("BenchmarkReadyToRun");
+                NotifyChange("BenchmarkIsRunning");
+                NotifyChange("ExpectedProfit");
             }
         }
-
+        public bool BenchmarkIsRunning => _benchmarkService.IsRunning;
+        public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning);
         private void OnProviderCofigChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Config")
@@ -173,17 +160,8 @@ namespace GolemUI
             }
         }
 
-        /* public SettingsViewModel()
-         {
-             Init(new Src.StaticPriceProvider(), null, null,null);
-
-         }*/
-        public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator)
-        {
-            Init(priceProvider, benchmarkService, provider, providerConfig,profitEstimator);
-
-
-        }
+      
+      
         public int ActiveCpusCount
         {
             get { return _activeCpusCount; }
@@ -191,7 +169,6 @@ namespace GolemUI
             {
                 _activeCpusCount = value;
                 NotifyChange("ActiveCpusCount");
-                NotifyChange("ActiveCpusCountAsString");
             }
         }
         public int TotalCpusCount
@@ -201,7 +178,6 @@ namespace GolemUI
             {
                 _totalCpusCount = value;
                 NotifyChange("TotalCpusCount");
-                NotifyChange("TotalCpusCountAsString");
             }
         }
         public float? Hashrate

@@ -37,10 +37,9 @@ namespace GolemUI
             {
                 _hashrate = value;
                 NotifyChange("Hashrate");
-                NotifyChange("HashrateAsString");
             }
         }
-        public string? HashrateAsString => _hashrate.ToString();
+        
 
         public string? Name
         {
