@@ -52,9 +52,9 @@
                 </Border>
                 <StackPanel  Orientation="Horizontal"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 10, 0, 0" >
                     <Label Content="Estimated profit: " FontFamily="SegoeUI" FontSize="12" FontWeight="Light" Margin="0" Padding="0"/>
-                    <Label Content="{Binding Path=EstimatedProfit, Mode=OneWay, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
+                    <TextBlock FontFamily="Segoe UI Black" FontSize="16" Margin="5, -5, 0, 0" Padding="0" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
                     <Label Content="Current Hashrate: " FontFamily="SegoeUI" FontSize="12" FontWeight="Light" Margin="0" Padding="20,0,0,0"/>
-                    <Label Content="{Binding Path=Hashrate, Mode=OneWay, Converter={StaticResource HashRateConverter}}" FontWeight="Bold" FontFamily="SegoeUI" FontSize="12" Margin="0" Padding="0" />
+                    <TextBlock FontFamily="Segoe UI Black" FontSize="16" Margin="5, -5, 0, 0" Foreground="#fff" Text="{Binding Path=Hashrate, Converter={StaticResource HashRateConverter}}"/>
                 </StackPanel>
             </StackPanel>
             <!--<local:GpuMiningPanelUI x:Name="gpuMiningPanel" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Visible"/>-->
@@ -143,7 +143,11 @@
 
                                             <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mining ability: " Margin="0"/>
                                             <!--Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}"-->
-                                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                            <Grid Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToVisibleConverter}}">
+                                                <ProgressBar IsIndeterminate="True" Margin="0" BorderThickness="0" Height="10" Background="Transparent" />
+                                                <TextBlock FontSize="10" Foreground="#aaa" Margin="0" Padding="0" VerticalAlignment="Center">checking...</TextBlock>
+                                            </Grid>
+                                            <StackPanel Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
                                                 <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_error.png" Width="10" Height="10"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToHiddenConverter}}"/>
                                                 <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_ready.png" Width="10" Height="10"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToVisibleConverter}}"/>
                                             </StackPanel>
