@@ -25,7 +25,7 @@ namespace GolemUI.Src
 
         public float? TotalMhs => _claymoreLiveStatus == null ? null : (from gpus in _claymoreLiveStatus?.GPUs.Values select gpus.BenchmarkSpeed).Sum();
 
-        public async void StartBenchmark()
+        public async void StartBenchmark(string cards, string niceness, string pool, string ethereumAddress)
         {
             if (IsRunning)
             {
@@ -41,6 +41,8 @@ namespace GolemUI.Src
             IsRunning = true;
             OnPropertyChanged("IsRunning");
 
+            bool preBenchmarkNeeded = !String.IsNullOrEmpty(cards);
+
             var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded);
             try
             {
@@ -51,52 +53,55 @@ namespace GolemUI.Src
                 }
                 else
                 {
-                    bool result = cc.RunPreBenchmark();
-
-                    if (!result)
+                    if (preBenchmarkNeeded)
                     {
-                        _claymoreLiveStatus.GPUs.Clear();
-                        _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
-                        OnPropertyChanged("Status");
-                        return;
-                    }
-                    int retry = 0;
-                    while (!cc.PreBenchmarkFinished)
-                    {
-                        await Task.Delay(30);
+                        bool result = cc.RunPreBenchmark();
 
-                        if (retry >= 30)
+                        if (!result)
                         {
-                            cc.Stop();
-
                             _claymoreLiveStatus.GPUs.Clear();
-                            _claymoreLiveStatus.ErrorMsg = "Failed to obtain card list";
+                            _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
                             OnPropertyChanged("Status");
-
                             return;
                         }
+                        int retry = 0;
+                        while (!cc.PreBenchmarkFinished)
+                        {
+                            await Task.Delay(30);
 
-                        if (_requestStop)
-                        {
-                            cc.Stop();
-                            _claymoreLiveStatus.ErrorMsg = "Stopped by user";
+                            if (retry >= 200)
+                            {
+                                cc.Stop();
+
+                                _claymoreLiveStatus.GPUs.Clear();
+                                _claymoreLiveStatus.ErrorMsg = "Failed to obtain card list";
+                                OnPropertyChanged("Status");
+
+                                return;
+                            }
+
+                            if (_requestStop)
+                            {
+                                cc.Stop();
+                                _claymoreLiveStatus.ErrorMsg = "Stopped by user";
+                                OnPropertyChanged("Status");
+                                break;
+                            }
+                            _claymoreLiveStatus = cc.ClaymoreParserPreBenchmark.GetLiveStatusCopy();
                             OnPropertyChanged("Status");
-                            break;
+                            if (_claymoreLiveStatus.GPUInfosParsed)
+                            {
+                                cc.Stop();
+                                break;
+                            }
+                            retry += 1;
                         }
-                        _claymoreLiveStatus = cc.ClaymoreParserPreBenchmark.GetLiveStatusCopy();
-                        OnPropertyChanged("Status");
-                        if (_claymoreLiveStatus.GPUInfosParsed)
-                        {
-                            cc.Stop();
-                            break;
-                        }
-                        retry += 1;
                     }
                 }
                 await Task.Delay(30);
 
 
-                if (_claymoreLiveStatus != null && _claymoreLiveStatus.GPUs.Count == 0)
+                if (preBenchmarkNeeded && _claymoreLiveStatus != null && _claymoreLiveStatus.GPUs.Count == 0)
                 {
                     return;
                 }
@@ -150,7 +155,7 @@ namespace GolemUI.Src
             }
         }
 
-        public async void StopBenchmark()
+        public void StopBenchmark()
         {
             _requestStop = true;
         }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ctr="clr-namespace:GolemUI.UI.AnimatedIcons" 
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -27,6 +28,12 @@
                     <StackPanel>
                         <Label Content="Node settings" Foreground="#FFFFFF" Canvas.Left="10" Canvas.Top="10"/>
                         <Label Grid.Row="0" Grid.Column="0" Content="Node name:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Margin="0,10,0,0"/>
+                        <ctr:WorkingAnimIcon x:Name="progressBar"
+                             DockPanel.Dock="Left"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             Height="45"
+                             Margin="18,10" />
                         <TextBox Grid.Row="0" Grid.Column="1"  Name="txNodeName" HorizontalAlignment="Left" Text="Default node name" TextWrapping="Wrap" VerticalAlignment="Center" Width="150" Margin="10,5" TextChanged="settingsTextChanged"/>
 
                         <Label Grid.Row="1" Grid.Column="0" Content="Wallet address:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>

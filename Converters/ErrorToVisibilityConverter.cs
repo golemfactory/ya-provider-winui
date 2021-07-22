@@ -26,7 +26,7 @@ namespace GolemUI.Converters
             object parameter, CultureInfo culture)
         {
             if (!(value is string))
-                return null;
+                return FalseValue;
             return String.IsNullOrEmpty((string)value) ? FalseValue : TrueValue;
         }
 
