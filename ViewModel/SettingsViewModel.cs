@@ -133,7 +133,7 @@ namespace GolemUI
 
         public bool IsMiningActive
         {
-            get => _providerConfig.IsMiningActive;
+            get => _providerConfig?.IsMiningActive??false;
             set
             {
                 _providerConfig.IsMiningActive = value;
@@ -141,7 +141,7 @@ namespace GolemUI
         }
         public bool IsCpuActive
         {
-            get => _providerConfig.IsCpuActive;
+            get => _providerConfig?.IsCpuActive??false;
             set
             {
                 _providerConfig.IsCpuActive = value;

@@ -23,7 +23,7 @@ namespace GolemUI.Converters
                     case 100: return "Minimum";
                 }
             }
-            return null;
+            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter,

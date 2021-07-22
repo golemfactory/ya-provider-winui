@@ -1,18 +1,18 @@
 ﻿<Application x:Class="GolemUI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:lc="clr-namespace:GolemUI.Converters"
+             xmlns:converters="clr-namespace:GolemUI.Converters"
              Startup="OnStartup" Exit="OnExit">
     <Application.Resources>
-        <lc:AmountConverter x:Key="AmountConverter"/>
-        <lc:CounterConverter x:Key="CounterConverter"/>
-        <lc:BoolToVisibilityConverter x:Key="BoolToHiddenConverter" TrueValue="Collapsed" FalseValue="Visible"/>
-        <lc:BoolToVisibilityConverter x:Key="BoolToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed"/>
-        <lc:ErrorToVisibilityConverter x:Key="ErrorToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed"/>
-        <lc:HashRateConverter x:Key="HashRateConverter"/>
-        <lc:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
-        <lc:StringToClaymorePerformanceThrottlingConverter x:Key="StringToClaymorePerformanceThrottlingConverter"/>
-        <lc:DashboardStatusToTextConverter x:Key="DashboardStatusToTextConverter"/>
+        <!--<converters:AmountConverter x:Key="AmountConverter"/>
+        <converters:CounterConverter x:Key="CounterConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="BoolToHiddenConverter" TrueValue="Collapsed" FalseValue="Visible"/>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <converters:ErrorToVisibilityConverter x:Key="ErrorToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <converters:HashRateConverter x:Key="HashRateConverter"/>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <converters:StringToClaymorePerformanceThrottlingConverter x:Key="StringToClaymorePerformanceThrottlingConverter"/>
+        <converters:DashboardStatusToTextConverter x:Key="DashboardStatusToTextConverter"/>-->
     </Application.Resources>
 </Application>
 
