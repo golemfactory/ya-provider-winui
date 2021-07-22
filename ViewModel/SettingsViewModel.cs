@@ -12,6 +12,7 @@ namespace GolemUI
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
+        public enum CpuCountMode { Cores, Threads };
         private readonly Command.Provider _provider;
         private readonly IProviderConfig? _providerConfig;
         private readonly IPriceProvider? _priceProvider;
@@ -33,7 +34,7 @@ namespace GolemUI
             _providerConfig.PropertyChanged += OnProviderCofigChanged;
             _benchmarkService.PropertyChanged += OnBenchmarkChanged;
             _profitEstimator = profitEstimator;
-            _totalCpusCount = GetCpuCount();
+            _totalCpusCount = GetCpuCount(CpuCountMode.Threads);
 
             ActiveCpusCount = 3;
         }
@@ -186,15 +187,34 @@ namespace GolemUI
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-        private int GetCpuCount()
+        private int GetCpuCount(CpuCountMode mode)
         {
-            int coreCount = 0;
-            foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
+
+            int count= 0;
+            try
             {
-                coreCount += int.Parse(item["NumberOfCores"].ToString());
+                if (mode == CpuCountMode.Cores)
+                {
+                    foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
+                    {
+                        count += int.Parse(item["NumberOfCores"].ToString());
+                    }
+                }
+                else if (mode == CpuCountMode.Threads)
+                {
+                    foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_ComputerSystem").Get())
+                    {
+                        count += int.Parse(item["NumberOfLogicalProcessors"].ToString());
+                    }
+                }
+            }
+            catch
+            {
+                return 0;
             }
 
-            return coreCount;
+
+            return count;
         }
         public event PropertyChangedEventHandler? PropertyChanged;
     }
