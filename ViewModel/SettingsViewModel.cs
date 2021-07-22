@@ -12,44 +12,18 @@ namespace GolemUI
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-        private Command.Provider _provider;
+        public enum CpuCountMode { Cores, Threads };
+        private readonly Command.Provider _provider;
+        private readonly IProviderConfig? _providerConfig;
+        private readonly IPriceProvider? _priceProvider;
+        private readonly IEstimatedProfitProvider _profitEstimator;
+        private readonly Src.BenchmarkService _benchmarkService;
         private BenchmarkResults? _benchmarkSettings;
-        private IProviderConfig? _providerConfig;
-        private Interfaces.IEstimatedProfitProvider _profitEstimator;
-        private Src.BenchmarkService _benchmarkService;
         public Src.BenchmarkService BenchmarkService => _benchmarkService;
         public ObservableCollection<SingleGpuDescriptor>? GpuList { get; set; }
 
-        private IPriceProvider? _priceProvider;
         private int _activeCpusCount=0;
-
-        private decimal _glmPerDay = 0.0m;
-
-        public void StartBenchmark()
-        {
-            BenchmarkService.StartBenchmark();
-        }
-
-        private int _totalCpusCount=0;
-   
-
-        public bool IsMiningActive
-        {
-            get => _providerConfig.IsMiningActive;
-            set
-            {
-                _providerConfig.IsMiningActive = value;
-            }
-        }
-
-        public bool IsCpuActive
-        {
-            get => _providerConfig.IsCpuActive;
-            set
-            {
-                _providerConfig.IsCpuActive = value;
-            }
-        }
+        private readonly int _totalCpusCount = 0;
         public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator)
         {
             GpuList = new ObservableCollection<SingleGpuDescriptor>();
@@ -60,11 +34,15 @@ namespace GolemUI
             _providerConfig.PropertyChanged += OnProviderCofigChanged;
             _benchmarkService.PropertyChanged += OnBenchmarkChanged;
             _profitEstimator = profitEstimator;
-      
-            ActiveCpusCount = 3;
-            TotalCpusCount = GetCpuCount();
+            _totalCpusCount = GetCpuCount(CpuCountMode.Threads);
 
+            ActiveCpusCount = 3;
         }
+        public void StartBenchmark()
+        {
+            BenchmarkService.StartBenchmark();
+        }
+
         public void LoadData()
         {
             GpuList?.Clear();
@@ -76,7 +54,13 @@ namespace GolemUI
                 GpuList?.Add(new SingleGpuDescriptor(val));
             });
             NodeName = _providerConfig?.Config?.NodeName;
-            TotalCpusCount = GetCpuCount();
+            var activeCpuCount = _providerConfig?.ActiveCpuCount ?? 0;
+            if (activeCpuCount <= TotalCpusCount)
+                ActiveCpusCount = activeCpuCount;
+            else
+                ActiveCpusCount = TotalCpusCount;
+
+
         }
 
         private bool IsBenchmarkSettingsCorrupted()
@@ -97,18 +81,18 @@ namespace GolemUI
                 }
             });
 
+
+            _providerConfig?.UpdateActiveCpuThreadsCount(ActiveCpusCount);
             SettingsLoader.SaveBenchmarkToFile(_benchmarkSettings);
         }
-       
 
         private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Status")
             {
-
                 var _newGpus = _benchmarkService.Status?.GPUs.Values?.ToArray();
-                //_benchmarkService.Status?.GPUInfosParsed
-                if (_newGpus.Length == 0) return;
+                //  if (_newGpus.Length == 0) return;
+                if (_benchmarkService.Status?.GPUInfosParsed==true)
                 if (_newGpus != null)
                 {
                     for (var i = 0; i < _newGpus.Length; ++i)
@@ -143,52 +127,43 @@ namespace GolemUI
         }
         public bool BenchmarkIsRunning => _benchmarkService.IsRunning;
         public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning);
-        private void OnProviderCofigChanged(object sender, PropertyChangedEventArgs e)
+
+        public bool IsMiningActive
         {
-            if (e.PropertyName == "Config")
+            get => _providerConfig.IsMiningActive;
+            set
             {
-                NotifyChange("NodeName");
-            }
-            if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
-            {
-                NotifyChange(e.PropertyName);
+                _providerConfig.IsMiningActive = value;
             }
         }
-
-      
-      
+        public bool IsCpuActive
+        {
+            get => _providerConfig.IsCpuActive;
+            set
+            {
+                _providerConfig.IsCpuActive = value;
+            }
+        }
         public int ActiveCpusCount
         {
-            get { return _activeCpusCount; }
+            get => _activeCpusCount;
             set
             {
                 _activeCpusCount = value;
                 NotifyChange("ActiveCpusCount");
             }
         }
-        public int TotalCpusCount
-        {
-            get { return _totalCpusCount; }
-            set
-            {
-                _totalCpusCount = value;
-                NotifyChange("TotalCpusCount");
-            }
-        }
-        public float? Hashrate
-        {
-            get { return _benchmarkService.TotalMhs; ; }
-        }
-
+        public int TotalCpusCount => _totalCpusCount;
+        public float? Hashrate => _benchmarkService.TotalMhs;
         public string? NodeName
         {
             get => _providerConfig?.Config?.NodeName;
             set
             {
                 _providerConfig?.UpdateNodeName(value);
+                NotifyChange("NodeName");
             }
         }
-
         public double? ExpectedProfit
         {
             get
@@ -201,41 +176,51 @@ namespace GolemUI
                 return null;
             }
         }
-        public decimal GlmPerDay
+        private void OnProviderCofigChanged(object sender, PropertyChangedEventArgs e)
         {
-            get
+            if (e.PropertyName == "Config")
             {
-                return _glmPerDay;
+                NotifyChange("NodeName");
+            }
+            if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
+            {
+                NotifyChange(e.PropertyName);
             }
         }
-
-        public decimal UsdPerDay
-        {
-            get
-            {
-                if (_priceProvider == null)
-                {
-                    return new Decimal(0.0);
-                }
-                return _priceProvider.glmToUsd(_glmPerDay);
-            }
-        }
-        public event PropertyChangedEventHandler? PropertyChanged;
         private void NotifyChange([CallerMemberName] string? propertyName = null)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        private int GetCpuCount()
+        private int GetCpuCount(CpuCountMode mode)
         {
-            int coreCount = 0;
-            foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
+
+            int count= 0;
+            try
             {
-                coreCount += int.Parse(item["NumberOfCores"].ToString());
+                if (mode == CpuCountMode.Cores)
+                {
+                    foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
+                    {
+                        count += int.Parse(item["NumberOfCores"].ToString());
+                    }
+                }
+                else if (mode == CpuCountMode.Threads)
+                {
+                    foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_ComputerSystem").Get())
+                    {
+                        count += int.Parse(item["NumberOfLogicalProcessors"].ToString());
+                    }
+                }
+            }
+            catch
+            {
+                return 0;
             }
 
-            return coreCount;
+
+            return count;
         }
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }
