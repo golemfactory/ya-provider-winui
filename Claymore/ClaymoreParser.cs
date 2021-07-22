@@ -75,15 +75,13 @@ namespace GolemUI.Claymore
 
     public class ClaymoreLiveStatus : ICloneable
     {
-        public string BenchmarkError = "";
-
         Dictionary<int, ClaymoreGpuStatus> _gpus = new Dictionary<int, ClaymoreGpuStatus>();
         public Dictionary<int, ClaymoreGpuStatus> GPUs { get { return _gpus; } }
 
         public bool BenchmarkFinished = false;
 
         public float BenchmarkTotalSpeed { get; set; }
-        public string? ErrorMsg = null;
+        public string? ErrorMsg { get; set; }
         public bool GPUInfosParsed { get; set; }
         public int NumberOfClaymorePerfReports { get; set; }
         public int TotalClaymoreReportsBenchmark { get; set; }

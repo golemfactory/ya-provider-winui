@@ -34,6 +34,7 @@ namespace GolemUI.DesignViewModel
 
         public bool BenchmarkIsRunning => false;
 
+        public string BenchmarkError { get; set; } = "Bechmark failed with error";
 
     }
 }

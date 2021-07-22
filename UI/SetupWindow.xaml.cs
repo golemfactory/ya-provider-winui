@@ -109,8 +109,8 @@ namespace GolemUI.UI
 
         private void OnWTLStep4Next(object sender, RoutedEventArgs e)
         {
-            Model!.BenchmarkService.StartBenchmark();
             Model!.NoobStep = 4;
+            Model!.BenchmarkService.StartBenchmark();
         }
 
         private void OnCancelNoobFlow(object sender, RoutedEventArgs e)
@@ -144,8 +144,8 @@ namespace GolemUI.UI
 
         private void OnEMNameStepDone(object sender, RoutedEventArgs e)
         {
-            Model!.BenchmarkService.StartBenchmark();
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
+            Model!.BenchmarkService.StartBenchmark();
         }
     }
 }

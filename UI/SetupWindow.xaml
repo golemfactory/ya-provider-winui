@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:lm="clr-namespace:GolemUI.Model"
-             xmlns:lui="clr-namespace:GolemUI.UI"
+        xmlns:lm="clr-namespace:GolemUI.Model"
+        xmlns:lui="clr-namespace:GolemUI.UI"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:GolemUI.UI"
         xmlns:DataAccess="clr-namespace:GolemUI.DataAccess" x:Class="GolemUI.UI.SetupWindow"
@@ -26,6 +26,7 @@
                 <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/CancelButton.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="Themes/Labels/InfoLabel.xaml"/>
                 <ResourceDictionary Source="Icons/SetupResources.xaml"/>
                 <ResourceDictionary Source="Icons/Wallet_Icon.xaml"/>
                 <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
@@ -343,7 +344,12 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                     </Grid.RowDefinitions>
                                     <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="20,20,20,46"/>
                                     <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
-                                        <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Enjoy!</TextBlock>
+                                        <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 15">Enjoy!</TextBlock>
+                                        <StackPanel Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 0, 0, 10">
+                                            <ContentControl Content="{StaticResource Status_Card_error}" Margin="0, 0, 0, 0"/>
+                                            <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorStyle}" TextWrapping="Wrap" Width="300" Text="{Binding BenchmarkError}" Margin="5, 0, 0, 0" VerticalAlignment="Center"></TextBox>
+                                        </StackPanel>
+
                                         <UniformGrid Rows="1" Columns="2">
                                             <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
                                                 <ListBox.ItemsPanel>
@@ -353,7 +359,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </ListBox.ItemsPanel>
                                             </ListBox>
                                             <StackPanel Margin="10" HorizontalAlignment="Stretch">
-                                                <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
+                                                <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profit</TextBlock>
                                                 <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
                                                 <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
                                                 <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
@@ -520,7 +526,11 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                     </Grid.RowDefinitions>
                                     <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="20,20,20,46"/>
                                     <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
-                                        <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Enjoy!</TextBlock>
+                                        <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 15">Enjoy!</TextBlock>
+                                        <StackPanel Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 0, 0, 10">
+                                            <ContentControl Content="{StaticResource Status_Card_error}" Margin="0, 0, 0, 0"/>
+                                            <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorStyle}" TextWrapping="Wrap" Width="300" Text="{Binding BenchmarkError}" Margin="5, 0, 0, 0" VerticalAlignment="Center"></TextBox>
+                                        </StackPanel>
                                         <UniformGrid Rows="1" Columns="2">
                                             <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
                                                 <ListBox.ItemsPanel>

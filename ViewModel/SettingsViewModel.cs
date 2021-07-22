@@ -42,13 +42,16 @@ namespace GolemUI
         {
             BenchmarkService.StartBenchmark();
         }
-
+        public void StopBenchmark()
+        {
+            BenchmarkService.StopBenchmark();
+        }
         public void LoadData()
         {
             GpuList?.Clear();
             _benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
             if (IsBenchmarkSettingsCorrupted()) return;
-            _benchmarkSettings?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null && gpu.Value.IsReadyForMining).ToList().ForEach(gpu =>
+            _benchmarkSettings?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null).ToList().ForEach(gpu =>
             {
                 var val = gpu.Value;
                 GpuList?.Add(new SingleGpuDescriptor(val));
