@@ -223,6 +223,7 @@
     <Compile Include="UI\AnimatedIcons\WorkingAnimIcon.xaml.cs">
       <DependentUpon>WorkingAnimIcon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\AnimatedIcons\DesignWorkingAnimIconModel.cs" />
     <Compile Include="UI\Dashboard.xaml.cs">
       <DependentUpon>Dashboard.xaml</DependentUpon>
     </Compile>
