@@ -183,13 +183,7 @@ namespace GolemUI
             return true;
         }
 
-        public bool IsRunning
-        {
-            get
-            {
-                return !((_providerDaemon?.HasExited ?? true) || (_yagnaDaemon?.HasExited ?? true));
-            }
-        }
+        public bool IsRunning => IsServerRunning && IsProviderRunning;
 
         public bool IsProviderRunning => !(_providerDaemon?.HasExited ?? true);
 
@@ -392,6 +386,7 @@ namespace GolemUI
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
             _providerDaemon.OutputDataReceived += OnProviderOutputDataRecv;
             _providerDaemon.Start();
+            _providerDaemon.EnableRaisingEvents = true;
 
             if (!ls.StartProviderCommandLine)
             {
@@ -439,6 +434,12 @@ namespace GolemUI
             {
                 LineHandler("provider", "provider exit");
             }
+            if (_providerDaemon != null && _providerDaemon.HasExited)
+            {
+                _providerDaemon.Dispose();
+                _providerDaemon = null;
+            }
+            OnPropertyChanged("IsProviderRunning");
         }
 
         public async Task<bool> Prepare()
