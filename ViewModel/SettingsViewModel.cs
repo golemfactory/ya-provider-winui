@@ -54,7 +54,12 @@ namespace GolemUI
                 GpuList?.Add(new SingleGpuDescriptor(val));
             });
             NodeName = _providerConfig?.Config?.NodeName;
-            ActiveCpusCount = _providerConfig?.ActiveCpuCount ?? 0;
+            var activeCpuCount = _providerConfig?.ActiveCpuCount ?? 0;
+            if (activeCpuCount <= TotalCpusCount)
+                ActiveCpusCount = activeCpuCount;
+            else
+                ActiveCpusCount = TotalCpusCount;
+
 
         }
 
