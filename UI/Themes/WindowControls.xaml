@@ -4,7 +4,7 @@
 
     <!-- Window -->
     <SolidColorBrush x:Key="MainWindow.Background" Color="#110D39"/>
-    <SolidColorBrush x:Key="SetupWindow.Background" Color="#110D39" Opacity="0.3"/>
+    <SolidColorBrush x:Key="SetupWindow.Background" Color="#110D39" Opacity="0.75"/>
     <Style x:Key="MainWindow" TargetType="{x:Type Border}">
         <Setter Property="Background" Value="#110D39"/>
     </Style>
