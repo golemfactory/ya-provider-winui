@@ -22,6 +22,8 @@ namespace GolemUI.DesignViewModel
 
         public bool BenchmarkIsRunning { get; set; } = true;
 
+        public string BenchmarkError { get; set; } = "Benchmark failed with error\nTest multiline\nerrors";
+
         public double? ExpectedProfit { get; set; } = 150.33;
 
         public SetupViewModel()

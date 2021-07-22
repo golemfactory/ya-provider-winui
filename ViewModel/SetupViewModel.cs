@@ -1,4 +1,5 @@
-﻿using NBitcoin;
+﻿using GolemUI.Claymore;
+using NBitcoin;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -86,10 +87,15 @@ namespace GolemUI.ViewModel
                         _gpus.RemoveAt(_gpus.Count - 1);
                     }
                 }
+                if (_benchmarkService.Status != null)
+                {
+                    BenchmarkError = _benchmarkService.Status.ErrorMsg;
+                }
 
                 OnPropertyChanged("GPUs");
                 OnPropertyChanged("TotalHashRate");
                 OnPropertyChanged("ExpectedProfit");
+                OnPropertyChanged("BenchmarkError");
             }
             if (e.PropertyName == "IsRunning")
             {
@@ -163,7 +169,9 @@ namespace GolemUI.ViewModel
 
         private ObservableCollection<Claymore.ClaymoreGpuStatus> _gpus = new ObservableCollection<Claymore.ClaymoreGpuStatus>();
         public ObservableCollection<Claymore.ClaymoreGpuStatus>? GPUs => _gpus;
+        public string? BenchmarkError { get; set; }
 
+        
         public float? TotalHashRate => _benchmarkService.TotalMhs;
 
         public double? ExpectedProfit

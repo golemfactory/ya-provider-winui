@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -80,17 +81,48 @@ namespace GolemUI.Command
 
         }
 
+
+        /// <summary>
+        /// Kill a process, and all of its children, grandchildren, etc.
+        /// </summary>
+        /// <param name="pid">Process ID.</param>
+        private static void KillProcessAndChildren(int pid)
+        {
+            // Cannot close 'system idle process'.
+            if (pid == 0)
+            {
+                return;
+            }
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher
+                    ("Select * From Win32_Process Where ParentProcessID=" + pid);
+            ManagementObjectCollection moc = searcher.Get();
+            foreach (ManagementObject mo in moc)
+            {
+                KillProcessAndChildren(Convert.ToInt32(mo["ProcessID"]));
+            }
+            try
+            {
+                Process proc = Process.GetProcessById(pid);
+                proc.Kill();
+            }
+            catch (ArgumentException)
+            {
+                // Process already exited.
+            }
+        }
         public void Stop()
         {
             if (_claymoreProcess != null)
             {
                 if (!_claymoreProcess.HasExited)
                 {
-                    _claymoreProcess.Kill(/*entireProcessTree: true*/);
+                    KillProcessAndChildren(_claymoreProcess.Id);
                 }
                 _claymoreProcess = null;
+                
             }
         }
+
         public bool RunBenchmarkRecording(string brFile)
         {
             var imitate = new ClaymoreImitateBenchmarkFromFile();
@@ -158,7 +190,8 @@ namespace GolemUI.Command
             }
             catch (System.ComponentModel.Win32Exception)
             {
-                BenchmarkError = $"Process {this._claymore_exe_path} cannot be run, check antivirus settings";
+                BenchmarkError = $"Process: {this._claymore_exe_path} cannot be run, check antivirus settings";
+                _claymoreProcess = null;
                 return false;
             }
             _claymoreParserPreBenchmark.BeforeParsing();
@@ -231,7 +264,8 @@ namespace GolemUI.Command
             }
             catch (System.ComponentModel.Win32Exception)
             {
-                BenchmarkError = $"Process {this._claymore_exe_path} cannot be run, check antivirus settings";
+                BenchmarkError = $"Process: {this._claymore_exe_path} cannot be run, check antivirus settings"; ;
+                _claymoreProcess = null;
                 return false;
             }
             _claymoreParserBenchmark.BeforeParsing();

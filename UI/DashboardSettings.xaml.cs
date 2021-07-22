@@ -30,11 +30,13 @@ namespace GolemUI
 
         private void btnRunBenchmark_Click(object sender, RoutedEventArgs e)
         {
-
             ViewModel!.StartBenchmark();
-               
-            
-
         }
+
+        private void btnStopBenchmark_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel!.StopBenchmark();
+        }
+
     }
 }

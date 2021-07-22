@@ -176,6 +176,7 @@
     <Compile Include="Command\YagnaSrv.cs" />
     <Compile Include="Controllers\DashboardPage.cs" />
     <Compile Include="Converters\AmountConverter.cs" />
+    <Compile Include="Converters\ErrorToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\CounterConverter.cs" />
     <Compile Include="Converters\EnumToBrush.cs" />
