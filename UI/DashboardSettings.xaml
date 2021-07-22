@@ -10,7 +10,7 @@
              xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:enumAlias="clr-namespace:GolemUI.Model"
-             d:DataContext ="{d:DesignInstance {x:Type dvm:SettingsViewModel}, IsDesignTimeCreatable=True}"
+             d:DataContext ="{d:DesignInstance {x:Type dvm:MockupSettingsViewModel}, IsDesignTimeCreatable=True}"
              >
     <UserControl.Resources>
         <ResourceDictionary>
