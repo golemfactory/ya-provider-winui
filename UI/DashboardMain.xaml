@@ -60,7 +60,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <local:DashoardStatus />
+                <local:DashboardStatusControl Status="{Binding Path=Status}"/>
                 <Button Click="btnStop_Click" 
                     Style="{StaticResource BlueButtonStyle}" Height="30" Margin="10,10,0,10"
                     Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2"

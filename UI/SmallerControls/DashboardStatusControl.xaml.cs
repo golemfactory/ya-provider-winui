@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GolemUI.UI.SmallerControls
+namespace GolemUI
 {
     /// <summary>
     /// Interaction logic for DashboardStatusControl.xaml
@@ -24,5 +24,20 @@ namespace GolemUI.UI.SmallerControls
         {
             InitializeComponent();
         }
+        public static readonly DependencyProperty _status = DependencyProperty.Register("Status", typeof(DashboardStatusEnum), typeof(DashboardStatusControl));
+
+        public DashboardStatusEnum Status
+        {
+            get
+            {
+                return (DashboardStatusEnum)GetValue(_status);
+            }
+            set
+            {
+                SetValue(_status, value);
+
+            }
+        }
     }
+   
 }

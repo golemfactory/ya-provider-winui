@@ -9,5 +9,6 @@ namespace GolemUI.DesignViewModel
     public class DashboardViewModel
     {
         public bool IsProviderRunning { get; } = true;
+        public DashboardStatusEnum Status => DashboardStatusEnum.Ready;
     }
 }

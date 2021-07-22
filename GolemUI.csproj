@@ -176,6 +176,8 @@
     <Compile Include="Command\YagnaSrv.cs" />
     <Compile Include="Controllers\DashboardPage.cs" />
     <Compile Include="Converters\AmountConverter.cs" />
+    <Compile Include="Converters\DashboardStatusToIconConverter.cs" />
+    <Compile Include="Converters\DashboardStatusToVisibleConverter.cs" />
     <Compile Include="Converters\ErrorToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\CounterConverter.cs" />
@@ -536,6 +538,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="UI\Icons\Dashboard\Status\error.png" />
     <Resource Include="UI\Icons\Settings\CPU_icon_new.png" />
     <Resource Include="UI\Icons\Settings\GPU_icon_new.png" />
     <Resource Include="UI\Icons\Setup\Enjoy.png" />
@@ -602,7 +605,7 @@
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Select_down_arrow.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_error.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_ready.png" />
-    <Content Include="UI\Icons\Dashboard\Status\mining.png" />
+    <Resource Include="UI\Icons\Dashboard\Status\mining.png" />
     <Resource Include="UI\Icons\Dashboard\Status\ready.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Supported_by_Golem.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Task_Type.png" />

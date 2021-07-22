@@ -12,6 +12,7 @@ namespace GolemUI.ViewModel
 
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
+
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler)
         {
             _priceProvider = priceProvider;
@@ -79,6 +80,17 @@ namespace GolemUI.ViewModel
         public int _totalGpuCount;
         public int _enabledGpuCount;
         public int _enabledCpuCount;
+
+        public DashboardStatusEnum _status=DashboardStatusEnum.Hidden;
+        public DashboardStatusEnum Status
+        {
+            get => _status;
+            set
+            {
+                _status = value;
+                OnPropertyChanged("Status");
+            }
+        }
 
         public bool IsMiningActive
         {

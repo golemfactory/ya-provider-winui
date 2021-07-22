@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
 using GolemUI;
 namespace GolemUI.Converters
 {
-    [ValueConversion(typeof(DashboardStatusEnum?), typeof(string))]
-    public class DashboardStatusToTextConverter : IValueConverter
+    [ValueConversion(typeof(DashboardStatusEnum?), typeof(BitmapImage))]
+    public class DashboardStatusToIconConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -18,14 +19,18 @@ namespace GolemUI.Converters
             {
                 return "";
             }
-            return baseValue switch
+            String basePath = "/UI/Icons/Dashboard/Status/";
+            string file = baseValue switch
             {
                 DashboardStatusEnum.Error => "error",
-                DashboardStatusEnum.Hidden => "",
-                DashboardStatusEnum.Ready => "ready for tasks",
+                DashboardStatusEnum.Hidden => "ready",
+                DashboardStatusEnum.Ready => "ready",
                 DashboardStatusEnum.Mining => "mining",
-                _ => ""
+                _ => "ready"
             };
+            string path = basePath + file + ".png";
+
+            return new BitmapImage(new Uri("pack://application:,,,/GolemUI;component" + path));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
