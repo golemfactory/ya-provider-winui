@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GolemUI.DesignViewModel
 {
-    public class SettingsViewModel
+    public class MockupSettingsViewModel
     {
         public double? ExpectedProfit => 300;
 

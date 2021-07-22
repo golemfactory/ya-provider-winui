@@ -190,7 +190,7 @@
     <Compile Include="DataAccess\DataAccess.cs" />
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\MockupDashboardStatusViewModel.cs" />
-    <Compile Include="DesignViewModel\SettingsViewModel.cs" />
+    <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
