@@ -112,6 +112,7 @@ namespace GolemUI.Command
         }
         public void Stop()
         {
+
             if (_claymoreProcess != null)
             {
                 if (!_claymoreProcess.HasExited)
@@ -119,8 +120,9 @@ namespace GolemUI.Command
                     KillProcessAndChildren(_claymoreProcess.Id);
                 }
                 _claymoreProcess = null;
-                
             }
+            _claymoreParserPreBenchmark.SetFinished();
+            _claymoreParserBenchmark.SetFinished();
         }
 
         public bool RunBenchmarkRecording(string brFile)

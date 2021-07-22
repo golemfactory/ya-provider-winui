@@ -26,12 +26,35 @@ namespace GolemUI.Claymore
         public string? GPUDetails { get; set; }
         public string? GPUError { get; set; }
 
-        //steps for view presentation (excluded)
-        public bool IsPreInitialization { get; set; }
-        public bool IsInitialization { get; set; }
-        public bool IsEstimation { get; set; }
-        public bool IsFinished { get; set; }
+        //steps for view presentation (only one state is possible at the time)
+        public bool IsPreInitialization { get; private set; }
+        public bool IsInitialization { get; private set; }
+        public bool IsEstimation { get; private set; }
+        public bool IsFinished { get; private set; }
 
+        public void SetStepInitialization()
+        {
+            IsPreInitialization = false;
+            IsInitialization = true;
+            IsEstimation = false;
+            IsFinished = false;
+        }
+        public void SetStepEstimation()
+        {
+            IsPreInitialization = false;
+            IsInitialization = false;
+            IsEstimation = true;
+            IsFinished = false;
+        }
+
+
+        public void SetStepFinished()
+        {
+            IsPreInitialization = false;
+            IsInitialization = false;
+            IsEstimation = false;
+            IsFinished = true;
+        }
 
 
         public ClaymoreGpuStatus(int gpuNo,bool isEnabledByUser,int claymorePerformanceThrottling)
@@ -350,6 +373,14 @@ namespace GolemUI.Claymore
             }
         }
 
+        public void SetFinished()
+        {
+            foreach (var gpu in _liveStatus.GPUs)
+            {
+                gpu.Value.SetStepFinished();
+            }
+        }
+
         /// <summary>
         /// Parse output line of claymore process
         /// </summary>
@@ -489,16 +520,14 @@ namespace GolemUI.Claymore
                         _liveStatus.GPUInfosParsed = true;
                         currentStatus.IsDagCreating = true;
                         currentStatus.DagProgress = 0.0f;
-                        currentStatus.IsPreInitialization = false;
-                        currentStatus.IsInitialization = true;
+                        currentStatus.SetStepInitialization();
                     }
                     if (ContainsInStrEx(lineText, ": Generating DAG"))
                     {
                         _liveStatus.GPUInfosParsed = true;
                         currentStatus.IsDagCreating = true;
                         currentStatus.DagProgress = 0.05f;
-                        currentStatus.IsPreInitialization = false;
-                        currentStatus.IsInitialization = true;
+                        currentStatus.SetStepInitialization();
                     }
 
                     if (ContainsInStrEx(lineText, ": DAG"))
@@ -527,8 +556,7 @@ namespace GolemUI.Claymore
                     {
                         currentStatus.IsDagCreating = false;
                         currentStatus.DagProgress = 1.0f;
-                        currentStatus.IsInitialization = false;
-                        currentStatus.IsEstimation = true;
+                        currentStatus.SetStepEstimation();
                     }
                     if (ContainsInStrEx(lineText, "out of memory"))
                     {
