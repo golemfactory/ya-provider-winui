@@ -204,7 +204,7 @@ namespace GolemUI.Command
                 dynamic json= JsonConvert.DeserializeObject(text);
                 var child = JsonConvert.SerializeObject(json["default"]);
                 var profile = JsonConvert.DeserializeObject<Profile>(child);
-                return profile;           
+                return profile;
             }
         }
         public void UpdateDefaultProfile(String param, String value)

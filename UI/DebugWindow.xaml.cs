@@ -25,7 +25,6 @@ namespace GolemUI
             InitializeComponent();
 
             GlobalApplicationState.Instance.ProcessController.LineHandler += LogLine;
-            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
 
 #if DEBUG
             NameGen g = new NameGen();
@@ -70,29 +69,6 @@ namespace GolemUI
                 }
             }
         }
-        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
-        {
-            if (args != null)
-            {
-                switch (args.action)
-                {
-                    case GlobalApplicationStateAction.yagnaAppStarting:
-                        txtYagna.Text = "";
-                        txtProvider.Text = "";
-                        break;
-                    case GlobalApplicationStateAction.yagnaAppStopped:
-                        break;
-                    case GlobalApplicationStateAction.yagnaAppStarted:
-                        break;
-                    case GlobalApplicationStateAction.benchmarkStarted:
-                        break;
-                    case GlobalApplicationStateAction.benchmarkStopped:
-                        break;
-                }
-            }
-        }
-
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("CMD.exe");
@@ -109,12 +85,6 @@ namespace GolemUI
             //txtYagna.Text = GlobalApplicationState.Instance.ProcessController.GetStatus().ToString();
         }
 
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            GlobalApplicationState.Instance.ApplicationStateChanged -= OnGlobalApplicationStateChanged;
-
-            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.debugWindowClosed);
-        }
     }
 
 

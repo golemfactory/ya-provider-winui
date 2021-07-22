@@ -18,7 +18,7 @@ namespace GolemUI.Src
             _provider = provider;
             Config = _provider.Config;
 
-            string name = Config.NodeName;
+            string? name = Config?.NodeName;
             int count = ActiveCpuCount;
         }
 

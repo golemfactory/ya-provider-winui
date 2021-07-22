@@ -93,24 +93,6 @@ namespace GolemUI
 
         }
 
-
-
-
-
-        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
-        {
-            if (args != null)
-            {
-                switch (args.action)
-                {
-                    case GlobalApplicationStateAction.benchmarkSettingsChanged:
-                        ChangeGpuEnabled();
-                        break;
-                }
-            }
-        }
-
-
         private void btnReady_Click(object sender, RoutedEventArgs e)
         {
             GlobalApplicationState.Instance.Dashboard?.SwitchPage(DashboardPages.PageDashboardMain);

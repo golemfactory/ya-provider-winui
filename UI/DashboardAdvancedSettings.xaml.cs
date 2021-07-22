@@ -27,9 +27,6 @@ namespace GolemUI
         public DashboardAdvancedSettings()
         {
             InitializeComponent();
-
-            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
-
             ResetChanges();
 
             _initialized = true;
@@ -79,25 +76,6 @@ namespace GolemUI
         public void SwitchSettingsToEdit()
         {
             SetSettingsEnabled(enabled: true);
-        }
-
-        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
-        {
-            if (args != null)
-            {
-                switch (args.action)
-                {
-                    case GlobalApplicationStateAction.reloadSettings:
-                        ResetChanges();
-                        break;
-                    case GlobalApplicationStateAction.yagnaAppStarting:
-                        SwitchSettingsToReadOnly();
-                        break;
-                    case GlobalApplicationStateAction.yagnaAppStopped:
-                        SwitchSettingsToEdit();
-                        break;
-                }
-            }
         }
 
         private void btnApplySettings_Click(object sender, RoutedEventArgs e)
@@ -167,17 +145,6 @@ namespace GolemUI
         private void btnCancelSettings_Click(object sender, RoutedEventArgs e)
         {
             ResetChanges();
-        }
-
-        private void Debug_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed)
-            {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-                {
-                    GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.startDebugWindow);
-                }
-            }
         }
     }
 }

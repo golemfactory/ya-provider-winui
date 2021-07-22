@@ -45,7 +45,7 @@
                     <CheckBox Name="cbCloseOnExit" Content="Close on exit" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
                     <CheckBox Name="cbDisableNotificationsWhenMinimized" Content="No notifications when Minimized" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"></CheckBox>
                     <!--<CheckBox Name="cbStartAutmatically" Content="Automatically start work" Foreground="#FFFFFF" Margin="10,5"></CheckBox>-->
-                    <Label MouseDown="Debug_MouseDown" ToolTip="Ctrl+click to show debug window">Debug options</Label>
+                    <Label ToolTip="Ctrl+click to show debug window">Debug options</Label>
                     <CheckBox Name="cbDebugOutput" Content="Enable debug logs" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
                     <CheckBox Name="cbShowYagnaConsole" Content="Show yagna console" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>
                     <CheckBox Name="cbShowProviderConsole" Content="Show provider console" Foreground="#FFFFFF" Margin="10,5" Checked="settingsCheckboxChecked" Unchecked="settingsCheckboxChecked"/>

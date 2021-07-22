@@ -74,8 +74,6 @@ namespace GolemUI
             _pageSelected = DashboardPages.PageDashboardMain;
 
             GlobalApplicationState.Instance.Dashboard = this;
-            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
-
 
             foreach (var pair in _pages)
             {
@@ -177,32 +175,6 @@ namespace GolemUI
             btnPage1.IsEnabled = true;
             btnPage2.IsEnabled = true;
             //btnPage4.IsEnabled = true;
-        }
-
-
-        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
-        {
-            if (args != null)
-            {
-                switch (args.action)
-                {
-                    case GlobalApplicationStateAction.yagnaAppStarting:
-                        BlockNavigation();
-                        break;
-                    case GlobalApplicationStateAction.yagnaAppStopped:
-                        ResumeNavigation();
-                        break;
-                    case GlobalApplicationStateAction.yagnaAppStarted:
-                        ResumeNavigation();
-                        break;
-                    case GlobalApplicationStateAction.benchmarkStarted:
-                        BlockNavigation();
-                        break;
-                    case GlobalApplicationStateAction.benchmarkStopped:
-                        ResumeNavigation();
-                        break;
-                }
-            }
         }
 
         static void AnimateScroll(UIElement element, double amount, TimeSpan duration)

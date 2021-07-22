@@ -13,7 +13,6 @@ namespace GolemUI
     internal sealed class ChildProcessManager : IDisposable
     {
         private SafeJobHandle? _handle;
-        private bool _disposed;
 
         public ChildProcessManager()
         {
@@ -42,21 +41,18 @@ namespace GolemUI
 
         public void Dispose()
         {
-            if (_disposed) return;
+            if (_handle == null) return;
 
             _handle?.Dispose();
             _handle = null;
-            _disposed = true;
-        }
-
-        private void ValidateDisposed()
-        {
-            if (_disposed || _handle == null) throw new ObjectDisposedException(nameof(ChildProcessManager));
         }
 
         public void AddProcess(SafeProcessHandle processHandle)
         {
-            ValidateDisposed();
+            if (_handle == null)
+            {
+                throw new ObjectDisposedException(nameof(ChildProcessManager));
+            }
 
             if (!AssignProcessToJobObject(_handle, processHandle))
             {

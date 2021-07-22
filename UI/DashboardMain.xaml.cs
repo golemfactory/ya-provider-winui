@@ -65,20 +65,14 @@ namespace GolemUI
 
         }
 
-        private async void btnStart_Click(object sender, RoutedEventArgs e)
+        private void btnStart_Click(object sender, RoutedEventArgs e)
         {
             Model!.Start();
         }
 
-        private async void btnStop_Click(object sender, RoutedEventArgs e)
+        private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             Model!.Stop();
-
-
-
-            lblStatus.Content = "Stopped";
-            //lblStatus.Background = Brushes.Gray;
-            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.yagnaAppStopped);
         }
 
     }
