@@ -40,7 +40,7 @@ namespace GolemUI
         }
         public void StartBenchmark()
         {
-            BenchmarkService.StartBenchmark();
+            BenchmarkService.StartBenchmark("", "", "", "");
         }
         public void StopBenchmark()
         {

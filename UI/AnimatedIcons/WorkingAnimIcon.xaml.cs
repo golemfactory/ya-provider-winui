@@ -27,7 +27,7 @@ namespace GolemUI.UI.AnimatedIcons
         //0.0 to 1.0
         double _animationPosition = 0.0;
 
-        double _animationLength = 2.0;
+        double _animationLength = 0.7;
 
         double _animationFPS = 60.0;
 
@@ -60,7 +60,7 @@ namespace GolemUI.UI.AnimatedIcons
 
         // Using a DependencyProperty as the backing store for MyVarIconX.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CircleCountProperty =
-            DependencyProperty.Register("CircleCount", typeof(int), typeof(WorkingAnimIcon), new UIPropertyMetadata(4));
+            DependencyProperty.Register("CircleCount", typeof(int), typeof(WorkingAnimIcon), new UIPropertyMetadata(10));
 
 
         List<Ellipse> _circles = new List<Ellipse>();
@@ -83,7 +83,7 @@ namespace GolemUI.UI.AnimatedIcons
                 ellipse.Width = 20;
                 ellipse.Height = 20;
                 ellipse.VerticalAlignment = VerticalAlignment.Center;
-                ellipse.Fill = Brushes.Gray;
+                ellipse.Fill = Brushes.White;
                 _circles.Add(ellipse);
                 cvAnim.Children.Add(ellipse);
             }
@@ -143,11 +143,11 @@ namespace GolemUI.UI.AnimatedIcons
                 if (phase > 0 && phase < Math.PI)
                 {
                     double sin = Math.Sin(phase);
-                    SetPosition(_circles[circleNo], xPos * (cvAnim.ActualWidth - _ellipseMaxSize), sin * sin * (cvAnim.ActualHeight - _ellipseMaxSize));
+                    SetPosition(_circles[circleNo], xPos * (cvAnim.ActualWidth - _ellipseMaxSize), (cvAnim.ActualHeight - _ellipseMaxSize) - sin * sin * (cvAnim.ActualHeight - _ellipseMaxSize));
                 }
                 else
                 {
-                    SetPosition(_circles[circleNo], xPos * (cvAnim.ActualWidth - _ellipseMaxSize), 0);
+                    SetPosition(_circles[circleNo], xPos * (cvAnim.ActualWidth - _ellipseMaxSize), cvAnim.ActualHeight - _ellipseMaxSize);
                 }
             }
         }

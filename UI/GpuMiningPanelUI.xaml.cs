@@ -402,7 +402,7 @@ namespace GolemUI
                 result = cc.RunBenchmark(selectedIndices, niceness, poolAddr, ethAddress);
                 if (!result)
                 {
-                    MessageBox.Show(cc.BenchmarkError);
+                    //MessageBox.Show(cc.BenchmarkError);
                 }
             }
             while (!cc.BenchmarkFinished)

@@ -110,7 +110,8 @@ namespace GolemUI.UI
         private void OnWTLStep4Next(object sender, RoutedEventArgs e)
         {
             Model!.NoobStep = 4;
-            Model!.BenchmarkService.StartBenchmark();
+            int defaultBenchmarkStep = (int)PerformanceThrottlingEnum.Comfort;
+            Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "");
         }
 
         private void OnCancelNoobFlow(object sender, RoutedEventArgs e)
@@ -145,7 +146,9 @@ namespace GolemUI.UI
         private void OnEMNameStepDone(object sender, RoutedEventArgs e)
         {
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
-            Model!.BenchmarkService.StartBenchmark();
+            int defaultBenchmarkStep = (int)PerformanceThrottlingEnum.Comfort;
+
+            Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "");
         }
     }
 }
