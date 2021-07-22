@@ -58,8 +58,6 @@ namespace GolemUI
                 }
             }
 
-            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
-
             txRunOnSelectedCards.Text = settings.MinerSelectedGPUIndices;
             txBenchmarkLength.Text = settings.BenchmarkLength;
             txNiceness.Text = settings.MinerSelectedGPUsNiceness;
@@ -164,21 +162,6 @@ namespace GolemUI
         public void StopBenchmark()
         {
 
-        }
-
-
-
-        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
-        {
-            if (args != null)
-            {
-                switch (args.action)
-                {
-                    case GlobalApplicationStateAction.benchmarkSettingsChanged:
-                        //ChangeGpuEnabled();
-                        break;
-                }
-            }
         }
 
         private void UpdateBenchmarkStatus(ClaymoreLiveStatus? s, bool allExpectedGPUsFound)
@@ -363,11 +346,6 @@ namespace GolemUI
             string niceness = txNiceness.Text;
             SaveSelectedCardsSetting();
 
-            //BenchmarkDialog dB = new BenchmarkDialog();
-            //dB.ShowDialog();
-            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.benchmarkStarted);
-
-
             _entries.Clear();
             this.ClearGpusEntries();
             _requestExit = false;
@@ -516,7 +494,6 @@ namespace GolemUI
             this.btnNext.IsEnabled = true;
 
             UpdateBenchmarkStatus(benchmark.liveStatus, true);
-            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.benchmarkStopped);
         }
 
 

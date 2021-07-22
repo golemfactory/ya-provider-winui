@@ -31,21 +31,9 @@ namespace GolemUI
 
             GlobalApplicationState.Initialize();
 
-            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
-
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(10);
-            timer.Tick += timer_Tick;
-            timer.Start();
-
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
-        }
-
-        void timer_Tick(object? sender, EventArgs e)
-        {
-            GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.timerEvent);
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -95,8 +83,9 @@ namespace GolemUI
 
                 dashboardWindow.Show();
 
+
 #if DEBUG
-                GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.startDebugWindow);
+                StartDebugWindow();
 #endif
             }
             catch (Exception ex)
@@ -111,33 +100,25 @@ namespace GolemUI
             GlobalApplicationState.Finish();
         }
 
-        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
+        public void StartDebugWindow()
         {
-            if (args != null)
-            {
-                switch (args.action)
-                {
-                    case GlobalApplicationStateAction.startDebugWindow:
-                        if (GlobalApplicationState.Instance.DebugWindow == null)
-                        {
-                            var debugWindow = new DebugWindow();
-                            GlobalApplicationState.Instance.DebugWindow = debugWindow;
 
-                            var dashboard = GlobalApplicationState.Instance.Dashboard;
-                            if (dashboard != null)
-                            {
-                                debugWindow.Owner = dashboard;
-                                debugWindow.Left = dashboard.Left + dashboard.Width;
-                                debugWindow.Top = dashboard.Top;
-                                debugWindow.Show();
-                            }
-                        }
-                        break;
-                    case GlobalApplicationStateAction.debugWindowClosed:
-                        GlobalApplicationState.Instance.DebugWindow = null;
-                        break;
+            if (GlobalApplicationState.Instance.DebugWindow == null)
+            {
+                var debugWindow = new DebugWindow();
+                GlobalApplicationState.Instance.DebugWindow = debugWindow;
+
+                var dashboard = GlobalApplicationState.Instance.Dashboard;
+                if (dashboard != null)
+                {
+                    debugWindow.Owner = dashboard;
+                    debugWindow.Left = dashboard.Left + dashboard.Width;
+                    debugWindow.Top = dashboard.Top;
+                    debugWindow.Show();
                 }
+
             }
-        }
+        }    
+        
     }
 }

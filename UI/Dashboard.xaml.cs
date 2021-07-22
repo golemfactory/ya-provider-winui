@@ -65,7 +65,7 @@ namespace GolemUI
             DashboardDetails = new DashboardDetails();
 
 
-            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain));
+            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
             _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
             _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPage(DashboardAdvancedSettings));
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
@@ -73,9 +73,9 @@ namespace GolemUI
             _pages.Add(DashboardPages.PageDashboardDetails, new DashboardPage(DashboardDetails));
             _pageSelected = DashboardPages.PageDashboardMain;
 
-            GlobalApplicationState.Instance.Dashboard = this;
-            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
+            dashboardMain.Model.LoadData();
 
+            GlobalApplicationState.Instance.Dashboard = this;
 
             foreach (var pair in _pages)
             {
@@ -177,32 +177,6 @@ namespace GolemUI
             btnPage1.IsEnabled = true;
             btnPage2.IsEnabled = true;
             //btnPage4.IsEnabled = true;
-        }
-
-
-        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
-        {
-            if (args != null)
-            {
-                switch (args.action)
-                {
-                    case GlobalApplicationStateAction.yagnaAppStarting:
-                        BlockNavigation();
-                        break;
-                    case GlobalApplicationStateAction.yagnaAppStopped:
-                        ResumeNavigation();
-                        break;
-                    case GlobalApplicationStateAction.yagnaAppStarted:
-                        ResumeNavigation();
-                        break;
-                    case GlobalApplicationStateAction.benchmarkStarted:
-                        BlockNavigation();
-                        break;
-                    case GlobalApplicationStateAction.benchmarkStopped:
-                        ResumeNavigation();
-                        break;
-                }
-            }
         }
 
         static void AnimateScroll(UIElement element, double amount, TimeSpan duration)

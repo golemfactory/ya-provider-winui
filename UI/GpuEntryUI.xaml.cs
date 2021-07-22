@@ -29,27 +29,10 @@ namespace GolemUI
             //this.cbEnableMining.IsEnabled = false;
             _supressEvent = false;
 
-            GlobalApplicationState.Instance.ApplicationStateChanged += OnGlobalApplicationStateChanged;
-
             this.iconError.Visibility = Visibility.Collapsed;
             this.iconReady.Visibility = Visibility.Collapsed;
 
         }
-        public void OnGlobalApplicationStateChanged(object sender, GlobalApplicationStateEventArgs? args)
-        {
-            if (args != null)
-            {
-                switch (args.action)
-                {
-                    case GlobalApplicationStateAction.benchmarkStopped:
-                        _supressEvent = true;
-                        //this.cbEnableMining.IsEnabled = true;
-                        _supressEvent = false;
-                        break;
-                }
-            }
-        }
-
         public void SetInfo(string info)
         {
             this.lblInfo.Content = info;
@@ -141,10 +124,7 @@ namespace GolemUI
 
         private void cbEnableMining_Changed(object sender, RoutedEventArgs e)
         {
-            if (!_supressEvent)
-            {
-                GlobalApplicationState.Instance.NotifyApplicationStateChanged(this, GlobalApplicationStateAction.benchmarkSettingsChanged);
-            }
+            
         }
     }
 }
