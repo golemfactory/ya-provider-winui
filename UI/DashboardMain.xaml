@@ -21,7 +21,7 @@
                 <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/SliderCheckBox.xaml"/>
-                
+
                 <ResourceDictionary Source="Themes/Buttons/BlueButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
@@ -48,7 +48,7 @@
             <Border Width="232" Height="40" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30, 30, 0, 0">
                 <Label Foreground="#FFFFFF" Content="Dashboard" FontFamily="Segoe UI" FontSize="24"></Label>
                 <!--<Label Content="Dashboard"></Label>-->
-            </Border>           
+            </Border>
             <Grid Margin="30, 0, 30, 0" Canvas.Top="220" Width="auto" Height="auto" Grid.Row="2" Grid.ColumnSpan="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -60,18 +60,15 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0">
-                    <Label Margin="0,0,0,10" Content="Status: " VerticalAlignment="Bottom"></Label>
-                    <Label Margin="0,0,0,10" FontWeight="Bold" Name="lblStatus" Content="computing task" VerticalAlignment="Bottom"></Label>
-                </StackPanel>
+                <local:DashoardStatus />
                 <Button Click="btnStop_Click" 
-                    Style="{StaticResource BlueButtonStyle}" Height="40" Margin="10,10,0,10"
-                    Grid.Row="0" Grid.Column="4"
+                    Style="{StaticResource BlueButtonStyle}" Height="30" Margin="10,10,0,10"
+                    Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2"
                     HorizontalAlignment="Stretch"                        
                         IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}"
                     Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToVisibleConverter}}">Stop Mining</Button>
-                <Button Style="{StaticResource GradientButtonStyle}" Click="btnStart_Click"  Margin="10,10,0,10" HorizontalAlignment="Stretch"
-                        Grid.Row="0" Grid.Column="4" Height="40" IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}"
+                <Button Style="{StaticResource GradientButtonStyle}" Click="btnStart_Click"  Margin="11,10,-1,10" HorizontalAlignment="Stretch"
+                        Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Height="30" IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}"
                         Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToHiddenConverter}}">Start Mining</Button>
                 <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,10,10" Grid.Column="0" Padding="8" Grid.Row="1">
                     <Grid>
@@ -154,7 +151,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuActive}"/>
                                 <Label Content="Idle"></Label>
-                                
+
                             </StackPanel>
                             <local:UsageDescription Margin="0,10,0,0"  Description="Cpu threads" Current="{Binding Path=EnabledCpuCount, Mode=OneWay}" Grid.Row="1" Grid.Column="1" Total="{Binding Path=TotalCpuCount, Mode=OneWay}"/>
 

@@ -180,12 +180,14 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\CounterConverter.cs" />
     <Compile Include="Converters\EnumToBrush.cs" />
+    <Compile Include="Converters\DashboardStatusToTextConverter.cs" />
     <Compile Include="Converters\HashRateConverter.cs" />
     <Compile Include="Converters\StringToClaymorePerformanceThrottlingConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="CustomControls\EditButton.cs" />
     <Compile Include="DataAccess\DataAccess.cs" />
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
+    <Compile Include="DesignViewModel\MockupDashboardStatusViewModel.cs" />
     <Compile Include="DesignViewModel\SettingsViewModel.cs" />
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
@@ -217,6 +219,7 @@
     <Compile Include="Src\ProcessMonitor.cs" />
     <Compile Include="Src\ProviderConfigService.cs" />
     <Compile Include="Src\StaticEstimatedEarningsProvider.cs" />
+    <Compile Include="Model\DashboardStatusEnum.cs" />
     <Compile Include="Src\StaticPriceProvider.cs" />
     <Compile Include="UI\AnimatedIcons\LoadingPanel.xaml.cs">
       <DependentUpon>LoadingPanel.xaml</DependentUpon>
@@ -266,6 +269,9 @@
     </Compile>
     <Compile Include="UI\SetupWindow.xaml.cs">
       <DependentUpon>SetupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SmallerControls\DashboardStatusControl.xaml.cs">
+      <DependentUpon>DashboardStatusControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\UsageDescription.xaml.cs">
       <DependentUpon>UsageDescription.xaml</DependentUpon>
@@ -411,6 +417,10 @@
     <Page Include="UI\SetupWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SmallerControls\DashboardStatusControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Themes\Borders\BlueBorder.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -592,8 +602,8 @@
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Select_down_arrow.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_error.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_ready.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Mining_icon.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Ready_icon.png" />
+    <Content Include="UI\Icons\Dashboard\Status\mining.png" />
+    <Resource Include="UI\Icons\Dashboard\Status\ready.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Supported_by_Golem.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Task_Type.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Balance_icon.svg" />
