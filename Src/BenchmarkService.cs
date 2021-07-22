@@ -144,6 +144,10 @@ namespace GolemUI.Src
                 {
                     foreach (var gpu in _claymoreLiveStatus.GPUs.Values)
                     {
+                        gpu.IsPreInitialization = false;
+                        gpu.IsInitialization = false;
+                        gpu.IsEstimation = false;
+                        gpu.IsFinished = true;
                         if (!gpu.IsReadyForMining && !gpu.IsOperationStopped)
                         {
                             gpu.GPUError = "Timeout";

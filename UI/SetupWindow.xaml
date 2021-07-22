@@ -14,9 +14,10 @@
         mc:Ignorable="d"
         WindowStyle="None"  
     ResizeMode="CanResizeWithGrip"
+    
     AllowsTransparency="True"
     Background="Transparent"        
-        Title="SetupWindow" Height="720" Width="1280" Icon="/GolemUI;component/Media/tray.ico">
+        Title="SetupWindow" Height="720" Width="1280" Icon="/GolemUI;component/Media/tray.ico" Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -39,16 +40,20 @@
                             <TextBlock Text="{Binding Path=BenchmarkSpeed, Converter={StaticResource HashRateConverter}}"></TextBlock>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="Mining ablity " Foreground="#aaa" Margin="0, 5" />
-                                <Grid Visibility="{Binding Path=IsDagCreating, Converter={StaticResource BoolToVisibleConverter}}">
-                                    <ProgressBar Minimum="0" Maximum="1" Value="{Binding Path=DagProgress}" Margin="5" BorderThickness="0" Background="Transparent" />
+                                <Grid Visibility="{Binding Path=IsPreInitialization, Converter={StaticResource BoolToVisibleConverter}}">
+                                    <ProgressBar IsIndeterminate="True" Margin="0, 5" BorderThickness="0" Background="Transparent" />
                                     <TextBlock Foreground="#aaa"  VerticalAlignment="Center">initializing...</TextBlock>
                                 </Grid>
-                                <Grid Visibility="{Binding Path=IsDagCreating, Converter={StaticResource BoolToHiddenConverter}}">
-                                    <ProgressBar IsIndeterminate="True" Minimum="0" Maximum="1" Margin="5" BorderThickness="0" Background="Transparent" />
+                                <Grid Visibility="{Binding Path=IsInitialization, Converter={StaticResource BoolToVisibleConverter}}">
+                                    <ProgressBar Minimum="0" Maximum="1" Value="{Binding Path=DagProgress}" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                    <TextBlock Foreground="#aaa"  VerticalAlignment="Center">initializing...</TextBlock>
+                                </Grid>
+                                <Grid Visibility="{Binding Path=IsEstimation, Converter={StaticResource BoolToVisibleConverter}}">
+                                    <ProgressBar IsIndeterminate="True" Minimum="0" Maximum="1" Margin="0, 5" BorderThickness="0" Background="Transparent" />
                                     <TextBlock Foreground="#aaa"  VerticalAlignment="Center">estimating...</TextBlock>
                                 </Grid>
 
-                                <StackPanel Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
+                                <StackPanel Visibility="{Binding Path=IsFinished, Converter={StaticResource BoolToVisibleConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
                                     <Viewbox Width="25" Height="25" Visibility="{Binding Path=IsReadyForMining, Converter={StaticResource BoolToHiddenConverter}}">
                                         <Canvas Height="20" Width="20">
                                             <Canvas>
