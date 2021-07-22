@@ -12,6 +12,7 @@ namespace GolemUI
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
+       
         private readonly Command.Provider _provider;
         private readonly IProviderConfig? _providerConfig;
         private readonly IPriceProvider? _priceProvider;
@@ -33,7 +34,7 @@ namespace GolemUI
             _providerConfig.PropertyChanged += OnProviderCofigChanged;
             _benchmarkService.PropertyChanged += OnBenchmarkChanged;
             _profitEstimator = profitEstimator;
-            _totalCpusCount = GetCpuCount();
+            _totalCpusCount = Src.CpuInfo.GetCpuCount(Src.CpuCountMode.Threads);
 
             ActiveCpusCount = 3;
         }
@@ -53,7 +54,12 @@ namespace GolemUI
                 GpuList?.Add(new SingleGpuDescriptor(val));
             });
             NodeName = _providerConfig?.Config?.NodeName;
-            ActiveCpusCount = _providerConfig?.ActiveCpuCount ?? 0;
+            var activeCpuCount = _providerConfig?.ActiveCpuCount ?? 0;
+            if (activeCpuCount <= TotalCpusCount)
+                ActiveCpusCount = activeCpuCount;
+            else
+                ActiveCpusCount = TotalCpusCount;
+
 
         }
 
@@ -186,16 +192,7 @@ namespace GolemUI
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-        private int GetCpuCount()
-        {
-            int coreCount = 0;
-            foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
-            {
-                coreCount += int.Parse(item["NumberOfCores"].ToString());
-            }
-
-            return coreCount;
-        }
+       
         public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

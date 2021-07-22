@@ -58,7 +58,6 @@ namespace GolemUI.Src
             }
         }
 
-
         public bool IsCpuActive
         {
             get => _isPresetActive("wasmtime");

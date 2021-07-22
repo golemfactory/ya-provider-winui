@@ -65,13 +65,15 @@ namespace GolemUI
             DashboardDetails = new DashboardDetails();
 
 
-            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain));
+            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
             _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
             _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPage(DashboardAdvancedSettings));
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
             _pages.Add(DashboardPages.PageDashboardBenchmark, new DashboardPage(DashboardBenchmark));
             _pages.Add(DashboardPages.PageDashboardDetails, new DashboardPage(DashboardDetails));
             _pageSelected = DashboardPages.PageDashboardMain;
+
+            dashboardMain.Model.LoadData();
 
             GlobalApplicationState.Instance.Dashboard = this;
 

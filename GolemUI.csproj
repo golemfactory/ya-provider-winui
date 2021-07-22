@@ -184,6 +184,7 @@
     <Compile Include="DataAccess\DataAccess.cs" />
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\SettingsViewModel.cs" />
+    <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
     <Compile Include="Interfaces\IAppKeyProvider.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Notifications\CommandBase.cs" />
     <Compile Include="Notifications\ShowSampleWindowCommand.cs" />
     <Compile Include="Src\BenchmarkService.cs" />
+    <Compile Include="Src\CpuInfo.cs" />
     <Compile Include="Src\GlobalApplicationState.cs" />
     <Compile Include="Src\GlobalSettings.cs" />
     <Compile Include="Src\HdWalletService.cs" />
@@ -254,6 +256,9 @@
     </Compile>
     <Compile Include="UI\SetupWindow.xaml.cs">
       <DependentUpon>SetupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UsageDescription.xaml.cs">
+      <DependentUpon>UsageDescription.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validators\EthAddrValidator.cs" />
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
@@ -469,6 +474,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\UsageDescription.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -499,6 +508,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="UI\Icons\Settings\CPU_icon_new.png" />
+    <Resource Include="UI\Icons\Settings\GPU_icon_new.png" />
     <Resource Include="UI\Icons\Setup\Enjoy.png" />
     <Resource Include="UI\Icons\Setup\Use_my_wallet.png" />
     <Resource Include="Media\balance.svg" />
@@ -556,9 +567,9 @@
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Card_tick_not_selected.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Card_tick_selected.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Copy_icon.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\CPU_icon.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\CPU_icon_new.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Edit_icon.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\GPU_icon.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\GPU_icon_new.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Profit_icon.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Select_down_arrow.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_error.png" />
