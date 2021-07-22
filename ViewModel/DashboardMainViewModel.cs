@@ -1,4 +1,5 @@
 ﻿using GolemUI.Interfaces;
+using GolemUI.Settings;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace GolemUI.ViewModel
 {
 
-    public class DashboardMainViewModel : INotifyPropertyChanged
+    public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler)
         {
@@ -38,6 +39,32 @@ namespace GolemUI.ViewModel
             OnPropertyChanged("PendingAmountUSD");
         }
 
+        public void LoadData()
+        {
+          
+            var benchmark = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+  
+            _enabledGpuCount = benchmark?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null && gpu.Value.IsReadyForMining && gpu.Value.IsEnabledByUser).Count()??0;
+            _totalGpuCount = benchmark?.liveStatus?.GPUs.ToList().Count()??0;
+            _totalCpuCount = Src.CpuInfo.GetCpuCount(Src.CpuCountMode.Threads);
+
+            var activeCpuCount = _providerConfig?.ActiveCpuCount ?? 0;
+            if (activeCpuCount <= _totalCpuCount)
+                _enabledCpuCount = activeCpuCount;
+            else
+                _enabledCpuCount = _totalCpuCount;
+
+            OnPropertyChanged("TotalCpuCount");
+            OnPropertyChanged("TotalGpuCount");
+            OnPropertyChanged("EnabledCpuCount");
+            OnPropertyChanged("EnabledGpuCount");
+        }
+
+
+        public void SaveData()
+        {
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public IProcessControler Process => _processController;
@@ -48,6 +75,10 @@ namespace GolemUI.ViewModel
         public decimal? PendingAmount => _paymentService.State?.PendingBalance;
 
         public decimal? PendingAmountUSD => _priceProvider.glmToUsd(PendingAmount ?? 0m);
+        public int _totalCpuCount;
+        public int _totalGpuCount;
+        public int _enabledGpuCount;
+        public int _enabledCpuCount;
 
         public bool IsMiningActive
         {
@@ -67,6 +98,11 @@ namespace GolemUI.ViewModel
             }
         }
 
+
+        public int TotalCpuCount =>_totalCpuCount;
+        public int TotalGpuCount => _totalGpuCount;
+        public int EnabledCpuCount => _enabledCpuCount;
+        public int EnabledGpuCount => _enabledGpuCount;
         public void Stop()
         {
             _processController.Stop();
