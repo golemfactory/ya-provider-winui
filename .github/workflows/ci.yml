@@ -48,7 +48,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
 
       - name: Rx
-        run: msbuild -t:restore
+        run: msbuild -t:restore /p:Platform=x64 /p:Configuration=Release
 
       - name:  Restore obj folder
         run: msbuild GolemUI.csproj /t:Restore /p:Configuration=Release /p:RuntimeIdentifier=$env:RuntimeIdentifier
