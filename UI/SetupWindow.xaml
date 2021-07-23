@@ -349,8 +349,8 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="44"/>
                                         </Grid.RowDefinitions>
-                                        <ContentControl Content="{DynamicResource Print_Step_icon}" Margin="6,20,0,20" VerticalAlignment="Top" HorizontalContentAlignment="Stretch"/>
-                                        <StackPanel Width="400" Margin="40,23,79,7" Grid.Column="1">
+                                        <ContentControl Content="{DynamicResource Print_Step_icon}" Margin="6,20,0,10" VerticalAlignment="Top" HorizontalContentAlignment="Stretch"/>
+                                        <StackPanel Width="400" Margin="40,23,79,0" Grid.Column="1">
                                             <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">Write down this words</TextBlock>
                                             <ItemsControl ItemsSource="{Binding MnemonicWords}" AlternationCount="12">
                                                 <ItemsControl.ItemTemplate>
