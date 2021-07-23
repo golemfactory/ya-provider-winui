@@ -13,7 +13,7 @@
         Background="Transparent"
         AllowsTransparency="True"
         x:Name="DashboardWindow"
-        Title="Dashboard" Height="524" Width="974" MinHeight="524" MinWidth="974" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/tray.ico">
+        Title="Dashboard" Height="524" Width="974" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/tray.ico">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

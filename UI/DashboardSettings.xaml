@@ -6,7 +6,7 @@
              xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="600" d:DesignWidth="800"
              xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:enumAlias="clr-namespace:GolemUI.Model"
@@ -49,7 +49,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
-                <RowDefinition Height="320"/>
+                <RowDefinition Height="320*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -68,13 +68,13 @@
 
             <Grid Margin="30, 0, 30, 0" Canvas.Top="220" Width="auto" Height="auto" Grid.Row="1" Grid.ColumnSpan="3" Visibility="Visible">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="50" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.6*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*" MinWidth="140"/>
+                    <ColumnDefinition Width="5*" MinWidth="200"/>
+                    <ColumnDefinition Width="3*" MinWidth="250"/>
 
                 </Grid.ColumnDefinitions>
 
@@ -87,46 +87,49 @@
 
                 <Border Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,10,10" Grid.Column="0" Width="auto">
 
-                    <Grid Margin="10, 0, 0, 0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                    <Grid Margin="0, 0, 0, 0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="4*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="60" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions >
                             <ColumnDefinition  />
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Row="1" Content="Task type" Foreground="#FFFFFF" FontFamily="SegoeUI" FontSize="12" HorizontalContentAlignment="Left" FontWeight="Bold"></Label>
-                        <ContentControl Grid.Row="2"  Content="{DynamicResource Task_Type}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="0"/>
+                        <Label Grid.Row="1" Content="Task types" Foreground="#FFFFFF" FontFamily="SegoeUI" FontSize="12" HorizontalAlignment="Left" FontWeight="Bold"></Label>
+                        <ContentControl Grid.Row="2"  Content="{DynamicResource Task_Type}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Padding="0"/>
 
-                        <StackPanel Grid.Row="3"  Orientation="Horizontal">
-                            <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsMiningActive}"/>
-                            <Label Grid.Row="4" FontSize="10"  Content="Mining (GPU)" Foreground="#FFFFFF" FontWeight="Light" />
+                        <StackPanel Grid.Row="3"  Orientation="Vertical">
+                            <Label Grid.Row="4" FontSize="12" HorizontalAlignment="Center"  Content="Mining (GPU)" Foreground="#FFFFFF" />
+                            <CheckBox HorizontalAlignment="Center" Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsMiningActive}"/>
                         </StackPanel>
-                        <StackPanel Grid.Row="4"  Orientation="Horizontal">
-                            <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuActive}" />
-                            <Label Grid.Row="2" FontSize="10" Content="Golem Network (CPU)" Foreground="#FFFFFF" FontWeight="Light" />
+                        <StackPanel Grid.Row="4"  Orientation="Vertical">
+                            <TextBlock Grid.Row="2" FontSize="12" TextWrapping="Wrap" Text="Golem Network (CPU)" Foreground="#FFFFFF" HorizontalAlignment="Center" />
+                            <CheckBox Style="{DynamicResource CheckBoxSlider}" HorizontalAlignment="Center" IsChecked="{Binding IsCpuActive}" />
                         </StackPanel>
                     </Grid>
 
                 </Border>
-                <Border Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Column="1">
+                <Border Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="top" Margin="10,10,10,10" Grid.Column="1">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="0.12*" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="90" />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/Settings/GPU_icon_new.png" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="6" Stretch="Uniform" />
 
-                        <ScrollViewer Grid.Column="1" Grid.Row="0" Margin="0,16,0,0" Padding="0" Grid.RowSpan="2" VerticalScrollBarVisibility="Auto">
+                        <Label Content="Graphic cards settings" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF"></Label>
+
+                        <ScrollViewer Grid.Column="1" Grid.Row="1" Margin="0,0,0,0" Padding="0" Grid.RowSpan="2" VerticalScrollBarVisibility="Auto">
                             <ItemsControl Grid.Column="1" ItemsSource="{Binding GpuList}" Margin="0,0,0,5" >
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -135,80 +138,94 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Vertical" Margin="0,0,0,2">
-                                            <StackPanel Orientation="Horizontal">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="18"/>
+                                                <RowDefinition Height="18"/>
+                                                <RowDefinition Height="18"/>
+                                                <RowDefinition Height="8"/>
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="2">
                                                 <CheckBox IsChecked="{Binding Path=IsActive}" Margin="0,2,0,0"  Style="{DynamicResource CheckBoxGpu}" />
-                                                <Label FontFamily="Segoe Ui" FontWeight="Regular"  FontSize="12"  Content="{Binding Path=DisplayName}" Margin="0"/>
-
+                                                <Label FontFamily="Segoe Ui" FontWeight="Regular"  FontSize="13"  Content="{Binding Path=DisplayName}" Margin="0"/>
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-
-                                                <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Hashrate: " Margin="0"/>
-                                                <Label FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="10" Content="{Binding Path=Hashrate, Converter={StaticResource HashRateConverter}}" Padding="0" Margin="0"/>
+                                            <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Hashrate:" />
+                                            <Label Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5,0,0,0"  FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="12" Content="{Binding Path=Hashrate, Converter={StaticResource HashRateConverter}}" Padding="0" />
+                                            <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right">
+                                                <Label VerticalAlignment="Center"  FontFamily="Segoe Ui" FontWeight="Light" FontSize="12" Padding="0"  Content="Mining ability:" Margin="0"/>
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mining ability: " Margin="0"/>
+                                            <StackPanel Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
                                                 <Grid Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToVisibleConverter}}">
                                                     <ProgressBar IsIndeterminate="True" Margin="0" BorderThickness="0" Height="10" Background="Transparent" />
-                                                    <TextBlock FontSize="10" Foreground="#aaa" Margin="0" Padding="0" VerticalAlignment="Center">checking...</TextBlock>
+                                                    <TextBlock FontSize="12" Foreground="#aaa" Margin="0" Padding="0" VerticalAlignment="Center">checking...</TextBlock>
                                                 </Grid>
-                                                <StackPanel Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
-                                                    <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_error.png" Width="10" Height="10"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToHiddenConverter}}"/>
-                                                    <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_ready.png" Width="10" Height="10"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToVisibleConverter}}"/>
-                                                </StackPanel>
+                                                <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_error.png" Width="14" Height="14"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToHiddenConverter}}"/>
+                                                <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_ready.png" Width="14" Height="14"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToVisibleConverter}}"/>
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-
-                                                <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="Mode: " Margin="0,3.5,0,0"/>
-                                                <Label FontFamily="Segoe Ui" FontWeight="Light"  FontSize="10" Padding="0"  Content="{Binding ClaymorePerformanceThrottlingDebug}" Margin="0,2,5,0"/>
-                                                <ComboBox IsEnabled="{Binding DataContext.BenchmarkReadyToRun, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Margin="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode}"  Width="90" >
-
-                                                </ComboBox>
+                                            <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                                                <Label VerticalAlignment="Center" FontFamily="Segoe Ui" FontSize="12" Padding="0" FontWeight="Light" Content="Mode:" ToolTip="{Binding ClaymorePerformanceThrottlingDebug}"/>
                                             </StackPanel>
-                                        </StackPanel>
+                                            <ComboBox HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" Margin="5,0,0,0" IsEnabled="{Binding DataContext.BenchmarkReadyToRun, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode}"  Width="90" >
+
+                                            </ComboBox>
+                                        </Grid>
+                                        
+
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </ScrollViewer>
-                        <Label Content="GPU" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF"></Label>
                     </Grid>
                 </Border>
-                <Grid Grid.Row="1"  Grid.Column="2">
+                <Grid Grid.Row="1" Grid.Column="2">
                     <Grid.ColumnDefinitions>
 
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1.5*" />
+                        <RowDefinition Height="200" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Row="0"  Grid.Column="0">
+                    <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,0,10" Grid.Row="0"  Grid.Column="0">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.7*"/>
+                                <ColumnDefinition Width="100"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="0.3*" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            
-                            <Image  Grid.Row="1" RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/Settings/CPU_icon_new.png"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="6" Stretch="Uniform" />
 
-                            <Label Content="CPU" FontFamily="Segoe UI" FontWeight="Bold" Margin="20,10,0,0" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF" Padding="0"/>
+                            <Label Content="CPU settings" FontFamily="Segoe UI" FontWeight="Bold" Margin="0,0,0,0" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF" />
+                            
+                            <Image Grid.Row="1" RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/Settings/CPU_icon_new.png"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10, 0, 0, 0" Stretch="Uniform" />
+
                            
 
                             <local:UsageDescription Margin="0,0,0,40"  Description="Cpu threads" Current="{Binding Path=ActiveCpusCount, Mode=OneWay}" Grid.Row="1" Grid.Column="1" Total="{Binding Path=TotalCpusCount, Mode=OneWay}"/>
                             
-                            <Slider  Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Margin="23,16,0,0" Width="121" Minimum="0" Maximum="{Binding TotalCpusCount, Mode=OneWay}"/>
+                            <Slider Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Margin="23,16,0,0" Minimum="0" Maximum="{Binding TotalCpusCount, Mode=OneWay}"/>
                         </Grid>
                     </Border>
-                    <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" Grid.Row="1"  Grid.Column="0">
-
-                        <StackPanel>
-                            <Label Content="Node name" FontFamily="Segoe UI" FontWeight="Bold" Margin="20,10,0,10" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF" Padding="0"/>
-                            <TextBox BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Text="{Binding NodeName}" Margin="20, 0"/>
-                        </StackPanel>
+                    <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,0,10" Grid.Row="1"  Grid.Column="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Node name" FontFamily="Segoe UI" FontWeight="Bold" Margin="0,0,0,0" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF"/>
+                            <TextBox BorderThickness="0,0,0,2" Grid.Row="1" VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Text="{Binding NodeName}" Margin="20, 0"/>
+                        </Grid>
                     </Border>
                 </Grid>
 
