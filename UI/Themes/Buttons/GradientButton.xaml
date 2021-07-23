@@ -61,11 +61,7 @@
                         <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsDefaulted" Value="true">
-                            <Setter Property="Background" TargetName="border" Value="{StaticResource ButtonGradient.Static.Background}"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ButtonGradient.Static.Border}"/>
-                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource ButtonGradient.Static.Foreground}"/>
-                        </Trigger>
+
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Cursor" Value="Hand"></Setter>
                             <Setter Property="Background">

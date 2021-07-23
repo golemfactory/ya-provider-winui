@@ -176,6 +176,7 @@
     <Compile Include="Command\YagnaSrv.cs" />
     <Compile Include="Controllers\DashboardPage.cs" />
     <Compile Include="Converters\AmountConverter.cs" />
+    <Compile Include="Converters\BoolToHeightConverter.cs" />
     <Compile Include="Converters\DashboardStatusToIconConverter.cs" />
     <Compile Include="Converters\DashboardStatusToVisibleConverter.cs" />
     <Compile Include="Converters\ErrorToVisibilityConverter.cs" />
@@ -538,6 +539,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="UI\seed_phrase_1.png" />
     <Resource Include="UI\Icons\Dashboard\Status\error.png" />
     <Resource Include="UI\Icons\Settings\CPU_icon_new.png" />
     <Resource Include="UI\Icons\Settings\GPU_icon_new.png" />
@@ -567,6 +569,7 @@
     <Resource Include="Media\SetV1\Nav_Settings_icon.svg" />
     <Resource Include="Media\SetV1\Nav_Wallet_icon.svg" />
     <Resource Include="Media\golem.ico" />
+    <Resource Include="Media\Screenshots\seed_phrase_1.png" />
     <Content Include="Media\SetV1\Onboarding\Create_wallet.svg" />
     <Content Include="Media\SetV1\Onboarding\Enjoy.svg" />
     <Content Include="Media\SetV1\Onboarding\Hash_power.svg" />
