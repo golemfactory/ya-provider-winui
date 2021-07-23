@@ -295,6 +295,24 @@ namespace GolemUI.Claymore
 
             _gpus = newDictionary;
         }
+        public void MergeUserSettingsFromExternalLiveStatus(ClaymoreLiveStatus? externalLiveStatus)
+        {
+            if (externalLiveStatus == null)
+            {
+                return;
+            }
+            if (this.GPUs.Count == externalLiveStatus.GPUs.Count)
+            {
+                foreach (var key in this.GPUs.Keys)
+                {
+                    if (externalLiveStatus.GPUs.ContainsKey(key))
+                    {
+                        this.GPUs[key].IsEnabledByUser = externalLiveStatus.GPUs[key].IsEnabledByUser;
+                        this.GPUs[key].ClaymorePerformanceThrottling = externalLiveStatus.GPUs[key].ClaymorePerformanceThrottling;
+                    }
+                }
+            }
+        }
     }
 
 

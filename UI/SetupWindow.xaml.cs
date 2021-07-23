@@ -172,7 +172,7 @@ namespace GolemUI.UI
         {
             Model!.NoobStep = 4;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnum.Comfort;
-            Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "");
+            Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "", null);
         }
 
         private void OnCancelNoobFlow(object sender, RoutedEventArgs e)
@@ -209,7 +209,7 @@ namespace GolemUI.UI
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnum.Comfort;
 
-            Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "");
+            Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "", null);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

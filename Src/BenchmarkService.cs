@@ -25,7 +25,7 @@ namespace GolemUI.Src
 
         public float? TotalMhs => _claymoreLiveStatus == null ? null : (from gpus in _claymoreLiveStatus?.GPUs.Values select gpus.BenchmarkSpeed).Sum();
 
-        public async void StartBenchmark(string cards, string niceness, string pool, string ethereumAddress)
+        public async void StartBenchmark(string cards, string niceness, string pool, string ethereumAddress, ClaymoreLiveStatus? externalLiveStatus)
         {
             if (IsRunning)
             {
@@ -91,6 +91,7 @@ namespace GolemUI.Src
                                 break;
                             }
                             _claymoreLiveStatus = cc.ClaymoreParserPreBenchmark.GetLiveStatusCopy();
+                            _claymoreLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
                             baseLiveStatus = _claymoreLiveStatus;
                             OnPropertyChanged("Status");
                             if (_claymoreLiveStatus.GPUInfosParsed)
@@ -130,6 +131,7 @@ namespace GolemUI.Src
                     {
                         _claymoreLiveStatus.MergeFromBaseLiveStatus(baseLiveStatus, cards, out allExpectedGPUsFound);
                     }
+                    _claymoreLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
                     OnPropertyChanged("Status");
                     OnPropertyChanged("TotalMhs");
                     if (_claymoreLiveStatus.NumberOfClaymorePerfReports >= _claymoreLiveStatus.TotalClaymoreReportsBenchmark)
