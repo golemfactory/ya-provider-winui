@@ -200,17 +200,8 @@ namespace GolemUI.Command
         {
             get
             {
-                try
-                {
-                    var text = this.ExecToText("--json profile list");
-                    dynamic json = JsonConvert.DeserializeObject(text);
-                    var child = JsonConvert.SerializeObject(json["default"]);
-                    var profile = JsonConvert.DeserializeObject<Profile>(child);
-                    return profile;
-                }catch
-                {
-                    return null;
-                }
+                var profiles = Exec<Dictionary<string, Profile>>("--json profile list");
+                return profiles?["default"];
             }
         }
         public void UpdateDefaultProfile(String param, String value)

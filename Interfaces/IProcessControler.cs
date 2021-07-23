@@ -13,6 +13,13 @@ namespace GolemUI.Interfaces
     {
         public Task<bool> Prepare();
 
+        /// <summary>
+        /// Starts daemon with given private key.
+        /// </summary>
+        /// <param name="privateKEy"></param>
+        /// <returns>Wallet address</returns>
+        public Task<string> PrepareForKey(byte[] privateKey);
+
         public Task<bool> Start();
 
         public Task<Command.KeyInfo> Me();

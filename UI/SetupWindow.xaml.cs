@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Interop;
 
 
@@ -164,9 +163,9 @@ namespace GolemUI.UI
             printDlg.PrintDocument(idpSource.DocumentPaginator, "Wallet Recovery Sheet");
         }
 
-        private void OnWTLStep3Next(object sender, RoutedEventArgs e)
+        private async void OnWTLStep3Next(object sender, RoutedEventArgs e)
         {
-            Model!.NoobStep = 3;
+            Model!.ActivateHdWallet();
         }
 
         private void OnWTLStep4Next(object sender, RoutedEventArgs e)

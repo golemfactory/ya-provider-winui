@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
 <?define Win64 = "yes" ?>
-<?define Version="0.0.5"?>
+<?define Version="0.0.6"?>
 <?define BuildOutputDir="..\bin\Release"?>
 <?define YaPubDir="F:\gminer"?>
 <?define YaBuildOutputDir="F:\yagna\target\release"?>
 <?define MediaDir="$(var.SolutionDir)\Media"?>
 <?define Ya.Runtime.GMiner="F:\ya-runtime-gminer"?>
 <?define Ya.Runtime.Wasi="F:\ya-runtime-wasi"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:fw="http://schemas.microsoft.com/wix/FirewallExtension">
   <Product
         Id='*'
         Name='Golem Provider'
@@ -68,8 +68,9 @@
                   Name='yagna.exe'
                   DiskId='1'
                   Source='$(var.YaBuildOutputDir)\yagna.exe'
-                  KeyPath='yes'>
+                  KeyPath='yes'>              
             </File>
+            <fw:FirewallException Id='GolemNodeFw' File='yagnaExe' Name='Golem Node REST API' Port='7465' Protocol='tcp' Scope='localSubnet'/>
 
           </Component>
           <Component Id='GolemProvider' Guid='8ffef653-0847-4789-8b37-8c0f90f6a43f' Win64='$(var.Win64)'>

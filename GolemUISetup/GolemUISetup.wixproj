@@ -34,6 +34,10 @@
     <Content Include="RemovePdbs.xslt" />
   </ItemGroup>
   <ItemGroup>
+    <WixExtension Include="WixFirewallExtension">
+      <HintPath>$(WixExtDir)\WixFirewallExtension.dll</HintPath>
+      <Name>WixFirewallExtension</Name>
+    </WixExtension>
     <WixExtension Include="WixUtilExtension">
       <HintPath>C:\Program Files (x86)\WiX Toolset v3.11\bin\WixUtilExtension.dll</HintPath>
       <Name>WixUtilExtension</Name>

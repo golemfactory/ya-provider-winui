@@ -216,6 +216,7 @@
     <Compile Include="Src\GlobalApplicationState.cs" />
     <Compile Include="Src\GlobalSettings.cs" />
     <Compile Include="Src\HdWalletService.cs" />
+    <Compile Include="Src\LazyInit.cs" />
     <Compile Include="Src\NameGenerator.cs" />
     <Compile Include="Src\PaymentService.cs" />
     <Compile Include="Src\ProcessControler.cs" />

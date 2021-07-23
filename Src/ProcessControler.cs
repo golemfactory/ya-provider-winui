@@ -14,13 +14,12 @@ using GolemUI.Settings;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace GolemUI
 {
-
-
-
-    public class ProcessController : IDisposable, IProcessControler, IAppKeyProvider
+    public class ProcessController : IDisposable, IProcessControler
     {
 
 
@@ -36,7 +35,16 @@ namespace GolemUI
         // Delegate type to be used as the Handler Routine for SCCH
         delegate Boolean ConsoleCtrlDelegate(uint CtrlType);
 
-
+        private Src.LazyInit<string> _generatedAppKey = new Src.LazyInit<string>(() =>
+        {
+            using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
+            {
+                byte[] data = new byte[20];
+                crypto.GetBytes(data);
+                var str = Convert.ToBase64String(data);
+                return str;
+            }
+        });
 
         public async Task<bool> SendCtrlCToProcess(Process p, int timeoutMillis)
         {
@@ -77,7 +85,6 @@ namespace GolemUI
         private string _baseUrl = "http://127.0.0.1:7465";
         private Command.YagnaSrv _yagna = new Command.YagnaSrv();
         private Command.Provider _provider = new Command.Provider();
-        private string? _appkey;
         public string? Subnet { get; set; }
 
         private Process? _yagnaDaemon;
@@ -209,21 +216,6 @@ namespace GolemUI
             }
         }
 
-        public async Task<string> GetAppKey()
-        {
-            if (_appkey == null)
-            {
-                await Prepare();
-            }
-            return _appkey ?? throw new InvalidOperationException();
-        }
-
-        public KeyInfo? GetFirstAppKey()
-        {
-            var key = _yagna.AppKey.List().Where(key => key.Name == PROVIDER_APP_NAME).FirstOrDefault();
-            return key;
-        }
-
         public async Task<bool> Start()
         {
             _lock();
@@ -236,46 +228,6 @@ namespace GolemUI
 
                         StartupYagna();
                     }
-
-                    var keyInfo = GetFirstAppKey();
-                    if (keyInfo != null)
-                    {
-                        _appkey = keyInfo.Key;
-                    }
-                    else
-                    {
-                        _appkey = _yagna.AppKey.Create(PROVIDER_APP_NAME);
-                        keyInfo = GetFirstAppKey();
-                    }
-                    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _appkey);
-
-                    //yagna is starting and /me won't work until all services are running
-                    int tries = 0;
-                    while (true)
-                    {
-                        if (tries >= 30)
-                        {
-                            throw new Exception("Cannot connect to yagna server");
-                        }
-                        try
-                        {
-                            var txt = _client.GetStringAsync($"{_baseUrl}/me").Result;
-                            KeyInfo? keyMe = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
-                            //sanity check
-                            if (keyMe != null && keyInfo != null && keyMe.Id == keyInfo.Id)
-                            {
-                                break;
-                            }
-                            throw new Exception("Failed to get key");
-                        }
-                        catch (Exception)
-                        {
-                            Thread.Sleep(1000);
-                        }
-                        tries += 1;
-                    }
-
-                    Thread.Sleep(1000);
 
                     StartupProvider(Network.Rinkeby, Subnet);
                 });
@@ -303,18 +255,53 @@ namespace GolemUI
             var txt = await _client.GetStringAsync($"{_baseUrl}/me");
             return JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? throw new HttpRequestException("null response on /me");
         }
-        private void StartupYagna()
+        private KeyInfo StartupYagna(string? privateKey = null)
         {
-            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
-
-            _yagnaDaemon = _yagna.Run();
-            if (!ls.StartYagnaCommandLine)
+            _yagnaDaemon = _yagna.Run(new YagnaStartupOptions() { 
+                ForceAppKey = _generatedAppKey.Value,
+                OpenConsole = Properties.Settings.Default.StartYagnaCommandLine,
+                PrivateKey = privateKey
+            });
+            if (!Properties.Settings.Default.StartYagnaCommandLine)
             {
                 _yagnaDaemon.ErrorDataReceived += OnYagnaErrorDataRecv;
                 _yagnaDaemon.OutputDataReceived += OnYagnaOutputDataRecv;
                 _yagnaDaemon.BeginErrorReadLine();
                 _yagnaDaemon.BeginOutputReadLine();
             }
+
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _generatedAppKey.Value);
+
+            //yagna is starting and /me won't work until all services are running
+            for (int tries = 0; tries < 300; ++tries) { 
+                if (_yagnaDaemon.HasExited)
+                {
+                    break;
+                }
+
+                try
+                {
+                    var response = _client.GetAsync($"{_baseUrl}/me").Result;  
+                    if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    {
+                        break;
+                    }
+                    var txt = response.Content.ReadAsStringAsync().Result;
+                    KeyInfo? keyMe = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
+                    //sanity check
+                    if (keyMe != null)
+                    {
+                        return keyMe;
+                    }
+                    throw new Exception("Failed to get key");
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(300);
+                }
+                tries += 1;
+            }
+            throw new Exception("Failed to get key");
         }
 
         private void StartupProvider(Network network, string? subnet)
@@ -337,10 +324,6 @@ namespace GolemUI
 
             _yagna?.Payment.Init(network, "erc20", paymentAccount);
             _yagna?.Payment.Init(network, "zksync", paymentAccount);
-            if (_appkey == null)
-            {
-                throw new Exception("Appkey cannot be null");
-            }
 
             var providerPresets = _provider.Presets;
 
@@ -356,8 +339,8 @@ namespace GolemUI
             {
                 var usageCoef = new Dictionary<string, decimal>();
                 var preset = new Preset("gminer", "gminer", usageCoef);
-                preset.UsageCoeffs.Add("share", new decimal(0.1));
-                preset.UsageCoeffs.Add("duration", new decimal(0.0001));
+                preset.UsageCoeffs.Add("share", 0.1m);
+                preset.UsageCoeffs.Add("duration", 0);
                 string info, args;
                 _provider.AddPreset(preset, out args, out info);
                 ConfigurationInfoDebug += "Add preset claymore mining: \nargs:\n" + args + "\nresponse:\n" + info;
@@ -367,8 +350,8 @@ namespace GolemUI
             {
                 var usageCoef = new Dictionary<string, decimal>();
                 var preset = new Preset("wasmtime", "wasmtime", usageCoef);
-                preset.UsageCoeffs.Add("cpu", 1);
-                preset.UsageCoeffs.Add("duration", 1);
+                preset.UsageCoeffs.Add("cpu", 0.1m);
+                preset.UsageCoeffs.Add("duration", 0m);
                 string info, args;
                 _provider.AddPreset(preset, out args, out info);
                 ConfigurationInfoDebug += "Add preset claymore WASM: \nargs:\n" + args + "\nresponse:\n" + info;
@@ -381,7 +364,7 @@ namespace GolemUI
                 _provider.ActivatePreset("gminer");
             }
             _provider.ActivatePreset("wasmtime");
-            _providerDaemon = _provider.Run(_appkey, network, ls, enableClaymoreMining, br);
+            _providerDaemon = _provider.Run(_generatedAppKey.Value, network, ls, enableClaymoreMining, br);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
             _providerDaemon.OutputDataReceived += OnProviderOutputDataRecv;
@@ -450,7 +433,6 @@ namespace GolemUI
                 try
                 {
                     await Task.Run(() => StartupYagna());
-                    await Task.Delay(2000);
                     OnPropertyChanged("IsServerRunning");
                 }
                 finally
@@ -459,6 +441,41 @@ namespace GolemUI
                 }
             }
             return true;
+        }
+        private static string ByteArrayToString(byte[] ba)
+        {
+            StringBuilder hex = new StringBuilder(ba.Length * 2);
+            foreach (byte b in ba)
+                hex.AppendFormat("{0:x2}", b);
+            return hex.ToString();
+        }
+
+        public async Task<string> PrepareForKey(byte[] privateKey)
+        {
+
+            if (_yagnaDaemon != null && _yagnaDaemon.HasExited)
+            {
+                _yagnaDaemon = null;
+            }
+
+            if (_yagnaDaemon == null)
+            {
+                _lock();
+                try
+                {
+                    var key = await Task.Run(() => StartupYagna(ByteArrayToString(privateKey)));
+                    OnPropertyChanged("IsServerRunning");
+                    return key.Id;
+                }
+                finally
+                {
+                    _unlock();
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("golem node already running");
+            }
         }
 
         public async Task<bool> Stop()
@@ -481,6 +498,7 @@ namespace GolemUI
             return true;
         }
 
+      
     }
 
 

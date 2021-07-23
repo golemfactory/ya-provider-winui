@@ -1,4 +1,5 @@
 ﻿using GolemUI.Claymore;
+using GolemUI.Interfaces;
 using NBitcoin;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace GolemUI.ViewModel
         private readonly Interfaces.IProviderConfig _providerConfig;
         private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;
+        private readonly IProcessControler _processControler;
 
         public enum FlowSteps
         {
@@ -52,13 +54,14 @@ namespace GolemUI.ViewModel
 
         public bool IsDesingMode => false;
 
-        public SetupViewModel(Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator)
+        public SetupViewModel(Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler)
         {
             _flow = 0;
             _noobStep = 0;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
             _profitEstimator = profitEstimator;
+            _processControler = processControler;
 
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
             _benchmarkService.PropertyChanged += OnBenchmarkChanged;
@@ -171,7 +174,18 @@ namespace GolemUI.ViewModel
         public ObservableCollection<Claymore.ClaymoreGpuStatus>? GPUs => _gpus;
         public string? BenchmarkError { get; set; }
 
-        
+        internal async void ActivateHdWallet()
+        {
+            var seed = _mnemo.ToString();
+            var wallet = new Nethereum.HdWallet.Wallet(seed, "");
+            var address = await _processControler.PrepareForKey(wallet.GetPrivateKey(0));
+            if (address == wallet.GetAccount(0).Address.ToLower())
+            {
+                _providerConfig.UpdateWalletAddress(address);
+                NoobStep = (int)NoobSteps.Name;
+            }            
+        }
+
         public float? TotalHashRate => _benchmarkService.TotalMhs;
 
         public double? ExpectedProfit
@@ -230,7 +244,7 @@ namespace GolemUI.ViewModel
 
         public string[]? MnemonicWords => _mnemo?.Words;
 
-        private void OnPropertyChanged(string? propertyName)
+        private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {

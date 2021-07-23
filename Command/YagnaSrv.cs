@@ -15,6 +15,18 @@ using System.Linq;
 namespace GolemUI.Command
 {
 
+    public class YagnaStartupOptions
+    {
+        public string? ForceAppKey { get; set; }
+
+        public string? PrivateKey { get; set; }
+
+        public bool Debug { get; set; }
+
+        public bool OpenConsole { get; set; }
+    }
+
+
     [JsonObject(MemberSerialization.OptIn)]
     internal class Table
     {
@@ -192,13 +204,10 @@ namespace GolemUI.Command
         }
 
 
-        public Process Run()
+        public Process Run(YagnaStartupOptions options)
         {
-
-            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
-
             string debugFlag = "";
-            if (ls.EnableDebugLogs)
+            if (options.Debug)
             {
                 debugFlag = "--debug";
             }
@@ -208,9 +217,18 @@ namespace GolemUI.Command
                 FileName = this._yaExePath,
                 Arguments = $"service run {debugFlag}",
             };
-            //startInfo.EnvironmentVariables.Add();
 
-            if (ls.StartYagnaCommandLine)
+            if (options.PrivateKey != null)
+            {
+                startInfo.EnvironmentVariables.Add("YAGNA_AC_IDENTITY_PK", options.PrivateKey);
+            }
+
+            if (options.ForceAppKey != null)
+            {
+                startInfo.EnvironmentVariables.Add("YAGNA_AC_APPKEY", options.ForceAppKey);
+            }
+
+            if (options.OpenConsole)
             {
                 startInfo.RedirectStandardOutput = false;
                 startInfo.RedirectStandardError = false;
