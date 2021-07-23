@@ -20,7 +20,7 @@
         Title="SetupWindow" Height="720" Width="1280" Icon="/GolemUI;component/Media/tray.ico" Loaded="Window_Loaded">
     <!--Background="Transparent"-->
     <Window.Background>
-        <ImageBrush ImageSource="init.png" Stretch="Uniform"></ImageBrush>
+        <ImageBrush ImageSource="prepare.png" Stretch="Uniform"></ImageBrush>
     </Window.Background>
     <Window.Resources>
         <ResourceDictionary>
@@ -286,23 +286,23 @@
                                 <TabItem Header="Prepare">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" MinWidth="275"/>
+                                            <ColumnDefinition Width="1.2*" MinWidth="275"/>
                                             <ColumnDefinition Width="3*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                        <ContentControl Content="{DynamicResource Prepare_Step_icon}" Margin="20"/>
-                                        <StackPanel Width="400" Margin="50" Grid.Column="1">
-                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="0, 0, 0 15">We will create a wallet for you</TextBlock>
-                                            <TextBlock FontFamily="Segoe UI" FontSize="14">You will need</TextBlock>
-                                            <TextBlock FontFamily="Segoe UI" FontSize="14" FontWeight="Bold" Margin="0, 10">- Pen and Paper</TextBlock>
-                                            <TextBlock FontFamily="Segoe UI" FontSize="14" FontWeight="Bold" Margin="0, 10">- or active printer</TextBlock>
-                                            <UniformGrid Margin="10, 30" Rows="1">
-                                                <Button Content="Cancel" Margin="8" HorizontalAlignment="Stretch" Style="{DynamicResource CancelButtonStyle}" Click="OnCancelNoobFlow"/>
-                                                <Button Content="Got It!" Margin="8" HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep1">
+                                        <ContentControl Content="{DynamicResource Prepare_Step_icon}" Margin="0"/>
+                                        <StackPanel Width="400" Margin="52,36" Grid.Column="1" HorizontalAlignment="LEft">
+                                            <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">We will create a wallet for you</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="15">You will need</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="21" FontWeight="Bold" Margin="0, 10">- Pen and Paper</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="21" FontWeight="Bold" Margin="0, 10">- or active printer</TextBlock>
+                                            <StackPanel Orientation="Horizontal" Margin="2,35">
+                                                <Button Content="Cancel" FontSize="18" Margin="0" HorizontalAlignment="Stretch" Style="{DynamicResource CancelButtonStyle}" Click="OnCancelNoobFlow"/>
+                                                <Button Content="Got It!" Height="50" Width="250" Margin="84,0,0,0" HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep1">
                                                 </Button>
-                                            </UniformGrid>
+                                            </StackPanel>
                                         </StackPanel>
                                     </Grid>
                                 </TabItem>
