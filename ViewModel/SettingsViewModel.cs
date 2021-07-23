@@ -1,4 +1,5 @@
-﻿using GolemUI.Interfaces;
+﻿using GolemUI.Claymore;
+using GolemUI.Interfaces;
 using GolemUI.Settings;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,7 @@ namespace GolemUI
             SaveData();
             bool allEnabled = true;
             string cards = "";
+            string niceness = "";
             foreach(var gpu in _benchmarkSettings?.liveStatus?.GPUs.ToList())
             {
                 if (!gpu.Value.IsEnabledByUser)
@@ -54,15 +56,19 @@ namespace GolemUI
                     if (cards != "")
                     {
                         cards += ",";
+                        niceness += ",";
                     }
                     cards += gpu.Value.gpuNo.ToString();
+                    niceness += gpu.Value.ClaymorePerformanceThrottling.ToString();
                 }
             }
             if (allEnabled)
             {
                 cards = "";
             }
-            BenchmarkService.StartBenchmark(cards, "", "", "");
+
+            ClaymoreLiveStatus? externalStatusCopy = (ClaymoreLiveStatus?)_benchmarkSettings?.liveStatus?.Clone();
+            BenchmarkService.StartBenchmark(cards, niceness, "", "", externalStatusCopy);
         }
         public void StopBenchmark()
         {
