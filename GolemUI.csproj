@@ -539,6 +539,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="UI\prepare.png" />
     <Resource Include="UI\init.png" />
     <Resource Include="UI\seed_phrase_1.png" />
     <Resource Include="UI\Icons\Dashboard\Status\error.png" />
