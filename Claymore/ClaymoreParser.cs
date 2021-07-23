@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace GolemUI.Claymore
 {
+
     public class ClaymoreGpuStatus : ICloneable
     {
         public int gpuNo { get; set; }
@@ -288,6 +289,7 @@ namespace GolemUI.Claymore
                     gpuInfo = this.GPUs[indexMap[baseIdx]];
                     gpuInfo.IsEnabledByUser = true;
                 }
+                gpuInfo.gpuNo = baseIdx;
                 newDictionary.Add(baseIdx, gpuInfo);
             }
 
