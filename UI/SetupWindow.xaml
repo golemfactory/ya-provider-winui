@@ -14,14 +14,13 @@
         mc:Ignorable="d"
         WindowStyle="None"  
     ResizeMode="CanResizeWithGrip"
-    
-    AllowsTransparency="True"
-    Background="Transparent"        
+    Background="Transparent"
+    AllowsTransparency="True"    
         Title="SetupWindow" Height="720" Width="1280" Icon="/GolemUI;component/Media/tray.ico" Loaded="Window_Loaded">
-    <!--Background="Transparent"-->
-    <Window.Background>
+    
+    <!--<Window.Background>
         <ImageBrush ImageSource="seed_phrase_2.png" Stretch="Uniform"></ImageBrush>
-    </Window.Background>
+    </Window.Background>-->
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
