@@ -15,7 +15,7 @@ namespace GolemUI.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var baseValue = value as DashboardStatusEnum?;
-            if (baseValue == null || baseValue==DashboardStatusEnum.Hidden)
+            if (baseValue == null || baseValue == DashboardStatusEnum.Hidden)
             {
                 return Visibility.Hidden;
             }

@@ -124,7 +124,7 @@ namespace GolemUI.Src
                 while (!cc.BenchmarkFinished && IsRunning)
                 {
                     _claymoreLiveStatus = cc.ClaymoreParserBenchmark.GetLiveStatusCopy();
-                    
+
                     bool allExpectedGPUsFound = false;
                     if (baseLiveStatus != null)
                     {

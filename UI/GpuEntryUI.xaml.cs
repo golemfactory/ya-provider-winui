@@ -124,7 +124,7 @@ namespace GolemUI
 
         private void cbEnableMining_Changed(object sender, RoutedEventArgs e)
         {
-            
+
         }
     }
 }

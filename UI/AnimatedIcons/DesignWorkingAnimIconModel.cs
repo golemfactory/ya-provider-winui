@@ -29,13 +29,13 @@ namespace GolemUI.UI.AnimatedIcons
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public double EllipseWidth {get;}
+        public double EllipseWidth { get; }
         public double EllipseHeight { get; }
 
         public DesignWorkingAnimIconModel()
         {
-            _circles.Add( new EllipseData() { EllipseHeight = 20, EllipseWidth = 20, EllipsePosX = 0, EllipsePosY = 30 } );
-            _circles.Add( new EllipseData() { EllipseHeight = 10, EllipseWidth = 10, EllipsePosX = 40, EllipsePosY = 40 } );
+            _circles.Add(new EllipseData() { EllipseHeight = 20, EllipseWidth = 20, EllipsePosX = 0, EllipsePosY = 30 });
+            _circles.Add(new EllipseData() { EllipseHeight = 10, EllipseWidth = 10, EllipsePosX = 40, EllipsePosY = 40 });
 
 
 

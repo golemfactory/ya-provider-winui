@@ -69,14 +69,14 @@ namespace GolemUI.UI.AnimatedIcons
         {
             InitializeComponent();
 
-            
+
             this.DataContext = new DesignWorkingAnimIconModel();
 
             IsVisibleChanged += OnVisibleChanged;
 
             _animationTimer = new DispatcherTimer(DispatcherPriority.ContextIdle, Dispatcher);
             _animationTimer.Interval = TimeSpan.FromMilliseconds(1000.0 / AnimationFPS);
-            
+
             for (int i = 0; i < CircleCount; i++)
             {
                 var ellipse = new Ellipse();
@@ -111,7 +111,7 @@ namespace GolemUI.UI.AnimatedIcons
         }
 
         private void UpdateAnimTick()
-        {            
+        {
             double _ellipseMaxSizeX = cvAnim.ActualWidth / _circles.Count;
             double _ellipseMaxSizeY = cvAnim.ActualHeight / 2.0;
 

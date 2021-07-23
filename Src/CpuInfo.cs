@@ -9,7 +9,7 @@ namespace GolemUI.Src
     public enum CpuCountMode { Cores, Threads };
     public static class CpuInfo
     {
-       
+
         public static int GetCpuCount(CpuCountMode mode)
         {
 

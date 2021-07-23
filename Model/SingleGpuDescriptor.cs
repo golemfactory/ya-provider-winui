@@ -39,7 +39,7 @@ namespace GolemUI
                 NotifyChange("Hashrate");
             }
         }
-        
+
 
         public string? Name
         {
@@ -104,9 +104,9 @@ namespace GolemUI
             }
         }
 
-        public string ClaymorePerformanceThrottlingDebug =>  "(debug: "+ClaymorePerformanceThrottling+") ";
+        public string ClaymorePerformanceThrottlingDebug => "(debug: " + ClaymorePerformanceThrottling + ") ";
 
-       public PerformanceThrottlingEnum SelectedMiningMode
+        public PerformanceThrottlingEnum SelectedMiningMode
         {
             get
             {

@@ -62,7 +62,7 @@ namespace GolemUI.Claymore
 
         }
 
-        public ClaymoreGpuStatus(int gpuNo,bool isEnabledByUser,int claymorePerformanceThrottling)
+        public ClaymoreGpuStatus(int gpuNo, bool isEnabledByUser, int claymorePerformanceThrottling)
         {
             this.IsEnabledByUser = isEnabledByUser;
             this.ClaymorePerformanceThrottling = claymorePerformanceThrottling;
@@ -72,7 +72,7 @@ namespace GolemUI.Claymore
 
         public object Clone()
         {
-            ClaymoreGpuStatus s = new ClaymoreGpuStatus(this.gpuNo,this.IsEnabledByUser,this.ClaymorePerformanceThrottling);
+            ClaymoreGpuStatus s = new ClaymoreGpuStatus(this.gpuNo, this.IsEnabledByUser, this.ClaymorePerformanceThrottling);
             s.gpuName = this.gpuName;
             s.OutOfMemory = this.OutOfMemory;
             s.GPUNotFound = this.GPUNotFound;
@@ -448,7 +448,7 @@ namespace GolemUI.Claymore
                     }
                 }
 
-                
+
                 if (lineText == "Fatal error detected")
                 {
                     _liveStatus.ErrorMsg = lineText;
@@ -466,7 +466,7 @@ namespace GolemUI.Claymore
                 {
                     if (!_liveStatus.GPUs.ContainsKey(gpuNo))
                     {
-                        _liveStatus.GPUs.Add(gpuNo, new ClaymoreGpuStatus(gpuNo,true,0));
+                        _liveStatus.GPUs.Add(gpuNo, new ClaymoreGpuStatus(gpuNo, true, 0));
                     }
                     currentStatus = _liveStatus.GPUs[gpuNo];
 
