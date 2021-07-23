@@ -47,6 +47,9 @@ jobs:
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v1.0.2
 
+      - name: Rx
+        run: msbuild -t:restore
+
       - name:  Restore obj folder
         run: msbuild GolemUI.csproj /t:Restore /p:Configuration=Release /p:RuntimeIdentifier=$env:RuntimeIdentifier
         env:
