@@ -47,14 +47,11 @@ jobs:
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v1.0.2
 
-      - name: Rx
-        run: msbuild -t:restore /p:Platform=x64 /p:Configuration=Release
+      - name: NuGet
+        run: nuget restore
 
-      - name:  Restore obj folder
-        run: msbuild GolemUI.csproj /t:Restore /p:Configuration=Release /p:RuntimeIdentifier=$env:RuntimeIdentifier
-        env:
-          Configuration: Release
-          RuntimeIdentifier: win-${{ matrix.targetplatform }}
+      - name: Restore obj folder
+        run: msbuild -t:restore /p:Platform=x64 /p:Configuration=Release
 
       - name: Build the Windows Application
         run: msbuild GolemUI.csproj /p:Platform=AnyCPU /p:Configuration=Release
