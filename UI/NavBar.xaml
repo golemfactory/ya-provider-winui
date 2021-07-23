@@ -21,7 +21,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal">
-        <ListBox Background="#000" Foreground="#aaa" ItemsSource="{Binding Path=Items, ElementName=uc}">
+        <ListBox Background="#000" Foreground="#aaa" Focusable="false"  IsHitTestVisible="False" ItemsSource="{Binding Path=Items, ElementName=uc}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Focusable" Value="False"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
             <d:ListBox.ItemsSource>
                 <d:DesignInstance IsDesignTimeCreatable="True" Type="{x:Type dlm:NavBarItems}"/>
             </d:ListBox.ItemsSource>

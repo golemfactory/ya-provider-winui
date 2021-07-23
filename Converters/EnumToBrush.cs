@@ -21,9 +21,9 @@ namespace GolemUI.Converters
 
         public EnumToBrush()
         {
-            InactiveBrush = new SolidColorBrush(Color.FromRgb(180, 180, 180));
-            RealizedBrush = new SolidColorBrush(Color.FromRgb(80, 200, 80)); ;
-            ActiveBrush = new SolidColorBrush(Color.FromRgb(200, 80, 80)); ;
+            InactiveBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9B9B9B"));
+            RealizedBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D119AD")); ;
+            ActiveBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1E9231")); ;
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
