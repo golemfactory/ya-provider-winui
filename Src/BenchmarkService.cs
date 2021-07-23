@@ -107,7 +107,7 @@ namespace GolemUI.Src
                 }
                 if (!benchmarkRecordingActive)
                 {
-                    bool result = cc.RunBenchmark("", "", poolAddr, walletAddress);
+                    bool result = cc.RunBenchmark(cards, "", poolAddr, walletAddress);
                     if (!result)
                     {
                         _claymoreLiveStatus.GPUs.Clear();
@@ -123,6 +123,10 @@ namespace GolemUI.Src
                     OnPropertyChanged("Status");
                     OnPropertyChanged("TotalMhs");
                     if (_claymoreLiveStatus.NumberOfClaymorePerfReports >= _claymoreLiveStatus.TotalClaymoreReportsBenchmark)
+                    {
+                        break;
+                    }
+                    if (_claymoreLiveStatus.GPUInfosParsed && _claymoreLiveStatus.GPUs.Count == 0)
                     {
                         break;
                     }
