@@ -37,8 +37,6 @@ jobs:
       # Install the .NET Core workload
       - name: Install .NET Core
         uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.302'
 
       - name: Install formater
         run: dotnet tool install -g dotnet-format
@@ -50,13 +48,13 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
 
       - name:  Restore obj folder
-        run: msbuild $env:Solution_Path /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
+        run: msbuild GolemUI.csproj /t:Restore /p:Configuration=Release /p:RuntimeIdentifier=$env:RuntimeIdentifier
         env:
           Configuration: Release
           RuntimeIdentifier: win-${{ matrix.targetplatform }}
 
       - name: Build the Windows Application
-        run: msbuild $env:Solution_Path /p:Platform=$env:TargetPlatform /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:BuildMode
+        run: msbuild GolemUI.csproj /p:Platform=AnyCPU /p:Configuration=Release
         env:
           AppxBundle: Never
           BuildMode: SideloadOnly
@@ -67,4 +65,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: GolemUI
-          path: bin\Release\netcoreapp3.1\
+          path: bin\Release
