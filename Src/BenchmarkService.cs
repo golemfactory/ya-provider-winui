@@ -33,6 +33,9 @@ namespace GolemUI.Src
             }
             _requestStop = false;
 
+            ClaymoreLiveStatus? baseLiveStatus = null;
+
+
             DateTime benchmarkStartTime = DateTime.Now;
             var walletAddress = _providerConfig.Config?.Account ?? "0xD593411F3E6e79995E787b5f81D10e12fA6eCF04";
             var poolAddr = GlobalSettings.DefaultProxy;
@@ -88,6 +91,7 @@ namespace GolemUI.Src
                                 break;
                             }
                             _claymoreLiveStatus = cc.ClaymoreParserPreBenchmark.GetLiveStatusCopy();
+                            baseLiveStatus = _claymoreLiveStatus;
                             OnPropertyChanged("Status");
                             if (_claymoreLiveStatus.GPUInfosParsed)
                             {
@@ -107,7 +111,7 @@ namespace GolemUI.Src
                 }
                 if (!benchmarkRecordingActive)
                 {
-                    bool result = cc.RunBenchmark("", "", poolAddr, walletAddress);
+                    bool result = cc.RunBenchmark(cards, "", poolAddr, walletAddress);
                     if (!result)
                     {
                         _claymoreLiveStatus.GPUs.Clear();
@@ -120,9 +124,19 @@ namespace GolemUI.Src
                 while (!cc.BenchmarkFinished && IsRunning)
                 {
                     _claymoreLiveStatus = cc.ClaymoreParserBenchmark.GetLiveStatusCopy();
+                    
+                    bool allExpectedGPUsFound = false;
+                    if (baseLiveStatus != null)
+                    {
+                        _claymoreLiveStatus.MergeFromBaseLiveStatus(baseLiveStatus, cards, out allExpectedGPUsFound);
+                    }
                     OnPropertyChanged("Status");
                     OnPropertyChanged("TotalMhs");
                     if (_claymoreLiveStatus.NumberOfClaymorePerfReports >= _claymoreLiveStatus.TotalClaymoreReportsBenchmark)
+                    {
+                        break;
+                    }
+                    if (_claymoreLiveStatus.GPUInfosParsed && _claymoreLiveStatus.GPUs.Count == 0)
                     {
                         break;
                     }
@@ -134,6 +148,8 @@ namespace GolemUI.Src
                         OnPropertyChanged("Status");
                         break;
                     }
+
+
                 }
             }
             finally

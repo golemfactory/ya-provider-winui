@@ -15,13 +15,7 @@ namespace GolemUI.Converters
         {
             if (value is int)
             {
-                switch ((int)value)
-                {
-                    case 0: return "Maximum";
-                    case 5: return "Medium";
-                    case 10: return "Comfort";
-                    case 100: return "Minimum";
-                }
+                PerformanceThrottlingEnumConverter.ConvertToString((PerformanceThrottlingEnum)value);
             }
             return "";
         }
@@ -31,11 +25,7 @@ namespace GolemUI.Converters
         {
             if (value is string)
             {
-                string performanceThrottling = (string)value;
-                if (string.Compare(performanceThrottling, "Maximum", true) == 0) return 0;
-                if (string.Compare(performanceThrottling, "Medium", true) == 0) return 5;
-                if (string.Compare(performanceThrottling, "Comfort", true) == 0) return 10;
-                if (string.Compare(performanceThrottling, "Minimum", true) == 0) return 100;
+                return PerformanceThrottlingEnumConverter.FromString((string)value);
             }
             return 0;
         }

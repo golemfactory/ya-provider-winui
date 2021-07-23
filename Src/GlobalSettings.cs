@@ -170,6 +170,16 @@ namespace GolemUI.Settings
             }
         }
 
+        public static bool IsFirstRun()
+        {
+            string settingsFilePath = GetLocalSettingsPath();
+            if (!File.Exists(settingsFilePath))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static LocalSettings LoadSettingsFromFileOrDefault()
         {
             LocalSettings? settings = null;

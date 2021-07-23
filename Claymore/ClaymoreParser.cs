@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace GolemUI.Claymore
 {
+
     public class ClaymoreGpuStatus : ICloneable
     {
         public int gpuNo { get; set; }
@@ -27,10 +28,10 @@ namespace GolemUI.Claymore
         public string? GPUError { get; set; }
 
         //steps for view presentation (only one state is possible at the time)
-        public bool IsPreInitialization { get; private set; }
-        public bool IsInitialization { get; private set; }
-        public bool IsEstimation { get; private set; }
-        public bool IsFinished { get; private set; }
+        public bool IsPreInitialization { get; set; }
+        public bool IsInitialization { get; set; }
+        public bool IsEstimation { get; set; }
+        public bool IsFinished { get; set; }
 
         public void SetStepInitialization()
         {
@@ -39,6 +40,7 @@ namespace GolemUI.Claymore
             IsEstimation = false;
             IsFinished = false;
         }
+
         public void SetStepEstimation()
         {
             IsPreInitialization = false;
@@ -46,7 +48,6 @@ namespace GolemUI.Claymore
             IsEstimation = true;
             IsFinished = false;
         }
-
 
         public void SetStepFinished()
         {
@@ -56,6 +57,10 @@ namespace GolemUI.Claymore
             IsFinished = true;
         }
 
+        public ClaymoreGpuStatus()
+        {
+
+        }
 
         public ClaymoreGpuStatus(int gpuNo,bool isEnabledByUser,int claymorePerformanceThrottling)
         {
@@ -284,6 +289,7 @@ namespace GolemUI.Claymore
                     gpuInfo = this.GPUs[indexMap[baseIdx]];
                     gpuInfo.IsEnabledByUser = true;
                 }
+                gpuInfo.gpuNo = baseIdx;
                 newDictionary.Add(baseIdx, gpuInfo);
             }
 
@@ -415,10 +421,17 @@ namespace GolemUI.Claymore
                 }
 
                 string lineText = line;
-                //output contains spelling error avaiable instead of available, checking for boths:
+
                 if (lineText == null)
                     return;
 
+                //output contains spelling error avaiable instead of available:
+                if (ContainsInStrEx(lineText, "No avaiable GPUs for mining") || ContainsInStrEx(lineText, "No available GPUs for mining"))
+                {
+                    _liveStatus.GPUInfosParsed = true;
+                    _liveStatus.BenchmarkFinished = true;
+                    return;
+                }
                 int gpuNo = -1;
                 string gpu_claymore_index = "";
                 ClaymoreGpuStatus? currentStatus = null;
@@ -435,6 +448,7 @@ namespace GolemUI.Claymore
                     }
                 }
 
+                
                 if (lineText == "Fatal error detected")
                 {
                     _liveStatus.ErrorMsg = lineText;

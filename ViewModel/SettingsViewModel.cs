@@ -40,7 +40,29 @@ namespace GolemUI
         }
         public void StartBenchmark()
         {
-            BenchmarkService.StartBenchmark("", "", "", "");
+            SaveData();
+            bool allEnabled = true;
+            string cards = "";
+            foreach(var gpu in _benchmarkSettings?.liveStatus?.GPUs.ToList())
+            {
+                if (!gpu.Value.IsEnabledByUser)
+                {
+                    allEnabled = false;
+                }
+                else
+                {
+                    if (cards != "")
+                    {
+                        cards += ",";
+                    }
+                    cards += gpu.Value.gpuNo.ToString();
+                }
+            }
+            if (allEnabled)
+            {
+                cards = "";
+            }
+            BenchmarkService.StartBenchmark(cards, "", "", "");
         }
         public void StopBenchmark()
         {
@@ -72,6 +94,7 @@ namespace GolemUI
         }
         public void SaveData()
         {
+            
             GpuList?.ToList().ForEach(gpu =>
             {
                 if (IsBenchmarkSettingsCorrupted()) return;
@@ -126,6 +149,12 @@ namespace GolemUI
                 NotifyChange("BenchmarkReadyToRun");
                 NotifyChange("BenchmarkIsRunning");
                 NotifyChange("ExpectedProfit");
+
+                if (!BenchmarkIsRunning)
+                {
+                    _benchmarkService.Save();
+                    _benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+                }
             }
         }
         public bool BenchmarkIsRunning => _benchmarkService.IsRunning;

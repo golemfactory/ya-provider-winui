@@ -68,7 +68,7 @@ namespace GolemUI
         private void OnStartup(object sender, StartupEventArgs e)
         {
             var args = e.Args;
-            if (args.Length > 0 && args[0] == "setup")
+            if ((args.Length > 0 && args[0] == "setup") || SettingsLoader.IsFirstRun())
             {
                 var window = _serviceProvider.GetRequiredService<UI.SetupWindow>();
                 window.Show();
