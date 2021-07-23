@@ -16,7 +16,7 @@
     ResizeMode="CanResizeWithGrip"
     
     AllowsTransparency="True"
-      
+    Background="Transparent"        
         Title="SetupWindow" Height="720" Width="1280" Icon="/GolemUI;component/Media/tray.ico" Loaded="Window_Loaded">
     <!--Background="Transparent"-->
     <Window.Background>
