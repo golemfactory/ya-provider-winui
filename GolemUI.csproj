@@ -539,6 +539,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="UI\init.png" />
     <Resource Include="UI\seed_phrase_1.png" />
     <Resource Include="UI\Icons\Dashboard\Status\error.png" />
     <Resource Include="UI\Icons\Settings\CPU_icon_new.png" />
@@ -570,6 +571,7 @@
     <Resource Include="Media\SetV1\Nav_Wallet_icon.svg" />
     <Resource Include="Media\golem.ico" />
     <Resource Include="Media\Screenshots\seed_phrase_1.png" />
+    <Resource Include="Media\Screenshots\init.png" />
     <Content Include="Media\SetV1\Onboarding\Create_wallet.svg" />
     <Content Include="Media\SetV1\Onboarding\Enjoy.svg" />
     <Content Include="Media\SetV1\Onboarding\Hash_power.svg" />

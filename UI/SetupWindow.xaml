@@ -20,7 +20,7 @@
         Title="SetupWindow" Height="720" Width="1280" Icon="/GolemUI;component/Media/tray.ico" Loaded="Window_Loaded">
     <!--Background="Transparent"-->
     <Window.Background>
-        <ImageBrush ImageSource="seed_phrase_1.png" Stretch="Uniform"></ImageBrush>
+        <ImageBrush ImageSource="init.png" Stretch="Uniform"></ImageBrush>
     </Window.Background>
     <Window.Resources>
         <ResourceDictionary>
@@ -152,7 +152,7 @@
                     </DataTemplate>
                     <ControlTemplate x:Key="ValidationTemplate">
                         <DockPanel>
-                            <TextBlock Foreground="Red" FontSize="16" Margin="4" FontFamily="Arial Black">!</TextBlock>
+                            <TextBlock Foreground="Red" FontSize="16" Margin="4" FontFamily="Segoe UI Black">!</TextBlock>
                             <AdornedElementPlaceholder/>
                         </DockPanel>
                     </ControlTemplate>
@@ -212,18 +212,20 @@
                     <TabItem Header="Start">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="3.8*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="{Binding Path=IsDesingMode, Converter={StaticResource BoolToHeightConverter}}"/>
+                                <RowDefinition Height="84"/>
+                                <RowDefinition Height="2.3*"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Label FontSize="16" FontWeight="Bold" Margin="0, 50">Choose your path</Label>
-                            <UniformGrid Columns="2" Rows="1" Grid.Row="1">
-                                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8" VerticalAlignment="Stretch">
-                                    <StackPanel Margin="32">
+                        
+                            <Label FontSize="17" FontWeight="Bold" Margin="4,0,0,50" Grid.Row="1">Choose your path</Label>
+                            <UniformGrid Columns="2" Rows="1" Grid.Row="2">
+                                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8" VerticalAlignment="Stretch" >
+                                    <StackPanel Margin="24">
                                         <Label FontFamily="Segoe UI Black" FontSize="14">I wish To Learn</Label>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -231,9 +233,9 @@
                                                 <ColumnDefinition Width="3*"/>
                                             </Grid.ColumnDefinitions>
                                             <ContentControl Content="{DynamicResource Whish_to_learn_icon}" Margin="2, 16"/>
-                                            <StackPanel Grid.Column="1" Margin="28, 8">
-                                                <TextBlock FontFamily="Arial" FontSize="12" Margin="8">Choose this option if you would like us to guide you trough the process step by step and help you learn about safety</TextBlock>
-                                                <Button Style="{DynamicResource GradientButtonStyle}" Margin="8" MinHeight="32" Content="I Want to Learn" Click="WantToLearn_Click"/>
+                                            <StackPanel Grid.Column="1" Margin="28, 8,4,0">
+                                                <TextBlock FontFamily="Segoe Ui" FontSize="13" Margin="8">Choose this option if you would like us to guide you trough the process step by step and help you learn about safety</TextBlock>
+                                                <Button VerticalAlignment="Bottom" Style="{DynamicResource GradientButtonStyle}" Margin="8,30,8,0" MinHeight="42" Content="I Want to Learn" Click="WantToLearn_Click"/>
                                             </StackPanel>
                                         </Grid>
                                         <StackPanel Orientation="Horizontal">
@@ -244,19 +246,19 @@
                                     </StackPanel>
                                 </Border>
                                 <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8" VerticalAlignment="Stretch">
-                                    <StackPanel Margin="32">
+                                    <StackPanel Margin="22">
                                         <Label FontFamily="Segoe UI Black" FontSize="14">I’m quite experienced</Label>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="1.4*"/>
                                                 <ColumnDefinition Width="3*"/>
                                             </Grid.ColumnDefinitions>
-                                            <ContentControl Content="{DynamicResource i_em_expert_icon}" Margin="2, 16"/>
-                                            <StackPanel Grid.Column="1" Margin="28, 8">
-                                                <TextBlock FontFamily="Arial" FontSize="12" Margin="8" MinHeight="70">
+                                            <ContentControl Content="{DynamicResource i_em_expert_icon}" VerticalAlignment="Top" Margin="10,14,0,0"/>
+                                            <StackPanel Grid.Column="1" Margin="12, 14,0,0">
+                                                <TextBlock FontFamily="Segoe UI" FontSize="13" Margin="8" MinHeight="70">
                                                 You should know what you are doing and you own your own cryoto wallet allready.
                                                 </TextBlock>
-                                                <Button Style="{DynamicResource GradientButtonStyle}" Margin="8" MinHeight="32" Content="I'm an expert" Click="ExpertMode_Click"/>
+                                                <Button VerticalAlignment="Bottom" Style="{DynamicResource GradientButtonStyle}" Margin="8,25,8,0" MinHeight="42" Content="I'm an expert" Click="ExpertMode_Click"/>
                                             </StackPanel>
                                         </Grid>
                                     </StackPanel>
@@ -292,10 +294,10 @@
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Prepare_Step_icon}" Margin="20"/>
                                         <StackPanel Width="400" Margin="50" Grid.Column="1">
-                                            <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="0, 0, 0 15">We will create a wallet for you</TextBlock>
-                                            <TextBlock FontFamily="Arial" FontSize="14">You will need</TextBlock>
-                                            <TextBlock FontFamily="Arial" FontSize="14" FontWeight="Bold" Margin="0, 10">- Pen and Paper</TextBlock>
-                                            <TextBlock FontFamily="Arial" FontSize="14" FontWeight="Bold" Margin="0, 10">- or active printer</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="0, 0, 0 15">We will create a wallet for you</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="14">You will need</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="14" FontWeight="Bold" Margin="0, 10">- Pen and Paper</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="14" FontWeight="Bold" Margin="0, 10">- or active printer</TextBlock>
                                             <UniformGrid Margin="10, 30" Rows="1">
                                                 <Button Content="Cancel" Margin="8" HorizontalAlignment="Stretch" Style="{DynamicResource CancelButtonStyle}" Click="OnCancelNoobFlow"/>
                                                 <Button Content="Got It!" Margin="8" HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep1">
@@ -343,7 +345,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Print_Step_icon}" Margin="20,20,20,46"/>
                                         <StackPanel Width="400" Margin="80,50,79,7" Grid.Column="1">
-                                            <TextBlock FontFamily="Arial" FontSize="22" FontWeight="Bold" Margin="0, 0, 0 15">Write down this words</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Margin="0, 0, 0 15">Write down this words</TextBlock>
                                             <ItemsControl ItemsSource="{Binding MnemonicWords}" AlternationCount="12">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
@@ -384,7 +386,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="20,20,20,46"/>
                                         <StackPanel MaxWidth="400" Margin="50,50,79,7" Grid.Column="1">
-                                            <TextBlock FontFamily="Arial" FontSize="22" FontWeight="Bold" Margin="20, 0, 0 15">Name your node</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Margin="20, 0, 0 15">Name your node</TextBlock>
                                             <TextBox ToolTip="Give your node a name" Margin="20, 40" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Text="{Binding NodeName}"/>
                                             <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep4Next"
                                             />
@@ -408,7 +410,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <ContentControl Content="{DynamicResource Benchmark_Step_icon}" Margin="20,20,20,46"/>
                                         <StackPanel MinWidth="400" Margin="20,40" Grid.Column="1" HorizontalAlignment="Stretch">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 0" VerticalAlignment="Center">Calculating your hash power</TextBlock>
+                                                <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 0" VerticalAlignment="Center">Calculating your hash power</TextBlock>
                                                 <animated:WorkingAnimIcon VerticalAlignment="Center"
                                                  Height="15"
                                                  AnimationFPS="60"
@@ -457,7 +459,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="20,20,20,46"/>
                                         <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
-                                            <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 10">Enjoy!</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 10">Enjoy!</TextBlock>
                                             <StackPanel Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 0, 0, 10">
                                                 <ContentPresenter Content="{StaticResource Status_Card_error}" Margin="0, 0, 0, 0"/>
                                                 <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorStyle}" TextWrapping="Wrap" Width="300" Text="{Binding BenchmarkError}" Margin="5, 0, 0, 0" VerticalAlignment="Center"></TextBox>
@@ -500,7 +502,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" FontFamily="Arial" FontWeight="Bold" FontSize="18" Margin="60, 0">
+                            <TextBlock Grid.Row="0" Grid.Column="0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="18" Margin="60, 0">
                             Decide if you would like to:
                             </TextBlock>
                             <UniformGrid Grid.Row="1" Grid.Column="0" Columns="2" Rows="1">
@@ -579,7 +581,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="20,20,20,46"/>
                                         <StackPanel MaxWidth="400" Margin="50,50,79,7" Grid.Column="1">
-                                            <TextBlock FontFamily="Arial" FontSize="22" FontWeight="Bold" Margin="20, 0, 0 15">Name your node</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Margin="20, 0, 0 15">Name your node</TextBlock>
                                             <TextBox ToolTip="Give your node a name" Margin="20, 40" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Text="{Binding NodeName}"/>
                                             <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnEMNameStepDone"
                                             />
@@ -602,7 +604,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Benchmark_Step_icon}" Margin="20,20,20,46"/>
                                         <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
-                                            <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Calculating your hash power</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Calculating your hash power</TextBlock>
                                             <UniformGrid Rows="1" Columns="2">
                                                 <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
                                                     <ListBox.ItemsPanel>
@@ -639,7 +641,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="20,20,20,46"/>
                                         <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
-                                            <TextBlock FontFamily="Arial" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Enjoy!</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Enjoy!</TextBlock>
                                             <Label Grid.Column="1" Content="{Binding BenchmarkError}" Margin="20, 0, 0 15"></Label>
                                             <UniformGrid Rows="1" Columns="2">
                                                 <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
