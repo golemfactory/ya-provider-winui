@@ -46,7 +46,7 @@ namespace GolemUI
             string cards = "";
 
             string niceness = "";
-            foreach(var gpu in _benchmarkSettings?.liveStatus?.GPUs.ToList())
+            foreach (var gpu in _benchmarkSettings?.liveStatus?.GPUs.ToList())
             {
                 if (!gpu.Value.IsEnabledByUser)
                 {
