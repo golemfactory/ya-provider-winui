@@ -257,7 +257,8 @@ namespace GolemUI
         }
         private KeyInfo StartupYagna(string? privateKey = null)
         {
-            _yagnaDaemon = _yagna.Run(new YagnaStartupOptions() { 
+            _yagnaDaemon = _yagna.Run(new YagnaStartupOptions()
+            {
                 ForceAppKey = _generatedAppKey.Value,
                 OpenConsole = Properties.Settings.Default.StartYagnaCommandLine,
                 PrivateKey = privateKey
@@ -273,7 +274,8 @@ namespace GolemUI
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _generatedAppKey.Value);
 
             //yagna is starting and /me won't work until all services are running
-            for (int tries = 0; tries < 300; ++tries) { 
+            for (int tries = 0; tries < 300; ++tries)
+            {
                 if (_yagnaDaemon.HasExited)
                 {
                     break;
@@ -281,7 +283,7 @@ namespace GolemUI
 
                 try
                 {
-                    var response = _client.GetAsync($"{_baseUrl}/me").Result;  
+                    var response = _client.GetAsync($"{_baseUrl}/me").Result;
                     if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                     {
                         break;
@@ -498,7 +500,7 @@ namespace GolemUI
             return true;
         }
 
-      
+
     }
 
 

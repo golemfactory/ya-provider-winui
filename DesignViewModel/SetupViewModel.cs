@@ -14,7 +14,7 @@ namespace GolemUI.DesignViewModel
 
         public int NoobStep { get; set; }
 
-        public string[]? MnemonicWords { get; set; } = new string[] { "Bulb", "Flower", "Bump", "Thick","Leaf","Yeah","Neon" };
+        public string[]? MnemonicWords { get; set; } = new string[] { "Bulb", "Flower", "Bump", "Thick", "Leaf", "Yeah", "Neon" };
 
         public Claymore.ClaymoreGpuStatus[] GPUs { get; set; }
 

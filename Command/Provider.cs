@@ -206,7 +206,7 @@ namespace GolemUI.Command
         }
         public void UpdateDefaultProfile(String param, String value)
         {
-            this.ExecToText("profile update "+param +" "+value+" default");
+            this.ExecToText("profile update " + param + " " + value + " default");
         }
 
         public IList<string> ActivePresets

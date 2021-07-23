@@ -13,7 +13,7 @@ namespace GolemUI
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-       
+
         private readonly Command.Provider _provider;
         private readonly IProviderConfig? _providerConfig;
         private readonly IPriceProvider? _priceProvider;
@@ -23,7 +23,7 @@ namespace GolemUI
         public Src.BenchmarkService BenchmarkService => _benchmarkService;
         public ObservableCollection<SingleGpuDescriptor>? GpuList { get; set; }
 
-        private int _activeCpusCount=0;
+        private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
         public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator)
         {
@@ -44,6 +44,7 @@ namespace GolemUI
             SaveData();
             bool allEnabled = true;
             string cards = "";
+
             string niceness = "";
             foreach(var gpu in _benchmarkSettings?.liveStatus?.GPUs.ToList())
             {
@@ -100,7 +101,7 @@ namespace GolemUI
         }
         public void SaveData()
         {
-            
+
             GpuList?.ToList().ForEach(gpu =>
             {
                 if (IsBenchmarkSettingsCorrupted()) return;
@@ -124,25 +125,25 @@ namespace GolemUI
             {
                 var _newGpus = _benchmarkService.Status?.GPUs.Values?.ToArray();
                 //  if (_newGpus.Length == 0) return;
-                if (_benchmarkService.Status?.GPUInfosParsed==true)
-                if (_newGpus != null)
-                {
-                    for (var i = 0; i < _newGpus.Length; ++i)
+                if (_benchmarkService.Status?.GPUInfosParsed == true)
+                    if (_newGpus != null)
                     {
-                        if (i < GpuList.Count)
+                        for (var i = 0; i < _newGpus.Length; ++i)
                         {
-                            GpuList[i] = new SingleGpuDescriptor(_newGpus[i], GpuList[i].IsActive, GpuList[i].ClaymorePerformanceThrottling);
+                            if (i < GpuList.Count)
+                            {
+                                GpuList[i] = new SingleGpuDescriptor(_newGpus[i], GpuList[i].IsActive, GpuList[i].ClaymorePerformanceThrottling);
+                            }
+                            else
+                            {
+                                GpuList.Add(new SingleGpuDescriptor(_newGpus[i]));
+                            }
                         }
-                        else
+                        while (_newGpus.Length < GpuList.Count)
                         {
-                            GpuList.Add(new SingleGpuDescriptor(_newGpus[i]));
+                            GpuList.RemoveAt(GpuList.Count - 1);
                         }
                     }
-                    while (_newGpus.Length < GpuList.Count)
-                    {
-                        GpuList.RemoveAt(GpuList.Count - 1);
-                    }
-                }
 
                 NotifyChange("GpuList"); // ok 
                 NotifyChange("HashRate");
@@ -168,7 +169,7 @@ namespace GolemUI
 
         public bool IsMiningActive
         {
-            get => _providerConfig?.IsMiningActive??false;
+            get => _providerConfig?.IsMiningActive ?? false;
             set
             {
                 _providerConfig.IsMiningActive = value;
@@ -176,7 +177,7 @@ namespace GolemUI
         }
         public bool IsCpuActive
         {
-            get => _providerConfig?.IsCpuActive??false;
+            get => _providerConfig?.IsCpuActive ?? false;
             set
             {
                 _providerConfig.IsCpuActive = value;
@@ -230,7 +231,7 @@ namespace GolemUI
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-       
+
         public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

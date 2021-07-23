@@ -67,10 +67,10 @@ namespace GolemUI.Src
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public int ActiveCpuCount => _provider?.DefaultProfile?.CpuThreads ?? 0;
-       
+
         public void UpdateActiveCpuThreadsCount(int threadsCount)
         {
-            _provider.UpdateDefaultProfile("--cpu-threads", threadsCount.ToString());   
+            _provider.UpdateDefaultProfile("--cpu-threads", threadsCount.ToString());
         }
         public void UpdateNodeName(string? nodeName)
         {

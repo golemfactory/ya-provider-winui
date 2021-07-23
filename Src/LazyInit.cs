@@ -9,7 +9,7 @@ namespace GolemUI.Src
 {
     public class LazyInit<T>
     {
-        
+
 
         public LazyInit(Func<T> initFunc)
         {
@@ -32,6 +32,6 @@ namespace GolemUI.Src
         private T? _value;
 
         private Func<T>? _initFunc;
-        
+
     }
 }

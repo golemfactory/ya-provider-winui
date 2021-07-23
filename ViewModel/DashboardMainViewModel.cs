@@ -42,11 +42,11 @@ namespace GolemUI.ViewModel
 
         public void LoadData()
         {
-          
+
             var benchmark = SettingsLoader.LoadBenchmarkFromFileOrDefault();
-  
-            _enabledGpuCount = benchmark?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null && gpu.Value.IsReadyForMining && gpu.Value.IsEnabledByUser).Count()??0;
-            _totalGpuCount = benchmark?.liveStatus?.GPUs.ToList().Count()??0;
+
+            _enabledGpuCount = benchmark?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null && gpu.Value.IsReadyForMining && gpu.Value.IsEnabledByUser).Count() ?? 0;
+            _totalGpuCount = benchmark?.liveStatus?.GPUs.ToList().Count() ?? 0;
             _totalCpuCount = Src.CpuInfo.GetCpuCount(Src.CpuCountMode.Threads);
 
             var activeCpuCount = _providerConfig?.ActiveCpuCount ?? 0;
@@ -81,7 +81,7 @@ namespace GolemUI.ViewModel
         public int _enabledGpuCount;
         public int _enabledCpuCount;
 
-        public DashboardStatusEnum _status=DashboardStatusEnum.Ready;
+        public DashboardStatusEnum _status = DashboardStatusEnum.Ready;
         public DashboardStatusEnum Status
         {
             get => _status;
@@ -111,7 +111,7 @@ namespace GolemUI.ViewModel
         }
 
 
-        public int TotalCpuCount =>_totalCpuCount;
+        public int TotalCpuCount => _totalCpuCount;
         public int TotalGpuCount => _totalGpuCount;
         public int EnabledCpuCount => _enabledCpuCount;
         public int EnabledGpuCount => _enabledGpuCount;

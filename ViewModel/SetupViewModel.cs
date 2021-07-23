@@ -183,7 +183,7 @@ namespace GolemUI.ViewModel
             {
                 _providerConfig.UpdateWalletAddress(address);
                 NoobStep = (int)NoobSteps.Name;
-            }            
+            }
         }
 
         public float? TotalHashRate => _benchmarkService.TotalMhs;

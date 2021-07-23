@@ -14,7 +14,7 @@ namespace GolemUI.DesignViewModel
 
         public MockupUsageDescriptionViewModel()
         {
-          
+
         }
     }
 }

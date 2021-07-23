@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace GolemUI
 {
-    public enum PerformanceThrottlingEnum 
-    { 
-        Maximum = 0, 
-        Medium = 5, 
-        Comfort = 10, 
-        Minimum = 100 
+    public enum PerformanceThrottlingEnum
+    {
+        Maximum = 0,
+        Medium = 5,
+        Comfort = 10,
+        Minimum = 100
     };
 
     static class PerformanceThrottlingEnumConverter

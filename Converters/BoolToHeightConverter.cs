@@ -19,8 +19,8 @@ namespace GolemUI.Converters
             {
                 return false;
             }
-            return baseValue==true ? 0 : 20;
-               
+            return baseValue == true ? 0 : 20;
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
