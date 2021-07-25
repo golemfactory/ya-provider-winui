@@ -545,17 +545,17 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                 <TabItem Header="Wallet">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*" MinWidth="275"/>
                                             <ColumnDefinition Width="3*"/>
                                            
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
+                                            <RowDefinition />
+                                    
                                         </Grid.RowDefinitions>
-                                        <TextBlock FontSize="18" FontWeight="Bold" Margin="40, 40" Grid.Column="1">Use only Ethereum address</TextBlock>
-                                        <ContentControl Content="{StaticResource Use_my_wallet_icon}" Grid.Row="1" Margin="40"/>
-                                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="40" VerticalAlignment="Center">
+                                        <TextBlock FontSize="18" FontWeight="Bold" Margin="40,40,40,20" Grid.Column="1">Use only Ethereum address</TextBlock>
+                                        <ContentControl Content="{StaticResource Use_my_wallet_icon}" Grid.Row="0" Grid.RowSpan="2" Margin="6,20,0,0" VerticalAlignment="Top"/>
+                                        <StackPanel Grid.Column="1" Margin="40,80,40,60" VerticalAlignment="Top">
                                             <TextBlock Foreground="#aaa">Paste your Ethereum address</TextBlock>
                                             <TextBox Name="TxtAddress" Grid.Column="1" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
                                  Margin="8" Padding="2" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff"
@@ -568,8 +568,9 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     </Binding>
                                                 </TextBox.Text>
                                             </TextBox>
-                                            <Button Style="{StaticResource GradientButtonStyle}" Margin="0, 30" MinHeight="42" Click="OnEMWalletStepDone">Next</Button>
+
                                         </StackPanel>
+                                        <Button Grid.Column="1" VerticalAlignment="Bottom" Style="{StaticResource GradientButtonStyle}" Margin="50, 30" MinHeight="44" Click="OnEMWalletStepDone">Next</Button>
                                     </Grid>
                                 </TabItem>
                                 <TabItem Header="Name">
@@ -577,37 +578,38 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" MinWidth="275"/>
                                             <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="*"/>
+                                           
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="64"/>
-                                            <RowDefinition Height="*"/>
+                                           
+                                           
                                         </Grid.RowDefinitions>
-                                        <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="20,20,20,46"/>
-                                        <StackPanel MaxWidth="400" Margin="50,50,79,7" Grid.Column="1">
-                                            <TextBlock FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Margin="20, 0, 0 15">Name your node</TextBlock>
-                                            <TextBox ToolTip="Give your node a name" Margin="20, 40" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Text="{Binding NodeName}"/>
-                                            <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnEMNameStepDone"
-                                            />
+                                        <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="6,20,0,0"/>
+                                        <TextBlock FontSize="22" FontWeight="Bold" Margin="50, 40" Grid.Column="1">Name your node</TextBlock>
+                                        <StackPanel  Margin="50,70,50,7" Grid.Column="1">
+                                           
+                                            <TextBox ToolTip="Give your node a name" Margin="0, 40" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Text="{Binding NodeName}"/>
+                                            
                                         </StackPanel>
-
-                                        <Label Grid.Row="2" Grid.ColumnSpan="3" Margin="10"/>
+                                        <Button VerticalAlignment="Bottom" Grid.Column="1" Style="{StaticResource GradientButtonStyle}" Margin="50, 30" Height="44" IsDefault="True" Click="OnEMNameStepDone"
+                                            >Next</Button>
+                                       
                                     </Grid>
                                 </TabItem>
                                 <TabItem Header="Benchmark">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" MinWidth="275"/>
-                                            <ColumnDefinition Width="6*"/>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                           
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="64"/>
-                                            <RowDefinition Height="*"/>
+                                            
                                         </Grid.RowDefinitions>
-                                        <ContentControl Content="{DynamicResource Benchmark_Step_icon}" Margin="20,20,20,46"/>
+                                        <ContentControl VerticalAlignment="Top" Content="{DynamicResource Benchmark_Step_icon}" Margin="6,20,0,0"/>
                                         <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
                                             <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Calculating your hash power</TextBlock>
                                             <UniformGrid Rows="1" Columns="2">
@@ -636,15 +638,14 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" MinWidth="275"/>
-                                            <ColumnDefinition Width="6*"/>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="64"/>
-                                            <RowDefinition Height="*"/>
+                                        
                                         </Grid.RowDefinitions>
-                                        <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="20,20,20,46"/>
+                                        <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top"/>
                                         <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
                                             <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Enjoy!</TextBlock>
                                             <Label Grid.Column="1" Content="{Binding BenchmarkError}" Margin="20, 0, 0 15"></Label>
