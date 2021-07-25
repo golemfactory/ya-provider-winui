@@ -350,7 +350,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             <RowDefinition Height="44"/>
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Print_Step_icon}" Margin="6,20,0,10" VerticalAlignment="Top" HorizontalContentAlignment="Stretch"/>
-                                        <StackPanel Width="400" Margin="40,23,79,0" Grid.Column="1">
+                                        <StackPanel Width="500" Margin="70,23,79,0" Grid.Column="1">
                                             <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">Write down this words</TextBlock>
                                             <ItemsControl ItemsSource="{Binding MnemonicWords}" AlternationCount="12">
                                                 <ItemsControl.ItemTemplate>
@@ -373,7 +373,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </StackPanel>
                                         <Button Content="Got them all"  Height="44" VerticalAlignment="Bottom" Margin="70,0 ,0,0"  HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" IsDefault="True" Click="OnWTLStep3Next"
                                             Grid.Row="1" Grid.Column="1"/>
-                                        <Button Content="Print" Height="44" VerticalAlignment="Bottom" Margin="28,0,28,0" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep3Print"
+                                        <Button Content="Print" Height="44" VerticalAlignment="Bottom" Margin="0,0,0,0" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep3Print"
                                             Grid.Row="1" Grid.Column="0" />
                                         
                                     </Grid>
@@ -462,8 +462,8 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             <RowDefinition Height="64"/>
                                            
                                         </Grid.RowDefinitions>
-                                        <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="20,20,20,46"/>
-                                        <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
+                                        <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top"/>
+                                        <StackPanel MinWidth="400" Margin="20,40" Grid.Column="1" HorizontalAlignment="Stretch">
                                             <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 10">Enjoy!</TextBlock>
                                             <StackPanel Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 0, 0, 10">
                                                 <ContentPresenter Content="{StaticResource Status_Card_error}" Margin="0, 0, 0, 0"/>
@@ -545,15 +545,15 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                 <TabItem Header="Wallet">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="2*"/>
                                             <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                           
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
-                                        <TextBlock FontSize="18" FontWeight="Bold" Margin="40, 40" Grid.ColumnSpan="2">Use only Ethereum address</TextBlock>
+                                        <TextBlock FontSize="18" FontWeight="Bold" Margin="40, 40" Grid.Column="1">Use only Ethereum address</TextBlock>
                                         <ContentControl Content="{StaticResource Use_my_wallet_icon}" Grid.Row="1" Margin="40"/>
                                         <StackPanel Grid.Row="1" Grid.Column="1" Margin="40" VerticalAlignment="Center">
                                             <TextBlock Foreground="#aaa">Paste your Ethereum address</TextBlock>
