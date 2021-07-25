@@ -21,9 +21,9 @@ namespace GolemUI
 
     public enum NavigationType
     {
-        NavigationType1,
-        NavigationType2,
-        NavigationType3,
+        Type1,
+        Type2,
+        Type3,
 
     }
 
@@ -37,7 +37,7 @@ namespace GolemUI
             InitializeComponent();
 
 
-            SetActiveNavigationType(NavigationType.NavigationType1);
+            SetActiveNavigationType(NavigationType.Type1);
         }
 
 
@@ -50,12 +50,12 @@ namespace GolemUI
 
         public void SetActiveNavigationType(NavigationType navigationType)
         {
-            if (navigationType == NavigationType.NavigationType1)
+            if (navigationType == NavigationType.Type1)
             {
                 brdNavigationType1.Visibility = Visibility.Visible;
                 brdNavigationType2.Visibility = Visibility.Collapsed;
             }
-            if (navigationType == NavigationType.NavigationType2)
+            if (navigationType == NavigationType.Type2)
             {
                 brdNavigationType1.Visibility = Visibility.Collapsed;
                 brdNavigationType2.Visibility = Visibility.Visible;
@@ -95,12 +95,12 @@ namespace GolemUI
 
         private void btnReady_Click(object sender, RoutedEventArgs e)
         {
-            GlobalApplicationState.Instance.Dashboard?.SwitchPage(DashboardPages.PageDashboardMain);
+            GlobalApplicationState.Instance?.Dashboard?.SwitchPage(DashboardPages.PageDashboardMain);
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            GlobalApplicationState.Instance.Dashboard?.SwitchPageBack();
+            GlobalApplicationState.Instance?.Dashboard?.SwitchPageBack();
         }
     }
 }

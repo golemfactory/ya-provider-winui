@@ -20,14 +20,14 @@ namespace GolemUI
     /// </summary>
     public partial class GpuEntryUI : UserControl
     {
-        bool _supressEvent = true;
+        //bool _supressEvent = true;
         public bool ExtendedView { get; set; }
 
         public GpuEntryUI()
         {
             InitializeComponent();
             //this.cbEnableMining.IsEnabled = false;
-            _supressEvent = false;
+            //_supressEvent = false;
 
             this.iconError.Visibility = Visibility.Collapsed;
             this.iconReady.Visibility = Visibility.Collapsed;
@@ -105,9 +105,9 @@ namespace GolemUI
         }
         public void SetEnableByUser(bool enable)
         {
-            _supressEvent = true;
+            //_supressEvent = true;
             //this.cbEnableMining.IsChecked = enable;
-            _supressEvent = false;
+            //_supressEvent = false;
             if (!enable)
             {
                 this.pbProgress.Foreground = Brushes.Gray;

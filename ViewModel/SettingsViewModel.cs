@@ -59,7 +59,7 @@ namespace GolemUI
                         cards += ",";
                         niceness += ",";
                     }
-                    cards += gpu.Value.gpuNo.ToString();
+                    cards += gpu.Value.GpuNo.ToString();
                     niceness += gpu.Value.ClaymorePerformanceThrottling.ToString();
                 }
             }
@@ -105,7 +105,7 @@ namespace GolemUI
             GpuList?.ToList().ForEach(gpu =>
             {
                 if (IsBenchmarkSettingsCorrupted()) return;
-                var res = _benchmarkSettings?.liveStatus?.GPUs.ToList().Find(x => x.Value.gpuNo == gpu.Id);
+                var res = _benchmarkSettings?.liveStatus?.GPUs.ToList().Find(x => x.Value.GpuNo == gpu.Id);
                 if (res != null && res.HasValue && !res.Equals(default(KeyValuePair<int, Claymore.ClaymoreGpuStatus>)))
                 {
                     KeyValuePair<int, Claymore.ClaymoreGpuStatus> keyVal = res.Value;

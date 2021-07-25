@@ -24,6 +24,7 @@ namespace GolemUI
         {
             InitializeComponent();
 
+            if(GlobalApplicationState.Instance!=null)
             GlobalApplicationState.Instance.ProcessController.LineHandler += LogLine;
 
 #if DEBUG

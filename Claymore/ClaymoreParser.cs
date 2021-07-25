@@ -13,8 +13,8 @@ namespace GolemUI.Claymore
 
     public class ClaymoreGpuStatus : ICloneable
     {
-        public int gpuNo { get; set; }
-        public string? gpuName { get; set; }
+        public int GpuNo { get; set; }
+        public string? GpuName { get; set; }
         public int? PciExpressLane { get; set; }
         public bool OutOfMemory { get; set; }
         public bool GPUNotFound { get; set; }
@@ -66,14 +66,14 @@ namespace GolemUI.Claymore
         {
             this.IsEnabledByUser = isEnabledByUser;
             this.ClaymorePerformanceThrottling = claymorePerformanceThrottling;
-            this.gpuNo = gpuNo;
+            this.GpuNo = gpuNo;
             this.IsPreInitialization = true;
         }
 
         public object Clone()
         {
-            ClaymoreGpuStatus s = new ClaymoreGpuStatus(this.gpuNo, this.IsEnabledByUser, this.ClaymorePerformanceThrottling);
-            s.gpuName = this.gpuName;
+            ClaymoreGpuStatus s = new ClaymoreGpuStatus(this.GpuNo, this.IsEnabledByUser, this.ClaymorePerformanceThrottling);
+            s.GpuName = this.GpuName;
             s.OutOfMemory = this.OutOfMemory;
             s.GPUNotFound = this.GPUNotFound;
             s.BenchmarkSpeed = this.BenchmarkSpeed;
@@ -137,7 +137,7 @@ namespace GolemUI.Claymore
                 ClaymoreGpuStatus st = entry.Value;
                 if (st.BenchmarkSpeed > 0.1 && st.IsDagFinished() && st.IsEnabledByUser)
                 {
-                    result.Add(st.gpuNo);
+                    result.Add(st.GpuNo);
                 }
             }
             return result;
@@ -289,7 +289,7 @@ namespace GolemUI.Claymore
                     gpuInfo = this.GPUs[indexMap[baseIdx]];
                     gpuInfo.IsEnabledByUser = true;
                 }
-                gpuInfo.gpuNo = baseIdx;
+                gpuInfo.GpuNo = baseIdx;
                 newDictionary.Add(baseIdx, gpuInfo);
             }
 
@@ -517,11 +517,11 @@ namespace GolemUI.Claymore
 
                             if (currentStatus.GPUDetails.Contains(','))
                             {
-                                currentStatus.gpuName = currentStatus.GPUDetails.Split(',')[0];
-                                if (currentStatus.gpuName.Contains("(pcie"))
+                                currentStatus.GpuName = currentStatus.GPUDetails.Split(',')[0];
+                                if (currentStatus.GpuName.Contains("(pcie"))
                                 {
-                                    var split2 = currentStatus.gpuName.Replace("(pcie", "^").Split('^');
-                                    currentStatus.gpuName = split2[0].Trim();
+                                    var split2 = currentStatus.GpuName.Replace("(pcie", "^").Split('^');
+                                    currentStatus.GpuName = split2[0].Trim();
                                     int pciExpressLane;
                                     if (split2.Length >= 2)
                                     {

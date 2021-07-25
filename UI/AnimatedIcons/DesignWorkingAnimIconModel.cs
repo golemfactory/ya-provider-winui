@@ -16,7 +16,7 @@ namespace GolemUI.UI.AnimatedIcons
 
     }
 
-    public class DesignWorkingAnimIconModel : INotifyPropertyChanged
+    public class DesignWorkingAnimIconModel /*: INotifyPropertyChanged*/
     {
         List<EllipseData> _circles = new List<EllipseData>();
 
@@ -27,7 +27,7 @@ namespace GolemUI.UI.AnimatedIcons
                 return _circles;
             }
         }
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
         public double EllipseWidth { get; }
         public double EllipseHeight { get; }

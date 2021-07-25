@@ -50,6 +50,7 @@ namespace GolemUI
 
         public async void RefreshActivityStatus()
         {
+            if(GlobalApplicationState.Instance!=null)
             if (GlobalApplicationState.Instance.ProcessController.IsRunning)
             {
                 ActivityStatus? st = await GlobalApplicationState.Instance.ProcessController.GetActivityStatus();

@@ -30,7 +30,7 @@ namespace GolemUI
          * static methods 
          * (GlobalApplicationState is singleton like class initialized at the beggining and finishing at the end of application)
          */
-        public static GlobalApplicationState Instance { get; private set; }
+        public static GlobalApplicationState? Instance { get; private set; }
 
         public static void Initialize()
         {

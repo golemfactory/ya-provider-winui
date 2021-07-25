@@ -41,6 +41,7 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IPriceProvider, Src.StaticPriceProvider>();
             services.AddSingleton<Interfaces.IEstimatedProfitProvider, Src.StaticEstimatedEarningsProvider>();
 
+            if(GlobalApplicationState.Instance!=null)
             services.AddSingleton(typeof(Interfaces.IProcessControler), GlobalApplicationState.Instance.ProcessController);
             services.AddSingleton(typeof(Command.YagnaSrv));
             services.AddSingleton(typeof(Command.Provider));
@@ -79,13 +80,20 @@ namespace GolemUI
             try
             {
                 var dashboardWindow = _serviceProvider.GetRequiredService<Dashboard>();
-                GlobalApplicationState.Instance.Dashboard = dashboardWindow;
+                if (GlobalApplicationState.Instance != null)
+                {
+                    GlobalApplicationState.Instance.Dashboard = dashboardWindow;
 
-                dashboardWindow.Show();
+                    dashboardWindow.Show();
 
 
 #if DEBUG
-                StartDebugWindow();
+                    StartDebugWindow();
+                }
+                else
+                {
+                    throw new NullReferenceException("GlobalApplicationState.Instance should not be null! ");
+                }
 #endif
             }
             catch (Exception ex)
@@ -103,20 +111,23 @@ namespace GolemUI
         public void StartDebugWindow()
         {
 
-            if (GlobalApplicationState.Instance.DebugWindow == null)
+            if (GlobalApplicationState.Instance?.DebugWindow == null)
             {
                 var debugWindow = new DebugWindow();
-                GlobalApplicationState.Instance.DebugWindow = debugWindow;
-
-                var dashboard = GlobalApplicationState.Instance.Dashboard;
-                if (dashboard != null)
+                if (GlobalApplicationState.Instance != null)
                 {
-                    debugWindow.Owner = dashboard;
-                    debugWindow.Left = dashboard.Left + dashboard.Width;
-                    debugWindow.Top = dashboard.Top;
-                    debugWindow.Show();
-                }
+                    GlobalApplicationState.Instance.DebugWindow = debugWindow;
 
+                    var dashboard = GlobalApplicationState.Instance.Dashboard;
+                    if (dashboard != null)
+                    {
+                        debugWindow.Owner = dashboard;
+                        debugWindow.Left = dashboard.Left + dashboard.Width;
+                        debugWindow.Top = dashboard.Top;
+                        debugWindow.Show();
+                    }
+
+                }
             }
         }
 

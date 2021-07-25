@@ -129,8 +129,8 @@ namespace GolemUI
         }
         public SingleGpuDescriptor(Claymore.ClaymoreGpuStatus val)
         {
-            Id = val.gpuNo;
-            Name = val.gpuName == null ? "video card" : val.gpuName;
+            Id = val.GpuNo;
+            Name = val.GpuName == null ? "video card" : val.GpuName;
             Hashrate = val.BenchmarkSpeed;
             IsActive = val.IsEnabledByUser;
             CanMine = val.IsReadyForMining;
@@ -139,8 +139,8 @@ namespace GolemUI
         }
         public SingleGpuDescriptor(Claymore.ClaymoreGpuStatus val, bool isEnabledByUser, int claymorePerformanceThrottling)
         {
-            Id = val.gpuNo;
-            Name = val.gpuName == null ? "video card" : val.gpuName;
+            Id = val.GpuNo;
+            Name = val.GpuName == null ? "video card" : val.GpuName;
             Hashrate = val.BenchmarkSpeed;
             CanMine = val.IsReadyForMining;
             InProgress = val.InProgress;

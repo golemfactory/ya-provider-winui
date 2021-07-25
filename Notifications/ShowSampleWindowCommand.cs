@@ -11,7 +11,7 @@ namespace GolemUI.Notifications
     {
         public override void Execute(object? parameter)
         {
-            if (GlobalApplicationState.Instance.Dashboard != null)
+            if (GlobalApplicationState.Instance?.Dashboard != null)
             {
                 GlobalApplicationState.Instance.Dashboard.WindowState = WindowState.Normal;
                 GlobalApplicationState.Instance.Dashboard.ShowInTaskbar = true;

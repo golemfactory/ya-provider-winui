@@ -29,7 +29,7 @@ namespace GolemUI.UI.AnimatedIcons
 
         double _animationLength = 0.7;
 
-        double _animationFPS = 60.0;
+      //  double _animationFPS = 60.0;
 
         public double AnimationFPS
         {

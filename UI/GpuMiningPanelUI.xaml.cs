@@ -217,7 +217,7 @@ namespace GolemUI
                     currentEntry = _entries[gpuNo];
                 }
 
-                string gdetails = gpuInfo.gpuName ?? "";
+                string gdetails = gpuInfo.GpuName ?? "";
                 if (!String.IsNullOrEmpty(gdetails) && !_entries.ContainsKey(gpuNo))
                 {
                     var rowDef = new RowDefinition();
@@ -374,7 +374,7 @@ namespace GolemUI
             bool result = cc.RunBenchmarkRecording(@"test.recording");
             if (result)
             {
-                MessageBox.Show(GlobalApplicationState.Instance.Dashboard, "WARNING: Running test recording. Remove test.recording to run real benchmark.");
+                MessageBox.Show(GlobalApplicationState.Instance?.Dashboard, "WARNING: Running test recording. Remove test.recording to run real benchmark.");
             }
             if (!result)
             {
@@ -469,13 +469,13 @@ namespace GolemUI
                 {
                     if (gpu.Value.IsReadyForMining)
                     {
-                        if (gpu.Value.gpuNo > 0 && gpu.Value.gpuNo < 10)
+                        if (gpu.Value.GpuNo > 0 && gpu.Value.GpuNo < 10)
                         {
                             if (claymoreString != "")
                             {
                                 claymoreString += ",";
                             }
-                            claymoreString += gpu.Value.gpuNo.ToString();
+                            claymoreString += gpu.Value.GpuNo.ToString();
                         }
                     }
                 }

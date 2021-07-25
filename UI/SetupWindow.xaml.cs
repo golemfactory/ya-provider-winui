@@ -163,7 +163,7 @@ namespace GolemUI.UI
             printDlg.PrintDocument(idpSource.DocumentPaginator, "Wallet Recovery Sheet");
         }
 
-        private async void OnWTLStep3Next(object sender, RoutedEventArgs e)
+        private /*async*/ void OnWTLStep3Next(object sender, RoutedEventArgs e)
         {
             Model!.ActivateHdWallet();
         }
