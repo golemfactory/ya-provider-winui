@@ -65,6 +65,7 @@ namespace GolemUI
             }
             if (allEnabled)
             {
+                //If all cards are enabled benchmark prerun is not needed and no need to select cards
                 cards = "";
             }
 
