@@ -41,8 +41,8 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IPriceProvider, Src.StaticPriceProvider>();
             services.AddSingleton<Interfaces.IEstimatedProfitProvider, Src.StaticEstimatedEarningsProvider>();
 
-            if(GlobalApplicationState.Instance!=null)
-            services.AddSingleton(typeof(Interfaces.IProcessControler), GlobalApplicationState.Instance.ProcessController);
+            if (GlobalApplicationState.Instance != null)
+                services.AddSingleton(typeof(Interfaces.IProcessControler), GlobalApplicationState.Instance.ProcessController);
             services.AddSingleton(typeof(Command.YagnaSrv));
             services.AddSingleton(typeof(Command.Provider));
 

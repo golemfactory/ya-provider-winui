@@ -50,15 +50,15 @@ namespace GolemUI
 
         public async void RefreshActivityStatus()
         {
-            if(GlobalApplicationState.Instance!=null)
-            if (GlobalApplicationState.Instance.ProcessController.IsRunning)
-            {
-                ActivityStatus? st = await GlobalApplicationState.Instance.ProcessController.GetActivityStatus();
-                if (st?.last1h?.Ready >= 1)
+            if (GlobalApplicationState.Instance != null)
+                if (GlobalApplicationState.Instance.ProcessController.IsRunning)
                 {
-                    // txtGpuStatus.Text = "Mining";
+                    ActivityStatus? st = await GlobalApplicationState.Instance.ProcessController.GetActivityStatus();
+                    if (st?.last1h?.Ready >= 1)
+                    {
+                        // txtGpuStatus.Text = "Mining";
+                    }
                 }
-            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
