@@ -11,7 +11,6 @@ namespace GolemUI.Validators
 {
     public class NodeNameValidator : ValidationRule
     {
-        //public bool ForceChecksum { get; set; }
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             var text = value as string;
@@ -23,22 +22,12 @@ namespace GolemUI.Validators
             {
                 return new ValidationResult(false, "Node Name must have at least 3 characters");
             }
-            var reBasicAddress = new Regex(@"^[a-zA-Z\d-_ ]+$", RegexOptions.IgnoreCase);
-            if (!reBasicAddress.Match(text).Success)
+            var reNodeName = new Regex(@"^[a-zA-Z\d-_ ]+$");
+            if (!reNodeName.Match(text).Success)
             {
                 return new ValidationResult(false, "wrong characters, use only alphanumeric characters, ' ', '-' and '_' ");
             }
-
-            /*if (!ForceChecksum)
-            {
-                if (text == text.ToLower() || text == text.ToUpper())
-                {
-                    return ValidationResult.ValidResult;
-                }
-            }*/
-            // TODO checksum check
             return ValidationResult.ValidResult;
-
         }
     }
 }
