@@ -38,6 +38,8 @@
                 <ResourceDictionary Source="Icons/Wallet_Icon.xaml"/>
                 <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
                 <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
+                <ResourceDictionary Source="Themes/TextBox/TextBoxInError.xaml"/>
+                <ResourceDictionary Source="Themes/Validation/ValidationTemplate.xaml"/>
                 <ResourceDictionary>
                     <DataTemplate x:Key="DTGPU">
                         <StackPanel Margin="1" MaxWidth="250" ToolTip="{Binding Path=GPUError}">
@@ -151,24 +153,6 @@
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
-                    <ControlTemplate x:Key="ValidationTemplate">
-                        <DockPanel>
-                            <TextBlock Foreground="Red" FontSize="16" Margin="4" FontFamily="Segoe UI Black">!</TextBlock>
-                            <AdornedElementPlaceholder/>
-                        </DockPanel>
-                    </ControlTemplate>
-                    <Style x:Key="TextBoxInError" TargetType="{x:Type TextBox}">
-                        <Style.Triggers>
-                            <Trigger Property="Validation.HasError" Value="true">
-                                <Setter Property="ToolTip"
-              Value="{Binding RelativeSource={x:Static RelativeSource.Self},
-                              Path=(Validation.Errors)[0].ErrorContent}"/>
-                                <Setter Property="Background" Value="#faa"/>
-                                <Setter Property="BorderBrush" Value="#faa"/>
-                                <Setter Property="BorderThickness" Value="1"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -599,7 +583,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 <TextBox.Text>
                                                     <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
                                                         <Binding.ValidationRules>
-                                                            <lc:EthAddrValidator xmlns:lc="clr-namespace:GolemUI.Validators" ShouldCheckForChecksum="True"/>
+                                                            <lc:EthAddrValidator xmlns:lc="clr-namespace:GolemUI.Validators" ShouldCheckForChecksum="False"/>
                                                         </Binding.ValidationRules>
                                                     </Binding>
                                                 </TextBox.Text>
