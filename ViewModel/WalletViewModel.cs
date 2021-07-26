@@ -1,6 +1,7 @@
 ﻿using GolemUI.Command;
 using GolemUI.Interfaces;
 using GolemUI.Model;
+using Nethereum.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -91,7 +92,7 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public string? WalletAddress => _paymentService.Address;
+        public string? WalletAddress => new AddressUtil().ConvertToChecksumAddress(_paymentService.Address);
 
         public decimal Amount
         {

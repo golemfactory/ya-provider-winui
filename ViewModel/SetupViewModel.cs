@@ -1,6 +1,8 @@
 ﻿using GolemUI.Claymore;
 using GolemUI.Interfaces;
+using GolemUI.Validators;
 using NBitcoin;
+using Nethereum.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +19,7 @@ namespace GolemUI.ViewModel
         private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;
         private readonly IProcessControler _processControler;
+
 
         public enum FlowSteps
         {
@@ -161,7 +164,7 @@ namespace GolemUI.ViewModel
 
         public string? Address
         {
-            get => _providerConfig?.Config?.Account;
+            get => new AddressUtil().ConvertToChecksumAddress(_providerConfig?.Config?.Account);
             set
             {
                 _providerConfig?.UpdateWalletAddress(value);

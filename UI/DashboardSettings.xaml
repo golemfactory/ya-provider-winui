@@ -30,6 +30,8 @@
                 <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
                 <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
                 <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
+                <ResourceDictionary Source="Themes/TextBox/TextBoxInError.xaml"/>
+                <ResourceDictionary Source="Themes/Validation/ValidationTemplate.xaml"/>
                 <ResourceDictionary>
                     <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
                         <ObjectDataProvider.MethodParameters>
@@ -227,7 +229,15 @@
                                 <RowDefinition Height="40"/>
                             </Grid.RowDefinitions>
                             <Label Margin="5,5,0,0" Content="Node name" FontFamily="Segoe UI" FontWeight="Bold" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF"/>
-                            <TextBox BorderThickness="0,0,0,2" Grid.Row="1" VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Text="{Binding NodeName}" Margin="20, 0"/>
+                            <TextBox Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" BorderThickness="0,0,0,2" Grid.Row="1" VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Margin="20, 0">
+                                <TextBox.Text>
+                                    <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
+                                        <Binding.ValidationRules>
+                                            <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
                         </Grid>
                     </Border>
                 </Grid>

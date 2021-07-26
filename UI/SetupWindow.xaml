@@ -38,10 +38,12 @@
                 <ResourceDictionary Source="Icons/Wallet_Icon.xaml"/>
                 <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
                 <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
+                <ResourceDictionary Source="Themes/TextBox/TextBoxInError.xaml"/>
+                <ResourceDictionary Source="Themes/Validation/ValidationTemplate.xaml"/>
                 <ResourceDictionary>
                     <DataTemplate x:Key="DTGPU">
                         <StackPanel Margin="1" MaxWidth="250" ToolTip="{Binding Path=GPUError}">
-                            <TextBlock Text="{Binding gpuName}" Foreground="#aaa" TextWrapping="WrapWithOverflow"/>
+                            <TextBlock Text="{Binding GpuName}" Foreground="#aaa" TextWrapping="WrapWithOverflow"/>
                             <TextBlock Text="{Binding Path=BenchmarkSpeed, Converter={StaticResource HashRateConverter}}"></TextBlock>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="Mining ablity " Foreground="#aaa" Margin="0, 5" />
@@ -151,24 +153,6 @@
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
-                    <ControlTemplate x:Key="ValidationTemplate">
-                        <DockPanel>
-                            <TextBlock Foreground="Red" FontSize="16" Margin="4" FontFamily="Segoe UI Black">!</TextBlock>
-                            <AdornedElementPlaceholder/>
-                        </DockPanel>
-                    </ControlTemplate>
-                    <Style x:Key="TextBoxInError" TargetType="{x:Type TextBox}">
-                        <Style.Triggers>
-                            <Trigger Property="Validation.HasError" Value="true">
-                                <Setter Property="ToolTip"
-              Value="{Binding RelativeSource={x:Static RelativeSource.Self},
-                              Path=(Validation.Errors)[0].ErrorContent}"/>
-                                <Setter Property="Background" Value="#faa"/>
-                                <Setter Property="BorderBrush" Value="#faa"/>
-                                <Setter Property="BorderThickness" Value="1"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -401,7 +385,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     </Binding>
                                                 </TextBox.Text>
                                             </TextBox>
-                                            <Label Margin="20,-20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters)" >
+                                            <Label Margin="20,-20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character))" >
                                                 <Label.Style>
                                                     <Style TargetType="{x:Type Label}">
                                                         <Setter Property="Visibility" Value="Visible" />
@@ -599,7 +583,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 <TextBox.Text>
                                                     <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
                                                         <Binding.ValidationRules>
-                                                            <lc:EthAddrValidator xmlns:lc="clr-namespace:GolemUI.Validators"/>
+                                                            <lc:EthAddrValidator xmlns:lc="clr-namespace:GolemUI.Validators" ShouldCheckForChecksum="False"/>
                                                         </Binding.ValidationRules>
                                                     </Binding>
                                                 </TextBox.Text>
@@ -649,7 +633,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     </Binding>
                                                 </TextBox.Text>
                                             </TextBox>
-                                            <Label FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters)">
+                                            <Label FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character)">
                                                 <Label.Style>
                                                     <Style TargetType="{x:Type Label}">
                                                         <Setter Property="Visibility" Value="Visible" />
@@ -698,10 +682,10 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             
                                         </Grid.RowDefinitions>
                                         <ContentControl VerticalAlignment="Top" Content="{DynamicResource Benchmark_Step_icon}" Margin="6,20,0,0"/>
-                                        <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
-                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Calculating your hash power</TextBlock>
+                                        <StackPanel MinWidth="400" Margin="10,20,0,0" Grid.Column="1" HorizontalAlignment="Stretch">
+                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="5, 0, 0 15">Calculating your hash power</TextBlock>
                                             <UniformGrid Rows="1" Columns="2">
-                                                <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
+                                                <ListBox Background="Transparent" Margin="0,10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
                                                     <ListBox.ItemsPanel>
                                                         <ItemsPanelTemplate>
                                                             <UniformGrid Columns="1"/>
@@ -734,10 +718,10 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top"/>
-                                        <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
+                                        <StackPanel MinWidth="400" Margin="20,20,0,0" Grid.Column="1" HorizontalAlignment="Stretch">
                                             <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Enjoy!</TextBlock>
                                             <Label Grid.Column="1" Content="{Binding BenchmarkError}" Margin="20, 0, 0 15"></Label>
-                                            <UniformGrid Rows="1" Columns="2">
+                                            <UniformGrid Rows="1" Columns="2" Margin="0">
                                                 <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
                                                     <ListBox.ItemsPanel>
                                                         <ItemsPanelTemplate>
