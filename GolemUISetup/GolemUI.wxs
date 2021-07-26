@@ -3,11 +3,8 @@
 <?define Win64 = "yes" ?>
 <?define Version="0.0.6"?>
 <?define BuildOutputDir="..\bin\Release"?>
-<?define YaPubDir="F:\gminer"?>
 <?define YaBuildOutputDir="F:\yagna\target\release"?>
 <?define MediaDir="$(var.SolutionDir)\Media"?>
-<?define Ya.Runtime.GMiner="F:\ya-runtime-gminer"?>
-<?define Ya.Runtime.Wasi="F:\ya-runtime-wasi"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:fw="http://schemas.microsoft.com/wix/FirewallExtension">
   <Product
         Id='*'
@@ -82,22 +79,9 @@
             </File>
           </Component>
           <Directory Id="Plugins" Name="plugins">
-            <Component Id="WasmDriver" Guid="*" Win64="$(var.Win64)">
-              <File Id="wasmDriverExe" Name="ya-runtime-wasi.exe" DiskId="1" Source="$(var.Ya.Runtime.Wasi)\target\release\ya-runtime-wasi.exe" KeyPath="yes"/>
-            </Component>
-            <Component Id="WasmDriverManifest" Guid="*" Win64="$(var.Win64)">
-              <File Id="wasmDriverManifest" Name="ya-runtime-wasi.json" DiskId="1" Source="$(var.Ya.Runtime.Wasi)\target\release\ya-runtime-wasi.json" KeyPath="yes"/>
-            </Component>
             <Component Id="CoreExeUnit" Guid="*" Win64="$(var.Win64)">
               <File Name="exe-unit.exe" DiskId="1" Source="$(var.YaBuildOutputDir)\exe-unit.exe" KeyPath="yes"/>
             </Component>
-            <Component Id='GMineDriver' Guid="eebc7614-db08-4129-8619-461c07feb3b8" Win64="$(var.Win64)">
-              <File Name='ya-runtime-gminer.exe' DiskId='1' Source='$(var.Ya.Runtime.GMiner)\target\release\ya-runtime-gminer.exe' KeyPath='no'/>
-              <File Name='ya-runtime-gminer.json' DiskId='1' Source='$(var.Ya.Runtime.GMiner)\target\release\ya-runtime-gminer.json' KeyPath='no'/>
-            </Component>
-            <Directory Id='dir29FA238D75D949F99B06F199E7C9EE82' Name='claymore'>
-              <Directory Id="dir00796F504E8DC0DE85A40C6033069E84" Name="cuda10" />
-            </Directory>
           </Directory>
         </Directory>
       </Directory>
@@ -129,8 +113,7 @@
         Display='expand'
         Absent='allow'>
       <ComponentRef Id='License'/>
-      <ComponentRef Id='WasmDriver'/>
-      <ComponentRef Id='WasmDriverManifest'/>
+      <ComponentGroupRef Id='YaRuntimeWasiComponentGroup'/>
       <ComponentRef Id='CoreExeUnit'/>
     </Feature>
     <Feature
@@ -142,9 +125,7 @@
         AllowAdvertise='no'
         Display='expand'
         Absent='allow'>
-      <ComponentRef Id='License'/>
-      <ComponentRef Id='GMineDriver'/>
-      <ComponentGroupRef Id='Claymore'/>
+      <ComponentGroupRef Id='YaRuntimeGMinerComponentGroup'/>
     </Feature>
 
 

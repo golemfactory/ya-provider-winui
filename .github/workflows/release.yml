@@ -38,5 +38,11 @@ jobs:
         run: msbuild -t:restore /p:Platform=x64 /p:Configuration=Release
 
       - name: Build the Windows Application
-        run: msbuild GolemUI.csproj /p:Platform=AnyCPU /p:Configuration=Release
+        run: msbuild /p:Configuration=Release /p:Platform=x64
+
+      - name: Upload build artifacts
+          uses: actions/upload-artifact@v2
+          with:
+            name: GolemUI
+            path: GolemUISetup\bin\Release\GolemUISetup.msi
 
