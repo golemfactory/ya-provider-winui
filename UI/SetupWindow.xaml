@@ -660,7 +660,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
                                         
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top"/>
@@ -686,7 +686,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </StackPanel>
                                             </UniformGrid>
                                         </StackPanel>
-                                        <Label Grid.Row="2" Grid.ColumnSpan="3" Margin="10"/>
+                                        
                                     </Grid>
                                 </TabItem>
                             </TabControl>
