@@ -6,6 +6,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -21,19 +22,57 @@ namespace GolemUI
     /// </summary>
     public partial class App : Application
     {
-        private readonly ServiceProvider _serviceProvider;
-        private readonly GolemUI.ChildProcessManager _childProcessManager;
+
+        private readonly ServiceProvider? _serviceProvider;
+        private readonly GolemUI.ChildProcessManager? _childProcessManager;
+
+        private static string appGuid = "f024e04e-6ae6-4563-95bc-376bf92646aa";
+        bool _isAnotherInstanceOpen = false;
+        bool _isGlobalMutexSet = false;
+        Mutex? _instanceMutex;
+
+        [DllImport("user32.dll")]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        static bool IsAnotherAppWorking()
+        {
+            var current = Process.GetCurrentProcess();
+
+            foreach (var process in Process.GetProcessesByName(current.ProcessName))
+            {
+                if (process.Id == current.Id) continue;
+                SetForegroundWindow(process.MainWindowHandle);
+                return true;
+            }
+            return false;
+        }
+
 
         public App()
         {
-            _childProcessManager = new GolemUI.ChildProcessManager();
-            _childProcessManager.AddProcess(Process.GetCurrentProcess());
+            _instanceMutex = new Mutex(false, "Global\\" + appGuid);
 
-            GlobalApplicationState.Initialize();
+            _isGlobalMutexSet = false;
+            if (!_instanceMutex.WaitOne(0, false))
+            {
+                _isGlobalMutexSet = true;
+            }
+            if (_isGlobalMutexSet)
+            {
+                _isAnotherInstanceOpen = IsAnotherAppWorking();
+            }
 
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-            _serviceProvider = serviceCollection.BuildServiceProvider();
+            if (!_isAnotherInstanceOpen)
+            {
+                _childProcessManager = new GolemUI.ChildProcessManager();
+                _childProcessManager.AddProcess(Process.GetCurrentProcess());
+
+                GlobalApplicationState.Initialize();
+
+                var serviceCollection = new ServiceCollection();
+                ConfigureServices(serviceCollection);
+                _serviceProvider = serviceCollection.BuildServiceProvider();
+            }
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -68,10 +107,16 @@ namespace GolemUI
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
+            if (_isAnotherInstanceOpen && _isGlobalMutexSet)
+            {
+                this.Shutdown();
+                return;
+            }
+
             var args = e.Args;
             if ((args.Length > 0 && args[0] == "setup") || !GolemUI.Properties.Settings.Default.Configured)
             {
-                var window = _serviceProvider.GetRequiredService<UI.SetupWindow>();
+                var window = _serviceProvider!.GetRequiredService<UI.SetupWindow>();
                 window.Show();
                 return;
             }
@@ -79,7 +124,7 @@ namespace GolemUI
 
             try
             {
-                var dashboardWindow = _serviceProvider.GetRequiredService<Dashboard>();
+                var dashboardWindow = _serviceProvider!.GetRequiredService<Dashboard>();
                 if (GlobalApplicationState.Instance != null)
                 {
                     GlobalApplicationState.Instance.Dashboard = dashboardWindow;
@@ -104,7 +149,14 @@ namespace GolemUI
 
         private void OnExit(object sender, ExitEventArgs e)
         {
-            _serviceProvider.Dispose();
+            if (_serviceProvider != null)
+            {
+                _serviceProvider.Dispose();
+            }
+            if (_instanceMutex != null)
+            {
+                _instanceMutex.Dispose();
+            }
             GlobalApplicationState.Finish();
         }
 

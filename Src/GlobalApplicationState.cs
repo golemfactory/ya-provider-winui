@@ -42,10 +42,7 @@ namespace GolemUI
         }
         public static void Finish()
         {
-            if (Instance == null)
-            {
-                throw new Exception("Finalizing unitialized GlobalApplicationState");
-            }
+
         }
     }
 }
