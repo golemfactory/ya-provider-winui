@@ -85,16 +85,16 @@ namespace GolemUI
                     GlobalApplicationState.Instance.Dashboard = dashboardWindow;
 
                     dashboardWindow.Show();
-
-
 #if DEBUG
                     StartDebugWindow();
+#endif
                 }
                 else
                 {
                     throw new NullReferenceException("GlobalApplicationState.Instance should not be null! ");
+
                 }
-#endif
+
             }
             catch (Exception ex)
             {
