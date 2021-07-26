@@ -371,12 +371,7 @@ namespace GolemUI
             ClaymoreBenchmark cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded);
 
 
-            bool result = cc.RunBenchmarkRecording(@"test.recording");
-            if (result)
-            {
-                MessageBox.Show(GlobalApplicationState.Instance?.Dashboard, "WARNING: Running test recording. Remove test.recording to run real benchmark.");
-            }
-            if (!result)
+
             {
                 cc.RunPreBenchmark();
                 while (!cc.PreBenchmarkFinished)
@@ -399,7 +394,7 @@ namespace GolemUI
                 await Task.Delay(30);
 
 
-                result = cc.RunBenchmark(selectedIndices, niceness, poolAddr, ethAddress);
+                bool result = cc.RunBenchmark(selectedIndices, niceness, poolAddr, ethAddress);
                 if (!result)
                 {
                     //MessageBox.Show(cc.BenchmarkError);
