@@ -401,7 +401,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     </Binding>
                                                 </TextBox.Text>
                                             </TextBox>
-                                            <Label Margin="20,-20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters)" >
+                                            <Label Margin="20,-20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character))" >
                                                 <Label.Style>
                                                     <Style TargetType="{x:Type Label}">
                                                         <Setter Property="Visibility" Value="Visible" />
@@ -599,7 +599,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 <TextBox.Text>
                                                     <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
                                                         <Binding.ValidationRules>
-                                                            <lc:EthAddrValidator xmlns:lc="clr-namespace:GolemUI.Validators"/>
+                                                            <lc:EthAddrValidator xmlns:lc="clr-namespace:GolemUI.Validators" ShouldCheckForChecksum="True"/>
                                                         </Binding.ValidationRules>
                                                     </Binding>
                                                 </TextBox.Text>
@@ -649,7 +649,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     </Binding>
                                                 </TextBox.Text>
                                             </TextBox>
-                                            <Label FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters)">
+                                            <Label FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character)">
                                                 <Label.Style>
                                                     <Style TargetType="{x:Type Label}">
                                                         <Setter Property="Visibility" Value="Visible" />

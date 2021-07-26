@@ -22,11 +22,12 @@ namespace GolemUI.Validators
             {
                 return new ValidationResult(false, "Node Name must have at least 3 characters");
             }
-            var reNodeName = new Regex(@"^[a-zA-Z\d-_ ]+$");
+            var reNodeName = new Regex(@"^[a-zA-Z0-9_]+[a-zA-Z\d-_ ]+$");
             if (!reNodeName.Match(text).Success)
             {
-                return new ValidationResult(false, "wrong characters, use only alphanumeric characters, ' ', '-' and '_' ");
+                return new ValidationResult(false, "wrong characters, use only alphanumeric characters, ' ', '-' and '_' name must start witch letter, underscore or digit");
             }
+            
             return ValidationResult.ValidResult;
         }
     }
