@@ -76,9 +76,6 @@ namespace GolemUI.Settings
     public class LocalSettings
     {
         public int SettingsVersion { get; set; }
-        public string? NodeName { get; set; }
-        public string? EthAddress { get; set; }
-        public string? Subnet { get; set; }
         public string? MinerSelectedGPUIndices { get; set; }
         public string? MinerSelectedGPUsNiceness { get; set; }
         public string? BenchmarkLength { get; set; }
@@ -98,16 +95,6 @@ namespace GolemUI.Settings
 
         public LocalSettings()
         {
-#if DEBUG
-            //EthAddress = "D593411F3E6e79995E787b5f81D10e12fA6eCF04";
-            Subnet = "LazySubnet";
-#else
-            Subnet = "LazySubnet";
-#endif
-
-            var _gen = new NameGen();
-            NodeName = _gen.GenerateElvenName() + "-" + _gen.GenerateElvenName();
-
 
         }
     }
