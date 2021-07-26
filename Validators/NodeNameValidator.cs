@@ -11,10 +11,8 @@ namespace GolemUI.Validators
 {
     public class NodeNameValidator : ValidationRule
     {
-        
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-           
             var text = value as string;
             if (text == null)
             {
@@ -29,9 +27,7 @@ namespace GolemUI.Validators
             {
                 return new ValidationResult(false, "wrong characters, use only alphanumeric characters, ' ', '-' and '_' ");
             }
-        
             return ValidationResult.ValidResult;
-
         }
     }
 }
