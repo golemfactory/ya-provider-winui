@@ -47,6 +47,8 @@ namespace GolemUI.Src
             bool preBenchmarkNeeded = !String.IsNullOrEmpty(cards);
 
             var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded);
+
+
             try
             {
                 if (preBenchmarkNeeded)
@@ -70,7 +72,9 @@ namespace GolemUI.Src
                     {
                         await Task.Delay(30);
 
-                        if (retry >= 200)
+                        double timeElapsed = (DateTime.Now - benchmarkStartTime).TotalSeconds;
+
+                        if (timeElapsed > 10.0)
                         {
                             cc.Stop();
 
@@ -97,10 +101,10 @@ namespace GolemUI.Src
                             cc.Stop();
                             break;
                         }
-                        retry += 1;
                     }
                 }
                 await Task.Delay(30);
+
 
 
                 if (preBenchmarkNeeded && _claymoreLiveStatus != null && _claymoreLiveStatus.GPUs.Count == 0)
@@ -108,8 +112,9 @@ namespace GolemUI.Src
                     return;
                 }
 
+                benchmarkStartTime = DateTime.Now;
 
-                { 
+                {
                     bool result = cc.RunBenchmarkRecording(@"test.recording", isPreBenchmark: false);
                     if (!result)
                     {
@@ -145,10 +150,27 @@ namespace GolemUI.Src
                         break;
                     }
                     await Task.Delay(100);
+
+                    double timeElapsed = (DateTime.Now - benchmarkStartTime).TotalSeconds;
+
                     if (_requestStop)
                     {
                         cc.Stop();
                         _claymoreLiveStatus.ErrorMsg = "Stopped by user";
+                        OnPropertyChanged("Status");
+                        break;
+                    }
+                    if (timeElapsed > 10.0 && !_claymoreLiveStatus.GPUInfosParsed)
+                    {
+                        cc.Stop();
+                        _claymoreLiveStatus.ErrorMsg = "Timeout, cannot read gpu info";
+                        OnPropertyChanged("Status");
+                        break;
+                    }
+                    if (timeElapsed > 200.0)
+                    {
+                        cc.Stop();
+                        _claymoreLiveStatus.ErrorMsg = "Timeout, benchmark taking too long time";
                         OnPropertyChanged("Status");
                         break;
                     }

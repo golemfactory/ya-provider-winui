@@ -151,7 +151,7 @@ namespace GolemUI.Command
             _imitate.PrepareLines(readText);
             if (isPreBenchmark)
             {
-                _claymoreParserPreBenchmark.BeforeParsing(enableRecording:false);
+                _claymoreParserPreBenchmark.BeforeParsing(enableRecording: false);
                 _imitate.OutputDataReceived += OnOutputDataPreRecv;
                 _imitate.OutputErrorReceived += OnErrorDataPreRecv;
                 _imitate.OnExited += OnPreBenchmarkExit;
@@ -220,7 +220,7 @@ namespace GolemUI.Command
                 _claymoreProcess = null;
                 return false;
             }
-            _claymoreParserPreBenchmark.BeforeParsing(enableRecording:true);
+            _claymoreParserPreBenchmark.BeforeParsing(enableRecording: true);
             _claymoreProcess.OutputDataReceived += OnOutputDataPreRecv;
             _claymoreProcess.ErrorDataReceived += OnErrorDataPreRecv;
             _claymoreProcess.Exited += OnPreBenchmarkExit;
@@ -295,7 +295,7 @@ namespace GolemUI.Command
                 _claymoreProcess = null;
                 return false;
             }
-            _claymoreParserBenchmark.BeforeParsing(enableRecording:true);
+            _claymoreParserBenchmark.BeforeParsing(enableRecording: true);
             _claymoreProcess.OutputDataReceived += OnOutputDataRecv;
             _claymoreProcess.ErrorDataReceived += OnErrorDataRecv;
             _claymoreProcess.Exited += OnBenchmarkExit;
