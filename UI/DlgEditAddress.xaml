@@ -58,7 +58,7 @@
                     <TextBox.Text>
                         <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
-                                <lc:EthAddrValidator/>
+                                <lc:EthAddrValidator ShouldCheckForChecksum="False"/>
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>

@@ -6,12 +6,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Nethereum.Util;
 
 namespace GolemUI.Validators
 {
     public class EthAddrValidator : ValidationRule
     {
-        public bool ForceChecksum { get; set; }
+        public bool ShouldCheckForChecksum { get; set; }
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             var text = value as string;
@@ -25,16 +26,25 @@ namespace GolemUI.Validators
                 return new ValidationResult(false, "invalid address, it should be 20 byte hexencoded number with 0x prefix");
             }
 
-            if (!ForceChecksum)
+            /*if (!ShouldCheckForChecksum)
             {
                 if (text == text.ToLower() || text == text.ToUpper())
                 {
                     return ValidationResult.ValidResult;
                 }
+            }*/
+            if (ShouldCheckForChecksum)
+            {
+                if (new AddressUtil().IsChecksumAddress(text))
+                {
+                    return ValidationResult.ValidResult;
+                }
+                else
+                {
+                    return new ValidationResult(false, "invalid address, checksum does not match expected value");
+                }
             }
-            // TODO checksum check
             return ValidationResult.ValidResult;
-
         }
     }
 }

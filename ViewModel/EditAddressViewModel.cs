@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nethereum.Util;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace GolemUI.ViewModel
 
         public EditAddressViewModel(Interfaces.IPaymentService paymentService)
         {
-            _address = paymentService.Address;
+            _address = new AddressUtil().ConvertToChecksumAddress(paymentService.Address); // one time conversion while loading model
             InternalAddress = paymentService.InternalAddress;
             HaveInternalBalance = paymentService.State?.Balance > 0;
         }
