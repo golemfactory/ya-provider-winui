@@ -313,9 +313,6 @@
     <Compile Include="UI\GpuEntryUI.xaml.cs">
       <DependentUpon>GpuEntryUI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\GpuMiningPanelUI.xaml.cs">
-      <DependentUpon>GpuMiningPanelUI.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\NavBar.xaml.cs">
       <DependentUpon>NavBar.xaml</DependentUpon>
     </Compile>
@@ -396,10 +393,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\GpuEntryUI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\GpuMiningPanelUI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

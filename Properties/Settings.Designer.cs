@@ -46,5 +46,17 @@ namespace GolemUI.Properties {
                 this["EnableDebugLogs"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Configured {
+            get {
+                return ((bool)(this["Configured"]));
+            }
+            set {
+                this["Configured"] = value;
+            }
+        }
     }
 }

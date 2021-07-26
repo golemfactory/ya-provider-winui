@@ -36,9 +36,6 @@ namespace GolemUI
         {
             LocalSettings settings = SettingsLoader.LoadSettingsFromFileOrDefault();
 
-            txNodeName.Text = settings.NodeName;
-            txSubnet.Text = settings.Subnet;
-            txWalletAddress.Text = settings.EthAddress;
             cbDebugOutput.IsChecked = settings.EnableDebugLogs;
             //cbEnableWASM.IsChecked = settings.EnableWASMUnit;
             cbStartWithWindows.IsChecked = settings.StartWithWindows;
@@ -82,9 +79,6 @@ namespace GolemUI
         {
             LocalSettings settings = SettingsLoader.LoadSettingsFromFileOrDefault();
 
-            settings.NodeName = txNodeName.Text;
-            settings.Subnet = txSubnet.Text;
-            settings.EthAddress = txWalletAddress.Text;
             settings.EnableDebugLogs = cbDebugOutput.IsChecked ?? false;
             // settings.EnableWASMUnit = cbEnableWASM.IsChecked ?? false;
             settings.StartWithWindows = cbStartWithWindows.IsChecked ?? false;
@@ -108,9 +102,6 @@ namespace GolemUI
             LocalSettings settings = SettingsLoader.LoadSettingsFromFileOrDefault();
 
             bool different = false;
-            if (settings.NodeName != txNodeName.Text) different = true;
-            if (settings.EthAddress != txWalletAddress.Text) different = true;
-            if (settings.Subnet != txSubnet.Text) different = true;
             if (settings.EnableDebugLogs != cbDebugOutput.IsChecked) different = true;
             // if (settings.EnableWASMUnit != cbEnableWASM.IsChecked) different = true;
             if (settings.StartWithWindows != cbStartWithWindows.IsChecked) different = true;

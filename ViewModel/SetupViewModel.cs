@@ -239,6 +239,9 @@ namespace GolemUI.ViewModel
         public bool Save()
         {
             _benchmarkService.Save();
+            var settings = GolemUI.Properties.Settings.Default;
+            settings.Configured = true;
+            settings.Save();
             return true;
         }
 
