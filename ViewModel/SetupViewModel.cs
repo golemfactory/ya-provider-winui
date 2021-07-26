@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +18,7 @@ namespace GolemUI.ViewModel
         private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;
         private readonly IProcessControler _processControler;
-        private NodeNameValidator NodeNameValidator = new NodeNameValidator();
+
 
         public enum FlowSteps
         {
@@ -224,8 +223,7 @@ namespace GolemUI.ViewModel
             get => _providerConfig.Config?.NodeName;
             set
             {
-                if(NodeNameValidator.Validate(value, CultureInfo.InvariantCulture)?.IsValid ?? false)
-                    _providerConfig.UpdateNodeName(value);
+                _providerConfig.UpdateNodeName(value);
             }
         }
 
