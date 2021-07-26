@@ -1,0 +1,42 @@
+name:  Release
+
+# Trigger on every master branch push and pull request
+on:
+  push:
+    branches:
+      - ci
+jobs:
+  build:
+    strategy:
+      matrix:
+        targetplatform: [x64]
+
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      - name: Download Dependencies
+        shell: powershell
+        run: |
+          cd GolemUISetup
+          .\prepare.ps1
+
+      # Install the .NET Core workload
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v1
+
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: NuGet
+        run: nuget restore
+
+      - name: Restore obj folder
+        run: msbuild -t:restore /p:Platform=x64 /p:Configuration=Release
+
+      - name: Build the Windows Application
+        run: msbuild GolemUI.csproj /p:Platform=AnyCPU /p:Configuration=Release
+
