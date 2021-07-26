@@ -63,7 +63,7 @@
                 <local:DashboardStatusControl Status="{Binding Path=Status}"/>
                 <Button Click="btnStop_Click" 
                     Style="{StaticResource BlueButtonStyle}" Height="30" Margin="10,10,0,10"
-                    Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2"
+                    Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
                     HorizontalAlignment="Stretch"                        
                         IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}"
                     Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToVisibleConverter}}">Stop Mining</Button>
