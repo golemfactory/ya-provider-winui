@@ -698,10 +698,10 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             
                                         </Grid.RowDefinitions>
                                         <ContentControl VerticalAlignment="Top" Content="{DynamicResource Benchmark_Step_icon}" Margin="6,20,0,0"/>
-                                        <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
-                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Calculating your hash power</TextBlock>
+                                        <StackPanel MinWidth="400" Margin="10,20,0,0" Grid.Column="1" HorizontalAlignment="Stretch">
+                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="5, 0, 0 15">Calculating your hash power</TextBlock>
                                             <UniformGrid Rows="1" Columns="2">
-                                                <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
+                                                <ListBox Background="Transparent" Margin="0,10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
                                                     <ListBox.ItemsPanel>
                                                         <ItemsPanelTemplate>
                                                             <UniformGrid Columns="1"/>
@@ -734,10 +734,10 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top"/>
-                                        <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
+                                        <StackPanel MinWidth="400" Margin="20,20,0,0" Grid.Column="1" HorizontalAlignment="Stretch">
                                             <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Enjoy!</TextBlock>
                                             <Label Grid.Column="1" Content="{Binding BenchmarkError}" Margin="20, 0, 0 15"></Label>
-                                            <UniformGrid Rows="1" Columns="2">
+                                            <UniformGrid Rows="1" Columns="2" Margin="0">
                                                 <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
                                                     <ListBox.ItemsPanel>
                                                         <ItemsPanelTemplate>
