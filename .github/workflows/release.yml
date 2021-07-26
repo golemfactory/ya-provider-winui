@@ -41,8 +41,8 @@ jobs:
         run: msbuild /p:Configuration=Release /p:Platform=x64
 
       - name: Upload build artifacts
-          uses: actions/upload-artifact@v2
-          with:
-            name: GolemUI
-            path: GolemUISetup\bin\Release\GolemUISetup.msi
+        uses: actions/upload-artifact@v2
+        with:
+          name: GolemUI
+          path: GolemUISetup\bin\Release\GolemUISetup.msi
 
