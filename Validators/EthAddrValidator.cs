@@ -26,22 +26,25 @@ namespace GolemUI.Validators
                 return new ValidationResult(false, "invalid address, it should be 20 byte hexencoded number with 0x prefix");
             }
 
-            if (!ShouldCheckForChecksum)
+            /*if (!ShouldCheckForChecksum)
             {
                 if (text == text.ToLower() || text == text.ToUpper())
                 {
                     return ValidationResult.ValidResult;
                 }
-            }
-
-            if (new AddressUtil().IsChecksumAddress(text))
+            }*/
+            if (ShouldCheckForChecksum)
             {
-                return ValidationResult.ValidResult;
+                if (new AddressUtil().IsChecksumAddress(text))
+                {
+                    return ValidationResult.ValidResult;
+                }
+                else
+                {
+                    return new ValidationResult(false, "invalid address, checksum does not match expected value");
+                }
             }
-            else
-            {
-                return new ValidationResult(false, "invalid address, checksum does not match expected value");
-            }
+            return ValidationResult.ValidResult;
         }
     }
 }

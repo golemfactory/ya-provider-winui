@@ -2,6 +2,7 @@
 using GolemUI.Interfaces;
 using GolemUI.Validators;
 using NBitcoin;
+using Nethereum.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -163,7 +164,7 @@ namespace GolemUI.ViewModel
 
         public string? Address
         {
-            get => _providerConfig?.Config?.Account;
+            get => new AddressUtil().ConvertToChecksumAddress(_providerConfig?.Config?.Account);
             set
             {
                 _providerConfig?.UpdateWalletAddress(value);
