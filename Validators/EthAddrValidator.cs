@@ -34,7 +34,7 @@ namespace GolemUI.Validators
                 }
             }
 
-            if(new AddressUtil().IsChecksumAddress(text))
+            if (new AddressUtil().IsChecksumAddress(text))
             {
                 return ValidationResult.ValidResult;
             }

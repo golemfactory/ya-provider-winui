@@ -27,7 +27,7 @@ namespace GolemUI.Validators
             {
                 return new ValidationResult(false, "wrong characters, use only alphanumeric characters, ' ', '-' and '_' name must start witch letter, underscore or digit");
             }
-            
+
             return ValidationResult.ValidResult;
         }
     }
