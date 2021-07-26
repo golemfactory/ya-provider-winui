@@ -15,11 +15,11 @@ namespace GolemUI.Validators
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             var text = value as string;
-             if (text == null)
+            if (text == null)
             {
                 return new ValidationResult(false, "Node Name cannot be null");
             }
-            if (text.Length<3)
+            if (text.Length < 3)
             {
                 return new ValidationResult(false, "Node Name must have at least 3 characters");
             }
