@@ -43,7 +43,7 @@
                 <ResourceDictionary>
                     <DataTemplate x:Key="DTGPU">
                         <StackPanel Margin="1" MaxWidth="250" ToolTip="{Binding Path=GPUError}">
-                            <TextBlock Text="{Binding gpuName}" Foreground="#aaa" TextWrapping="WrapWithOverflow"/>
+                            <TextBlock Text="{Binding GpuName}" Foreground="#aaa" TextWrapping="WrapWithOverflow"/>
                             <TextBlock Text="{Binding Path=BenchmarkSpeed, Converter={StaticResource HashRateConverter}}"></TextBlock>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="Mining ablity " Foreground="#aaa" Margin="0, 5" />
