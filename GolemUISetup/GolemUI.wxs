@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
 <?define Win64 = "yes" ?>
-<?define Version="0.0.6"?>
+<?define Version="0.0.7"?>
 <?define BuildOutputDir="..\bin\Release"?>
-<?define YaBuildOutputDir="F:\yagna\target\release"?>
-<?define MediaDir="$(var.SolutionDir)\Media"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:fw="http://schemas.microsoft.com/wix/FirewallExtension">
   <Product
         Id='*'
@@ -64,7 +62,7 @@
             <File Id='yagnaExe'
                   Name='yagna.exe'
                   DiskId='1'
-                  Source='$(var.YaBuildOutputDir)\yagna.exe'
+                  Source='ExternalBinaries\yagna.exe'
                   KeyPath='yes'>              
             </File>
             <fw:FirewallException Id='GolemNodeFw' File='yagnaExe' Name='Golem Node REST API' Port='7465' Protocol='tcp' Scope='localSubnet'/>
@@ -74,13 +72,13 @@
             <File Id='yaproviderExe'
                   Name='ya-provider.exe'
                   DiskId='1'
-                  Source='$(var.YaBuildOutputDir)\ya-provider.exe'
+                  Source='ExternalBinaries\ya-provider.exe'
                   KeyPath='yes'>
             </File>
           </Component>
           <Directory Id="Plugins" Name="plugins">
             <Component Id="CoreExeUnit" Guid="*" Win64="$(var.Win64)">
-              <File Name="exe-unit.exe" DiskId="1" Source="$(var.YaBuildOutputDir)\exe-unit.exe" KeyPath="yes"/>
+              <File Name="exe-unit.exe" DiskId="1" Source="ExternalBinaries\exe-unit.exe" KeyPath="yes"/>
             </Component>
           </Directory>
         </Directory>
