@@ -392,8 +392,16 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
                                         <StackPanel MaxWidth="400" Margin="50,50,79,7" Grid.Column="1">
                                             <TextBlock FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Margin="20, 0, 0 15">Name your node</TextBlock>
-                                            <TextBox ToolTip="Give your node a name" Margin="20, 40" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Text="{Binding NodeName}"/>
-                                            
+                                            <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="20, 40" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff" >
+                                                <TextBox.Text>
+                                                    <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"/>
+                                                        </Binding.ValidationRules>  
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
                                         </StackPanel>
                                         <Button Content="Next" Grid.Row="1" Grid.Column="1" Style="{DynamicResource GradientButtonStyle}" Height="44"  MinHeight="32" IsDefault="True" Click="OnWTLStep4Next" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                                            Margin="0,0,0,0" />
@@ -586,11 +594,21 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                            
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="6,20,0,0"/>
-                                        <TextBlock FontSize="22" FontWeight="Bold" Margin="50, 40" Grid.Column="1">Name your node</TextBlock>
+                                        <TextBlock Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  FontSize="22" FontWeight="Bold" Margin="50, 40" Grid.Column="1">
+                                          
+                                            Name your node</TextBlock>
                                         <StackPanel  Margin="50,70,50,7" Grid.Column="1">
-                                           
-                                            <TextBox ToolTip="Give your node a name" Margin="0, 40" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Text="{Binding NodeName}"/>
-                                            
+
+
+                                            <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="0, 40" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff">
+                                                <TextBox.Text>
+                                                    <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
                                         </StackPanel>
                                         <Button VerticalAlignment="Bottom" Grid.Column="1" Style="{StaticResource GradientButtonStyle}" Margin="50, 30" Height="44" IsDefault="True" Click="OnEMNameStepDone"
                                             >Next</Button>
