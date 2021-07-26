@@ -1,0 +1,700 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lm="clr-namespace:GolemUI.Model"
+        xmlns:animated="clr-namespace:GolemUI.UI.AnimatedIcons" 
+        xmlns:lui="clr-namespace:GolemUI.UI"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local="clr-namespace:GolemUI.UI"
+        xmlns:DataAccess="clr-namespace:GolemUI.DataAccess" x:Class="GolemUI.UI.SetupWindow"
+        xmlns:lv="clr-namespace:GolemUI.DesignViewModel"             
+        d:DataContext="{d:DesignInstance Type=lv:SetupViewModel, IsDesignTimeCreatable=True}"
+        mc:Ignorable="d"
+        WindowStyle="None"  
+    ResizeMode="CanResizeWithGrip"
+    Background="Transparent"
+    AllowsTransparency="True"    
+    MinHeight="720"
+    MinWidth="1280"
+        Title="SetupWindow" Height="720" Width="1280" Icon="/GolemUI;component/Media/tray.ico" Loaded="Window_Loaded">
+    
+    <!--<Window.Background>
+        <ImageBrush ImageSource="seed_phrase_2.png" Stretch="Uniform"></ImageBrush>
+    </Window.Background>-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="Themes/WindowControls.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/CancelButton.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="Themes/Labels/InfoLabel.xaml"/>
+                <ResourceDictionary Source="Icons/SetupResources.xaml"/>
+                <ResourceDictionary Source="Icons/Wallet_Icon.xaml"/>
+                <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
+                <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
+                <ResourceDictionary>
+                    <DataTemplate x:Key="DTGPU">
+                        <StackPanel Margin="1" MaxWidth="250" ToolTip="{Binding Path=GPUError}">
+                            <TextBlock Text="{Binding gpuName}" Foreground="#aaa" TextWrapping="WrapWithOverflow"/>
+                            <TextBlock Text="{Binding Path=BenchmarkSpeed, Converter={StaticResource HashRateConverter}}"></TextBlock>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Mining ablity " Foreground="#aaa" Margin="0, 5" />
+                                <Grid Visibility="{Binding Path=IsPreInitialization, Converter={StaticResource BoolToVisibleConverter}}">
+                                    <ProgressBar IsIndeterminate="True" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                    <TextBlock Foreground="#aaa"  VerticalAlignment="Center">initializing...</TextBlock>
+                                </Grid>
+                                <Grid Visibility="{Binding Path=IsInitialization, Converter={StaticResource BoolToVisibleConverter}}">
+                                    <ProgressBar Minimum="0" Maximum="1" Value="{Binding Path=DagProgress}" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                    <TextBlock Foreground="#aaa"  VerticalAlignment="Center">initializing...</TextBlock>
+                                </Grid>
+                                <Grid Visibility="{Binding Path=IsEstimation, Converter={StaticResource BoolToVisibleConverter}}">
+                                    <ProgressBar IsIndeterminate="True" Minimum="0" Maximum="1" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                    <TextBlock Foreground="#aaa"  VerticalAlignment="Center">estimating...</TextBlock>
+                                </Grid>
+
+                                <StackPanel Visibility="{Binding Path=IsFinished, Converter={StaticResource BoolToVisibleConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
+                                    <Viewbox Width="25" Height="25" Visibility="{Binding Path=IsReadyForMining, Converter={StaticResource BoolToHiddenConverter}}">
+                                        <Canvas Height="20" Width="20">
+                                            <Canvas>
+                                                <Canvas.RenderTransform>
+                                                    <TransformGroup>
+                                                        <TranslateTransform X="-986.000000" Y="-714.000000" />
+                                                    </TransformGroup>
+                                                </Canvas.RenderTransform>
+                                                <Canvas>
+                                                    <Canvas.RenderTransform>
+                                                        <TransformGroup>
+                                                            <TranslateTransform X="320.000000" Y="160.000000" />
+                                                        </TransformGroup>
+                                                    </Canvas.RenderTransform>
+                                                    <Canvas>
+                                                        <Canvas.RenderTransform>
+                                                            <TransformGroup>
+                                                                <TranslateTransform X="429.000000" Y="299.000000" />
+                                                            </TransformGroup>
+                                                        </Canvas.RenderTransform>
+                                                        <Canvas>
+                                                            <Canvas.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <TranslateTransform X="153.000000" Y="76.000000" />
+                                                                </TransformGroup>
+                                                            </Canvas.RenderTransform>
+                                                            <Canvas>
+                                                                <Canvas.RenderTransform>
+                                                                    <TransformGroup>
+                                                                        <TranslateTransform X="0.000000" Y="119.000000" />
+                                                                    </TransformGroup>
+                                                                </Canvas.RenderTransform>
+                                                                <Canvas>
+                                                                    <Canvas.RenderTransform>
+                                                                        <TransformGroup>
+                                                                            <TranslateTransform X="84.000000" Y="60.000000" />
+                                                                        </TransformGroup>
+                                                                    </Canvas.RenderTransform>
+                                                                    <Path Data="M20,10 C20,4.47708129 15.5229302,0 10,0 C4.47722243,0 0,4.47708129 0,10 C0,15.5229187 4.47722243,20 10,20 C15.5229302,20 20,15.5229187 20,10 Z" Fill="#F36986" />
+                                                                    <Path Data="M16.1689432,2.12905883 C17.50248,3.82827758 18.2979016,5.97015383 18.2979016,8.29788207 C18.2979016,13.8206482 13.8206791,18.2978821 8.29790157,18.2978821 C5.97008777,18.2978821 3.8283098,17.5024414 2.12895843,16.1688232 C3.95971002,18.5014343 6.80488363,20 10,20 C15.5229302,20 20,15.5229187 20,10 C20,6.80480957 18.501488,3.95965578 16.1689432,2.12905883 Z" Fill="#FC476E" />
+                                                                    <Path Data="M10.6350248,11.6796875 L9.36497521,11.6796875 C9.11346815,11.6796875 8.90957651,11.4758301 8.90957651,11.2242127 L8.90957651,5.47424316 C8.90957651,5.22262574 9.11346815,5.01876832 9.36497521,5.01876832 L10.6350248,5.01876832 C10.8865319,5.01876832 11.0905761,5.22262574 11.0905761,5.47424316 L11.0905761,11.2242127 C11.0905761,11.4758301 10.8866845,11.6796875 10.6350248,11.6796875 L10.6350248,11.6796875 Z" Fill="#FFD2E3" />
+                                                                    <Path Data="M10.6351774,5.01876832 L9.8121328,5.01876832 C10.0636399,5.01876832 10.2675315,5.22262574 10.2675315,5.47424316 L10.2675315,11.2242127 C10.2675315,11.4758301 10.0636399,11.6796875 9.8121328,11.6796875 L10.6351774,11.6796875 C10.8866845,11.6796875 11.0905761,11.4756775 11.0905761,11.2242127 L11.0905761,5.47424316 C11.0905761,5.22262574 10.8866845,5.01876832 10.6351774,5.01876832 L10.6351774,5.01876832 Z" Fill="#FFBBD7" />
+                                                                    <Path Data="M10,15.3048706 C9.39778712,15.3048706 8.90957651,14.8165894 8.90957651,14.2144775 L8.90957651,14.2141723 C8.90957651,13.6120605 9.39778712,13.1237793 10,13.1237793 C10.6022129,13.1237793 11.0905761,13.6120605 11.0905761,14.2141723 L11.0905761,14.2144775 C11.0905761,14.8165894 10.6022129,15.3048706 10,15.3048706 L10,15.3048706 Z" Fill="#FFD2E3" />
+                                                                    <Path Data="M10,13.1237793 C9.91224726,13.1237793 9.8269363,13.1344605 9.74513546,13.1539917 C10.2244945,13.2688904 10.580847,13.6997986 10.580847,14.214325 C10.580847,14.7286987 10.2244945,15.1597595 9.74513546,15.2745056 C9.8269363,15.2941895 9.91224726,15.3048706 10,15.3048706 C10.6023655,15.3048706 11.0905761,14.8165894 11.0905761,14.214325 C11.0905761,13.6120605 10.6022129,13.1237793 10,13.1237793 L10,13.1237793 Z" Fill="#FFBBD7" />
+                                                                </Canvas>
+                                                            </Canvas>
+                                                        </Canvas>
+                                                    </Canvas>
+                                                </Canvas>
+                                            </Canvas>
+                                        </Canvas>
+                                    </Viewbox>
+                                    <Viewbox Width="25" Height="25" Visibility="{Binding Path=IsReadyForMining, Converter={StaticResource BoolToVisibleConverter}}">
+                                        <Canvas Height="25" Width="25">
+                                            <Canvas>
+                                                <Canvas.RenderTransform>
+                                                    <TransformGroup>
+                                                        <TranslateTransform X="-595.000000" Y="-370.000000" />
+                                                    </TransformGroup>
+                                                </Canvas.RenderTransform>
+                                                <Canvas>
+                                                    <Canvas.RenderTransform>
+                                                        <TransformGroup>
+                                                            <TranslateTransform X="320.000000" Y="160.000000" />
+                                                        </TransformGroup>
+                                                    </Canvas.RenderTransform>
+                                                    <Canvas>
+                                                        <Canvas.RenderTransform>
+                                                            <TransformGroup>
+                                                                <TranslateTransform X="275.000000" Y="210.000000" />
+                                                            </TransformGroup>
+                                                        </Canvas.RenderTransform>
+                                                        <Ellipse Fill="#04C4BB" Canvas.Left="0" Canvas.Top="0" Width="25" Height="25" />
+                                                        <Path Data="M9.30599369,18.1388013 L15.7334385,24.5662461 C21.0567823,23.1466877 25,18.29653 25,12.5 C25,12.3817035 25,12.2634069 25,12.1451104 L19.9526814,7.49211356 L9.30599369,18.1388013 Z" Fill="#0396C7" />
+                                                        <Canvas>
+                                                            <Canvas.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <TranslateTransform X="4.199527" Y="6.171136" />
+                                                                </TransformGroup>
+                                                            </Canvas.RenderTransform>
+                                                            <Path Data="M8.6159306,9.1285489 C9.16798107,9.68059937 9.16798107,10.6269716 8.6159306,11.1790221 L7.47239748,12.3225552 C6.920347,12.8746057 5.97397476,12.8746057 5.42192429,12.3225552 L0.414037855,7.27523659 C-0.138012618,6.72318612 -0.138012618,5.77681388 0.414037855,5.22476341 L1.55757098,4.08123028 C2.10962145,3.52917981 3.05599369,3.52917981 3.60804416,4.08123028 L8.6159306,9.1285489 Z" Fill="#FFFFFF" />
+                                                            <Path Data="M12.9929022,0.414037855 C13.5449527,-0.138012618 14.4913249,-0.138012618 15.0433754,0.414037855 L16.1869085,1.55757098 C16.738959,2.10962145 16.738959,3.05599369 16.1869085,3.60804416 L7.51182965,12.2436909 C6.95977918,12.7957413 6.01340694,12.7957413 5.46135647,12.2436909 L4.31782334,11.1001577 C3.76577287,10.5481073 3.76577287,9.60173502 4.31782334,9.04968454 L12.9929022,0.414037855 Z" Fill="#FFFFFF" />
+                                                        </Canvas>
+                                                    </Canvas>
+                                                </Canvas>
+                                            </Canvas>
+                                        </Canvas>
+                                    </Viewbox>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                    <ControlTemplate x:Key="ValidationTemplate">
+                        <DockPanel>
+                            <TextBlock Foreground="Red" FontSize="16" Margin="4" FontFamily="Segoe UI Black">!</TextBlock>
+                            <AdornedElementPlaceholder/>
+                        </DockPanel>
+                    </ControlTemplate>
+                    <Style x:Key="TextBoxInError" TargetType="{x:Type TextBox}">
+                        <Style.Triggers>
+                            <Trigger Property="Validation.HasError" Value="true">
+                                <Setter Property="ToolTip"
+              Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                              Path=(Validation.Errors)[0].ErrorContent}"/>
+                                <Setter Property="Background" Value="#faa"/>
+                                <Setter Property="BorderBrush" Value="#faa"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border BorderThickness="1" CornerRadius="12" Background="{DynamicResource SetupWindow.Background}">
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" MouseDown="TitleBar_MouseDown"></Label>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Style="{DynamicResource MinWindowButton}" Click="MinimizeApp" Grid.Column="1"/>
+                <Button Style="{DynamicResource CloseWindowButton}" Click="CloseApp" Grid.Column="2"/>
+            </StackPanel>
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="192"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="192"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="137"/>
+                    <RowDefinition Height="{Binding Path=IsDesingMode, Converter={StaticResource BoolToHeightConverter}}"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Padding="0"  FontFamily="Segoe UI" FontSize="24" Grid.Column="1" Margin="8,40,8,24">Getting Started</Label>
+
+                <TabControl Margin="0" Padding="0" Grid.Row="2" Grid.Column="1" Background="Transparent" BorderBrush="Transparent"  SelectedIndex="{Binding Path=Flow, Mode=OneWay}" Height="auto" >
+                    <TabControl.ItemContainerStyle>
+                        <Style TargetType="{x:Type TabItem}">
+                            <Setter Property="Visibility" Value="{Binding Path=IsDesingMode, Converter={StaticResource BoolToVisibleConverter}}"></Setter>
+
+                        </Style>
+
+                    </TabControl.ItemContainerStyle>
+                    <TabItem Header="Start">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3.8*"/>
+
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="{Binding Path=IsDesingMode, Converter={StaticResource BoolToHeightConverter}}"/>
+                                <RowDefinition Height="84"/>
+                                <RowDefinition Height="2.3*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                        
+                            <Label FontSize="17" FontWeight="Bold" Margin="4,0,0,50" Grid.Row="1">Choose your path</Label>
+                            <UniformGrid Columns="2" Rows="1" Grid.Row="2">
+                                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8" VerticalAlignment="Stretch" >
+                                    <StackPanel Margin="24">
+                                        <Label FontFamily="Segoe UI Black" FontSize="14">I wish To Learn</Label>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="3*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ContentControl Content="{DynamicResource Whish_to_learn_icon}" Margin="2, 16"/>
+                                            <StackPanel Grid.Column="1" Margin="28, 8,4,0">
+                                                <TextBlock FontFamily="Segoe Ui" FontSize="13" Margin="8">Choose this option if you would like us to guide you trough the process step by step and help you learn about safety</TextBlock>
+                                                <Button VerticalAlignment="Bottom" Style="{DynamicResource GradientButtonStyle}" Margin="8,30,8,0" MinHeight="42" Content="I Want to Learn" Click="WantToLearn_Click"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <StackPanel Orientation="Horizontal">
+
+
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8" VerticalAlignment="Stretch">
+                                    <StackPanel Margin="22">
+                                        <Label FontFamily="Segoe UI Black" FontSize="14">I’m quite experienced</Label>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1.4*"/>
+                                                <ColumnDefinition Width="3*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ContentControl Content="{DynamicResource i_em_expert_icon}" VerticalAlignment="Top" Margin="10,14,0,0"/>
+                                            <StackPanel Grid.Column="1" Margin="12, 14,0,0">
+                                                <TextBlock FontFamily="Segoe UI" FontSize="13" Margin="8" MinHeight="70">
+                                                You should know what you are doing and you own your own cryoto wallet allready.
+                                                </TextBlock>
+                                                <Button VerticalAlignment="Bottom" Style="{DynamicResource GradientButtonStyle}" Margin="8,25,8,0" MinHeight="42" Content="I'm an expert" Click="ExpertMode_Click"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </UniformGrid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="WantToLearn">
+                        <StackPanel>
+                            <lui:NavBar Step="{Binding NoobStep}">
+                                <lui:NavBar.Items>
+                                    <lm:NavBarItem StepName="Prepare"/>
+                                    <lm:NavBarItem StepName="Seed Phrase"/>
+                                    <lm:NavBarItem StepName="Name" StepIndex="3"/>
+                                    <lm:NavBarItem StepName="Benchmark"/>
+                                </lui:NavBar.Items>
+                            </lui:NavBar>
+                            <Rectangle Width="20"  Height="{Binding Path=IsDesingMode, Converter={StaticResource BoolToHeightConverter}}" />
+                            <TabControl Background="Transparent" BorderThickness="0" SelectedIndex="{Binding NoobStep}">
+                                <TabControl.ItemContainerStyle>
+                                    <Style TargetType="{x:Type TabItem}">
+                                        <Setter Property="Visibility" Value="{Binding Path=IsDesingMode, Converter={StaticResource BoolToVisibleConverter}}"></Setter>
+                                    </Style>
+                                </TabControl.ItemContainerStyle>
+                                <TabItem Header="Prepare">
+                                    <Grid MinHeight="350">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.2*" MinWidth="275"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="44"/>
+                                        </Grid.RowDefinitions>
+                                        <ContentControl Content="{DynamicResource Prepare_Step_icon}" Margin="6,20,0,0" Padding="0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                                      
+                                        <StackPanel Margin="52,36,52,0" Grid.Column="1" HorizontalAlignment="Stretch">
+                                            <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">We will create a wallet for you</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="15">You will need</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="21" FontWeight="Bold" Margin="0, 10">- Pen and Paper</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="21" FontWeight="Bold" Margin="0, 10">- or active printer</TextBlock>
+
+                                        </StackPanel>
+                                        <UniformGrid Grid.Column="1" Grid.Row="1" Rows="1" Columns="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+                                            <Button Content="Cancel" FontSize="18" Margin="0,0,2,0"  HorizontalAlignment="Stretch" Style="{DynamicResource CancelButtonStyle}" Click="OnCancelNoobFlow"/>
+                                            <Button Content="Got It!" Height="50" Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep1" />
+                                        </UniformGrid>
+                                        <!--<StackPanel Orientation="Horizontal" Margin="2,35,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="1" >
+                                          
+                                            </Button>
+                                        </StackPanel>-->
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Seed Phase">
+                                    <Grid MinHeight="350">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="275"/>
+                                            <ColumnDefinition Width="3*"/>
+
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="44"/>
+                                        </Grid.RowDefinitions>
+                                        <ContentControl Content="{DynamicResource Seed_Step_icon}" Margin="6,20,0,0"  VerticalAlignment="top" HorizontalAlignment="Stretch"/>
+                                        <StackPanel Width="440" Margin="76,20,0,0" Grid.Column="1" HorizontalAlignment="Left">
+                                            <TextBlock FontFamily="Segoe UI" FontSize="24" FontWeight="Bold" Margin="0, 0, 0 15">Your wallet is being created…</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="15" Margin="0, 14, 0 15">In a seccond you will be presented with 12 words.</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="15" Margin="0, 10" Width="440">
+They are a backup for your wallet and in case your disk fails or any other unexpected situation - you will be able to recreate your wallet with your earnings in any external wallet!</TextBlock>
+
+                                        </StackPanel>
+                                        <Button Height="44" Margin="72,0,0,0" Content="Got It!" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep2"
+                                            Grid.Row="1" Grid.Column="1"/>
+                                        
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Seed Phase">
+                                    <Grid MinHeight="350" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="275"/>
+                                            <ColumnDefinition Width="3*"/>
+     
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="44"/>
+                                        </Grid.RowDefinitions>
+                                        <ContentControl Content="{DynamicResource Print_Step_icon}" Margin="6,20,0,10" VerticalAlignment="Top" HorizontalContentAlignment="Stretch"/>
+                                        <StackPanel Width="500" Margin="70,23,79,0" Grid.Column="1">
+                                            <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">Write down this words</TextBlock>
+                                            <ItemsControl ItemsSource="{Binding MnemonicWords}" AlternationCount="12">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,9,0,11">
+                                                            <TextBlock Padding="0" Margin="0" FontSize="14" Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource CounterConverter}}"
+                                                               Foreground="#fff"/>
+                                                            <TextBlock Padding="0" Margin="0" FontSize="14" Text=". " Foreground="#fff"/>
+                                                            <TextBlock Padding="0" Margin="0" FontSize="14" Text="{Binding .}" Foreground="White"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <UniformGrid Columns="3" Margin="0,10,72,0"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+
+                                        </StackPanel>
+                                        <Button Content="Got them all"  Height="44" VerticalAlignment="Bottom" Margin="70,0 ,0,0"  HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" IsDefault="True" Click="OnWTLStep3Next"
+                                            Grid.Row="1" Grid.Column="1"/>
+                                        <Button Content="Print" Height="44" VerticalAlignment="Bottom" Margin="0,0,0,0" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep3Print"
+                                            Grid.Row="1" Grid.Column="0" />
+                                        
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Name">
+                                    <Grid MinHeight="350">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="275"/>
+                                            <ColumnDefinition Width="3*"/>
+
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="44"/>
+                                        </Grid.RowDefinitions>
+                                        <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                                        <StackPanel MaxWidth="400" Margin="50,50,79,7" Grid.Column="1">
+                                            <TextBlock FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Margin="20, 0, 0 15">Name your node</TextBlock>
+                                            <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="20, 40" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff" >
+                                                <TextBox.Text>
+                                                    <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"/>
+                                                        </Binding.ValidationRules>  
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                        </StackPanel>
+                                        <Button Content="Next" Grid.Row="1" Grid.Column="1" Style="{DynamicResource GradientButtonStyle}" Height="44"  MinHeight="32" IsDefault="True" Click="OnWTLStep4Next" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                                           Margin="0,0,0,0" />
+
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Benchmark">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="275"/>
+                                            <ColumnDefinition Width="6*"/>
+                                            
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="64"/>
+                                
+                                        </Grid.RowDefinitions>
+                                        <ContentControl Content="{DynamicResource Benchmark_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                                        <StackPanel MinWidth="400" Margin="20,40" Grid.Column="1" HorizontalAlignment="Stretch">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 0" VerticalAlignment="Center">Calculating your hash power</TextBlock>
+                                                <animated:WorkingAnimIcon VerticalAlignment="Center"
+                                                 Height="15"
+                                                 AnimationFPS="60"
+                                                 WaveWidth="1.2"
+                                                 Width="100"
+                                                Margin="10, 0, 0, 3"
+                                            />
+                                            </StackPanel>
+                                            <UniformGrid Rows="1" Columns="2">
+                                                <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{DynamicResource DTGPU}">
+                                                    <ListBox.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <UniformGrid Columns="1"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ListBox.ItemsPanel>
+                                                </ListBox>
+                                                <StackPanel Margin="10" HorizontalAlignment="Stretch">
+                                                    <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                    <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
+                                                    <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep4Next"
+                                                        Visibility="{Binding Path=BenchmarkIsRunning, Converter={StaticResource BoolToHiddenConverter}}"
+                                            />
+                                                </StackPanel>
+
+                                            </UniformGrid>
+
+                                        </StackPanel>
+
+                                        <Label Grid.Row="2" Grid.ColumnSpan="3" Margin="10"/>
+                                    </Grid>
+
+                                </TabItem>
+                                <TabItem Header="Enjoy!">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="275"/>
+                                            <ColumnDefinition Width="6*"/>
+                                           
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="64"/>
+                                           
+                                        </Grid.RowDefinitions>
+                                        <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top"/>
+                                        <StackPanel MinWidth="400" Margin="20,40" Grid.Column="1" HorizontalAlignment="Stretch">
+                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 10">Enjoy!</TextBlock>
+                                            <StackPanel Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 0, 0, 10">
+                                                <ContentPresenter Content="{StaticResource Status_Card_error}" Margin="0, 0, 0, 0"/>
+                                                <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorStyle}" TextWrapping="Wrap" Width="300" Text="{Binding BenchmarkError}" Margin="5, 0, 0, 0" VerticalAlignment="Center"></TextBox>
+                                            </StackPanel>
+
+                                            <UniformGrid Rows="1" Columns="2">
+                                                <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{DynamicResource DTGPU}">
+                                                    <ListBox.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <UniformGrid Columns="1"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ListBox.ItemsPanel>
+                                                </ListBox>
+                                                <StackPanel Margin="10" HorizontalAlignment="Stretch">
+                                                    <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profit</TextBlock>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                    <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
+                                                    <Button Content="Next" Margin="0, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnNoobFinish"
+                                                       
+                                            />
+                                                </StackPanel>
+                                            </UniformGrid>
+                                        </StackPanel>
+
+                                        <Label Grid.Row="2" Grid.ColumnSpan="3" Margin="10"/>
+                                    </Grid>
+
+                                </TabItem>
+                            </TabControl>
+                        </StackPanel>
+
+                    </TabItem>
+                    <TabItem Header="Expert">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="18" Margin="60, 0">
+                            Decide if you would like to:
+                            </TextBlock>
+                            <UniformGrid Grid.Row="1" Grid.Column="0" Columns="2" Rows="1">
+                                <StackPanel Orientation="Vertical" Margin="60, 0">
+                                    <Viewbox Margin="20,20">
+                                        <Canvas Width="310" Height="310">
+                                            <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
+                                            <ContentControl Content="{DynamicResource Wallet_icon}" Width="180" Canvas.Top="50" Canvas.Left="70"/>
+                                        </Canvas>
+                                    </Viewbox>
+                                    <Button Content="New Wallet" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" Click="OnChooseNewWallet"/>
+                                </StackPanel>
+                                <StackPanel Margin="60, 0">
+                                    <ContentControl Content="{DynamicResource Use_my_wallet_icon}" Margin="20,20"/>
+                                    <Button Content="Use my own" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" Click="OnChooseOwnWallet"/>
+                                </StackPanel>
+                            </UniformGrid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="OwnWallet">
+                        <StackPanel>
+                            <lui:NavBar Step="{Binding ExpertStep}">
+                                <lui:NavBar.Items>
+                                    <lm:NavBarItem StepName="Wallet"/>
+                                    <lm:NavBarItem StepName="Name"/>
+                                    <lm:NavBarItem StepName="Benchmark"/>
+                                </lui:NavBar.Items>
+                            </lui:NavBar>
+                            <TabControl Background="Transparent" BorderBrush="Transparent" SelectedIndex="{Binding ExpertStep}">
+                                <TabControl.ItemContainerStyle>
+                                    <Style TargetType="{x:Type TabItem}">
+                                        <Setter Property="Visibility" Value="{Binding Path=IsDesingMode, Converter={StaticResource BoolToVisibleConverter}}"></Setter>
+                                    </Style>
+                                </TabControl.ItemContainerStyle>
+                                <TabItem Header="Wallet">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="275"/>
+                                            <ColumnDefinition Width="3*"/>
+                                           
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                    
+                                        </Grid.RowDefinitions>
+                                        <TextBlock FontSize="18" FontWeight="Bold" Margin="40,40,40,20" Grid.Column="1">Use only Ethereum address</TextBlock>
+                                        <ContentControl Content="{StaticResource Use_my_wallet_icon}" Grid.Row="0" Grid.RowSpan="2" Margin="6,20,0,0" VerticalAlignment="Top"/>
+                                        <StackPanel Grid.Column="1" Margin="40,80,40,60" VerticalAlignment="Top">
+                                            <TextBlock Foreground="#aaa">Paste your Ethereum address</TextBlock>
+                                            <TextBox Name="TxtAddress" Grid.Column="1" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
+                                 Margin="8" Padding="2" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff"
+                                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
+                                                <TextBox.Text>
+                                                    <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <lc:EthAddrValidator xmlns:lc="clr-namespace:GolemUI.Validators"/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                        </StackPanel>
+                                        <Button Grid.Column="1" VerticalAlignment="Bottom" Style="{StaticResource GradientButtonStyle}" Margin="50, 30" MinHeight="44" Click="OnEMWalletStepDone">Next</Button>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Name">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="275"/>
+                                            <ColumnDefinition Width="3*"/>
+                                           
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                           
+                                           
+                                        </Grid.RowDefinitions>
+                                        <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="6,20,0,0"/>
+                                        <TextBlock Validation.ErrorTemplate="{StaticResource ValidationTemplate}"  FontSize="22" FontWeight="Bold" Margin="50, 40" Grid.Column="1">
+                                          
+                                            Name your node</TextBlock>
+                                        <StackPanel  Margin="50,70,50,7" Grid.Column="1">
+
+
+                                            <TextBox Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="0, 40" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff">
+                                                <TextBox.Text>
+                                                    <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+                                        </StackPanel>
+                                        <Button VerticalAlignment="Bottom" Grid.Column="1" Style="{StaticResource GradientButtonStyle}" Margin="50, 30" Height="44" IsDefault="True" Click="OnEMNameStepDone"
+                                            >Next</Button>
+                                       
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Benchmark">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="275"/>
+                                            <ColumnDefinition Width="3*"/>
+                                           
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="64"/>
+                                            
+                                        </Grid.RowDefinitions>
+                                        <ContentControl VerticalAlignment="Top" Content="{DynamicResource Benchmark_Step_icon}" Margin="6,20,0,0"/>
+                                        <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
+                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Calculating your hash power</TextBlock>
+                                            <UniformGrid Rows="1" Columns="2">
+                                                <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
+                                                    <ListBox.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <UniformGrid Columns="1"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ListBox.ItemsPanel>
+                                                </ListBox>
+                                                <StackPanel Margin="10" HorizontalAlignment="Stretch">
+                                                    <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                    <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
+                                                    <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep4Next"
+                                                        Visibility="{Binding Path=BenchmarkIsRunning, Converter={StaticResource BoolToHiddenConverter}}"
+                                            />
+                                                </StackPanel>
+                                            </UniformGrid>
+                                        </StackPanel>
+                                        <Label Grid.Row="2" Grid.ColumnSpan="3" Margin="10"/>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Enjoy!">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="275"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        
+                                        </Grid.RowDefinitions>
+                                        <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top"/>
+                                        <StackPanel MinWidth="400" Margin="20,50" Grid.Column="1" HorizontalAlignment="Stretch">
+                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Enjoy!</TextBlock>
+                                            <Label Grid.Column="1" Content="{Binding BenchmarkError}" Margin="20, 0, 0 15"></Label>
+                                            <UniformGrid Rows="1" Columns="2">
+                                                <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
+                                                    <ListBox.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <UniformGrid Columns="1"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ListBox.ItemsPanel>
+                                                </ListBox>
+                                                <StackPanel Margin="10" HorizontalAlignment="Stretch">
+                                                    <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                    <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
+                                                    <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnNoobFinish"
+                                                       
+                                            />
+                                                </StackPanel>
+                                            </UniformGrid>
+                                        </StackPanel>
+                                        <Label Grid.Row="2" Grid.ColumnSpan="3" Margin="10"/>
+                                    </Grid>
+                                </TabItem>
+                            </TabControl>
+                        </StackPanel>
+                    </TabItem>
+
+                </TabControl>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

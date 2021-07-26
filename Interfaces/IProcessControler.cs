@@ -1,24 +1,37 @@
-﻿using System;
+﻿using GolemUI.Model;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GolemUI.Interfaces
 {
     public delegate void LogLineHandler(string logger, string line);
-    public interface IProcessControler
-    {
 
-        public Task<bool> Init();
+    public interface IProcessControler : INotifyPropertyChanged
+    {
+        public Task<bool> Prepare();
+
+        /// <summary>
+        /// Starts daemon with given private key.
+        /// </summary>
+        /// <param name="privateKEy"></param>
+        /// <returns>Wallet address</returns>
+        public Task<string> PrepareForKey(byte[] privateKey);
+
+        public Task<bool> Start();
 
         public Task<Command.KeyInfo> Me();
 
-        void Stop();
+        bool IsProviderRunning { get; }
 
-        bool IsRunning { get; }
+        bool IsServerRunning { get; }
 
+        bool IsStarting { get; }
 
-        LogLineHandler LineHandler { get; set; }
+        LogLineHandler? LineHandler { get; set; }
 
+        Task<bool> Stop();
     }
 }

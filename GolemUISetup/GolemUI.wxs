@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+<?define Win64 = "yes" ?>
+<?define Version="0.0.6"?>
+<?define BuildOutputDir="..\bin\Release"?>
+<?define YaPubDir="F:\gminer"?>
+<?define YaBuildOutputDir="F:\yagna\target\release"?>
+<?define MediaDir="$(var.SolutionDir)\Media"?>
+<?define Ya.Runtime.GMiner="F:\ya-runtime-gminer"?>
+<?define Ya.Runtime.Wasi="F:\ya-runtime-wasi"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:fw="http://schemas.microsoft.com/wix/FirewallExtension">
+  <Product
+        Id='*'
+        Name='Golem Provider'
+        UpgradeCode='{96497EC7-11EA-4257-A0E4-37688d0C7EC0}'
+        Manufacturer='golemfactory'
+        Language='1033'
+        Codepage='1252'
+        Version='$(var.Version)'>
+    <Package Id='*'
+           Keywords='Installer'
+            Manufacturer='golemfactory'
+            InstallerVersion='450'
+            Languages='1033'
+            Compressed='yes'
+            InstallScope='perMachine'
+            SummaryCodepage='1252'
+            Platform='x64'/>
+    <MajorUpgrade
+        Schedule='afterInstallInitialize' AllowDowngrades="no" AllowSameVersionUpgrades="no"
+        DowngradeErrorMessage='A newer version of [ProductName] is already installed. Setup will now exit.'/>
+
+    <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1'/>
+    <!-- Allow upgrades and prevent downgrades -->
+    <!--MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." /-->
+    <Property Id='DiskPrompt' Value='Golem Installation'/>
+
+    <!--Condition Message="Required vc++ runtime version 14.22.27812.0 or newer">
+    		<![CDATA[Installed OR VCRUNTIMEVERSION]]>
+	</Condition-->
+    
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="fa2a64b9-19f8-4830-a931-18de65ed4e26">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="Golem Provider UI"
+                  Target="[APPLICATIONFOLDER]GolemUI.Exe"
+                  WorkingDirectory="APPLICATIONFOLDER"/>
+        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\GolemFactory\GolemProviderUI" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Golem"/>
+      </Directory>
+      <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
+        <Directory Id='APPLICATIONFOLDER' Name='GolemProvider'>
+          <Component Id='License' Guid='8aa900e0-cca3-49e0-9e1f-0692d8a3ab29' Win64='$(var.Win64)'>
+            <File Id='LicenseFile'
+                Name='License'
+                DiskId='1'
+                Source='LICENSE.rtf'
+                KeyPath='yes'/>
+          </Component>
+          <Component Id='GolemNode' Guid='a2223e0a-f321-4895-a84c-fcaff67633a0' Win64='$(var.Win64)'>
+            <File Id='yagnaExe'
+                  Name='yagna.exe'
+                  DiskId='1'
+                  Source='$(var.YaBuildOutputDir)\yagna.exe'
+                  KeyPath='yes'>              
+            </File>
+            <fw:FirewallException Id='GolemNodeFw' File='yagnaExe' Name='Golem Node REST API' Port='7465' Protocol='tcp' Scope='localSubnet'/>
+
+          </Component>
+          <Component Id='GolemProvider' Guid='8ffef653-0847-4789-8b37-8c0f90f6a43f' Win64='$(var.Win64)'>
+            <File Id='yaproviderExe'
+                  Name='ya-provider.exe'
+                  DiskId='1'
+                  Source='$(var.YaBuildOutputDir)\ya-provider.exe'
+                  KeyPath='yes'>
+            </File>
+          </Component>
+          <Directory Id="Plugins" Name="plugins">
+            <Component Id="WasmDriver" Guid="*" Win64="$(var.Win64)">
+              <File Id="wasmDriverExe" Name="ya-runtime-wasi.exe" DiskId="1" Source="$(var.Ya.Runtime.Wasi)\target\release\ya-runtime-wasi.exe" KeyPath="yes"/>
+            </Component>
+            <Component Id="WasmDriverManifest" Guid="*" Win64="$(var.Win64)">
+              <File Id="wasmDriverManifest" Name="ya-runtime-wasi.json" DiskId="1" Source="$(var.Ya.Runtime.Wasi)\target\release\ya-runtime-wasi.json" KeyPath="yes"/>
+            </Component>
+            <Component Id="CoreExeUnit" Guid="*" Win64="$(var.Win64)">
+              <File Name="exe-unit.exe" DiskId="1" Source="$(var.YaBuildOutputDir)\exe-unit.exe" KeyPath="yes"/>
+            </Component>
+            <Component Id='GMineDriver' Guid="eebc7614-db08-4129-8619-461c07feb3b8" Win64="$(var.Win64)">
+              <File Name='ya-runtime-gminer.exe' DiskId='1' Source='$(var.Ya.Runtime.GMiner)\target\release\ya-runtime-gminer.exe' KeyPath='no'/>
+              <File Name='ya-runtime-gminer.json' DiskId='1' Source='$(var.Ya.Runtime.GMiner)\target\release\ya-runtime-gminer.json' KeyPath='no'/>
+            </Component>
+            <Directory Id='dir29FA238D75D949F99B06F199E7C9EE82' Name='claymore'>
+              <Directory Id="dir00796F504E8DC0DE85A40C6033069E84" Name="cuda10" />
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature
+        Id='MainProgram'
+        Title='Provider Runtime'
+        Description='Installs the executable and license.'
+        Level='1'
+        ConfigurableDirectory='APPLICATIONFOLDER'
+        AllowAdvertise='no'
+        Display='expand'
+        Absent='disallow'>
+      <ComponentRef Id='License'/>
+
+      <ComponentRef Id='GolemNode'/>
+      <ComponentRef Id='GolemProvider'/>
+      <ComponentGroupRef Id='ProductFilesComponentGroup'/>
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+    <Feature
+        Id='f.wasm'
+        Title='Wasm Driver'
+        Description='Installs Golem Wasm Driver'
+        Level='1'
+        ConfigurableDirectory='APPLICATIONFOLDER'
+        AllowAdvertise='no'
+        Display='expand'
+        Absent='allow'>
+      <ComponentRef Id='License'/>
+      <ComponentRef Id='WasmDriver'/>
+      <ComponentRef Id='WasmDriverManifest'/>
+      <ComponentRef Id='CoreExeUnit'/>
+    </Feature>
+    <Feature
+        Id='f.gmine'
+        Title='Eth mining Driver'
+        Description='Installs Golem Mining Driver'
+        Level='1'
+        ConfigurableDirectory='APPLICATIONFOLDER'
+        AllowAdvertise='no'
+        Display='expand'
+        Absent='allow'>
+      <ComponentRef Id='License'/>
+      <ComponentRef Id='GMineDriver'/>
+      <ComponentGroupRef Id='Claymore'/>
+    </Feature>
+
+
+    <SetProperty Id='ARPINSTALLLOCATION' Value='[APPLICATIONFOLDER]' After='CostFinalize'/>
+    <SetProperty Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" After='CostFinalize' />
+    <UI>
+      <UIRef Id='WixUI_FeatureTree'/>
+      <!--UIRef Id='WixUI_Minimal'/-->
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction"
+      Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+    </UI>
+    <WixVariable Id='WixUILicenseRtf' Value='LICENSE.rtf'/>
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Start Golem" />
+    <CustomAction Id='LaunchApplication' ExeCommand='[APPLICATIONFOLDER]GolemUI.Exe setup' Return="asyncNoWait" Directory="APPLICATIONFOLDER"/>
+
+  </Product>  
+  <Fragment>
+    <Property Id="VCRUNTIMEVERSION">
+      <DirectorySearch Id="SystemFolderDriverVersion" Path="[SystemFolder]">
+        <FileSearch Name="vcruntime140.dll" MinVersion="14.22.27821.0"/>
+      </DirectorySearch>
+    </Property>
+    <PackageGroup Id="redist_vc140">
+      <ExePackage Id="vc140" Cache="yes" PerMachine="yes" Permanent="yes" Vital="yes" Compressed="yes"
+             SourceFile="redist\vcredist_x64.exe"
+             InstallCommand="/quiet /norestart"
+       DetectCondition="(VCRUNTIMEVERSION &gt;= 14.22.27821.0)" />
+    </PackageGroup>
+  </Fragment>
+  <Fragment>
+    <Component Id="cmp2064A296D7784C7B9E0A88832769F2B7" Directory="APPLICATIONFOLDER" Guid="*">
+      <File Id="filE191C2D49C12AE32405B1455AA8C7D41" KeyPath="yes" Source="$(var.GolemUI.TargetDir)\GolemUI.exe" Assembly=".net" />
+    </Component>
+  </Fragment>
+</Wix>

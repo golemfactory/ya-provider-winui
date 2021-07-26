@@ -6,7 +6,8 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using System.Collections.Specialized;
-
+using GolemUI.Settings;
+using System.Globalization;
 
 namespace GolemUI.Command
 {
@@ -57,6 +58,7 @@ namespace GolemUI.Command
         {
             Name = name;
             ExeunitName = exeunitName;
+            PricingModel = "linear";
             UsageCoeffs = usageCoeffs;
         }
 
@@ -72,10 +74,30 @@ namespace GolemUI.Command
         [JsonProperty("usage-coeffs")]
         public Dictionary<string, decimal> UsageCoeffs { get; set; }
     }
+    public class Profile
+    {
+        [JsonConstructor]
+        public Profile(int cpuThreads, double memGib, double storageGib)
+        {
 
+            CpuThreads = cpuThreads;
+            MemGib = memGib;
+            StorageGib = storageGib;
+        }
+
+        [JsonProperty("cpu_threads")]
+        public int CpuThreads { get; set; }
+
+        [JsonProperty("mem_gib")]
+        public double MemGib { get; set; }
+
+        [JsonProperty("storage_gib")]
+        public double StorageGib { get; set; }
+    }
     public class Provider
     {
         private string _yaProviderPath;
+        private string _pluginsPath;
         private string _exeUnitsPath;
 
         public Provider()
@@ -89,8 +111,19 @@ namespace GolemUI.Command
             {
                 throw new ArgumentException();
             }
-            _yaProviderPath = Path.Combine(appBaseDir, "ya-provider");
-            _exeUnitsPath = Path.Combine(appBaseDir, @"plugins\ya-runtime-*.json");
+            _yaProviderPath = Path.Combine(appBaseDir, "ya-provider.exe");
+            _pluginsPath = Path.Combine(appBaseDir, "plugins");
+            _exeUnitsPath = Path.Combine(_pluginsPath, @"ya-runtime-*.json");
+
+            if (!File.Exists(_yaProviderPath))
+            {
+                throw new Exception($"File not found: {_yaProviderPath}");
+            }
+            if (!Directory.Exists(_pluginsPath))
+            {
+                throw new Exception($"Plugins directory not found: {_pluginsPath}");
+            }
+
         }
 
         private T? Exec<T>(string arguments) where T : class
@@ -163,42 +196,109 @@ namespace GolemUI.Command
                 return this.Exec<List<Preset>>("--json preset list") ?? new List<Preset>();
             }
         }
+        public Profile? DefaultProfile
+        {
+            get
+            {
+                var profiles = Exec<Dictionary<string, Profile>>("--json profile list");
+                return profiles?["default"];
+            }
+        }
+        public void UpdateDefaultProfile(String param, String value)
+        {
+            this.ExecToText("profile update " + param + " " + value + " default");
+        }
 
-        public void AddPreset(Preset preset)
+        public IList<string> ActivePresets
+        {
+            get
+            {
+                return this.Exec<List<string>>("--json preset active") ?? new List<string>();
+            }
+        }
+
+        public void ActivatePreset(string presetName)
+        {
+            this.ExecToText($"preset activate {presetName}");
+        }
+        public void DeactivatePreset(string presetName)
+        {
+            this.ExecToText($"preset deactivate {presetName}");
+        }
+
+        public void AddPreset(Preset preset, out string args, out string info)
         {
             StringBuilder cmd = new StringBuilder("preset create --no-interactive", 60);
+
             cmd.Append(" --preset-name \"").Append(preset.Name).Append('"');
             cmd.Append(" --exe-unit \"").Append(preset.ExeunitName).Append('"');
             if (preset.PricingModel != null)
             {
                 foreach (KeyValuePair<string, decimal> kv in preset.UsageCoeffs)
                 {
-                    cmd.Append(" --price ").Append(kv.Key).Append("=").Append(kv.Value);
+                    cmd.Append(" --price ").Append(kv.Key).Append("=").Append(kv.Value.ToString(CultureInfo.InvariantCulture));
                 }
             }
-            this.ExecToText(cmd.ToString());
+            args = cmd.ToString();
+            info = this.ExecToText(cmd.ToString());
         }
 
-        public Process Run(string appkey, Network network)
+        public Process Run(string appkey, Network network, LocalSettings ls, bool enableClaymoreMining, BenchmarkResults br)
         {
-
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaProviderPath,
                 Arguments = $"run --payment-network {network.Id}",
-#if DEBUG
-                UseShellExecute = false,
-                //RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = false
-#else
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true
-#endif
+                UseShellExecute = false
             };
+            if (ls.StartProviderCommandLine)
+            {
+                startInfo.RedirectStandardOutput = false;
+                startInfo.RedirectStandardError = false;
+                startInfo.CreateNoWindow = false;
+            }
+            else
+            {
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.CreateNoWindow = true;
+            }
+
+            if (ls.EnableDebugLogs)
+            {
+                startInfo.EnvironmentVariables["RUST_LOG"] = "debug";
+            }
+
+            if (enableClaymoreMining)
+            {
+                string extraParams = "";
+                if (ls.MinerSelectedGPUIndices != null && !String.IsNullOrEmpty(ls.MinerSelectedGPUIndices))
+                {
+                    string gpuSwitch = "-gpus ";
+                    string cards = ls.MinerSelectedGPUIndices;
+
+                    gpuSwitch += cards;
+
+                    extraParams += gpuSwitch;
+                }
+                if (ls.MinerSelectedGPUsNiceness != null && !String.IsNullOrEmpty(ls.MinerSelectedGPUsNiceness))
+                {
+                    if (extraParams != "")
+                    {
+                        extraParams += " ";
+                    }
+                    string nicenessSwitch = "-li ";
+                    string niceness = ls.MinerSelectedGPUsNiceness;
+
+                    nicenessSwitch += niceness;
+
+                    extraParams += nicenessSwitch;
+                }
+                startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = extraParams;
+            }
+            startInfo.EnvironmentVariables["MIN_AGREEMENT_EXPIRATION"] = "30s";
             startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;
-            startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
+            //startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
             startInfo.EnvironmentVariables["YAGNA_APPKEY"] = appkey;
 
             var process = new Process

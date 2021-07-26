@@ -1,0 +1,28 @@
+﻿<Window x:Class="GolemUI.ExistingProcessesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GolemUI"
+        mc:Ignorable="d"
+        Title="ExistingProcessesWindow" Height="450" Width="800" Loaded="Window_Loaded_1"
+        >
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100px"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <Label Content="Looks like there are processess running that may interfere with this application. &#xD;&#xA;You can try to ignore them, but it is recommended to close or kill these processes before continuing." Height="42"/>
+            <ListBox x:Name="lbProcesses"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+            <Button x:Name="btnReload" Content="Reload" Margin="5,5,5,5" Padding="5" Click="btnReload_Click"></Button>
+            <Button x:Name="btnKillAll" Content="Kill all" Margin="5,5,5,5" Padding="5" Click="btnKillAll_Click"></Button>
+            <Button x:Name="btnIgnore" Content="Ignore" Margin="5,5,5,5" Padding="5" Click="btnIgnore_Click"></Button>
+            <Button x:Name="btnCancel" Content="Cancel" Margin="5,5,5,5" Padding="5" Click="btnCancel_Click"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

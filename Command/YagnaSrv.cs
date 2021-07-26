@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using GolemUI.Settings;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -7,10 +8,24 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace GolemUI.Command
 {
+
+    public class YagnaStartupOptions
+    {
+        public string? ForceAppKey { get; set; }
+
+        public string? PrivateKey { get; set; }
+
+        public bool Debug { get; set; }
+
+        public bool OpenConsole { get; set; }
+    }
+
 
     [JsonObject(MemberSerialization.OptIn)]
     internal class Table
@@ -97,27 +112,31 @@ namespace GolemUI.Command
                 throw new ArgumentException();
             }
             _yaExePath = Path.Combine(appBaseDir, "yagna.exe");
+            if (!File.Exists(_yaExePath))
+            {
+                throw new Exception($"File not found: {_yaExePath}");
+            }
         }
 
+        private string _escapeArgument(string argument)
+        {
+            if (argument.Contains(" ") || argument.StartsWith("\""))
+            {
+                return $"\"{argument.Replace("\"", "\\\"")}\"";
+            }
+            return argument;
+        }
         private Process _createProcess(params string[] arguments)
         {
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaExePath,
-                Arguments = null,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = false,
-                CreateNoWindow = true
+                RedirectStandardError = true,
+                CreateNoWindow = true,
+                Arguments = String.Join(" ", (from arg in arguments where arg != null select _escapeArgument(arg)))
             };
-            foreach (var arg in arguments)
-            {
-                if (arg == null)
-                {
-                    throw new ArgumentNullException();
-                }
-                startInfo.ArgumentList.Add(arg);
-            }
 
             var p = new Process
             {
@@ -131,6 +150,11 @@ namespace GolemUI.Command
         {
             var process = _createProcess(arguments);
             string output = process.StandardOutput.ReadToEnd();
+            if (process.ExitCode != 0)
+            {
+                var error = process.StandardError.ReadToEnd();
+                throw new Exception("Yagna call failed");
+            }
             return output;
         }
 
@@ -180,24 +204,44 @@ namespace GolemUI.Command
         }
 
 
-        public Process Run()
+        public Process Run(YagnaStartupOptions options)
         {
+            string debugFlag = "";
+            if (options.Debug)
+            {
+                debugFlag = "--debug";
+            }
 
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaExePath,
-                Arguments = "service run",
-#if DEBUG
-                //UseShellExecute = false,
-                //RedirectStandardOutput = true,
-                //CreateNoWindow = true
-#else
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true
-#endif
+                Arguments = $"service run {debugFlag}",
             };
-            //startInfo.EnvironmentVariables.Add();
+
+            if (options.PrivateKey != null)
+            {
+                startInfo.EnvironmentVariables.Add("YAGNA_AC_IDENTITY_PK", options.PrivateKey);
+            }
+
+            if (options.ForceAppKey != null)
+            {
+                startInfo.EnvironmentVariables.Add("YAGNA_AC_APPKEY", options.ForceAppKey);
+            }
+
+            if (options.OpenConsole)
+            {
+                startInfo.RedirectStandardOutput = false;
+                startInfo.RedirectStandardError = false;
+            }
+            else
+            {
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.CreateNoWindow = true;
+                startInfo.UseShellExecute = false;
+            }
+
+
             var process = new Process
             {
                 StartInfo = startInfo
@@ -299,9 +343,6 @@ namespace GolemUI.Command
             return await _yagnaSrv.ExecAsync<T>(prepareArgs(arguments));
         }
 
-
-
-
         public string? Create(string name)
         {
             return Exec<string>("create", name);
@@ -319,11 +360,20 @@ namespace GolemUI.Command
         public List<KeyInfo> List()
         {
             var output = new List<KeyInfo>();
-            Table table = null;
+            Table? table = null;
             int tries = 0;
             while (table == null)
             {
-                table = Exec<Table>("list");
+                try
+                {
+                    table = Exec<Table>("list");
+                }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine(e.ToString());
+                    //do nothing
+                }
+                Thread.Sleep(1000);
                 tries++;
                 if (tries == 10)
                 {
@@ -389,12 +439,26 @@ namespace GolemUI.Command
 
         public void Init(Network network, string driver, string account)
         {
-            _srv.Exec<PaymentStatus>("payment", "init", "--receiver", "--network", network.Id, "--driver", driver, "--acount", account);
+            _srv.Exec<PaymentStatus>("payment", "init", "--receiver", "--network", network.Id, "--driver", driver, "--account", account);
         }
 
-        public PaymentStatus? Status(Network network, string driver)
+        public async Task<PaymentStatus?> Status(Network network, string driver, string account)
         {
-            return _srv.Exec<PaymentStatus>("--json", "payment", "status", "--network", network.Id, "--driver", driver);
+            return await _srv.ExecAsync<PaymentStatus>("--json", "payment", "status", "--network", network.Id, "--driver", driver, "--account", account);
+        }
+
+        public async Task<string?> ExitTo(Network network, string driver, string account, string? destination)
+        {
+            if (destination == null)
+            {
+                return null;
+            }
+            return await _srv.ExecToTextAsync("--json", "payment", "exit", "--network", network.Id, "--driver", driver, "--account", account, "--to-address", destination);
+        }
+
+        public async Task<ActivityStatus?> ActivityStatus()
+        {
+            return await _srv.ExecAsync<ActivityStatus>("--json", "activity", "status");
         }
 
     }

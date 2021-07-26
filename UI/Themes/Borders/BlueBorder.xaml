@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:local="clr-namespace:GolemUI">
+
+    <!-- BLUE PANEL  -->
+    
+    <!--<BlurEffect x:Key="BlueBox.Effect2" Radius="2" KernelType="Gaussian" />-->
+
+
+    <!--<DropShadowEffect x:Key="BlueBox.Effect" BlurRadius="10"  ShadowDepth="5" Color="#06D0BA" Opacity="0.25" Direction="-45">
+    </DropShadowEffect>-->
+    <SolidColorBrush x:Key="BlueBox.Background" Color="#120539" Opacity="0.60"></SolidColorBrush>
+    <SolidColorBrush x:Key="BlueBox.Border" Color="#bbb" Opacity="0.3"></SolidColorBrush>
+    <Style x:Key="BorderStyleBlueBox" TargetType="{x:Type Border}">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="BorderBrush" Value="{StaticResource BlueBox.Border}"/>
+        <Setter Property="Background" Value="{StaticResource BlueBox.Background}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <!--<Setter Property="Effect" Value="{StaticResource BlueBox.Effect}"/>-->
+    </Style>
+
+    <Style x:Key="BlueBoxTitle" TargetType="{x:Type Label}">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style x:Key="BlueBoxTextBlock" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,1225 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="Profit_icon">
+        <Viewbox.Resources>
+            <LinearGradientBrush x:Key="linearGradient-1" StartPoint="0.909171104431152,0.276158660650253" EndPoint="0.512583494186401,0.512863337993622" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#45108A" Offset="0.0959596" />
+                        <GradientStop Color="#7C1DC9" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-2" StartPoint="0.0947242230176926,0" EndPoint="0.837222695350647,1.27191305160522" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#45108A" Offset="0.0959596" />
+                        <GradientStop Color="#7C1DC9" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-3" StartPoint="0,0.499048858880997" EndPoint="1.00043833255768,0.499048858880997" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#45108A" Offset="0.0959596" />
+                        <GradientStop Color="#7C1DC9" Offset="0.6218" />
+                        <GradientStop Color="#5D16A5" Offset="0.8986" />
+                        <GradientStop Color="#501397" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-4" StartPoint="0.00503355683758855,0.503130793571472" EndPoint="0.989573836326599,0.503130793571472" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-5" StartPoint="0.508000016212463,0.496399998664856" EndPoint="0.513100028038025,0.496399998664856" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-6" StartPoint="0.00503691285848618,0.504062473773956" EndPoint="0.989570498466492,0.504062473773956" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-7" StartPoint="0.513999998569489,0.496399998664856" EndPoint="0.518999993801117,0.496399998664856" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-8" StartPoint="1.42465770244598,0" EndPoint="0.446271806955338,0.530935287475586" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-9" StartPoint="1.0401531457901,0.190597668290138" EndPoint="0.0583963952958584,0.753487527370453" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-10" StartPoint="1.22085130214691,0.316005498170853" EndPoint="0.294369369745255,0.593863129615784" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-11" StartPoint="0,0.504186689853668" EndPoint="1.0073527097702,0.504186689853668" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-12" StartPoint="1.48266732692719,0.156768441200256" EndPoint="0.638271450996399,0.452559441328049" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-13" StartPoint="0.00503355683758855,0.496361523866653" EndPoint="0.989573836326599,0.496361523866653" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-14" StartPoint="0.508000016212463,0.508400022983551" EndPoint="0.513100028038025,0.508400022983551" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-15" StartPoint="0.00503691285848618,0.500113427639008" EndPoint="0.989570498466492,0.500113427639008" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-16" StartPoint="0.513999998569489,0.508400022983551" EndPoint="0.518999993801117,0.508400022983551" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-17" StartPoint="1.42465770244598,0" EndPoint="0.446271806955338,0.531164050102234" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-18" StartPoint="1.0401531457901,0.19090561568737" EndPoint="0.0583963952958584,0.753795504570007" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-19" StartPoint="1.22085130214691,0.316166579723358" EndPoint="0.294369369745255,0.594025611877441" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-20" StartPoint="0,0.499108105897903" EndPoint="1.0073527097702,0.499108105897903" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-21" StartPoint="1.4959317445755,0.138369143009186" EndPoint="0.628330588340759,0.45064714550972" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-22" StartPoint="0,0.499369323253632" EndPoint="0.941396534442902,0.499369323253632" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#45108A" Offset="0.0959596" />
+                        <GradientStop Color="#7C1DC9" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-23" StartPoint="0.370571553707123,0.243382140994072" EndPoint="0.723076581954956,0.941141426563263" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#45108A" Offset="0.0959596" />
+                        <GradientStop Color="#7C1DC9" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-24" StartPoint="0.00905660353600979,0.500930786132813" EndPoint="1.00169813632965,0.500930786132813" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#9F19AB" Offset="0.0353535" />
+                        <GradientStop Color="#AE25B1" Offset="0.1641" />
+                        <GradientStop Color="#D744BF" Offset="0.4123" />
+                        <GradientStop Color="#FF63CE" Offset="0.6313" />
+                        <GradientStop Color="#DC48C1" Offset="0.8737" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-25" StartPoint="0,0.500509858131409" EndPoint="1.36217665672302,0.500509858131409" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#9F19AB" Offset="0.0353535" />
+                        <GradientStop Color="#AE25B1" Offset="0.1641" />
+                        <GradientStop Color="#D744BF" Offset="0.4123" />
+                        <GradientStop Color="#FF63CE" Offset="0.6313" />
+                        <GradientStop Color="#DC48C1" Offset="0.8737" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-26" StartPoint="1.13875269889832,0" EndPoint="0.170360431075096,0.72272515296936" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#9F19AB" Offset="0.0353535" />
+                        <GradientStop Color="#AE25B1" Offset="0.2438" />
+                        <GradientStop Color="#D744BF" Offset="0.6455" />
+                        <GradientStop Color="#FF63CE" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-27" StartPoint="0.00385714275762439,0.5005162358284" EndPoint="1.00283670425415,0.5005162358284" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#671AB9" Offset="0" />
+                        <GradientStop Color="#AD34F1" Offset="0.3386" />
+                        <GradientStop Color="#5513AB" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-28" StartPoint="0,0.500608503818512" EndPoint="1.99397754669189,0.500608503818512" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#671AB9" Offset="0" />
+                        <GradientStop Color="#AD34F1" Offset="0.3386" />
+                        <GradientStop Color="#5513AB" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-29" StartPoint="1.07201755046844,0.0909781008958817" EndPoint="0.35386249423027,0.601612865924835" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#5513AB" Offset="0" />
+                        <GradientStop Color="#BE3BFF" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-30" StartPoint="0.909171104431152,0.278166681528091" EndPoint="0.512583494186401,0.512747943401337" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#45108A" Offset="0.0959596" />
+                        <GradientStop Color="#7C1DC9" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-31" StartPoint="0.0910557210445404,0" EndPoint="0.840275228023529,1.27191305160522" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#45108A" Offset="0.0959596" />
+                        <GradientStop Color="#7C1DC9" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-32" StartPoint="0,0.499048858880997" EndPoint="1.00043833255768,0.499048858880997" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#45108A" Offset="0.0959596" />
+                        <GradientStop Color="#7C1DC9" Offset="0.6218" />
+                        <GradientStop Color="#5D16A5" Offset="0.8986" />
+                        <GradientStop Color="#501397" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-33" StartPoint="0.00503355683758855,0.503130793571472" EndPoint="0.989573836326599,0.503130793571472" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-34" StartPoint="0.508000016212463,0.496399998664856" EndPoint="0.513100028038025,0.496399998664856" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-35" StartPoint="0.00503691285848618,0.504062473773956" EndPoint="0.989570498466492,0.504062473773956" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-36" StartPoint="0.513999998569489,0.496399998664856" EndPoint="0.518999993801117,0.496399998664856" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-37" StartPoint="1.42465770244598,0" EndPoint="0.446271806955338,0.530657768249512" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-38" StartPoint="1.0401531457901,0.193373203277588" EndPoint="0.0583963952958584,0.751213550567627" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-39" StartPoint="1.22085130214691,0.31765604019165" EndPoint="0.294369369745255,0.593021154403687" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-40" StartPoint="0,0.504186689853668" EndPoint="1.0073527097702,0.504186689853668" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-41" StartPoint="1.48266732692719,0.159847468137741" EndPoint="0.638271450996399,0.452985018491745" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-42" StartPoint="0.00503355683758855,0.496361523866653" EndPoint="0.989573836326599,0.496361523866653" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-43" StartPoint="0.508000016212463,0.508400022983551" EndPoint="0.513100028038025,0.508400022983551" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-44" StartPoint="0.00503691285848618,0.500113427639008" EndPoint="0.989570498466492,0.500113427639008" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-45" StartPoint="0.513999998569489,0.508400022983551" EndPoint="0.518999993801117,0.508400022983551" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-46" StartPoint="1.42465770244598,0" EndPoint="0.446271806955338,0.530884444713593" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-47" StartPoint="1.0401531457901,0.19367840886116" EndPoint="0.0583963952958584,0.751518785953522" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-48" StartPoint="1.22085130214691,0.317815691232681" EndPoint="0.294369369745255,0.59318208694458" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-49" StartPoint="0,0.499108105897903" EndPoint="1.0073527097702,0.499108105897903" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-50" StartPoint="1.4959317445755,0.141613215208054" EndPoint="0.628330588340759,0.451089888811111" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-51" StartPoint="0,0.499369323253632" EndPoint="0.941396534442902,0.499369323253632" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#45108A" Offset="0.0959596" />
+                        <GradientStop Color="#7C1DC9" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-52" StartPoint="0.369399964809418,0.243382140994072" EndPoint="0.725095808506012,0.941141426563263" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#45108A" Offset="0.0959596" />
+                        <GradientStop Color="#7C1DC9" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-53" StartPoint="0.908031821250916,0.281182080507278" EndPoint="0.511941134929657,0.513394117355347" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#45108A" Offset="0.0959596" />
+                        <GradientStop Color="#7C1DC9" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-54" StartPoint="0.00905660353600979,0.500930786132813" EndPoint="1.00169813632965,0.500930786132813" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#9F19AB" Offset="0.0353535" />
+                        <GradientStop Color="#AE25B1" Offset="0.1641" />
+                        <GradientStop Color="#D744BF" Offset="0.4123" />
+                        <GradientStop Color="#FF63CE" Offset="0.6313" />
+                        <GradientStop Color="#DC48C1" Offset="0.8737" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-55" StartPoint="0,0.500509858131409" EndPoint="1.36217665672302,0.500509858131409" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#9F19AB" Offset="0.0353535" />
+                        <GradientStop Color="#AE25B1" Offset="0.1641" />
+                        <GradientStop Color="#D744BF" Offset="0.4123" />
+                        <GradientStop Color="#FF63CE" Offset="0.6313" />
+                        <GradientStop Color="#DC48C1" Offset="0.8737" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-56" StartPoint="1.13875269889832,0" EndPoint="0.170360431075096,0.720727145671844" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#9F19AB" Offset="0.0353535" />
+                        <GradientStop Color="#AE25B1" Offset="0.2438" />
+                        <GradientStop Color="#D744BF" Offset="0.6455" />
+                        <GradientStop Color="#FF63CE" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-57" StartPoint="0.00385714275762439,0.5005162358284" EndPoint="1.00283670425415,0.5005162358284" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#671AB9" Offset="0" />
+                        <GradientStop Color="#AD34F1" Offset="0.3386" />
+                        <GradientStop Color="#5513AB" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-58" StartPoint="0,0.500608503818512" EndPoint="1.99397754669189,0.500608503818512" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#671AB9" Offset="0" />
+                        <GradientStop Color="#AD34F1" Offset="0.3386" />
+                        <GradientStop Color="#5513AB" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-59" StartPoint="1.07201755046844,0.0946473032236099" EndPoint="0.35386249423027,0.600701332092285" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#5513AB" Offset="0" />
+                        <GradientStop Color="#BE3BFF" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-60" StartPoint="0.00503355683758855,0.497576922178268" EndPoint="0.989573836326599,0.497576922178268" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-61" StartPoint="0.508000016212463,0.524200022220612" EndPoint="0.513100028038025,0.524200022220612" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-62" StartPoint="0.00503691285848618,0.50696873664856" EndPoint="0.989570498466492,0.50696873664856" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-63" StartPoint="0.513999998569489,0.524200022220612" EndPoint="0.518999993801117,0.524200022220612" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-64" StartPoint="1.42465770244598,0" EndPoint="0.446271806955338,0.531182944774628" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-65" StartPoint="1.0401531457901,0.194080248475075" EndPoint="0.0583963952958584,0.751920580863953" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-66" StartPoint="1.22085130214691,0.318025887012482" EndPoint="0.294369369745255,0.593392312526703" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-67" StartPoint="0.0168611127883196,0.501243233680725" EndPoint="1.0072215795517,0.501243233680725" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-68" StartPoint="1.48266732692719,0.161424085497856" EndPoint="0.638271450996399,0.454567313194275" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-69" StartPoint="0.00503355683758855,0.500307679176331" EndPoint="0.989573836326599,0.500307679176331" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-70" StartPoint="0.508000016212463,0.559599995613098" EndPoint="0.513100028038025,0.559599995613098" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-71" StartPoint="0.00503691285848618,0.500239610671997" EndPoint="0.989570498466492,0.500239610671997" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-72" StartPoint="0.513999998569489,0.459600001573563" EndPoint="0.518999993801117,0.459600001573563" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-73" StartPoint="1.42466104030609,0" EndPoint="0.446271806955338,0.529964447021484" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-74" StartPoint="1.0401531457901,0.192439824342728" EndPoint="0.0583963952958584,0.750280201435089" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-75" StartPoint="1.22085130214691,0.317167818546295" EndPoint="0.294369369745255,0.592534244060516" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-76" StartPoint="0.0168611127883196,0.506040513515472" EndPoint="1.0072215795517,0.506040513515472" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBB96" Offset="0" />
+                        <GradientStop Color="#FFFBC9" Offset="0.2273" />
+                        <GradientStop Color="#F9B673" Offset="0.5404" />
+                        <GradientStop Color="#F9B876" Offset="0.6391" />
+                        <GradientStop Color="#FABE81" Offset="0.7249" />
+                        <GradientStop Color="#FCC993" Offset="0.8057" />
+                        <GradientStop Color="#FED2A3" Offset="0.8586" />
+                        <GradientStop Color="#FFC28C" Offset="0.9697" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="linearGradient-77" StartPoint="1.48266732692719,0.157766103744507" EndPoint="0.638271450996399,0.450909316539764" MappingMode="RelativeToBoundingBox">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#FFBA78" Offset="0.0353535" />
+                        <GradientStop Color="#FFC987" Offset="0.395" />
+                        <GradientStop Color="#FEECA8" Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+        </Viewbox.Resources>
+        <Canvas Height="76" Width="58">
+            <Canvas>
+                <Canvas.RenderTransform>
+                    <TransformGroup>
+                        <TranslateTransform X="-1019.000000" Y="-515.000000" />
+                    </TransformGroup>
+                </Canvas.RenderTransform>
+                <Canvas>
+                    <Canvas.RenderTransform>
+                        <TransformGroup>
+                            <TranslateTransform X="320.000000" Y="160.000000" />
+                        </TransformGroup>
+                    </Canvas.RenderTransform>
+                    <Canvas>
+                        <Canvas.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform X="643.000000" Y="299.000000" />
+                            </TransformGroup>
+                        </Canvas.RenderTransform>
+                        <Canvas>
+                            <Canvas.RenderTransform>
+                                <TransformGroup>
+                                    <TranslateTransform X="56.000000" Y="56.000000" />
+                                </TransformGroup>
+                            </Canvas.RenderTransform>
+                            <Canvas Opacity="0.2">
+                                <Canvas.RenderTransform>
+                                    <TransformGroup>
+                                        <TranslateTransform X="0.000000" Y="32.000000" />
+                                    </TransformGroup>
+                                </Canvas.RenderTransform>
+                                <Canvas>
+                                    <Path Data="M28.9273183,10.9507128 C12.9373434,10.9507128 5.66935388e-13,18.2631365 0.0723769546,27.3678208 L18.3884712,27.3678208 C18.3884712,25.7906314 19.406015,24.2851324 21.5137845,23.0663951 C25.6566416,20.700611 32.4160401,20.700611 36.5588972,23.0663951 C40.7017544,25.4321792 40.7744361,29.2317719 36.6315789,31.597556 L49.5689223,39.1967413 C55.2380952,35.9706721 58,32.099389 58,27.5112016 C57.9273183,18.4065173 44.9172932,11.0224033 28.9273183,10.9507128 Z" Fill="{StaticResource linearGradient-1}" />
+                                    <Polygon Fill="{StaticResource linearGradient-2}" Points="18.3884712 6.00407332 0 6.00407332 0 27.4395112 18.3884712 27.4395112" />
+                                    <Path Data="M21.4411028,23.209776 C25.5839599,20.8439919 32.3433584,20.8439919 36.4862155,23.209776 C38.5213033,24.3568228 39.6115288,25.9340122 39.6115288,27.4395112 L39.6115288,6.14745418 C39.6115288,4.57026477 38.593985,2.99307536 36.4862155,1.77433809 C32.3433584,-0.591446029 25.5839599,-0.591446029 21.4411028,1.77433809 C19.406015,2.92138493 18.3884712,4.42688391 18.3884712,6.00407332 L18.3884712,6.00407332 L18.3884712,27.5112016 L18.3884712,27.5112016 C18.3884712,25.9340122 19.406015,24.3568228 21.4411028,23.209776 Z" Fill="{StaticResource linearGradient-3}" />
+                                    <Path Data="M39.9749373,23.9983707 L18.3157895,23.9983707 L18.3157895,27.0093686 L18.3157895,27.0093686 C18.3157895,27.0093686 18.3157895,27.0810591 18.3157895,27.0810591 C18.3157895,30.5221996 23.1854637,33.3181263 29.1453634,33.3181263 C35.1052632,33.3181263 39.9749373,30.5221996 39.9749373,27.0810591 C39.9749373,27.0810591 39.9749373,27.0093686 39.9749373,27.0093686 L39.9749373,27.0093686 L39.9749373,23.9983707 L39.9749373,23.9983707 Z" Fill="{StaticResource linearGradient-4}" />
+                                    <Canvas>
+                                        <Canvas.RenderTransform>
+                                            <TransformGroup>
+                                                <TranslateTransform X="17.952381" Y="26.328310" />
+                                            </TransformGroup>
+                                        </Canvas.RenderTransform>
+                                        <Path Data="M0.363408521,0.322606925 L0.363408521,0.394297352 C0.363408521,0.394297352 0.363408521,0.322606925 0.363408521,0.322606925 L0.363408521,0.322606925 Z" Fill="{StaticResource linearGradient-5}" />
+                                        <Path Data="M11.1929825,6.34460285 C5.23308271,6.34460285 0.363408521,3.54867617 0.363408521,0.107535642 L0.363408521,0.681059063 L0.363408521,0.681059063 C0.363408521,0.681059063 0.363408521,0.752749491 0.363408521,0.752749491 C0.363408521,4.19389002 5.23308271,6.9898167 11.1929825,6.9898167 C17.1528822,6.9898167 22.0225564,4.19389002 22.0225564,0.752749491 C22.0225564,0.752749491 22.0225564,0.681059063 22.0225564,0.681059063 L22.0225564,0.681059063 L22.0225564,0.107535642 C22.0225564,3.54867617 17.1528822,6.34460285 11.1929825,6.34460285 Z" Fill="{StaticResource linearGradient-6}" />
+                                        <Path Data="M22.0225564,0.394297352 L22.0225564,0.322606925 L22.0225564,0.322606925 C22.0225564,0.322606925 22.0225564,0.394297352 22.0225564,0.394297352 Z" Fill="{StaticResource linearGradient-7}" />
+                                    </Canvas>
+                                    <Canvas>
+                                        <Canvas.RenderTransform>
+                                            <TransformGroup>
+                                                <TranslateTransform X="18.679198" Y="25.073727" />
+                                            </TransformGroup>
+                                        </Canvas.RenderTransform>
+                                        <Path Data="M13.8095238,7.95763747 C13.8822055,7.95763747 14.0275689,7.88594705 14.1002506,7.88594705 L14.1002506,2.84186628e-14 L13.8095238,2.84186628e-14 L13.8095238,7.95763747 Z" Fill="#FDD65B" />
+                                        <Path Data="M15.1904762,7.67087576 C15.2631579,7.67087576 15.4085213,7.59918534 15.481203,7.59918534 L15.481203,0 L15.1904762,0 L15.1904762,7.67087576 Z" Fill="#FDD65B" />
+                                        <Path Data="M16.4987469,7.2407332 C16.5714286,7.16904277 16.716792,7.16904277 16.7894737,7.09735234 L16.7894737,0 L16.4987469,0 L16.4987469,7.2407332 Z" Fill="#FDD65B" />
+                                        <Path Data="M12.4285714,8.17270876 C12.5012531,8.17270876 12.6466165,8.17270876 12.7192982,8.17270876 L12.7192982,0 L12.4285714,0 L12.4285714,8.17270876 Z" Fill="#FDD65B" />
+                                        <Path Data="M19.2606516,5.73523422 C19.3333333,5.66354379 19.4786967,5.59185336 19.5513784,5.52016293 L19.5513784,0.0716904277 L19.2606516,0.0716904277 L19.2606516,5.73523422 Z" Fill="#FDD65B" />
+                                        <Path Data="M20.5689223,4.22973523 C20.7142857,4.08635438 20.7869674,3.8712831 20.8596491,3.72790224 L20.8596491,0 L20.5689223,0 L20.5689223,4.22973523 Z" Fill="#FDD65B" />
+                                        <Path Data="M17.8796992,6.59551935 C17.952381,6.52382892 18.0977444,6.52382892 18.1704261,6.45213849 L18.1704261,0.0716904277 L17.8796992,0.0716904277 L17.8796992,6.59551935 Z" Fill="#FDD65B" />
+                                        <Path Data="M11.047619,8.24439919 C11.1203008,8.24439919 11.2656642,8.24439919 11.3383459,8.24439919 L11.3383459,0 L11.047619,0 L11.047619,8.24439919 Z" Fill="#FDD65B" />
+                                        <Path Data="M9.73934837,8.24439919 C9.81203008,8.24439919 9.95739348,8.24439919 10.0300752,8.24439919 L10.0300752,0 L9.73934837,0 L9.73934837,8.24439919 Z" Fill="#FDD65B" />
+                                        <Path Data="M6.97744361,7.95763747 C7.05012531,7.95763747 7.19548872,8.0293279 7.26817043,8.0293279 L7.26817043,0 L6.97744361,0 L6.97744361,7.95763747 Z" Fill="#FDD65B" />
+                                        <Path Data="M8.35839599,8.17270876 C8.43107769,8.17270876 8.5764411,8.17270876 8.64912281,8.17270876 L8.64912281,0 L8.35839599,0 L8.35839599,8.17270876 Z" Fill="#FDD65B" />
+                                        <Path Data="M5.59649123,7.59918534 C5.66917293,7.59918534 5.81453634,7.67087576 5.88721805,7.67087576 L5.88721805,0 L5.59649123,0 L5.59649123,7.59918534 Z" Fill="#FDD65B" />
+                                        <Path Data="M0.218045113,4.01466395 C0.290726817,4.15804481 0.436090226,4.30142566 0.50877193,4.51649695 L0.50877193,0.0716904277 L0.218045113,0.0716904277 L0.218045113,4.01466395 Z" Fill="#FDD65B" />
+                                        <Path Data="M1.52631579,5.59185336 C1.59899749,5.66354379 1.7443609,5.73523422 1.81704261,5.80692464 L1.81704261,0 L1.52631579,0 L1.52631579,5.59185336 Z" Fill="#FDD65B" />
+                                        <Path Data="M4.28822055,7.16904277 C4.36090226,7.2407332 4.50626566,7.2407332 4.57894737,7.31242363 L4.57894737,0 L4.28822055,0 L4.28822055,7.16904277 Z" Fill="#FDD65B" />
+                                        <Path Data="M2.90726817,6.52382892 C2.97994987,6.59551935 3.12531328,6.59551935 3.19799499,6.66720978 L3.19799499,2.84186628e-14 L2.90726817,2.84186628e-14 L2.90726817,6.52382892 Z" Fill="#FDD65B" />
+                                    </Canvas>
+                                    <Ellipse Fill="{StaticResource linearGradient-8}" Canvas.Left="18.3157895" Canvas.Top="17.83299389" Width="21.6591478" Height="12.47413442" />
+                                    <Path Data="M29.1453634,30.092057 C23.2581454,30.092057 18.5338346,27.4395112 18.3157895,24.0700611 C18.3157895,24.1417515 18.3157895,24.213442 18.3157895,24.2851324 C18.3157895,27.7262729 23.1854637,30.5221996 29.1453634,30.5221996 C35.1052632,30.5221996 39.9749373,27.7262729 39.9749373,24.2851324 C39.9749373,24.213442 39.9749373,24.1417515 39.9749373,24.0700611 C39.7568922,27.4395112 35.0325815,30.092057 29.1453634,30.092057 Z" Fill="#FFC785" />
+                                    <Ellipse Fill="{StaticResource linearGradient-9}" Canvas.Left="21.07769423" Canvas.Top="19.4101833" Width="16.13533834" Height="9.3197556" />
+                                    <Path Data="M29.4360902,19.6252546 C33.7969925,19.6252546 37.2857143,21.5608961 37.5037594,23.9983707 C37.5037594,23.9266802 37.5037594,23.8549898 37.5037594,23.7832994 C37.5037594,21.202444 33.8696742,19.1234216 29.4360902,19.1234216 C24.9298246,19.1234216 21.3684211,21.202444 21.3684211,23.7832994 C21.3684211,23.8549898 21.3684211,23.9266802 21.3684211,23.9983707 C21.5864662,21.6325866 25.075188,19.6252546 29.4360902,19.6252546 Z" Fill="#FFC785" />
+                                    <Path Data="M29.1453634,19.9120163 C33.5062657,19.9120163 36.9949875,21.8476578 37.2130326,24.2851324 C37.2130326,24.213442 37.2130326,24.1417515 37.2130326,24.0700611 C37.2130326,21.4892057 33.5789474,19.4101833 29.1453634,19.4101833 C24.6390977,19.4101833 21.0776942,21.4892057 21.0776942,24.0700611 C21.0776942,24.1417515 21.0776942,24.213442 21.0776942,24.2851324 C21.2957393,21.8476578 24.8571429,19.9120163 29.1453634,19.9120163 Z" Fill="{StaticResource linearGradient-10}" />
+                                    <Path Data="M29.7994987,22.6362525 C29.5814536,22.707943 29.3634085,22.707943 29.1453634,22.7796334 C28.9273183,22.8513238 28.7819549,22.8513238 28.5639098,22.9230143 C28.3458647,22.9947047 28.1278195,23.0663951 27.9824561,23.1380855 L28.6365915,23.4965377 C28.7092732,23.4965377 28.7819549,23.4248473 28.8546366,23.4248473 C28.9273183,23.4248473 29,23.3531568 29.0726817,23.3531568 C29.4360902,23.209776 29.7994987,23.1380855 30.0902256,23.0663951 C30.3809524,22.9947047 30.7443609,22.9230143 31.0350877,22.9230143 C31.3258145,22.9230143 31.6165414,22.9230143 31.8345865,22.9230143 C32.1253133,22.9947047 32.3433584,23.0663951 32.5614035,23.209776 C32.8521303,23.3531568 32.9974937,23.5682281 33.0701754,23.711609 C33.1428571,23.9266802 33.1428571,24.0700611 33.0701754,24.2851324 C32.9974937,24.5002037 32.8521303,24.6435845 32.6340852,24.8586558 C32.4160401,25.0737271 32.197995,25.2171079 31.9799499,25.3604888 L32.8521303,25.8623218 L32.1253133,26.2924644 L31.2531328,25.7906314 C30.8170426,26.0057026 30.3082707,26.2207739 29.7994987,26.3641548 C29.2907268,26.5075356 28.7819549,26.6509165 28.273183,26.7942974 L27.9097744,25.5755601 C28.1278195,25.5038697 28.4185464,25.5038697 28.6365915,25.4321792 C28.8546366,25.3604888 29.0726817,25.2887984 29.3634085,25.2171079 C29.6541353,25.1454175 29.8721805,25.0020367 30.1629073,24.9303462 L29.5087719,24.5718941 C29.2907268,24.6435845 29.0726817,24.7152749 28.7819549,24.7869654 C28.4185464,24.9303462 28.0551378,25.0020367 27.764411,25.0737271 C27.4736842,25.1454175 27.1829574,25.1454175 26.9649123,25.2171079 C26.7468672,25.2171079 26.4561404,25.2171079 26.3107769,25.1454175 C26.0927318,25.0737271 25.8746867,25.0020367 25.7293233,24.9303462 C25.4385965,24.7869654 25.2932331,24.6435845 25.2205514,24.4285132 C25.1478697,24.2851324 25.075188,24.0700611 25.1478697,23.8549898 C25.2205514,23.6399185 25.2932331,23.4965377 25.4385965,23.2814664 C25.5839599,23.0663951 25.802005,22.9230143 26.0927318,22.707943 L25.3659148,22.2778004 L26.0927318,21.8476578 L26.8195489,22.2778004 C27.037594,22.20611 27.2556391,22.0627291 27.4736842,21.9910387 C27.6917293,21.9193483 27.9097744,21.8476578 28.1278195,21.7759674 C28.3458647,21.704277 28.5639098,21.6325866 28.7819549,21.5608961 C29,21.4892057 29.1453634,21.4892057 29.3634085,21.4175153 L29.7994987,22.6362525 Z M27.3283208,23.7832994 C27.4010025,23.8549898 27.4736842,23.8549898 27.6190476,23.8549898 C27.6917293,23.8549898 27.8370927,23.7832994 27.9824561,23.7832994 L27.4736842,23.4248473 C27.2556391,23.5682281 27.1829574,23.6399185 27.3283208,23.7832994 Z M30.8170426,24.3568228 C30.7443609,24.2851324 30.6716792,24.2851324 30.5263158,24.2851324 C30.3809524,24.2851324 30.235589,24.3568228 30.0902256,24.3568228 L30.5989975,24.6435845 C30.7443609,24.5718941 30.8170426,24.5002037 30.8170426,24.4285132 C30.8897243,24.4285132 30.8897243,24.3568228 30.8170426,24.3568228 Z" Fill="{StaticResource linearGradient-11}" />
+                                    <Path Data="M29.7994987,22.3494908 C29.5814536,22.4211813 29.3634085,22.4211813 29.1453634,22.4928717 C28.9273183,22.5645621 28.7819549,22.5645621 28.5639098,22.6362525 C28.3458647,22.707943 28.1278195,22.7796334 27.9824561,22.8513238 L28.6365915,23.209776 C28.7092732,23.209776 28.7819549,23.1380855 28.8546366,23.1380855 C28.9273183,23.1380855 29,23.0663951 29.0726817,23.0663951 C29.4360902,22.9230143 29.7994987,22.8513238 30.0902256,22.7796334 C30.3809524,22.707943 30.7443609,22.6362525 31.0350877,22.6362525 C31.3258145,22.6362525 31.6165414,22.6362525 31.8345865,22.6362525 C32.1253133,22.707943 32.3433584,22.7796334 32.5614035,22.9230143 C32.8521303,23.0663951 32.9974937,23.2814664 33.0701754,23.4248473 C33.1428571,23.6399185 33.1428571,23.7832994 33.0701754,23.9983707 C32.9974937,24.213442 32.8521303,24.3568228 32.6340852,24.5718941 C32.4160401,24.7869654 32.197995,24.9303462 31.9799499,25.0737271 L32.8521303,25.5755601 L32.1253133,26.0057026 L31.2531328,25.5038697 C30.8170426,25.7189409 30.3082707,25.9340122 29.7994987,26.0773931 C29.2907268,26.2207739 28.7819549,26.3641548 28.273183,26.5075356 L27.764411,25.3604888 C27.9824561,25.2887984 28.273183,25.2887984 28.4912281,25.2171079 C28.7092732,25.1454175 28.9273183,25.0737271 29.2180451,25.0020367 C29.5087719,24.9303462 29.726817,24.7869654 30.0175439,24.7152749 L29.3634085,24.3568228 C29.1453634,24.4285132 28.9273183,24.5002037 28.6365915,24.5718941 C28.273183,24.7152749 27.9097744,24.7869654 27.6190476,24.8586558 C27.3283208,24.9303462 27.037594,24.9303462 26.8195489,25.0020367 C26.6015038,25.0020367 26.3107769,25.0020367 26.1654135,24.9303462 C25.9473684,24.8586558 25.7293233,24.7869654 25.5839599,24.7152749 C25.2932331,24.5718941 25.1478697,24.4285132 25.075188,24.213442 C25.0025063,24.0700611 24.9298246,23.8549898 25.0025063,23.6399185 C25.075188,23.4248473 25.1478697,23.2814664 25.2932331,23.0663951 C25.4385965,22.8513238 25.6566416,22.707943 25.9473684,22.4928717 L25.2205514,22.0627291 L25.9473684,21.6325866 L26.6741855,22.0627291 C26.8922306,21.9910387 27.1102757,21.8476578 27.3283208,21.7759674 C27.5463659,21.704277 27.764411,21.6325866 27.9824561,21.5608961 C28.2005013,21.4892057 28.4185464,21.4175153 28.6365915,21.3458248 C28.8546366,21.2741344 29,21.2741344 29.2180451,21.202444 L29.7994987,22.3494908 Z M27.3283208,23.4965377 C27.4010025,23.5682281 27.4736842,23.5682281 27.6190476,23.5682281 C27.6917293,23.5682281 27.8370927,23.4965377 27.9824561,23.4965377 L27.4010025,23.209776 C27.2556391,23.2814664 27.1829574,23.4248473 27.3283208,23.4965377 Z M30.8170426,24.0700611 C30.7443609,23.9983707 30.6716792,23.9983707 30.5263158,23.9983707 C30.3809524,23.9983707 30.235589,24.0700611 30.0902256,24.0700611 L30.5989975,24.3568228 C30.7443609,24.2851324 30.8170426,24.213442 30.8170426,24.1417515 C30.8897243,24.1417515 30.8897243,24.0700611 30.8170426,24.0700611 Z" Fill="{StaticResource linearGradient-12}" />
+                                    <Path Data="M39.9749373,11.810998 L18.3157895,11.810998 L18.3157895,14.8219959 L18.3157895,14.8219959 C18.3157895,14.8219959 18.3157895,14.8936864 18.3157895,14.8936864 C18.3157895,18.3348269 23.1854637,21.1307536 29.1453634,21.1307536 C35.1052632,21.1307536 39.9749373,18.3348269 39.9749373,14.8936864 C39.9749373,14.8936864 39.9749373,14.8219959 39.9749373,14.8219959 L39.9749373,14.8219959 L39.9749373,11.810998 L39.9749373,11.810998 Z" Fill="{StaticResource linearGradient-13}" />
+                                    <Canvas>
+                                        <Canvas.RenderTransform>
+                                            <TransformGroup>
+                                                <TranslateTransform X="17.952381" Y="14.069246" />
+                                            </TransformGroup>
+                                        </Canvas.RenderTransform>
+                                        <Path Data="M0.363408521,0.322606925 L0.363408521,0.394297352 C0.363408521,0.394297352 0.363408521,0.322606925 0.363408521,0.322606925 L0.363408521,0.322606925 Z" Fill="{StaticResource linearGradient-14}" />
+                                        <Path Data="M11.1929825,6.34460285 C5.23308271,6.34460285 0.363408521,3.54867617 0.363408521,0.107535642 L0.363408521,0.752749491 L0.363408521,0.752749491 C0.363408521,0.752749491 0.363408521,0.824439919 0.363408521,0.824439919 C0.363408521,4.26558045 5.23308271,7.06150713 11.1929825,7.06150713 C17.1528822,7.06150713 22.0225564,4.26558045 22.0225564,0.824439919 C22.0225564,0.824439919 22.0225564,0.752749491 22.0225564,0.752749491 L22.0225564,0.752749491 L22.0225564,0.179226069 C22.0225564,3.54867617 17.1528822,6.34460285 11.1929825,6.34460285 Z" Fill="{StaticResource linearGradient-15}" />
+                                        <Path Data="M22.0225564,0.394297352 L22.0225564,0.322606925 L22.0225564,0.322606925 C22.0225564,0.322606925 22.0225564,0.394297352 22.0225564,0.394297352 Z" Fill="{StaticResource linearGradient-16}" />
+                                    </Canvas>
+                                    <Canvas>
+                                        <Canvas.RenderTransform>
+                                            <TransformGroup>
+                                                <TranslateTransform X="18.679198" Y="12.814664" />
+                                            </TransformGroup>
+                                        </Canvas.RenderTransform>
+                                        <Path Data="M13.8095238,7.95763747 C13.8822055,7.95763747 14.0275689,7.88594705 14.1002506,7.88594705 L14.1002506,0 L13.8095238,0 L13.8095238,7.95763747 Z" Fill="#FDD65B" />
+                                        <Path Data="M15.1904762,7.67087576 C15.2631579,7.67087576 15.4085213,7.59918534 15.481203,7.59918534 L15.481203,0 L15.1904762,0 L15.1904762,7.67087576 Z" Fill="#FDD65B" />
+                                        <Path Data="M16.4987469,7.2407332 C16.5714286,7.16904277 16.716792,7.16904277 16.7894737,7.09735234 L16.7894737,0 L16.4987469,0 L16.4987469,7.2407332 Z" Fill="#FDD65B" />
+                                        <Path Data="M12.4285714,8.17270876 C12.5012531,8.17270876 12.6466165,8.17270876 12.7192982,8.17270876 L12.7192982,0 L12.4285714,0 L12.4285714,8.17270876 Z" Fill="#FDD65B" />
+                                        <Path Data="M19.2606516,5.73523422 C19.3333333,5.66354379 19.4786967,5.59185336 19.5513784,5.52016293 L19.5513784,0.0716904277 L19.2606516,0.0716904277 L19.2606516,5.73523422 Z" Fill="#FDD65B" />
+                                        <Path Data="M20.5689223,4.22973523 C20.7142857,4.08635438 20.7869674,3.8712831 20.8596491,3.72790224 L20.8596491,0 L20.5689223,0 L20.5689223,4.22973523 Z" Fill="#FDD65B" />
+                                        <Path Data="M17.8796992,6.59551935 C17.952381,6.52382892 18.0977444,6.52382892 18.1704261,6.45213849 L18.1704261,0.0716904277 L17.8796992,0.0716904277 L17.8796992,6.59551935 Z" Fill="#FDD65B" />
+                                        <Path Data="M11.047619,8.24439919 C11.1203008,8.24439919 11.2656642,8.24439919 11.3383459,8.24439919 L11.3383459,0 L11.047619,0 L11.047619,8.24439919 Z" Fill="#FDD65B" />
+                                        <Path Data="M9.73934837,8.24439919 C9.81203008,8.24439919 9.95739348,8.24439919 10.0300752,8.24439919 L10.0300752,0 L9.73934837,0 L9.73934837,8.24439919 Z" Fill="#FDD65B" />
+                                        <Path Data="M6.97744361,7.95763747 C7.05012531,7.95763747 7.19548872,8.0293279 7.26817043,8.0293279 L7.26817043,0 L6.97744361,0 L6.97744361,7.95763747 Z" Fill="#FDD65B" />
+                                        <Path Data="M8.35839599,8.17270876 C8.43107769,8.17270876 8.5764411,8.17270876 8.64912281,8.17270876 L8.64912281,0 L8.35839599,0 L8.35839599,8.17270876 Z" Fill="#FDD65B" />
+                                        <Path Data="M5.59649123,7.59918534 C5.66917293,7.59918534 5.81453634,7.67087576 5.88721805,7.67087576 L5.88721805,0 L5.59649123,0 L5.59649123,7.59918534 Z" Fill="#FDD65B" />
+                                        <Path Data="M0.218045113,4.01466395 C0.290726817,4.15804481 0.436090226,4.30142566 0.50877193,4.51649695 L0.50877193,0.0716904277 L0.218045113,0.0716904277 L0.218045113,4.01466395 Z" Fill="#FDD65B" />
+                                        <Path Data="M1.52631579,5.59185336 C1.59899749,5.66354379 1.7443609,5.73523422 1.81704261,5.80692464 L1.81704261,0 L1.52631579,0 L1.52631579,5.59185336 Z" Fill="#FDD65B" />
+                                        <Path Data="M4.28822055,7.16904277 C4.36090226,7.2407332 4.50626566,7.2407332 4.57894737,7.31242363 L4.57894737,0 L4.28822055,0 L4.28822055,7.16904277 Z" Fill="#FDD65B" />
+                                        <Path Data="M2.90726817,6.52382892 C2.97994987,6.59551935 3.12531328,6.59551935 3.19799499,6.66720978 L3.19799499,0 L2.90726817,0 L2.90726817,6.52382892 Z" Fill="#FDD65B" />
+                                    </Canvas>
+                                    <Ellipse Fill="{StaticResource linearGradient-17}" Canvas.Left="18.3157895" Canvas.Top="5.5739307899999995" Width="21.6591478" Height="12.47413442" />
+                                    <Path Data="M29.1453634,17.9046843 C23.2581454,17.9046843 18.5338346,15.2521385 18.3157895,11.8826884 C18.3157895,11.9543788 18.3157895,12.0260692 18.3157895,12.0977597 C18.3157895,15.5389002 23.1854637,18.3348269 29.1453634,18.3348269 C35.1052632,18.3348269 39.9749373,15.5389002 39.9749373,12.0977597 C39.9749373,12.0260692 39.9749373,11.9543788 39.9749373,11.8826884 C39.7568922,15.1804481 35.0325815,17.9046843 29.1453634,17.9046843 Z" Fill="#FFC785" />
+                                    <Ellipse Fill="{StaticResource linearGradient-18}" Canvas.Left="21.07769423" Canvas.Top="7.1511201999999994" Width="16.13533834" Height="9.3197556" />
+                                    <Path Data="M29.4360902,7.36619145 C33.7969925,7.36619145 37.2857143,9.30183299 37.5037594,11.7393075 C37.5037594,11.6676171 37.5037594,11.5959267 37.5037594,11.5242363 C37.5037594,8.94338086 33.8696742,6.86435845 29.4360902,6.86435845 C24.9298246,6.86435845 21.3684211,8.94338086 21.3684211,11.5242363 C21.3684211,11.5959267 21.3684211,11.6676171 21.3684211,11.7393075 C21.5864662,9.37352342 25.075188,7.36619145 29.4360902,7.36619145 Z" Fill="#FFC785" />
+                                    <Path Data="M29.1453634,7.65295316 C33.5062657,7.65295316 36.9949875,9.5885947 37.2130326,12.0260692 C37.2130326,11.9543788 37.2130326,11.8826884 37.2130326,11.810998 C37.2130326,9.23014257 33.5789474,7.15112016 29.1453634,7.15112016 C24.6390977,7.15112016 21.0776942,9.23014257 21.0776942,11.810998 C21.0776942,11.8826884 21.0776942,11.9543788 21.0776942,12.0260692 C21.2957393,9.5885947 24.8571429,7.65295316 29.1453634,7.65295316 Z" Fill="{StaticResource linearGradient-19}" />
+                                    <Path Data="M29.7994987,10.3771894 C29.5814536,10.4488798 29.3634085,10.4488798 29.1453634,10.5205703 C28.9273183,10.5922607 28.7819549,10.5922607 28.5639098,10.6639511 C28.3458647,10.7356415 28.1278195,10.807332 27.9824561,10.8790224 L28.6365915,11.2374745 C28.7092732,11.2374745 28.7819549,11.1657841 28.8546366,11.1657841 C28.9273183,11.1657841 29,11.0940937 29.0726817,11.0940937 C29.4360902,10.9507128 29.7994987,10.8790224 30.0902256,10.807332 C30.3809524,10.7356415 30.7443609,10.6639511 31.0350877,10.6639511 C31.3258145,10.6639511 31.6165414,10.6639511 31.8345865,10.6639511 C32.1253133,10.7356415 32.3433584,10.807332 32.5614035,10.9507128 C32.8521303,11.0940937 32.9974937,11.309165 33.0701754,11.4525458 C33.1428571,11.6676171 33.1428571,11.810998 33.0701754,12.0260692 C32.9974937,12.2411405 32.8521303,12.3845214 32.6340852,12.5995927 C32.4160401,12.814664 32.197995,12.9580448 31.9799499,13.1014257 L32.8521303,13.6032587 L32.1253133,14.0334012 L31.2531328,13.5315682 C30.8170426,13.7466395 30.3082707,13.9617108 29.7994987,14.1050916 C29.2907268,14.2484725 28.7819549,14.3918534 28.273183,14.5352342 L27.9097744,13.3881874 C28.1278195,13.3164969 28.4185464,13.3164969 28.6365915,13.2448065 C28.8546366,13.1731161 29.0726817,13.1014257 29.3634085,13.0297352 C29.6541353,12.9580448 29.8721805,12.814664 30.1629073,12.7429735 L29.5087719,12.3845214 C29.2907268,12.4562118 29.0726817,12.5279022 28.7819549,12.5995927 C28.4185464,12.7429735 28.0551378,12.814664 27.764411,12.8863544 C27.4736842,12.9580448 27.1829574,12.9580448 26.9649123,13.0297352 C26.7468672,13.0297352 26.4561404,13.0297352 26.3107769,12.9580448 C26.0927318,12.8863544 25.8746867,12.814664 25.7293233,12.7429735 C25.4385965,12.5995927 25.2932331,12.4562118 25.2205514,12.2411405 C25.1478697,12.0977597 25.075188,11.8826884 25.1478697,11.6676171 C25.2205514,11.4525458 25.2932331,11.309165 25.4385965,11.0940937 C25.5839599,10.8790224 25.802005,10.7356415 26.0927318,10.5205703 L25.3659148,10.0904277 L26.0927318,9.66028513 L26.8195489,10.0904277 C27.037594,10.0187373 27.2556391,9.87535642 27.4736842,9.80366599 C27.6917293,9.73197556 27.9097744,9.66028513 28.1278195,9.5885947 C28.3458647,9.51690428 28.5639098,9.44521385 28.7819549,9.37352342 C29,9.30183299 29.1453634,9.30183299 29.3634085,9.23014257 L29.7994987,10.3771894 Z M27.3283208,11.5242363 C27.4010025,11.5959267 27.4736842,11.5959267 27.6190476,11.5959267 C27.6917293,11.5959267 27.8370927,11.5242363 27.9824561,11.5242363 L27.4010025,11.2374745 C27.2556391,11.309165 27.1829574,11.4525458 27.3283208,11.5242363 Z M30.8170426,12.0977597 C30.7443609,12.0260692 30.6716792,12.0260692 30.5263158,12.0260692 C30.3809524,12.0260692 30.235589,12.0977597 30.0902256,12.0977597 L30.5989975,12.3845214 C30.7443609,12.312831 30.8170426,12.2411405 30.8170426,12.1694501 C30.8897243,12.1694501 30.8897243,12.0977597 30.8170426,12.0977597 Z" Fill="{StaticResource linearGradient-20}" />
+                                    <Path Data="M29.7994987,10.0904277 C29.5814536,10.1621181 29.3634085,10.1621181 29.1453634,10.2338086 C28.9273183,10.305499 28.7819549,10.305499 28.5639098,10.3771894 C28.3458647,10.4488798 28.1278195,10.5205703 27.9824561,10.5922607 L28.6365915,10.9507128 C28.7092732,10.9507128 28.7819549,10.8790224 28.8546366,10.8790224 C28.9273183,10.8790224 29,10.807332 29.0726817,10.807332 C29.4360902,10.6639511 29.7994987,10.5922607 30.0902256,10.5205703 C30.3809524,10.4488798 30.7443609,10.3771894 31.0350877,10.3771894 C31.3258145,10.3771894 31.6165414,10.3771894 31.8345865,10.3771894 C32.1253133,10.4488798 32.3433584,10.5205703 32.5614035,10.6639511 C32.8521303,10.807332 32.9974937,11.0224033 33.0701754,11.1657841 C33.1428571,11.3808554 33.1428571,11.5242363 33.0701754,11.7393075 C32.9974937,11.9543788 32.8521303,12.0977597 32.6340852,12.312831 C32.4160401,12.5279022 32.197995,12.6712831 31.9799499,12.814664 L32.8521303,13.3164969 L32.1253133,13.7466395 L31.2531328,13.2448065 C30.8170426,13.4598778 30.3082707,13.6749491 29.7994987,13.8183299 C29.2907268,13.9617108 28.7819549,14.1050916 28.273183,14.2484725 L27.764411,13.1014257 C27.9824561,13.0297352 28.273183,13.0297352 28.4912281,12.9580448 C28.7092732,12.8863544 28.9273183,12.814664 29.2180451,12.7429735 C29.5087719,12.6712831 29.726817,12.5279022 30.0175439,12.4562118 L29.3634085,12.0977597 C29.1453634,12.1694501 28.9273183,12.2411405 28.6365915,12.312831 C28.273183,12.4562118 27.9097744,12.5279022 27.6190476,12.5995927 C27.5463659,12.6712831 27.2556391,12.6712831 27.037594,12.6712831 C26.8195489,12.6712831 26.5288221,12.6712831 26.3834586,12.5995927 C26.1654135,12.5279022 25.9473684,12.4562118 25.802005,12.3845214 C25.5112782,12.2411405 25.3659148,12.0977597 25.2932331,11.8826884 C25.2205514,11.7393075 25.1478697,11.5242363 25.2205514,11.309165 C25.2932331,11.0940937 25.3659148,10.9507128 25.5112782,10.7356415 C25.6566416,10.5205703 25.8746867,10.3771894 26.1654135,10.1621181 L25.3659148,9.80366599 L26.0927318,9.37352342 L26.8195489,9.80366599 C27.037594,9.73197556 27.2556391,9.5885947 27.4736842,9.51690428 C27.6917293,9.44521385 27.9097744,9.37352342 28.1278195,9.30183299 C28.3458647,9.23014257 28.5639098,9.15845214 28.7819549,9.08676171 C29,9.01507128 29.1453634,9.01507128 29.3634085,8.94338086 L29.7994987,10.0904277 Z M27.3283208,11.2374745 C27.4010025,11.309165 27.4736842,11.309165 27.6190476,11.309165 C27.6917293,11.309165 27.8370927,11.2374745 27.9824561,11.2374745 L27.4010025,10.9507128 C27.2556391,11.0224033 27.1829574,11.1657841 27.3283208,11.2374745 Z M30.8170426,11.810998 C30.7443609,11.7393075 30.6716792,11.7393075 30.5263158,11.7393075 C30.3809524,11.7393075 30.235589,11.810998 30.0902256,11.810998 L30.5989975,12.0977597 C30.7443609,12.0260692 30.8170426,11.9543788 30.8170426,11.8826884 C30.8897243,11.8826884 30.8897243,11.810998 30.8170426,11.810998 Z" Fill="{StaticResource linearGradient-21}" />
+                                    <Path Data="M49.5689223,17.7613035 L49.5689223,39.2684318 C55.2380952,36.0423625 58,32.1710794 58,27.5828921 L58,6.07576375 C58,10.6639511 55.1654135,14.5352342 49.5689223,17.7613035 Z" Fill="{StaticResource linearGradient-22}" />
+                                    <Polygon Fill="{StaticResource linearGradient-23}" Points="36.4862155 10.305499 36.5588972 10.305499 36.5588972 31.7409369 49.5689223 39.1967413 49.5689223 17.7613035" />
+                                    <Canvas Opacity="0.95">
+                                        <Canvas.RenderTransform>
+                                            <TransformGroup>
+                                                <TranslateTransform X="28.927318" Y="24.070061" />
+                                            </TransformGroup>
+                                        </Canvas.RenderTransform>
+                                        <Path Data="M7.70426065,0.143380855 C7.63157895,0.143380855 7.63157895,0.215071283 7.55889724,0.215071283 C5.45112782,1.36211813 2.76190476,2.00733198 0,2.00733198 L0,9.46313646 C2.76190476,9.46313646 5.45112782,8.88961303 7.55889724,7.67087576 C7.63157895,7.67087576 7.63157895,7.59918534 7.70426065,7.59918534 L7.70426065,0.143380855 Z" Fill="{StaticResource linearGradient-24}" />
+                                        <Path Data="M0.145363409,12.1156823 L0.0726817043,1.86395112 C0.0726817043,1.86395112 0.0726817043,1.86395112 0.0726817043,1.86395112 L0.0726817043,1.79226069 L0.145363409,19.9299389 C8.14035088,19.9299389 14.9724311,18.3527495 20.641604,15.1266802 L20.641604,7.31242363 C14.9724311,10.5384929 8.14035088,12.1156823 0.145363409,12.1156823 Z" Fill="{StaticResource linearGradient-25}" />
+                                        <Path Data="M7.77694236,0 C7.70426065,0 7.70426065,0.0716904277 7.63157895,0.0716904277 C5.59649123,1.21873727 2.83458647,1.86395112 0.145363409,1.86395112 L0.218045113,12.402444 C8.21303258,12.402444 15.0451128,10.5384929 20.7142857,7.31242363 L7.77694236,0 Z" Fill="{StaticResource linearGradient-26}" />
+                                        <Path Data="M0.145363409,11.9723014 L0.0726817043,1.86395112 L0.0726817043,1.93564155 L0.145363409,12.402444 C8.14035088,12.402444 14.9724311,10.8252546 20.641604,7.59918534 L20.2781955,7.38411405 C14.6817043,10.4668024 7.99498747,11.9723014 0.145363409,11.9723014 Z" Fill="#F777E7" />
+                                    </Canvas>
+                                    <Canvas Opacity="0.9">
+                                        <Canvas.RenderTransform>
+                                            <TransformGroup>
+                                                <TranslateTransform X="0.000000" Y="13.603259" />
+                                            </TransformGroup>
+                                        </Canvas.RenderTransform>
+                                        <Path Data="M29,6.23706721 C26.3107769,6.23706721 23.5488722,5.66354379 21.4411028,4.44480652 C19.3333333,3.22606925 18.3157895,1.64887984 18.3157895,0.0716904277 L18.3157895,0.0716904277 L18.3157895,13.8362525 L18.3157895,13.8362525 C18.3157895,15.413442 19.406015,16.9189409 21.4411028,18.1376782 C23.5488722,19.3564155 26.2380952,19.9299389 29,19.9299389 L29,6.23706721 Z" Fill="{StaticResource linearGradient-27}" />
+                                        <Path Data="M0,0 L0,13.8362525 C0.0726817043,22.9409369 13.0827068,30.3967413 29.0726817,30.3967413 L29.0726817,16.5604888 C13.0827068,16.5604888 0.0726817043,9.10468432 0,0 Z" Fill="{StaticResource linearGradient-28}" />
+                                        <Path Data="M21.5137845,4.44480652 C19.406015,3.22606925 18.3157895,1.64887984 18.3884712,0.0716904277 L0.0726817043,0.0716904277 C0.145363409,9.17637475 13.1553885,16.6321792 29.1453634,16.6321792 L29,6.23706721 C26.3107769,6.23706721 23.6215539,5.66354379 21.5137845,4.44480652 Z" Fill="{StaticResource linearGradient-29}" />
+                                        <Path Data="M29,6.16537678 L28.8546366,6.16537678 L28.9273183,16.3454175 C14.6090226,16.3454175 2.68922306,10.395112 0.290726817,2.65254582 C2.39849624,10.6818737 14.4636591,16.8472505 29.0726817,16.8472505 L29,6.16537678 Z" Fill="#CF7BFF" />
+                                    </Canvas>
+                                </Canvas>
+                            </Canvas>
+                            <Canvas>
+                                <Path Data="M28.8911139,35.1404612 C12.9211514,35.1404612 -3.49581475e-13,42.4109015 0.0722863702,51.4633124 L18.3654568,51.4633124 C18.3654568,49.8951782 19.3817272,48.3983229 21.4868586,47.1865828 C25.6245307,44.8343816 32.3754693,44.8343816 36.5131414,47.1865828 C40.6508135,49.5387841 40.7234043,53.3165618 36.5857322,55.6687631 L49.5068836,63.2243187 C55.1689612,60.0167715 57.9274093,56.1677149 57.9274093,51.60587 C57.8548185,42.5534591 44.8610763,35.21174 28.8911139,35.1404612 Z" Fill="{StaticResource linearGradient-30}" />
+                                <Polygon Fill="{StaticResource linearGradient-31}" Points="18.3654568 30.2222222 0 30.2222222 0 51.5345912 18.3654568 51.5345912" />
+                                <Path Data="M21.4142678,47.3291405 C25.5519399,44.9769392 32.3028786,44.9769392 36.4405507,47.3291405 C38.4730914,48.4696017 39.5619524,50.0377358 39.5619524,51.5345912 L39.5619524,30.3647799 C39.5619524,28.7966457 38.5456821,27.2285115 36.4405507,26.0167715 C32.3028786,23.6645702 25.5519399,23.6645702 21.4142678,26.0167715 C19.3817272,27.1572327 18.3654568,28.6540881 18.3654568,30.2222222 L18.3654568,30.2222222 L18.3654568,51.60587 L18.3654568,51.60587 C18.3654568,50.0377358 19.3817272,48.4696017 21.4142678,47.3291405 Z" Fill="{StaticResource linearGradient-32}" />
+                                <Path Data="M39.9249061,48.1132075 L18.2928661,48.1132075 L18.2928661,51.1069182 L18.2928661,51.1069182 C18.2928661,51.1069182 18.2928661,51.1781971 18.2928661,51.1781971 C18.2928661,54.5995807 23.1564456,57.3794549 29.1088861,57.3794549 C35.0613267,57.3794549 39.9249061,54.5995807 39.9249061,51.1781971 C39.9249061,51.1781971 39.9249061,51.1069182 39.9249061,51.1069182 L39.9249061,51.1069182 L39.9249061,48.1132075 L39.9249061,48.1132075 Z" Fill="{StaticResource linearGradient-33}" />
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="17.929912" Y="50.429769" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Path Data="M0.362953692,0.320754717 L0.362953692,0.392033543 C0.362953692,0.392033543 0.362953692,0.320754717 0.362953692,0.320754717 L0.362953692,0.320754717 Z" Fill="{StaticResource linearGradient-34}" />
+                                    <Path Data="M11.1789737,6.3081761 C5.22653317,6.3081761 0.362953692,3.52830189 0.362953692,0.106918239 L0.362953692,0.677148847 L0.362953692,0.677148847 C0.362953692,0.677148847 0.362953692,0.748427673 0.362953692,0.748427673 C0.362953692,4.16981132 5.22653317,6.94968553 11.1789737,6.94968553 C17.1314143,6.94968553 21.9949937,4.16981132 21.9949937,0.748427673 C21.9949937,0.748427673 21.9949937,0.677148847 21.9949937,0.677148847 L21.9949937,0.677148847 L21.9949937,0.106918239 C21.9949937,3.52830189 17.1314143,6.3081761 11.1789737,6.3081761 Z" Fill="{StaticResource linearGradient-35}" />
+                                    <Path Data="M21.9949937,0.392033543 L21.9949937,0.320754717 L21.9949937,0.320754717 C21.9949937,0.320754717 21.9949937,0.392033543 21.9949937,0.392033543 Z" Fill="{StaticResource linearGradient-36}" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="18.655820" Y="49.182390" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Path Data="M13.7922403,7.91194969 C13.864831,7.91194969 14.0100125,7.84067086 14.0826033,7.84067086 L14.0826033,2.82555006e-14 L13.7922403,2.82555006e-14 L13.7922403,7.91194969 Z" Fill="#FDD65B" />
+                                    <Path Data="M15.1714643,7.62683438 C15.2440551,7.62683438 15.3892365,7.55555556 15.4618273,7.55555556 L15.4618273,0 L15.1714643,0 L15.1714643,7.62683438 Z" Fill="#FDD65B" />
+                                    <Path Data="M16.4780976,7.19916143 C16.5506884,7.1278826 16.6958698,7.1278826 16.7684606,7.05660377 L16.7684606,0 L16.4780976,0 L16.4780976,7.19916143 Z" Fill="#FDD65B" />
+                                    <Path Data="M12.4130163,8.12578616 C12.485607,8.12578616 12.6307885,8.12578616 12.7033792,8.12578616 L12.7033792,0 L12.4130163,0 L12.4130163,8.12578616 Z" Fill="#FDD65B" />
+                                    <Path Data="M19.2365457,5.70230608 C19.3091364,5.63102725 19.4543179,5.55974843 19.5269086,5.4884696 L19.5269086,0.071278826 L19.2365457,0.071278826 L19.2365457,5.70230608 Z" Fill="#FDD65B" />
+                                    <Path Data="M20.543179,4.20545073 C20.6883605,4.06289308 20.7609512,3.8490566 20.8335419,3.70649895 L20.8335419,0 L20.543179,0 L20.543179,4.20545073 Z" Fill="#FDD65B" />
+                                    <Path Data="M17.8573217,6.55765199 C17.9299124,6.48637317 18.0750939,6.48637317 18.1476846,6.41509434 L18.1476846,0.071278826 L17.8573217,0.071278826 L17.8573217,6.55765199 Z" Fill="#FDD65B" />
+                                    <Path Data="M11.0337922,8.19706499 C11.106383,8.19706499 11.2515645,8.19706499 11.3241552,8.19706499 L11.3241552,0 L11.0337922,0 L11.0337922,8.19706499 Z" Fill="#FDD65B" />
+                                    <Path Data="M9.72715895,8.19706499 C9.79974969,8.19706499 9.94493116,8.19706499 10.0175219,8.19706499 L10.0175219,0 L9.72715895,0 L9.72715895,8.19706499 Z" Fill="#FDD65B" />
+                                    <Path Data="M6.96871089,7.91194969 C7.04130163,7.91194969 7.1864831,7.98322851 7.25907384,7.98322851 L7.25907384,0 L6.96871089,0 L6.96871089,7.91194969 Z" Fill="#FDD65B" />
+                                    <Path Data="M8.34793492,8.12578616 C8.42052566,8.12578616 8.56570713,8.12578616 8.63829787,8.12578616 L8.63829787,0 L8.34793492,0 L8.34793492,8.12578616 Z" Fill="#FDD65B" />
+                                    <Path Data="M5.58948686,7.55555556 C5.6620776,7.55555556 5.80725907,7.62683438 5.87984981,7.62683438 L5.87984981,0 L5.58948686,0 L5.58948686,7.55555556 Z" Fill="#FDD65B" />
+                                    <Path Data="M0.217772215,3.99161426 C0.290362954,4.13417191 0.435544431,4.27672956 0.508135169,4.49056604 L0.508135169,0.071278826 L0.217772215,0.071278826 L0.217772215,3.99161426 Z" Fill="#FDD65B" />
+                                    <Path Data="M1.52440551,5.55974843 C1.59699625,5.63102725 1.74217772,5.70230608 1.81476846,5.77358491 L1.81476846,0 L1.52440551,0 L1.52440551,5.55974843 Z" Fill="#FDD65B" />
+                                    <Path Data="M4.28285357,7.1278826 C4.35544431,7.19916143 4.50062578,7.19916143 4.57321652,7.27044025 L4.57321652,0 L4.28285357,0 L4.28285357,7.1278826 Z" Fill="#FDD65B" />
+                                    <Path Data="M2.90362954,6.48637317 C2.97622028,6.55765199 3.12140175,6.55765199 3.19399249,6.62893082 L3.19399249,2.82555006e-14 L2.90362954,2.82555006e-14 L2.90362954,6.48637317 Z" Fill="#FDD65B" />
+                                </Canvas>
+                                <Ellipse Fill="{StaticResource linearGradient-37}" Canvas.Left="18.292866099999998" Canvas.Top="41.98322854" Width="21.63204" Height="12.40251572" />
+                                <Path Data="M29.1088861,54.1719078 C23.2290363,54.1719078 18.5106383,51.5345912 18.2928661,48.1844864 C18.2928661,48.2557652 18.2928661,48.327044 18.2928661,48.3983229 C18.2928661,51.8197065 23.1564456,54.5995807 29.1088861,54.5995807 C35.0613267,54.5995807 39.9249061,51.8197065 39.9249061,48.3983229 C39.9249061,48.327044 39.9249061,48.2557652 39.9249061,48.1844864 C39.7071339,51.5345912 34.9887359,54.1719078 29.1088861,54.1719078 Z" Fill="#FFC785" />
+                                <Ellipse Fill="{StaticResource linearGradient-38}" Canvas.Left="21.05131414" Canvas.Top="43.55136271" Width="16.11514392" Height="9.26624738" />
+                                <Path Data="M29.3992491,43.7651992 C33.7546934,43.7651992 37.2390488,45.6897275 37.456821,48.1132075 C37.456821,48.0419287 37.456821,47.9706499 37.456821,47.8993711 C37.456821,45.3333333 33.8272841,43.2662474 29.3992491,43.2662474 C24.8986233,43.2662474 21.3416771,45.3333333 21.3416771,47.8993711 C21.3416771,47.9706499 21.3416771,48.0419287 21.3416771,48.1132075 C21.5594493,45.7610063 25.0438048,43.7651992 29.3992491,43.7651992 Z" Fill="#FFC785" />
+                                <Path Data="M29.1088861,44.0503145 C33.4643304,44.0503145 36.9486859,45.9748428 37.1664581,48.3983229 C37.1664581,48.327044 37.1664581,48.2557652 37.1664581,48.1844864 C37.1664581,45.6184486 33.5369212,43.5513627 29.1088861,43.5513627 C24.6082603,43.5513627 21.0513141,45.6184486 21.0513141,48.1844864 C21.0513141,48.2557652 21.0513141,48.327044 21.0513141,48.3983229 C21.2690864,45.9748428 24.8260325,44.0503145 29.1088861,44.0503145 Z" Fill="{StaticResource linearGradient-39}" />
+                                <Path Data="M29.7622028,46.7589099 C29.5444305,46.8301887 29.3266583,46.8301887 29.1088861,46.9014675 C28.8911139,46.9727463 28.7459324,46.9727463 28.5281602,47.0440252 C28.310388,47.115304 28.0926158,47.1865828 27.9474343,47.2578616 L28.6007509,47.6142558 C28.6733417,47.6142558 28.7459324,47.5429769 28.8185232,47.5429769 C28.8911139,47.5429769 28.9637046,47.4716981 29.0362954,47.4716981 C29.3992491,47.3291405 29.7622028,47.2578616 30.0525657,47.1865828 C30.3429287,47.115304 30.7058824,47.0440252 30.9962453,47.0440252 C31.2866083,47.0440252 31.5769712,47.0440252 31.7947434,47.0440252 C32.0851064,47.115304 32.3028786,47.1865828 32.5206508,47.3291405 C32.8110138,47.4716981 32.9561952,47.6855346 33.028786,47.8280922 C33.1013767,48.0419287 33.1013767,48.1844864 33.028786,48.3983229 C32.9561952,48.6121593 32.8110138,48.754717 32.5932416,48.9685535 C32.3754693,49.1823899 32.1576971,49.3249476 31.9399249,49.4675052 L32.8110138,49.966457 L32.0851064,50.39413 L31.2140175,49.8951782 C30.7784731,50.1090147 30.2703379,50.3228512 29.7622028,50.4654088 C29.2540676,50.6079665 28.7459324,50.7505241 28.2377972,50.8930818 L27.8748436,49.6813417 C28.0926158,49.6100629 28.3829787,49.6100629 28.6007509,49.5387841 C28.8185232,49.4675052 29.0362954,49.3962264 29.3266583,49.3249476 C29.6170213,49.2536688 29.8347935,49.1111111 30.1251564,49.0398323 L29.4718398,48.6834382 C29.2540676,48.754717 29.0362954,48.8259958 28.7459324,48.8972746 C28.3829787,49.0398323 28.020025,49.1111111 27.7296621,49.1823899 C27.4392991,49.2536688 27.1489362,49.2536688 26.931164,49.3249476 C26.7133917,49.3249476 26.4230288,49.3249476 26.2778473,49.2536688 C26.0600751,49.1823899 25.8423029,49.1111111 25.6971214,49.0398323 C25.4067584,48.8972746 25.261577,48.754717 25.1889862,48.5408805 C25.1163955,48.3983229 25.0438048,48.1844864 25.1163955,47.9706499 C25.1889862,47.7568134 25.261577,47.6142558 25.4067584,47.4004193 C25.5519399,47.1865828 25.7697121,47.0440252 26.0600751,46.8301887 L25.3341677,46.4025157 L26.0600751,45.9748428 L26.7859825,46.4025157 C27.0037547,46.3312369 27.2215269,46.1886792 27.4392991,46.1174004 C27.6570713,46.0461216 27.8748436,45.9748428 28.0926158,45.9035639 C28.310388,45.8322851 28.5281602,45.7610063 28.7459324,45.6897275 C28.9637046,45.6184486 29.1088861,45.6184486 29.3266583,45.5471698 L29.7622028,46.7589099 Z M27.2941176,47.8993711 C27.3667084,47.9706499 27.4392991,47.9706499 27.5844806,47.9706499 C27.6570713,47.9706499 27.8022528,47.8993711 27.9474343,47.8993711 L27.4392991,47.5429769 C27.2215269,47.6855346 27.1489362,47.7568134 27.2941176,47.8993711 Z M30.7784731,48.4696017 C30.7058824,48.3983229 30.6332916,48.3983229 30.4881101,48.3983229 C30.3429287,48.3983229 30.1977472,48.4696017 30.0525657,48.4696017 L30.5607009,48.754717 C30.7058824,48.6834382 30.7784731,48.6121593 30.7784731,48.5408805 C30.8510638,48.5408805 30.8510638,48.4696017 30.7784731,48.4696017 Z" Fill="{StaticResource linearGradient-40}" />
+                                <Path Data="M29.7622028,46.4737945 C29.5444305,46.5450734 29.3266583,46.5450734 29.1088861,46.6163522 C28.8911139,46.687631 28.7459324,46.687631 28.5281602,46.7589099 C28.310388,46.8301887 28.0926158,46.9014675 27.9474343,46.9727463 L28.6007509,47.3291405 C28.6733417,47.3291405 28.7459324,47.2578616 28.8185232,47.2578616 C28.8911139,47.2578616 28.9637046,47.1865828 29.0362954,47.1865828 C29.3992491,47.0440252 29.7622028,46.9727463 30.0525657,46.9014675 C30.3429287,46.8301887 30.7058824,46.7589099 30.9962453,46.7589099 C31.2866083,46.7589099 31.5769712,46.7589099 31.7947434,46.7589099 C32.0851064,46.8301887 32.3028786,46.9014675 32.5206508,47.0440252 C32.8110138,47.1865828 32.9561952,47.4004193 33.028786,47.5429769 C33.1013767,47.7568134 33.1013767,47.8993711 33.028786,48.1132075 C32.9561952,48.327044 32.8110138,48.4696017 32.5932416,48.6834382 C32.3754693,48.8972746 32.1576971,49.0398323 31.9399249,49.1823899 L32.8110138,49.6813417 L32.0851064,50.1090147 L31.2140175,49.6100629 C30.7784731,49.8238994 30.2703379,50.0377358 29.7622028,50.1802935 C29.2540676,50.3228512 28.7459324,50.4654088 28.2377972,50.6079665 L27.7296621,49.4675052 C27.9474343,49.3962264 28.2377972,49.3962264 28.4555695,49.3249476 C28.6733417,49.2536688 28.8911139,49.1823899 29.1814768,49.1111111 C29.4718398,49.0398323 29.689612,48.8972746 29.979975,48.8259958 L29.3266583,48.4696017 C29.1088861,48.5408805 28.8911139,48.6121593 28.6007509,48.6834382 C28.2377972,48.8259958 27.8748436,48.8972746 27.5844806,48.9685535 C27.2941176,49.0398323 27.0037547,49.0398323 26.7859825,49.1111111 C26.5682103,49.1111111 26.2778473,49.1111111 26.1326658,49.0398323 C25.9148936,48.9685535 25.6971214,48.8972746 25.5519399,48.8259958 C25.261577,48.6834382 25.1163955,48.5408805 25.0438048,48.327044 C24.971214,48.1844864 24.8986233,47.9706499 24.971214,47.7568134 C25.0438048,47.5429769 25.1163955,47.4004193 25.261577,47.1865828 C25.4067584,46.9727463 25.6245307,46.8301887 25.9148936,46.6163522 L25.1889862,46.1886792 L25.9148936,45.7610063 L26.640801,46.1886792 C26.8585732,46.1174004 27.0763454,45.9748428 27.2941176,45.9035639 C27.5118899,45.8322851 27.7296621,45.7610063 27.9474343,45.6897275 C28.1652065,45.6184486 28.3829787,45.5471698 28.6007509,45.475891 C28.8185232,45.4046122 28.9637046,45.4046122 29.1814768,45.3333333 L29.7622028,46.4737945 Z M27.2941176,47.6142558 C27.3667084,47.6855346 27.4392991,47.6855346 27.5844806,47.6855346 C27.6570713,47.6855346 27.8022528,47.6142558 27.9474343,47.6142558 L27.3667084,47.3291405 C27.2215269,47.4004193 27.1489362,47.5429769 27.2941176,47.6142558 Z M30.7784731,48.1844864 C30.7058824,48.1132075 30.6332916,48.1132075 30.4881101,48.1132075 C30.3429287,48.1132075 30.1977472,48.1844864 30.0525657,48.1844864 L30.5607009,48.4696017 C30.7058824,48.3983229 30.7784731,48.327044 30.7784731,48.2557652 C30.8510638,48.2557652 30.8510638,48.1844864 30.7784731,48.1844864 Z" Fill="{StaticResource linearGradient-41}" />
+                                <Path Data="M39.9249061,35.9958071 L18.2928661,35.9958071 L18.2928661,38.9895178 L18.2928661,38.9895178 C18.2928661,38.9895178 18.2928661,39.0607966 18.2928661,39.0607966 C18.2928661,42.4821803 23.1564456,45.2620545 29.1088861,45.2620545 C35.0613267,45.2620545 39.9249061,42.4821803 39.9249061,39.0607966 C39.9249061,39.0607966 39.9249061,38.9895178 39.9249061,38.9895178 L39.9249061,38.9895178 L39.9249061,35.9958071 L39.9249061,35.9958071 Z" Fill="{StaticResource linearGradient-42}" />
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="17.929912" Y="38.241090" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Path Data="M0.362953692,0.320754717 L0.362953692,0.392033543 C0.362953692,0.392033543 0.362953692,0.320754717 0.362953692,0.320754717 L0.362953692,0.320754717 Z" Fill="{StaticResource linearGradient-43}" />
+                                    <Path Data="M11.1789737,6.3081761 C5.22653317,6.3081761 0.362953692,3.52830189 0.362953692,0.106918239 L0.362953692,0.748427673 L0.362953692,0.748427673 C0.362953692,0.748427673 0.362953692,0.819706499 0.362953692,0.819706499 C0.362953692,4.24109015 5.22653317,7.02096436 11.1789737,7.02096436 C17.1314143,7.02096436 21.9949937,4.24109015 21.9949937,0.819706499 C21.9949937,0.819706499 21.9949937,0.748427673 21.9949937,0.748427673 L21.9949937,0.748427673 L21.9949937,0.178197065 C21.9949937,3.52830189 17.1314143,6.3081761 11.1789737,6.3081761 Z" Fill="{StaticResource linearGradient-44}" />
+                                    <Path Data="M21.9949937,0.392033543 L21.9949937,0.320754717 L21.9949937,0.320754717 C21.9949937,0.320754717 21.9949937,0.392033543 21.9949937,0.392033543 Z" Fill="{StaticResource linearGradient-45}" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="18.655820" Y="36.993711" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Path Data="M13.7922403,7.91194969 C13.864831,7.91194969 14.0100125,7.84067086 14.0826033,7.84067086 L14.0826033,0 L13.7922403,0 L13.7922403,7.91194969 Z" Fill="#FDD65B" />
+                                    <Path Data="M15.1714643,7.62683438 C15.2440551,7.62683438 15.3892365,7.55555556 15.4618273,7.55555556 L15.4618273,0 L15.1714643,0 L15.1714643,7.62683438 Z" Fill="#FDD65B" />
+                                    <Path Data="M16.4780976,7.19916143 C16.5506884,7.1278826 16.6958698,7.1278826 16.7684606,7.05660377 L16.7684606,0 L16.4780976,0 L16.4780976,7.19916143 Z" Fill="#FDD65B" />
+                                    <Path Data="M12.4130163,8.12578616 C12.485607,8.12578616 12.6307885,8.12578616 12.7033792,8.12578616 L12.7033792,0 L12.4130163,0 L12.4130163,8.12578616 Z" Fill="#FDD65B" />
+                                    <Path Data="M19.2365457,5.70230608 C19.3091364,5.63102725 19.4543179,5.55974843 19.5269086,5.4884696 L19.5269086,0.071278826 L19.2365457,0.071278826 L19.2365457,5.70230608 Z" Fill="#FDD65B" />
+                                    <Path Data="M20.543179,4.20545073 C20.6883605,4.06289308 20.7609512,3.8490566 20.8335419,3.70649895 L20.8335419,0 L20.543179,0 L20.543179,4.20545073 Z" Fill="#FDD65B" />
+                                    <Path Data="M17.8573217,6.55765199 C17.9299124,6.48637317 18.0750939,6.48637317 18.1476846,6.41509434 L18.1476846,0.071278826 L17.8573217,0.071278826 L17.8573217,6.55765199 Z" Fill="#FDD65B" />
+                                    <Path Data="M11.0337922,8.19706499 C11.106383,8.19706499 11.2515645,8.19706499 11.3241552,8.19706499 L11.3241552,0 L11.0337922,0 L11.0337922,8.19706499 Z" Fill="#FDD65B" />
+                                    <Path Data="M9.72715895,8.19706499 C9.79974969,8.19706499 9.94493116,8.19706499 10.0175219,8.19706499 L10.0175219,0 L9.72715895,0 L9.72715895,8.19706499 Z" Fill="#FDD65B" />
+                                    <Path Data="M6.96871089,7.91194969 C7.04130163,7.91194969 7.1864831,7.98322851 7.25907384,7.98322851 L7.25907384,0 L6.96871089,0 L6.96871089,7.91194969 Z" Fill="#FDD65B" />
+                                    <Path Data="M8.34793492,8.12578616 C8.42052566,8.12578616 8.56570713,8.12578616 8.63829787,8.12578616 L8.63829787,0 L8.34793492,0 L8.34793492,8.12578616 Z" Fill="#FDD65B" />
+                                    <Path Data="M5.58948686,7.55555556 C5.6620776,7.55555556 5.80725907,7.62683438 5.87984981,7.62683438 L5.87984981,0 L5.58948686,0 L5.58948686,7.55555556 Z" Fill="#FDD65B" />
+                                    <Path Data="M0.217772215,3.99161426 C0.290362954,4.13417191 0.435544431,4.27672956 0.508135169,4.49056604 L0.508135169,0.071278826 L0.217772215,0.071278826 L0.217772215,3.99161426 Z" Fill="#FDD65B" />
+                                    <Path Data="M1.52440551,5.55974843 C1.59699625,5.63102725 1.74217772,5.70230608 1.81476846,5.77358491 L1.81476846,0 L1.52440551,0 L1.52440551,5.55974843 Z" Fill="#FDD65B" />
+                                    <Path Data="M4.28285357,7.1278826 C4.35544431,7.19916143 4.50062578,7.19916143 4.57321652,7.27044025 L4.57321652,0 L4.28285357,0 L4.28285357,7.1278826 Z" Fill="#FDD65B" />
+                                    <Path Data="M2.90362954,6.48637317 C2.97622028,6.55765199 3.12140175,6.55765199 3.19399249,6.62893082 L3.19399249,0 L2.90362954,0 L2.90362954,6.48637317 Z" Fill="#FDD65B" />
+                                </Canvas>
+                                <Ellipse Fill="{StaticResource linearGradient-46}" Canvas.Left="18.292866099999998" Canvas.Top="29.794549240000002" Width="21.63204" Height="12.40251572" />
+                                <Path Data="M29.1088861,42.0545073 C23.2290363,42.0545073 18.5106383,39.4171908 18.2928661,36.067086 C18.2928661,36.1383648 18.2928661,36.2096436 18.2928661,36.2809224 C18.2928661,39.7023061 23.1564456,42.4821803 29.1088861,42.4821803 C35.0613267,42.4821803 39.9249061,39.7023061 39.9249061,36.2809224 C39.9249061,36.2096436 39.9249061,36.1383648 39.9249061,36.067086 C39.7071339,39.3459119 34.9887359,42.0545073 29.1088861,42.0545073 Z" Fill="#FFC785" />
+                                <Ellipse Fill="{StaticResource linearGradient-47}" Canvas.Left="21.05131414" Canvas.Top="31.362683410000002" Width="16.11514392" Height="9.26624738" />
+                                <Path Data="M29.3992491,31.5765199 C33.7546934,31.5765199 37.2390488,33.5010482 37.456821,35.9245283 C37.456821,35.8532495 37.456821,35.7819706 37.456821,35.7106918 C37.456821,33.1446541 33.8272841,31.0775681 29.3992491,31.0775681 C24.8986233,31.0775681 21.3416771,33.1446541 21.3416771,35.7106918 C21.3416771,35.7819706 21.3416771,35.8532495 21.3416771,35.9245283 C21.5594493,33.572327 25.0438048,31.5765199 29.3992491,31.5765199 Z" Fill="#FFC785" />
+                                <Path Data="M29.1088861,31.8616352 C33.4643304,31.8616352 36.9486859,33.7861635 37.1664581,36.2096436 C37.1664581,36.1383648 37.1664581,36.067086 37.1664581,35.9958071 C37.1664581,33.4297694 33.5369212,31.3626834 29.1088861,31.3626834 C24.6082603,31.3626834 21.0513141,33.4297694 21.0513141,35.9958071 C21.0513141,36.067086 21.0513141,36.1383648 21.0513141,36.2096436 C21.2690864,33.7861635 24.8260325,31.8616352 29.1088861,31.8616352 Z" Fill="{StaticResource linearGradient-48}" />
+                                <Path Data="M29.7622028,34.5702306 C29.5444305,34.6415094 29.3266583,34.6415094 29.1088861,34.7127883 C28.8911139,34.7840671 28.7459324,34.7840671 28.5281602,34.8553459 C28.310388,34.9266247 28.0926158,34.9979036 27.9474343,35.0691824 L28.6007509,35.4255765 C28.6733417,35.4255765 28.7459324,35.3542977 28.8185232,35.3542977 C28.8911139,35.3542977 28.9637046,35.2830189 29.0362954,35.2830189 C29.3992491,35.1404612 29.7622028,35.0691824 30.0525657,34.9979036 C30.3429287,34.9266247 30.7058824,34.8553459 30.9962453,34.8553459 C31.2866083,34.8553459 31.5769712,34.8553459 31.7947434,34.8553459 C32.0851064,34.9266247 32.3028786,34.9979036 32.5206508,35.1404612 C32.8110138,35.2830189 32.9561952,35.4968553 33.028786,35.639413 C33.1013767,35.8532495 33.1013767,35.9958071 33.028786,36.2096436 C32.9561952,36.4234801 32.8110138,36.5660377 32.5932416,36.7798742 C32.3754693,36.9937107 32.1576971,37.1362683 31.9399249,37.278826 L32.8110138,37.7777778 L32.0851064,38.2054507 L31.2140175,37.706499 C30.7784731,37.9203354 30.2703379,38.1341719 29.7622028,38.2767296 C29.2540676,38.4192872 28.7459324,38.5618449 28.2377972,38.7044025 L27.8748436,37.5639413 C28.0926158,37.4926625 28.3829787,37.4926625 28.6007509,37.4213836 C28.8185232,37.3501048 29.0362954,37.278826 29.3266583,37.2075472 C29.6170213,37.1362683 29.8347935,36.9937107 30.1251564,36.9224319 L29.4718398,36.5660377 C29.2540676,36.6373166 29.0362954,36.7085954 28.7459324,36.7798742 C28.3829787,36.9224319 28.020025,36.9937107 27.7296621,37.0649895 C27.4392991,37.1362683 27.1489362,37.1362683 26.931164,37.2075472 C26.7133917,37.2075472 26.4230288,37.2075472 26.2778473,37.1362683 C26.0600751,37.0649895 25.8423029,36.9937107 25.6971214,36.9224319 C25.4067584,36.7798742 25.261577,36.6373166 25.1889862,36.4234801 C25.1163955,36.2809224 25.0438048,36.067086 25.1163955,35.8532495 C25.1889862,35.639413 25.261577,35.4968553 25.4067584,35.2830189 C25.5519399,35.0691824 25.7697121,34.9266247 26.0600751,34.7127883 L25.3341677,34.2851153 L26.0600751,33.8574423 L26.7859825,34.2851153 C27.0037547,34.2138365 27.2215269,34.0712788 27.4392991,34 C27.6570713,33.9287212 27.8748436,33.8574423 28.0926158,33.7861635 C28.310388,33.7148847 28.5281602,33.6436059 28.7459324,33.572327 C28.9637046,33.5010482 29.1088861,33.5010482 29.3266583,33.4297694 L29.7622028,34.5702306 Z M27.2941176,35.7106918 C27.3667084,35.7819706 27.4392991,35.7819706 27.5844806,35.7819706 C27.6570713,35.7819706 27.8022528,35.7106918 27.9474343,35.7106918 L27.3667084,35.4255765 C27.2215269,35.4968553 27.1489362,35.639413 27.2941176,35.7106918 Z M30.7784731,36.2809224 C30.7058824,36.2096436 30.6332916,36.2096436 30.4881101,36.2096436 C30.3429287,36.2096436 30.1977472,36.2809224 30.0525657,36.2809224 L30.5607009,36.5660377 C30.7058824,36.4947589 30.7784731,36.4234801 30.7784731,36.3522013 C30.8510638,36.3522013 30.8510638,36.2809224 30.7784731,36.2809224 Z" Fill="{StaticResource linearGradient-49}" />
+                                <Path Data="M29.7622028,34.2851153 C29.5444305,34.3563941 29.3266583,34.3563941 29.1088861,34.427673 C28.8911139,34.4989518 28.7459324,34.4989518 28.5281602,34.5702306 C28.310388,34.6415094 28.0926158,34.7127883 27.9474343,34.7840671 L28.6007509,35.1404612 C28.6733417,35.1404612 28.7459324,35.0691824 28.8185232,35.0691824 C28.8911139,35.0691824 28.9637046,34.9979036 29.0362954,34.9979036 C29.3992491,34.8553459 29.7622028,34.7840671 30.0525657,34.7127883 C30.3429287,34.6415094 30.7058824,34.5702306 30.9962453,34.5702306 C31.2866083,34.5702306 31.5769712,34.5702306 31.7947434,34.5702306 C32.0851064,34.6415094 32.3028786,34.7127883 32.5206508,34.8553459 C32.8110138,34.9979036 32.9561952,35.21174 33.028786,35.3542977 C33.1013767,35.5681342 33.1013767,35.7106918 33.028786,35.9245283 C32.9561952,36.1383648 32.8110138,36.2809224 32.5932416,36.4947589 C32.3754693,36.7085954 32.1576971,36.851153 31.9399249,36.9937107 L32.8110138,37.4926625 L32.0851064,37.9203354 L31.2140175,37.4213836 C30.7784731,37.6352201 30.2703379,37.8490566 29.7622028,37.9916143 C29.2540676,38.1341719 28.7459324,38.2767296 28.2377972,38.4192872 L27.7296621,37.278826 C27.9474343,37.2075472 28.2377972,37.2075472 28.4555695,37.1362683 C28.6733417,37.0649895 28.8911139,36.9937107 29.1814768,36.9224319 C29.4718398,36.851153 29.689612,36.7085954 29.979975,36.6373166 L29.3266583,36.2809224 C29.1088861,36.3522013 28.8911139,36.4234801 28.6007509,36.4947589 C28.2377972,36.6373166 27.8748436,36.7085954 27.5844806,36.7798742 C27.5118899,36.851153 27.2215269,36.851153 27.0037547,36.851153 C26.7859825,36.851153 26.4956195,36.851153 26.350438,36.7798742 C26.1326658,36.7085954 25.9148936,36.6373166 25.7697121,36.5660377 C25.4793492,36.4234801 25.3341677,36.2809224 25.261577,36.067086 C25.1889862,35.9245283 25.1163955,35.7106918 25.1889862,35.4968553 C25.261577,35.2830189 25.3341677,35.1404612 25.4793492,34.9266247 C25.6245307,34.7127883 25.8423029,34.5702306 26.1326658,34.3563941 L25.3341677,34 L26.0600751,33.572327 L26.7859825,34 C27.0037547,33.9287212 27.2215269,33.7861635 27.4392991,33.7148847 C27.6570713,33.6436059 27.8748436,33.572327 28.0926158,33.5010482 C28.310388,33.4297694 28.5281602,33.3584906 28.7459324,33.2872117 C28.9637046,33.2159329 29.1088861,33.2159329 29.3266583,33.1446541 L29.7622028,34.2851153 Z M27.2941176,35.4255765 C27.3667084,35.4968553 27.4392991,35.4968553 27.5844806,35.4968553 C27.6570713,35.4968553 27.8022528,35.4255765 27.9474343,35.4255765 L27.3667084,35.1404612 C27.2215269,35.21174 27.1489362,35.3542977 27.2941176,35.4255765 Z M30.7784731,35.9958071 C30.7058824,35.9245283 30.6332916,35.9245283 30.4881101,35.9245283 C30.3429287,35.9245283 30.1977472,35.9958071 30.0525657,35.9958071 L30.5607009,36.2809224 C30.7058824,36.2096436 30.7784731,36.1383648 30.7784731,36.067086 C30.8510638,36.067086 30.8510638,35.9958071 30.7784731,35.9958071 Z" Fill="{StaticResource linearGradient-50}" />
+                                <Path Data="M49.5068836,41.9119497 L49.5068836,63.2955975 C55.1689612,60.0880503 57.9274093,56.2389937 57.9274093,51.6771488 L57.9274093,30.293501 C57.9274093,34.8553459 55.0963705,38.7044025 49.5068836,41.9119497 Z" Fill="{StaticResource linearGradient-51}" />
+                                <Polygon Fill="{StaticResource linearGradient-52}" Points="36.4405507 34.4989518 36.5131414 34.4989518 36.5131414 55.8113208 49.5068836 63.2243187 49.5068836 41.9119497" />
+                                <Path Data="M49.5068836,41.6981132 L36.8760951,34.5702306 C36.7309136,34.6415094 36.5857322,34.7127883 36.4405507,34.8553459 L49.4342929,42.197065 C55.0963705,38.9895178 57.8548185,35.1404612 57.8548185,30.5786164 C57.8548185,30.5073375 57.8548185,30.4360587 57.8548185,30.3647799 C57.7822278,34.7840671 55.0237797,38.5618449 49.5068836,41.6981132 Z" Fill="#8D57B9" />
+                                <Path Data="M28.8911139,13.8280922 C12.9211514,13.8280922 -3.49595353e-13,21.0985325 0.0722863702,30.1509434 L18.3654568,30.1509434 C18.3654568,28.5828092 19.3817272,27.0859539 21.4868586,25.8742138 C25.6245307,23.5220126 32.3754693,23.5220126 36.5131414,25.8742138 C40.6508135,28.2264151 40.7234043,32.0041929 36.5857322,34.3563941 L49.5794743,41.6981132 C55.2415519,38.490566 58,34.6415094 58,30.0796646 C57.8548185,21.2410901 44.8610763,13.8993711 28.8911139,13.8280922 Z" Fill="{StaticResource linearGradient-53}" />
+                                <Path Data="M39.5619524,30.293501 C39.7071339,28.6540881 38.6182728,27.0146751 36.4405507,25.802935 C32.3028786,23.4507338 25.5519399,23.4507338 21.4142678,25.802935 C19.3817272,26.9433962 18.2928661,28.5115304 18.2928661,30.0796646 L0,30.0796646 C0,30.2222222 0,30.3647799 0,30.5786164 L18.2928661,30.5786164 C18.2928661,29.0104822 19.3091364,27.5136268 21.4142678,26.3018868 C25.5519399,23.9496855 32.3028786,23.9496855 36.4405507,26.3018868 C38.4005006,27.3710692 39.416771,28.8679245 39.5619524,30.293501 Z" Fill="#CF7BFF" />
+                                <Canvas Opacity="0.95">
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="28.891114" Y="48.184486" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Path Data="M7.69461827,0.142557652 C7.62202753,0.142557652 7.62202753,0.213836478 7.5494368,0.213836478 C5.44430538,1.35429769 2.75844806,1.99580713 0,1.99580713 L0,9.40880503 C2.75844806,9.40880503 5.44430538,8.83857442 7.5494368,7.62683438 C7.62202753,7.62683438 7.62202753,7.55555556 7.69461827,7.55555556 L7.69461827,0.142557652 Z" Fill="{StaticResource linearGradient-54}" />
+                                    <Path Data="M0.145181477,12.0461216 L0.0725907384,1.85324948 C0.0725907384,1.85324948 0.0725907384,1.85324948 0.0725907384,1.85324948 L0.0725907384,1.78197065 L0.145181477,19.8155136 C8.1301627,19.8155136 14.9536921,18.2473795 20.6157697,15.0398323 L20.6157697,7.27044025 C14.9536921,10.4779874 8.1301627,12.0461216 0.145181477,12.0461216 Z" Fill="{StaticResource linearGradient-55}" />
+                                    <Path Data="M7.76720901,0 C7.69461827,0 7.69461827,0.071278826 7.62202753,0.071278826 C5.58948686,1.21174004 2.8310388,1.85324948 0.145181477,1.85324948 L0.217772215,12.3312369 C8.20275344,12.3312369 15.0262829,10.4779874 20.6883605,7.27044025 L7.76720901,0 Z" Fill="{StaticResource linearGradient-56}" />
+                                    <Path Data="M0.145181477,11.9035639 L0.0725907384,1.85324948 L0.0725907384,1.9245283 L0.145181477,12.3312369 C8.1301627,12.3312369 14.9536921,10.7631027 20.6157697,7.55555556 L20.252816,7.34171908 C14.6633292,10.4067086 7.98498123,11.9035639 0.145181477,11.9035639 Z" Fill="#F777E7" />
+                                </Canvas>
+                                <Canvas Opacity="0.9">
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="0.000000" Y="37.777778" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Path Data="M28.9637046,6.20125786 C26.2778473,6.20125786 23.5193992,5.63102725 21.4142678,4.41928721 C19.3091364,3.20754717 18.2928661,1.639413 18.2928661,0.071278826 L18.2928661,0.071278826 L18.2928661,13.7568134 L18.2928661,13.7568134 C18.2928661,15.3249476 19.3817272,16.8218029 21.4142678,18.033543 C23.5193992,19.245283 26.2052566,19.8155136 28.9637046,19.8155136 L28.9637046,6.20125786 Z" Fill="{StaticResource linearGradient-57}" />
+                                    <Path Data="M0,0 L0,13.7568134 C0.0725907384,22.8092243 13.0663329,30.2222222 29.0362954,30.2222222 L29.0362954,16.4654088 C13.0663329,16.4654088 0.0725907384,9.0524109 0,0 Z" Fill="{StaticResource linearGradient-58}" />
+                                    <Path Data="M21.4868586,4.41928721 C19.3817272,3.20754717 18.2928661,1.639413 18.3654568,0.071278826 L0.0725907384,0.071278826 C0.145181477,9.12368973 13.1389237,16.5366876 29.1088861,16.5366876 L28.9637046,6.20125786 C26.2778473,6.20125786 23.59199,5.63102725 21.4868586,4.41928721 Z" Fill="{StaticResource linearGradient-59}" />
+                                    <Path Data="M28.9637046,6.12997904 L28.8185232,6.12997904 L28.8911139,16.2515723 C14.5907384,16.2515723 2.68585732,10.3354298 0.290362954,2.63731656 C2.39549437,10.6205451 14.4455569,16.7505241 29.0362954,16.7505241 L28.9637046,6.12997904 Z" Fill="#CF7BFF" />
+                                </Canvas>
+                                <Path Data="M39.9249061,23.2368973 L18.2928661,23.2368973 L18.2928661,26.230608 L18.2928661,26.230608 C18.2928661,26.230608 18.2928661,26.3018868 18.2928661,26.3018868 C18.2928661,29.7232704 23.1564456,32.5031447 29.1088861,32.5031447 C35.0613267,32.5031447 39.9249061,29.7232704 39.9249061,26.3018868 C39.9249061,26.3018868 39.9249061,26.230608 39.9249061,26.230608 L39.9249061,26.230608 L39.9249061,23.2368973 L39.9249061,23.2368973 Z" Fill="{StaticResource linearGradient-60}" />
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="17.929912" Y="25.482180" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Path Data="M0.362953692,0.320754717 L0.362953692,0.392033543 C0.362953692,0.392033543 0.362953692,0.392033543 0.362953692,0.320754717 L0.362953692,0.320754717 Z" Fill="{StaticResource linearGradient-61}" />
+                                    <Path Data="M11.1789737,6.3081761 C5.22653317,6.3081761 0.362953692,3.52830189 0.362953692,0.106918239 L0.362953692,0.677148847 L0.362953692,0.677148847 C0.362953692,0.677148847 0.362953692,0.748427673 0.362953692,0.748427673 C0.362953692,4.16981132 5.22653317,6.94968553 11.1789737,6.94968553 C17.1314143,6.94968553 21.9949937,4.16981132 21.9949937,0.748427673 C21.9949937,0.748427673 21.9949937,0.677148847 21.9949937,0.677148847 L21.9949937,0.677148847 L21.9949937,0.106918239 C21.9949937,3.59958071 17.1314143,6.3081761 11.1789737,6.3081761 Z" Fill="{StaticResource linearGradient-62}" />
+                                    <Path Data="M21.9949937,0.392033543 L21.9949937,0.320754717 L21.9949937,0.320754717 C21.9949937,0.392033543 21.9949937,0.392033543 21.9949937,0.392033543 Z" Fill="{StaticResource linearGradient-63}" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="18.655820" Y="24.234801" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Path Data="M13.7922403,7.98322851 C13.864831,7.98322851 14.0100125,7.91194969 14.0826033,7.91194969 L14.0826033,0.071278826 L13.7922403,0.071278826 L13.7922403,7.98322851 Z" Fill="#FDD65B" />
+                                    <Path Data="M15.1714643,7.62683438 C15.2440551,7.62683438 15.3892365,7.55555556 15.4618273,7.55555556 L15.4618273,0 L15.1714643,0 L15.1714643,7.62683438 Z" Fill="#FDD65B" />
+                                    <Path Data="M16.4780976,7.19916143 C16.5506884,7.1278826 16.6958698,7.1278826 16.7684606,7.05660377 L16.7684606,0 L16.4780976,0 L16.4780976,7.19916143 Z" Fill="#FDD65B" />
+                                    <Path Data="M12.4130163,8.12578616 C12.485607,8.12578616 12.6307885,8.12578616 12.7033792,8.12578616 L12.7033792,0 L12.4130163,0 L12.4130163,8.12578616 Z" Fill="#FDD65B" />
+                                    <Path Data="M19.2365457,5.70230608 C19.3091364,5.63102725 19.4543179,5.55974843 19.5269086,5.4884696 L19.5269086,0.071278826 L19.2365457,0.071278826 L19.2365457,5.70230608 Z" Fill="#FDD65B" />
+                                    <Path Data="M20.543179,4.27672956 C20.6883605,4.13417191 20.7609512,3.92033543 20.8335419,3.77777778 L20.8335419,0.071278826 L20.543179,0.071278826 L20.543179,4.27672956 Z" Fill="#FDD65B" />
+                                    <Path Data="M17.8573217,6.55765199 C17.9299124,6.48637317 18.0750939,6.48637317 18.1476846,6.41509434 L18.1476846,0.071278826 L17.8573217,0.071278826 L17.8573217,6.55765199 Z" Fill="#FDD65B" />
+                                    <Path Data="M11.0337922,8.19706499 C11.106383,8.19706499 11.2515645,8.19706499 11.3241552,8.19706499 L11.3241552,0 L11.0337922,0 L11.0337922,8.19706499 Z" Fill="#FDD65B" />
+                                    <Path Data="M9.72715895,8.19706499 C9.79974969,8.19706499 9.94493116,8.19706499 10.0175219,8.19706499 L10.0175219,0 L9.72715895,0 L9.72715895,8.19706499 Z" Fill="#FDD65B" />
+                                    <Path Data="M6.96871089,7.91194969 C7.04130163,7.91194969 7.1864831,7.98322851 7.25907384,7.98322851 L7.25907384,0 L6.96871089,0 L6.96871089,7.91194969 Z" Fill="#FDD65B" />
+                                    <Path Data="M8.34793492,8.12578616 C8.42052566,8.12578616 8.56570713,8.12578616 8.63829787,8.12578616 L8.63829787,0 L8.34793492,0 L8.34793492,8.12578616 Z" Fill="#FDD65B" />
+                                    <Path Data="M5.58948686,7.55555556 C5.6620776,7.55555556 5.80725907,7.62683438 5.87984981,7.62683438 L5.87984981,0 L5.58948686,0 L5.58948686,7.55555556 Z" Fill="#FDD65B" />
+                                    <Path Data="M0.217772215,3.99161426 C0.290362954,4.13417191 0.435544431,4.27672956 0.508135169,4.49056604 L0.508135169,0.071278826 L0.217772215,0.071278826 L0.217772215,3.99161426 Z" Fill="#FDD65B" />
+                                    <Path Data="M1.52440551,5.55974843 C1.59699625,5.63102725 1.74217772,5.70230608 1.81476846,5.77358491 L1.81476846,0 L1.52440551,0 L1.52440551,5.55974843 Z" Fill="#FDD65B" />
+                                    <Path Data="M4.28285357,7.1278826 C4.35544431,7.19916143 4.50062578,7.19916143 4.57321652,7.27044025 L4.57321652,0 L4.28285357,0 L4.28285357,7.1278826 Z" Fill="#FDD65B" />
+                                    <Path Data="M2.90362954,6.48637317 C2.97622028,6.55765199 3.12140175,6.55765199 3.19399249,6.62893082 L3.19399249,0 L2.90362954,0 L2.90362954,6.48637317 Z" Fill="#FDD65B" />
+                                </Canvas>
+                                <Ellipse Fill="{StaticResource linearGradient-64}" Canvas.Left="18.292866099999998" Canvas.Top="17.035639439999997" Width="21.63204" Height="12.40251572" />
+                                <Path Data="M29.1088861,29.2955975 C23.2290363,29.2955975 18.5106383,26.6582809 18.2928661,23.3081761 C18.2928661,23.3794549 18.2928661,23.4507338 18.2928661,23.5220126 C18.2928661,26.9433962 23.1564456,29.7232704 29.1088861,29.7232704 C35.0613267,29.7232704 39.9249061,26.9433962 39.9249061,23.5220126 C39.9249061,23.4507338 39.9249061,23.3794549 39.9249061,23.3081761 C39.7071339,26.5870021 34.9887359,29.2955975 29.1088861,29.2955975 Z" Fill="#FFC785" />
+                                <Ellipse Fill="{StaticResource linearGradient-65}" Canvas.Left="21.05131414" Canvas.Top="18.603773609999998" Width="16.11514392" Height="9.26624738" />
+                                <Path Data="M29.3992491,18.8888889 C33.7546934,18.8888889 37.2390488,20.8134172 37.456821,23.2368973 C37.456821,23.1656184 37.456821,23.0943396 37.456821,23.0230608 C37.456821,20.4570231 33.8272841,18.3899371 29.3992491,18.3899371 C24.8986233,18.3899371 21.3416771,20.4570231 21.3416771,23.0230608 C21.3416771,23.0943396 21.3416771,23.1656184 21.3416771,23.2368973 C21.5594493,20.8134172 25.0438048,18.8888889 29.3992491,18.8888889 Z" Fill="#FFC785" />
+                                <Path Data="M29.1088861,19.1027254 C33.4643304,19.1027254 36.9486859,21.0272537 37.1664581,23.4507338 C37.1664581,23.3794549 37.1664581,23.3081761 37.1664581,23.2368973 C37.1664581,20.6708595 33.5369212,18.6037736 29.1088861,18.6037736 C24.6082603,18.6037736 21.0513141,20.6708595 21.0513141,23.2368973 C21.0513141,23.3081761 21.0513141,23.3794549 21.0513141,23.4507338 C21.2690864,21.0985325 24.8260325,19.1027254 29.1088861,19.1027254 Z" Fill="{StaticResource linearGradient-66}" />
+                                <Path Data="M29.7622028,21.8113208 C29.5444305,21.8825996 29.3266583,21.8825996 29.1088861,21.9538784 C28.8911139,22.0251572 28.7459324,22.0251572 28.5281602,22.0964361 C28.310388,22.1677149 28.0926158,22.2389937 27.9474343,22.3102725 L28.6007509,22.6666667 C28.6733417,22.6666667 28.7459324,22.5953878 28.8185232,22.5953878 C28.8911139,22.5953878 28.9637046,22.524109 29.0362954,22.524109 C29.3992491,22.3815514 29.7622028,22.3102725 30.0525657,22.2389937 C30.3429287,22.1677149 30.7058824,22.0964361 30.9962453,22.0964361 C31.2866083,22.0964361 31.5769712,22.0964361 31.7947434,22.0964361 C32.0851064,22.1677149 32.3028786,22.2389937 32.5206508,22.3815514 C32.8110138,22.524109 32.9561952,22.7379455 33.028786,22.8805031 C33.1013767,23.0943396 33.1013767,23.2368973 33.028786,23.4507338 C32.9561952,23.6645702 32.8110138,23.8071279 32.5932416,24.0209644 C32.3754693,24.2348008 32.1576971,24.3773585 31.9399249,24.5199161 L32.8110138,25.0188679 L32.0851064,25.4465409 L31.2140175,24.9475891 C30.7784731,25.1614256 30.2703379,25.3752621 29.7622028,25.5178197 C29.2540676,25.6603774 28.7459324,25.802935 28.2377972,25.9454927 L27.7296621,24.8050314 C27.9474343,24.7337526 28.2377972,24.7337526 28.4555695,24.6624738 C28.6733417,24.591195 28.8911139,24.5199161 29.1814768,24.4486373 C29.4718398,24.3773585 29.689612,24.2348008 29.979975,24.163522 L29.3266583,23.8071279 C29.1088861,23.8784067 28.8911139,23.9496855 28.6007509,24.0209644 C28.2377972,24.163522 27.8748436,24.2348008 27.5844806,24.3060797 C27.2941176,24.3773585 27.0037547,24.3773585 26.7859825,24.4486373 C26.5682103,24.4486373 26.2778473,24.4486373 26.1326658,24.3773585 C25.9148936,24.3060797 25.6971214,24.2348008 25.5519399,24.163522 C25.261577,24.0209644 25.1163955,23.8784067 25.0438048,23.6645702 C24.971214,23.5220126 24.8986233,23.3081761 24.971214,23.0943396 C25.0438048,22.8805031 25.1163955,22.7379455 25.261577,22.524109 C25.4067584,22.3102725 25.6245307,22.1677149 25.9148936,21.9538784 L25.1889862,21.5262055 L25.9148936,21.0985325 L26.640801,21.5262055 C26.8585732,21.4549266 27.0763454,21.312369 27.2941176,21.2410901 C27.5118899,21.1698113 27.7296621,21.0985325 27.9474343,21.0272537 C28.1652065,20.9559748 28.3829787,20.884696 28.6007509,20.8134172 C28.8185232,20.7421384 28.9637046,20.7421384 29.1814768,20.6708595 L29.7622028,21.8113208 Z M27.2941176,22.951782 C27.3667084,23.0230608 27.4392991,23.0230608 27.5844806,23.0230608 C27.6570713,23.0230608 27.8022528,22.951782 27.9474343,22.951782 L27.4392991,22.5953878 C27.2215269,22.7379455 27.1489362,22.8805031 27.2941176,22.951782 Z M30.7784731,23.5220126 C30.7058824,23.4507338 30.6332916,23.4507338 30.4881101,23.4507338 C30.3429287,23.4507338 30.1977472,23.5220126 30.0525657,23.5220126 L30.5607009,23.8071279 C30.7058824,23.7358491 30.7784731,23.6645702 30.7784731,23.5932914 C30.8510638,23.5932914 30.8510638,23.5220126 30.7784731,23.5220126 Z" Fill="{StaticResource linearGradient-67}" />
+                                <Path Data="M29.7622028,21.5262055 C29.5444305,21.5974843 29.3266583,21.5974843 29.1088861,21.6687631 C28.8911139,21.7400419 28.7459324,21.7400419 28.5281602,21.8113208 C28.310388,21.8825996 28.0926158,21.9538784 27.9474343,22.0251572 L28.6007509,22.3815514 C28.6733417,22.3815514 28.7459324,22.3102725 28.8185232,22.3102725 C28.8911139,22.3102725 28.9637046,22.2389937 29.0362954,22.2389937 C29.3992491,22.0964361 29.7622028,22.0251572 30.0525657,21.9538784 C30.3429287,21.8825996 30.7058824,21.8113208 30.9962453,21.8113208 C31.2866083,21.8113208 31.5769712,21.8113208 31.7947434,21.8113208 C32.0851064,21.8825996 32.3028786,21.9538784 32.5206508,22.0964361 C32.8110138,22.2389937 32.9561952,22.4528302 33.028786,22.5953878 C33.1013767,22.8092243 33.1013767,22.951782 33.028786,23.1656184 C32.9561952,23.3794549 32.8110138,23.5220126 32.5932416,23.7358491 C32.3754693,23.9496855 32.1576971,24.0922432 31.9399249,24.2348008 L32.8110138,24.7337526 L32.0851064,25.1614256 L31.2140175,24.6624738 C30.7784731,24.8763103 30.2703379,25.0901468 29.7622028,25.2327044 C29.2540676,25.3752621 28.7459324,25.5178197 28.2377972,25.6603774 L27.7296621,24.5199161 C27.9474343,24.4486373 28.2377972,24.4486373 28.4555695,24.3773585 C28.6733417,24.3060797 28.8911139,24.2348008 29.1814768,24.163522 C29.4718398,24.0922432 29.689612,23.9496855 29.979975,23.8784067 L29.3266583,23.5220126 C29.1088861,23.5932914 28.8911139,23.6645702 28.6007509,23.7358491 C28.2377972,23.8784067 27.8748436,23.9496855 27.5844806,24.0209644 C27.2941176,24.0922432 27.0037547,24.0922432 26.7859825,24.163522 C26.5682103,24.163522 26.2778473,24.163522 26.1326658,24.0922432 C25.9148936,24.0209644 25.6971214,23.9496855 25.5519399,23.8784067 C25.261577,23.7358491 25.1163955,23.5932914 25.0438048,23.3794549 C24.971214,23.2368973 24.8986233,23.0230608 24.971214,22.8092243 C25.0438048,22.5953878 25.1163955,22.4528302 25.261577,22.2389937 C25.4067584,22.0251572 25.6245307,21.8825996 25.9148936,21.6687631 L25.1889862,21.2410901 L25.9148936,20.8134172 L26.640801,21.2410901 C26.8585732,21.1698113 27.0763454,21.0272537 27.2941176,20.9559748 C27.5118899,20.884696 27.7296621,20.8134172 27.9474343,20.7421384 C28.1652065,20.6708595 28.3829787,20.5995807 28.6007509,20.5283019 C28.8185232,20.4570231 28.9637046,20.4570231 29.1814768,20.3857442 L29.7622028,21.5262055 Z M27.2941176,22.6666667 C27.3667084,22.7379455 27.4392991,22.7379455 27.5844806,22.7379455 C27.6570713,22.7379455 27.8022528,22.6666667 27.9474343,22.6666667 L27.3667084,22.3815514 C27.2215269,22.4528302 27.1489362,22.5953878 27.2941176,22.6666667 Z M30.7784731,23.2368973 C30.7058824,23.1656184 30.6332916,23.1656184 30.4881101,23.1656184 C30.3429287,23.1656184 30.1977472,23.2368973 30.0525657,23.2368973 L30.5607009,23.5220126 C30.7058824,23.4507338 30.7784731,23.3794549 30.7784731,23.3081761 C30.8510638,23.3081761 30.8510638,23.3081761 30.7784731,23.2368973 Z" Fill="{StaticResource linearGradient-68}" />
+                                <Path Data="M39.9249061,6.12997904 L18.2928661,6.12997904 L18.2928661,9.12368973 L18.2928661,9.12368973 C18.2928661,9.12368973 18.2928661,9.19496855 18.2928661,9.19496855 C18.2928661,12.6163522 23.1564456,15.3962264 29.1088861,15.3962264 C35.0613267,15.3962264 39.9249061,12.6163522 39.9249061,9.19496855 C39.9249061,9.19496855 39.9249061,9.12368973 39.9249061,9.12368973 L39.9249061,9.12368973 L39.9249061,6.12997904 L39.9249061,6.12997904 Z" Fill="{StaticResource linearGradient-69}" />
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="17.929912" Y="8.375262" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Path Data="M0.362953692,0.320754717 L0.362953692,0.392033543 C0.362953692,0.392033543 0.362953692,0.392033543 0.362953692,0.320754717 L0.362953692,0.320754717 Z" Fill="{StaticResource linearGradient-70}" />
+                                    <Path Data="M11.1789737,6.37945493 C5.22653317,6.37945493 0.362953692,3.59958071 0.362953692,0.178197065 L0.362953692,0.748427673 L0.362953692,0.748427673 C0.362953692,0.748427673 0.362953692,0.819706499 0.362953692,0.819706499 C0.362953692,4.24109015 5.22653317,7.02096436 11.1789737,7.02096436 C17.1314143,7.02096436 21.9949937,4.24109015 21.9949937,0.819706499 C21.9949937,0.819706499 21.9949937,0.748427673 21.9949937,0.748427673 L21.9949937,0.748427673 L21.9949937,0.178197065 C21.9949937,3.59958071 17.1314143,6.37945493 11.1789737,6.37945493 Z" Fill="{StaticResource linearGradient-71}" />
+                                    <Path Data="M21.9949937,0.463312369 L21.9949937,0.392033543 L21.9949937,0.392033543 C21.9949937,0.392033543 21.9949937,0.392033543 21.9949937,0.463312369 Z" Fill="{StaticResource linearGradient-72}" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform X="18.655820" Y="7.127883" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Path Data="M13.7922403,7.98322851 C13.864831,7.98322851 14.0100125,7.91194969 14.0826033,7.91194969 L14.0826033,0.071278826 L13.7922403,0.071278826 L13.7922403,7.98322851 Z" Fill="#FDD65B" />
+                                    <Path Data="M15.1714643,7.62683438 C15.2440551,7.62683438 15.3892365,7.55555556 15.4618273,7.55555556 L15.4618273,0.071278826 L15.1714643,0.071278826 L15.1714643,7.62683438 Z" Fill="#FDD65B" />
+                                    <Path Data="M16.4780976,7.19916143 C16.5506884,7.1278826 16.6958698,7.1278826 16.7684606,7.05660377 L16.7684606,0 L16.4780976,0 L16.4780976,7.19916143 Z" Fill="#FDD65B" />
+                                    <Path Data="M12.4130163,8.19706499 C12.485607,8.19706499 12.6307885,8.19706499 12.7033792,8.19706499 L12.7033792,0.071278826 L12.4130163,0.071278826 L12.4130163,8.19706499 Z" Fill="#FDD65B" />
+                                    <Path Data="M19.2365457,5.70230608 C19.3091364,5.63102725 19.4543179,5.55974843 19.5269086,5.4884696 L19.5269086,0.071278826 L19.2365457,0.071278826 L19.2365457,5.70230608 Z" Fill="#FDD65B" />
+                                    <Path Data="M20.543179,4.27672956 C20.6883605,4.13417191 20.7609512,3.92033543 20.8335419,3.77777778 L20.8335419,0.071278826 L20.543179,0.071278826 L20.543179,4.27672956 Z" Fill="#FDD65B" />
+                                    <Path Data="M17.8573217,6.62893082 C17.9299124,6.55765199 18.0750939,6.55765199 18.1476846,6.48637317 L18.1476846,0.142557652 L17.8573217,0.142557652 L17.8573217,6.62893082 Z" Fill="#FDD65B" />
+                                    <Path Data="M11.0337922,8.26834382 C11.106383,8.26834382 11.2515645,8.26834382 11.3241552,8.26834382 L11.3241552,0.071278826 L11.0337922,0.071278826 L11.0337922,8.26834382 Z" Fill="#FDD65B" />
+                                    <Path Data="M9.72715895,8.26834382 C9.79974969,8.26834382 9.94493116,8.26834382 10.0175219,8.26834382 L10.0175219,0.071278826 L9.72715895,0.071278826 L9.72715895,8.26834382 Z" Fill="#FDD65B" />
+                                    <Path Data="M6.96871089,7.91194969 C7.04130163,7.91194969 7.1864831,7.98322851 7.25907384,7.98322851 L7.25907384,0.071278826 L6.96871089,0.071278826 L6.96871089,7.91194969 Z" Fill="#FDD65B" />
+                                    <Path Data="M8.34793492,8.12578616 C8.42052566,8.12578616 8.56570713,8.12578616 8.63829787,8.12578616 L8.63829787,0.071278826 L8.34793492,0.071278826 L8.34793492,8.12578616 Z" Fill="#FDD65B" />
+                                    <Path Data="M5.58948686,7.62683438 C5.6620776,7.62683438 5.80725907,7.69811321 5.87984981,7.69811321 L5.87984981,0.071278826 L5.58948686,0.071278826 L5.58948686,7.62683438 Z" Fill="#FDD65B" />
+                                    <Path Data="M0.217772215,3.99161426 C0.290362954,4.13417191 0.435544431,4.27672956 0.508135169,4.49056604 L0.508135169,0.071278826 L0.217772215,0.071278826 L0.217772215,3.99161426 Z" Fill="#FDD65B" />
+                                    <Path Data="M1.52440551,5.55974843 C1.59699625,5.63102725 1.74217772,5.70230608 1.81476846,5.77358491 L1.81476846,0 L1.52440551,0 L1.52440551,5.55974843 Z" Fill="#FDD65B" />
+                                    <Path Data="M4.28285357,7.1278826 C4.35544431,7.19916143 4.50062578,7.19916143 4.57321652,7.27044025 L4.57321652,0.071278826 L4.28285357,0.071278826 L4.28285357,7.1278826 Z" Fill="#FDD65B" />
+                                    <Path Data="M2.90362954,6.48637317 C2.97622028,6.55765199 3.12140175,6.55765199 3.19399249,6.62893082 L3.19399249,0 L2.90362954,0 L2.90362954,6.48637317 Z" Fill="#FDD65B" />
+                                </Canvas>
+                                <Ellipse Fill="{StaticResource linearGradient-73}" Canvas.Left="18.292866099999998" Canvas.Top="0" Width="21.63204" Height="12.40251572" />
+                                <Path Data="M29.1088861,12.1886792 C23.2290363,12.1886792 18.5106383,9.55136268 18.2928661,6.20125786 C18.2928661,6.27253669 18.2928661,6.34381551 18.2928661,6.41509434 C18.2928661,9.83647799 23.1564456,12.6163522 29.1088861,12.6163522 C30.2379933,12.6163522 31.3279216,12.5163279 32.3529074,12.3308743 C36.7314538,11.5386515 39.9249061,9.18748219 39.9249061,6.41509434 C39.9249061,6.34381551 39.9249061,6.27253669 39.9249061,6.20125786 C39.7071339,9.55136268 34.9887359,12.1886792 29.1088861,12.1886792 Z" Fill="#FFC785" />
+                                <Ellipse Fill="{StaticResource linearGradient-74}" Canvas.Left="21.05131414" Canvas.Top="1.5681341700000004" Width="16.11514392" Height="9.26624738" />
+                                <Path Data="M29.3992491,1.78197065 C33.7546934,1.78197065 37.2390488,3.70649895 37.456821,6.12997904 C37.456821,6.05870021 37.456821,5.98742138 37.456821,5.91614256 C37.456821,3.35010482 33.8272841,1.28301887 29.3992491,1.28301887 C24.8986233,1.28301887 21.3416771,3.35010482 21.3416771,5.91614256 C21.3416771,5.98742138 21.3416771,6.05870021 21.3416771,6.12997904 C21.5594493,3.70649895 25.0438048,1.78197065 29.3992491,1.78197065 Z" Fill="#FFC785" />
+                                <Path Data="M29.1088861,2.06708595 C33.4643304,2.06708595 36.9486859,3.99161426 37.1664581,6.41509434 C37.1664581,6.34381551 37.1664581,6.27253669 37.1664581,6.20125786 C37.1664581,3.63522013 33.5369212,1.56813417 29.1088861,1.56813417 C24.6082603,1.56813417 21.0513141,3.63522013 21.0513141,6.20125786 C21.0513141,6.27253669 21.0513141,6.34381551 21.0513141,6.41509434 C21.2690864,3.99161426 24.8260325,2.06708595 29.1088861,2.06708595 Z" Fill="{StaticResource linearGradient-75}" />
+                                <Path Data="M29.7622028,4.70440252 C29.5444305,4.77568134 29.3266583,4.77568134 29.1088861,4.84696017 C28.8911139,4.91823899 28.7459324,4.91823899 28.5281602,4.98951782 C28.310388,5.06079665 28.0926158,5.13207547 27.9474343,5.2033543 L28.6007509,5.55974843 C28.6733417,5.55974843 28.7459324,5.4884696 28.8185232,5.4884696 C28.8911139,5.4884696 28.9637046,5.41719078 29.0362954,5.41719078 C29.3992491,5.27463312 29.7622028,5.2033543 30.0525657,5.13207547 C30.3429287,5.06079665 30.7058824,4.98951782 30.9962453,4.98951782 C31.2866083,4.98951782 31.5769712,4.98951782 31.7947434,4.98951782 C32.0851064,5.06079665 32.3028786,5.13207547 32.5206508,5.27463312 C32.8110138,5.41719078 32.9561952,5.63102725 33.028786,5.77358491 C33.1013767,5.98742138 33.1013767,6.12997904 33.028786,6.34381551 C32.9561952,6.55765199 32.8110138,6.70020964 32.5932416,6.91404612 C32.3754693,7.1278826 32.1576971,7.27044025 31.9399249,7.4129979 L32.8110138,7.91194969 L32.0851064,8.33962264 L31.2140175,7.84067086 C30.7784731,8.05450734 30.2703379,8.26834382 29.7622028,8.41090147 C29.2540676,8.55345912 28.7459324,8.69601677 28.2377972,8.83857442 L27.7296621,7.69811321 C27.9474343,7.62683438 28.2377972,7.62683438 28.4555695,7.55555556 C28.6733417,7.48427673 28.8911139,7.4129979 29.1814768,7.34171908 C29.4718398,7.27044025 29.689612,7.1278826 29.979975,7.05660377 L29.3266583,6.70020964 C29.1088861,6.77148847 28.8911139,6.8427673 28.6007509,6.91404612 C28.2377972,7.05660377 27.8748436,7.1278826 27.5844806,7.19916143 C27.2941176,7.27044025 27.0037547,7.27044025 26.7859825,7.34171908 C26.5682103,7.34171908 26.2778473,7.34171908 26.1326658,7.27044025 C25.9148936,7.19916143 25.6971214,7.1278826 25.5519399,7.05660377 C25.261577,6.91404612 25.1163955,6.77148847 25.0438048,6.55765199 C24.971214,6.41509434 24.8986233,6.20125786 24.971214,5.98742138 C25.0438048,5.77358491 25.1163955,5.63102725 25.261577,5.41719078 C25.4067584,5.2033543 25.6245307,5.06079665 25.9148936,4.84696017 L25.1889862,4.41928721 L25.9148936,3.99161426 L26.640801,4.41928721 C26.8585732,4.34800839 27.0763454,4.20545073 27.2941176,4.13417191 C27.5118899,4.06289308 27.7296621,3.99161426 27.9474343,3.92033543 C28.1652065,3.8490566 28.3829787,3.77777778 28.6007509,3.70649895 C28.8185232,3.63522013 28.9637046,3.63522013 29.1814768,3.5639413 L29.7622028,4.70440252 Z M27.2941176,5.84486373 C27.3667084,5.91614256 27.4392991,5.91614256 27.5844806,5.91614256 C27.6570713,5.91614256 27.8022528,5.84486373 27.9474343,5.84486373 L27.4392991,5.4884696 C27.2215269,5.63102725 27.1489362,5.77358491 27.2941176,5.84486373 Z M30.7784731,6.41509434 C30.7058824,6.34381551 30.6332916,6.34381551 30.4881101,6.34381551 C30.3429287,6.34381551 30.1977472,6.41509434 30.0525657,6.41509434 L30.5607009,6.70020964 C30.7058824,6.62893082 30.7784731,6.55765199 30.7784731,6.48637317 C30.8510638,6.48637317 30.8510638,6.48637317 30.7784731,6.41509434 Z" Fill="{StaticResource linearGradient-76}" />
+                                <Path Data="M29.7622028,4.49056604 C29.5444305,4.56184486 29.3266583,4.56184486 29.1088861,4.63312369 C28.8911139,4.70440252 28.7459324,4.70440252 28.5281602,4.77568134 C28.310388,4.84696017 28.0926158,4.91823899 27.9474343,4.98951782 L28.6007509,5.34591195 C28.6733417,5.34591195 28.7459324,5.27463312 28.8185232,5.27463312 C28.8911139,5.27463312 28.9637046,5.2033543 29.0362954,5.2033543 C29.3992491,5.06079665 29.7622028,4.98951782 30.0525657,4.91823899 C30.3429287,4.84696017 30.7058824,4.77568134 30.9962453,4.77568134 C31.2866083,4.77568134 31.5769712,4.77568134 31.7947434,4.77568134 C32.0851064,4.84696017 32.3028786,4.91823899 32.5206508,5.06079665 C32.8110138,5.2033543 32.9561952,5.41719078 33.028786,5.55974843 C33.1013767,5.77358491 33.1013767,5.91614256 33.028786,6.12997904 C32.9561952,6.34381551 32.8110138,6.48637317 32.5932416,6.70020964 C32.3754693,6.91404612 32.1576971,7.05660377 31.9399249,7.19916143 L32.8110138,7.69811321 L32.0851064,8.12578616 L31.2140175,7.62683438 C30.7784731,7.84067086 30.2703379,8.05450734 29.7622028,8.19706499 C29.2540676,8.33962264 28.7459324,8.48218029 28.2377972,8.62473795 L27.7296621,7.48427673 C27.9474343,7.4129979 28.2377972,7.4129979 28.4555695,7.34171908 C28.6733417,7.27044025 28.8911139,7.19916143 29.1814768,7.1278826 C29.4718398,7.05660377 29.689612,6.91404612 29.979975,6.8427673 L29.3266583,6.48637317 C29.1088861,6.55765199 28.8911139,6.62893082 28.6007509,6.70020964 C28.2377972,6.8427673 27.8748436,6.91404612 27.5844806,6.98532495 C27.2941176,7.05660377 27.0037547,7.05660377 26.7859825,7.1278826 C26.5682103,7.1278826 26.2778473,7.1278826 26.1326658,7.05660377 C25.9148936,6.98532495 25.6971214,6.91404612 25.5519399,6.8427673 C25.261577,6.70020964 25.1163955,6.55765199 25.0438048,6.34381551 C24.971214,6.20125786 24.8986233,5.98742138 24.971214,5.77358491 C25.0438048,5.55974843 25.1163955,5.41719078 25.261577,5.2033543 C25.4067584,4.98951782 25.6245307,4.84696017 25.9148936,4.63312369 L25.1889862,4.20545073 L25.9148936,3.77777778 L26.640801,4.20545073 C26.8585732,4.13417191 27.0763454,3.99161426 27.2941176,3.92033543 C27.5118899,3.8490566 27.7296621,3.77777778 27.9474343,3.70649895 C28.1652065,3.63522013 28.3829787,3.5639413 28.6007509,3.49266247 C28.8185232,3.42138365 28.9637046,3.42138365 29.1814768,3.35010482 L29.7622028,4.49056604 Z M27.2941176,5.55974843 C27.3667084,5.63102725 27.4392991,5.63102725 27.5844806,5.63102725 C27.6570713,5.63102725 27.8022528,5.55974843 27.9474343,5.55974843 L27.3667084,5.27463312 C27.2215269,5.41719078 27.1489362,5.4884696 27.2941176,5.55974843 Z M30.7784731,6.12997904 C30.7058824,6.05870021 30.6332916,6.05870021 30.4881101,6.05870021 C30.3429287,6.05870021 30.1977472,6.12997904 30.0525657,6.12997904 L30.5607009,6.41509434 C30.7058824,6.34381551 30.7784731,6.27253669 30.7784731,6.20125786 C30.8510638,6.27253669 30.8510638,6.20125786 30.7784731,6.12997904 Z" Fill="{StaticResource linearGradient-77}" />
+                            </Canvas>
+                        </Canvas>
+                    </Canvas>
+                </Canvas>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+</ResourceDictionary>

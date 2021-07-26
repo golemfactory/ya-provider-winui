@@ -1,41 +1,725 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F03FF034-8A27-457B-A8EA-A36B33689EBD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UseWPF>true</UseWPF>
-    <StartupObject>GolemUI.App</StartupObject>
+    <RootNamespace>GolemUI</RootNamespace>
+    <AssemblyName>GolemUI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <LangVersion>9.0</LangVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants />
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>9.0</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>GolemUI.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Media\golem.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="GolemUISetup\**" />
-    <Compile Remove="GolemUITest\**" />
-    <Compile Remove="Tests\**" />
-    <EmbeddedResource Remove="GolemUISetup\**" />
-    <EmbeddedResource Remove="GolemUITest\**" />
-    <EmbeddedResource Remove="Tests\**" />
-    <None Remove="GolemUISetup\**" />
-    <None Remove="GolemUITest\**" />
-    <None Remove="Tests\**" />
-    <Page Remove="GolemUISetup\**" />
-    <Page Remove="GolemUITest\**" />
-    <Page Remove="Tests\**" />
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.2.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>packages\Portable.BouncyCastle.1.8.2\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hardcodet.NotifyIcon.Wpf, Version=1.1.0.0, Culture=neutral, PublicKeyToken=682384a853a08aad, processorArchitecture=MSIL">
+      <HintPath>packages\Hardcodet.NotifyIcon.Wpf.1.1.0\lib\net472\Hardcodet.NotifyIcon.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=5.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.5.0.2\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Logging.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="NBitcoin, Version=5.0.83.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\NBitcoin.5.0.83\lib\net461\NBitcoin.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.ABI, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.ABI.3.8.0\lib\net451\Nethereum.ABI.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.Accounts, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.Accounts.3.8.0\lib\net451\Nethereum.Accounts.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.BlockchainProcessing, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.BlockchainProcessing.3.8.0\lib\net451\Nethereum.BlockchainProcessing.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.Contracts, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.Contracts.3.8.0\lib\net451\Nethereum.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.HdWallet, Version=3.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.HdWallet.3.8.0\lib\net452\Nethereum.HdWallet.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.Hex, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.Hex.3.8.0\lib\net451\Nethereum.Hex.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.JsonRpc.Client, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.JsonRpc.Client.3.8.0\lib\net451\Nethereum.JsonRpc.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.JsonRpc.RpcClient, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.JsonRpc.RpcClient.3.8.0\lib\net451\Nethereum.JsonRpc.RpcClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.KeyStore, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.KeyStore.3.8.0\lib\net451\Nethereum.KeyStore.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.Model, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.Model.3.8.0\lib\net451\Nethereum.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.RLP, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.RLP.3.8.0\lib\net451\Nethereum.RLP.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.RPC, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.RPC.3.8.0\lib\net451\Nethereum.RPC.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.Signer, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.Signer.3.8.0\lib\net451\Nethereum.Signer.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.Util, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.Util.3.8.0\lib\net451\Nethereum.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="Nethereum.Web3, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.Web3.3.8.0\lib\net451\Nethereum.Web3.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Converters.Wpf, Version=1.7.5.0, Culture=neutral, PublicKeyToken=b532964b8548be77, processorArchitecture=MSIL">
+      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Converters.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Core, Version=1.7.5.0, Culture=neutral, PublicKeyToken=7407205e337c98ef, processorArchitecture=MSIL">
+      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Css, Version=1.7.5.0, Culture=neutral, PublicKeyToken=7a46e3f532fdb787, processorArchitecture=MSIL">
+      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Css.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Dom, Version=1.7.5.0, Culture=neutral, PublicKeyToken=517340b6277b1a7a, processorArchitecture=MSIL">
+      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Dom.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Model, Version=1.7.5.0, Culture=neutral, PublicKeyToken=2236cfc76b505845, processorArchitecture=MSIL">
+      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Rendering.Gdi, Version=1.7.5.0, Culture=neutral, PublicKeyToken=03902092284347e3, processorArchitecture=MSIL">
+      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Rendering.Gdi.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Rendering.Wpf, Version=1.7.5.0, Culture=neutral, PublicKeyToken=d0902381100df30e, processorArchitecture=MSIL">
+      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Rendering.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Runtime.Wpf, Version=1.7.5.0, Culture=neutral, PublicKeyToken=d16e717f0a981fb9, processorArchitecture=MSIL">
+      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Runtime.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Linq, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Linq.4.1.0\lib\net463\System.Linq.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Reflection, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Reflection.4.1.0\lib\net462\System.Reflection.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.4.1.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.Extensions.4.1.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.InteropServices.4.1.0\lib\net462\System.Runtime.InteropServices.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.7.2</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.Management" Version="5.0.0" />
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="ChildProcessManager.cs" />
+    <Compile Include="Claymore\ClaymoreParser.cs" />
+    <Compile Include="Command\Claymore.cs" />
+    <Compile Include="Command\GpuInfo.cs" />
+    <Compile Include="Command\PaymentData.cs" />
+    <Compile Include="Command\Provider.cs" />
+    <Compile Include="Command\YagnaSrv.cs" />
+    <Compile Include="Controllers\DashboardPage.cs" />
+    <Compile Include="Converters\AmountConverter.cs" />
+    <Compile Include="Converters\BoolToHeightConverter.cs" />
+    <Compile Include="Converters\DashboardStatusToIconConverter.cs" />
+    <Compile Include="Converters\DashboardStatusToVisibleConverter.cs" />
+    <Compile Include="Converters\ErrorToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\CounterConverter.cs" />
+    <Compile Include="Converters\EnumToBrush.cs" />
+    <Compile Include="Converters\DashboardStatusToTextConverter.cs" />
+    <Compile Include="Converters\HashRateConverter.cs" />
+    <Compile Include="Converters\StringToClaymorePerformanceThrottlingConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="CustomControls\EditButton.cs" />
+    <Compile Include="DataAccess\DataAccess.cs" />
+    <Compile Include="DesignViewModel\DashboardViewModel.cs" />
+    <Compile Include="DesignViewModel\MockupDashboardStatusViewModel.cs" />
+    <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
+    <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
+    <Compile Include="DesignViewModel\SetupViewModel.cs" />
+    <Compile Include="DesignViewModel\WalletView.cs" />
+    <Compile Include="Interfaces\IAppKeyProvider.cs" />
+    <Compile Include="Interfaces\IEstimatedProfiProvider.cs" />
+    <Compile Include="Interfaces\IEstService.cs" />
+    <Compile Include="Interfaces\IPaymentService.cs" />
+    <Compile Include="Interfaces\IPriceProvider.cs" />
+    <Compile Include="Interfaces\IProcessControler.cs" />
+    <Compile Include="Interfaces\IProviderConfig.cs" />
+    <Compile Include="Interfaces\ISavableLoadableDashboardPage.cs" />
+    <Compile Include="Model\claymorePerformanceThrottlingEnum.cs" />
+    <Compile Include="Model\NavBar.cs" />
+    <Compile Include="Model\NavBarItem.cs" />
+    <Compile Include="Model\SingleGpuDescriptor.cs" />
+    <Compile Include="Model\WalletState.cs" />
+    <Compile Include="Notifications\CloseWindowCommand.cs" />
+    <Compile Include="Notifications\CommandBase.cs" />
+    <Compile Include="Notifications\ShowSampleWindowCommand.cs" />
+    <Compile Include="Src\BenchmarkService.cs" />
+    <Compile Include="Src\CpuInfo.cs" />
+    <Compile Include="Src\GlobalApplicationState.cs" />
+    <Compile Include="Src\GlobalSettings.cs" />
+    <Compile Include="Src\HdWalletService.cs" />
+    <Compile Include="Src\LazyInit.cs" />
+    <Compile Include="Src\NameGenerator.cs" />
+    <Compile Include="Src\PaymentService.cs" />
+    <Compile Include="Src\ProcessControler.cs" />
+    <Compile Include="Src\ProcessMonitor.cs" />
+    <Compile Include="Src\ProviderConfigService.cs" />
+    <Compile Include="Src\StaticEstimatedEarningsProvider.cs" />
+    <Compile Include="Model\DashboardStatusEnum.cs" />
+    <Compile Include="Src\StaticPriceProvider.cs" />
+    <Compile Include="UI\AnimatedIcons\LoadingPanel.xaml.cs">
+      <DependentUpon>LoadingPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AnimatedIcons\WorkingAnimIcon.xaml.cs">
+      <DependentUpon>WorkingAnimIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AnimatedIcons\DesignWorkingAnimIconModel.cs" />
+    <Compile Include="UI\Dashboard.xaml.cs">
+      <DependentUpon>Dashboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DashboardAdvancedSettings.xaml.cs">
+      <DependentUpon>DashboardAdvancedSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DashboardBenchmark.xaml.cs">
+      <DependentUpon>DashboardBenchmark.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DashboardDetails.xaml.cs">
+      <DependentUpon>DashboardDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DashboardMain.xaml.cs">
+      <DependentUpon>DashboardMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DashboardSettings.xaml.cs">
+      <DependentUpon>DashboardSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DashboardWallet.xaml.cs">
+      <DependentUpon>DashboardWallet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DebugWindow.xaml.cs">
+      <DependentUpon>DebugWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DlgEditAddress.xaml.cs">
+      <DependentUpon>DlgEditAddress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ExistingProcessesWindow.xaml.cs">
+      <DependentUpon>ExistingProcessesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\GpuEntryUI.xaml.cs">
+      <DependentUpon>GpuEntryUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\GpuMiningPanelUI.xaml.cs">
+      <DependentUpon>GpuMiningPanelUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NavBar.xaml.cs">
+      <DependentUpon>NavBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SetupWindow.xaml.cs">
+      <DependentUpon>SetupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SmallerControls\DashboardStatusControl.xaml.cs">
+      <DependentUpon>DashboardStatusControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UsageDescription.xaml.cs">
+      <DependentUpon>UsageDescription.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Validators\NodeNameValidator.cs" />
+    <Compile Include="Validators\EthAddrValidator.cs" />
+    <Compile Include="ViewModel\DashboardMainViewModel.cs" />
+    <Compile Include="ViewModel\EditAddressViewModel.cs" />
+    <Compile Include="ViewModel\SettingsViewModel.cs" />
+    <Compile Include="ViewModel\SetupViewModel.cs" />
+    <Compile Include="ViewModel\WalletViewModel.cs" />
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="UI\AnimatedIcons\LoadingPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\AnimatedIcons\WorkingAnimIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Dashboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DashboardAdvancedSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DashboardBenchmark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DashboardDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DashboardMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DashboardSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DashboardWallet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DebugWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DlgEditAddress.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\ExistingProcessesWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\GpuEntryUI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\GpuMiningPanelUI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\Balance_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\CPU_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\Nav_Dashboard_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\Nav_Info_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\Nav_Settings_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\Nav_Wallet_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\Profit_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\SetupResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\Status_Card_error.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\Status_Golem_Task_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\Status_Mining_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\Status_Ready_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\Task_Type.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\Wallet_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\_GPU_icon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\NavBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SetupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\SmallerControls\DashboardStatusControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Themes\Borders\BlueBorder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Borders\PageBackground.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\BlueButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\CancelButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\GradientButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\HyperLinkButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\PinkButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\TitleBarButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\_NotWorkingEditButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\CheckBox\GpuCheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\CheckBox\SliderCheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\ComboBox\MiningModeComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Defaults.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Labels\InfoLabel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\NotifyIconResourceDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\ProgressBars\BenchmarkProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Ribbons\NavigationRibbon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\TrackBar\Slider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\WindowControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\_Empty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\UsageDescription.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
-
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\seed_phrase_2.png" />
+    <Resource Include="UI\prepare.png" />
+    <Resource Include="UI\init.png" />
+    <Resource Include="UI\seed_phrase_1.png" />
+    <Resource Include="UI\Icons\Dashboard\Status\error.png" />
+    <Resource Include="UI\Icons\Settings\CPU_icon_new.png" />
+    <Resource Include="UI\Icons\Settings\GPU_icon_new.png" />
+    <Resource Include="UI\Icons\Setup\Enjoy.png" />
+    <Resource Include="UI\Icons\Setup\Use_my_wallet.png" />
+    <Resource Include="Media\balance.svg" />
+    <Resource Include="Media\content-copy.svg" />
+    <Resource Include="Media\cpu.svg" />
+    <Resource Include="Media\gpu.svg" />
+    <Resource Include="Media\nav_dashboard.svg" />
+    <Resource Include="Media\nav_settings.svg" />
+    <Resource Include="Media\nav_wallet.svg" />
+    <Resource Include="Media\onboarding\begginer.svg" />
+    <Resource Include="Media\onboarding\create_wallet.svg" />
+    <Resource Include="Media\onboarding\experienced.svg" />
+    <Resource Include="Media\onboarding\hash_power.svg" />
+    <Resource Include="Media\onboarding\name_node.svg" />
+    <Resource Include="Media\onboarding\prepare.svg" />
+    <Resource Include="Media\onboarding\use_my_wallet.svg" />
+    <Resource Include="Media\onboarding\wallet_info.svg" />
+    <Resource Include="Media\profit.svg" />
+    <Resource Include="Media\SetV1\Balance_icon.svg" />
+    <Resource Include="Media\SetV1\CPU_icon.svg" />
+    <Resource Include="Media\SetV1\GPU_icon.svg" />
+    <Resource Include="Media\SetV1\Nav_Dashboard_icon.svg" />
+    <Resource Include="Media\SetV1\Nav_Info_icon.svg" />
+    <Resource Include="Media\SetV1\Nav_Settings_icon.svg" />
+    <Resource Include="Media\SetV1\Nav_Wallet_icon.svg" />
+    <Resource Include="Media\golem.ico" />
+    <Resource Include="Media\Screenshots\seed_phrase_1.png" />
+    <Resource Include="Media\Screenshots\init.png" />
+    <Content Include="Media\SetV1\Onboarding\Create_wallet.svg" />
+    <Content Include="Media\SetV1\Onboarding\Enjoy.svg" />
+    <Content Include="Media\SetV1\Onboarding\Hash_power.svg" />
+    <Content Include="Media\SetV1\Onboarding\I_am_experienced.svg" />
+    <Content Include="Media\SetV1\Onboarding\I_want_to_learn.svg" />
+    <Content Include="Media\SetV1\Onboarding\Name_node.svg" />
+    <Content Include="Media\SetV1\Onboarding\Prepare.svg" />
+    <Content Include="Media\SetV1\Onboarding\Printer.svg" />
+    <Content Include="Media\SetV1\Onboarding\Use_my_wallet.svg" />
+    <Content Include="Media\SetV1\Onboarding\Wallet_info.svg" />
+    <Resource Include="Media\SetV1\Profit_icon.svg" />
+    <Resource Include="Media\SetV1\Status_Card_error.svg" />
+    <Resource Include="Media\SetV1\Status_Golem_Task_icon.svg" />
+    <Resource Include="Media\SetV1\Status_Mining_icon.svg" />
+    <Resource Include="Media\SetV1\Status_Ready_icon.svg" />
+    <Resource Include="Media\SetV1\Task_Type.svg" />
+    <Resource Include="Media\tray.ico" />
+    <Resource Include="UI\Icons\Common\edit.png" />
+    <Resource Include="UI\Icons\Settings\GPU_icon.png" />
+    <Resource Include="UI\Icons\Setup\benchmark.png" />
+    <Resource Include="UI\Icons\Setup\nodeName.png" />
+    <Resource Include="UI\Icons\Setup\prepare.png" />
+    <Resource Include="UI\Icons\Setup\prepare.svg" />
+    <Resource Include="UI\Icons\Setup\print.png" />
+    <Resource Include="UI\Icons\Setup\print.svg" />
+    <Resource Include="UI\Icons\Setup\seed.png" />
+    <Resource Include="UI\Icons\Setup\seed.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Balance_icon.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Card_tick_not_selected.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Card_tick_selected.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Copy_icon.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\CPU_icon_new.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Edit_icon.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\GPU_icon_new.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Profit_icon.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Select_down_arrow.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_error.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_ready.png" />
+    <Resource Include="UI\Icons\Dashboard\Status\mining.png" />
+    <Resource Include="UI\Icons\Dashboard\Status\ready.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Supported_by_Golem.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Task_Type.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Balance_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Card_tick_not_selected.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Card_tick_selected.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Copy_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\CPU_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Edit_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\GPU_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Nav_Info_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Profit_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Select_down_arrow.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Status_Card_error.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Status_Card_ready.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Status_Mining_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Status_Ready_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Supported_by_Golem.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Task_Type.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Nav-icons\Nav_Dashboard_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Nav-icons\Nav_Info_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Nav-icons\Nav_Settings_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Nav-icons\Nav_Wallet_icon.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Create_wallet.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Enjoy.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Hash_power.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\I_am_experienced.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\I_want_to_learn.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Name_node.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Prepare.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Printer.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Use_my_wallet.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Wallet_info.png" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Create_wallet.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Enjoy.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Hash_power.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\I_am_experienced.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\I_want_to_learn.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Name_node.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Prepare.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Printer.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Use_my_wallet.svg" />
+    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Wallet_info.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
