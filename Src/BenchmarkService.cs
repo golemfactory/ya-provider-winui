@@ -25,6 +25,10 @@ namespace GolemUI.Src
 
         public float? TotalMhs => _claymoreLiveStatus == null ? null : (from gpus in _claymoreLiveStatus?.GPUs.Values select gpus.BenchmarkSpeed).Sum();
 
+        private readonly double CLAYMORE_GPU_INFO_TIMEOUT = 10.0;
+        private readonly double CLAYMORE_TOTAL_BENCHMARK_TIMEOUT = 200.0;
+
+
         public async void StartBenchmark(string cards, string niceness, string pool, string ethereumAddress, ClaymoreLiveStatus? externalLiveStatus)
         {
             if (IsRunning)
@@ -74,7 +78,7 @@ namespace GolemUI.Src
 
                         double timeElapsed = (DateTime.Now - benchmarkStartTime).TotalSeconds;
 
-                        if (timeElapsed > 10.0)
+                        if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT)
                         {
                             cc.Stop();
 
@@ -160,14 +164,14 @@ namespace GolemUI.Src
                         OnPropertyChanged("Status");
                         break;
                     }
-                    if (timeElapsed > 10.0 && !_claymoreLiveStatus.GPUInfosParsed)
+                    if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT && !_claymoreLiveStatus.GPUInfosParsed)
                     {
                         cc.Stop();
                         _claymoreLiveStatus.ErrorMsg = "Timeout, cannot read gpu info";
                         OnPropertyChanged("Status");
                         break;
                     }
-                    if (timeElapsed > 200.0)
+                    if (timeElapsed > CLAYMORE_TOTAL_BENCHMARK_TIMEOUT)
                     {
                         cc.Stop();
                         _claymoreLiveStatus.ErrorMsg = "Timeout, benchmark taking too long time";
