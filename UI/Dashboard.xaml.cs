@@ -17,6 +17,7 @@ using System.Windows.Media.Animation;
 using GolemUI.Settings;
 using GolemUI.Notifications;
 using GolemUI.Controllers;
+using GolemUI.Interfaces;
 
 namespace GolemUI
 {
@@ -50,9 +51,10 @@ namespace GolemUI
         public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
         public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardMain dashboardMain,
-            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock)
+            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig)
         {
             _processControler = processControler;
+            _providerConfig = providerConfig;
 
             InitializeComponent();
 
@@ -210,16 +212,23 @@ namespace GolemUI
             sb.Begin();
         }
 
+        private bool _doClose = false;
         public void RequestClose(bool isAlreadyClosing = false)
         {
             if (_processControler.IsProviderRunning)
             {
                 _processControler.Stop();
             }
+            _doClose = true;
+            Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (_doClose)
+            {
+                return;
+            }
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
             if (ls.CloseOnExit)
             {
@@ -237,7 +246,8 @@ namespace GolemUI
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            await _processControler.Prepare();
+            await Task.WhenAll(_providerConfig.Prepare(), _processControler.Prepare());
+
         }
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
@@ -280,5 +290,6 @@ namespace GolemUI
         }
 
         private readonly Interfaces.IProcessControler _processControler;
+        private readonly IProviderConfig _providerConfig;
     }
 }

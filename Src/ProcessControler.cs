@@ -35,7 +35,7 @@ namespace GolemUI
         // Delegate type to be used as the Handler Routine for SCCH
         delegate Boolean ConsoleCtrlDelegate(uint CtrlType);
 
-        private Src.LazyInit<string> _generatedAppKey = new Src.LazyInit<string>(() =>
+        private readonly Src.LazyInit<string> _generatedAppKey = new Src.LazyInit<string>(() =>
         {
             using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
             {
@@ -85,7 +85,6 @@ namespace GolemUI
         private string _baseUrl = "http://127.0.0.1:7465";
         private Command.YagnaSrv _yagna = new Command.YagnaSrv();
         private Command.Provider _provider = new Command.Provider();
-        public string? Subnet { get; set; }
 
         private Process? _yagnaDaemon;
         private Process? _providerDaemon;
@@ -123,27 +122,6 @@ namespace GolemUI
             }
         }
 
-        public async Task<string> GetMeInfo()
-        {
-            var txt = await _client.GetStringAsync($"{_baseUrl}/me");
-            return txt;
-        }
-
-        public async Task<string> GetOffers()
-        {
-            var txt = await _client.GetStringAsync($"{_baseUrl}/market-api/v1/offers");
-            return txt;
-        }
-
-        public async Task<PaymentStatus?> GetPaymentStatus(string account)
-        {
-            if (_yagna.Payment != null)
-            {
-                PaymentStatus? st = await _yagna.Payment.Status(Network.Rinkeby, "zksync", account);
-                return st;
-            }
-            return null;
-        }
         public async Task<ActivityStatus?> GetActivityStatus()
         {
             if (_yagna.Payment != null)
@@ -216,7 +194,7 @@ namespace GolemUI
             }
         }
 
-        public async Task<bool> Start()
+        public async Task<bool> Start(Network network)
         {
             _lock();
             try
@@ -229,7 +207,7 @@ namespace GolemUI
                         StartupYagna();
                     }
 
-                    StartupProvider(Network.Rinkeby, Subnet);
+                    StartupProvider(network);
                 });
                 OnPropertyChanged("IsServerRunning");
 
@@ -306,7 +284,7 @@ namespace GolemUI
             throw new Exception("Failed to get key");
         }
 
-        private void StartupProvider(Network network, string? subnet)
+        private void StartupProvider(Network network)
         {
             BenchmarkResults br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
@@ -366,6 +344,7 @@ namespace GolemUI
                 _provider.ActivatePreset("gminer");
             }
             _provider.ActivatePreset("wasmtime");
+
             _providerDaemon = _provider.Run(_generatedAppKey.Value, network, ls, enableClaymoreMining, br);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;

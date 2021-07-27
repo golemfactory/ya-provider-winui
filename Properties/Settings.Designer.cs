@@ -58,5 +58,23 @@ namespace GolemUI.Properties {
                 this["Configured"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LazySubnet")]
+        public string Subnet {
+            get {
+                return ((string)(this["Subnet"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TestNet {
+            get {
+                return ((bool)(this["TestNet"]));
+            }
+        }
     }
 }
