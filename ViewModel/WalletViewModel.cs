@@ -92,7 +92,19 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public string? WalletAddress => new AddressUtil().ConvertToChecksumAddress(_paymentService.Address);
+        public string? WalletAddress
+        {
+            get
+            {
+                if (_paymentService.Address == null)
+                {
+                    return null;
+                }
+                var addressUtil = new AddressUtil();
+                string result = addressUtil.ConvertToChecksumAddress(_paymentService.Address);
+                return result;
+            }
+        }
 
         public decimal Amount
         {
