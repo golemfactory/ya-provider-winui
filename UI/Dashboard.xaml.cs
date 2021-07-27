@@ -252,29 +252,7 @@ namespace GolemUI
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Process[] yagnaProcesses;
-            Process[] providerProcesses;
-            Process[] claymoreProcesses;
-
-            ProcessMonitor.GetProcessList(out yagnaProcesses, out providerProcesses, out claymoreProcesses);
-            if (yagnaProcesses.Length > 0 || providerProcesses.Length > 0 || claymoreProcesses.Length > 0)
-            {
-                ExistingProcessesWindow w = new ExistingProcessesWindow();
-                w.Owner = this;
-                var dialogResult = w.ShowDialog();
-                switch (dialogResult)
-                {
-                    case true:
-                        // User accepted dialog box
-                        break;
-                    case false:
-                        // User canceled dialog box
-                        return;
-                    default:
-                        // Indeterminate
-                        break;
-                }
-            }
+            
 
             await _processControler.Prepare();
         }
