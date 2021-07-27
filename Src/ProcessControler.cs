@@ -85,7 +85,6 @@ namespace GolemUI
         private string _baseUrl = "http://127.0.0.1:7465";
         private Command.YagnaSrv _yagna = new Command.YagnaSrv();
         private Command.Provider _provider = new Command.Provider();
-        public string? Subnet { get; set; }
 
         private Process? _yagnaDaemon;
         private Process? _providerDaemon;
@@ -229,7 +228,7 @@ namespace GolemUI
                         StartupYagna();
                     }
 
-                    StartupProvider(Network.Rinkeby, Subnet);
+                    StartupProvider(Network.Rinkeby);
                 });
                 OnPropertyChanged("IsServerRunning");
 
@@ -306,7 +305,7 @@ namespace GolemUI
             throw new Exception("Failed to get key");
         }
 
-        private void StartupProvider(Network network, string? subnet)
+        private void StartupProvider(Network network)
         {
             BenchmarkResults br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
@@ -366,6 +365,7 @@ namespace GolemUI
                 _provider.ActivatePreset("gminer");
             }
             _provider.ActivatePreset("wasmtime");
+
             _providerDaemon = _provider.Run(_generatedAppKey.Value, network, ls, enableClaymoreMining, br);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;

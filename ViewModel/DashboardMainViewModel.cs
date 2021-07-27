@@ -125,6 +125,7 @@ namespace GolemUI.ViewModel
 
         public async void Start()
         {
+            _providerConfig.Config.Subnet = GolemUI.Properties.Settings.Default.Subnet;
             await _processController.Start();
         }
 
