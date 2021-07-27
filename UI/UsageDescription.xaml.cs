@@ -22,56 +22,36 @@ namespace GolemUI
     /// </summary>
     public partial class UsageDescription : UserControl
     {
-        //private string _text;
-        UsageDescriptionViewModel ViewModel;
         private static readonly DependencyProperty _description = DependencyProperty.Register("Description", typeof(string), typeof(UsageDescription)); 
         private static readonly DependencyProperty _total = DependencyProperty.Register("Total", typeof(int), typeof(UsageDescription));
-        private static readonly DependencyProperty _current = DependencyProperty.Register("Current", typeof(int), typeof(UsageDescription), new PropertyMetadata(0, new PropertyChangedCallback(OnStepChanged)));
+        private static readonly DependencyProperty _current = DependencyProperty.Register("Current", typeof(int), typeof(UsageDescription));
 
         public UsageDescription()
         {
             
             InitializeComponent();
-            this.ViewModel = new UsageDescriptionViewModel(this);
-           // this.DataContext = this.ViewModel;  
-            
-
+            this.root.DataContext = this;
         }
-
-        private static void OnStepChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var xx = e;
-
-            //ctrl.SetValue(ItemsProperty, ctrl!.Model.Items);
-        }
-
+       
         public string Description
         {
-            get
-            {
-                return (string)GetValue(_description);
-                
-            }
+            get => (string)GetValue(_description);
             set
             {
                 SetValue(_description, value);
 
-                this.ViewModel.NotifyChange("Description");
+
             }
         }
-      
+
         [Bindable(true)]
         public int Total
         {
-            get
-            {
-                int ret=(int)GetValue(_total);
-                return ret;
-            }
+            get => (int)GetValue(_total);
             set
             {
                 SetValue(_total, value);
-                this.ViewModel.NotifyChange("Total");
+
 
             }
         }
@@ -80,16 +60,11 @@ namespace GolemUI
         [Bindable(true)]
         public int Current
         {
-            get
-            {
-                var ret =  (int)GetValue(_current);
-                return ret;
-            }
+            get => (int)GetValue(_current);
             set
             {
                 SetValue(_current, value);
-                this.ViewModel.NotifyChange("Current");
-
+              
             }
         }
     }

@@ -330,7 +330,6 @@
     <Compile Include="ViewModel\EditAddressViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
-    <Compile Include="ViewModel\UsageDescriptionViewModel.cs" />
     <Compile Include="ViewModel\WalletViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
