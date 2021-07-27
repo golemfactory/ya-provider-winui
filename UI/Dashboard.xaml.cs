@@ -252,8 +252,6 @@ namespace GolemUI
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
-
             await _processControler.Prepare();
         }
 
