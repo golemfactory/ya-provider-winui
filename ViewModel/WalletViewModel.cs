@@ -92,7 +92,8 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public string? WalletAddress => new AddressUtil().ConvertToChecksumAddress(_paymentService.Address);
+        private string? _asCheckSum(string? addr) => addr == null ? null : AddressUtil.Current.ConvertToChecksumAddress(addr);
+        public string? WalletAddress => _asCheckSum(_paymentService.Address);
 
         public decimal Amount
         {

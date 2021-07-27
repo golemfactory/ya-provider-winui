@@ -376,23 +376,29 @@ namespace GolemUI.Claymore
         /// <summary>
         /// call before parsing to get good recording
         /// </summary>
-        public void BeforeParsing()
+        public void BeforeParsing(bool enableRecording)
         {
             _start = DateTime.Now;
-            string benchmarkRecordingFolder = SettingsLoader.GetLocalPath();
-            string benchmarkRecordingFile = "Benchmark_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".recording";
-            _benchmarkRecordingPath = Path.Combine(benchmarkRecordingFolder, benchmarkRecordingFile);
-            StreamWriter? sw = null;
-            try
+            if (enableRecording)
             {
-                sw = new StreamWriter(_benchmarkRecordingPath, false);
-                sw.WriteLine("0: Start recording");
-            }
-            finally
-            {
-                if (sw != null)
+                string benchmarkRecordingFolder = SettingsLoader.GetLocalPath();
+
+                string suffix = _isPreBenchmark ? "pre_recording" : "recording";
+
+                string benchmarkRecordingFile = String.Format("Benchmark_{0}.{1}", DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"), suffix);
+                _benchmarkRecordingPath = Path.Combine(benchmarkRecordingFolder, benchmarkRecordingFile);
+                StreamWriter? sw = null;
+                try
                 {
-                    sw.Close();
+                    sw = new StreamWriter(_benchmarkRecordingPath, false);
+                    sw.WriteLine("0: Start recording");
+                }
+                finally
+                {
+                    if (sw != null)
+                    {
+                        sw.Close();
+                    }
                 }
             }
         }

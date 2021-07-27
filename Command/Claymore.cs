@@ -31,6 +31,8 @@ namespace GolemUI.Command
         public volatile bool OutOfMemory;
         public volatile bool BenchmarkFinished;
         public volatile bool PreBenchmarkFinished;
+
+        public volatile bool RunningPreRecorded;
         public volatile float BenchmarkProgress;
         public volatile float BenchmarkSpeed;
 
@@ -43,6 +45,8 @@ namespace GolemUI.Command
         //private ClaymoreLiveStatus _liveStatus = new ClaymoreLiveStatus();
         private ClaymoreParser _claymoreParserBenchmark;
         private ClaymoreParser _claymoreParserPreBenchmark;
+
+        ClaymoreImitateBenchmarkFromFile _imitate;
 
         public ClaymoreParser ClaymoreParserBenchmark { get { return _claymoreParserBenchmark; } }
         public ClaymoreParser ClaymoreParserPreBenchmark { get { return _claymoreParserPreBenchmark; } }
@@ -123,25 +127,45 @@ namespace GolemUI.Command
             }
             _claymoreParserPreBenchmark.SetFinished();
             _claymoreParserBenchmark.SetFinished();
+            if (_imitate != null)
+            {
+                _imitate.Stop();
+            }
         }
 
-        public bool RunBenchmarkRecording(string brFile)
+
+        public bool RunBenchmarkRecording(string brFile, bool isPreBenchmark)
         {
-            var imitate = new ClaymoreImitateBenchmarkFromFile();
-            _claymoreParserPreBenchmark.BeforeParsing();
+            _imitate = new ClaymoreImitateBenchmarkFromFile();
 
             if (!File.Exists(brFile))
             {
                 return false;
             }
+            if (isPreBenchmark)
+            {
+            }
+
             string readText = File.ReadAllText(brFile);
 
-            imitate.PrepareLines(readText);
+            _imitate.PrepareLines(readText);
+            if (isPreBenchmark)
+            {
+                _claymoreParserPreBenchmark.BeforeParsing(enableRecording: false);
+                _imitate.OutputDataReceived += OnOutputDataPreRecv;
+                _imitate.OutputErrorReceived += OnErrorDataPreRecv;
+                _imitate.OnExited += OnPreBenchmarkExit;
+            }
+            else
+            {
+                _claymoreParserBenchmark.BeforeParsing(enableRecording: false);
+                _imitate.OutputDataReceived += OnOutputDataRecv;
+                _imitate.OutputErrorReceived += OnErrorDataRecv;
+                _imitate.OnExited += OnBenchmarkExit;
+            }
 
-            imitate.OutputDataReceived += OnOutputDataRecv;
-            imitate.OutputErrorReceived += OnErrorDataRecv;
 
-            imitate.Run();
+            _imitate.Run();
             return true;
         }
 
@@ -196,15 +220,16 @@ namespace GolemUI.Command
                 _claymoreProcess = null;
                 return false;
             }
-            _claymoreParserPreBenchmark.BeforeParsing();
+            _claymoreParserPreBenchmark.BeforeParsing(enableRecording: true);
             _claymoreProcess.OutputDataReceived += OnOutputDataPreRecv;
-            _claymoreProcess.ErrorDataReceived += OnErrorDataRecv;
+            _claymoreProcess.ErrorDataReceived += OnErrorDataPreRecv;
+            _claymoreProcess.Exited += OnPreBenchmarkExit;
+            _claymoreProcess.EnableRaisingEvents = true;
             _claymoreProcess.BeginErrorReadLine();
             _claymoreProcess.BeginOutputReadLine();
 
             return true;
         }
-
 
 
         public bool RunBenchmark(string cards, string niceness, string pool, string ethereumAddress)
@@ -270,9 +295,11 @@ namespace GolemUI.Command
                 _claymoreProcess = null;
                 return false;
             }
-            _claymoreParserBenchmark.BeforeParsing();
+            _claymoreParserBenchmark.BeforeParsing(enableRecording: true);
             _claymoreProcess.OutputDataReceived += OnOutputDataRecv;
             _claymoreProcess.ErrorDataReceived += OnErrorDataRecv;
+            _claymoreProcess.Exited += OnBenchmarkExit;
+            _claymoreProcess.EnableRaisingEvents = true;
             _claymoreProcess.BeginErrorReadLine();
             _claymoreProcess.BeginOutputReadLine();
 
@@ -288,6 +315,16 @@ namespace GolemUI.Command
             this.BenchmarkProgress = 0.1f;
             //t.Start();
             return true;
+        }
+
+        void OnPreBenchmarkExit(object? sender, EventArgs e)
+        {
+            _claymoreParserPreBenchmark.SetFinished();
+        }
+
+        void OnBenchmarkExit(object? sender, EventArgs e)
+        {
+            _claymoreParserBenchmark.SetFinished();
         }
 
         void OnOutputDataRecv(object sender, DataReceivedEventArgs e)
@@ -310,6 +347,13 @@ namespace GolemUI.Command
             _claymoreParserPreBenchmark.ParseLine(lineText);
         }
 
+        void OnErrorDataPreRecv(object sender, DataReceivedEventArgs e)
+        {
+            if (LineHandler != null && e.Data != null)
+            {
+                LineHandler("claymore", e.Data);
+            }
+        }
 
         void OnErrorDataRecv(object sender, DataReceivedEventArgs e)
         {
@@ -336,6 +380,8 @@ namespace GolemUI.Command
     {
         public DataReceivedEventHandler? OutputDataReceived;
         public DataReceivedEventHandler? OutputErrorReceived;
+        public EventHandler? OnExited;
+        bool _requestStop = false;
 
         List<ImitateBenchmarkEntry> _entries = new List<ImitateBenchmarkEntry>();
 
@@ -372,6 +418,10 @@ namespace GolemUI.Command
             }
         }
 
+        public void Stop()
+        {
+            _requestStop = true;
+        }
 
         private DataReceivedEventArgs CreateMockDataReceivedEventArgs(string TestData)
         {
@@ -428,6 +478,14 @@ namespace GolemUI.Command
                         Thread.Sleep(sleepFor / 2);
                         OutputDataReceived(this, args);
                     }
+                    if (_requestStop)
+                    {
+                        break;
+                    }
+                }
+                if (OnExited != null)
+                {
+                    OnExited(this, new EventArgs());
                 }
             });
             t.Start();
