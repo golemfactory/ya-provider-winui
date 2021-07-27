@@ -164,7 +164,15 @@ namespace GolemUI.ViewModel
 
         public string? Address
         {
-            get => new AddressUtil().ConvertToChecksumAddress(_providerConfig?.Config?.Account);
+            get
+            {
+                if (_providerConfig?.Config?.Account == null)
+                {
+                    return null;
+                }
+                var addressUtil = new AddressUtil();
+                return addressUtil.ConvertToChecksumAddress(_providerConfig.Config.Account);
+            }
             set
             {
                 _providerConfig?.UpdateWalletAddress(value);
