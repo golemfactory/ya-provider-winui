@@ -35,7 +35,7 @@ namespace GolemUI
         // Delegate type to be used as the Handler Routine for SCCH
         delegate Boolean ConsoleCtrlDelegate(uint CtrlType);
 
-        private Src.LazyInit<string> _generatedAppKey = new Src.LazyInit<string>(() =>
+        private readonly Src.LazyInit<string> _generatedAppKey = new Src.LazyInit<string>(() =>
         {
             using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
             {
@@ -122,27 +122,6 @@ namespace GolemUI
             }
         }
 
-        public async Task<string> GetMeInfo()
-        {
-            var txt = await _client.GetStringAsync($"{_baseUrl}/me");
-            return txt;
-        }
-
-        public async Task<string> GetOffers()
-        {
-            var txt = await _client.GetStringAsync($"{_baseUrl}/market-api/v1/offers");
-            return txt;
-        }
-
-        public async Task<PaymentStatus?> GetPaymentStatus(string account)
-        {
-            if (_yagna.Payment != null)
-            {
-                PaymentStatus? st = await _yagna.Payment.Status(Network.Rinkeby, "zksync", account);
-                return st;
-            }
-            return null;
-        }
         public async Task<ActivityStatus?> GetActivityStatus()
         {
             if (_yagna.Payment != null)
@@ -215,7 +194,7 @@ namespace GolemUI
             }
         }
 
-        public async Task<bool> Start()
+        public async Task<bool> Start(Network network)
         {
             _lock();
             try
@@ -228,7 +207,7 @@ namespace GolemUI
                         StartupYagna();
                     }
 
-                    StartupProvider(Network.Rinkeby);
+                    StartupProvider(network);
                 });
                 OnPropertyChanged("IsServerRunning");
 

@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using GolemUI.Command;
 using GolemUI.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -85,7 +86,7 @@ namespace GolemUI
             services.AddSingleton(typeof(Command.YagnaSrv));
             services.AddSingleton(typeof(Command.Provider));
 
-            services.AddSingleton(Command.Network.Rinkeby);
+            services.AddSingleton(GolemUI.Properties.Settings.Default.TestNet ? Network.Rinkeby : Network.Mainnet);
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
             services.AddSingleton<Src.BenchmarkService>();
