@@ -23,19 +23,22 @@ namespace GolemUI
     {
         private readonly ServiceProvider _serviceProvider;
         private readonly GolemUI.ChildProcessManager _childProcessManager;
+        private readonly IDisposable _sentrySdk;
 
         public App()
         {
-            DispatcherUnhandledException += App_DispatcherUnhandledException;
-            using (SentrySdk.Init(o =>
-            {
-               
-                o.Dsn = "https://e092144766fb428ebe331f3769bcc231@o377685.ingest.sentry.io/5880822";
-                o.Debug = true; //todo: change to false for production release
-                o.TracesSampleRate = 1.0; //todo: probably should change in future ?
-            }))
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+            _sentrySdk = (SentrySdk.Init(o =>
+              {
 
-                _childProcessManager = new GolemUI.ChildProcessManager();
+                  o.Dsn = "https://3210d81dbe2042d0a1adce29072b26d7@o921571.ingest.sentry.io/5881077";
+                  o.Debug = true; //todo: change to false for production release
+                o.TracesSampleRate = 1.0; //todo: probably should change in future ?
+            }));
+
+            
+
+            _childProcessManager = new GolemUI.ChildProcessManager();
             _childProcessManager.AddProcess(Process.GetCurrentProcess());
 
             GlobalApplicationState.Initialize();
@@ -43,8 +46,8 @@ namespace GolemUI
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
+            SentrySdk.CaptureMessage("> App constructor",SentryLevel.Info);
 
-            SentrySdk.CaptureMessage("> App constructor");
         }
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {

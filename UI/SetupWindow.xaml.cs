@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
-
+using Sentry;
 
 namespace GolemUI.UI
 {
@@ -67,6 +67,17 @@ namespace GolemUI.UI
             _serviceProvider = serviceProvider;
             InitializeComponent();
             DataContext = model;
+
+            SentrySdk.CaptureMessage("> Setup Window");
+
+            try
+            {
+                throw null;
+            }
+            catch (Exception ex)
+            {
+                SentrySdk.CaptureException(ex);
+            }
         }
 
         internal void EnableBlur()
