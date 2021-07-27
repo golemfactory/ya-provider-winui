@@ -9,22 +9,8 @@ namespace GolemUI
 {
     public class GlobalApplicationState
     {
-        ProcessController _processController;
-
-        public ProcessController ProcessController { get { return _processController; } }
-
         public Dashboard? Dashboard { get; set; }
         public DebugWindow? DebugWindow { get; set; }
-
-        private GlobalApplicationState()
-        {
-            _processController = new ProcessController();
-        }
-
-        void StartDebugWindow()
-        {
-
-        }
 
         /***
          * static methods 
@@ -40,9 +26,6 @@ namespace GolemUI
             }
             Instance = new GlobalApplicationState();
         }
-        public static void Finish()
-        {
 
-        }
     }
 }

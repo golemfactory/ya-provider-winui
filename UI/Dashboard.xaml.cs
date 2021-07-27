@@ -49,9 +49,8 @@ namespace GolemUI
 
         public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
-        private bool _forceExit = false;
-
-        public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardMain dashboardMain, Interfaces.IProcessControler processControler)
+        public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardMain dashboardMain,
+            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock)
         {
             _processControler = processControler;
 
@@ -88,6 +87,19 @@ namespace GolemUI
 
             _pages[_pageSelected].View.Visibility = Visibility.Visible;
             _pages[_pageSelected].View.Opacity = 1.0f;
+
+            singleInstanceLock.ActivateEvent += OnAppReactivate;
+        }
+
+        private void OnAppReactivate(object sender)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                WindowState = WindowState.Normal;
+                ShowInTaskbar = true;
+                tbNotificationIcon.Visibility = Visibility.Hidden;
+                Activate();
+            });
         }
 
         private void Page1Click(object sender, RoutedEventArgs e)
@@ -200,41 +212,14 @@ namespace GolemUI
 
         public void RequestClose(bool isAlreadyClosing = false)
         {
-            if (!GlobalApplicationState.Instance.ProcessController.IsRunning)
+            if (_processControler.IsProviderRunning)
             {
-                this._forceExit = true;
-                if (!isAlreadyClosing)
-                {
-                    this.Close();
-                }
+                _processControler.Stop();
             }
-            //there is no way for now of gently stopping provider so kill it
-            GlobalApplicationState.Instance.ProcessController.KillProvider();
-            Task.Run(async () =>
-            {
-                //try to gently stop yagna
-                await GlobalApplicationState.Instance.ProcessController.StopYagna();
-                this.Dispatcher.Invoke(() =>
-                {
-                    //force exit know after trying to gently stop yagna (which may succeeded or failed)
-                    this._forceExit = true;
-                    this.Close();
-                });
-            });
-
-            //wait for yagna until it is stopped asynchronously
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //Note: this event is called one or twice during normal shutdown
-            if (_forceExit)
-            {
-                //if somehow yagna failed to close itself gently just kill it
-                GlobalApplicationState.Instance.ProcessController.KillProvider();
-                GlobalApplicationState.Instance.ProcessController.KillYagna();
-                return;
-            }
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
             if (ls.CloseOnExit)
             {
