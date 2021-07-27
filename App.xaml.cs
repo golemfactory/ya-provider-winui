@@ -12,7 +12,7 @@ using System.Windows.Threading;
 using GolemUI.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
+using Sentry;
 
 namespace GolemUI
 {
@@ -26,7 +26,16 @@ namespace GolemUI
 
         public App()
         {
-            _childProcessManager = new GolemUI.ChildProcessManager();
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+            using (SentrySdk.Init(o =>
+            {
+               
+                o.Dsn = "https://e092144766fb428ebe331f3769bcc231@o377685.ingest.sentry.io/5880822";
+                o.Debug = true; //todo: change to false for production release
+                o.TracesSampleRate = 1.0; //todo: probably should change in future ?
+            }))
+
+                _childProcessManager = new GolemUI.ChildProcessManager();
             _childProcessManager.AddProcess(Process.GetCurrentProcess());
 
             GlobalApplicationState.Initialize();
@@ -34,8 +43,16 @@ namespace GolemUI
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
-        }
 
+            SentrySdk.CaptureMessage("> App constructor");
+        }
+        void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            SentrySdk.CaptureException(e.Exception);
+
+            //TODO: to discuss if we should allow the app to crash or not
+            e.Handled = true;
+        }
         private void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<Interfaces.IPriceProvider, Src.StaticPriceProvider>();
