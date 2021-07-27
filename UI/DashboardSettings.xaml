@@ -233,7 +233,7 @@
                                 <TextBox.Text>
                                     <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
                                         <Binding.ValidationRules>
-                                            <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"/>
+                                            <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>
