@@ -69,6 +69,9 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.2.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
       <HintPath>packages\Portable.BouncyCastle.1.8.2\lib\net40\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="CoinGecko, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CoinGeckoAsyncApi.1.4.4\lib\netstandard2.0\CoinGecko.dll</HintPath>
+    </Reference>
     <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
@@ -246,7 +249,6 @@
     <Compile Include="DesignViewModel\WalletView.cs" />
     <Compile Include="Interfaces\IAppKeyProvider.cs" />
     <Compile Include="Interfaces\IEstimatedProfiProvider.cs" />
-    <Compile Include="Interfaces\IEstService.cs" />
     <Compile Include="Interfaces\IPaymentService.cs" />
     <Compile Include="Interfaces\IPriceProvider.cs" />
     <Compile Include="Interfaces\IProcessControler.cs" />
@@ -261,6 +263,7 @@
     <Compile Include="Notifications\CommandBase.cs" />
     <Compile Include="Notifications\ShowSampleWindowCommand.cs" />
     <Compile Include="Src\BenchmarkService.cs" />
+    <Compile Include="Src\CoinGeckoPriceProvider.cs" />
     <Compile Include="Src\CpuInfo.cs" />
     <Compile Include="Src\GlobalApplicationState.cs" />
     <Compile Include="Src\GlobalSettings.cs" />

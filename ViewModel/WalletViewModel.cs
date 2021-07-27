@@ -102,7 +102,7 @@ namespace GolemUI.ViewModel
 
         public decimal AmountUSD
         {
-            get { return _priceProvider.glmToUsd(_amount); }
+            get { return _priceProvider.CoinValue(_amount, IPriceProvider.Coin.GLM); }
         }
 
         public decimal PendingAmount
@@ -110,10 +110,7 @@ namespace GolemUI.ViewModel
             get { return _pendingAmount; }
         }
 
-        public decimal PendingAmountUSD
-        {
-            get { return _priceProvider.glmToUsd(_pendingAmount); }
-        }
+        public decimal PendingAmountUSD => _priceProvider.CoinValue(_pendingAmount, IPriceProvider.Coin.GLM);
 
         public decimal GlmPerDay
         {
@@ -123,13 +120,7 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public decimal UsdPerDay
-        {
-            get
-            {
-                return _priceProvider.glmToUsd(_glmPerDay);
-            }
-        }
+        public decimal UsdPerDay => _priceProvider.CoinValue(_glmPerDay, IPriceProvider.Coin.GLM);
 
         public string Tickler { get; private set; }
 

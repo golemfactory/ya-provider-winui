@@ -41,7 +41,7 @@ namespace GolemUI
 
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<Interfaces.IPriceProvider, Src.StaticPriceProvider>();
+            services.AddSingleton<Interfaces.IPriceProvider, Src.CoinGeckoPriceProvider>();
             services.AddSingleton<Interfaces.IEstimatedProfitProvider, Src.StaticEstimatedEarningsProvider>();
 
             services.AddSingleton(typeof(Interfaces.IProcessControler), typeof(GolemUI.ProcessController));
