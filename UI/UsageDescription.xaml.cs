@@ -17,55 +17,32 @@ using System.Windows.Shapes;
 
 namespace GolemUI
 {
-    /// <summary>
-    /// Interaction logic for UsageDescription.xaml
-    /// </summary>
+
     public partial class UsageDescription : UserControl
     {
-        private static readonly DependencyProperty _description = DependencyProperty.Register("Description", typeof(string), typeof(UsageDescription)); 
+        private static readonly DependencyProperty _description = DependencyProperty.Register("Description", typeof(string), typeof(UsageDescription));
         private static readonly DependencyProperty _total = DependencyProperty.Register("Total", typeof(int), typeof(UsageDescription));
         private static readonly DependencyProperty _current = DependencyProperty.Register("Current", typeof(int), typeof(UsageDescription));
 
         public UsageDescription()
         {
-            
             InitializeComponent();
             this.root.DataContext = this;
         }
-       
         public string Description
         {
             get => (string)GetValue(_description);
-            set
-            {
-                SetValue(_description, value);
-
-
-            }
+            set => SetValue(_description, value);
         }
-
-        [Bindable(true)]
         public int Total
         {
             get => (int)GetValue(_total);
-            set
-            {
-                SetValue(_total, value);
-
-
-            }
+            set => SetValue(_total, value);
         }
-
-
-        [Bindable(true)]
         public int Current
         {
             get => (int)GetValue(_current);
-            set
-            {
-                SetValue(_current, value);
-              
-            }
+            set => SetValue(_current, value);
         }
     }
 }
