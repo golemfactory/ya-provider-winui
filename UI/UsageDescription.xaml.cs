@@ -1,5 +1,7 @@
-﻿using System;
+﻿using GolemUI.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,51 +23,72 @@ namespace GolemUI
     public partial class UsageDescription : UserControl
     {
         //private string _text;
+        UsageDescriptionViewModel ViewModel;
+        private static readonly DependencyProperty _description = DependencyProperty.Register("Description", typeof(string), typeof(UsageDescription)); 
+        private static readonly DependencyProperty _total = DependencyProperty.Register("Total", typeof(int), typeof(UsageDescription));
+        private static readonly DependencyProperty _current = DependencyProperty.Register("Current", typeof(int), typeof(UsageDescription), new PropertyMetadata(0, new PropertyChangedCallback(OnStepChanged)));
+
         public UsageDescription()
         {
+            
             InitializeComponent();
-            Description = "";
+            this.ViewModel = new UsageDescriptionViewModel(this);
+           // this.DataContext = this.ViewModel;  
+            
+
         }
-        public static readonly DependencyProperty _description = DependencyProperty.Register("Description", typeof(string), typeof(UsageDescription));
+
+        private static void OnStepChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var xx = e;
+
+            //ctrl.SetValue(ItemsProperty, ctrl!.Model.Items);
+        }
 
         public string Description
         {
             get
             {
                 return (string)GetValue(_description);
+                
             }
             set
             {
                 SetValue(_description, value);
 
+                this.ViewModel.NotifyChange("Description");
             }
         }
-        public static readonly DependencyProperty _total = DependencyProperty.Register("Total", typeof(int), typeof(UsageDescription));
-
+      
+        [Bindable(true)]
         public int Total
         {
             get
             {
-                return (int)GetValue(_total);
+                int ret=(int)GetValue(_total);
+                return ret;
             }
             set
             {
                 SetValue(_total, value);
+                this.ViewModel.NotifyChange("Total");
 
             }
         }
 
-        public static readonly DependencyProperty _current = DependencyProperty.Register("Current", typeof(int), typeof(UsageDescription));
 
+        [Bindable(true)]
         public int Current
         {
             get
             {
-                return (int)GetValue(_current);
+                var ret =  (int)GetValue(_current);
+                return ret;
             }
             set
             {
                 SetValue(_current, value);
+                this.ViewModel.NotifyChange("Current");
 
             }
         }

@@ -8,6 +8,10 @@ namespace GolemUI.DesignViewModel
 {
     public class DashboardViewModel
     {
+        public int EnabledGpuCount => 2;
+        public int TotalGpuCount => 3;
+        public int EnabledCpuCount => 2;
+        public int TotalCpuCount => 3;
         public bool IsProviderRunning { get; } = true;
         public DashboardStatusEnum Status => DashboardStatusEnum.Ready;
     }
