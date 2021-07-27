@@ -122,7 +122,7 @@ namespace GolemUI.Src
                     bool result = cc.RunBenchmarkRecording(@"test.recording", isPreBenchmark: false);
                     if (!result)
                     {
-                        result = cc.RunBenchmark(cards, "", poolAddr, walletAddress);
+                        result = cc.RunBenchmark(cards, niceness, poolAddr, walletAddress);
                     }
                     if (!result)
                     {

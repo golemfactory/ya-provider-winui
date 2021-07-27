@@ -12,11 +12,13 @@ namespace GolemUI.Src
     public class ProviderConfigService : IProviderConfig
     {
         private readonly Command.Provider _provider;
+        public Network Network { get; private set; }
 
-        public ProviderConfigService(Provider provider)
+        public ProviderConfigService(Provider provider, Network network)
         {
             _provider = provider;
             Config = _provider.Config;
+            Network = network;
 
             string? name = Config?.NodeName;
             int count = ActiveCpuCount;
@@ -100,6 +102,20 @@ namespace GolemUI.Src
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public Task Prepare()
+        {
+            return Task.Run(() =>
+            {
+                var config = Config ?? _provider.Config;
+                if (config.Subnet == null)
+                {
+                    config.Subnet = GolemUI.Properties.Settings.Default.Subnet;
+                    _provider.Config = Config;
+                }
+                // TODO: Configure presets
+            });
         }
     }
 }
