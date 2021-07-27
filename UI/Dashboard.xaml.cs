@@ -51,7 +51,7 @@ namespace GolemUI
         public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
         public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardMain dashboardMain,
-            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock)
+            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig)
         {
             _processControler = processControler;
             _providerConfig = providerConfig;
@@ -212,16 +212,23 @@ namespace GolemUI
             sb.Begin();
         }
 
+        private bool _doClose = false;
         public void RequestClose(bool isAlreadyClosing = false)
         {
             if (_processControler.IsProviderRunning)
             {
                 _processControler.Stop();
             }
+            _doClose = true;
+            Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (_doClose)
+            {
+                return;
+            }
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
             if (ls.CloseOnExit)
             {
