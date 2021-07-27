@@ -24,56 +24,20 @@ namespace GolemUI
     public partial class App : Application
     {
 
-        private readonly ServiceProvider? _serviceProvider;
-        private readonly GolemUI.ChildProcessManager? _childProcessManager;
-
-        private static string appGuid = "f024e04e-6ae6-4563-95bc-376bf92646aa";
-        bool _isAnotherInstanceOpen = false;
-        bool _isGlobalMutexSet = false;
-        Mutex? _instanceMutex;
-
-        [DllImport("user32.dll")]
-        static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        static bool IsAnotherAppWorking()
-        {
-            var current = Process.GetCurrentProcess();
-
-            foreach (var process in Process.GetProcessesByName(current.ProcessName))
-            {
-                if (process.Id == current.Id) continue;
-                SetForegroundWindow(process.MainWindowHandle);
-                return true;
-            }
-            return false;
-        }
-
+        private readonly ServiceProvider _serviceProvider;
+        private readonly GolemUI.ChildProcessManager _childProcessManager;
 
         public App()
         {
-            _instanceMutex = new Mutex(false, "Global\\" + appGuid);
+            _childProcessManager = new GolemUI.ChildProcessManager();
+            _childProcessManager.AddProcess(Process.GetCurrentProcess());
 
-            _isGlobalMutexSet = false;
-            if (!_instanceMutex.WaitOne(0, false))
-            {
-                _isGlobalMutexSet = true;
-            }
-            if (_isGlobalMutexSet)
-            {
-                _isAnotherInstanceOpen = IsAnotherAppWorking();
-            }
 
-            if (!_isAnotherInstanceOpen)
-            {
-                _childProcessManager = new GolemUI.ChildProcessManager();
-                _childProcessManager.AddProcess(Process.GetCurrentProcess());
+            GlobalApplicationState.Initialize();
 
-                GlobalApplicationState.Initialize();
-
-                var serviceCollection = new ServiceCollection();
-                ConfigureServices(serviceCollection);
-                _serviceProvider = serviceCollection.BuildServiceProvider();
-            }
+            var serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection);
+            _serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -81,10 +45,10 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IPriceProvider, Src.StaticPriceProvider>();
             services.AddSingleton<Interfaces.IEstimatedProfitProvider, Src.StaticEstimatedEarningsProvider>();
 
-            if (GlobalApplicationState.Instance != null)
-                services.AddSingleton(typeof(Interfaces.IProcessControler), GlobalApplicationState.Instance.ProcessController);
+            services.AddSingleton(typeof(Interfaces.IProcessControler), typeof(GolemUI.ProcessController));
             services.AddSingleton(typeof(Command.YagnaSrv));
             services.AddSingleton(typeof(Command.Provider));
+            services.AddSingleton(cfg => new Src.SingleInstanceLock());
 
             services.AddSingleton(GolemUI.Properties.Settings.Default.TestNet ? Network.Rinkeby : Network.Mainnet);
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
@@ -103,12 +67,13 @@ namespace GolemUI
             // Top-Level Windows
             services.AddTransient(typeof(Dashboard));
             services.AddTransient(typeof(UI.SetupWindow));
+            services.AddTransient(typeof(GolemUI.DebugWindow));
 
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            if (_isAnotherInstanceOpen && _isGlobalMutexSet)
+            if (!_serviceProvider.GetRequiredService<Src.SingleInstanceLock>().IsMaster)
             {
                 this.Shutdown();
                 return;
@@ -154,11 +119,6 @@ namespace GolemUI
             {
                 _serviceProvider.Dispose();
             }
-            if (_instanceMutex != null)
-            {
-                _instanceMutex.Dispose();
-            }
-            GlobalApplicationState.Finish();
         }
 
         public void StartDebugWindow()
@@ -166,7 +126,7 @@ namespace GolemUI
 
             if (GlobalApplicationState.Instance?.DebugWindow == null)
             {
-                var debugWindow = new DebugWindow();
+                var debugWindow = _serviceProvider.GetRequiredService<DebugWindow>();
                 if (GlobalApplicationState.Instance != null)
                 {
                     GlobalApplicationState.Instance.DebugWindow = debugWindow;

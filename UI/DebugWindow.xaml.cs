@@ -20,12 +20,10 @@ namespace GolemUI
     /// </summary>
     public partial class DebugWindow : Window
     {
-        public DebugWindow()
+        public DebugWindow(IProcessControler processControler)
         {
             InitializeComponent();
-
-            if (GlobalApplicationState.Instance != null)
-                GlobalApplicationState.Instance.ProcessController.LineHandler += LogLine;
+            processControler.LineHandler += LogLine;
 
 #if DEBUG
             NameGen g = new NameGen();
