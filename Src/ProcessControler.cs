@@ -138,7 +138,7 @@ namespace GolemUI
             }
         }
 
-        public async Task<bool> Start(Network network)
+        public async Task<bool> Start(Network network, string? claymoreExtraParams)
         {
             _lock();
             try
@@ -151,7 +151,7 @@ namespace GolemUI
                         StartupYagna();
                     }
 
-                    StartupProvider(network);
+                    StartupProvider(network, claymoreExtraParams);
                 });
                 OnPropertyChanged("IsServerRunning");
 
@@ -228,7 +228,7 @@ namespace GolemUI
             throw new Exception("Failed to get key");
         }
 
-        private void StartupProvider(Network network)
+        private void StartupProvider(Network network, string? claymoreExtraParams)
         {
             BenchmarkResults br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
@@ -251,7 +251,7 @@ namespace GolemUI
 
             string reason = "";
             bool enableClaymoreMining = br.IsClaymoreMiningPossible(out reason);
-            _providerDaemon = _provider.Run(_generatedAppKey.Value, network, ls, enableClaymoreMining, br);
+            _providerDaemon = _provider.Run(_generatedAppKey.Value, network, claymoreExtraParams: claymoreExtraParams);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
             _providerDaemon.OutputDataReceived += OnProviderOutputDataRecv;

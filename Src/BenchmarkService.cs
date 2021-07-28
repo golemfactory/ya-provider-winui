@@ -206,6 +206,31 @@ namespace GolemUI.Src
             }
         }
 
+        internal string? ExtractClaymoreParams()
+        {
+            var status = _claymoreLiveStatus ?? SettingsLoader.LoadBenchmarkFromFileOrDefault().liveStatus;
+            var gpus = status.GPUs.Values;
+
+            if (gpus.Count == 0)
+            {
+                return null;
+            }
+
+            var args = new List<string>();
+            if (gpus.Any(gpu => !gpu.IsEnabledByUser))
+            {
+                args.Add("-gpus");
+                args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.GpuNo)));
+            }
+            args.Add("-li");
+            args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.ClaymorePerformanceThrottling)));
+            args.Add("-clnew");
+            args.Add("1");
+            args.Add("-clKernel");
+            args.Add("0");
+            return String.Join(" ", args);
+        }
+
         public void StopBenchmark()
         {
             _requestStop = true;
