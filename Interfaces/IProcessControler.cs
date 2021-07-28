@@ -1,4 +1,5 @@
-﻿using GolemUI.Model;
+﻿using GolemUI.Command;
+using GolemUI.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +21,7 @@ namespace GolemUI.Interfaces
         /// <returns>Wallet address</returns>
         public Task<string> PrepareForKey(byte[] privateKey);
 
-        public Task<bool> Start();
+        public Task<bool> Start(Network network);
 
         public Task<Command.KeyInfo> Me();
 

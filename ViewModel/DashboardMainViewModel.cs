@@ -71,11 +71,11 @@ namespace GolemUI.ViewModel
         public IProcessControler Process => _processController;
         public decimal? Amount => _paymentService.State?.Balance;
 
-        public decimal? AmountUSD => _priceProvider.glmToUsd(Amount ?? 0);
+        public decimal? AmountUSD => _priceProvider.CoinValue(Amount ?? 0, IPriceProvider.Coin.GLM);
 
         public decimal? PendingAmount => _paymentService.State?.PendingBalance;
 
-        public decimal? PendingAmountUSD => _priceProvider.glmToUsd(PendingAmount ?? 0m);
+        public decimal? PendingAmountUSD => _priceProvider.CoinValue(PendingAmount ?? 0m, IPriceProvider.Coin.GLM);
         public int _totalCpuCount;
         public int _totalGpuCount;
         public int _enabledGpuCount;
@@ -125,7 +125,7 @@ namespace GolemUI.ViewModel
 
         public async void Start()
         {
-            await _processController.Start();
+            await _processController.Start(_providerConfig.Network);
         }
 
         private void OnPropertyChanged(string? propertyName)

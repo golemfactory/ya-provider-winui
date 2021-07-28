@@ -6,9 +6,11 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using GolemUI.Command;
 using GolemUI.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -21,6 +23,7 @@ namespace GolemUI
     /// </summary>
     public partial class App : Application
     {
+
         private readonly ServiceProvider _serviceProvider;
         private readonly GolemUI.ChildProcessManager _childProcessManager;
         private readonly IDisposable _sentrySdk;
@@ -41,6 +44,7 @@ namespace GolemUI
             _childProcessManager = new GolemUI.ChildProcessManager();
             _childProcessManager.AddProcess(Process.GetCurrentProcess());
 
+
             GlobalApplicationState.Initialize();
 
             var serviceCollection = new ServiceCollection();
@@ -58,15 +62,15 @@ namespace GolemUI
         }
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<Interfaces.IPriceProvider, Src.StaticPriceProvider>();
+            services.AddSingleton<Interfaces.IPriceProvider, Src.CoinGeckoPriceProvider>();
             services.AddSingleton<Interfaces.IEstimatedProfitProvider, Src.StaticEstimatedEarningsProvider>();
 
-            if (GlobalApplicationState.Instance != null)
-                services.AddSingleton(typeof(Interfaces.IProcessControler), GlobalApplicationState.Instance.ProcessController);
+            services.AddSingleton(typeof(Interfaces.IProcessControler), typeof(GolemUI.ProcessController));
             services.AddSingleton(typeof(Command.YagnaSrv));
             services.AddSingleton(typeof(Command.Provider));
+            services.AddSingleton(cfg => new Src.SingleInstanceLock());
 
-            services.AddSingleton(Command.Network.Rinkeby);
+            services.AddSingleton(GolemUI.Properties.Settings.Default.TestNet ? Network.Rinkeby : Network.Mainnet);
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
             services.AddSingleton<Src.BenchmarkService>();
@@ -83,15 +87,22 @@ namespace GolemUI
             // Top-Level Windows
             services.AddTransient(typeof(Dashboard));
             services.AddTransient(typeof(UI.SetupWindow));
+            services.AddTransient(typeof(GolemUI.DebugWindow));
 
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
+            if (!_serviceProvider.GetRequiredService<Src.SingleInstanceLock>().IsMaster)
+            {
+                this.Shutdown();
+                return;
+            }
+
             var args = e.Args;
             if ((args.Length > 0 && args[0] == "setup") || !GolemUI.Properties.Settings.Default.Configured)
             {
-                var window = _serviceProvider.GetRequiredService<UI.SetupWindow>();
+                var window = _serviceProvider!.GetRequiredService<UI.SetupWindow>();
                 window.Show();
                 return;
             }
@@ -99,7 +110,7 @@ namespace GolemUI
 
             try
             {
-                var dashboardWindow = _serviceProvider.GetRequiredService<Dashboard>();
+                var dashboardWindow = _serviceProvider!.GetRequiredService<Dashboard>();
                 if (GlobalApplicationState.Instance != null)
                 {
                     GlobalApplicationState.Instance.Dashboard = dashboardWindow;
@@ -124,8 +135,10 @@ namespace GolemUI
 
         private void OnExit(object sender, ExitEventArgs e)
         {
-            _serviceProvider.Dispose();
-            GlobalApplicationState.Finish();
+            if (_serviceProvider != null)
+            {
+                _serviceProvider.Dispose();
+            }
         }
 
         public void StartDebugWindow()
@@ -133,7 +146,7 @@ namespace GolemUI
 
             if (GlobalApplicationState.Instance?.DebugWindow == null)
             {
-                var debugWindow = new DebugWindow();
+                var debugWindow = _serviceProvider.GetRequiredService<DebugWindow>();
                 if (GlobalApplicationState.Instance != null)
                 {
                     GlobalApplicationState.Instance.DebugWindow = debugWindow;

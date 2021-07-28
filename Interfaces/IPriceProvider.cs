@@ -8,6 +8,18 @@ namespace GolemUI.Interfaces
 {
     public interface IPriceProvider
     {
-        decimal glmToUsd(decimal glm);
+        public enum Coin
+        {
+            GLM,
+            ETH,
+            ETC
+        }
+
+        public enum Currency
+        {
+            USD
+        }
+
+        decimal CoinValue(decimal amount, Coin coin, Currency currency = Currency.USD);
     }
 }

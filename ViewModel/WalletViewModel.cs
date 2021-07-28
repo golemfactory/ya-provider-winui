@@ -92,7 +92,8 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public string? WalletAddress => new AddressUtil().ConvertToChecksumAddress(_paymentService.Address);
+        private string? _asCheckSum(string? addr) => addr == null ? null : AddressUtil.Current.ConvertToChecksumAddress(addr);
+        public string? WalletAddress => _asCheckSum(_paymentService.Address);
 
         public decimal Amount
         {
@@ -101,7 +102,7 @@ namespace GolemUI.ViewModel
 
         public decimal AmountUSD
         {
-            get { return _priceProvider.glmToUsd(_amount); }
+            get { return _priceProvider.CoinValue(_amount, IPriceProvider.Coin.GLM); }
         }
 
         public decimal PendingAmount
@@ -109,10 +110,7 @@ namespace GolemUI.ViewModel
             get { return _pendingAmount; }
         }
 
-        public decimal PendingAmountUSD
-        {
-            get { return _priceProvider.glmToUsd(_pendingAmount); }
-        }
+        public decimal PendingAmountUSD => _priceProvider.CoinValue(_pendingAmount, IPriceProvider.Coin.GLM);
 
         public decimal GlmPerDay
         {
@@ -122,13 +120,7 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public decimal UsdPerDay
-        {
-            get
-            {
-                return _priceProvider.glmToUsd(_glmPerDay);
-            }
-        }
+        public decimal UsdPerDay => _priceProvider.CoinValue(_glmPerDay, IPriceProvider.Coin.GLM);
 
         public string Tickler { get; private set; }
 

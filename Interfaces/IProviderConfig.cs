@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.Command;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace GolemUI.Interfaces
     {
         Command.Config? Config { get; }
 
+        Network Network { get; }
+
         bool IsMiningActive { get; set; }
 
         bool IsCpuActive { get; set; }
@@ -18,5 +21,7 @@ namespace GolemUI.Interfaces
         public void UpdateActiveCpuThreadsCount(int threadsCount);
         void UpdateWalletAddress(string? walletAddress = null);
         void UpdateNodeName(string? value);
+
+        Task Prepare();
     }
 }

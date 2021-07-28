@@ -46,22 +46,26 @@ namespace GolemUI
             string cards = "";
 
             string niceness = "";
-            foreach (var gpu in _benchmarkSettings?.liveStatus?.GPUs.ToList())
+            if (_benchmarkSettings?.liveStatus != null)
             {
-                if (!gpu.Value.IsEnabledByUser)
+                foreach (var gpu in _benchmarkSettings?.liveStatus?.GPUs.ToList())
                 {
-                    allEnabled = false;
-                }
-                else
-                {
-                    if (cards != "")
+                    if (!gpu.Value.IsEnabledByUser)
                     {
-                        cards += ",";
-                        niceness += ",";
+                        allEnabled = false;
                     }
-                    cards += gpu.Value.GpuNo.ToString();
-                    niceness += gpu.Value.ClaymorePerformanceThrottling.ToString();
+                    else
+                    {
+                        if (cards != "")
+                        {
+                            cards += ",";
+                            niceness += ",";
+                        }
+                        cards += gpu.Value.GpuNo.ToString();
+                        niceness += gpu.Value.ClaymorePerformanceThrottling.ToString();
+                    }
                 }
+
             }
             if (allEnabled)
             {
@@ -211,7 +215,7 @@ namespace GolemUI
                 var totalHr = Hashrate;
                 if (totalHr != null)
                 {
-                    return _profitEstimator.EthHashRateToDailyEarnigns((double)totalHr, Interfaces.MiningType.MiningTypeEth, Interfaces.MiningEarningsPeriod.MiningEarningsPeriodDay);
+                    return (double)_priceProvider?.CoinValue((decimal)_profitEstimator.HashRateToCoinPerDay((double)totalHr), IPriceProvider.Coin.ETH);
                 }
                 return null;
             }

@@ -17,6 +17,7 @@ using System.Windows.Media.Animation;
 using GolemUI.Settings;
 using GolemUI.Notifications;
 using GolemUI.Controllers;
+using GolemUI.Interfaces;
 
 namespace GolemUI
 {
@@ -49,11 +50,11 @@ namespace GolemUI
 
         public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
-        private bool _forceExit = false;
-
-        public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardMain dashboardMain, Interfaces.IProcessControler processControler)
+        public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardMain dashboardMain,
+            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig)
         {
             _processControler = processControler;
+            _providerConfig = providerConfig;
 
             InitializeComponent();
 
@@ -88,6 +89,19 @@ namespace GolemUI
 
             _pages[_pageSelected].View.Visibility = Visibility.Visible;
             _pages[_pageSelected].View.Opacity = 1.0f;
+
+            singleInstanceLock.ActivateEvent += OnAppReactivate;
+        }
+
+        private void OnAppReactivate(object sender)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                WindowState = WindowState.Normal;
+                ShowInTaskbar = true;
+                tbNotificationIcon.Visibility = Visibility.Hidden;
+                Activate();
+            });
         }
 
         private void Page1Click(object sender, RoutedEventArgs e)
@@ -198,43 +212,27 @@ namespace GolemUI
             sb.Begin();
         }
 
+        private bool _forceExit = false;
         public void RequestClose(bool isAlreadyClosing = false)
         {
-            if (!GlobalApplicationState.Instance.ProcessController.IsRunning)
+            if (_processControler.IsProviderRunning)
             {
-                this._forceExit = true;
-                if (!isAlreadyClosing)
-                {
-                    this.Close();
-                }
+                _processControler.Stop();
             }
-            //there is no way for now of gently stopping provider so kill it
-            GlobalApplicationState.Instance.ProcessController.KillProvider();
-            Task.Run(async () =>
+            if (!isAlreadyClosing)
             {
-                //try to gently stop yagna
-                await GlobalApplicationState.Instance.ProcessController.StopYagna();
-                this.Dispatcher.Invoke(() =>
-                {
-                    //force exit know after trying to gently stop yagna (which may succeeded or failed)
-                    this._forceExit = true;
-                    this.Close();
-                });
-            });
-
-            //wait for yagna until it is stopped asynchronously
+                _forceExit = true;
+                Close();
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //Note: this event is called one or twice during normal shutdown
             if (_forceExit)
             {
-                //if somehow yagna failed to close itself gently just kill it
-                GlobalApplicationState.Instance.ProcessController.KillProvider();
-                GlobalApplicationState.Instance.ProcessController.KillYagna();
                 return;
             }
+
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
             if (ls.CloseOnExit)
             {
@@ -252,31 +250,8 @@ namespace GolemUI
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Process[] yagnaProcesses;
-            Process[] providerProcesses;
-            Process[] claymoreProcesses;
+            await Task.WhenAll(_providerConfig.Prepare(), _processControler.Prepare());
 
-            ProcessMonitor.GetProcessList(out yagnaProcesses, out providerProcesses, out claymoreProcesses);
-            if (yagnaProcesses.Length > 0 || providerProcesses.Length > 0 || claymoreProcesses.Length > 0)
-            {
-                ExistingProcessesWindow w = new ExistingProcessesWindow();
-                w.Owner = this;
-                var dialogResult = w.ShowDialog();
-                switch (dialogResult)
-                {
-                    case true:
-                        // User accepted dialog box
-                        break;
-                    case false:
-                        // User canceled dialog box
-                        return;
-                    default:
-                        // Indeterminate
-                        break;
-                }
-            }
-
-            await _processControler.Prepare();
         }
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
@@ -319,5 +294,6 @@ namespace GolemUI
         }
 
         private readonly Interfaces.IProcessControler _processControler;
+        private readonly IProviderConfig _providerConfig;
     }
 }

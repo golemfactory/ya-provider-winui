@@ -11,5 +11,11 @@
     <Setting Name="Configured" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="Subnet" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">LazySubnet</Value>
+    </Setting>
+    <Setting Name="TestNet" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
