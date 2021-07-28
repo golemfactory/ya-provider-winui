@@ -75,7 +75,7 @@ namespace GolemUI
 
             dashboardMain.Model.LoadData();
 
-            GlobalApplicationState.Instance.Dashboard = this;
+            GlobalApplicationState.Instance!.Dashboard = this;
 
             foreach (var pair in _pages)
             {
@@ -244,7 +244,6 @@ namespace GolemUI
                 this.ShowInTaskbar = false;
             }
             e.Cancel = true;
-
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)

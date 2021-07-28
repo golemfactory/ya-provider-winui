@@ -24,7 +24,6 @@ namespace GolemUI.Settings
 
         public const double GLMUSD = 0.27;
 
-        public static bool isDemo = true;
         public static bool enableLoggingToDebugWindow = true;
     }
 
@@ -38,12 +37,6 @@ namespace GolemUI.Settings
 
         public bool IsClaymoreMiningPossible(out string reason)
         {
-            if (GlobalSettings.isDemo)
-            {
-                reason = "";
-                return true;
-            }
-
             reason = "";
             if (this.liveStatus == null)
             {

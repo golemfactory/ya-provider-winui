@@ -21,7 +21,7 @@ namespace GolemUI.Interfaces
         /// <returns>Wallet address</returns>
         public Task<string> PrepareForKey(byte[] privateKey);
 
-        public Task<bool> Start(Network network);
+        public Task<bool> Start(Network network, string? claymoreExtraParams);
 
         public Task<Command.KeyInfo> Me();
 

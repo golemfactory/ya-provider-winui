@@ -15,7 +15,7 @@ namespace GolemUI.Src
     public class BenchmarkService : INotifyPropertyChanged
     {
         private readonly Interfaces.IProviderConfig _providerConfig;
-        private ClaymoreLiveStatus _claymoreLiveStatus = new ClaymoreLiveStatus(true, 5);
+        private ClaymoreLiveStatus? _claymoreLiveStatus = null;
 
         public ClaymoreLiveStatus? Status => _claymoreLiveStatus;
 
@@ -66,9 +66,12 @@ namespace GolemUI.Src
 
                     if (!result)
                     {
-                        _claymoreLiveStatus.GPUs.Clear();
-                        _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
-                        OnPropertyChanged("Status");
+                        if (_claymoreLiveStatus != null)
+                        {
+                            _claymoreLiveStatus.GPUs.Clear();
+                            _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
+                            OnPropertyChanged("Status");
+                        }
                         return;
                     }
 
@@ -82,8 +85,8 @@ namespace GolemUI.Src
                         {
                             cc.Stop();
 
-                            _claymoreLiveStatus.GPUs.Clear();
-                            _claymoreLiveStatus.ErrorMsg = "Failed to obtain card list";
+                            _claymoreLiveStatus!.GPUs.Clear();
+                            _claymoreLiveStatus!.ErrorMsg = "Failed to obtain card list";
                             OnPropertyChanged("Status");
 
                             return;
@@ -92,7 +95,7 @@ namespace GolemUI.Src
                         if (_requestStop)
                         {
                             cc.Stop();
-                            _claymoreLiveStatus.ErrorMsg = "Stopped by user";
+                            _claymoreLiveStatus!.ErrorMsg = "Stopped by user";
                             OnPropertyChanged("Status");
                             break;
                         }
@@ -191,6 +194,7 @@ namespace GolemUI.Src
                 cc.Stop();
                 if (_claymoreLiveStatus != null)
                 {
+                    _claymoreLiveStatus.BenchmarkFinished = true;
                     foreach (var gpu in _claymoreLiveStatus.GPUs.Values)
                     {
                         gpu.SetStepFinished();
@@ -203,6 +207,42 @@ namespace GolemUI.Src
                 OnPropertyChanged("IsRunning");
                 OnPropertyChanged("Status");
             }
+        }
+
+        public void Apply(ClaymoreLiveStatus liveStatus)
+        {
+            _claymoreLiveStatus = liveStatus;
+            OnPropertyChanged("Status");
+        }
+
+        internal string? ExtractClaymoreParams()
+        {
+            var status = _claymoreLiveStatus ?? SettingsLoader.LoadBenchmarkFromFileOrDefault().liveStatus;
+            if (status == null)
+            {
+                return null;
+            }
+
+            var gpus = status.GPUs.Values;
+
+            if (gpus.Count == 0)
+            {
+                return null;
+            }
+
+            var args = new List<string>();
+            if (gpus.Any(gpu => !gpu.IsEnabledByUser))
+            {
+                args.Add("-gpus");
+                args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.GpuNo)));
+            }
+            args.Add("-li");
+            args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.ClaymorePerformanceThrottling)));
+            args.Add("-clnew");
+            args.Add("1");
+            args.Add("-clKernel");
+            args.Add("0");
+            return String.Join(" ", args);
         }
 
         public void StopBenchmark()

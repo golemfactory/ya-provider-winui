@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GolemUI.Claymore;
 
 namespace GolemUI.DesignViewModel
 {
@@ -13,12 +14,24 @@ namespace GolemUI.DesignViewModel
 
         public float? Hashrate => 78.0f;
 
-        public ObservableCollection<SingleGpuDescriptor> GpuList { get; } = new ObservableCollection<SingleGpuDescriptor>(new SingleGpuDescriptor[]
+        public ObservableCollection<ClaymoreGpuStatus> GpuList { get; } = new ObservableCollection<ClaymoreGpuStatus>(new ClaymoreGpuStatus[]
         {
-
-            new SingleGpuDescriptor(1, "1st GPU", 20.12f, false, true,0,false),
-            new SingleGpuDescriptor(2, "second GPU", 12.10f, true, false,5,true),
-            new SingleGpuDescriptor(3, "3rd GPU", 9.00f, false, true,10,true)
+            new Claymore.ClaymoreGpuStatus(1,true,0)
+                {
+                    GpuName = "AMD Radeon R9 200 Series (pcie 1), OpenCL 2.0, 8 GB VRAM, 44 CUs",
+                    BenchmarkSpeed = 15.6f,
+                    DagProgress = 1.0f
+                },
+            new Claymore.ClaymoreGpuStatus(2,true,0)
+                {
+                    GpuName = "Radeon RX 5500 XT (pcie 8), OpenCL 2.0, 8 GB VRAM, 22 CUs"
+                },
+            new Claymore.ClaymoreGpuStatus(3,true,0)
+                {
+                    GpuName = "Radeon RX 5500 XT (pcie 8), OpenCL 2.0, 8 GB VRAM, 22 CUs",
+                    DagProgress = 0.5f,
+                    GPUError = "Fail"
+                }
         });
 
         public bool IsMiningActive { get; set; } = true;

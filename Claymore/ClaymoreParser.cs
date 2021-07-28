@@ -1,17 +1,20 @@
 ﻿using GolemUI.Settings;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GolemUI.Claymore
 {
 
-    public class ClaymoreGpuStatus : ICloneable
+    public class ClaymoreGpuStatus : ICloneable, INotifyPropertyChanged
     {
         public int GpuNo { get; set; }
         public string? GpuName { get; set; }
@@ -21,17 +24,68 @@ namespace GolemUI.Claymore
         public float BenchmarkSpeed { get; set; }
         public bool IsDagCreating { get; set; }
         public bool IsEnabledByUser { get; set; }
-        public int ClaymorePerformanceThrottling { get; set; }
         public float DagProgress { get; set; }
         public string? GPUVendor { get; set; }
         public string? GPUDetails { get; set; }
         public string? GPUError { get; set; }
 
         //steps for view presentation (only one state is possible at the time)
+        [JsonIgnore]
         public bool IsPreInitialization { get; set; }
+        [JsonIgnore]
         public bool IsInitialization { get; set; }
+        [JsonIgnore]
         public bool IsEstimation { get; set; }
+
         public bool IsFinished { get; set; }
+
+        private void NotifyChange([CallerMemberName] string? propertyName = null)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+        //temporary parameters to be removed
+        [JsonIgnore]
+        public string DisplayName
+        {
+            get
+            {
+                return GpuNo + ". " + GpuName;
+            }
+        }
+
+        [JsonIgnore]
+        public string ClaymorePerformanceThrottlingDebug => "(debug: " + ClaymorePerformanceThrottling + ") ";
+
+        [JsonIgnore]
+        public int _claymorePerformanceThrottling { get; set; }
+        public int ClaymorePerformanceThrottling
+        {
+            get { return _claymorePerformanceThrottling; }
+            set
+            {
+                _claymorePerformanceThrottling = value;
+                NotifyChange("ClaymorePerformanceThrottling");
+                NotifyChange("ClaymorePerformanceThrottlingDebug");
+            }
+        }
+
+        [JsonIgnore]
+        public PerformanceThrottlingEnum SelectedMiningMode
+        {
+            get
+            {
+                return PerformanceThrottlingEnumConverter.FromInt(ClaymorePerformanceThrottling);
+            }
+            set
+            {
+                ClaymorePerformanceThrottling = (int)value;
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void SetStepInitialization()
         {
@@ -92,10 +146,10 @@ namespace GolemUI.Claymore
             return s;
         }
 
-        public bool InProgress => !IsReadyForMining && !IsOperationStopped;
-
+        [JsonIgnore]
         public bool IsReadyForMining => (IsDagFinished() && BenchmarkSpeed > 0.5 && String.IsNullOrEmpty(GPUError));
 
+        [JsonIgnore]
         public bool IsOperationStopped => (OutOfMemory || GPUNotFound || GPUError != null || !IsEnabledByUser);
 
         public bool IsDagFinished()
@@ -119,7 +173,7 @@ namespace GolemUI.Claymore
         Dictionary<int, ClaymoreGpuStatus> _gpus = new Dictionary<int, ClaymoreGpuStatus>();
         public Dictionary<int, ClaymoreGpuStatus> GPUs { get { return _gpus; } }
 
-        public bool BenchmarkFinished = false;
+        public bool BenchmarkFinished { get; set; }
 
         public float BenchmarkTotalSpeed { get; set; }
         public string? ErrorMsg { get; set; }
@@ -303,12 +357,18 @@ namespace GolemUI.Claymore
             }
             if (this.GPUs.Count == externalLiveStatus.GPUs.Count)
             {
-                foreach (var key in this.GPUs.Keys)
+                //copy to allow modifications inside
+                var keys = this.GPUs.Keys.ToArray();
+                foreach (var key in keys)
                 {
                     if (externalLiveStatus.GPUs.ContainsKey(key))
                     {
                         this.GPUs[key].IsEnabledByUser = externalLiveStatus.GPUs[key].IsEnabledByUser;
                         this.GPUs[key].ClaymorePerformanceThrottling = externalLiveStatus.GPUs[key].ClaymorePerformanceThrottling;
+                        if (!this.GPUs[key].IsEnabledByUser)
+                        {
+                            this.GPUs[key] = (ClaymoreGpuStatus)externalLiveStatus.GPUs[key].Clone();
+                        }
                     }
                 }
             }
