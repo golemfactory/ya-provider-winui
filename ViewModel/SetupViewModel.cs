@@ -19,6 +19,7 @@ namespace GolemUI.ViewModel
         private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;
         private readonly IProcessControler _processControler;
+        private readonly IPriceProvider _priceProvider;
 
 
         public enum FlowSteps
@@ -57,7 +58,8 @@ namespace GolemUI.ViewModel
 
         public bool IsDesingMode => false;
 
-        public SetupViewModel(Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler)
+        public SetupViewModel(Interfaces.IProviderConfig providerConfig,
+            Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler, Interfaces.IPriceProvider priceProvider)
         {
             _flow = 0;
             _noobStep = 0;
@@ -65,6 +67,7 @@ namespace GolemUI.ViewModel
             _benchmarkService = benchmarkService;
             _profitEstimator = profitEstimator;
             _processControler = processControler;
+            _priceProvider = priceProvider;
 
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
             _benchmarkService.PropertyChanged += OnBenchmarkChanged;
@@ -187,6 +190,10 @@ namespace GolemUI.ViewModel
 
         internal async void ActivateHdWallet()
         {
+            if (_mnemo == null)
+            {
+                return;
+            }
             var seed = _mnemo.ToString();
             var wallet = new Nethereum.HdWallet.Wallet(seed, "");
             var address = await _processControler.PrepareForKey(wallet.GetPrivateKey(0));
@@ -206,7 +213,7 @@ namespace GolemUI.ViewModel
                 var totalHr = TotalHashRate;
                 if (totalHr != null)
                 {
-                    return _profitEstimator.EthHashRateToDailyEarnigns((double)totalHr, Interfaces.MiningType.MiningTypeEth, Interfaces.MiningEarningsPeriod.MiningEarningsPeriodDay);
+                    return (double)_priceProvider.CoinValue((decimal)_profitEstimator.HashRateToCoinPerDay((double)totalHr), IPriceProvider.Coin.ETH);
                 }
                 return null;
             }

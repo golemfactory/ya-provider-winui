@@ -212,23 +212,27 @@ namespace GolemUI
             sb.Begin();
         }
 
-        private bool _doClose = false;
+        private bool _forceExit = false;
         public void RequestClose(bool isAlreadyClosing = false)
         {
             if (_processControler.IsProviderRunning)
             {
                 _processControler.Stop();
             }
-            _doClose = true;
-            Close();
+            if (!isAlreadyClosing)
+            {
+                _forceExit = true;
+                Close();
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (_doClose)
+            if (_forceExit)
             {
                 return;
             }
+
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
             if (ls.CloseOnExit)
             {
