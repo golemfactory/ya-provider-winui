@@ -20,9 +20,6 @@
     MinWidth="1280"
         Title="SetupWindow" Height="720" Width="1280" Icon="/GolemUI;component/Media/tray.ico" Loaded="Window_Loaded">
     
-    <!--<Window.Background>
-        <ImageBrush ImageSource="seed_phrase_2.png" Stretch="Uniform"></ImageBrush>
-    </Window.Background>-->
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

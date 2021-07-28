@@ -570,29 +570,6 @@
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Prepare.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Print.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Seed.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Balance_icon.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Card_tick_not_selected.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Card_tick_selected.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Copy_icon.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\CPU_icon_new.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Edit_icon.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\GPU_icon_new.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Profit_icon.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Select_down_arrow.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_error.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_ready.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Supported_by_Golem.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Task_Type.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Create_wallet.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Enjoy.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Hash_power.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\I_am_experienced.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\I_want_to_learn.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Name_node.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Prepare.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Printer.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Use_my_wallet.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Wallet_info.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
