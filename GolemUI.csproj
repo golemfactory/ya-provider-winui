@@ -425,10 +425,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\_GPU_icon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\NavBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -563,14 +559,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\init.png" />
-    <Resource Include="UI\Icons\DashboardMenu\Status\error.png" />
     <Resource Include="UI\Icons\Settings\CPU_icon_new.png" />
     <Resource Include="UI\Icons\Settings\GPU_icon_new.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Enjoy.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\UseMyWallet.png" />
     <Resource Include="Media\golem.ico" />
     <Resource Include="Media\tray.ico" />
-    <Resource Include="UI\Icons\Common\edit.png" />
     <Resource Include="UI\Icons\Settings\GPU_icon.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Benchmark.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\NodeName.png" />
@@ -588,8 +582,6 @@
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Select_down_arrow.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_error.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_ready.png" />
-    <Resource Include="UI\Icons\DashboardMenu\Status\mining.png" />
-    <Resource Include="UI\Icons\DashboardMenu\Status\ready.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Supported_by_Golem.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Task_Type.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Create_wallet.png" />
@@ -618,8 +610,15 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="UI\Icons\Setup\" />
+    <Resource Include="UI\Icons\DefaultStyle\png\MiningStatus\Error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\MiningStatus\Mining.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\MiningStatus\Ready.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

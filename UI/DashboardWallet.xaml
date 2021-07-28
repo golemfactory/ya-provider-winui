@@ -18,7 +18,7 @@
                 <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Icons/Profit_icon.xaml"/>
-                <ResourceDictionary Source="Icons/Wallet_icon.xaml"/>
+                <ResourceDictionary Source="Icons/DefaultStyle/xaml/Wallet/WalletIcon.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>        
     </UserControl.Resources>

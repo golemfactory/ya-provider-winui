@@ -17,9 +17,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!-- icons begin -->
-                <ResourceDictionary Source="Icons/DefaultStyle/xaml/DashboardMenu/Dashboard_Icon.xaml"/>
-                <ResourceDictionary Source="Icons/DefaultStyle/xaml/DashboardMenu/Settings_Icon.xaml"/>
-                <ResourceDictionary Source="Icons/DefaultStyle/xaml/DashboardMenu/Wallet_Icon.xaml"/>
+                <ResourceDictionary Source="Icons/DefaultStyle/xaml/DashboardMenu/DashboardIcon.xaml"/>
+                <ResourceDictionary Source="Icons/DefaultStyle/xaml/DashboardMenu/SettingsIcon.xaml"/>
+                <ResourceDictionary Source="Icons/DefaultStyle/xaml/DashboardMenu/WalletIcon.xaml"/>
                 <!-- icons end -->
                 
                 <ResourceDictionary Source="Themes/Defaults.xaml"/>

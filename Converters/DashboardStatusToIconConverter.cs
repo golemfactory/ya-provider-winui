@@ -19,13 +19,13 @@ namespace GolemUI.Converters
             {
                 return "";
             }
-            String basePath = "/UI/Icons/Dashboard/Status/";
+            String basePath = "/UI/Icons/DefaultStyle/png/MiningStatus/";
             string file = baseValue switch
             {
-                DashboardStatusEnum.Error => "error",
-                DashboardStatusEnum.Hidden => "ready",
-                DashboardStatusEnum.Ready => "ready",
-                DashboardStatusEnum.Mining => "mining",
+                DashboardStatusEnum.Error => "Error",
+                DashboardStatusEnum.Hidden => "Ready",
+                DashboardStatusEnum.Ready => "Ready",
+                DashboardStatusEnum.Mining => "Mining",
                 _ => "ready"
             };
             string path = basePath + file + ".png";

@@ -13,6 +13,11 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- begin icons --> 
+                <ResourceDictionary Source="Icons/DefaultStyle/xaml/Wallet/WalletIcon.xaml"/>
+                <ResourceDictionary Source="Icons/Profit_icon.xaml"/>
+                <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
+                <!-- end icons -->
                 <ResourceDictionary Source="Themes/Defaults.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
@@ -24,9 +29,7 @@
                 <ResourceDictionary Source="Themes/Buttons/BlueButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
-                <ResourceDictionary Source="Icons/Wallet_icon.xaml"/>
-                <ResourceDictionary Source="Icons/Profit_icon.xaml"/>
-                <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
+                
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
