@@ -1,6 +1,7 @@
 ﻿using GolemUI.Claymore;
 using GolemUI.Interfaces;
 using GolemUI.Settings;
+using GolemUI.Src;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,16 +19,17 @@ namespace GolemUI
         private readonly IProviderConfig _providerConfig;
         private readonly IPriceProvider _priceProvider;
         private readonly IEstimatedProfitProvider _profitEstimator;
-        private readonly Src.BenchmarkService _benchmarkService;
+        private readonly BenchmarkService _benchmarkService;
         private BenchmarkResults? _benchmarkSettings;
-        public Src.BenchmarkService BenchmarkService => _benchmarkService;
-        public ObservableCollection<SingleGpuDescriptor> GpuList { get; set; }
+        public BenchmarkService BenchmarkService => _benchmarkService;
+        public ObservableCollection<ClaymoreGpuStatus>? GpuList { get; set; }
+        public string BenchmarkError { get; set; }
 
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
         public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator)
         {
-            GpuList = new ObservableCollection<SingleGpuDescriptor>();
+            GpuList = new ObservableCollection<ClaymoreGpuStatus>();
             _priceProvider = priceProvider;
             _provider = provider;
             _providerConfig = providerConfig;
@@ -36,6 +38,7 @@ namespace GolemUI
             _benchmarkService.PropertyChanged += OnBenchmarkChanged;
             _profitEstimator = profitEstimator;
             _totalCpusCount = Src.CpuInfo.GetCpuCount(Src.CpuCountMode.Threads);
+            BenchmarkError = "";
 
             ActiveCpusCount = 3;
         }
@@ -90,7 +93,7 @@ namespace GolemUI
             _benchmarkSettings?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null).ToList().ForEach(gpu =>
             {
                 var val = gpu.Value;
-                GpuList?.Add(new SingleGpuDescriptor(val));
+                GpuList?.Add(val);
             });
             NodeName = _providerConfig?.Config?.NodeName;
             var activeCpuCount = _providerConfig?.ActiveCpuCount ?? 0;
@@ -112,17 +115,22 @@ namespace GolemUI
             GpuList?.ToList().ForEach(gpu =>
             {
                 if (IsBenchmarkSettingsCorrupted()) return;
-                var res = _benchmarkSettings?.liveStatus?.GPUs.ToList().Find(x => x.Value.GpuNo == gpu.Id);
+                var res = _benchmarkSettings?.liveStatus?.GPUs.ToList().Find(x => x.Value.GpuNo == gpu.GpuNo);
                 if (res != null && res.HasValue && !res.Equals(default(KeyValuePair<int, Claymore.ClaymoreGpuStatus>)))
                 {
                     KeyValuePair<int, Claymore.ClaymoreGpuStatus> keyVal = res.Value;
-                    keyVal.Value.IsEnabledByUser = gpu.IsActive;
+                    keyVal.Value.IsEnabledByUser = gpu.IsEnabledByUser;
                     keyVal.Value.ClaymorePerformanceThrottling = gpu.ClaymorePerformanceThrottling;
                 }
             });
 
 
             _providerConfig?.UpdateActiveCpuThreadsCount(ActiveCpusCount);
+            var _ls = _benchmarkSettings?.liveStatus;
+            if (_ls != null)
+            {
+                _benchmarkService.Apply(_ls);
+            }
             SettingsLoader.SaveBenchmarkToFile(_benchmarkSettings);
         }
 
@@ -133,17 +141,19 @@ namespace GolemUI
                 var _newGpus = _benchmarkService.Status?.GPUs.Values?.ToArray();
                 //  if (_newGpus.Length == 0) return;
                 if (_benchmarkService.Status?.GPUInfosParsed == true)
-                    if (_newGpus != null)
+                    if (_newGpus != null && GpuList != null)
                     {
                         for (var i = 0; i < _newGpus.Length; ++i)
                         {
                             if (i < GpuList.Count)
                             {
-                                GpuList[i] = new SingleGpuDescriptor(_newGpus[i], GpuList[i].IsActive, GpuList[i].ClaymorePerformanceThrottling);
+                                _newGpus[i].IsEnabledByUser = GpuList[i].IsEnabledByUser;
+                                _newGpus[i].ClaymorePerformanceThrottling = GpuList[i].ClaymorePerformanceThrottling;
+                                GpuList[i] = _newGpus[i];
                             }
                             else
                             {
-                                GpuList.Add(new SingleGpuDescriptor(_newGpus[i]));
+                                GpuList.Add(_newGpus[i]);
                             }
                         }
                         while (_newGpus.Length < GpuList.Count)
@@ -152,11 +162,14 @@ namespace GolemUI
                         }
                     }
 
+                BenchmarkError = _benchmarkService?.Status?.ErrorMsg ?? "";
+
                 NotifyChange("GpuList"); // ok 
                 NotifyChange("HashRate");
                 NotifyChange("ExpectedProfit");
                 NotifyChange("BenchmarkIsRunning");
                 NotifyChange("BenchmarkReadyToRun");
+                NotifyChange("BenchmarkError");
             }
             if (e.PropertyName == "IsRunning")
             {
@@ -164,10 +177,47 @@ namespace GolemUI
                 NotifyChange("BenchmarkIsRunning");
                 NotifyChange("ExpectedProfit");
 
-                if (!BenchmarkIsRunning)
+                if (!BenchmarkIsRunning && _benchmarkService != null)
                 {
                     _benchmarkService.Save();
                     _benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+
+                    var _newGpus = _benchmarkService.Status?.GPUs.Values?.ToArray();
+                    GpuList!.Clear();
+                    if (_benchmarkService.Status?.GPUInfosParsed == true)
+                    {
+                        if (_newGpus != null)
+                        {
+                            for (var i = 0; i < _newGpus.Length; ++i)
+                            {
+                                if (i < GpuList!.Count)
+                                {
+                                    _newGpus[i].IsEnabledByUser = GpuList[i].IsEnabledByUser;
+                                    _newGpus[i].ClaymorePerformanceThrottling = GpuList[i].ClaymorePerformanceThrottling;
+                                    GpuList[i] = _newGpus[i];
+                                }
+                                else
+                                {
+                                    GpuList!.Add(_newGpus[i]);
+                                }
+                            }
+                            while (_newGpus.Length < GpuList.Count)
+                            {
+                                GpuList!.RemoveAt(GpuList.Count - 1);
+                            }
+                        }
+                    }
+                    if (_benchmarkService.Status != null)
+                    {
+                        BenchmarkError = _benchmarkService?.Status?.ErrorMsg ?? "";
+                    }
+                    NotifyChange("GpuList"); // ok 
+                    NotifyChange("HashRate");
+                    NotifyChange("ExpectedProfit");
+                    NotifyChange("BenchmarkIsRunning");
+                    NotifyChange("BenchmarkReadyToRun");
+                    NotifyChange("BenchmarkError");
+
                 }
             }
         }
