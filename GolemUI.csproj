@@ -592,11 +592,8 @@
     <Resource Include="UI\Icons\Setup\benchmark.png" />
     <Resource Include="UI\Icons\Setup\nodeName.png" />
     <Resource Include="UI\Icons\Setup\prepare.png" />
-    <Resource Include="UI\Icons\Setup\prepare.svg" />
     <Resource Include="UI\Icons\Setup\print.png" />
-    <Resource Include="UI\Icons\Setup\print.svg" />
     <Resource Include="UI\Icons\Setup\seed.png" />
-    <Resource Include="UI\Icons\Setup\seed.svg" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Balance_icon.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Card_tick_not_selected.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Card_tick_selected.png" />
@@ -612,10 +609,6 @@
     <Resource Include="UI\Icons\Dashboard\Status\ready.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Supported_by_Golem.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Task_Type.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Nav-icons\Nav_Dashboard_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Nav-icons\Nav_Info_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Nav-icons\Nav_Settings_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Nav-icons\Nav_Wallet_icon.svg" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Create_wallet.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Enjoy.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Hash_power.png" />
