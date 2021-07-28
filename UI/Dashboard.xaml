@@ -17,12 +17,18 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- icons begin -->
+                <ResourceDictionary Source="Icons/DefaultStyle/Dashboard/dashboard.xaml"/>
+                <ResourceDictionary Source="Icons/DefaultStyle/Dashboard/settings.xaml"/>
+                <ResourceDictionary Source="Icons/DefaultStyle/Dashboard/wallet.xaml"/>
+
+                <!-- icons end -->
                 <ResourceDictionary Source="Themes/Defaults.xaml"/>
-            <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
-            <ResourceDictionary Source="Themes/WindowControls.xaml"/>        
-            <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
-            <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
-            <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="Themes/WindowControls.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary>
                     <ContextMenu x:Key="TrayMenu">
                         <MenuItem Header="Show" Command="{commands:ShowWindowCommand}"/>
@@ -57,21 +63,26 @@
                 <DockPanel x:Name="TitleBar" DockPanel.Dock="Top">
                     <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="CloseButton_Click" Style="{DynamicResource CloseWindowButton}"/>
                     <Button x:Name="MinButton" Content="Min" DockPanel.Dock="Right" Click="MinButton_Click" Style="{DynamicResource MinWindowButton}"/>
-                    <TextBlock HorizontalAlignment="Center"> </TextBlock>
+                    <TextBlock HorizontalAlignment="Center"></TextBlock>
                 </DockPanel>
             </DockPanel>
         </Border>
-        <Border x:Name="brdNavigation" BorderBrush="White" Background="#110D39" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 1 0" >
-            <StackPanel>
-                <Button x:Name="btnPage1" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page1Click">
-                    <svgc:SvgViewbox Source="/Media/nav_dashboard.svg"/>
+        <Border x:Name="brdNavigation" BorderBrush="White" Background="#110D39" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 1 0"  Margin="0,40,0,0">
+            <StackPanel >
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Margin" Value="0,40,0,0"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button x:Name="btnPage1" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Click="Page1Click" Padding="0">
+                    <ContentControl Content="{DynamicResource Dashboard_Icon}" />
                 </Button>
-                <Button x:Name="btnPage2" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page2Click">
-                    <svgc:SvgViewbox Source="/Media/nav_settings.svg"/>
+                <Button x:Name="btnPage2" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Click="Page2Click">
+                    <ContentControl Content="{DynamicResource Settings_Icon}" />
                 </Button>
-                <Button x:Name="btnPage6" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Margin="0,40,0,0" Click="Page6Click">
-                    <svgc:SvgViewbox Source="/Media/nav_wallet.svg"/>
-                </Button>                
+                <Button x:Name="btnPage6" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="#110D39" Click="Page6Click">
+                    <ContentControl Content="{DynamicResource Wallet_Icon}"  />
+                </Button>
             </StackPanel>
         </Border>
 
