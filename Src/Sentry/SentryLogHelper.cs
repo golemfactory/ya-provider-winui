@@ -19,7 +19,7 @@ namespace GolemUI
             {
                 PropertySet("", parameterName, parameterValue);
             }
-          
+
         }
         public static class Setup
         {

@@ -13,7 +13,7 @@ namespace GolemUI
     {
         private readonly IProcessControler _processControler;
         private readonly Src.BenchmarkService _benchmarkService;
-        public string YagnaId = ""; 
+        public string YagnaId = "";
         private string _LastBenchmarkError = "";
         Stopwatch _stopwatch = new Stopwatch();
         public SentryAdditionalDataIngester(Interfaces.IProcessControler processControler, Src.BenchmarkService benchmarkService)
@@ -65,7 +65,7 @@ namespace GolemUI
                     }
                     benchmarkData.Add("ELAPSED TIME [MS]", _stopwatch.ElapsedMilliseconds.ToString());
                     _stopwatch.Stop();
-                    
+
                     SentrySdk.AddBreadcrumb(message: "Benchmark stopped ", data: benchmarkData, category: "event", level: BreadcrumbLevel.Info);
                     Sentry.Setup.Log("> SetupWindow > Benchmark Finished");
                 }

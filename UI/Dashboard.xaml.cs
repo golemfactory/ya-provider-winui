@@ -154,7 +154,7 @@ namespace GolemUI
 
         public void SwitchPage(DashboardPages page)
         {
-            Sentry.Dashboard.Log("SwitchPage - "+page.ToString());
+            Sentry.Dashboard.Log("SwitchPage - " + page.ToString());
 
             if (page == _pageSelected) return;
 
@@ -187,14 +187,14 @@ namespace GolemUI
 
         public void BlockNavigation()
         {
-            
+
             btnPage1.IsEnabled = false;
             btnPage2.IsEnabled = false;
             //btnPage4.IsEnabled = false;
         }
         public void ResumeNavigation()
         {
-            
+
             btnPage1.IsEnabled = true;
             btnPage2.IsEnabled = true;
             //btnPage4.IsEnabled = true;
@@ -222,7 +222,7 @@ namespace GolemUI
         private bool _forceExit = false;
         public void RequestClose(bool isAlreadyClosing = false)
         {
-            Sentry.Dashboard.Log("RequestClose", "isAlreadyClosing",isAlreadyClosing.ToString());
+            Sentry.Dashboard.Log("RequestClose", "isAlreadyClosing", isAlreadyClosing.ToString());
             if (_processControler.IsProviderRunning)
             {
                 _processControler.Stop();

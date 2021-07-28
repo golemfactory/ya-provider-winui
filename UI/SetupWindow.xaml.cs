@@ -61,7 +61,7 @@ namespace GolemUI.UI
 
 
         private readonly IServiceProvider _serviceProvider;
-        
+
         protected ViewModel.SetupViewModel? Model => DataContext as ViewModel.SetupViewModel;
 
         public SetupWindow(ViewModel.SetupViewModel model, IServiceProvider serviceProvider)
@@ -73,9 +73,9 @@ namespace GolemUI.UI
 
         }
 
-       
 
-        internal void EnableBlur() 
+
+        internal void EnableBlur()
         {
             var windowHelper = new WindowInteropHelper(this);
 
@@ -242,6 +242,6 @@ namespace GolemUI.UI
             EnableBlur();
         }
 
-       
+
     }
 }
