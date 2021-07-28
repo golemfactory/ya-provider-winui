@@ -286,7 +286,8 @@
     <Compile Include="Notifications\CloseWindowCommand.cs" />
     <Compile Include="Notifications\CommandBase.cs" />
     <Compile Include="Notifications\ShowSampleWindowCommand.cs" />
-    <Compile Include="Src\SentryAdditionalData.cs" />
+    <Compile Include="Src\Sentry\SentryLogHelper.cs" />
+    <Compile Include="Src\Sentry\SentryAdditionalData.cs" />
     <Compile Include="Src\BenchmarkService.cs" />
     <Compile Include="Src\CoinGeckoPriceProvider.cs" />
     <Compile Include="Src\CpuInfo.cs" />
