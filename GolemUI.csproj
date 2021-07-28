@@ -141,30 +141,6 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SharpVectors.Converters.Wpf, Version=1.7.5.0, Culture=neutral, PublicKeyToken=b532964b8548be77, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Converters.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Core, Version=1.7.5.0, Culture=neutral, PublicKeyToken=7407205e337c98ef, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Css, Version=1.7.5.0, Culture=neutral, PublicKeyToken=7a46e3f532fdb787, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Css.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Dom, Version=1.7.5.0, Culture=neutral, PublicKeyToken=517340b6277b1a7a, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Dom.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Model, Version=1.7.5.0, Culture=neutral, PublicKeyToken=2236cfc76b505845, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Model.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Rendering.Gdi, Version=1.7.5.0, Culture=neutral, PublicKeyToken=03902092284347e3, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Rendering.Gdi.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Rendering.Wpf, Version=1.7.5.0, Culture=neutral, PublicKeyToken=d0902381100df30e, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Rendering.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Runtime.Wpf, Version=1.7.5.0, Culture=neutral, PublicKeyToken=d16e717f0a981fb9, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.5\lib\net47\SharpVectors.Runtime.Wpf.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -290,12 +266,6 @@
     <Compile Include="UI\DashboardAdvancedSettings.xaml.cs">
       <DependentUpon>DashboardAdvancedSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\DashboardBenchmark.xaml.cs">
-      <DependentUpon>DashboardBenchmark.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\DashboardDetails.xaml.cs">
-      <DependentUpon>DashboardDetails.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\DashboardMain.xaml.cs">
       <DependentUpon>DashboardMain.xaml</DependentUpon>
     </Compile>
@@ -362,14 +332,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\DashboardBenchmark.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\DashboardDetails.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\DashboardMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -402,6 +364,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\DashboardIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\SettingsIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\WalletIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Icons\Nav_Dashboard_icon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -422,7 +396,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\SetupResources.xaml">
+    <Page Include="UI\Icons\DefaultStyle\xaml\SetupWindow\SetupResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -446,11 +420,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\Wallet_icon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Icons\_GPU_icon.xaml">
+    <Page Include="UI\Icons\DefaultStyle\xaml\Wallet\WalletIcon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -587,123 +557,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UI\seed_phrase_2.png" />
-    <Resource Include="UI\prepare.png" />
     <Resource Include="UI\init.png" />
-    <Resource Include="UI\seed_phrase_1.png" />
-    <Resource Include="UI\Icons\Dashboard\Status\error.png" />
     <Resource Include="UI\Icons\Settings\CPU_icon_new.png" />
     <Resource Include="UI\Icons\Settings\GPU_icon_new.png" />
-    <Resource Include="UI\Icons\Setup\Enjoy.png" />
-    <Resource Include="UI\Icons\Setup\Use_my_wallet.png" />
-    <Resource Include="Media\balance.svg" />
-    <Resource Include="Media\content-copy.svg" />
-    <Resource Include="Media\cpu.svg" />
-    <Resource Include="Media\gpu.svg" />
-    <Resource Include="Media\nav_dashboard.svg" />
-    <Resource Include="Media\nav_settings.svg" />
-    <Resource Include="Media\nav_wallet.svg" />
-    <Resource Include="Media\onboarding\begginer.svg" />
-    <Resource Include="Media\onboarding\create_wallet.svg" />
-    <Resource Include="Media\onboarding\experienced.svg" />
-    <Resource Include="Media\onboarding\hash_power.svg" />
-    <Resource Include="Media\onboarding\name_node.svg" />
-    <Resource Include="Media\onboarding\prepare.svg" />
-    <Resource Include="Media\onboarding\use_my_wallet.svg" />
-    <Resource Include="Media\onboarding\wallet_info.svg" />
-    <Resource Include="Media\profit.svg" />
-    <Resource Include="Media\SetV1\Balance_icon.svg" />
-    <Resource Include="Media\SetV1\CPU_icon.svg" />
-    <Resource Include="Media\SetV1\GPU_icon.svg" />
-    <Resource Include="Media\SetV1\Nav_Dashboard_icon.svg" />
-    <Resource Include="Media\SetV1\Nav_Info_icon.svg" />
-    <Resource Include="Media\SetV1\Nav_Settings_icon.svg" />
-    <Resource Include="Media\SetV1\Nav_Wallet_icon.svg" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Enjoy.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\UseMyWallet.png" />
     <Resource Include="Media\golem.ico" />
-    <Resource Include="Media\Screenshots\seed_phrase_1.png" />
-    <Resource Include="Media\Screenshots\init.png" />
-    <Resource Include="Media\SetV1\Onboarding\Create_wallet.svg" />
-    <Resource Include="Media\SetV1\Onboarding\Enjoy.svg" />
-    <Resource Include="Media\SetV1\Onboarding\Hash_power.svg" />
-    <Resource Include="Media\SetV1\Onboarding\I_am_experienced.svg" />
-    <Resource Include="Media\SetV1\Onboarding\I_want_to_learn.svg" />
-    <Resource Include="Media\SetV1\Onboarding\Name_node.svg" />
-    <Resource Include="Media\SetV1\Onboarding\Prepare.svg" />
-    <Resource Include="Media\SetV1\Onboarding\Printer.svg" />
-    <Resource Include="Media\SetV1\Onboarding\Use_my_wallet.svg" />
-    <Resource Include="Media\SetV1\Onboarding\Wallet_info.svg" />
-    <Resource Include="Media\SetV1\Profit_icon.svg" />
-    <Resource Include="Media\SetV1\Status_Card_error.svg" />
-    <Resource Include="Media\SetV1\Status_Golem_Task_icon.svg" />
-    <Resource Include="Media\SetV1\Status_Mining_icon.svg" />
-    <Resource Include="Media\SetV1\Status_Ready_icon.svg" />
-    <Resource Include="Media\SetV1\Task_Type.svg" />
     <Resource Include="Media\tray.ico" />
-    <Resource Include="UI\Icons\Common\edit.png" />
     <Resource Include="UI\Icons\Settings\GPU_icon.png" />
-    <Resource Include="UI\Icons\Setup\benchmark.png" />
-    <Resource Include="UI\Icons\Setup\nodeName.png" />
-    <Resource Include="UI\Icons\Setup\prepare.png" />
-    <Resource Include="UI\Icons\Setup\prepare.svg" />
-    <Resource Include="UI\Icons\Setup\print.png" />
-    <Resource Include="UI\Icons\Setup\print.svg" />
-    <Resource Include="UI\Icons\Setup\seed.png" />
-    <Resource Include="UI\Icons\Setup\seed.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Balance_icon.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Card_tick_not_selected.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Card_tick_selected.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Copy_icon.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\CPU_icon_new.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Edit_icon.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\GPU_icon_new.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Profit_icon.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Select_down_arrow.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_error.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_ready.png" />
-    <Resource Include="UI\Icons\Dashboard\Status\mining.png" />
-    <Resource Include="UI\Icons\Dashboard\Status\ready.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Supported_by_Golem.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Task_Type.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Balance_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Card_tick_not_selected.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Card_tick_selected.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Copy_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\CPU_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Edit_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\GPU_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Nav_Info_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Profit_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Select_down_arrow.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Status_Card_error.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Status_Card_ready.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Status_Mining_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Status_Ready_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Supported_by_Golem.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\SVG\Task_Type.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Nav-icons\Nav_Dashboard_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Nav-icons\Nav_Info_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Nav-icons\Nav_Settings_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Nav-icons\Nav_Wallet_icon.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Create_wallet.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Enjoy.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Hash_power.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\I_am_experienced.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\I_want_to_learn.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Name_node.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Prepare.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Printer.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Use_my_wallet.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Wallet_info.png" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Create_wallet.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Enjoy.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Hash_power.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\I_am_experienced.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\I_want_to_learn.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Name_node.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Prepare.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Printer.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Use_my_wallet.svg" />
-    <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\SVG\Wallet_info.svg" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Benchmark.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\NodeName.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Prepare.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Print.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Seed.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -719,6 +585,16 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\MiningStatus\Error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\MiningStatus\Mining.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\MiningStatus\Ready.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:lv="clr-namespace:GolemUI.DesignViewModel"
              d:DataContext="{d:DesignInstance Type=lv:DashboardViewModel, IsDesignTimeCreatable=True}"
-             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d"
              FontFamily="Segoe UI" d:DesignHeight="450" d:DesignWidth="850"
@@ -14,6 +13,11 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- begin icons --> 
+                <ResourceDictionary Source="Icons/DefaultStyle/xaml/Wallet/WalletIcon.xaml"/>
+                <ResourceDictionary Source="Icons/Profit_icon.xaml"/>
+                <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
+                <!-- end icons -->
                 <ResourceDictionary Source="Themes/Defaults.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
@@ -25,9 +29,7 @@
                 <ResourceDictionary Source="Themes/Buttons/BlueButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
-                <ResourceDictionary Source="Icons/Wallet_icon.xaml"/>
-                <ResourceDictionary Source="Icons/Profit_icon.xaml"/>
-                <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
+                
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
