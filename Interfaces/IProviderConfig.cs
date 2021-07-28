@@ -22,6 +22,6 @@ namespace GolemUI.Interfaces
         void UpdateWalletAddress(string? walletAddress = null);
         void UpdateNodeName(string? value);
 
-        Task Prepare();
+        Task Prepare(bool isGpuCapable);
     }
 }
