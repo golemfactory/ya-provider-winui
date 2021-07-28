@@ -57,14 +57,6 @@ namespace GolemUI.Claymore
         }
 
         [JsonIgnore]
-        public bool _inProgress { get; set; }
-        [JsonIgnore]
-        public bool InProgress
-        {
-            get { return !IsReadyForMining && !IsOperationStopped; }
-        }
-
-        [JsonIgnore]
         public string ClaymorePerformanceThrottlingDebug => "(debug: " + ClaymorePerformanceThrottling + ") ";
 
         [JsonIgnore]
@@ -93,7 +85,7 @@ namespace GolemUI.Claymore
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void SetStepInitialization()
         {

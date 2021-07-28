@@ -76,7 +76,7 @@ namespace GolemUI
 
             dashboardMain.Model.LoadData();
 
-            GlobalApplicationState.Instance.Dashboard = this;
+            GlobalApplicationState.Instance!.Dashboard = this;
 
             foreach (var pair in _pages)
             {

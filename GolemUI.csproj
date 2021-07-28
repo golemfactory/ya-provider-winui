@@ -257,7 +257,6 @@
     <Compile Include="Model\claymorePerformanceThrottlingEnum.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
-    <Compile Include="Model\SingleGpuDescriptor.cs" />
     <Compile Include="Model\WalletState.cs" />
     <Compile Include="Notifications\CloseWindowCommand.cs" />
     <Compile Include="Notifications\CommandBase.cs" />

@@ -331,7 +331,6 @@ namespace GolemUI
                 _provider.AddPreset(preset, out args, out info);
                 ConfigurationInfoDebug += "Add preset claymore mining: \nargs:\n" + args + "\nresponse:\n" + info;
                 string result = _provider.ActivatePreset(preset.Name);
-                MessageBox.Show(result);
             }
 
             {
