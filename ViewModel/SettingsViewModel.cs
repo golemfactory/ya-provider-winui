@@ -173,10 +173,10 @@ namespace GolemUI
                 NotifyChange("ExpectedProfit");
 
                 if (!BenchmarkIsRunning && _benchmarkService != null)
-                { 
+                {
                     _benchmarkService.Save();
                     _benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
-                    
+
                     var _newGpus = _benchmarkService.Status?.GPUs.Values?.ToArray();
                     GpuList!.Clear();
                     if (_benchmarkService.Status?.GPUInfosParsed == true)
