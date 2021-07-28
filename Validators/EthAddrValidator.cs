@@ -18,7 +18,7 @@ namespace GolemUI.Validators
             var text = value as string;
             if (text == null)
             {
-                return ValidationResult.ValidResult;
+                return new ValidationResult(false, "Address can't be null");
             }
             var reBasicAddress = new Regex("^0x[0-9a-f]{40}$", RegexOptions.IgnoreCase);
             if (!reBasicAddress.Match(text).Success)
