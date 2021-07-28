@@ -125,7 +125,7 @@ namespace GolemUI.ViewModel
 
         public async void Start()
         {
-            await _processController.Start();
+            await _processController.Start(_providerConfig.Network);
         }
 
         private void OnPropertyChanged(string? propertyName)

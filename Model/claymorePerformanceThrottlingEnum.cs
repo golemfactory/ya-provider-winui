@@ -9,9 +9,10 @@ namespace GolemUI
     public enum PerformanceThrottlingEnum
     {
         Maximum = 0,
-        Medium = 5,
-        Comfort = 10,
-        Minimum = 100
+        High = 10,
+        Medium = 100,
+        Low = 200,
+        Minimum = 400,
     };
 
     static class PerformanceThrottlingEnumConverter
@@ -21,10 +22,11 @@ namespace GolemUI
             return value switch
             {
                 0 => PerformanceThrottlingEnum.Maximum,
-                5 => PerformanceThrottlingEnum.Medium,
-                10 => PerformanceThrottlingEnum.Comfort,
-                100 => PerformanceThrottlingEnum.Minimum,
-                _ => PerformanceThrottlingEnum.Comfort,
+                10 => PerformanceThrottlingEnum.High,
+                100 => PerformanceThrottlingEnum.Medium,
+                200 => PerformanceThrottlingEnum.Low,
+                400 => PerformanceThrottlingEnum.Minimum,
+                _ => PerformanceThrottlingEnum.High,
             };
         }
         public static string ConvertToString(PerformanceThrottlingEnum value)
@@ -32,8 +34,9 @@ namespace GolemUI
             return value switch
             {
                 PerformanceThrottlingEnum.Maximum => "Maximum",
+                PerformanceThrottlingEnum.High => "High",
                 PerformanceThrottlingEnum.Medium => "Medium",
-                PerformanceThrottlingEnum.Comfort => "Comfort",
+                PerformanceThrottlingEnum.Low => "Low",
                 PerformanceThrottlingEnum.Minimum => "Minimum",
                 _ => "Undefined"
             };
@@ -43,10 +46,11 @@ namespace GolemUI
             return value switch
             {
                 "Maximum" => PerformanceThrottlingEnum.Maximum,
+                "High" => PerformanceThrottlingEnum.High,
                 "Medium" => PerformanceThrottlingEnum.Medium,
-                "Comfort" => PerformanceThrottlingEnum.Comfort,
+                "Low" => PerformanceThrottlingEnum.Low,
                 "Minimum" => PerformanceThrottlingEnum.Minimum,
-                _ => PerformanceThrottlingEnum.Comfort,
+                _ => PerformanceThrottlingEnum.High,
             };
 
         }
