@@ -2,19 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using GolemUI.Interfaces;
 using Sentry;
 
 namespace GolemUI
 {
-    public class SentryAdditionalData
+    public class SentryAdditionalDataIngester
     {
         private readonly IProcessControler _processControler;
         private readonly Src.BenchmarkService _benchmarkService;
         public string YagnaId = ""; 
         private string _LastBenchmarkError = "";
-        public SentryAdditionalData(Interfaces.IProcessControler processControler, Src.BenchmarkService benchmarkService)
+        Stopwatch _stopwatch = new Stopwatch();
+        public SentryAdditionalDataIngester(Interfaces.IProcessControler processControler, Src.BenchmarkService benchmarkService)
         {
             _processControler = processControler;
             _benchmarkService = benchmarkService;
@@ -43,6 +45,8 @@ namespace GolemUI
             {
                 if (_benchmarkService.IsRunning)
                 {
+                    _stopwatch.Reset();
+                    _stopwatch.Start();
                     _LastBenchmarkError = "";
                     SentrySdk.AddBreadcrumb(message: "Benchmark started ", category: "event", level: BreadcrumbLevel.Info);
                 }
@@ -52,13 +56,16 @@ namespace GolemUI
                     var gpus = _benchmarkService.Status?.GPUs.Values?.ToArray();
                     foreach (var gpu in gpus)
                     {
-                        benchmarkData.Add(" GPU #" + gpu.GpuNo + " PCIE", gpu.PciExpressLane.ToString());
-                        benchmarkData.Add(" GPU #" + gpu.GpuNo + " name", gpu.GpuName);
-                        benchmarkData.Add(" GPU #" + gpu.GpuNo + " details", gpu.GPUDetails);
-                        benchmarkData.Add(" GPU #" + gpu.GpuNo + " speed", gpu.BenchmarkSpeed.ToString());
-                        benchmarkData.Add(" GPU #" + gpu.GpuNo + " gpu throttling", gpu.ClaymorePerformanceThrottling.ToString());
+                        benchmarkData.Add("GPU #" + gpu.GpuNo + " PCIE", gpu.PciExpressLane.ToString());
+                        benchmarkData.Add("GPU #" + gpu.GpuNo + " name", gpu.GpuName);
+                        benchmarkData.Add("GPU #" + gpu.GpuNo + " details", gpu.GPUDetails);
+                        benchmarkData.Add("GPU #" + gpu.GpuNo + " speed", gpu.BenchmarkSpeed.ToString());
+                        benchmarkData.Add("GPU #" + gpu.GpuNo + " gpu throttling", gpu.ClaymorePerformanceThrottling.ToString());
 
                     }
+                    benchmarkData.Add("ELAPSED TIME [MS]", _stopwatch.ElapsedMilliseconds.ToString());
+                    _stopwatch.Stop();
+                    
                     SentrySdk.AddBreadcrumb(message: "Benchmark stopped ", data: benchmarkData, category: "event", level: BreadcrumbLevel.Info);
                     Sentry.Setup.Log("> SetupWindow > Benchmark Finished");
                 }

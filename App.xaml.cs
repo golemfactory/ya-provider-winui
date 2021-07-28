@@ -84,7 +84,7 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
             services.AddSingleton<Src.BenchmarkService>();
 
-            services.AddTransient(typeof(SentryAdditionalData));
+            services.AddTransient(typeof(SentryAdditionalDataIngester));
             services.AddTransient(typeof(DashboardWallet));
             services.AddTransient(typeof(ViewModel.WalletViewModel));
             services.AddTransient(typeof(ViewModel.DashboardMainViewModel));
@@ -108,7 +108,7 @@ namespace GolemUI
                 this.Shutdown();
                 return;
             }
-            var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalData>();
+            var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
             var args = e.Args;
             if ((args.Length > 0 && args[0] == "setup") || !GolemUI.Properties.Settings.Default.Configured)
             {

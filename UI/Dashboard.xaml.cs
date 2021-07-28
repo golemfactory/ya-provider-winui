@@ -91,10 +91,13 @@ namespace GolemUI
             _pages[_pageSelected].View.Opacity = 1.0f;
 
             singleInstanceLock.ActivateEvent += OnAppReactivate;
+
+            Sentry.Dashboard.Log("constructor");
         }
 
         private void OnAppReactivate(object sender)
         {
+            Sentry.Dashboard.Log("OnAppReactivate");
             Dispatcher.Invoke(() =>
             {
                 WindowState = WindowState.Normal;
@@ -151,6 +154,8 @@ namespace GolemUI
 
         public void SwitchPage(DashboardPages page)
         {
+            Sentry.Dashboard.Log("SwitchPage - "+page.ToString());
+
             if (page == _pageSelected) return;
 
             _pages.ToList().Where(x => x.Key != _pageSelected && x.Key != page).ToList().ForEach(x => x.Value.Clear());
@@ -182,12 +187,14 @@ namespace GolemUI
 
         public void BlockNavigation()
         {
+            
             btnPage1.IsEnabled = false;
             btnPage2.IsEnabled = false;
             //btnPage4.IsEnabled = false;
         }
         public void ResumeNavigation()
         {
+            
             btnPage1.IsEnabled = true;
             btnPage2.IsEnabled = true;
             //btnPage4.IsEnabled = true;
@@ -215,6 +222,7 @@ namespace GolemUI
         private bool _forceExit = false;
         public void RequestClose(bool isAlreadyClosing = false)
         {
+            Sentry.Dashboard.Log("RequestClose", "isAlreadyClosing",isAlreadyClosing.ToString());
             if (_processControler.IsProviderRunning)
             {
                 _processControler.Stop();
@@ -228,6 +236,7 @@ namespace GolemUI
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            Sentry.Dashboard.Log("Window_Closing");
             if (_forceExit)
             {
                 return;
@@ -250,12 +259,13 @@ namespace GolemUI
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Sentry.Dashboard.Log("Window_Loaded");
             await Task.WhenAll(_providerConfig.Prepare(), _processControler.Prepare());
-
         }
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
         {
+            Sentry.Dashboard.Log("MinButton_Click");
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
 
             if (ls.MinimizeToTrayOnMinimize)
@@ -272,6 +282,7 @@ namespace GolemUI
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
+            Sentry.Dashboard.Log("CloseButton_Click");
             this.Close();
         }
 
