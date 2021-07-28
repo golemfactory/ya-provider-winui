@@ -267,12 +267,6 @@
     <Compile Include="UI\DashboardAdvancedSettings.xaml.cs">
       <DependentUpon>DashboardAdvancedSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\DashboardBenchmark.xaml.cs">
-      <DependentUpon>DashboardBenchmark.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\DashboardDetails.xaml.cs">
-      <DependentUpon>DashboardDetails.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\DashboardMain.xaml.cs">
       <DependentUpon>DashboardMain.xaml</DependentUpon>
     </Compile>
@@ -339,14 +333,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\DashboardBenchmark.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\DashboardDetails.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\DashboardMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -379,15 +365,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\Dashboard_Icon.xaml">
+    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\DashboardIcon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\Settings_Icon.xaml">
+    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\SettingsIcon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\Wallet_Icon.xaml">
+    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\WalletIcon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -411,7 +397,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\DefaultStyle\xaml\SetupWindow\Setup_Resources.xaml">
+    <Page Include="UI\Icons\DefaultStyle\xaml\SetupWindow\SetupResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -435,7 +421,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\Wallet_icon.xaml">
+    <Page Include="UI\Icons\DefaultStyle\xaml\Wallet\WalletIcon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -576,24 +562,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UI\seed_phrase_2.png" />
-    <Resource Include="UI\prepare.png" />
     <Resource Include="UI\init.png" />
-    <Resource Include="UI\seed_phrase_1.png" />
     <Resource Include="UI\Icons\DashboardMenu\Status\error.png" />
     <Resource Include="UI\Icons\Settings\CPU_icon_new.png" />
     <Resource Include="UI\Icons\Settings\GPU_icon_new.png" />
-    <Resource Include="UI\Icons\Setup\Enjoy.png" />
-    <Resource Include="UI\Icons\Setup\Use_my_wallet.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Enjoy.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\UseMyWallet.png" />
     <Resource Include="Media\golem.ico" />
     <Resource Include="Media\tray.ico" />
     <Resource Include="UI\Icons\Common\edit.png" />
     <Resource Include="UI\Icons\Settings\GPU_icon.png" />
-    <Resource Include="UI\Icons\Setup\benchmark.png" />
-    <Resource Include="UI\Icons\Setup\nodeName.png" />
-    <Resource Include="UI\Icons\Setup\prepare.png" />
-    <Resource Include="UI\Icons\Setup\print.png" />
-    <Resource Include="UI\Icons\Setup\seed.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Benchmark.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\NodeName.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Prepare.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Print.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Seed.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Balance_icon.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Card_tick_not_selected.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Card_tick_selected.png" />
@@ -635,6 +618,8 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UI\Icons\Setup\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -27,10 +27,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!-- icons begin -->
-                <ResourceDictionary Source="Icons/DefaultStyle/xaml/SetupWindow/SetupResources.xaml"/>
-                <ResourceDictionary Source="Icons/Wallet_Icon.xaml"/>
-                <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
-                <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
+                <ResourceDictionary Source="/Ui/Icons/DefaultStyle/xaml/SetupWindow/SetupResources.xaml"/>
+                <ResourceDictionary Source="/Ui/Icons/DefaultStyle/xaml/Wallet/WalletIcon.xaml"/>
+                <ResourceDictionary Source="/Ui/Icons/Status_Card_error.xaml"/>
+                <ResourceDictionary Source="/Ui/Icons/Status_Ready_icon.xaml"/>
                 <!-- icons end -->
                 <ResourceDictionary Source="Themes/Defaults.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
