@@ -18,6 +18,7 @@ using Sentry;
 namespace GolemUI.UI
 {
 
+
     internal enum AccentState
     {
         ACCENT_DISABLED = 1,
@@ -60,6 +61,7 @@ namespace GolemUI.UI
 
 
         private readonly IServiceProvider _serviceProvider;
+        private string _LastBenchmarkError = "";
         protected ViewModel.SetupViewModel? Model => DataContext as ViewModel.SetupViewModel;
 
         public SetupWindow(ViewModel.SetupViewModel model, IServiceProvider serviceProvider)
@@ -68,15 +70,45 @@ namespace GolemUI.UI
             InitializeComponent();
             DataContext = model;
 
-            SentrySdk.CaptureMessage("> Setup Window");
+            SentryUiEntry("> Setup Window");
 
-            try
+
+            Model.BenchmarkService.PropertyChanged += BenchmarkService_PropertyChanged;
+
+        }
+
+        private void BenchmarkService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsRunning")
             {
-                throw null;
+                if (Model.BenchmarkService.IsRunning)
+                {
+                    _LastBenchmarkError = "";
+                    SentrySdk.AddBreadcrumb(message: "Benchmark started ", data: new Dictionary<string, string>() { { "Address", Model.Address } }, category: "event", level: BreadcrumbLevel.Info);
+                }
+                else
+                {
+                    var benchmarkData = new Dictionary<string, string>() { { "Total hashrate", Model.BenchmarkService.TotalMhs.ToString() } };
+                    var gpus = Model.BenchmarkService.Status?.GPUs.Values?.ToArray();
+                    foreach (var gpu in gpus)
+                    {
+                        benchmarkData.Add(" GPU #" + gpu.GpuNo + " PCIE", gpu.PciExpressLane.ToString());
+                        benchmarkData.Add(" GPU #" + gpu.GpuNo + " name", gpu.GpuName);
+                        benchmarkData.Add(" GPU #" + gpu.GpuNo + " details", gpu.GPUDetails);
+                        benchmarkData.Add(" GPU #" + gpu.GpuNo + " speed", gpu.BenchmarkSpeed.ToString());
+
+                    }
+                    SentrySdk.AddBreadcrumb(message: "Benchmark stopped ", data: benchmarkData, category: "event", level: BreadcrumbLevel.Info);
+                }
             }
-            catch (Exception ex)
+            if (e.PropertyName == "Status")
             {
-                SentrySdk.CaptureException(ex);
+                if (Model.BenchmarkService.Status != null)
+                {
+                    var benchmarkError = Model.BenchmarkService.Status.ErrorMsg;
+                    if (_LastBenchmarkError != benchmarkError && benchmarkError != null)
+                        SentrySdk.AddBreadcrumb(message: "Benchmark error ", data: new Dictionary<string, string>() { { "Error", benchmarkError } }, category: "event", level: BreadcrumbLevel.Info);
+                }
             }
         }
 
@@ -108,7 +140,9 @@ namespace GolemUI.UI
 
         private void MinimizeApp(object sender, RoutedEventArgs e)
         {
+            SentryUiEntry("> Setup Window > App Minimized");
             WindowState = WindowState.Minimized;
+
         }
 
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -121,28 +155,37 @@ namespace GolemUI.UI
 
         private void WantToLearn_Click(object sender, RoutedEventArgs e)
         {
+            SentryUiEntry("> SetupWindow > WantToLearn_Click");
             Model!.GoToNoobFlow();
+
         }
 
         private void ExpertMode_Click(object sender, RoutedEventArgs e)
         {
+            SentryUiEntry("> SetupWindow > ExpertMode_Click");
             Model!.GoToExpertMode();
+
         }
 
 
         private void OnWTLStep1(object sender, RoutedEventArgs e)
         {
+            SentryUiEntry("> SetupWindow > OnWTLStep1");
             Model!.NoobStep = 1;
+
         }
 
         // Genetate Seed
         private void OnWTLStep2(object sender, RoutedEventArgs e)
         {
+            SentryUiEntry("> SetupWindow > OnWTLStep2");
             Model!.GenerateSeed();
+
         }
 
         private void OnWTLStep3Print(object sender, RoutedEventArgs e)
         {
+            SentryUiEntry("> SetupWindow > OnWTLStep3Print");
             var printDlg = new PrintDialog();
             var table = new Table();
             var rg = new TableRowGroup();
@@ -176,11 +219,15 @@ namespace GolemUI.UI
 
         private /*async*/ void OnWTLStep3Next(object sender, RoutedEventArgs e)
         {
+            SentryUiEntry("> SetupWindow > ActivateHdWallet");
             Model!.ActivateHdWallet();
         }
 
         private void OnWTLStep4Next(object sender, RoutedEventArgs e)
         {
+            SentrySdk.AddBreadcrumb(message: "Nodename set ", data: new Dictionary<string, string>() { { "NodeName", Model.NodeName } }, category: "property set", level: BreadcrumbLevel.Info);
+            SentryUiEntry("> SetupWindow > OnWTLStep4Next");
+
             Model!.NoobStep = 4;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnum.High;
             Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "", null);
@@ -188,11 +235,13 @@ namespace GolemUI.UI
 
         private void OnCancelNoobFlow(object sender, RoutedEventArgs e)
         {
+            SentryUiEntry("> SetupWindow > OnCancelNoobFlow");
             Model!.Flow = 0;
         }
 
         private void OnNoobFinish(object sender, RoutedEventArgs e)
         {
+            SentryUiEntry("> SetupWindow > OnNoobFinish");
             Model!.Save();
             var wnd = _serviceProvider.GetService(typeof(GolemUI.Dashboard)) as GolemUI.Dashboard;
             wnd?.Show();
@@ -201,31 +250,44 @@ namespace GolemUI.UI
 
         private void OnChooseNewWallet(object sender, RoutedEventArgs e)
         {
+            SentryUiEntry("> SetupWindow > OnChooseNewWallet");
             Model!.NoobStep = (int)ViewModel.SetupViewModel.NoobSteps.Prepare;
             Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.Noob;
         }
 
         private void OnChooseOwnWallet(object sender, RoutedEventArgs e)
         {
+            SentryUiEntry("> SetupWindow > OnChooseOwnWallet");
             Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.OwnWallet;
         }
 
         private void OnEMWalletStepDone(object sender, RoutedEventArgs e)
         {
+            SentrySdk.AddBreadcrumb(message: "Address set ", data: new Dictionary<string, string>() { { "Address", Model.Address } }, category: "property set", level: BreadcrumbLevel.Info);
+            SentryUiEntry("> SetupWindow > OnEMWalletStepDone");
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Name;
         }
 
         private void OnEMNameStepDone(object sender, RoutedEventArgs e)
         {
+            SentrySdk.AddBreadcrumb(message: "Nodename set ", data: new Dictionary<string, string>() { { "NodeName", Model.NodeName } }, category: "property set", level: BreadcrumbLevel.Info);
+            SentryUiEntry("> SetupWindow > OnEMNameStepDone");
+
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnum.High;
-
             Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "", null);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            SentryUiEntry("> SetupWindow > Window_Loaded");
             EnableBlur();
+        }
+
+        void SentryUiEntry(String msg)
+        {
+            SentrySdk.CaptureMessage(msg);
+            SentrySdk.AddBreadcrumb(message: msg, category: "setup window", level: BreadcrumbLevel.Info);
         }
     }
 }

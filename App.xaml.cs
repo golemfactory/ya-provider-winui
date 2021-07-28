@@ -18,6 +18,7 @@ using Sentry;
 
 namespace GolemUI
 {
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -36,10 +37,18 @@ namespace GolemUI
 
                   o.Dsn = "https://3210d81dbe2042d0a1adce29072b26d7@o921571.ingest.sentry.io/5881077";
                   o.Debug = true; //todo: change to false for production release
-                o.TracesSampleRate = 1.0; //todo: probably should change in future ?
-            }));
+                  o.TracesSampleRate = 1.0; //todo: probably should change in future ?
+              }));
 
-            
+            SentrySdk.ConfigureScope(scope =>
+            {
+                scope.Contexts["user_data"] = new
+                {
+                    UserName = Environment.UserName
+                };
+            });
+
+
 
             _childProcessManager = new GolemUI.ChildProcessManager();
             _childProcessManager.AddProcess(Process.GetCurrentProcess());
@@ -50,7 +59,7 @@ namespace GolemUI
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
-            SentrySdk.CaptureMessage("> App constructor",SentryLevel.Info);
+            SentrySdk.CaptureMessage("> App constructor", SentryLevel.Info);
 
         }
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -75,6 +84,7 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
             services.AddSingleton<Src.BenchmarkService>();
 
+            services.AddTransient(typeof(SentryAdditionalData));
             services.AddTransient(typeof(DashboardWallet));
             services.AddTransient(typeof(ViewModel.WalletViewModel));
             services.AddTransient(typeof(ViewModel.DashboardMainViewModel));
@@ -98,7 +108,7 @@ namespace GolemUI
                 this.Shutdown();
                 return;
             }
-
+            var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalData>();
             var args = e.Args;
             if ((args.Length > 0 && args[0] == "setup") || !GolemUI.Properties.Settings.Default.Configured)
             {
@@ -110,6 +120,7 @@ namespace GolemUI
 
             try
             {
+
                 var dashboardWindow = _serviceProvider!.GetRequiredService<Dashboard>();
                 if (GlobalApplicationState.Instance != null)
                 {
@@ -118,6 +129,9 @@ namespace GolemUI
                     dashboardWindow.Show();
 #if DEBUG
                     StartDebugWindow();
+
+
+
 #endif
                 }
                 else

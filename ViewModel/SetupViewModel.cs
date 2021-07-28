@@ -69,9 +69,15 @@ namespace GolemUI.ViewModel
             _processControler = processControler;
             _priceProvider = priceProvider;
 
+
+
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
+
             _benchmarkService.PropertyChanged += OnBenchmarkChanged;
+
+
         }
+
 
         private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
         {
