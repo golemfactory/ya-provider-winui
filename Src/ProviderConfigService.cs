@@ -109,7 +109,7 @@ namespace GolemUI.Src
             return Task.Run(() =>
             {
                 var config = Config ?? _provider.Config;
-                if (config.Subnet == null)
+                if (config!.Subnet == null)
                 {
                     config.Subnet = GolemUI.Properties.Settings.Default.Subnet;
                     _provider.Config = Config;

@@ -71,7 +71,7 @@ namespace GolemUI.Src
                         OnPropertyChanged("Status");
                         return;
                     }
-                    int retry = 0;
+
                     while (!cc.PreBenchmarkFinished)
                     {
                         await Task.Delay(30);
@@ -126,9 +126,12 @@ namespace GolemUI.Src
                     }
                     if (!result)
                     {
-                        _claymoreLiveStatus.GPUs.Clear();
-                        _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
-                        OnPropertyChanged("Status");
+                        if (_claymoreLiveStatus != null)
+                        {
+                            _claymoreLiveStatus.GPUs.Clear();
+                            _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
+                            OnPropertyChanged("Status");
+                        }
                         return;
                     }
                 }
