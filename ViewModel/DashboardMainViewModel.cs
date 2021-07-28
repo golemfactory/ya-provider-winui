@@ -128,6 +128,7 @@ namespace GolemUI.ViewModel
         public async void Start()
         {
             var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
+
             await _processController.Start(_providerConfig.Network, extraClaymoreParams);
         }
 

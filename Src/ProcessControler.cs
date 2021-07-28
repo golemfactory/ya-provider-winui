@@ -249,8 +249,6 @@ namespace GolemUI
             _yagna?.Payment.Init(network, "erc20", paymentAccount);
             _yagna?.Payment.Init(network, "zksync", paymentAccount);
 
-            string reason = "";
-            bool enableClaymoreMining = br.IsClaymoreMiningPossible(out reason);
             _providerDaemon = _provider.Run(_generatedAppKey.Value, network, claymoreExtraParams: claymoreExtraParams);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;

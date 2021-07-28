@@ -126,6 +126,11 @@ namespace GolemUI
 
 
             _providerConfig?.UpdateActiveCpuThreadsCount(ActiveCpusCount);
+            var _ls = _benchmarkSettings?.liveStatus;
+            if (_ls != null)
+            {
+                _benchmarkService.Apply(_ls);
+            }
             SettingsLoader.SaveBenchmarkToFile(_benchmarkSettings);
         }
 
