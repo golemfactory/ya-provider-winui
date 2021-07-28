@@ -15,13 +15,13 @@ namespace GolemUI
     {
 
         private readonly Command.Provider _provider;
-        private readonly IProviderConfig? _providerConfig;
+        private readonly IProviderConfig _providerConfig;
         private readonly IPriceProvider? _priceProvider;
         private readonly IEstimatedProfitProvider _profitEstimator;
         private readonly Src.BenchmarkService _benchmarkService;
         private BenchmarkResults? _benchmarkSettings;
         public Src.BenchmarkService BenchmarkService => _benchmarkService;
-        public ObservableCollection<SingleGpuDescriptor>? GpuList { get; set; }
+        public ObservableCollection<SingleGpuDescriptor> GpuList { get; set; }
 
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
@@ -46,11 +46,13 @@ namespace GolemUI
             string cards = "";
 
             string niceness = "";
-            if (_benchmarkSettings?.liveStatus != null)
+
+            var gpus = _benchmarkSettings?.liveStatus?.GPUs.Values;
+            if (gpus != null)
             {
-                foreach (var gpu in _benchmarkSettings?.liveStatus?.GPUs.ToList())
+                foreach (var gpu in gpus)
                 {
-                    if (!gpu.Value.IsEnabledByUser)
+                    if (!gpu.IsEnabledByUser)
                     {
                         allEnabled = false;
                     }
@@ -61,8 +63,8 @@ namespace GolemUI
                             cards += ",";
                             niceness += ",";
                         }
-                        cards += gpu.Value.GpuNo.ToString();
-                        niceness += gpu.Value.ClaymorePerformanceThrottling.ToString();
+                        cards += gpu.GpuNo.ToString();
+                        niceness += gpu.ClaymorePerformanceThrottling.ToString();
                     }
                 }
 
