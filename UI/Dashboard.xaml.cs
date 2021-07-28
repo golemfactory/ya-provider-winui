@@ -267,7 +267,7 @@ namespace GolemUI
                 _processControler.Prepare()
             );
 
-            
+
         }
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
