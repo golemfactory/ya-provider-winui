@@ -379,15 +379,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\DefaultStyle\DashboardMenu\Dashboard_Icon.xaml">
+    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\Dashboard_Icon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\DefaultStyle\DashboardMenu\Settings_Icon.xaml">
+    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\Settings_Icon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\DefaultStyle\DashboardMenu\Wallet_Icon.xaml">
+    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\Wallet_Icon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -411,7 +411,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\SetupResources.xaml">
+    <Page Include="UI\Icons\DefaultStyle\xaml\SetupWindow\Setup_Resources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

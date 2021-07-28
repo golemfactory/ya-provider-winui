@@ -17,11 +17,11 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!-- icons begin -->
-                <ResourceDictionary Source="Icons/DefaultStyle/DashboardMenu/Dashboard_Icon.xaml"/>
-                <ResourceDictionary Source="Icons/DefaultStyle/DashboardMenu/Settings_Icon.xaml"/>
-                <ResourceDictionary Source="Icons/DefaultStyle/DashboardMenu/Wallet_Icon.xaml"/>
-
+                <ResourceDictionary Source="Icons/DefaultStyle/xaml/DashboardMenu/Dashboard_Icon.xaml"/>
+                <ResourceDictionary Source="Icons/DefaultStyle/xaml/DashboardMenu/Settings_Icon.xaml"/>
+                <ResourceDictionary Source="Icons/DefaultStyle/xaml/DashboardMenu/Wallet_Icon.xaml"/>
                 <!-- icons end -->
+                
                 <ResourceDictionary Source="Themes/Defaults.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
                 <ResourceDictionary Source="Themes/WindowControls.xaml"/>

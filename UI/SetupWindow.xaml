@@ -26,6 +26,12 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- icons begin -->
+                <ResourceDictionary Source="Icons/DefaultStyle/xaml/SetupWindow/SetupResources.xaml"/>
+                <ResourceDictionary Source="Icons/Wallet_Icon.xaml"/>
+                <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
+                <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
+                <!-- icons end -->
                 <ResourceDictionary Source="Themes/Defaults.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
                 <ResourceDictionary Source="Themes/WindowControls.xaml"/>
@@ -34,10 +40,6 @@
                 <ResourceDictionary Source="Themes/Buttons/CancelButton.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary Source="Themes/Labels/InfoLabel.xaml"/>
-                <ResourceDictionary Source="Icons/SetupResources.xaml"/>
-                <ResourceDictionary Source="Icons/Wallet_Icon.xaml"/>
-                <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
-                <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
                 <ResourceDictionary Source="Themes/TextBox/TextBoxInError.xaml"/>
                 <ResourceDictionary Source="Themes/Validation/ValidationTemplate.xaml"/>
                 <ResourceDictionary>
