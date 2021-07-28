@@ -235,5 +235,21 @@ namespace GolemUI.Src
             }
         }
 
+        public bool IsClaymoreMiningPossible
+        {
+            get
+            {
+                var gpus = _claymoreLiveStatus?.GPUs.Values;
+                if (gpus != null)
+                {
+                    return gpus.Any(gpu => (gpu.GPUError ?? "") == "");
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
     }
 }
