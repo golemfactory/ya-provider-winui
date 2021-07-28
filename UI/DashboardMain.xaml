@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:lv="clr-namespace:GolemUI.DesignViewModel"
              d:DataContext="{d:DesignInstance Type=lv:DashboardViewModel, IsDesignTimeCreatable=True}"
-             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d"
              FontFamily="Segoe UI" d:DesignHeight="450" d:DesignWidth="850"

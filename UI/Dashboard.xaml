@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lui="clr-namespace:GolemUI"
-        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:commands="clr-namespace:GolemUI.Notifications"
         mc:Ignorable="d"
@@ -18,9 +17,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!-- icons begin -->
-                <ResourceDictionary Source="Icons/DefaultStyle/Dashboard/dashboard.xaml"/>
-                <ResourceDictionary Source="Icons/DefaultStyle/Dashboard/settings.xaml"/>
-                <ResourceDictionary Source="Icons/DefaultStyle/Dashboard/wallet.xaml"/>
+                <ResourceDictionary Source="Icons/DefaultStyle/DashboardMenu/dashboard.xaml"/>
+                <ResourceDictionary Source="Icons/DefaultStyle/DashboardMenu/settings.xaml"/>
+                <ResourceDictionary Source="Icons/DefaultStyle/DashboardMenu/wallet.xaml"/>
 
                 <!-- icons end -->
                 <ResourceDictionary Source="Themes/Defaults.xaml"/>

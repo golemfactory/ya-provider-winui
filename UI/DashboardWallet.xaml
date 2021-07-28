@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              xmlns:lv="clr-namespace:GolemUI.DesignViewModel"             
              d:DataContext="{d:DesignInstance Type=lv:WalletView, IsDesignTimeCreatable=True}"

@@ -580,7 +580,7 @@
     <Resource Include="UI\prepare.png" />
     <Resource Include="UI\init.png" />
     <Resource Include="UI\seed_phrase_1.png" />
-    <Resource Include="UI\Icons\Dashboard\Status\error.png" />
+    <Resource Include="UI\Icons\DashboardMenu\Status\error.png" />
     <Resource Include="UI\Icons\Settings\CPU_icon_new.png" />
     <Resource Include="UI\Icons\Settings\GPU_icon_new.png" />
     <Resource Include="UI\Icons\Setup\Enjoy.png" />
@@ -605,8 +605,8 @@
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Select_down_arrow.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_error.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Status_Card_ready.png" />
-    <Resource Include="UI\Icons\Dashboard\Status\mining.png" />
-    <Resource Include="UI\Icons\Dashboard\Status\ready.png" />
+    <Resource Include="UI\Icons\DashboardMenu\Status\mining.png" />
+    <Resource Include="UI\Icons\DashboardMenu\Status\ready.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Supported_by_Golem.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Dashboard-icons\PNG\Task_Type.png" />
     <Resource Include="UI\MiningAssetsUpdatedV2\Onboarding-icons\PNG\Create_wallet.png" />
