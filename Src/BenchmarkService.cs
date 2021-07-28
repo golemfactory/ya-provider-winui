@@ -2,6 +2,7 @@
 using GolemUI.Command;
 using GolemUI.Interfaces;
 using GolemUI.Settings;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,7 @@ namespace GolemUI.Src
     public class BenchmarkService : INotifyPropertyChanged
     {
         private readonly Interfaces.IProviderConfig _providerConfig;
+        private readonly ILogger _logger;
         private ClaymoreLiveStatus _claymoreLiveStatus = new ClaymoreLiveStatus(true, 5);
 
         public ClaymoreLiveStatus? Status => _claymoreLiveStatus;
@@ -37,6 +39,8 @@ namespace GolemUI.Src
             }
             _requestStop = false;
 
+            _logger.LogInformation("Benchmark start (cards={0}, niceness={1}, poool={2})", cards, niceness, pool);
+
             ClaymoreLiveStatus? baseLiveStatus = null;
 
 
@@ -55,60 +59,65 @@ namespace GolemUI.Src
 
             try
             {
-                if (preBenchmarkNeeded)
+                using (_logger.BeginScope("RunPreBenchmark"))
                 {
-                    bool result = cc.RunBenchmarkRecording(@"test.pre_recording", isPreBenchmark: true);
-
-                    if (!result)
+                    if (preBenchmarkNeeded)
                     {
-                        result = cc.RunPreBenchmark();
-                    }
+                        bool result = cc.RunBenchmarkRecording(@"test.pre_recording", isPreBenchmark: true);
 
-                    if (!result)
-                    {
-                        _claymoreLiveStatus.GPUs.Clear();
-                        _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
-                        OnPropertyChanged("Status");
-                        return;
-                    }
-
-                    while (!cc.PreBenchmarkFinished)
-                    {
-                        await Task.Delay(30);
-
-                        double timeElapsed = (DateTime.Now - benchmarkStartTime).TotalSeconds;
-
-                        if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT)
+                        if (!result)
                         {
-                            cc.Stop();
+                            result = cc.RunPreBenchmark();
+                        }
 
+                        if (!result)
+                        {
                             _claymoreLiveStatus.GPUs.Clear();
-                            _claymoreLiveStatus.ErrorMsg = "Failed to obtain card list";
+                            _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
                             OnPropertyChanged("Status");
-
                             return;
                         }
 
-                        if (_requestStop)
+                        while (!cc.PreBenchmarkFinished)
                         {
-                            cc.Stop();
-                            _claymoreLiveStatus.ErrorMsg = "Stopped by user";
+                            await Task.Delay(30);
+
+                            double timeElapsed = (DateTime.Now - benchmarkStartTime).TotalSeconds;
+
+                            if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT)
+                            {
+                                _logger.LogError("Gpu benchmark failed: TIMEOUT");
+                                cc.Stop();
+
+                                _claymoreLiveStatus.GPUs.Clear();
+                                _claymoreLiveStatus.ErrorMsg = "Failed to obtain card list";
+                                OnPropertyChanged("Status");
+
+                                return;
+                            }
+
+                            if (_requestStop)
+                            {
+                                _logger.LogInformation("Gpu benchmark stpooed by user");
+                                cc.Stop();
+                                _claymoreLiveStatus.ErrorMsg = "Stopped by user";
+                                OnPropertyChanged("Status");
+                                break;
+                            }
+                            _claymoreLiveStatus = cc.ClaymoreParserPreBenchmark.GetLiveStatusCopy();
+                            _logger.LogInformation("Detected GPUS: {}", _claymoreLiveStatus.GPUs);
+                            _claymoreLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
+                            baseLiveStatus = _claymoreLiveStatus;
                             OnPropertyChanged("Status");
-                            break;
-                        }
-                        _claymoreLiveStatus = cc.ClaymoreParserPreBenchmark.GetLiveStatusCopy();
-                        _claymoreLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
-                        baseLiveStatus = _claymoreLiveStatus;
-                        OnPropertyChanged("Status");
-                        if (_claymoreLiveStatus.GPUInfosParsed)
-                        {
-                            cc.Stop();
-                            break;
+                            if (_claymoreLiveStatus.GPUInfosParsed)
+                            {
+                                cc.Stop();
+                                break;
+                            }
                         }
                     }
+                    await Task.Delay(30);
                 }
-                await Task.Delay(30);
-
 
 
                 if (preBenchmarkNeeded && _claymoreLiveStatus != null && _claymoreLiveStatus.GPUs.Count == 0)
@@ -135,58 +144,65 @@ namespace GolemUI.Src
                         return;
                     }
                 }
-
-                while (!cc.BenchmarkFinished && IsRunning)
+                using (_logger.BeginScope(new Dictionary<string, object>()
                 {
-                    _claymoreLiveStatus = cc.ClaymoreParserBenchmark.GetLiveStatusCopy();
+                    {"Carts", String.Join(",", _claymoreLiveStatus.GPUs.Select(gpu => gpu.Value.GPUDetails)) },
+                    { "A", "Property"}
+                }))
+                {
+                    while (!cc.BenchmarkFinished && IsRunning)
+                    {
+                        _claymoreLiveStatus = cc.ClaymoreParserBenchmark.GetLiveStatusCopy();
 
-                    bool allExpectedGPUsFound = false;
-                    if (baseLiveStatus != null)
-                    {
-                        _claymoreLiveStatus.MergeFromBaseLiveStatus(baseLiveStatus, cards, out allExpectedGPUsFound);
-                    }
-                    _claymoreLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
-                    OnPropertyChanged("Status");
-                    OnPropertyChanged("TotalMhs");
-                    if (_claymoreLiveStatus.NumberOfClaymorePerfReports >= _claymoreLiveStatus.TotalClaymoreReportsBenchmark)
-                    {
-                        break;
-                    }
-                    if (_claymoreLiveStatus.GPUInfosParsed && _claymoreLiveStatus.GPUs.Count == 0)
-                    {
-                        break;
-                    }
-                    await Task.Delay(100);
-
-                    double timeElapsed = (DateTime.Now - benchmarkStartTime).TotalSeconds;
-
-                    if (_requestStop)
-                    {
-                        cc.Stop();
-                        _claymoreLiveStatus.ErrorMsg = "Stopped by user";
+                        bool allExpectedGPUsFound = false;
+                        if (baseLiveStatus != null)
+                        {
+                            _claymoreLiveStatus.MergeFromBaseLiveStatus(baseLiveStatus, cards, out allExpectedGPUsFound);
+                        }
+                        _claymoreLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
                         OnPropertyChanged("Status");
-                        break;
-                    }
-                    if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT && !_claymoreLiveStatus.GPUInfosParsed)
-                    {
-                        cc.Stop();
-                        _claymoreLiveStatus.ErrorMsg = "Timeout, cannot read gpu info";
-                        OnPropertyChanged("Status");
-                        break;
-                    }
-                    if (timeElapsed > CLAYMORE_TOTAL_BENCHMARK_TIMEOUT)
-                    {
-                        cc.Stop();
-                        _claymoreLiveStatus.ErrorMsg = "Timeout, benchmark taking too long time";
-                        OnPropertyChanged("Status");
-                        break;
-                    }
+                        OnPropertyChanged("TotalMhs");
+                        if (_claymoreLiveStatus.NumberOfClaymorePerfReports >= _claymoreLiveStatus.TotalClaymoreReportsBenchmark)
+                        {
+                            break;
+                        }
+                        if (_claymoreLiveStatus.GPUInfosParsed && _claymoreLiveStatus.GPUs.Count == 0)
+                        {
+                            break;
+                        }
+                        await Task.Delay(100);
 
+                        double timeElapsed = (DateTime.Now - benchmarkStartTime).TotalSeconds;
 
+                        if (_requestStop)
+                        {
+                            cc.Stop();
+                            _claymoreLiveStatus.ErrorMsg = "Stopped by user";
+                            OnPropertyChanged("Status");
+                            break;
+                        }
+                        if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT && !_claymoreLiveStatus.GPUInfosParsed)
+                        {
+                            cc.Stop();
+                            _claymoreLiveStatus.ErrorMsg = "Timeout, cannot read gpu info";
+                            OnPropertyChanged("Status");
+                            break;
+                        }
+                        if (timeElapsed > CLAYMORE_TOTAL_BENCHMARK_TIMEOUT)
+                        {
+                            cc.Stop();
+                            _claymoreLiveStatus.ErrorMsg = "Timeout, benchmark taking too long time";
+                            OnPropertyChanged("Status");
+                            break;
+                        }
+                    }
+                    _logger.LogInformation("GPUS={0}", _claymoreLiveStatus?.GPUs);
+                    _logger.LogCritical("gpus count {gpus}", _claymoreLiveStatus?.GPUs.Count);
                 }
             }
             finally
             {
+                _logger.LogError("Finished");
                 IsRunning = false;
                 cc.Stop();
                 if (_claymoreLiveStatus != null)
@@ -220,9 +236,10 @@ namespace GolemUI.Src
             SettingsLoader.SaveBenchmarkToFile(results);
         }
 
-        public BenchmarkService(IProviderConfig providerConfig)
+        public BenchmarkService(IProviderConfig providerConfig, ILoggerFactory loggerFactory)
         {
             _providerConfig = providerConfig;
+            _logger = loggerFactory.CreateLogger("BenchmarkService");
         }
 
 
