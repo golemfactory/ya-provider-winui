@@ -6,22 +6,14 @@ using System.Threading.Tasks;
 
 namespace GolemUI.Interfaces
 {
-    public enum MiningType
-    {
-        MiningTypeEth,
-        MiningTypeEtc
-    }
-
-    public enum MiningEarningsPeriod
-    {
-        MiningEarningsPeriodDay,
-        MiningEarningsPeriodWeek,
-        MiningEarningsPeriodMonth
-    }
-
-
     public interface IEstimatedProfitProvider
     {
-        double EthHashRateToDailyEarnigns(double hashrate, MiningType miningType, MiningEarningsPeriod miningEarningsPeriod);
+        public enum Coin
+        {
+            ETH,
+            ETC
+        }
+
+        double HashRateToCoinPerDay(double hashRate, Coin coin = Coin.ETH);
     }
 }

@@ -217,7 +217,7 @@ namespace GolemUI
                 var totalHr = Hashrate;
                 if (totalHr != null)
                 {
-                    return _profitEstimator.EthHashRateToDailyEarnigns((double)totalHr, Interfaces.MiningType.MiningTypeEth, Interfaces.MiningEarningsPeriod.MiningEarningsPeriodDay);
+                    return (double)_priceProvider?.CoinValue((decimal)_profitEstimator.HashRateToCoinPerDay((double)totalHr), IPriceProvider.Coin.ETH);
                 }
                 return null;
             }
