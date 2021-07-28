@@ -71,7 +71,7 @@ namespace GolemUI.Src
                         OnPropertyChanged("Status");
                         return;
                     }
-                    int retry = 0;
+
                     while (!cc.PreBenchmarkFinished)
                     {
                         await Task.Delay(30);
@@ -126,9 +126,12 @@ namespace GolemUI.Src
                     }
                     if (!result)
                     {
-                        _claymoreLiveStatus.GPUs.Clear();
-                        _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
-                        OnPropertyChanged("Status");
+                        if (_claymoreLiveStatus != null)
+                        {
+                            _claymoreLiveStatus.GPUs.Clear();
+                            _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
+                            OnPropertyChanged("Status");
+                        }
                         return;
                     }
                 }
@@ -229,6 +232,22 @@ namespace GolemUI.Src
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public bool IsClaymoreMiningPossible
+        {
+            get
+            {
+                var gpus = _claymoreLiveStatus?.GPUs.Values;
+                if (gpus != null)
+                {
+                    return gpus.Any(gpu => (gpu.GPUError ?? "") == "");
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 

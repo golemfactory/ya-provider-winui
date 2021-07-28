@@ -198,8 +198,10 @@ namespace GolemUI.ViewModel
         {
             if (_mnemo == null)
             {
+                // TODO: Error message to user here.
                 return;
             }
+
             var seed = _mnemo.ToString();
             var wallet = new Nethereum.HdWallet.Wallet(seed, "");
             var address = await _processControler.PrepareForKey(wallet.GetPrivateKey(0));

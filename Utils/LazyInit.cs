@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.Src
+namespace GolemUI.Utils
 {
     public class LazyInit<T>
     {

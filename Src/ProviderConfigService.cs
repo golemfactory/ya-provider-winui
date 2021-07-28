@@ -104,17 +104,46 @@ namespace GolemUI.Src
             }
         }
 
-        public Task Prepare()
+        public Task Prepare(bool isGpuCapable)
         {
             return Task.Run(() =>
             {
                 var config = Config ?? _provider.Config;
-                if (config.Subnet == null)
+                if (config!.Subnet == null)
                 {
                     config.Subnet = GolemUI.Properties.Settings.Default.Subnet;
                     _provider.Config = Config;
                 }
-                // TODO: Configure presets
+
+                var presets = _provider.ActivePresets;
+                string _info, _args;
+                if (!presets.Contains("gminer") && isGpuCapable)
+                {
+
+                    _provider.AddPreset(new GolemUI.Command.Preset("gminer", "gminer", new Dictionary<string, decimal>()
+                    {
+                        { "share", 0.1m },
+                        { "duration", 0m }
+                    }), out _args, out _info);
+
+                    _provider.ActivatePreset("gminer");
+                    OnPropertyChanged("IsMiningActive");
+                }
+                if (!presets.Contains("wasmtime"))
+                {
+                    _provider.AddPreset(new GolemUI.Command.Preset("wasmtime", "wasmtime", new Dictionary<string, decimal>()
+                    {
+                        { "cpu", 0.001m },
+                        { "duration", 0m }
+                    }), out _args, out _info);
+                    _provider.ActivatePreset("wasmtime");
+                    OnPropertyChanged("IsCpuActive");
+                }
+
+                if (presets.Contains("default"))
+                {
+                    _provider.DeactivatePreset("default");
+                }
             });
         }
     }

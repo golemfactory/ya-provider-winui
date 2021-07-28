@@ -25,12 +25,12 @@ namespace GolemUI
     /// </summary>
     public partial class DashboardMain : UserControl
     {
-        public DashboardMainViewModel? Model => DataContext as DashboardMainViewModel;
+        public DashboardMainViewModel Model => (DataContext as DashboardMainViewModel)!;
 
         public DashboardMain(DashboardMainViewModel viewModel)
         {
-            InitializeComponent();
             DataContext = viewModel;
+            InitializeComponent();
         }
 
         public void RefreshStatus()

@@ -294,7 +294,7 @@
     <Compile Include="Src\GlobalApplicationState.cs" />
     <Compile Include="Src\GlobalSettings.cs" />
     <Compile Include="Src\HdWalletService.cs" />
-    <Compile Include="Src\LazyInit.cs" />
+    <Compile Include="Utils\LazyInit.cs" />
     <Compile Include="Src\NameGenerator.cs" />
     <Compile Include="Src\PaymentService.cs" />
     <Compile Include="Src\ProcessControler.cs" />
@@ -353,6 +353,7 @@
     <Compile Include="UI\UsageDescription.xaml.cs">
       <DependentUpon>UsageDescription.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ProcessExtension.cs" />
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />

@@ -32,7 +32,7 @@ namespace GolemUI.Src
 
             public bool Activate()
             {
-                _parent.ActivateEvent?.Invoke(_parent);
+                _parent?.ActivateEvent?.Invoke(_parent);
                 return true;
             }
         }

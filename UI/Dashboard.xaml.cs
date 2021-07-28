@@ -18,6 +18,7 @@ using GolemUI.Settings;
 using GolemUI.Notifications;
 using GolemUI.Controllers;
 using GolemUI.Interfaces;
+using GolemUI.Src;
 
 namespace GolemUI
 {
@@ -51,10 +52,11 @@ namespace GolemUI
         public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
         public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardMain dashboardMain,
-            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig)
+            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService)
         {
             _processControler = processControler;
             _providerConfig = providerConfig;
+            _benchmarkService = benchmarkService;
 
             InitializeComponent();
 
@@ -260,7 +262,12 @@ namespace GolemUI
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Sentry.Dashboard.Log("Window_Loaded");
-            await Task.WhenAll(_providerConfig.Prepare(), _processControler.Prepare());
+            await Task.WhenAll(
+                _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible),
+                _processControler.Prepare()
+            );
+
+            
         }
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
@@ -306,5 +313,6 @@ namespace GolemUI
 
         private readonly Interfaces.IProcessControler _processControler;
         private readonly IProviderConfig _providerConfig;
+        private readonly BenchmarkService _benchmarkService;
     }
 }

@@ -8,7 +8,8 @@ namespace GolemUI.DesignViewModel
 {
     public class MockupUsageDescriptionViewModel
     {
-        public String Description => "Cpu threads";
+
+        public string Description => "Cpu threads";
         public int Current => 3;
         public int Total => 8;
 

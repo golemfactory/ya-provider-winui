@@ -46,7 +46,7 @@ namespace GolemUI.Command
         private ClaymoreParser _claymoreParserBenchmark;
         private ClaymoreParser _claymoreParserPreBenchmark;
 
-        ClaymoreImitateBenchmarkFromFile _imitate;
+        ClaymoreImitateBenchmarkFromFile? _imitate;
 
         public ClaymoreParser ClaymoreParserBenchmark { get { return _claymoreParserBenchmark; } }
         public ClaymoreParser ClaymoreParserPreBenchmark { get { return _claymoreParserPreBenchmark; } }
