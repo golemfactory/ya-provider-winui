@@ -113,12 +113,15 @@ namespace GolemUI
             }
         }
 
+
+        private void StopApp()
+        {
+            _serviceProvider.Dispose();
+        }
+
         private void OnExit(object sender, ExitEventArgs e)
         {
-            if (_serviceProvider != null)
-            {
-                _serviceProvider.Dispose();
-            }
+            StopApp();
         }
 
         public void StartDebugWindow()

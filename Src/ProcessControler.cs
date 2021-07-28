@@ -16,26 +16,14 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using GolemUI.Utils;
 
 namespace GolemUI
 {
     public class ProcessController : IDisposable, IProcessControler
     {
 
-
-        const int CTRL_C_EVENT = 0;
-        [DllImport("kernel32.dll")]
-        static extern bool GenerateConsoleCtrlEvent(uint dwCtrlEvent, uint dwProcessGroupId);
-        [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool AttachConsole(uint dwProcessId);
-        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-        static extern bool FreeConsole();
-        [DllImport("kernel32.dll")]
-        static extern bool SetConsoleCtrlHandler(ConsoleCtrlDelegate? HandlerRoutine, bool Add);
-        // Delegate type to be used as the Handler Routine for SCCH
-        delegate Boolean ConsoleCtrlDelegate(uint CtrlType);
-
-        private readonly Src.LazyInit<string> _generatedAppKey = new Src.LazyInit<string>(() =>
+        private readonly LazyInit<string> _generatedAppKey = new LazyInit<string>(() =>
         {
             using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
             {
@@ -45,39 +33,6 @@ namespace GolemUI
                 return str;
             }
         });
-
-        public async Task<bool> SendCtrlCToProcess(Process p, int timeoutMillis)
-        {
-            bool succesfullyExited = false;
-            if (AttachConsole((uint)p.Id))
-            {
-                SetConsoleCtrlHandler(null, true);
-
-                try
-                {
-                    if (!GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0))
-                    {
-                        return false;
-                    }
-
-                    const int CHECK_EVERY_MILLIS = 350;
-                    int tries = timeoutMillis / CHECK_EVERY_MILLIS;
-                    for (int i = 0; i < tries; i++)
-                    {
-                        succesfullyExited = p.HasExited;
-                        if (succesfullyExited)
-                            break;
-                        await Task.Delay(CHECK_EVERY_MILLIS);
-                    }
-                }
-                finally
-                {
-                    SetConsoleCtrlHandler(null, false);
-                }
-            }
-            return succesfullyExited;
-        }
-
 
         const string PROVIDER_APP_NAME = "provider";
 
@@ -95,12 +50,6 @@ namespace GolemUI
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void Dispose()
-        {
-            //StopProvider();
-            //StopYagna();
-            _client.Dispose();
-        }
         public void KillYagna()
         {
             if (_yagnaDaemon != null)
@@ -137,7 +86,7 @@ namespace GolemUI
             const int PROVIDER_STOPPING_TIMEOUT = 2500;
             if (_providerDaemon != null)
             {
-                bool succesfullyExited = await SendCtrlCToProcess(_providerDaemon, PROVIDER_STOPPING_TIMEOUT);
+                bool succesfullyExited = await _providerDaemon.StopWithCtrlCAsync(PROVIDER_STOPPING_TIMEOUT);
                 if (succesfullyExited)
                 {
                     _providerDaemon = null;
@@ -150,22 +99,16 @@ namespace GolemUI
             return true;
         }
 
-        public async Task<bool> StopYagna()
+        public void StopYagna()
         {
             const int YAGNA_STOPPING_TIMOUT = 2500;
             if (_yagnaDaemon != null)
             {
-                bool succesfullyExited = await SendCtrlCToProcess(_yagnaDaemon, YAGNA_STOPPING_TIMOUT);
-                if (succesfullyExited)
+                if (!_yagnaDaemon.StopWithCtrlC(YAGNA_STOPPING_TIMOUT))
                 {
-                    _yagnaDaemon = null;
-                }
-                else
-                {
-                    return false;
+                    _yagnaDaemon.Kill();
                 }
             }
-            return true;
         }
 
         public bool IsRunning => IsServerRunning && IsProviderRunning;
@@ -317,10 +260,11 @@ namespace GolemUI
 
             if (enableClaymoreMining)
             {
-                var usageCoef = new Dictionary<string, decimal>();
-                var preset = new Preset("gminer", "gminer", usageCoef);
-                preset.UsageCoeffs.Add("share", 0.1m);
-                preset.UsageCoeffs.Add("duration", 0);
+                var preset = new Preset("gminer", "gminer", new Dictionary<string, decimal>()
+                {
+                    {"share",  0.1m},
+                    {"duration", 0m }
+                });
                 string info, args;
                 _provider.AddPreset(preset, out args, out info);
                 ConfigurationInfoDebug += "Add preset claymore mining: \nargs:\n" + args + "\nresponse:\n" + info;
@@ -479,7 +423,12 @@ namespace GolemUI
             return true;
         }
 
-
+        public void Dispose()
+        {
+            KillProvider();
+            StopYagna();
+            _client.Dispose();
+        }
     }
 
 
