@@ -16,7 +16,7 @@ namespace GolemUI
 
         private readonly Command.Provider _provider;
         private readonly IProviderConfig _providerConfig;
-        private readonly IPriceProvider? _priceProvider;
+        private readonly IPriceProvider _priceProvider;
         private readonly IEstimatedProfitProvider _profitEstimator;
         private readonly Src.BenchmarkService _benchmarkService;
         private BenchmarkResults? _benchmarkSettings;
@@ -217,7 +217,7 @@ namespace GolemUI
                 var totalHr = Hashrate;
                 if (totalHr != null)
                 {
-                    return (double)_priceProvider?.CoinValue((decimal)_profitEstimator.HashRateToCoinPerDay((double)totalHr), IPriceProvider.Coin.ETH);
+                    return (double)_priceProvider.CoinValue((decimal)_profitEstimator.HashRateToCoinPerDay((double)totalHr), IPriceProvider.Coin.ETH);
                 }
                 return null;
             }
