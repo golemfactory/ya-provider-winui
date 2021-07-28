@@ -248,48 +248,7 @@ namespace GolemUI
             _yagna?.Payment.Init(network, "erc20", paymentAccount);
             _yagna?.Payment.Init(network, "zksync", paymentAccount);
 
-            var providerPresets = _provider.Presets;
-
-            //make sure we are starting from the same preset all the time by clearing configuration before starting provider
-            //otherwise there will be lot of mess to handle (if user changes something or old configuration exist)
-            SettingsLoader.ClearProviderPresetsFile();
-
-
-            string reason;
-            bool enableClaymoreMining = br.IsClaymoreMiningPossible(out reason);
-
-            if (enableClaymoreMining)
-            {
-                var preset = new Preset("gminer", "gminer", new Dictionary<string, decimal>()
-                {
-                    {"share",  0.1m},
-                    {"duration", 0m }
-                });
-                string info, args;
-                _provider.AddPreset(preset, out args, out info);
-                ConfigurationInfoDebug += "Add preset claymore mining: \nargs:\n" + args + "\nresponse:\n" + info;
-                _provider.ActivatePreset(preset.Name);
-            }
-
-            {
-                var usageCoef = new Dictionary<string, decimal>();
-                var preset = new Preset("wasmtime", "wasmtime", usageCoef);
-                preset.UsageCoeffs.Add("cpu", 0.1m);
-                preset.UsageCoeffs.Add("duration", 0m);
-                string info, args;
-                _provider.AddPreset(preset, out args, out info);
-                ConfigurationInfoDebug += "Add preset claymore WASM: \nargs:\n" + args + "\nresponse:\n" + info;
-                _provider.ActivatePreset(preset.Name);
-            }
-
-            _provider.DeactivatePreset("default");
-            if (enableClaymoreMining)
-            {
-                _provider.ActivatePreset("gminer");
-            }
-            _provider.ActivatePreset("wasmtime");
-
-            _providerDaemon = _provider.Run(_generatedAppKey.Value, network, ls, enableClaymoreMining, br);
+            _providerDaemon = _provider.Run(_generatedAppKey.Value, network, ls, true, br);
             _providerDaemon.Exited += OnProviderExit;
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
             _providerDaemon.OutputDataReceived += OnProviderOutputDataRecv;

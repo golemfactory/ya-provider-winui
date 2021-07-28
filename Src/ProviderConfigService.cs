@@ -136,6 +136,11 @@ namespace GolemUI.Src
                         { "duration", 0m }
                     }), out _args, out _info);
                 }
+
+                if (presets.Contains("default"))
+                {
+                    _provider.DeactivatePreset("default");
+                }
             });
         }
     }
