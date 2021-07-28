@@ -114,7 +114,7 @@ namespace GolemUI.Src
                     config.Subnet = GolemUI.Properties.Settings.Default.Subnet;
                     _provider.Config = Config;
                 }
-                // TODO: Configure presets
+
                 var presets = _provider.ActivePresets;
                 string _info, _args;
                 if (!presets.Contains("gminer") && isGpuCapable)
@@ -127,6 +127,7 @@ namespace GolemUI.Src
                     }), out _args, out _info);
 
                     _provider.ActivatePreset("gminer");
+                    OnPropertyChanged("IsMiningActive");
                 }
                 if (!presets.Contains("wasmtime"))
                 {
@@ -135,6 +136,8 @@ namespace GolemUI.Src
                         { "cpu", 0.001m },
                         { "duration", 0m }
                     }), out _args, out _info);
+                    _provider.ActivatePreset("wasmtime");
+                    OnPropertyChanged("IsCpuActive");
                 }
 
                 if (presets.Contains("default"))
