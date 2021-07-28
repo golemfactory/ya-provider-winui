@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows;
 
 namespace GolemUI
 {
@@ -315,6 +316,11 @@ namespace GolemUI
             string reason;
             bool enableClaymoreMining = br.IsClaymoreMiningPossible(out reason);
 
+            if(!enableClaymoreMining)
+            {
+                MessageBox.Show("Claymore mining is not possible: " + reason);
+            }
+
             if (enableClaymoreMining)
             {
                 var usageCoef = new Dictionary<string, decimal>();
@@ -324,7 +330,8 @@ namespace GolemUI
                 string info, args;
                 _provider.AddPreset(preset, out args, out info);
                 ConfigurationInfoDebug += "Add preset claymore mining: \nargs:\n" + args + "\nresponse:\n" + info;
-                _provider.ActivatePreset(preset.Name);
+                string result = _provider.ActivatePreset(preset.Name);
+                MessageBox.Show(result);
             }
 
             {

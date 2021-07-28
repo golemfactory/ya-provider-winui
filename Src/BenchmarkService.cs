@@ -191,6 +191,7 @@ namespace GolemUI.Src
                 cc.Stop();
                 if (_claymoreLiveStatus != null)
                 {
+                    _claymoreLiveStatus.BenchmarkFinished = true;
                     foreach (var gpu in _claymoreLiveStatus.GPUs.Values)
                     {
                         gpu.SetStepFinished();

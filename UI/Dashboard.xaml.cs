@@ -245,7 +245,6 @@ namespace GolemUI
                 this.ShowInTaskbar = false;
             }
             e.Cancel = true;
-
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)

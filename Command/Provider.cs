@@ -217,9 +217,9 @@ namespace GolemUI.Command
             }
         }
 
-        public void ActivatePreset(string presetName)
+        public string ActivatePreset(string presetName)
         {
-            this.ExecToText($"preset activate {presetName}");
+            return this.ExecToText($"preset activate {presetName}");
         }
         public void DeactivatePreset(string presetName)
         {
