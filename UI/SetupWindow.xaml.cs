@@ -13,10 +13,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
-
+using Sentry;
 
 namespace GolemUI.UI
 {
+
 
     internal enum AccentState
     {
@@ -60,6 +61,7 @@ namespace GolemUI.UI
 
 
         private readonly IServiceProvider _serviceProvider;
+
         protected ViewModel.SetupViewModel? Model => DataContext as ViewModel.SetupViewModel;
 
         public SetupWindow(ViewModel.SetupViewModel model, IServiceProvider serviceProvider)
@@ -67,7 +69,10 @@ namespace GolemUI.UI
             _serviceProvider = serviceProvider;
             InitializeComponent();
             DataContext = model;
+
         }
+
+
 
         internal void EnableBlur()
         {
@@ -206,9 +211,9 @@ namespace GolemUI.UI
 
         private void OnEMNameStepDone(object sender, RoutedEventArgs e)
         {
+
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnum.High;
-
             Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "", null);
         }
 
@@ -216,5 +221,7 @@ namespace GolemUI.UI
         {
             EnableBlur();
         }
+
+
     }
 }

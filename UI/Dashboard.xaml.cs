@@ -150,6 +150,7 @@ namespace GolemUI
 
         public void SwitchPage(DashboardPages page)
         {
+
             if (page == _pageSelected) return;
 
             _pages.ToList().Where(x => x.Key != _pageSelected && x.Key != page).ToList().ForEach(x => x.Value.Clear());
@@ -181,12 +182,14 @@ namespace GolemUI
 
         public void BlockNavigation()
         {
+
             btnPage1.IsEnabled = false;
             btnPage2.IsEnabled = false;
             //btnPage4.IsEnabled = false;
         }
         public void ResumeNavigation()
         {
+
             btnPage1.IsEnabled = true;
             btnPage2.IsEnabled = true;
             //btnPage4.IsEnabled = true;
@@ -252,6 +255,7 @@ namespace GolemUI
                 _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible),
                 _processControler.Prepare()
             );
+
 
         }
 
