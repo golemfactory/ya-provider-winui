@@ -116,7 +116,7 @@ namespace GolemUI
 
         private void btnPageWallet_Click(object sender, RoutedEventArgs e)
         {
-            SwitchPage(DashboardPages.PageDashboardSettings);
+            SwitchPage(DashboardPages.PageDashboardWallet);
         }
 
         private void Page3Click(object sender, RoutedEventArgs e)
@@ -135,7 +135,7 @@ namespace GolemUI
         }
         private void btnPageSettings_Click(object sender, RoutedEventArgs e)
         {
-            SwitchPage(DashboardPages.PageDashboardWallet);
+            SwitchPage(DashboardPages.PageDashboardSettings);
         }
 
 
@@ -170,15 +170,30 @@ namespace GolemUI
             currentPage.Show();
 
 
-            if (page == DashboardPages.PageDashboardBenchmark)
+            //lame check button selected when page is switched externally
+            if (page == DashboardPages.PageDashboardSettings)
             {
-                brdNavigation.Visibility = Visibility.Collapsed;
-                grdMain.ColumnDefinitions[0].Width = new GridLength(0, GridUnitType.Pixel);
+                btnPageDashboard.IsChecked = false;
+                btnPageWallet.IsChecked = false;
+                btnPageSettings.IsChecked = true;
+            }
+            else if (page == DashboardPages.PageDashboardWallet)
+            {
+                btnPageDashboard.IsChecked = false;
+                btnPageWallet.IsChecked = true;
+                btnPageSettings.IsChecked = false;
+            }
+            else if (page == DashboardPages.PageDashboardMain)
+            {
+                btnPageDashboard.IsChecked = true;
+                btnPageWallet.IsChecked = false;
+                btnPageSettings.IsChecked = false;
             }
             else
             {
-                brdNavigation.Visibility = Visibility.Visible;
-                grdMain.ColumnDefinitions[0].Width = new GridLength(120, GridUnitType.Pixel);
+                btnPageDashboard.IsChecked = false;
+                btnPageWallet.IsChecked = false;
+                btnPageSettings.IsChecked = false;
             }
 
             LastPage = _pageSelected;
