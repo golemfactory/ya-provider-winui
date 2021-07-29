@@ -78,7 +78,7 @@ namespace GolemUI.Src
                             _claymoreLiveStatus.GPUs.Clear();
                             _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
                             OnPropertyChanged("Status");
-                            _logger.LogInformation("PreBenchmark failed with error: " + cc.BenchmarkError);
+                            _logger.LogError("PreBenchmark failed with error: " + cc.BenchmarkError);
 
                         }
                         return;
@@ -97,7 +97,7 @@ namespace GolemUI.Src
                             _claymoreLiveStatus!.GPUs.Clear();
                             _claymoreLiveStatus!.ErrorMsg = "Failed to obtain card list";
                             OnPropertyChanged("Status");
-                            _logger.LogInformation("PreBenchmark failed timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT: " + cc.BenchmarkError);
+                            _logger.LogError("PreBenchmark failed timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT: " + cc.BenchmarkError);
 
                             return;
                         }
@@ -107,7 +107,7 @@ namespace GolemUI.Src
                             cc.Stop();
                             _claymoreLiveStatus!.ErrorMsg = "Stopped by user";
                             OnPropertyChanged("Status");
-                            _logger.LogInformation("PreBenchmark stopped by user.");
+                            _logger.LogError("PreBenchmark stopped by user.");
 
                             break;
                         }
@@ -165,12 +165,12 @@ namespace GolemUI.Src
                     OnPropertyChanged("TotalMhs");
                     if (_claymoreLiveStatus.NumberOfClaymorePerfReports >= _claymoreLiveStatus.TotalClaymoreReportsBenchmark)
                     {
-                        _logger.LogInformation("Benchmark succeeded");
+                        _logger.LogInformation("Benchmark succeeded.");
                         break;
                     }
                     if (_claymoreLiveStatus.GPUInfosParsed && _claymoreLiveStatus.GPUs.Count == 0)
                     {
-                        _logger.LogInformation("Benchmark succeeded, but no cards found");
+                        _logger.LogError("Benchmark succeeded, but no cards found");
                         break;
                     }
                     await Task.Delay(100);
@@ -182,7 +182,7 @@ namespace GolemUI.Src
                         cc.Stop();
                         _claymoreLiveStatus.ErrorMsg = "Stopped by user";
                         OnPropertyChanged("Status");
-                        _logger.LogInformation("PreBenchmark stopped by user.");
+                        _logger.LogError("PreBenchmark stopped by user.");
                         break;
                     }
                     if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT && !_claymoreLiveStatus.GPUInfosParsed)
@@ -190,7 +190,7 @@ namespace GolemUI.Src
                         cc.Stop();
                         _claymoreLiveStatus.ErrorMsg = "Timeout, cannot read gpu info";
                         OnPropertyChanged("Status");
-                        _logger.LogInformation("Timeout, cannot read gpu info");
+                        _logger.LogError("Timeout, cannot read gpu info");
                         break;
                     }
                     if (timeElapsed > CLAYMORE_TOTAL_BENCHMARK_TIMEOUT)
@@ -198,7 +198,7 @@ namespace GolemUI.Src
                         cc.Stop();
                         _claymoreLiveStatus.ErrorMsg = "Timeout, benchmark taking too long time";
                         OnPropertyChanged("Status");
-                        _logger.LogInformation("Benchmark timeout, total benchmark timeout");
+                        _logger.LogError("Benchmark timeout, total benchmark timeout");
                         break;
                     }
 
