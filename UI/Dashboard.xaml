@@ -73,14 +73,11 @@
                         <Setter Property="Margin" Value="0,40,0,0"/>
                     </Style>
                 </StackPanel.Resources>
-                <Button x:Name="btnPage1" Width="30" Height="30" Style="{StaticResource NavSidepanelButton}" Click="Page1Click" Padding="0">
-                    <ContentControl Content="{StaticResource Dashboard_Icon}" />
+                <Button x:Name="btnPage1" Style="{StaticResource NavSidepanelButton}" Click="Page1Click" Padding="0" >
                 </Button>
-                <Button x:Name="btnPage2" Width="30" Height="30" Style="{StaticResource NavSidepanelButton}" Click="Page2Click" Padding="0">
-                    <ContentControl Content="{StaticResource Settings_Icon}" />
+                <Button x:Name="btnPage2" Style="{StaticResource NavSidepanelButton}" Click="Page2Click" Padding="0">
                 </Button>
-                <Button x:Name="btnPage6" Width="30" Height="30" Style="{StaticResource NavSidepanelButton}" Click="Page6Click" Padding="0">
-                    <ContentControl Content="{StaticResource Wallet_Icon}" />
+                <Button x:Name="btnPage6" Style="{StaticResource NavSidepanelButton}" Click="Page6Click" Padding="0">
                 </Button>
             </StackPanel>
         </Border>
