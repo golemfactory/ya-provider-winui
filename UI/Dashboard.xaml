@@ -16,12 +16,6 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- icons begin -->
-                <ResourceDictionary Source="Icons/DefaultStyle/xaml/DashboardMenu/DashboardIcon.xaml"/>
-                <ResourceDictionary Source="Icons/DefaultStyle/xaml/DashboardMenu/SettingsIcon.xaml"/>
-                <ResourceDictionary Source="Icons/DefaultStyle/xaml/DashboardMenu/WalletIcon.xaml"/>
-                <!-- icons end -->
-                
                 <ResourceDictionary Source="Themes/Defaults.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
                 <ResourceDictionary Source="Themes/WindowControls.xaml"/>
