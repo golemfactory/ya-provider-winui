@@ -27,7 +27,9 @@
                 <ResourceDictionary Source="Themes/WindowControls.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/NavSidepanelButton.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
+                
                 <ResourceDictionary>
                     <ContextMenu x:Key="TrayMenu">
                         <MenuItem Header="Show" Command="{commands:ShowWindowCommand}"/>
@@ -50,10 +52,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <tb:TaskbarIcon Visibility="Hidden" 
-                        x:Name="tbNotificationIcon" IconSource="/Media/tray.ico" ToolTipText="GolemUI" DoubleClickCommand="{Binding ElementName=DashboardWindow, Path=ShowCommand, Mode=OneWay}" ContextMenu="{StaticResource TrayMenu}"/>
-
-
+        <tb:TaskbarIcon Visibility="Hidden" x:Name="tbNotificationIcon" IconSource="/Media/tray.ico" ToolTipText="GolemUI" DoubleClickCommand="{Binding ElementName=DashboardWindow, Path=ShowCommand, Mode=OneWay}" ContextMenu="{StaticResource TrayMenu}"/>
 
         <Border Grid.Column="0" Grid.Row="0" MouseDown="TitleBar_MouseDown">
             <Label Foreground="White" VerticalAlignment="Center" Visibility="Hidden">GolemUI 0.0.1</Label>
@@ -74,14 +73,14 @@
                         <Setter Property="Margin" Value="0,40,0,0"/>
                     </Style>
                 </StackPanel.Resources>
-                <Button x:Name="btnPage1" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="Transparent" Click="Page1Click" Padding="0">
-                    <ContentControl Content="{DynamicResource Dashboard_Icon}" />
+                <Button x:Name="btnPage1" Width="30" Height="30" Style="{StaticResource NavSidepanelButton}" Click="Page1Click" Padding="0">
+                    <ContentControl Content="{StaticResource Dashboard_Icon}" />
                 </Button>
-                <Button x:Name="btnPage2" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="Transparent" Click="Page2Click" Padding="0">
-                    <ContentControl Content="{DynamicResource Settings_Icon}" />
+                <Button x:Name="btnPage2" Width="30" Height="30" Style="{StaticResource NavSidepanelButton}" Click="Page2Click" Padding="0">
+                    <ContentControl Content="{StaticResource Settings_Icon}" />
                 </Button>
-                <Button x:Name="btnPage6" Width="30" Height="30" BorderThickness="0" BorderBrush="Black" Background="Transparent" Click="Page6Click" Padding="0">
-                    <ContentControl Content="{DynamicResource Wallet_Icon}"  />
+                <Button x:Name="btnPage6" Width="30" Height="30" Style="{StaticResource NavSidepanelButton}" Click="Page6Click" Padding="0">
+                    <ContentControl Content="{StaticResource Wallet_Icon}" />
                 </Button>
             </StackPanel>
         </Border>
