@@ -59,7 +59,6 @@ namespace GolemUI.UI
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
-
         private readonly IServiceProvider _serviceProvider;
 
         protected ViewModel.SetupViewModel? Model => DataContext as ViewModel.SetupViewModel;

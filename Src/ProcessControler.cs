@@ -18,6 +18,7 @@ using System.Security.Cryptography;
 using System.Text;
 using GolemUI.Utils;
 using System.Windows;
+using GolemUI.Extensions;
 
 namespace GolemUI
 {
@@ -55,7 +56,7 @@ namespace GolemUI
         {
             if (_yagnaDaemon != null)
             {
-                _yagnaDaemon.Kill(/*entireProcessTree: true*/);
+                _yagnaDaemon.Kill(entireProcessTree: true);
                 _yagnaDaemon.Dispose();
                 _yagnaDaemon = null;
             }
@@ -66,7 +67,7 @@ namespace GolemUI
         {
             if (_providerDaemon != null)
             {
-                _providerDaemon.Kill(/*entireProcessTree: true*/);
+                _providerDaemon.Kill(entireProcessTree: true);
                 _providerDaemon.Dispose();
                 _providerDaemon = null;
             }
@@ -107,7 +108,7 @@ namespace GolemUI
             {
                 if (!_yagnaDaemon.StopWithCtrlC(YAGNA_STOPPING_TIMOUT))
                 {
-                    _yagnaDaemon.Kill();
+                    _yagnaDaemon.Kill(entireProcessTree: true);
                 }
             }
         }
