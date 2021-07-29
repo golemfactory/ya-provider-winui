@@ -108,7 +108,7 @@ namespace GolemUI
             {
                 if (!_yagnaDaemon.StopWithCtrlC(YAGNA_STOPPING_TIMOUT))
                 {
-                    _yagnaDaemon.Kill(entireProcessTree:true);
+                    _yagnaDaemon.Kill(entireProcessTree: true);
                 }
             }
         }
