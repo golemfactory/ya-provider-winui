@@ -27,18 +27,18 @@ namespace GolemUI
 
         private readonly ServiceProvider _serviceProvider;
         private readonly GolemUI.ChildProcessManager _childProcessManager;
-       // private readonly IDisposable _sentrySdk;
+        private readonly IDisposable _sentrySdk;
 
         public App()
         {
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
-           /* _sentrySdk = (SentrySdk.Init(o =>
+            _sentrySdk = (SentrySdk.Init(o =>
               {
 
-                  o.Dsn = "https://3210d81dbe2042d0a1adce29072b26d7@o921571.ingest.sentry.io/5881077";
+                  o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
                   o.Debug = true; //todo: change to false for production release
                   o.TracesSampleRate = 1.0; //todo: probably should change in future ?
-              }));*/
+              }));
 
             SentrySdk.ConfigureScope(scope =>
             {
@@ -67,7 +67,7 @@ namespace GolemUI
             SentrySdk.CaptureException(e.Exception);
 
             //TODO: to discuss if we should allow the app to crash or not
-            e.Handled = true;
+            //e.Handled = true;
         }
         private void ConfigureServices(IServiceCollection services)
         {
@@ -83,6 +83,7 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
             services.AddSingleton<Src.BenchmarkService>();
+            
 
             services.AddTransient(typeof(SentryAdditionalDataIngester));
             services.AddTransient(typeof(DashboardWallet));
@@ -115,7 +116,7 @@ namespace GolemUI
                 this.Shutdown();
                 return;
             }
-            //var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
+            var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
             var args = e.Args;
             if ((args.Length > 0 && args[0] == "setup") || !GolemUI.Properties.Settings.Default.Configured)
             {
