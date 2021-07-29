@@ -217,9 +217,9 @@ namespace GolemUI.Command
             }
         }
 
-        public void ActivatePreset(string presetName)
+        public string ActivatePreset(string presetName)
         {
-            this.ExecToText($"preset activate {presetName}");
+            return this.ExecToText($"preset activate {presetName}");
         }
         public void DeactivatePreset(string presetName)
         {
@@ -243,15 +243,15 @@ namespace GolemUI.Command
             info = this.ExecToText(cmd.ToString());
         }
 
-        public Process Run(string appkey, Network network, LocalSettings ls, bool enableClaymoreMining, BenchmarkResults br)
+        public Process Run(string appKey, Network network, string? claymoreExtraParams = null, bool openConsole = false)
         {
             var startInfo = new ProcessStartInfo
             {
-                FileName = this._yaProviderPath,
+                FileName = _yaProviderPath,
                 Arguments = $"run --payment-network {network.Id}",
                 UseShellExecute = false
             };
-            if (ls.StartProviderCommandLine)
+            if (openConsole)
             {
                 startInfo.RedirectStandardOutput = false;
                 startInfo.RedirectStandardError = false;
@@ -263,43 +263,15 @@ namespace GolemUI.Command
                 startInfo.RedirectStandardError = true;
                 startInfo.CreateNoWindow = true;
             }
-
-            if (ls.EnableDebugLogs)
+            if (claymoreExtraParams != null)
             {
-                startInfo.EnvironmentVariables["RUST_LOG"] = "debug";
+                startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = claymoreExtraParams;
             }
 
-            if (enableClaymoreMining)
-            {
-                string extraParams = "";
-                if (ls.MinerSelectedGPUIndices != null && !String.IsNullOrEmpty(ls.MinerSelectedGPUIndices))
-                {
-                    string gpuSwitch = "-gpus ";
-                    string cards = ls.MinerSelectedGPUIndices;
-
-                    gpuSwitch += cards;
-
-                    extraParams += gpuSwitch;
-                }
-                if (ls.MinerSelectedGPUsNiceness != null && !String.IsNullOrEmpty(ls.MinerSelectedGPUsNiceness))
-                {
-                    if (extraParams != "")
-                    {
-                        extraParams += " ";
-                    }
-                    string nicenessSwitch = "-li ";
-                    string niceness = ls.MinerSelectedGPUsNiceness;
-
-                    nicenessSwitch += niceness;
-
-                    extraParams += nicenessSwitch;
-                }
-                startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = extraParams;
-            }
             startInfo.EnvironmentVariables["MIN_AGREEMENT_EXPIRATION"] = "30s";
             startInfo.EnvironmentVariables["EXE_UNIT_PATH"] = _exeUnitsPath;
             //startInfo.EnvironmentVariables["DATA_DIR"] = "data_dir";
-            startInfo.EnvironmentVariables["YAGNA_APPKEY"] = appkey;
+            startInfo.EnvironmentVariables["YAGNA_APPKEY"] = appKey;
 
             var process = new Process
             {

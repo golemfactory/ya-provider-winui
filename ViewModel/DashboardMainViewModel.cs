@@ -1,5 +1,6 @@
 ﻿using GolemUI.Interfaces;
 using GolemUI.Settings;
+using GolemUI.Src;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,12 +14,13 @@ namespace GolemUI.ViewModel
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
 
-        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler)
+        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService)
         {
             _priceProvider = priceProvider;
             _paymentService = paymentService;
             _processController = processControler;
             _providerConfig = providerConfig;
+            _benchmarkService = benchmarkService;
 
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
@@ -125,7 +127,9 @@ namespace GolemUI.ViewModel
 
         public async void Start()
         {
-            await _processController.Start(_providerConfig.Network);
+            var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
+
+            await _processController.Start(_providerConfig.Network, extraClaymoreParams);
         }
 
         private void OnPropertyChanged(string? propertyName)
@@ -140,6 +144,7 @@ namespace GolemUI.ViewModel
         private readonly IPriceProvider _priceProvider;
         private readonly IPaymentService _paymentService;
         private readonly IProviderConfig _providerConfig;
+        private readonly BenchmarkService _benchmarkService;
         private readonly IProcessControler _processController;
     }
 }

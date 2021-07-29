@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:animated="clr-namespace:GolemUI.UI.AnimatedIcons" 
              xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d" 
@@ -32,6 +33,7 @@
                 <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
                 <ResourceDictionary Source="Themes/TextBox/TextBoxInError.xaml"/>
                 <ResourceDictionary Source="Themes/Validation/ValidationTemplate.xaml"/>
+                <ResourceDictionary Source="Themes/Labels/InfoLabel.xaml"/>
                 <ResourceDictionary>
                     <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
                         <ObjectDataProvider.MethodParameters>
@@ -123,14 +125,33 @@
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
+                            <RowDefinition Height="auto" />
                             <RowDefinition Height="110" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/Settings/GPU_icon_new.png" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20, 10, 20, 0" Stretch="Uniform" />
+                        <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/Settings/GPU_icon_new.png" Grid.Row="1" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20, 10, 20, 0" Stretch="Uniform" />
 
-                        <Label Margin="5,5,0,0" Content="Graphic cards settings" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF"></Label>
 
-                        <ScrollViewer Grid.Column="1" Grid.Row="1" Margin="0,0,0,0" Padding="0" Grid.RowSpan="2" VerticalScrollBarVisibility="Hidden">
+                        <StackPanel Visibility="{Binding Path=BenchmarkIsRunning, Converter={StaticResource BoolToVisibleConverter}}"  Orientation="Horizontal" Grid.ColumnSpan="2" >
+                            <Label Margin="5,5,0,0"  Content="GPU benchmark in progress " HorizontalAlignment="Left" FontSize="12" FontWeight="Bold" Foreground="#FFFFFF"></Label>
+                            <animated:WorkingAnimIcon VerticalAlignment="Center"
+                                                 Height="15"
+                                                 AnimationFPS="60"
+                                                 WaveWidth="1.2"
+                                                 Width="100"
+                                                Margin="10, 0, 0, 3"
+                                            />
+                        </StackPanel>
+                        <StackPanel Visibility="{Binding Path=BenchmarkIsRunning, Converter={StaticResource BoolToHiddenConverter}}"  Orientation="Horizontal" Grid.ColumnSpan="2" >
+                            <Label Margin="5,5,0,0"  Content="Graphic cards settings" HorizontalAlignment="Left" FontSize="12" FontWeight="Bold" Foreground="#FFFFFF"></Label>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 0, 0, 10">
+                            <ContentPresenter Content="{StaticResource Status_Card_error}" Margin="0, 0, 0, 0"/>
+                            <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorStyle}" TextWrapping="Wrap" Width="300" Text="{Binding BenchmarkError}" Margin="5, 0, 0, 0" VerticalAlignment="Center"></TextBox>
+                        </StackPanel>
+
+                        <ScrollViewer Grid.Column="1" Grid.Row="2" Margin="0,0,0,0" Padding="0" Grid.RowSpan="2" VerticalScrollBarVisibility="Hidden">
                             <ItemsControl Grid.Column="1" ItemsSource="{Binding GpuList}" Margin="0,0,0,0" >
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -156,21 +177,119 @@
                                                     <ColumnDefinition Width="auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <CheckBox Grid.Column="0" IsChecked="{Binding Path=IsActive}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" />
+                                                <CheckBox Grid.Column="0" IsChecked="{Binding Path=IsEnabledByUser}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" />
                                                 <TextBlock Grid.Column="1" TextWrapping="Wrap" FontFamily="Segoe Ui" FontWeight="Regular" Foreground="White" FontSize="13" Text="{Binding Path=DisplayName}" Margin="0"/>
                                             </Grid>
                                             <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Hashrate:" Margin="0, 5, 0, 3" />
-                                            <Label Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5,3,0,0"  FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="12" Content="{Binding Path=Hashrate, Converter={StaticResource HashRateConverter}}" Padding="0" />
+                                            <Label Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5,3,0,0"  FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="12" Content="{Binding Path=BenchmarkSpeed, Converter={StaticResource HashRateConverter}}" Padding="0" />
                                             <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Left">
-                                                <Label VerticalAlignment="Center"  FontFamily="Segoe Ui" FontWeight="Light" FontSize="12" Padding="0"  Content="Mining ability:" Margin="0, 3, 10, 3" />
+                                                <Label VerticalAlignment="Center"  FontFamily="Segoe Ui" FontWeight="Light" FontSize="12" Padding="0" Content="Mining ability:" Margin="0, 3, 10, 3" />
                                             </StackPanel>
-                                            <StackPanel Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToHiddenConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
-                                                <Grid Visibility="{Binding Path=InProgress, Converter={StaticResource BoolToVisibleConverter}}">
-                                                    <ProgressBar IsIndeterminate="True" Margin="0" BorderThickness="0" Height="10" Background="Transparent" />
-                                                    <TextBlock FontSize="12" Foreground="#aaa" Margin="0" Padding="0" VerticalAlignment="Center">checking...</TextBlock>
-                                                </Grid>
-                                                <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_error.png" Width="14" Height="14"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToHiddenConverter}}"/>
-                                                <Image Source="MiningAssetsUpdatedV2/Dashboard-icons/PNG/Status_Card_ready.png" Width="14" Height="14"   Visibility="{Binding Path=CanMine, Converter={StaticResource BoolToVisibleConverter}}"/>
+                                            <StackPanel Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" VerticalAlignment="Center" Orientation="Horizontal" ToolTip="{Binding Path=GPUError}">
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <Grid Visibility="{Binding Path=IsPreInitialization, Converter={StaticResource BoolToVisibleConverter}}">
+                                                        <ProgressBar IsIndeterminate="True" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                                        <TextBlock Foreground="#aaa"  VerticalAlignment="Center">initializing...</TextBlock>
+                                                    </Grid>
+                                                    <Grid Visibility="{Binding Path=IsInitialization, Converter={StaticResource BoolToVisibleConverter}}">
+                                                        <ProgressBar Minimum="0" Maximum="1" Value="{Binding Path=DagProgress}" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                                        <TextBlock Foreground="#aaa"  VerticalAlignment="Center">initializing...</TextBlock>
+                                                    </Grid>
+                                                    <Grid Visibility="{Binding Path=IsEstimation, Converter={StaticResource BoolToVisibleConverter}}">
+                                                        <ProgressBar IsIndeterminate="True" Minimum="0" Maximum="1" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                                        <TextBlock Foreground="#aaa"  VerticalAlignment="Center">estimating...</TextBlock>
+                                                    </Grid>
+                                                </StackPanel>
+                                                <StackPanel Visibility="{Binding Path=IsFinished, Converter={StaticResource BoolToVisibleConverter}}" VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <Viewbox Width="20" Height="20" Visibility="{Binding Path=IsReadyForMining, Converter={StaticResource BoolToHiddenConverter}}">
+                                                        <Canvas Height="20" Width="20">
+                                                            <Canvas>
+                                                                <Canvas.RenderTransform>
+                                                                    <TransformGroup>
+                                                                        <TranslateTransform X="-986.000000" Y="-714.000000" />
+                                                                    </TransformGroup>
+                                                                </Canvas.RenderTransform>
+                                                                <Canvas>
+                                                                    <Canvas.RenderTransform>
+                                                                        <TransformGroup>
+                                                                            <TranslateTransform X="320.000000" Y="160.000000" />
+                                                                        </TransformGroup>
+                                                                    </Canvas.RenderTransform>
+                                                                    <Canvas>
+                                                                        <Canvas.RenderTransform>
+                                                                            <TransformGroup>
+                                                                                <TranslateTransform X="429.000000" Y="299.000000" />
+                                                                            </TransformGroup>
+                                                                        </Canvas.RenderTransform>
+                                                                        <Canvas>
+                                                                            <Canvas.RenderTransform>
+                                                                                <TransformGroup>
+                                                                                    <TranslateTransform X="153.000000" Y="76.000000" />
+                                                                                </TransformGroup>
+                                                                            </Canvas.RenderTransform>
+                                                                            <Canvas>
+                                                                                <Canvas.RenderTransform>
+                                                                                    <TransformGroup>
+                                                                                        <TranslateTransform X="0.000000" Y="119.000000" />
+                                                                                    </TransformGroup>
+                                                                                </Canvas.RenderTransform>
+                                                                                <Canvas>
+                                                                                    <Canvas.RenderTransform>
+                                                                                        <TransformGroup>
+                                                                                            <TranslateTransform X="84.000000" Y="60.000000" />
+                                                                                        </TransformGroup>
+                                                                                    </Canvas.RenderTransform>
+                                                                                    <Path Data="M20,10 C20,4.47708129 15.5229302,0 10,0 C4.47722243,0 0,4.47708129 0,10 C0,15.5229187 4.47722243,20 10,20 C15.5229302,20 20,15.5229187 20,10 Z" Fill="#F36986" />
+                                                                                    <Path Data="M16.1689432,2.12905883 C17.50248,3.82827758 18.2979016,5.97015383 18.2979016,8.29788207 C18.2979016,13.8206482 13.8206791,18.2978821 8.29790157,18.2978821 C5.97008777,18.2978821 3.8283098,17.5024414 2.12895843,16.1688232 C3.95971002,18.5014343 6.80488363,20 10,20 C15.5229302,20 20,15.5229187 20,10 C20,6.80480957 18.501488,3.95965578 16.1689432,2.12905883 Z" Fill="#FC476E" />
+                                                                                    <Path Data="M10.6350248,11.6796875 L9.36497521,11.6796875 C9.11346815,11.6796875 8.90957651,11.4758301 8.90957651,11.2242127 L8.90957651,5.47424316 C8.90957651,5.22262574 9.11346815,5.01876832 9.36497521,5.01876832 L10.6350248,5.01876832 C10.8865319,5.01876832 11.0905761,5.22262574 11.0905761,5.47424316 L11.0905761,11.2242127 C11.0905761,11.4758301 10.8866845,11.6796875 10.6350248,11.6796875 L10.6350248,11.6796875 Z" Fill="#FFD2E3" />
+                                                                                    <Path Data="M10.6351774,5.01876832 L9.8121328,5.01876832 C10.0636399,5.01876832 10.2675315,5.22262574 10.2675315,5.47424316 L10.2675315,11.2242127 C10.2675315,11.4758301 10.0636399,11.6796875 9.8121328,11.6796875 L10.6351774,11.6796875 C10.8866845,11.6796875 11.0905761,11.4756775 11.0905761,11.2242127 L11.0905761,5.47424316 C11.0905761,5.22262574 10.8866845,5.01876832 10.6351774,5.01876832 L10.6351774,5.01876832 Z" Fill="#FFBBD7" />
+                                                                                    <Path Data="M10,15.3048706 C9.39778712,15.3048706 8.90957651,14.8165894 8.90957651,14.2144775 L8.90957651,14.2141723 C8.90957651,13.6120605 9.39778712,13.1237793 10,13.1237793 C10.6022129,13.1237793 11.0905761,13.6120605 11.0905761,14.2141723 L11.0905761,14.2144775 C11.0905761,14.8165894 10.6022129,15.3048706 10,15.3048706 L10,15.3048706 Z" Fill="#FFD2E3" />
+                                                                                    <Path Data="M10,13.1237793 C9.91224726,13.1237793 9.8269363,13.1344605 9.74513546,13.1539917 C10.2244945,13.2688904 10.580847,13.6997986 10.580847,14.214325 C10.580847,14.7286987 10.2244945,15.1597595 9.74513546,15.2745056 C9.8269363,15.2941895 9.91224726,15.3048706 10,15.3048706 C10.6023655,15.3048706 11.0905761,14.8165894 11.0905761,14.214325 C11.0905761,13.6120605 10.6022129,13.1237793 10,13.1237793 L10,13.1237793 Z" Fill="#FFBBD7" />
+                                                                                </Canvas>
+                                                                            </Canvas>
+                                                                        </Canvas>
+                                                                    </Canvas>
+                                                                </Canvas>
+                                                            </Canvas>
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <Viewbox Width="20" Height="20" Visibility="{Binding Path=IsReadyForMining, Converter={StaticResource BoolToVisibleConverter}}">
+                                                        <Canvas Height="25" Width="25">
+                                                            <Canvas>
+                                                                <Canvas.RenderTransform>
+                                                                    <TransformGroup>
+                                                                        <TranslateTransform X="-595.000000" Y="-370.000000" />
+                                                                    </TransformGroup>
+                                                                </Canvas.RenderTransform>
+                                                                <Canvas>
+                                                                    <Canvas.RenderTransform>
+                                                                        <TransformGroup>
+                                                                            <TranslateTransform X="320.000000" Y="160.000000" />
+                                                                        </TransformGroup>
+                                                                    </Canvas.RenderTransform>
+                                                                    <Canvas>
+                                                                        <Canvas.RenderTransform>
+                                                                            <TransformGroup>
+                                                                                <TranslateTransform X="275.000000" Y="210.000000" />
+                                                                            </TransformGroup>
+                                                                        </Canvas.RenderTransform>
+                                                                        <Ellipse Fill="#04C4BB" Canvas.Left="0" Canvas.Top="0" Width="25" Height="25" />
+                                                                        <Path Data="M9.30599369,18.1388013 L15.7334385,24.5662461 C21.0567823,23.1466877 25,18.29653 25,12.5 C25,12.3817035 25,12.2634069 25,12.1451104 L19.9526814,7.49211356 L9.30599369,18.1388013 Z" Fill="#0396C7" />
+                                                                        <Canvas>
+                                                                            <Canvas.RenderTransform>
+                                                                                <TransformGroup>
+                                                                                    <TranslateTransform X="4.199527" Y="6.171136" />
+                                                                                </TransformGroup>
+                                                                            </Canvas.RenderTransform>
+                                                                            <Path Data="M8.6159306,9.1285489 C9.16798107,9.68059937 9.16798107,10.6269716 8.6159306,11.1790221 L7.47239748,12.3225552 C6.920347,12.8746057 5.97397476,12.8746057 5.42192429,12.3225552 L0.414037855,7.27523659 C-0.138012618,6.72318612 -0.138012618,5.77681388 0.414037855,5.22476341 L1.55757098,4.08123028 C2.10962145,3.52917981 3.05599369,3.52917981 3.60804416,4.08123028 L8.6159306,9.1285489 Z" Fill="#FFFFFF" />
+                                                                            <Path Data="M12.9929022,0.414037855 C13.5449527,-0.138012618 14.4913249,-0.138012618 15.0433754,0.414037855 L16.1869085,1.55757098 C16.738959,2.10962145 16.738959,3.05599369 16.1869085,3.60804416 L7.51182965,12.2436909 C6.95977918,12.7957413 6.01340694,12.7957413 5.46135647,12.2436909 L4.31782334,11.1001577 C3.76577287,10.5481073 3.76577287,9.60173502 4.31782334,9.04968454 L12.9929022,0.414037855 Z" Fill="#FFFFFF" />
+                                                                        </Canvas>
+                                                                    </Canvas>
+                                                                </Canvas>
+                                                            </Canvas>
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                </StackPanel>
                                             </StackPanel>
                                             <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,3,0,3">
                                                 <Label VerticalAlignment="Center" FontFamily="Segoe Ui" FontSize="12" Padding="0" FontWeight="Light" Content="Mode:" ToolTip="{Binding ClaymorePerformanceThrottlingDebug}"/>

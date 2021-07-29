@@ -104,10 +104,11 @@ namespace GolemUI.Src
             }
         }
 
-        public Task Prepare(bool isGpuCapable)
+        public async Task Prepare(bool isGpuCapable)
         {
-            return Task.Run(() =>
+            var changedProps = await Task.Run(() =>
             {
+                var changedProperties = new List<string>();
                 var config = Config ?? _provider.Config;
                 if (config!.Subnet == null)
                 {
@@ -127,7 +128,8 @@ namespace GolemUI.Src
                     }), out _args, out _info);
 
                     _provider.ActivatePreset("gminer");
-                    OnPropertyChanged("IsMiningActive");
+                    changedProperties.Add("IsMiningActive");
+
                 }
                 if (!presets.Contains("wasmtime"))
                 {
@@ -137,14 +139,24 @@ namespace GolemUI.Src
                         { "duration", 0m }
                     }), out _args, out _info);
                     _provider.ActivatePreset("wasmtime");
-                    OnPropertyChanged("IsCpuActive");
+                    changedProperties.Add("IsCpuActive");
                 }
 
                 if (presets.Contains("default"))
                 {
                     _provider.DeactivatePreset("default");
                 }
+
+                return changedProperties;
             });
+            if (changedProps.Count > 0)
+            {
+                _activePresets = _provider.ActivePresets;
+                foreach (var propName in changedProps)
+                {
+                    OnPropertyChanged(propName);
+                }
+            }
         }
     }
 }
