@@ -69,7 +69,6 @@ namespace GolemUI.UI
             _serviceProvider = serviceProvider;
             InitializeComponent();
             DataContext = model;
-            Sentry.Setup.Log("constructor");
 
         }
 
@@ -103,7 +102,6 @@ namespace GolemUI.UI
 
         private void MinimizeApp(object sender, RoutedEventArgs e)
         {
-            Sentry.Setup.Log("App Minimized");
             WindowState = WindowState.Minimized;
         }
 
@@ -117,33 +115,28 @@ namespace GolemUI.UI
 
         private void WantToLearn_Click(object sender, RoutedEventArgs e)
         {
-            Sentry.Setup.Log("WantToLearn_Click");
             Model!.GoToNoobFlow();
         }
 
         private void ExpertMode_Click(object sender, RoutedEventArgs e)
         {
-            Sentry.Setup.Log("ExpertMode_Click");
             Model!.GoToExpertMode();
         }
 
 
         private void OnWTLStep1(object sender, RoutedEventArgs e)
         {
-            Sentry.Setup.Log("OnWTLStep1");
             Model!.NoobStep = 1;
         }
 
         // Genetate Seed
         private void OnWTLStep2(object sender, RoutedEventArgs e)
         {
-            Sentry.Setup.Log("OnWTLStep2");
             Model!.GenerateSeed();
         }
 
         private void OnWTLStep3Print(object sender, RoutedEventArgs e)
         {
-            Sentry.Setup.Log("OnWTLStep3Print");
             var printDlg = new PrintDialog();
             var table = new Table();
             var rg = new TableRowGroup();
@@ -177,15 +170,11 @@ namespace GolemUI.UI
 
         private /*async*/ void OnWTLStep3Next(object sender, RoutedEventArgs e)
         {
-            Sentry.Setup.Log("ActivateHdWallet");
             Model!.ActivateHdWallet();
         }
 
         private void OnWTLStep4Next(object sender, RoutedEventArgs e)
         {
-            Sentry.Breadcrumb.PropertySet("NodeName", Model.NodeName);
-            Sentry.Setup.Log("OnWTLStep4Next");
-
             Model!.NoobStep = 4;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnum.High;
             Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "", null);
@@ -193,13 +182,11 @@ namespace GolemUI.UI
 
         private void OnCancelNoobFlow(object sender, RoutedEventArgs e)
         {
-            Sentry.Setup.Log("OnCancelNoobFlow");
             Model!.Flow = 0;
         }
 
         private void OnNoobFinish(object sender, RoutedEventArgs e)
         {
-            Sentry.Setup.Log("OnNoobFinish");
             Model!.Save();
             var wnd = _serviceProvider.GetService(typeof(GolemUI.Dashboard)) as GolemUI.Dashboard;
             wnd?.Show();
@@ -208,28 +195,22 @@ namespace GolemUI.UI
 
         private void OnChooseNewWallet(object sender, RoutedEventArgs e)
         {
-            Sentry.Setup.Log("OnChooseNewWallet");
             Model!.NoobStep = (int)ViewModel.SetupViewModel.NoobSteps.Prepare;
             Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.Noob;
         }
 
         private void OnChooseOwnWallet(object sender, RoutedEventArgs e)
         {
-            Sentry.Setup.Log("OnChooseOwnWallet");
             Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.OwnWallet;
         }
 
         private void OnEMWalletStepDone(object sender, RoutedEventArgs e)
         {
-            Sentry.Breadcrumb.PropertySet("Address", Model.Address);
-            Sentry.Setup.Log("OnEMWalletStepDone");
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Name;
         }
 
         private void OnEMNameStepDone(object sender, RoutedEventArgs e)
         {
-            Sentry.Breadcrumb.PropertySet("NodeName", Model.NodeName);
-            Sentry.Setup.Log("OnEMNameStepDone");
 
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnum.High;
@@ -238,7 +219,6 @@ namespace GolemUI.UI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Sentry.Setup.Log("Window_Loaded");
             EnableBlur();
         }
 

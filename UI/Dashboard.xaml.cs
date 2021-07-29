@@ -93,13 +93,10 @@ namespace GolemUI
             _pages[_pageSelected].View.Opacity = 1.0f;
 
             singleInstanceLock.ActivateEvent += OnAppReactivate;
-
-            Sentry.Dashboard.Log("constructor");
         }
 
         private void OnAppReactivate(object sender)
         {
-            Sentry.Dashboard.Log("OnAppReactivate");
             Dispatcher.Invoke(() =>
             {
                 WindowState = WindowState.Normal;
@@ -156,7 +153,6 @@ namespace GolemUI
 
         public void SwitchPage(DashboardPages page)
         {
-            Sentry.Dashboard.Log("SwitchPage - " + page.ToString());
 
             if (page == _pageSelected) return;
 
@@ -224,7 +220,6 @@ namespace GolemUI
         private bool _forceExit = false;
         public void RequestClose(bool isAlreadyClosing = false)
         {
-            Sentry.Dashboard.Log("RequestClose", "isAlreadyClosing", isAlreadyClosing.ToString());
             if (_processControler.IsProviderRunning)
             {
                 _processControler.Stop();
@@ -238,7 +233,6 @@ namespace GolemUI
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Sentry.Dashboard.Log("Window_Closing");
             if (_forceExit)
             {
                 return;
@@ -261,7 +255,6 @@ namespace GolemUI
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Sentry.Dashboard.Log("Window_Loaded");
             await Task.WhenAll(
                 _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible),
                 _processControler.Prepare()
@@ -272,7 +265,6 @@ namespace GolemUI
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
         {
-            Sentry.Dashboard.Log("MinButton_Click");
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
 
             if (ls.MinimizeToTrayOnMinimize)
@@ -289,7 +281,6 @@ namespace GolemUI
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            Sentry.Dashboard.Log("CloseButton_Click");
             this.Close();
         }
 

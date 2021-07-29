@@ -2,6 +2,7 @@
 using GolemUI.Command;
 using GolemUI.Interfaces;
 using GolemUI.Settings;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -220,7 +221,7 @@ namespace GolemUI.Src
             SettingsLoader.SaveBenchmarkToFile(results);
         }
 
-        public BenchmarkService(IProviderConfig providerConfig)
+        public BenchmarkService(IProviderConfig providerConfig, ILoggerFactory loggerFactory)
         {
             _providerConfig = providerConfig;
         }

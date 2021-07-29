@@ -27,18 +27,18 @@ namespace GolemUI
 
         private readonly ServiceProvider _serviceProvider;
         private readonly GolemUI.ChildProcessManager _childProcessManager;
-        private readonly IDisposable _sentrySdk;
+       // private readonly IDisposable _sentrySdk;
 
         public App()
         {
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
-            _sentrySdk = (SentrySdk.Init(o =>
+           /* _sentrySdk = (SentrySdk.Init(o =>
               {
 
                   o.Dsn = "https://3210d81dbe2042d0a1adce29072b26d7@o921571.ingest.sentry.io/5881077";
                   o.Debug = true; //todo: change to false for production release
                   o.TracesSampleRate = 1.0; //todo: probably should change in future ?
-              }));
+              }));*/
 
             SentrySdk.ConfigureScope(scope =>
             {
@@ -99,6 +99,13 @@ namespace GolemUI
             services.AddTransient(typeof(UI.SetupWindow));
             services.AddTransient(typeof(GolemUI.DebugWindow));
 
+
+            services.AddLogging(logBuilder => {
+                logBuilder.AddDebug();
+                logBuilder.SetMinimumLevel(LogLevel.Trace);
+                logBuilder.AddSentry(GolemUI.Properties.Settings.Default.SentryDsn);
+            });
+
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
@@ -108,7 +115,7 @@ namespace GolemUI
                 this.Shutdown();
                 return;
             }
-            var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
+            //var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
             var args = e.Args;
             if ((args.Length > 0 && args[0] == "setup") || !GolemUI.Properties.Settings.Default.Configured)
             {
