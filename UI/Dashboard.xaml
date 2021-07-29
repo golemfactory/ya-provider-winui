@@ -68,9 +68,9 @@
             </Border>
             <Border x:Name="brdNavigation" BorderBrush="White" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 1 0">
                 <StackPanel Margin="10,25,10,10">
-                    <Button x:Name="btnPageDashboard" Style="{StaticResource NavSidepanelButtonDashboard}" Click="btnPageDashboard_Click"/>
-                    <Button x:Name="btnPageWallet" Style="{StaticResource NavSidepanelButtonWallet}" Click="btnPageWallet_Click"/>
-                    <Button x:Name="btnPageSettings" Style="{StaticResource NavSidepanelButtonSettings}" Click="btnPageSettings_Click"/>
+                    <RadioButton x:Name="btnPageDashboard" GroupName="nav" Style="{StaticResource NavSidepanelButtonDashboard}" Click="btnPageDashboard_Click"/>
+                    <RadioButton x:Name="btnPageWallet" GroupName="nav" Style="{StaticResource NavSidepanelButtonWallet}" Click="btnPageWallet_Click"/>
+                    <RadioButton x:Name="btnPageSettings" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}" Click="btnPageSettings_Click"/>
                 </StackPanel>
             </Border>
 
