@@ -80,7 +80,11 @@ namespace GolemUI
             }
 
             var args = e.Args;
-            if ((args.Length > 0 && args[0] == "setup") || !GolemUI.Properties.Settings.Default.Configured)
+            if (args.Length > 0 && args[0] == "skip_setup")
+            {
+                //skip setup
+            }
+            else if ((args.Length > 0 && args[0] == "setup") || !GolemUI.Properties.Settings.Default.Configured)
             {
                 var window = _serviceProvider!.GetRequiredService<UI.SetupWindow>();
                 window.Show();

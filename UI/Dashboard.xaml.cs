@@ -19,6 +19,9 @@ using GolemUI.Notifications;
 using GolemUI.Controllers;
 using GolemUI.Interfaces;
 using GolemUI.Src;
+using GolemUI.UI;
+using System.Windows.Interop;
+using System.Runtime.InteropServices;
 
 namespace GolemUI
 {
@@ -37,6 +40,9 @@ namespace GolemUI
     /// </summary>
     public partial class Dashboard : Window
     {
+        [DllImport("user32.dll")]
+        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+
         public DashboardMain DashboardMain { get; set; }
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardAdvancedSettings DashboardAdvancedSettings { get; set; }
@@ -246,8 +252,31 @@ namespace GolemUI
             e.Cancel = true;
         }
 
+        internal void EnableBlur()
+        {
+            var windowHelper = new WindowInteropHelper(this);
+
+            var accent = new AccentPolicy();
+            accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
+
+            var accentStructSize = Marshal.SizeOf(accent);
+
+            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+            Marshal.StructureToPtr(accent, accentPtr, false);
+
+            var data = new WindowCompositionAttributeData();
+            data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
+            data.SizeOfData = accentStructSize;
+            data.Data = accentPtr;
+
+            SetWindowCompositionAttribute(windowHelper.Handle, ref data);
+
+            Marshal.FreeHGlobal(accentPtr);
+        }
+
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            EnableBlur();
             await Task.WhenAll(
                 _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible),
                 _processControler.Prepare()

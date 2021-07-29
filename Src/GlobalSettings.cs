@@ -69,8 +69,6 @@ namespace GolemUI.Settings
     public class LocalSettings
     {
         public int SettingsVersion { get; set; }
-        public string? MinerSelectedGPUIndices { get; set; }
-        public string? MinerSelectedGPUsNiceness { get; set; }
         public string? BenchmarkLength { get; set; }
         public string? CustomPool { get; set; }
         public string? OptionalEmail { get; set; }
