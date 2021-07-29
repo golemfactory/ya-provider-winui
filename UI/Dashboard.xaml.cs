@@ -41,8 +41,7 @@ namespace GolemUI
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardAdvancedSettings DashboardAdvancedSettings { get; set; }
         public DashboardWallet DashboardWallet { get; set; }
-        public DashboardBenchmark DashboardBenchmark { get; set; }
-        public DashboardDetails DashboardDetails { get; set; }
+
 
         public DashboardPages _pageSelected = DashboardPages.PageDashboardMain;
 
@@ -64,16 +63,14 @@ namespace GolemUI
             DashboardSettings = _dashboardSettings;
             DashboardAdvancedSettings = new DashboardAdvancedSettings();
             DashboardWallet = _dashboardWallet;
-            DashboardBenchmark = new DashboardBenchmark();
-            DashboardDetails = new DashboardDetails();
+
 
 
             _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
             _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
             _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPage(DashboardAdvancedSettings));
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
-            _pages.Add(DashboardPages.PageDashboardBenchmark, new DashboardPage(DashboardBenchmark));
-            _pages.Add(DashboardPages.PageDashboardDetails, new DashboardPage(DashboardDetails));
+
             _pageSelected = DashboardPages.PageDashboardMain;
 
             dashboardMain.Model.LoadData();

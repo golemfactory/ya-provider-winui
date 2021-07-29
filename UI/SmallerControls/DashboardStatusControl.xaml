@@ -22,7 +22,7 @@
 
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0" Height="65" VerticalAlignment="Bottom" Visibility="{Binding ElementName=DashboardStatusControlInstance, Path=Status, Mode=OneWay, Converter={StaticResource DashboardStatusToVisibleConverter}}" >
             <Label Margin="0" FontSize="11" Content="Status: " VerticalAlignment="Bottom"></Label>
-            <Image Source="{Binding ElementName=DashboardStatusControlInstance, Path=Status, Mode=OneWay, Converter={StaticResource DashboardStatusToIconConverter}}" Width="18" Height="18" VerticalAlignment="Bottom" Margin="0,0,0,3"/>
+            <Image Source="{Binding Path=Status, Mode=OneWay, Converter={StaticResource DashboardStatusToIconConverter}}" Width="18" Height="18" VerticalAlignment="Bottom" Margin="0,0,0,3"/>
             <Label Margin="0" FontSize="14" FontWeight="Black" Name="lblStatus" Content="{Binding ElementName=DashboardStatusControlInstance, Path=Status, Mode=OneWay, Converter={StaticResource DashboardStatusToTextConverter}}" VerticalAlignment="Bottom"></Label>
         </StackPanel>
     
