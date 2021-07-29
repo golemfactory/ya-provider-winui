@@ -29,15 +29,8 @@ namespace GolemUI.Extensions
             {
                 KillProcessAndChildren(Convert.ToInt32(mo["ProcessID"]));
             }
-            try
-            {
-                Process proc = Process.GetProcessById(pid);
-                proc.Kill();
-            }
-            catch (ArgumentException)
-            {
-                // Process already exited.
-            }
+            Process proc = Process.GetProcessById(pid);
+            proc.Kill();
         }
 
 
@@ -48,14 +41,7 @@ namespace GolemUI.Extensions
         {
             if (entireProcessTree)
             {
-                try
-                {
-                    KillProcessAndChildren(process.Id);
-                }
-                catch (Exception ex)
-                {
-                    Debug.Fail(ex.Message);
-                }
+                KillProcessAndChildren(process.Id);
             }
             else if (!entireProcessTree)
             {
