@@ -14,14 +14,14 @@ namespace GolemUI
         private readonly IProcessControler _processControler;
         private readonly Src.BenchmarkService _benchmarkService;
         public string YagnaId = "";
-        
-       
+
+
         public SentryAdditionalDataIngester(Interfaces.IProcessControler processControler, Src.BenchmarkService benchmarkService)
         {
             _processControler = processControler;
             _benchmarkService = benchmarkService;
             _processControler.PropertyChanged += _processControler_PropertyChanged;
-           
+
         }
         private async void _processControler_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -39,6 +39,6 @@ namespace GolemUI
 
             }
         }
-    
+
     }
 }

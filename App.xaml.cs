@@ -83,7 +83,7 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
             services.AddSingleton<Src.BenchmarkService>();
-            
+
 
             services.AddTransient(typeof(SentryAdditionalDataIngester));
             services.AddTransient(typeof(DashboardWallet));
@@ -101,7 +101,8 @@ namespace GolemUI
             services.AddTransient(typeof(GolemUI.DebugWindow));
 
 
-            services.AddLogging(logBuilder => {
+            services.AddLogging(logBuilder =>
+            {
                 logBuilder.AddDebug();
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
                 logBuilder.AddSentry(GolemUI.Properties.Settings.Default.SentryDsn);
