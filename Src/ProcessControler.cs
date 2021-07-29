@@ -219,6 +219,9 @@ namespace GolemUI
                         return keyMe;
                     }
                     throw new Exception("Failed to get key");
+
+
+
                 }
                 catch (Exception)
                 {

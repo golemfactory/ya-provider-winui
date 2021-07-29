@@ -156,6 +156,7 @@ namespace GolemUI
 
         public void SwitchPage(DashboardPages page)
         {
+
             if (page == _pageSelected) return;
 
             _pages.ToList().Where(x => x.Key != _pageSelected && x.Key != page).ToList().ForEach(x => x.Value.Clear());
@@ -184,6 +185,7 @@ namespace GolemUI
 
             _pageSelected = page;
         }
+
 
         static void AnimateScroll(UIElement element, double amount, TimeSpan duration)
         {
@@ -268,6 +270,7 @@ namespace GolemUI
                 _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible),
                 _processControler.Prepare()
             );
+
 
         }
 

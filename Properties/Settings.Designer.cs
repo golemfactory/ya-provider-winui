@@ -76,5 +76,14 @@ namespace GolemUI.Properties {
                 return ((bool)(this["TestNet"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://3210d81dbe2042d0a1adce29072b26d7@o921571.ingest.sentry.io/5881077")]
+        public string SentryDsn {
+            get {
+                return ((string)(this["SentryDsn"]));
+            }
+        }
     }
 }
