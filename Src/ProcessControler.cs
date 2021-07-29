@@ -110,6 +110,7 @@ namespace GolemUI
                 {
                     _yagnaDaemon.Kill(entireProcessTree: true);
                 }
+                _yagnaDaemon = null;
             }
         }
 

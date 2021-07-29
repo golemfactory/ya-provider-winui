@@ -222,17 +222,23 @@ namespace GolemUI
         }
 
         private bool _forceExit = false;
-        public void RequestClose(bool isAlreadyClosing = false)
+        public void RequestClose()
         {
-            if (_processControler.IsProviderRunning)
+            Task.Run(async () =>
             {
-                _processControler.Stop();
-            }
-            if (!isAlreadyClosing)
-            {
-                _forceExit = true;
-                Close();
-            }
+                //try to gently stop yagna
+                await _processControler.Stop();
+                //we should stop yagna before closing windows (otherwise).
+                //That way application is closing a bit faster (not waiting for service dispose)
+                _processControler.StopYagna();
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    //After stopping services we can safely close the window
+                    this._forceExit = true;
+                    this.Close();
+                });
+            });
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -245,7 +251,7 @@ namespace GolemUI
             LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
             if (ls.CloseOnExit)
             {
-                RequestClose(true);
+                RequestClose();
             }
             else
             {
