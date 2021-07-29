@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -308,6 +308,7 @@
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
+    <Compile Include="Extensions\KillProcess.cs" />
     <Compile Include="Interfaces\IAppKeyProvider.cs" />
     <Compile Include="Interfaces\IEstimatedProfiProvider.cs" />
     <Compile Include="Interfaces\IPaymentService.cs" />
@@ -450,18 +451,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\DashboardIcon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\SettingsIcon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Icons\DefaultStyle\xaml\DashboardMenu\WalletIcon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\Icons\Nav_Dashboard_icon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -543,6 +532,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Themes\Buttons\HyperLinkButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\NavSidepanelButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
