@@ -109,12 +109,12 @@ namespace GolemUI
             });
         }
 
-        private void Page1Click(object sender, RoutedEventArgs e)
+        private void btnPageDashboard_Click(object sender, RoutedEventArgs e)
         {
             SwitchPage(DashboardPages.PageDashboardMain);
         }
 
-        private void Page2Click(object sender, RoutedEventArgs e)
+        private void btnPageWallet_Click(object sender, RoutedEventArgs e)
         {
             SwitchPage(DashboardPages.PageDashboardSettings);
         }
@@ -133,7 +133,7 @@ namespace GolemUI
         {
             SwitchPage(DashboardPages.PageDashboardAdvancedSettings);
         }
-        private void Page6Click(object sender, RoutedEventArgs e)
+        private void btnPageSettings_Click(object sender, RoutedEventArgs e)
         {
             SwitchPage(DashboardPages.PageDashboardWallet);
         }
@@ -183,19 +183,6 @@ namespace GolemUI
             LastPage = _pageSelected;
 
             _pageSelected = page;
-        }
-
-        public void BlockNavigation()
-        {
-            btnPage1.IsEnabled = false;
-            btnPage2.IsEnabled = false;
-            //btnPage4.IsEnabled = false;
-        }
-        public void ResumeNavigation()
-        {
-            btnPage1.IsEnabled = true;
-            btnPage2.IsEnabled = true;
-            //btnPage4.IsEnabled = true;
         }
 
         static void AnimateScroll(UIElement element, double amount, TimeSpan duration)

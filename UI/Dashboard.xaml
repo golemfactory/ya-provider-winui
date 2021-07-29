@@ -36,48 +36,44 @@
         </ResourceDictionary>
     </Window.Resources>
     <Border  BorderThickness="1" CornerRadius="12" Background="{DynamicResource SetupWindow.Background}" MouseDown="TitleBar_MouseDown">
-    <Grid x:Name="grdMain" HorizontalAlignment="Stretch" Margin="0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="32"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid x:Name="grdMain" HorizontalAlignment="Stretch" Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <tb:TaskbarIcon Visibility="Hidden" x:Name="tbNotificationIcon" IconSource="/Media/tray.ico" ToolTipText="GolemUI" DoubleClickCommand="{Binding ElementName=DashboardWindow, Path=ShowCommand, Mode=OneWay}" ContextMenu="{StaticResource TrayMenu}"/>
+            <tb:TaskbarIcon Visibility="Hidden" x:Name="tbNotificationIcon" IconSource="/Media/tray.ico" ToolTipText="GolemUI" DoubleClickCommand="{Binding ElementName=DashboardWindow, Path=ShowCommand, Mode=OneWay}" ContextMenu="{StaticResource TrayMenu}"/>
 
-        <Border Grid.Column="0" Grid.Row="0">
-            <Label Foreground="White" VerticalAlignment="Center" Visibility="Hidden">GolemUI 0.0.1</Label>
-        </Border>
-        <Border Grid.Column="1" Grid.Row="0">
-            <DockPanel>
-                <DockPanel x:Name="TitleBar" DockPanel.Dock="Top">
-                    <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="CloseButton_Click" Style="{DynamicResource CloseWindowButton}"/>
-                    <Button x:Name="MinButton" Content="Min" DockPanel.Dock="Right" Click="MinButton_Click" Style="{DynamicResource MinWindowButton}"/>
-                    <TextBlock HorizontalAlignment="Center"></TextBlock>
+            
+            <Border Grid.Column="0" Grid.Row="0" BorderBrush="White" BorderThickness="0 0 1 0" Margin="0,0,0,0">
+                <Label Foreground="White" VerticalAlignment="Center" Visibility="Hidden">GolemUI 0.0.1</Label>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="0" VerticalAlignment="Top">
+                <DockPanel>
+                    <DockPanel x:Name="TitleBar" DockPanel.Dock="Top">
+                        <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="CloseButton_Click" Style="{DynamicResource CloseWindowButton}"/>
+                        <Button x:Name="MinButton" Content="Min" DockPanel.Dock="Right" Click="MinButton_Click" Style="{DynamicResource MinWindowButton}"/>
+                        <TextBlock HorizontalAlignment="Center"></TextBlock>
+                    </DockPanel>
                 </DockPanel>
-            </DockPanel>
-        </Border>
-        <Border x:Name="brdNavigation" BorderBrush="White" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 1 0"  Margin="0,40,0,0">
-            <StackPanel >
-                <StackPanel.Resources>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Margin" Value="0,40,0,0"/>
-                    </Style>
-                </StackPanel.Resources>
-                <Button x:Name="btnPage1" Style="{StaticResource NavSidepanelButtonDashboard}" Click="Page1Click" Padding="0" />
-                <Button x:Name="btnPage2" Style="{StaticResource NavSidepanelButtonWallet}" Click="Page2Click" Padding="0"/>
-                <Button x:Name="btnPage6" Style="{StaticResource NavSidepanelButtonSettings}" Click="Page6Click" Padding="0"/>
+            </Border>
 
-            </StackPanel>
-        </Border>
+            <Border BorderThickness="0" Grid.Column="1" Grid.Row="1">
+                <Grid x:Name="tcNo1" >
+                </Grid>
+            </Border>
+            <Border x:Name="brdNavigation" BorderBrush="White" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 1 0">
+                <StackPanel Margin="10,25,10,10">
+                    <Button x:Name="btnPageDashboard" Style="{StaticResource NavSidepanelButtonDashboard}" Click="btnPageDashboard_Click"/>
+                    <Button x:Name="btnPageWallet" Style="{StaticResource NavSidepanelButtonWallet}" Click="btnPageWallet_Click"/>
+                    <Button x:Name="btnPageSettings" Style="{StaticResource NavSidepanelButtonSettings}" Click="btnPageSettings_Click"/>
+                </StackPanel>
+            </Border>
 
-        <Border BorderThickness="0" Grid.Column="1" Grid.Row="1">
-            <Grid x:Name="tcNo1" >
-            </Grid>
-        </Border>
-    </Grid>
+        </Grid>
     </Border>
 </Window>
