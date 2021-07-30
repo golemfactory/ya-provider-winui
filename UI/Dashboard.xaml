@@ -77,7 +77,7 @@
                     <RadioButton x:Name="btnPageSettings" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}" Click="btnPageSettings_Click"/>
                 </StackPanel>
             </Border>
-            <Button x:Name="btnInformation" Style="{StaticResource NavSidepanelButtonInformation}" VerticalAlignment="Bottom" Margin="10,0,0,40" Grid.Row="1"/>
+            <Button x:Name="btnInformation" Style="{StaticResource NavSidepanelButtonInformation}" VerticalAlignment="Bottom" Margin="10,0,0,40" Grid.Row="1" Click="OnInfoClicked"/>
         </Grid>
     </Border>
 </Window>

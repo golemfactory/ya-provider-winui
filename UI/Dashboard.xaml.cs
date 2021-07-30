@@ -337,5 +337,11 @@ namespace GolemUI
         private readonly Interfaces.IProcessControler _processControler;
         private readonly IProviderConfig _providerConfig;
         private readonly BenchmarkService _benchmarkService;
+
+        private void OnInfoClicked(object sender, RoutedEventArgs e)
+        {
+            var _nt = new Src.NotyficationService();
+            _nt.Show();
+        }
     }
 }
