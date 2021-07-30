@@ -105,7 +105,6 @@ namespace GolemUI
             {
                 WindowState = WindowState.Normal;
                 ShowInTaskbar = true;
-                tbNotificationIcon.Visibility = Visibility.Hidden;
                 Activate();
             });
         }
