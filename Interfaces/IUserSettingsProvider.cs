@@ -7,9 +7,13 @@ using GolemUI.Model;
 
 namespace GolemUI.Interfaces
 {
-    class IUserSettingsProvider
+    public interface IUserSettingsProvider 
     {
-        void LoadUserSettings UserSettings();
+        public UserSettings LoadUserSettings();
+
+       // public SaveUserSe
+        //public SaveUserSettings(UserSettings userSettings);
+
 
 
     }

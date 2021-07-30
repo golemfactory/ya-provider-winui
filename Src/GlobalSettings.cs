@@ -79,7 +79,7 @@ namespace GolemUI.Settings
         public bool StartProviderCommandLine { get; set; }
         public bool DisableNotificationsWhenMinimized { get; set; }
         public bool MinimizeToTrayOnMinimize { get; set; }
-        public bool CloseOnExit { get; set; }
+        public bool CloseOnExit { get; set; } = true;
 
         public bool StartWithWindows { get; set; }
         public bool EnableWASMUnit { get; set; }

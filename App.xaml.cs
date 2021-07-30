@@ -108,7 +108,6 @@ namespace GolemUI
                 logBuilder.AddSentry(GolemUI.Properties.Settings.Default.SentryDsn);
             });
 
-            services.Configure<PositionOptions>(Configuration.GetSection(PositionOptions.Position));
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
