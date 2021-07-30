@@ -106,6 +106,7 @@ namespace GolemUI
             else
                 ActiveCpusCount = TotalCpusCount;
 
+            NotifyChange("TotalCpusCountAsString");
 
         }
 
@@ -244,6 +245,8 @@ namespace GolemUI
                 _providerConfig.IsCpuActive = value;
             }
         }
+        public string TotalCpusCountAsString => TotalCpusCount.ToString();
+        public string ActiveCpusCountAsString => ActiveCpusCount.ToString();
         public int ActiveCpusCount
         {
             get => _activeCpusCount;
@@ -251,6 +254,8 @@ namespace GolemUI
             {
                 _activeCpusCount = value;
                 NotifyChange("ActiveCpusCount");
+                NotifyChange("ActiveCpusCountAsString");
+
             }
         }
         public int TotalCpusCount => _totalCpusCount;

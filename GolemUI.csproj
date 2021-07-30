@@ -308,7 +308,6 @@
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
-    <Compile Include="Extensions\KillProcess.cs" />
     <Compile Include="Interfaces\IAppKeyProvider.cs" />
     <Compile Include="Interfaces\IEstimatedProfiProvider.cs" />
     <Compile Include="Interfaces\IPaymentService.cs" />
@@ -713,6 +712,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Branding\SupportedByGolem.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="__Media\screen_settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Settings\TaskType.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
