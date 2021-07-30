@@ -170,16 +170,7 @@ namespace GolemUI
             currentPage.Show();
 
 
-            if (page == DashboardPages.PageDashboardBenchmark)
-            {
-                brdNavigation.Visibility = Visibility.Collapsed;
-                grdMain.ColumnDefinitions[0].Width = new GridLength(0, GridUnitType.Pixel);
-            }
-            else
-            {
-                brdNavigation.Visibility = Visibility.Visible;
-                grdMain.ColumnDefinitions[0].Width = new GridLength(120, GridUnitType.Pixel);
-            }
+         
 
             LastPage = _pageSelected;
 

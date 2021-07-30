@@ -240,6 +240,8 @@ namespace GolemUI
                 _providerConfig.IsCpuActive = value;
             }
         }
+        public string TotalCpusCountAsString => TotalCpusCount.ToString();
+        public string ActiveCpusCountAsString => ActiveCpusCount.ToString();
         public int ActiveCpusCount
         {
             get => _activeCpusCount;

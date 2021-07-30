@@ -9,9 +9,8 @@
              mc:Ignorable="d"
              FontFamily="Segoe UI" d:DesignHeight="690" d:DesignWidth="1112" 
              MinWidth="1112"
-             MinHeight="690"
+             MinHeight="630"
              >
-
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -56,7 +55,6 @@
             <Image  Grid.Column="3"  Source="/UI/Icons/DefaultStyle/png/Branding/Thorg.png" HorizontalAlignment="Right" VerticalAlignment="Top" Width="160" Margin="0,-10,30,0" Grid.RowSpan="3" />
             <Border Width="232" Height="25" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 24, 0, 0">
                 <Label Margin ="26,-5" Padding="0"  Foreground="#FFFFFF" Content="Dashboard"  FontSize="24"></Label>
-                <!--<Label Content="Dashboard"></Label>-->
             </Border>
             <Grid Margin="46, 18, 30, 0" Width="auto" Height="auto" Grid.Row="2" Grid.ColumnSpan="3">
                 <Grid.RowDefinitions>
@@ -75,12 +73,12 @@
                 </Grid.ColumnDefinitions>
                 <local:DashboardStatusControl Status="{Binding Path=Status}" Margin="0,0,0,4" Grid.ColumnSpan="2" />
                 <Button Click="btnStop_Click" Margin="0,25,0,0"
-                    Style="{StaticResource BlueButtonStyle}" VerticalAlignment="Stretch" 
+                    Style="{StaticResource BlueButtonStyle}" VerticalAlignment="Bottom" Height="40" 
                     Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3"
                     HorizontalAlignment="Stretch"                        
                         IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}"
                     Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToVisibleConverter}}">Stop Mining</Button>
-                <Button Style="{StaticResource GradientButtonStyle}" Click="btnStart_Click"  Margin="0,25,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Button Style="{StaticResource GradientButtonStyle}" Click="btnStart_Click"  Margin="0,25,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="40"
                         Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}"
                         Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToHiddenConverter}}">Start Mining</Button>
                 <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="0" Padding="8" Grid.Row="2">

@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GolemUI.Utils;
-using GolemUI.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace GolemUI.Command

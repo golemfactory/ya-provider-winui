@@ -706,5 +706,11 @@
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Branding\SupportedByGolem.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="__Media\screen_settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Settings\TaskType.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
