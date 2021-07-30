@@ -56,9 +56,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="88"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="88"/>
 
             </Grid.RowDefinitions>
-            <Image  Grid.Column="2"  Source="/UI/Icons/DefaultStyle/png/Branding/Thorg.png" HorizontalAlignment="Right" VerticalAlignment="Top" Width="160" Margin="0,-10,30,0" />
+            <Image  Grid.Column="2"  Source="/UI/Icons/DefaultStyle/png/Branding/Thorg.png" HorizontalAlignment="Right" VerticalAlignment="Top" Width="160" Margin="0,20,30,0"  Grid.RowSpan="2"/>
             <StackPanel Orientation="Horizontal"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 39, 0, 0" >
                 <Border Width="232" Height="25" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 20, 0, 0">
                     <Label Margin ="26,-5" Padding="0"  Foreground="#FFFFFF" Content="Settings"  FontSize="24"></Label>
@@ -73,7 +74,7 @@
                     <RowDefinition Height="55"/>
                     <RowDefinition Height="*" MinHeight="320" />
                     
-                    <RowDefinition Height="*"/>
+                    
                     
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -103,7 +104,7 @@
                         <Grid.RowDefinitions>
 
                             <RowDefinition Height="60" />
-                            <RowDefinition Height="0.7*" />
+                            <RowDefinition Height="0.7*" MaxHeight="300"/>
                             <RowDefinition Height="*" />
 
                         </Grid.RowDefinitions>
@@ -113,7 +114,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Margin="14,25,0,0" Grid.Row="0" Content="Task type" Foreground="#FFFFFF" FontFamily="SegoeUI" FontSize="20" HorizontalAlignment="Left" FontWeight="Bold"></Label>
-                        <ContentControl Grid.Row="1"  Content="{DynamicResource Task_Type}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Padding="0"/>
+                        
                         <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="/UI/Icons/DefaultStyle/png/Settings/TaskType.png" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20" Stretch="Uniform" />
                         <StackPanel Grid.Row="2" Margin="0,28,0,0" HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
@@ -342,9 +343,9 @@
 
 
                             <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="1" Margin="0,0,10,10">
-                                <Slider Width="190" Height="30" Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Margin="22,9,0,0" Minimum="0" Maximum="{Binding TotalCpusCount, Mode=OneWay}"/>
+                                <Slider  Height="30" Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Top" Margin="22,9,0,0" Minimum="0" Maximum="{Binding TotalCpusCount, Mode=OneWay}"/>
                                 
-                                <StackPanel  Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="110,2,0,0">
+                                <StackPanel  Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,2,0,0">
                                     <Label Content="Cpu Threads:" FontWeight="Light" Margin="0" Padding="0,0,5,0" FontSize="18"/>
                                     <Label Content="{Binding ActiveCpusCountAsString, Mode=OneWay}" FontFamily="Segoe UI" FontWeight="Bold" Margin="0" Padding="0" FontSize="18" />
                                     <Label Content="/" FontSize="18" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF"  />
@@ -379,8 +380,9 @@
                         </Grid>
                     </Border>
                 </Grid>
-                <Image  Grid.Row="5" Grid.Column="5"  Source="/UI/Icons/DefaultStyle/png/Branding/SupportedByGolem.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="250" Margin="0,0,0,20" />
+
             </Grid>
+            <Image  Grid.Row="2" Grid.Column="5"  Source="/UI/Icons/DefaultStyle/png/Branding/SupportedByGolem.png" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,30,20" />
         </Grid>
     </Border>
 </UserControl>

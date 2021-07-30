@@ -102,7 +102,8 @@ namespace GolemUI
             else
                 ActiveCpusCount = TotalCpusCount;
 
-
+            NotifyChange("TotalCpusCountAsString");
+            
         }
 
         private bool IsBenchmarkSettingsCorrupted()
@@ -249,6 +250,8 @@ namespace GolemUI
             {
                 _activeCpusCount = value;
                 NotifyChange("ActiveCpusCount");
+                NotifyChange("ActiveCpusCountAsString");
+
             }
         }
         public int TotalCpusCount => _totalCpusCount;

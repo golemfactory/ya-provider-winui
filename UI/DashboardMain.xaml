@@ -8,8 +8,7 @@
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d"
              FontFamily="Segoe UI" d:DesignHeight="690" d:DesignWidth="1112" 
-             MinWidth="1112"
-             MinHeight="630"
+           
              >
     <UserControl.Resources>
         <ResourceDictionary>
@@ -30,12 +29,12 @@
                 <ResourceDictionary Source="Themes/Buttons/BlueButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
-
+    
             </ResourceDictionary.MergedDictionaries>
+
+
         </ResourceDictionary>
     </UserControl.Resources>
-
-
     <Border Style="{DynamicResource PageBackground}" BorderThickness="1">
         <!--<Border.Background>
             <ImageBrush ImageSource="/__Media/screen_dashboard.png" Stretch="UniformToFill"/>
@@ -58,7 +57,7 @@
             </Border>
             <Grid Margin="46, 18, 30, 0" Width="auto" Height="auto" Grid.Row="2" Grid.ColumnSpan="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.6*"></RowDefinition>
+                    <RowDefinition Height="0.6*" MinHeight="60"></RowDefinition>
                     <RowDefinition Height="0.4*"></RowDefinition>
                     <RowDefinition Height="3*"/>
                 </Grid.RowDefinitions>
