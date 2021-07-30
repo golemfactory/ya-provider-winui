@@ -306,7 +306,7 @@ namespace GolemUI.Command
 
         void OnOutputDataRecv(object sender, DataReceivedEventArgs e)
         {
-            
+
             string? lineText = e.Data;
             //output contains spelling error avaiable instead of available, checking for boths:
             if (lineText == null)

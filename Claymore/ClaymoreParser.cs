@@ -478,7 +478,7 @@ namespace GolemUI.Claymore
         /// Parse output line of claymore process
         /// </summary>
         public void ParseLine(string line)
-        {            
+        {
             lock (__lockObj)
             {
                 // Your code...
