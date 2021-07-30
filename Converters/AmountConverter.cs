@@ -26,13 +26,13 @@ namespace GolemUI.Converters
             {
                 if (parameter?.ToString() == "GLM")
                 {
-                    return $"{dv?.ToString("F5")} GLM";
+                    return $"{dv?.ToString("F4")} GLM";
                 }
                 if (parameter?.ToString() == "usdday")
                 {
-                    return $"${dv?.ToString("F3")} / day";
+                    return $"${dv?.ToString("F2")} / day";
                 }
-                return "$" + dv?.ToString("F3");
+                return "$" + dv?.ToString("F2");
             }
 
             return "N/A";
