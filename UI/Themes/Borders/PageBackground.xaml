@@ -8,7 +8,7 @@
     <SolidColorBrush x:Key="Dashboard.Background" Color="#110D39"></SolidColorBrush>
 
     <Style x:Key="PageBackground" TargetType="{x:Type Border}">
-        <Setter Property="Background" Value="{StaticResource Dashboard.Background}"/>
+        <Setter Property="Background" Value="Transparent"/>
     </Style>
     
 </ResourceDictionary>

@@ -10,6 +10,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using GolemUI.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace GolemUI.Command
 {
@@ -37,6 +39,7 @@ namespace GolemUI.Command
         public volatile float BenchmarkSpeed;
 
         private object _sync = new object();
+        private readonly ILogger _logger;
 
         public string? GPUVendor { get; set; }
 
@@ -78,42 +81,16 @@ namespace GolemUI.Command
 
         Process? _claymoreProcess;
 
-        public ClaymoreBenchmark(int totalClaymoreReportsNeeded)
+        public ClaymoreBenchmark(int totalClaymoreReportsNeeded, ILogger logger = null)
         {
-            _claymoreParserBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: false, totalClaymoreReportsNeeded);
-            _claymoreParserPreBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: true, totalClaymoreReportsNeeded);
+            _logger = logger;
+            _claymoreParserBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: false, totalClaymoreReportsNeeded, logger);
+            _claymoreParserPreBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: true, totalClaymoreReportsNeeded, logger);
 
         }
 
 
-        /// <summary>
-        /// Kill a process, and all of its children, grandchildren, etc.
-        /// </summary>
-        /// <param name="pid">Process ID.</param>
-        private static void KillProcessAndChildren(int pid)
-        {
-            // Cannot close 'system idle process'.
-            if (pid == 0)
-            {
-                return;
-            }
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher
-                    ("Select * From Win32_Process Where ParentProcessID=" + pid);
-            ManagementObjectCollection moc = searcher.Get();
-            foreach (ManagementObject mo in moc)
-            {
-                KillProcessAndChildren(Convert.ToInt32(mo["ProcessID"]));
-            }
-            try
-            {
-                Process proc = Process.GetProcessById(pid);
-                proc.Kill();
-            }
-            catch (ArgumentException)
-            {
-                // Process already exited.
-            }
-        }
+
         public void Stop()
         {
 
@@ -121,7 +98,7 @@ namespace GolemUI.Command
             {
                 if (!_claymoreProcess.HasExited)
                 {
-                    KillProcessAndChildren(_claymoreProcess.Id);
+                    _claymoreProcess.Kill(true);
                 }
                 _claymoreProcess = null;
             }
@@ -329,11 +306,12 @@ namespace GolemUI.Command
 
         void OnOutputDataRecv(object sender, DataReceivedEventArgs e)
         {
+
             string? lineText = e.Data;
             //output contains spelling error avaiable instead of available, checking for boths:
             if (lineText == null)
                 return;
-
+            _logger?.LogInformation("OUTPUT: {0}", lineText);
             _claymoreParserBenchmark.ParseLine(lineText);
         }
 
@@ -343,7 +321,7 @@ namespace GolemUI.Command
             //output contains spelling error avaiable instead of available, checking for boths:
             if (lineText == null)
                 return;
-
+            _logger?.LogInformation("PREOUT: {0}", lineText);
             _claymoreParserPreBenchmark.ParseLine(lineText);
         }
 

@@ -19,6 +19,9 @@ using GolemUI.Notifications;
 using GolemUI.Controllers;
 using GolemUI.Interfaces;
 using GolemUI.Src;
+using GolemUI.UI;
+using System.Windows.Interop;
+using System.Runtime.InteropServices;
 
 namespace GolemUI
 {
@@ -37,6 +40,9 @@ namespace GolemUI
     /// </summary>
     public partial class Dashboard : Window
     {
+        [DllImport("user32.dll")]
+        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+
         public DashboardMain DashboardMain { get; set; }
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardAdvancedSettings DashboardAdvancedSettings { get; set; }
@@ -103,12 +109,12 @@ namespace GolemUI
             });
         }
 
-        private void Page1Click(object sender, RoutedEventArgs e)
+        private void btnPageDashboard_Click(object sender, RoutedEventArgs e)
         {
             SwitchPage(DashboardPages.PageDashboardMain);
         }
 
-        private void Page2Click(object sender, RoutedEventArgs e)
+        private void btnPageWallet_Click(object sender, RoutedEventArgs e)
         {
             SwitchPage(DashboardPages.PageDashboardSettings);
         }
@@ -127,7 +133,7 @@ namespace GolemUI
         {
             SwitchPage(DashboardPages.PageDashboardAdvancedSettings);
         }
-        private void Page6Click(object sender, RoutedEventArgs e)
+        private void btnPageSettings_Click(object sender, RoutedEventArgs e)
         {
             SwitchPage(DashboardPages.PageDashboardWallet);
         }
@@ -150,6 +156,7 @@ namespace GolemUI
 
         public void SwitchPage(DashboardPages page)
         {
+
             if (page == _pageSelected) return;
 
             _pages.ToList().Where(x => x.Key != _pageSelected && x.Key != page).ToList().ForEach(x => x.Value.Clear());
@@ -179,18 +186,6 @@ namespace GolemUI
             _pageSelected = page;
         }
 
-        public void BlockNavigation()
-        {
-            btnPage1.IsEnabled = false;
-            btnPage2.IsEnabled = false;
-            //btnPage4.IsEnabled = false;
-        }
-        public void ResumeNavigation()
-        {
-            btnPage1.IsEnabled = true;
-            btnPage2.IsEnabled = true;
-            //btnPage4.IsEnabled = true;
-        }
 
         static void AnimateScroll(UIElement element, double amount, TimeSpan duration)
         {
@@ -246,12 +241,36 @@ namespace GolemUI
             e.Cancel = true;
         }
 
+        internal void EnableBlur()
+        {
+            var windowHelper = new WindowInteropHelper(this);
+
+            var accent = new AccentPolicy();
+            accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
+
+            var accentStructSize = Marshal.SizeOf(accent);
+
+            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+            Marshal.StructureToPtr(accent, accentPtr, false);
+
+            var data = new WindowCompositionAttributeData();
+            data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
+            data.SizeOfData = accentStructSize;
+            data.Data = accentPtr;
+
+            SetWindowCompositionAttribute(windowHelper.Handle, ref data);
+
+            Marshal.FreeHGlobal(accentPtr);
+        }
+
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            EnableBlur();
             await Task.WhenAll(
                 _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible),
                 _processControler.Prepare()
             );
+
 
         }
 

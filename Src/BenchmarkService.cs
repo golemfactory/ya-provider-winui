@@ -2,6 +2,7 @@
 using GolemUI.Command;
 using GolemUI.Interfaces;
 using GolemUI.Settings;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,14 @@ namespace GolemUI.Src
 {
     public class BenchmarkService : INotifyPropertyChanged
     {
+        public BenchmarkService(IProviderConfig providerConfig, ILogger<BenchmarkService> logger)
+        {
+            _providerConfig = providerConfig;
+            _logger = logger;
+        }
+
         private readonly Interfaces.IProviderConfig _providerConfig;
+        private readonly ILogger<BenchmarkService> _logger;
         private ClaymoreLiveStatus? _claymoreLiveStatus = null;
 
         public ClaymoreLiveStatus? Status => _claymoreLiveStatus;
@@ -50,8 +58,10 @@ namespace GolemUI.Src
 
             bool preBenchmarkNeeded = !String.IsNullOrEmpty(cards);
 
-            var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded);
+            var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded, logger: _logger);
 
+
+            _logger.LogInformation("running benchmark");   //todo: add more informative logs about benchmark further on
 
             try
             {
@@ -190,6 +200,8 @@ namespace GolemUI.Src
             }
             finally
             {
+                //todo: remove later on, right now I've let it stay here to  help test sentry
+                _logger.LogError("--test error");
                 IsRunning = false;
                 cc.Stop();
                 if (_claymoreLiveStatus != null)
@@ -259,12 +271,6 @@ namespace GolemUI.Src
             };
             SettingsLoader.SaveBenchmarkToFile(results);
         }
-
-        public BenchmarkService(IProviderConfig providerConfig)
-        {
-            _providerConfig = providerConfig;
-        }
-
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged(string propertyName)
