@@ -13,7 +13,7 @@ namespace GolemUI.ViewModel
 
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-        
+
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService)
         {
             _priceProvider = priceProvider;
@@ -95,7 +95,7 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged("Status");
             }
         }
-        
+
         public bool IsMiningActive
         {
             get => _providerConfig.IsMiningActive;
