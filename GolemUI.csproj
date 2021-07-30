@@ -316,13 +316,16 @@
     <Compile Include="Interfaces\IProcessControler.cs" />
     <Compile Include="Interfaces\IProviderConfig.cs" />
     <Compile Include="Interfaces\ISavableLoadableDashboardPage.cs" />
+    <Compile Include="Interfaces\IUserSettingsProvider.cs" />
     <Compile Include="Model\claymorePerformanceThrottlingEnum.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
+    <Compile Include="Model\UserSettings.cs" />
     <Compile Include="Model\WalletState.cs" />
     <Compile Include="Notifications\CloseWindowCommand.cs" />
     <Compile Include="Notifications\CommandBase.cs" />
     <Compile Include="Notifications\ShowSampleWindowCommand.cs" />
+    <Compile Include="Options\SampleOptions.cs" />
     <Compile Include="Src\Sentry\SentryAdditionalDataIngester.cs" />
     <Compile Include="Src\BenchmarkService.cs" />
     <Compile Include="Src\CoinGeckoPriceProvider.cs" />
@@ -630,6 +633,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Options\data.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

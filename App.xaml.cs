@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GolemUI.Command;
+using GolemUI.Options;
 using GolemUI.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -106,6 +107,8 @@ namespace GolemUI
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
                 logBuilder.AddSentry(GolemUI.Properties.Settings.Default.SentryDsn);
             });
+
+            services.Configure<PositionOptions>(Configuration.GetSection(PositionOptions.Position));
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
