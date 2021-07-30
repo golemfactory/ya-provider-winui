@@ -100,14 +100,12 @@ namespace GolemUI
             services.AddTransient(typeof(UI.SetupWindow));
             services.AddTransient(typeof(GolemUI.DebugWindow));
 
-
             services.AddLogging(logBuilder =>
             {
                 logBuilder.AddDebug();
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
                 logBuilder.AddSentry(GolemUI.Properties.Settings.Default.SentryDsn);
             });
-
         }
 
         private void OnStartup(object sender, StartupEventArgs e)

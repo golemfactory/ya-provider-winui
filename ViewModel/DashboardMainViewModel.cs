@@ -13,7 +13,7 @@ namespace GolemUI.ViewModel
 
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-
+        
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService)
         {
             _priceProvider = priceProvider;
@@ -61,6 +61,8 @@ namespace GolemUI.ViewModel
             OnPropertyChanged("TotalGpuCount");
             OnPropertyChanged("EnabledCpuCount");
             OnPropertyChanged("EnabledGpuCount");
+            OnPropertyChanged("GpuCardsInfo");
+            OnPropertyChanged("CpuCardsInfo");
         }
 
 
@@ -72,7 +74,7 @@ namespace GolemUI.ViewModel
 
         public IProcessControler Process => _processController;
         public decimal? Amount => _paymentService.State?.Balance;
-
+        public decimal UsdPerDay => 99.99m;
         public decimal? AmountUSD => _priceProvider.CoinValue(Amount ?? 0, IPriceProvider.Coin.GLM);
 
         public decimal? PendingAmount => _paymentService.State?.PendingBalance;
@@ -93,7 +95,7 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged("Status");
             }
         }
-
+        
         public bool IsMiningActive
         {
             get => _providerConfig.IsMiningActive;
@@ -117,6 +119,8 @@ namespace GolemUI.ViewModel
         public int TotalGpuCount => _totalGpuCount;
         public int EnabledCpuCount => _enabledCpuCount;
         public int EnabledGpuCount => _enabledGpuCount;
+        public string GpuCardsInfo => EnabledGpuCount + "/" + TotalGpuCount;
+        public string CpuCardsInfo => EnabledCpuCount + "/" + TotalCpuCount;
         public void Stop()
         {
             _processController.Stop();

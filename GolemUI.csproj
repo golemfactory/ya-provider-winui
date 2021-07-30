@@ -535,6 +535,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\Themes\Buttons\NavSidePanelInformationButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Themes\Buttons\NavSidepanelButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -665,7 +669,9 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\MiningStatus\Idle.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\MiningStatus\Error.png" />
   </ItemGroup>
@@ -674,6 +680,32 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\MiningStatus\Ready.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\CardStatus\Error.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\CardStatus\Ready.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Balance.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Cpu.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Gpu.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Profit.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Settings\TaskType.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\Icons\DefaultStyle\png\Dashboard\Wallet\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="__Media\screen_dashboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Branding\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Branding\Thorg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Branding\SupportedByGolem.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
