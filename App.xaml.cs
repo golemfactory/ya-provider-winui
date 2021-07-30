@@ -48,13 +48,8 @@ namespace GolemUI
                 };
             });
 
-
-
             _childProcessManager = new GolemUI.ChildProcessManager();
             _childProcessManager.AddProcess(Process.GetCurrentProcess());
-
-
-            //GlobalApplicationState.Initialize();
 
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);

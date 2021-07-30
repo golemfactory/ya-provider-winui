@@ -83,8 +83,6 @@ namespace GolemUI
 
             dashboardMain.Model.LoadData();
 
-            //GlobalApplicationState.Instance!.Dashboard = this;
-
             foreach (var pair in _pages)
             {
                 UserControl control = pair.Value.View;

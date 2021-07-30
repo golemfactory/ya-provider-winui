@@ -331,7 +331,6 @@
     <Compile Include="Src\BenchmarkService.cs" />
     <Compile Include="Src\CoinGeckoPriceProvider.cs" />
     <Compile Include="Src\CpuInfo.cs" />
-    <Compile Include="Src\GlobalApplicationState.cs" />
     <Compile Include="Src\HdWalletService.cs" />
     <Compile Include="Src\BenchmarkResultsProvider.cs" />
     <Compile Include="Src\UserSettingsProvider.cs" />
