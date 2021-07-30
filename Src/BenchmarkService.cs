@@ -15,8 +15,14 @@ namespace GolemUI.Src
 {
     public class BenchmarkService : INotifyPropertyChanged
     {
+        public BenchmarkService(IProviderConfig providerConfig, ILogger<BenchmarkService> logger)
+        {
+            _providerConfig = providerConfig;
+            _logger = logger;
+        }
+
         private readonly Interfaces.IProviderConfig _providerConfig;
-        private readonly ILogger _logger;
+        private readonly ILogger<BenchmarkService> _logger;
         private ClaymoreLiveStatus? _claymoreLiveStatus = null;
 
         public ClaymoreLiveStatus? Status => _claymoreLiveStatus;
@@ -52,7 +58,7 @@ namespace GolemUI.Src
 
             bool preBenchmarkNeeded = !String.IsNullOrEmpty(cards);
 
-            var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded);
+            var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded, logger: _logger);
 
 
             _logger.LogInformation("running benchmark");   //todo: add more informative logs about benchmark further on
@@ -265,13 +271,6 @@ namespace GolemUI.Src
             };
             SettingsLoader.SaveBenchmarkToFile(results);
         }
-
-        public BenchmarkService(IProviderConfig providerConfig, ILoggerFactory logger)
-        {
-            _providerConfig = providerConfig;
-            _logger = logger.CreateLogger("BenchmarkService");
-        }
-
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged(string propertyName)
