@@ -1,4 +1,4 @@
-﻿using GolemUI.Claymore;
+using GolemUI.Claymore;
 using GolemUI.Interfaces;
 using System;
 using System.Collections.Generic;

@@ -399,7 +399,6 @@ namespace GolemUI.Claymore
         private DateTime _start;
         private string? _benchmarkRecordingPath = null;
 
-
         private bool _gpusInfosParsed = false;
         public bool AreAllCardInfosParsed()
         {
