@@ -12,9 +12,6 @@ namespace GolemUI.Interfaces
         public UserSettings LoadUserSettings();
 
        // public SaveUserSe
-        //public SaveUserSettings(UserSettings userSettings);
-
-
-
+        public void SaveUserSettings(UserSettings userSettings);
     }
 }

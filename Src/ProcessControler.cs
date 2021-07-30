@@ -183,16 +183,13 @@ namespace GolemUI
             _yagnaDaemon = _yagna.Run(new YagnaStartupOptions()
             {
                 ForceAppKey = _generatedAppKey.Value,
-                OpenConsole = Properties.Settings.Default.StartYagnaCommandLine,
+                OpenConsole = false,
                 PrivateKey = privateKey
             });
-            if (!Properties.Settings.Default.StartYagnaCommandLine)
-            {
-                _yagnaDaemon.ErrorDataReceived += OnYagnaErrorDataRecv;
-                _yagnaDaemon.OutputDataReceived += OnYagnaOutputDataRecv;
-                _yagnaDaemon.BeginErrorReadLine();
-                _yagnaDaemon.BeginOutputReadLine();
-            }
+            _yagnaDaemon.ErrorDataReceived += OnYagnaErrorDataRecv;
+            _yagnaDaemon.OutputDataReceived += OnYagnaOutputDataRecv;
+            _yagnaDaemon.BeginErrorReadLine();
+            _yagnaDaemon.BeginOutputReadLine();
 
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _generatedAppKey.Value);
 
@@ -234,9 +231,6 @@ namespace GolemUI
 
         private void StartupProvider(Network network, string? claymoreExtraParams)
         {
-            BenchmarkResults br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
-            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
-
             ConfigurationInfoDebug = "";
             if (_providerDaemon != null)
             {
@@ -260,11 +254,9 @@ namespace GolemUI
             _providerDaemon.Start();
             _providerDaemon.EnableRaisingEvents = true;
 
-            if (!ls.StartProviderCommandLine)
-            {
-                _providerDaemon.BeginErrorReadLine();
-                _providerDaemon.BeginOutputReadLine();
-            }
+            _providerDaemon.BeginErrorReadLine();
+            _providerDaemon.BeginOutputReadLine();
+
             OnPropertyChanged("IsProviderRunning");
         }
 

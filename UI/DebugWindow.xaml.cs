@@ -1,5 +1,6 @@
 ﻿using GolemUI.Interfaces;
 using GolemUI.Settings;
+using GolemUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,8 +21,11 @@ namespace GolemUI
     /// </summary>
     public partial class DebugWindow : Window
     {
-        public DebugWindow(IProcessControler processControler)
+        IUserSettingsProvider _userSettingsProvider;
+
+        public DebugWindow(IProcessControler processControler, IUserSettingsProvider userSettingsProvider)
         {
+            _userSettingsProvider = userSettingsProvider;
             InitializeComponent();
             processControler.LineHandler += LogLine;
 
@@ -75,7 +79,7 @@ namespace GolemUI
 
         private void btnOpenSettingsData_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("explorer.exe", SettingsLoader.GetLocalPath());
+            Process.Start("explorer.exe", PathUtil.GetLocalSettingsPath());
         }
 
         private void btnVersionInfo_Click(object sender, RoutedEventArgs e)

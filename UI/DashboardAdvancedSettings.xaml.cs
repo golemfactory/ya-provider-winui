@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GolemUI.Interfaces;
+using GolemUI.Model;
 
 namespace GolemUI
 {
@@ -24,8 +26,12 @@ namespace GolemUI
         bool _initialized = false;
         bool _readOnly = false;
 
-        public DashboardAdvancedSettings()
+        private readonly IUserSettingsProvider _userSettingsProvider;
+
+        public DashboardAdvancedSettings(IUserSettingsProvider userSettingsProvider)
         {
+            _userSettingsProvider = userSettingsProvider;
+
             InitializeComponent();
             ResetChanges();
 
@@ -34,7 +40,7 @@ namespace GolemUI
 
         public void ResetChanges()
         {
-            LocalSettings settings = SettingsLoader.LoadSettingsFromFileOrDefault();
+            UserSettings settings = _userSettingsProvider.LoadUserSettings();
 
             cbDebugOutput.IsChecked = settings.EnableDebugLogs;
             //cbEnableWASM.IsChecked = settings.EnableWASMUnit;
@@ -77,7 +83,7 @@ namespace GolemUI
 
         private void btnApplySettings_Click(object sender, RoutedEventArgs e)
         {
-            LocalSettings settings = SettingsLoader.LoadSettingsFromFileOrDefault();
+            UserSettings settings = _userSettingsProvider.LoadUserSettings();
 
             settings.EnableDebugLogs = cbDebugOutput.IsChecked ?? false;
             // settings.EnableWASMUnit = cbEnableWASM.IsChecked ?? false;
@@ -88,7 +94,7 @@ namespace GolemUI
             settings.CloseOnExit = cbCloseOnExit.IsChecked ?? false;
             settings.MinimizeToTrayOnMinimize = cbMinimizeToTrayOnMinimize.IsChecked ?? false;
 
-            SettingsLoader.SaveSettingsToFile(settings);
+            _userSettingsProvider.SaveUserSettings(settings);
             ResetChanges();
         }
 
@@ -99,7 +105,7 @@ namespace GolemUI
             {
                 return;
             }
-            LocalSettings settings = SettingsLoader.LoadSettingsFromFileOrDefault();
+            UserSettings settings = _userSettingsProvider.LoadUserSettings();
 
             bool different = false;
             if (settings.EnableDebugLogs != cbDebugOutput.IsChecked) different = true;

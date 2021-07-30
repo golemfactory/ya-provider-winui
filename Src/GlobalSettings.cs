@@ -1,4 +1,5 @@
 ﻿using GolemUI.Claymore;
+using GolemUI.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -115,30 +116,7 @@ namespace GolemUI.Settings
             return localFolder;
         }
 
-        public static string GetLocalPath()
-        {
-            string settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            string localFolder = Path.Combine(settingPath, GlobalSettings.GolemFactoryPath, GlobalSettings.SettingsSubFolder);
-
-            if (!Directory.Exists(localFolder))
-            {
-                Directory.CreateDirectory(localFolder);
-            }
-
-            return localFolder;
-        }
-
-        public static string GetLocalSettingsPath()
-        {
-            string result = Path.Combine(GetLocalPath(), "settings.json");
-            return result;
-        }
-        public static string GetLocalBenchmarkPath()
-        {
-            string result = Path.Combine(GetLocalPath(), "benchmark.json");
-            return result;
-        }
+#if DEBUG
         public static void ClearProviderPresetsFile()
         {
             string path = Path.Combine(GetLocalGolemFactoryPath(), @"ya-provider\data\presets.json");
@@ -147,54 +125,7 @@ namespace GolemUI.Settings
                 File.Delete(path);
             }
         }
-
-        public static bool IsFirstRun()
-        {
-            string settingsFilePath = GetLocalSettingsPath();
-            if (!File.Exists(settingsFilePath))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public static LocalSettings LoadSettingsFromFileOrDefault()
-        {
-            LocalSettings? settings = null;
-            try
-            {
-                string settingsFilePath = GetLocalSettingsPath();
-                string jsonText = File.ReadAllText(settingsFilePath);
-                settings = JsonConvert.DeserializeObject<LocalSettings>(jsonText);
-            }
-            catch (Exception)
-            {
-                settings = null;
-            }
-
-            if (settings == null || settings.SettingsVersion != GlobalSettings.CurrentSettingsVersion)
-            {
-                settings = null;
-            }
-
-            if (settings == null)
-            {
-                settings = new LocalSettings();
-            }
-
-            return settings;
-        }
-
-        public static void SaveSettingsToFile(LocalSettings localSettings)
-        {
-            localSettings.SettingsVersion = GlobalSettings.CurrentSettingsVersion;
-
-            string settingsFilePath = GetLocalSettingsPath();
-
-            string s = JsonConvert.SerializeObject(localSettings, Formatting.Indented);
-
-            File.WriteAllText(settingsFilePath, s);
-        }
+#endif
 
 
         public static BenchmarkResults LoadBenchmarkFromFileOrDefault()
@@ -202,7 +133,7 @@ namespace GolemUI.Settings
             BenchmarkResults? settings = null;
             try
             {
-                string fp = GetLocalBenchmarkPath();
+                string fp = PathUtil.GetLocalBenchmarkPath();
                 string jsonText = File.ReadAllText(fp);
                 settings = JsonConvert.DeserializeObject<BenchmarkResults>(jsonText);
             }
@@ -232,7 +163,7 @@ namespace GolemUI.Settings
             }
             benchmarkSettings.BenchmarkResultVersion = GlobalSettings.CurrentBenchmarkResultVersion;
 
-            string fp = GetLocalBenchmarkPath();
+            string fp = PathUtil.GetLocalBenchmarkPath();
 
             string s = JsonConvert.SerializeObject(benchmarkSettings, Formatting.Indented);
 

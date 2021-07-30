@@ -9,6 +9,8 @@ namespace GolemUI.Model
     public class UserSettings
     {
         public int SettingsVersion { get; set; }
+
+        public bool SetupFinished { get; set; }
         public string? BenchmarkLength { get; set; }
         public string? CustomPool { get; set; }
         public string? OptionalEmail { get; set; }

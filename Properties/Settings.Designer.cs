@@ -23,42 +23,6 @@ namespace GolemUI.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool StartYagnaCommandLine {
-            get {
-                return ((bool)(this["StartYagnaCommandLine"]));
-            }
-            set {
-                this["StartYagnaCommandLine"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool EnableDebugLogs {
-            get {
-                return ((bool)(this["EnableDebugLogs"]));
-            }
-            set {
-                this["EnableDebugLogs"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Configured {
-            get {
-                return ((bool)(this["Configured"]));
-            }
-            set {
-                this["Configured"] = value;
-            }
-        }
-        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("LazySubnet")]
@@ -83,6 +47,15 @@ namespace GolemUI.Properties {
         public string SentryDsn {
             get {
                 return ((string)(this["SentryDsn"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("444")]
+        public int CurrentUserSettingsVersion {
+            get {
+                return ((int)(this["CurrentUserSettingsVersion"]));
             }
         }
     }

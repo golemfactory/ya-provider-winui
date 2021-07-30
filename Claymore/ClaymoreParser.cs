@@ -1,4 +1,5 @@
 ﻿using GolemUI.Settings;
+using GolemUI.Utils;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -406,7 +407,7 @@ namespace GolemUI.Claymore
             return _gpusInfosParsed;
         }
 
-        public ClaymoreParser(bool isBenchmark, bool isPreBenchmark, int totalClaymoreReportsNeeded, ILogger logger = null)
+        public ClaymoreParser(bool isBenchmark, bool isPreBenchmark, int totalClaymoreReportsNeeded, ILogger logger)
         {
             _logger = logger;
             _isPreBenchmark = isPreBenchmark;
@@ -444,7 +445,7 @@ namespace GolemUI.Claymore
             _start = DateTime.Now;
             if (enableRecording)
             {
-                string benchmarkRecordingFolder = SettingsLoader.GetLocalPath();
+                string benchmarkRecordingFolder = PathUtil.GetLocalPath();
 
                 string suffix = _isPreBenchmark ? "pre_recording" : "recording";
 
