@@ -205,7 +205,7 @@ namespace GolemUI
             {
                 //Disable logging in debugwindow to prevent problems with invoke 
                 DebugWindow.EnableLoggingToDebugWindow = false;
-                
+
                 //Stop provider
                 await _processControler.Stop();
 

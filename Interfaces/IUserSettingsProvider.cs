@@ -7,7 +7,7 @@ using GolemUI.Model;
 
 namespace GolemUI.Interfaces
 {
-    public interface IUserSettingsProvider 
+    public interface IUserSettingsProvider
     {
         public UserSettings LoadUserSettings();
 

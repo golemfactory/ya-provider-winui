@@ -7,7 +7,7 @@ using GolemUI.Model;
 
 namespace GolemUI.Interfaces
 {
-    public interface IBenchmarkResultsProvider 
+    public interface IBenchmarkResultsProvider
     {
         public BenchmarkResults LoadBenchmarkResults();
 

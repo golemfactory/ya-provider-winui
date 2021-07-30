@@ -39,7 +39,7 @@ namespace GolemUI
 #endif
         }
 
-        
+
 
         void TrimControlTextSize(TextBox tb)
         {
