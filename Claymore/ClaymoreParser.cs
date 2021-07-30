@@ -445,7 +445,12 @@ namespace GolemUI.Claymore
             _start = DateTime.Now;
             if (enableRecording)
             {
-                string benchmarkRecordingFolder = PathUtil.GetLocalPath();
+                string benchmarkRecordingFolder = Path.Combine(PathUtil.GetLocalPath(), "BenchmarkRecordings");
+
+                if (!Directory.Exists(benchmarkRecordingFolder))
+                {
+                    Directory.CreateDirectory(benchmarkRecordingFolder);
+                }
 
                 string suffix = _isPreBenchmark ? "pre_recording" : "recording";
 
