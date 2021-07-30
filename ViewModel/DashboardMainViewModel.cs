@@ -1,5 +1,5 @@
 ﻿using GolemUI.Interfaces;
-using GolemUI.Settings;
+
 using GolemUI.Src;
 using System;
 using System.Collections.Generic;
@@ -14,8 +14,9 @@ namespace GolemUI.ViewModel
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
 
-        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService)
+        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider)
         {
+            _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
             _paymentService = paymentService;
             _processController = processControler;
@@ -45,7 +46,7 @@ namespace GolemUI.ViewModel
         public void LoadData()
         {
 
-            var benchmark = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+            var benchmark = _benchmarkResultsProvider.LoadBenchmarkResults();
 
             _enabledGpuCount = benchmark?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null && gpu.Value.IsReadyForMining && gpu.Value.IsEnabledByUser).Count() ?? 0;
             _totalGpuCount = benchmark?.liveStatus?.GPUs.ToList().Count() ?? 0;
@@ -150,5 +151,6 @@ namespace GolemUI.ViewModel
         private readonly IProviderConfig _providerConfig;
         private readonly BenchmarkService _benchmarkService;
         private readonly IProcessControler _processController;
+        private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
     }
 }

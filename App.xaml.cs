@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GolemUI.Command;
-using GolemUI.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sentry;
@@ -71,6 +70,8 @@ namespace GolemUI
         }
         private void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<Interfaces.IBenchmarkResultsProvider, Src.BenchmarkResultsProvider>();
+            services.AddSingleton<Interfaces.IUserSettingsProvider, Src.UserSettingsProvider>();
             services.AddSingleton<Interfaces.IPriceProvider, Src.CoinGeckoPriceProvider>();
             services.AddSingleton<Interfaces.IEstimatedProfitProvider, Src.StaticEstimatedEarningsProvider>();
 
@@ -106,6 +107,7 @@ namespace GolemUI
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
                 logBuilder.AddSentry(GolemUI.Properties.Settings.Default.SentryDsn);
             });
+
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
@@ -115,13 +117,14 @@ namespace GolemUI
                 this.Shutdown();
                 return;
             }
+            var userSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IUserSettingsProvider>();
             var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
             var args = e.Args;
             if (args.Length > 0 && args[0] == "skip_setup")
             {
                 //skip setup
             }
-            else if ((args.Length > 0 && args[0] == "setup") || !GolemUI.Properties.Settings.Default.Configured)
+            else if ((args.Length > 0 && args[0] == "setup") || !userSettingsLoader.LoadUserSettings().SetupFinished)
             {
                 var window = _serviceProvider!.GetRequiredService<UI.SetupWindow>();
                 window.Show();

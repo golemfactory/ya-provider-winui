@@ -20,6 +20,7 @@ namespace GolemUI.ViewModel
         private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;
         private readonly IProcessControler _processControler;
         private readonly IPriceProvider _priceProvider;
+        private readonly IUserSettingsProvider _userSettingsProvider;
 
 
         public enum FlowSteps
@@ -59,7 +60,7 @@ namespace GolemUI.ViewModel
         public bool IsDesingMode => false;
 
         public SetupViewModel(Interfaces.IProviderConfig providerConfig,
-            Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler, Interfaces.IPriceProvider priceProvider)
+            Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider)
         {
             _flow = 0;
             _noobStep = 0;
@@ -68,6 +69,7 @@ namespace GolemUI.ViewModel
             _profitEstimator = profitEstimator;
             _processControler = processControler;
             _priceProvider = priceProvider;
+            _userSettingsProvider = userSettingsProvider;
 
 
 
@@ -265,9 +267,10 @@ namespace GolemUI.ViewModel
         public bool Save()
         {
             _benchmarkService.Save();
-            var settings = GolemUI.Properties.Settings.Default;
-            settings.Configured = true;
-            settings.Save();
+            var ls = _userSettingsProvider.LoadUserSettings();
+            ls.SetupFinished = true;
+            _userSettingsProvider.SaveUserSettings(ls);
+
             return true;
         }
 

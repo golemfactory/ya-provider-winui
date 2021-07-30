@@ -2,15 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GolemUI.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="StartYagnaCommandLine" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="EnableDebugLogs" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="Configured" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="Subnet" Type="System.String" Scope="Application">
       <Value Profile="(Default)">LazySubnet</Value>
     </Setting>
@@ -19,6 +10,21 @@
     </Setting>
     <Setting Name="SentryDsn" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://3210d81dbe2042d0a1adce29072b26d7@o921571.ingest.sentry.io/5881077</Value>
+    </Setting>
+    <Setting Name="UserSettingsVersion" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">11</Value>
+    </Setting>
+    <Setting Name="BenchmarkResultsVersion" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">11</Value>
+    </Setting>
+    <Setting Name="GolemFactoryPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">GolemFactory</Value>
+    </Setting>
+    <Setting Name="SettingsSubfolder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ThorgMiner</Value>
+    </Setting>
+    <Setting Name="DefaultProxy" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">staging-backend.chessongolem.app:3334</Value>
     </Setting>
   </Settings>
 </SettingsFile>

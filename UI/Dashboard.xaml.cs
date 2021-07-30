@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 
 using System.Windows.Media.Animation;
-using GolemUI.Settings;
+
 using GolemUI.Notifications;
 using GolemUI.Controllers;
 using GolemUI.Interfaces;
@@ -22,6 +22,7 @@ using GolemUI.Src;
 using GolemUI.UI;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
+using GolemUI.Model;
 
 namespace GolemUI
 {
@@ -57,17 +58,18 @@ namespace GolemUI
         public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
         public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardMain dashboardMain,
-            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService)
+            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider)
         {
             _processControler = processControler;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
+            _userSettingsProvider = userSettingsProvider;
 
             InitializeComponent();
 
             DashboardMain = dashboardMain;
             DashboardSettings = _dashboardSettings;
-            DashboardAdvancedSettings = new DashboardAdvancedSettings();
+            DashboardAdvancedSettings = new DashboardAdvancedSettings(userSettingsProvider);
             DashboardWallet = _dashboardWallet;
 
 
@@ -171,7 +173,6 @@ namespace GolemUI
 
 
 
-
             LastPage = _pageSelected;
 
             _pageSelected = page;
@@ -198,17 +199,23 @@ namespace GolemUI
         }
 
         private bool _forceExit = false;
-        public void RequestClose(bool isAlreadyClosing = false)
+        public void RequestClose()
         {
-            if (_processControler.IsProviderRunning)
+            Task.Run(async () =>
             {
-                _processControler.Stop();
-            }
-            if (!isAlreadyClosing)
-            {
-                _forceExit = true;
-                Close();
-            }
+                //Disable logging in debugwindow to prevent problems with invoke 
+                DebugWindow.EnableLoggingToDebugWindow = false;
+
+                //Stop provider
+                await _processControler.Stop();
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    //force exit know after trying to gently stop yagna (which may succeeded or failed)
+                    this._forceExit = true;
+                    this.Close();
+                });
+            });
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -218,10 +225,10 @@ namespace GolemUI
                 return;
             }
 
-            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
-            if (ls.CloseOnExit)
+            bool closeOnExit = _userSettingsProvider.LoadUserSettings().CloseOnExit;
+            if (closeOnExit)
             {
-                RequestClose(true);
+                RequestClose();
             }
             else
             {
@@ -267,7 +274,7 @@ namespace GolemUI
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
         {
-            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
+            UserSettings ls = _userSettingsProvider.LoadUserSettings();
 
             if (ls.MinimizeToTrayOnMinimize)
             {
@@ -307,5 +314,6 @@ namespace GolemUI
         private readonly Interfaces.IProcessControler _processControler;
         private readonly IProviderConfig _providerConfig;
         private readonly BenchmarkService _benchmarkService;
+        private readonly IUserSettingsProvider _userSettingsProvider;
     }
 }

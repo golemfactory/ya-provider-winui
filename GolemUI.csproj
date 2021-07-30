@@ -315,20 +315,26 @@
     <Compile Include="Interfaces\IProcessControler.cs" />
     <Compile Include="Interfaces\IProviderConfig.cs" />
     <Compile Include="Interfaces\ISavableLoadableDashboardPage.cs" />
+    <Compile Include="Interfaces\IBenchmarkResultsProvider.cs" />
+    <Compile Include="Interfaces\IUserSettingsProvider.cs" />
+    <Compile Include="Model\BenchmarkResults.cs" />
     <Compile Include="Model\claymorePerformanceThrottlingEnum.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
+    <Compile Include="Model\UserSettings.cs" />
     <Compile Include="Model\WalletState.cs" />
     <Compile Include="Notifications\CloseWindowCommand.cs" />
     <Compile Include="Notifications\CommandBase.cs" />
     <Compile Include="Notifications\ShowSampleWindowCommand.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Src\Sentry\SentryAdditionalDataIngester.cs" />
     <Compile Include="Src\BenchmarkService.cs" />
     <Compile Include="Src\CoinGeckoPriceProvider.cs" />
     <Compile Include="Src\CpuInfo.cs" />
     <Compile Include="Src\GlobalApplicationState.cs" />
-    <Compile Include="Src\GlobalSettings.cs" />
     <Compile Include="Src\HdWalletService.cs" />
+    <Compile Include="Src\BenchmarkResultsProvider.cs" />
+    <Compile Include="Src\UserSettingsProvider.cs" />
     <Compile Include="Utils\LazyInit.cs" />
     <Compile Include="Src\NameGenerator.cs" />
     <Compile Include="Src\PaymentService.cs" />
@@ -382,6 +388,7 @@
     <Compile Include="UI\UsageDescription.xaml.cs">
       <DependentUpon>UsageDescription.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\PathUtil.cs" />
     <Compile Include="Utils\ProcessExtension.cs" />
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />

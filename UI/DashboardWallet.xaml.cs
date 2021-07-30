@@ -1,5 +1,5 @@
 ﻿using GolemUI.Interfaces;
-using GolemUI.Settings;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

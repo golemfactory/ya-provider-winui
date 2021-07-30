@@ -81,7 +81,7 @@ namespace GolemUI.Command
 
         Process? _claymoreProcess;
 
-        public ClaymoreBenchmark(int totalClaymoreReportsNeeded, ILogger logger = null)
+        public ClaymoreBenchmark(int totalClaymoreReportsNeeded, ILogger logger)
         {
             _logger = logger;
             _claymoreParserBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: false, totalClaymoreReportsNeeded, logger);

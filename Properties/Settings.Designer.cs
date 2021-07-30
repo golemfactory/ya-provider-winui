@@ -23,42 +23,6 @@ namespace GolemUI.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool StartYagnaCommandLine {
-            get {
-                return ((bool)(this["StartYagnaCommandLine"]));
-            }
-            set {
-                this["StartYagnaCommandLine"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool EnableDebugLogs {
-            get {
-                return ((bool)(this["EnableDebugLogs"]));
-            }
-            set {
-                this["EnableDebugLogs"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Configured {
-            get {
-                return ((bool)(this["Configured"]));
-            }
-            set {
-                this["Configured"] = value;
-            }
-        }
-        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("LazySubnet")]
@@ -83,6 +47,51 @@ namespace GolemUI.Properties {
         public string SentryDsn {
             get {
                 return ((string)(this["SentryDsn"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("11")]
+        public int UserSettingsVersion {
+            get {
+                return ((int)(this["UserSettingsVersion"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("11")]
+        public int BenchmarkResultsVersion {
+            get {
+                return ((int)(this["BenchmarkResultsVersion"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("GolemFactory")]
+        public string GolemFactoryPath {
+            get {
+                return ((string)(this["GolemFactoryPath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ThorgMiner")]
+        public string SettingsSubfolder {
+            get {
+                return ((string)(this["SettingsSubfolder"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("staging-backend.chessongolem.app:3334")]
+        public string DefaultProxy {
+            get {
+                return ((string)(this["DefaultProxy"]));
             }
         }
     }
