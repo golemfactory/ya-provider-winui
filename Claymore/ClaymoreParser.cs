@@ -1,4 +1,5 @@
 ﻿using GolemUI.Settings;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -385,6 +386,7 @@ namespace GolemUI.Claymore
 
     public class ClaymoreParser
     {
+        private readonly ILogger? _logger;
         const StringComparison STR_COMP_TYPE = StringComparison.InvariantCultureIgnoreCase;
 
         ClaymoreLiveStatus _liveStatus;
@@ -404,8 +406,9 @@ namespace GolemUI.Claymore
             return _gpusInfosParsed;
         }
 
-        public ClaymoreParser(bool isBenchmark, bool isPreBenchmark, int totalClaymoreReportsNeeded)
+        public ClaymoreParser(bool isBenchmark, bool isPreBenchmark, int totalClaymoreReportsNeeded, ILogger logger = null)
         {
+            _logger = logger;
             _isPreBenchmark = isPreBenchmark;
             _liveStatus = new ClaymoreLiveStatus(isBenchmark, totalClaymoreReportsNeeded);
         }
@@ -475,7 +478,7 @@ namespace GolemUI.Claymore
         /// Parse output line of claymore process
         /// </summary>
         public void ParseLine(string line)
-        {
+        {            
             lock (__lockObj)
             {
                 // Your code...
@@ -721,6 +724,7 @@ namespace GolemUI.Claymore
                     }
                 }
             }
+            _logger.LogDebug("done log {0}", line);
         }
     }
 }

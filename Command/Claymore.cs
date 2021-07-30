@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GolemUI.Extensions;
+using Microsoft.Extensions.Logging;
+
 namespace GolemUI.Command
 {
 
@@ -37,6 +39,7 @@ namespace GolemUI.Command
         public volatile float BenchmarkSpeed;
 
         private object _sync = new object();
+        private readonly ILogger _logger;
 
         public string? GPUVendor { get; set; }
 
@@ -78,10 +81,11 @@ namespace GolemUI.Command
 
         Process? _claymoreProcess;
 
-        public ClaymoreBenchmark(int totalClaymoreReportsNeeded)
+        public ClaymoreBenchmark(int totalClaymoreReportsNeeded, ILogger logger = null)
         {
-            _claymoreParserBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: false, totalClaymoreReportsNeeded);
-            _claymoreParserPreBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: true, totalClaymoreReportsNeeded);
+            _logger = logger;
+            _claymoreParserBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: false, totalClaymoreReportsNeeded, logger);
+            _claymoreParserPreBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: true, totalClaymoreReportsNeeded, logger);
 
         }
 
@@ -302,11 +306,12 @@ namespace GolemUI.Command
 
         void OnOutputDataRecv(object sender, DataReceivedEventArgs e)
         {
+            
             string? lineText = e.Data;
             //output contains spelling error avaiable instead of available, checking for boths:
             if (lineText == null)
                 return;
-
+            _logger?.LogInformation("OUTPUT: {0}", lineText);
             _claymoreParserBenchmark.ParseLine(lineText);
         }
 
@@ -316,7 +321,7 @@ namespace GolemUI.Command
             //output contains spelling error avaiable instead of available, checking for boths:
             if (lineText == null)
                 return;
-
+            _logger?.LogInformation("PREOUT: {0}", lineText);
             _claymoreParserPreBenchmark.ParseLine(lineText);
         }
 
