@@ -2,7 +2,7 @@
 using GolemUI.Command;
 using GolemUI.Interfaces;
 using GolemUI.Model;
-using GolemUI.Settings;
+
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -52,7 +52,7 @@ namespace GolemUI.Src
 
             DateTime benchmarkStartTime = DateTime.Now;
             var walletAddress = _providerConfig.Config?.Account ?? "0xD593411F3E6e79995E787b5f81D10e12fA6eCF04";
-            var poolAddr = GlobalSettings.DefaultProxy;
+            var poolAddr = GolemUI.Properties.Settings.Default.DefaultProxy;
             var totalClaymoreReportsNeeded = 5;
 
             IsRunning = true;
@@ -268,7 +268,7 @@ namespace GolemUI.Src
         {
             var results = new BenchmarkResults()
             {
-                BenchmarkResultVersion = GlobalSettings.CurrentBenchmarkResultVersion,
+                BenchmarkResultVersion = GolemUI.Properties.Settings.Default.BenchmarkResultsVersion,
                 liveStatus = _claymoreLiveStatus
             };
             _benchmarkResultsProvider.SaveBenchmarkResults(results);

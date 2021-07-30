@@ -1,5 +1,4 @@
-﻿using GolemUI.Settings;
-using GolemUI.Utils;
+﻿using GolemUI.Utils;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;

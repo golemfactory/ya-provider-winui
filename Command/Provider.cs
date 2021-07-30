@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using System.Collections.Specialized;
-using GolemUI.Settings;
 using System.Globalization;
 
 namespace GolemUI.Command

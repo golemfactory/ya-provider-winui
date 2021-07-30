@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 
 using System.Windows.Media.Animation;
-using GolemUI.Settings;
+
 using GolemUI.Notifications;
 using GolemUI.Controllers;
 using GolemUI.Interfaces;

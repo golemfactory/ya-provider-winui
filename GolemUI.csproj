@@ -327,12 +327,12 @@
     <Compile Include="Notifications\CloseWindowCommand.cs" />
     <Compile Include="Notifications\CommandBase.cs" />
     <Compile Include="Notifications\ShowSampleWindowCommand.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Src\Sentry\SentryAdditionalDataIngester.cs" />
     <Compile Include="Src\BenchmarkService.cs" />
     <Compile Include="Src\CoinGeckoPriceProvider.cs" />
     <Compile Include="Src\CpuInfo.cs" />
     <Compile Include="Src\GlobalApplicationState.cs" />
-    <Compile Include="Src\GlobalSettings.cs" />
     <Compile Include="Src\HdWalletService.cs" />
     <Compile Include="Src\BenchmarkResultsProvider.cs" />
     <Compile Include="Src\UserSettingsProvider.cs" />

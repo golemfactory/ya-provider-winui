@@ -1,6 +1,6 @@
 ﻿using GolemUI.Command;
 using GolemUI.Interfaces;
-using GolemUI.Settings;
+
 using GolemUI.ViewModel;
 using System;
 using System.Collections.Generic;

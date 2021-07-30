@@ -17,5 +17,14 @@
     <Setting Name="BenchmarkResultsVersion" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">11</Value>
     </Setting>
+    <Setting Name="GolemFactoryPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">GolemFactory</Value>
+    </Setting>
+    <Setting Name="SettingsSubfolder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ThorgMiner</Value>
+    </Setting>
+    <Setting Name="DefaultProxy" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">staging-backend.chessongolem.app:3334</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -1,4 +1,4 @@
-﻿using GolemUI.Settings;
+﻿
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +14,7 @@ namespace GolemUI.Utils
         {
             string settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-            string localFolder = Path.Combine(settingPath, GlobalSettings.GolemFactoryPath, GlobalSettings.SettingsSubFolder);
+            string localFolder = Path.Combine(settingPath, GolemUI.Properties.Settings.Default.GolemFactoryPath, GolemUI.Properties.Settings.Default.SettingsSubfolder);
 
             if (!Directory.Exists(localFolder))
             {

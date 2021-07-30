@@ -10,7 +10,7 @@ using System.Threading;
 using System.Diagnostics;
 using GolemUI.Interfaces;
 using GolemUI.Command;
-using GolemUI.Settings;
+
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;

@@ -1,7 +1,7 @@
 ﻿using GolemUI.Claymore;
 using GolemUI.Interfaces;
 using GolemUI.Model;
-using GolemUI.Settings;
+
 using GolemUI.Src;
 using System;
 using System.Collections.Generic;
