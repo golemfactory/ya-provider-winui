@@ -325,7 +325,7 @@
     <Compile Include="Model\WalletState.cs" />
     <Compile Include="Notifications\CloseWindowCommand.cs" />
     <Compile Include="Notifications\CommandBase.cs" />
-    <Compile Include="Notifications\ShowSampleWindowCommand.cs" />
+    <Compile Include="Notifications\ShowWindowCommand.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Src\Sentry\SentryAdditionalDataIngester.cs" />
     <Compile Include="Src\BenchmarkService.cs" />

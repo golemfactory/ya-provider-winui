@@ -79,11 +79,11 @@ namespace GolemUI
             _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPage(DashboardAdvancedSettings));
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
 
-            _pageSelected = DashboardPages.PageDashboardMain;
+            _pageSelected = DashboardPages.PageDashboardAdvancedSettings;
 
             dashboardMain.Model.LoadData();
 
-            GlobalApplicationState.Instance!.Dashboard = this;
+            //GlobalApplicationState.Instance!.Dashboard = this;
 
             foreach (var pair in _pages)
             {
@@ -100,7 +100,7 @@ namespace GolemUI
             singleInstanceLock.ActivateEvent += OnAppReactivate;
         }
 
-        private void OnAppReactivate(object sender)
+        public void OnAppReactivate(object sender)
         {
             Dispatcher.Invoke(() =>
             {

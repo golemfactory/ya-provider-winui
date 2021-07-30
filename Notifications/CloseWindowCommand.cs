@@ -10,7 +10,9 @@ namespace GolemUI.Notifications
     {
         public override void Execute(object? parameter)
         {
-            GlobalApplicationState.Instance?.Dashboard?.RequestClose();
+            App app = (App)Application.Current;
+
+            app.RequestClose();
         }
 
 

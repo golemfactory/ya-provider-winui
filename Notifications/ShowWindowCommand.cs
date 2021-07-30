@@ -11,12 +11,9 @@ namespace GolemUI.Notifications
     {
         public override void Execute(object? parameter)
         {
-            if (GlobalApplicationState.Instance?.Dashboard != null)
-            {
-                GlobalApplicationState.Instance.Dashboard.WindowState = WindowState.Normal;
-                GlobalApplicationState.Instance.Dashboard.ShowInTaskbar = true;
-                GlobalApplicationState.Instance.Dashboard.tbNotificationIcon.Visibility = Visibility.Hidden;
-            }
+            App app = (App)Application.Current;
+
+            app.ActivateFromTray();
         }
 
         public override bool CanExecute(object? parameter)
