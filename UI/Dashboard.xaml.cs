@@ -170,7 +170,7 @@ namespace GolemUI
             currentPage.Show();
 
 
-         
+
 
             LastPage = _pageSelected;
 
