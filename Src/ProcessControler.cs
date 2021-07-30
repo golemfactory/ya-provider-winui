@@ -18,7 +18,6 @@ using System.Security.Cryptography;
 using System.Text;
 using GolemUI.Utils;
 using System.Windows;
-using GolemUI.Extensions;
 
 namespace GolemUI
 {
