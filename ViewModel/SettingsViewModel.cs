@@ -103,7 +103,7 @@ namespace GolemUI
                 ActiveCpusCount = TotalCpusCount;
 
             NotifyChange("TotalCpusCountAsString");
-            
+
         }
 
         private bool IsBenchmarkSettingsCorrupted()
