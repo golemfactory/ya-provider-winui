@@ -7,7 +7,7 @@
              xmlns:lv="clr-namespace:GolemUI.DesignViewModel"             
              d:DataContext="{d:DesignInstance Type=lv:WalletView, IsDesignTimeCreatable=True}"
              mc:Ignorable="d" 
-             d:DesignHeight="446.658" d:DesignWidth="934.149">
+             d:DesignHeight="690" d:DesignWidth="1112">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,7 +20,7 @@
                 <ResourceDictionary Source="Icons/Profit_icon.xaml"/>
                 <ResourceDictionary Source="Icons/DefaultStyle/xaml/Wallet/WalletIcon.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>        
+        </ResourceDictionary>
     </UserControl.Resources>
     <Border Style="{DynamicResource PageBackground}">
         <StackPanel Orientation="Vertical" Margin="30">
@@ -32,54 +32,50 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="0.1*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="19*"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="136*"/>
+                    <RowDefinition Height="0*"/>
                 </Grid.RowDefinitions>
-                <WrapPanel Margin="8 2 8 2" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center">
-                    <TextBlock>
-                        Your Address: 
-                        <Run Text="{Binding WalletAddress, Mode=OneWay}" />
-                    </TextBlock>
-                    
-                    <Button Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0" Click="Copy_Click">
-                        Copy &#x2398;
-                    </Button>
-                    <Button Name="BtnEditWalletAddress" Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0" Click="BtnEditWalletAddress_Click">
-                        Edit &#x270D;
-                    </Button>
+                <WrapPanel Margin="8,11" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center">
+                    <TextBlock><Run Text="Your Address: "/><Run Text="{Binding WalletAddress, Mode=OneWay}" /></TextBlock>
+
+                    <Button Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0" Click="Copy_Click" Content="Copy ⎘"/>
+                    <Button x:Name="BtnEditWalletAddress" Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0" Click="BtnEditWalletAddress_Click" Content="Edit ✍"/>
                 </WrapPanel>
 
-                <StackPanel Margin="8 2 8 2" Grid.Row="0" Grid.Column="2">
-                    <Button Name="BtnWithdraw" Style="{StaticResource GradientButtonStyle}" Padding="8" Visibility="{Binding Path=IsInternal, Converter={StaticResource BoolToVisibleConverter}}" Click="BtnWithdraw_Click">Withdraw</Button>
-                    <Button Name="BtnOpenZkSync" Style="{StaticResource GradientButtonStyle}" Padding="8" Visibility="{Binding Path=IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenZkSync_Click">Open ZkSync</Button>
+                <StackPanel Margin="0" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1">
+                    <Button x:Name="BtnWithdraw" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToVisibleConverter}}" Click="BtnWithdraw_Click" Content="Withdraw"/>
+                    <Button x:Name="BtnOpenZkSync" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenZkSync_Click" Content="Open ZkSync"/>
                 </StackPanel>
-                <Border Grid.Column="0" Grid.Row="1"  Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8">
+                <Border Grid.Column="0" Grid.Row="2"  Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" >
                     <StackPanel Margin="20">
                         <Label Content="MyBalance" Foreground="#ccc" FontFamily="Arial" FontSize="12"/>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Margin="12">
-                                <ContentControl Content="{DynamicResource Wallet_icon}" Width="42"></ContentControl>                                
-                            </StackPanel>                            
-                            <StackPanel>
-                                <Label Content="Earned" Foreground="#aaa" FontFamily="Segoe UI Black"></Label>
-                                <Label Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="25" RenderTransformOrigin="0.374,0.428" Content="{Binding Path=AmountUSD, Converter={StaticResource AmountConverter}}"/>
-
-                                <Label Content="{Binding Path=Amount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#a88" FontFamily="Arial" FontSize="12"/>
-
-                                <Canvas Height="20"></Canvas>
-                                <Label Content="Pending" Foreground="#aaa" FontFamily="Arial" FontSize="12"/>
-                                <Label Content="{Binding Path=PendingAmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="16"/>
-                                <Label Content="{Binding Path=PendingAmount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#a88" FontFamily="Arial" FontSize="12"/>
+                                <ContentControl Content="{DynamicResource Wallet_icon}" Width="42"/>
                             </StackPanel>
-                        </StackPanel>                        
+                            <StackPanel>
+                                <Label Content="Earned" Foreground="#aaa" FontFamily="Segoe UI Black"/>
+                                <Label Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="25" RenderTransformOrigin="0.374,0.428" Content="{Binding AmountUSD, Converter={StaticResource AmountConverter}}"/>
+
+                                <Label Content="{Binding Amount, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}" Foreground="#a88" FontFamily="Arial" FontSize="12"/>
+
+                                <Canvas Height="20"/>
+                                <Label Content="Pending" Foreground="#aaa" FontFamily="Arial" FontSize="12"/>
+                                <Label Content="{Binding PendingAmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="16"/>
+                                <Label Content="{Binding PendingAmount, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}" Foreground="#a88" FontFamily="Arial" FontSize="12"/>
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="1" Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="8">
+                <Border Grid.Column="2" Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -89,17 +85,15 @@
                             <RowDefinition Height="2*"/>
                             <RowDefinition Height="3*"/>
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0"></Label>
-                        <ContentControl Content="{DynamicResource Profit_icon}" Grid.Column="0" Grid.Row="1" Margin="35, 5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"></ContentControl>
+                        <Label Grid.Row="0" Grid.Column="0"/>
+                        <ContentControl Content="{DynamicResource Profit_icon}" Grid.Column="0" Grid.Row="1" Margin="35, 5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"/>
                         <StackPanel Margin="5" Grid.Column="0" Grid.Row="2">
-                            <Label HorizontalAlignment="Center" FontFamily="Arial" FontSize="12" Margin="0, 10">Estimated Profit</Label>
-                            <TextBlock HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" Margin="0, 10">
-                                <Run Text="{Binding Path=UsdPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay}"/> / day
-                            </TextBlock>
+                            <Label HorizontalAlignment="Center" FontFamily="Arial" FontSize="12" Margin="0, 10" Content="Estimated Profit"/>
+                            <TextBlock HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" Margin="0, 10"><Run Text="{Binding UsdPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay}"/><Run Text=" / day"/></TextBlock>
                         </StackPanel>
                     </Grid>
                 </Border>
-                <Border Grid.Column="2" Grid.Row="1" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8">
+                <Border Grid.Column="4" Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="0" >
                     <Grid Margin="20">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -108,15 +102,12 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        
-                        <TextBlock FontFamily="Arial Black" FontSize="20" Grid.Row="1">Tips and tricks</TextBlock>
-                        <TextBlock FontFamily="Arial" FontSize="10pt" Grid.Row="3" Foreground="#aaa">
-                            It is way safer to use external wallet and keep your hard erarned fund there than 
-                            to keep large amounts of tokens in the app wallet. You can easyly change your waller address.
-                        </TextBlock>
+
+                        <TextBlock FontFamily="Arial Black" FontSize="20" Grid.Row="1"><Run Text="Tips and tricks"/></TextBlock>
+                        <TextBlock FontFamily="Arial" FontSize="10pt" Grid.Row="3" Foreground="#aaa"><Run Text="It is way safer to use external wallet and keep your hard erarned fund there than to keep large amounts of tokens in the app wallet. You can easyly change your waller address."/></TextBlock>
                     </Grid>
                 </Border>
-            </Grid>            
+            </Grid>
         </StackPanel>
     </Border>
 </UserControl>
