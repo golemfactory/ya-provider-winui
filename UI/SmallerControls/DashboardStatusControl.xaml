@@ -15,16 +15,27 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Themes/Defaults.xaml"/>
+                <ResourceDictionary>
+
+                    <converters:ValueToVisibilityConverter x:Key="ValueToVisible"/>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-
-        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0" Height="65" VerticalAlignment="Bottom" Visibility="{Binding ElementName=DashboardStatusControlInstance, Path=Status, Mode=OneWay, Converter={StaticResource DashboardStatusToVisibleConverter}}" >
+        <StackPanel Orientation="Horizontal" Visibility="{Binding Path=Status, Converter={StaticResource ValueToVisible}, ConverterParameter={x:Static local:DashboardStatusEnum.Ready}}">
+            <Label Content="Status: Ready" VerticalAlignment="Center"/>            
+            <Image Source="..\Icons\DefaultStyle\png/MiningStatus\Ready.png" Height="18" VerticalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Visibility="{Binding Path=Status, Converter={StaticResource ValueToVisible}, ConverterParameter={x:Static local:DashboardStatusEnum.Mining}}">
+            <Label Content="Status: Mining" VerticalAlignment="Center"/>
+            <Image Source="..\Icons\DefaultStyle\png/MiningStatus\Mining.png" Height="18" VerticalAlignment="Center"/>
+        </StackPanel>
+        <!--StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0" Height="65" VerticalAlignment="Bottom" Visibility="{Binding ElementName=DashboardStatusControlInstance, Path=Status, Mode=OneWay, Converter={StaticResource DashboardStatusToVisibleConverter}}" >
             <Label Margin="0" FontSize="11" Content="Status: " VerticalAlignment="Bottom"></Label>
             <Image Source="{Binding Path=Status, Mode=OneWay, Converter={StaticResource DashboardStatusToIconConverter}}" Width="18" Height="18" VerticalAlignment="Bottom" Margin="0,0,0,3"/>
             <Label Margin="0" FontSize="14" FontWeight="Black" Name="lblStatus" Content="{Binding ElementName=DashboardStatusControlInstance, Path=Status, Mode=OneWay, Converter={StaticResource DashboardStatusToTextConverter}}" VerticalAlignment="Bottom"></Label>
-        </StackPanel>
+        </StackPanel-->
     
             
     </Grid>
