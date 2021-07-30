@@ -9,7 +9,7 @@
 
     <!--<DropShadowEffect x:Key="BlueBox.Effect" BlurRadius="10"  ShadowDepth="5" Color="#06D0BA" Opacity="0.25" Direction="-45">
     </DropShadowEffect>-->
-    <SolidColorBrush x:Key="BlueBox.Background" Color="#120539" Opacity="0.60"></SolidColorBrush>
+    <SolidColorBrush x:Key="BlueBox.Background" Color="#120539" Opacity="0.3"></SolidColorBrush>
     <SolidColorBrush x:Key="BlueBox.Border" Color="#bbb" Opacity="0.3"></SolidColorBrush>
     <Style x:Key="BorderStyleBlueBox" TargetType="{x:Type Border}">
         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -33,4 +33,4 @@
         <Setter Property="Foreground" Value="White" />
         <Setter Property="TextWrapping" Value="WrapWithOverflow" />
     </Style>
-</ResourceDictionary>
+</ResourceDictionary>  
