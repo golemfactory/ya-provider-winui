@@ -209,17 +209,23 @@ namespace GolemUI
         }
 
         private bool _forceExit = false;
-        public void RequestClose(bool isAlreadyClosing = false)
+        public void RequestClose()
         {
-            if (_processControler.IsProviderRunning)
+            Task.Run(async () =>
             {
-                _processControler.Stop();
-            }
-            if (!isAlreadyClosing)
-            {
-                _forceExit = true;
-                Close();
-            }
+                //Disable logging in debugwindow to prevent problems with invoke 
+                DebugWindow.EnableLoggingToDebugWindow = false;
+                
+                //Stop provider
+                await _processControler.Stop();
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    //force exit know after trying to gently stop yagna (which may succeeded or failed)
+                    this._forceExit = true;
+                    this.Close();
+                });
+            });
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -232,7 +238,7 @@ namespace GolemUI
             bool closeOnExit = _userSettingsProvider.LoadUserSettings().CloseOnExit;
             if (closeOnExit)
             {
-                RequestClose(true);
+                RequestClose();
             }
             else
             {

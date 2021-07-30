@@ -52,7 +52,7 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("444")]
+        [global::System.Configuration.DefaultSettingValueAttribute("11")]
         public int CurrentUserSettingsVersion {
             get {
                 return ((int)(this["CurrentUserSettingsVersion"]));

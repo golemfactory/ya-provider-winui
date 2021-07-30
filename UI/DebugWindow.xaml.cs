@@ -23,6 +23,8 @@ namespace GolemUI
     {
         IUserSettingsProvider _userSettingsProvider;
 
+        public static bool EnableLoggingToDebugWindow = true;
+
         public DebugWindow(IProcessControler processControler, IUserSettingsProvider userSettingsProvider)
         {
             _userSettingsProvider = userSettingsProvider;
@@ -38,6 +40,8 @@ namespace GolemUI
 #endif
         }
 
+        
+
         void TrimControlTextSize(TextBox tb)
         {
             int maxLogSize = 100000;
@@ -50,7 +54,7 @@ namespace GolemUI
 
         void LogLine(string logger, string line)
         {
-            if (GlobalSettings.enableLoggingToDebugWindow)
+            if (EnableLoggingToDebugWindow)
             {
                 if (logger == "provider")
                 {
