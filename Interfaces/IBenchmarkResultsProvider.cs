@@ -7,10 +7,10 @@ using GolemUI.Model;
 
 namespace GolemUI.Interfaces
 {
-    public interface IUserSettingsProvider 
+    public interface IBenchmarkResultsProvider 
     {
-        public UserSettings LoadUserSettings();
+        public BenchmarkResults LoadBenchmarkResults();
 
-        public void SaveUserSettings(UserSettings userSettings);
+        public void SaveBenchmarkResults(BenchmarkResults userSettings);
     }
 }

@@ -27,7 +27,7 @@ namespace GolemUI.Src
                 settings = null;
             }
 
-            if (settings == null || settings.SettingsVersion != GolemUI.Properties.Settings.Default.CurrentUserSettingsVersion)
+            if (settings == null || settings.SettingsVersion != GolemUI.Properties.Settings.Default.UserSettingsVersion)
             {
                 settings = null;
             }
@@ -42,7 +42,7 @@ namespace GolemUI.Src
 
         public void SaveUserSettings(UserSettings userSettings)
         {
-            userSettings.SettingsVersion = GolemUI.Properties.Settings.Default.CurrentUserSettingsVersion;
+            userSettings.SettingsVersion = GolemUI.Properties.Settings.Default.UserSettingsVersion;
 
             string settingsFilePath = PathUtil.GetLocalSettingsPath();
 

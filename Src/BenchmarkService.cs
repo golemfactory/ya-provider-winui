@@ -1,6 +1,7 @@
 ﻿using GolemUI.Claymore;
 using GolemUI.Command;
 using GolemUI.Interfaces;
+using GolemUI.Model;
 using GolemUI.Settings;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,8 +16,9 @@ namespace GolemUI.Src
 {
     public class BenchmarkService : INotifyPropertyChanged
     {
-        public BenchmarkService(IProviderConfig providerConfig, ILogger<BenchmarkService> logger)
+        public BenchmarkService(IProviderConfig providerConfig, ILogger<BenchmarkService> logger, IBenchmarkResultsProvider benchmarkResultsProvider)
         {
+            _benchmarkResultsProvider = benchmarkResultsProvider;
             _providerConfig = providerConfig;
             _logger = logger;
         }
@@ -35,7 +37,7 @@ namespace GolemUI.Src
 
         private readonly double CLAYMORE_GPU_INFO_TIMEOUT = 10.0;
         private readonly double CLAYMORE_TOTAL_BENCHMARK_TIMEOUT = 200.0;
-
+        private IBenchmarkResultsProvider _benchmarkResultsProvider;
 
         public async void StartBenchmark(string cards, string niceness, string pool, string ethereumAddress, ClaymoreLiveStatus? externalLiveStatus)
         {
@@ -229,7 +231,7 @@ namespace GolemUI.Src
 
         internal string? ExtractClaymoreParams()
         {
-            var status = _claymoreLiveStatus ?? SettingsLoader.LoadBenchmarkFromFileOrDefault().liveStatus;
+            var status = _claymoreLiveStatus ?? _benchmarkResultsProvider.LoadBenchmarkResults().liveStatus;
             if (status == null)
             {
                 return null;
@@ -269,7 +271,7 @@ namespace GolemUI.Src
                 BenchmarkResultVersion = GlobalSettings.CurrentBenchmarkResultVersion,
                 liveStatus = _claymoreLiveStatus
             };
-            SettingsLoader.SaveBenchmarkToFile(results);
+            _benchmarkResultsProvider.SaveBenchmarkResults(results);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

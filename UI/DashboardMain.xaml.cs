@@ -27,15 +27,17 @@ namespace GolemUI
     {
         public DashboardMainViewModel Model => (DataContext as DashboardMainViewModel)!;
 
-        public DashboardMain(DashboardMainViewModel viewModel)
+        IBenchmarkResultsProvider _benchmarkResultsProvider;
+        public DashboardMain(DashboardMainViewModel viewModel, IBenchmarkResultsProvider benchmarkResultsProvider)
         {
+            _benchmarkResultsProvider = benchmarkResultsProvider;
             DataContext = viewModel;
             InitializeComponent();
         }
 
         public void RefreshStatus()
         {
-            var br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+            var br = _benchmarkResultsProvider.LoadBenchmarkResults();
 
             string reason;
             if (!br.IsClaymoreMiningPossible(out reason))

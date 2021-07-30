@@ -53,9 +53,18 @@ namespace GolemUI.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("11")]
-        public int CurrentUserSettingsVersion {
+        public int UserSettingsVersion {
             get {
-                return ((int)(this["CurrentUserSettingsVersion"]));
+                return ((int)(this["UserSettingsVersion"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("11")]
+        public int BenchmarkResultsVersion {
+            get {
+                return ((int)(this["BenchmarkResultsVersion"]));
             }
         }
     }

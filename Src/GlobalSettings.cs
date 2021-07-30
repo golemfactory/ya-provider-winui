@@ -28,69 +28,6 @@ namespace GolemUI.Settings
     }
 
 
-
-    public class BenchmarkResults
-    {
-        public int BenchmarkResultVersion { get; set; }
-
-        public ClaymoreLiveStatus? liveStatus = null;
-
-        public bool IsClaymoreMiningPossible(out string reason)
-        {
-            reason = "";
-            if (this.liveStatus == null)
-            {
-                reason = "No benchmark run";
-                return false;
-            }
-            if (!this.liveStatus.BenchmarkFinished)
-            {
-                reason = "Benchmark not finished";
-                return false;
-            }
-            if (this.liveStatus.GPUs.Count <= 0)
-            {
-                reason = "No GPUs detected";
-                return false;
-            }
-            foreach (var gpu in this.liveStatus.GPUs)
-            {
-                if (!String.IsNullOrEmpty(gpu.Value.GPUError))
-                {
-                    reason = "Benchmark failed: " + gpu.Value.GPUError;
-                    return false;
-                }
-            }
-
-            return true;
-        }
-    }
-
-    public class LocalSettings
-    {
-        public int SettingsVersion { get; set; }
-        public string? BenchmarkLength { get; set; }
-        public string? CustomPool { get; set; }
-        public string? OptionalEmail { get; set; }
-
-        public bool EnableDetailedBenchmarkInfo { get; set; }
-        public bool EnableDebugLogs { get; set; }
-        public bool StartYagnaCommandLine { get; set; }
-        public bool StartProviderCommandLine { get; set; }
-        public bool DisableNotificationsWhenMinimized { get; set; }
-        public bool MinimizeToTrayOnMinimize { get; set; }
-        public bool CloseOnExit { get; set; } = true;
-
-        public bool StartWithWindows { get; set; }
-        public bool EnableWASMUnit { get; set; }
-
-        public LocalSettings()
-        {
-
-        }
-    }
-
-
     public class SettingsLoader
     {
 
@@ -127,47 +64,7 @@ namespace GolemUI.Settings
 #endif
 
 
-        public static BenchmarkResults LoadBenchmarkFromFileOrDefault()
-        {
-            BenchmarkResults? settings = null;
-            try
-            {
-                string fp = PathUtil.GetLocalBenchmarkPath();
-                string jsonText = File.ReadAllText(fp);
-                settings = JsonConvert.DeserializeObject<BenchmarkResults>(jsonText);
-            }
-            catch (Exception)
-            {
-                settings = null;
-            }
 
-            if (settings == null || settings.BenchmarkResultVersion != GlobalSettings.CurrentBenchmarkResultVersion)
-            {
-                settings = null;
-            }
-
-            if (settings == null)
-            {
-                settings = new BenchmarkResults();
-            }
-
-            return settings;
-        }
-
-        public static void SaveBenchmarkToFile(BenchmarkResults? benchmarkSettings)
-        {
-            if (benchmarkSettings == null)
-            {
-                return;
-            }
-            benchmarkSettings.BenchmarkResultVersion = GlobalSettings.CurrentBenchmarkResultVersion;
-
-            string fp = PathUtil.GetLocalBenchmarkPath();
-
-            string s = JsonConvert.SerializeObject(benchmarkSettings, Formatting.Indented);
-
-            File.WriteAllText(fp, s);
-        }
     }
 
 }

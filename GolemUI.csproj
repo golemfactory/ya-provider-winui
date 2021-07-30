@@ -316,7 +316,9 @@
     <Compile Include="Interfaces\IProcessControler.cs" />
     <Compile Include="Interfaces\IProviderConfig.cs" />
     <Compile Include="Interfaces\ISavableLoadableDashboardPage.cs" />
+    <Compile Include="Interfaces\IBenchmarkResultsProvider.cs" />
     <Compile Include="Interfaces\IUserSettingsProvider.cs" />
+    <Compile Include="Model\BenchmarkResults.cs" />
     <Compile Include="Model\claymorePerformanceThrottlingEnum.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
@@ -332,6 +334,7 @@
     <Compile Include="Src\GlobalApplicationState.cs" />
     <Compile Include="Src\GlobalSettings.cs" />
     <Compile Include="Src\HdWalletService.cs" />
+    <Compile Include="Src\BenchmarkResultsProvider.cs" />
     <Compile Include="Src\UserSettingsProvider.cs" />
     <Compile Include="Utils\LazyInit.cs" />
     <Compile Include="Src\NameGenerator.cs" />

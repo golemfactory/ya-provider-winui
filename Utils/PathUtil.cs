@@ -32,7 +32,7 @@ namespace GolemUI.Utils
 
         public static string GetLocalBenchmarkPath()
         {
-            string result = Path.Combine(GetLocalPath(), "BenchmarkSnapshot.json");
+            string result = Path.Combine(GetLocalPath(), "BenchmarkResults.json");
             return result;
         }
     }
