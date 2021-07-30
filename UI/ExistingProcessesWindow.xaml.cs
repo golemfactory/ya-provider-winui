@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Threading;
-using GolemUI.Extensions;
+using GolemUI.Utils;
 
 namespace GolemUI
 {

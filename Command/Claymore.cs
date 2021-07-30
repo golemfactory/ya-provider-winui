@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using GolemUI.Extensions;
+using GolemUI.Utils;
 using Microsoft.Extensions.Logging;
 
 namespace GolemUI.Command
