@@ -79,7 +79,8 @@ namespace GolemUI
             _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPage(DashboardAdvancedSettings));
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
 
-            _pageSelected = DashboardPages.PageDashboardAdvancedSettings;
+            _pageSelected = DashboardPages.PageDashboardMain;
+            btnPageDashboard.IsChecked = true;
 
             dashboardMain.Model.LoadData();
 
