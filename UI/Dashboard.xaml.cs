@@ -237,6 +237,7 @@ namespace GolemUI
                 tbNotificationIcon.Visibility = Visibility.Visible;
                 this.WindowState = WindowState.Minimized;
                 this.ShowInTaskbar = false;
+                SendToastNotification();
             }
             e.Cancel = true;
         }
@@ -273,6 +274,26 @@ namespace GolemUI
 
 
         }
+
+        public void SendToastNotification()
+        {
+            /*
+                new ToastContentBuilder()
+                    .AddArgument("action", "viewConversation")
+                    .AddText($"Balance $10.223")
+                    .AddProgressBar(isIndeterminate: true, status: "working", title: "ETH mining", valueStringOverride: "")
+                    .AddButton(new ToastButton().SetContent("Show"))
+                    .Show(toast =>
+                    {
+                        toast.Tag = "18365";
+                        toast.Group = "wallPosts";
+
+                    });
+            */
+
+        }
+
+
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
         {
