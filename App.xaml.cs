@@ -28,6 +28,7 @@ namespace GolemUI
         private readonly GolemUI.ChildProcessManager _childProcessManager;
         private readonly IDisposable _sentrySdk;
 
+        private Dashboard? _dashboard;
         public App()
         {
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
@@ -47,13 +48,8 @@ namespace GolemUI
                 };
             });
 
-
-
             _childProcessManager = new GolemUI.ChildProcessManager();
             _childProcessManager.AddProcess(Process.GetCurrentProcess());
-
-
-            GlobalApplicationState.Initialize();
 
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
@@ -136,28 +132,32 @@ namespace GolemUI
             {
 
                 var dashboardWindow = _serviceProvider!.GetRequiredService<Dashboard>();
-                if (GlobalApplicationState.Instance != null)
-                {
-                    GlobalApplicationState.Instance.Dashboard = dashboardWindow;
 
-                    dashboardWindow.Show();
+                dashboardWindow.Show();
 #if DEBUG
-                    StartDebugWindow();
-
-
-
+                StartDebugWindow(dashboardWindow);
 #endif
-                }
-                else
-                {
-                    throw new NullReferenceException("GlobalApplicationState.Instance should not be null! ");
 
-                }
-
+                _dashboard = dashboardWindow;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+        public void RequestClose()
+        {
+            if (_dashboard != null)
+            {
+                _dashboard.RequestClose();
+            }
+        }
+
+        public void ActivateFromTray()
+        {
+            if (_dashboard != null)
+            {
+                _dashboard.OnAppReactivate(this);
             }
         }
 
@@ -172,26 +172,16 @@ namespace GolemUI
             StopApp();
         }
 
-        public void StartDebugWindow()
+        public void StartDebugWindow(Dashboard dashboardWindow)
         {
+            var debugWindow = _serviceProvider.GetRequiredService<DebugWindow>();
 
-            if (GlobalApplicationState.Instance?.DebugWindow == null)
+            if (dashboardWindow != null)
             {
-                var debugWindow = _serviceProvider.GetRequiredService<DebugWindow>();
-                if (GlobalApplicationState.Instance != null)
-                {
-                    GlobalApplicationState.Instance.DebugWindow = debugWindow;
-
-                    var dashboard = GlobalApplicationState.Instance.Dashboard;
-                    if (dashboard != null)
-                    {
-                        debugWindow.Owner = dashboard;
-                        debugWindow.Left = dashboard.Left + dashboard.Width;
-                        debugWindow.Top = dashboard.Top;
-                        debugWindow.Show();
-                    }
-
-                }
+                debugWindow.Owner = dashboardWindow;
+                debugWindow.Left = dashboardWindow.Left + dashboardWindow.Width;
+                debugWindow.Top = dashboardWindow.Top;
+                debugWindow.Show();
             }
         }
 

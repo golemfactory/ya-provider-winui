@@ -80,10 +80,9 @@ namespace GolemUI
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
 
             _pageSelected = DashboardPages.PageDashboardMain;
+            btnPageDashboard.IsChecked = true;
 
             dashboardMain.Model.LoadData();
-
-            GlobalApplicationState.Instance!.Dashboard = this;
 
             foreach (var pair in _pages)
             {
@@ -100,13 +99,12 @@ namespace GolemUI
             singleInstanceLock.ActivateEvent += OnAppReactivate;
         }
 
-        private void OnAppReactivate(object sender)
+        public void OnAppReactivate(object sender)
         {
             Dispatcher.Invoke(() =>
             {
                 WindowState = WindowState.Normal;
                 ShowInTaskbar = true;
-                tbNotificationIcon.Visibility = Visibility.Hidden;
                 Activate();
             });
         }
