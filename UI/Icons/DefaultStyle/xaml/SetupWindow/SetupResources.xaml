@@ -218,7 +218,7 @@
             <Path Data="M39.1698 95.677C38.6775 95.6569 38.1915 95.559 37.7298 95.387C37.209 96.9508 36.5392 98.4611 35.7298 99.897C35.4068 100.469 34.7143 100.72 34.0998 100.487C32.8964 100.019 31.6457 99.6841 30.3698 99.487C29.9417 100.06 29.5763 100.676 29.2798 101.327C29.1718 101.558 29.0783 101.795 28.9998 102.037C28.9797 102.828 29.3545 103.578 29.9998 104.037C30.4273 104.265 30.9053 104.382 31.3898 104.377C34.1775 104.469 36.8296 103.173 38.4698 100.917C39.0781 99.9519 39.6259 98.95 40.1098 97.917C40.2198 97.697 40.3398 97.477 40.4598 97.267L41.0398 95.827C41.0937 95.6463 41.1371 95.4627 41.1698 95.277C40.5501 95.5844 39.8601 95.7225 39.1698 95.677Z" Fill="white" />
         </Canvas>
     </Viewbox>
-    <Viewbox x:Key="i_em_expert_icon">
+    <Viewbox x:Key="i_em_expert_icon_vector">
         <Viewbox.Resources>
             <LinearGradientBrush x:Key="paint1_linear" StartPoint="0.518913984298706,0.782696008682251" EndPoint="0.41576099395752,0.85748302936554" MappingMode="RelativeToBoundingBox">
                 <LinearGradientBrush.GradientStops>
@@ -551,7 +551,10 @@
         <Canvas Width="310" Height="310">
             <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
             <Image Source="/UI/Icons/DefaultStyle/png/SetupWindow/Prepare.png" Canvas.Top="78" Width="233" Height="144" Canvas.Left="28"/>
-        </Canvas>        
+        </Canvas>
+    </Viewbox>
+    <Viewbox x:Key="i_am_expert_icon">
+        <Image Source="/UI/Icons/DefaultStyle/png/SetupWindow/Expert.png" />
     </Viewbox>
     <Viewbox x:Key="Seed_Step_icon">
         <Canvas Width="310" Height="310">
