@@ -57,14 +57,14 @@
 
 
 
-                <WrapPanel Margin="8,19,8,43" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Grid.Row="0" Height="16">
+                <WrapPanel Margin="8,19,8,19" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Grid.Row="0" Height="16">
                     <TextBlock><Run Text="Your Address: "/><Run Text="{Binding WalletAddress, Mode=OneWay}" /></TextBlock>
 
                     <Button Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0" Click="Copy_Click" Content="Copy ⎘"/>
                     <Button x:Name="BtnEditWalletAddress" Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0" Click="BtnEditWalletAddress_Click" Content="Edit ✍"/>
                 </WrapPanel>
 
-                <StackPanel Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1">
+                <StackPanel Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" VerticalAlignment="Center">
                     <Button x:Name="BtnWithdraw" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToVisibleConverter}}" Click="BtnWithdraw_Click" Content="Withdraw"/>
                     <Button x:Name="BtnOpenZkSync" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenZkSync_Click" Content="Open ZkSync"/>
                 </StackPanel>
