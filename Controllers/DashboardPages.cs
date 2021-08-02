@@ -4,6 +4,7 @@
     {
         PageDashboardMain,
         PageDashboardSettings,
+        PageDashboardSettingsAdv,
         PageDashboardAdvancedSettings,
         PageDashboardBenchmark,
         PageDashboardWallet,

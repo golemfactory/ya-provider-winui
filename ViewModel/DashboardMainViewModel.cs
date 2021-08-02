@@ -13,7 +13,7 @@ namespace GolemUI.ViewModel
 
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-        public event PageChangeRequestedEvent PageChangeRequested;
+        public event PageChangeRequestedEvent? PageChangeRequested;
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;

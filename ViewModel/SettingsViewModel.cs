@@ -15,7 +15,7 @@ namespace GolemUI.ViewModel
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-        public event PageChangeRequestedEvent PageChangeRequested;
+        public event PageChangeRequestedEvent? PageChangeRequested;
         private readonly Command.Provider _provider;
         private readonly IProviderConfig _providerConfig;
         private readonly IPriceProvider _priceProvider;

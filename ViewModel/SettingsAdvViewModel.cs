@@ -13,6 +13,7 @@ namespace GolemUI.ViewModel
     public class SettingsAdvViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
         private readonly IUserSettingsProvider _userSettingsProvider;
+        public event PageChangeRequestedEvent? PageChangeRequested;
 
         public UserSettings UserSettings {get;set;}
 
@@ -22,6 +23,8 @@ namespace GolemUI.ViewModel
             UserSettings = _userSettingsProvider.LoadUserSettings();
 
             PropertyChanged += OnPropertyChanged;
+
+            PageChangeRequested = null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -47,7 +50,10 @@ namespace GolemUI.ViewModel
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             //
+            if (PageChangeRequested != null)
+            {
 
+            }
         }
 
 

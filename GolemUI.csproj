@@ -299,6 +299,7 @@
     <Compile Include="Converters\EnumToBrush.cs" />
     <Compile Include="Converters\DashboardStatusToTextConverter.cs" />
     <Compile Include="Converters\HashRateConverter.cs" />
+    <Compile Include="Converters\RadioBoolToIntConverter.cs" />
     <Compile Include="Converters\StringToClaymorePerformanceThrottlingConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="CustomControls\EditButton.cs" />
@@ -396,6 +397,7 @@
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
+    <Compile Include="ViewModel\DashboardViewModel.cs" />
     <Compile Include="ViewModel\EditAddressViewModel.cs" />
     <Compile Include="ViewModel\SettingsAdvViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />

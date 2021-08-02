@@ -18,7 +18,7 @@ namespace GolemUI.Controllers
             View = view;
         }
 
-        public event PageChangeRequestedEvent PageChangeRequested;
+        public event PageChangeRequestedEvent? PageChangeRequested;
         public DashboardPage(UserControl view, ISavableLoadableDashboardPage viewModel)
         {
             View = view;

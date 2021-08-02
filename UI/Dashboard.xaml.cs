@@ -34,6 +34,7 @@ namespace GolemUI
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
+        public ViewModel.DashboardViewModel ViewModel {get;set;}
         public DashboardMain DashboardMain { get; set; }
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardAdvancedSettings DashboardAdvancedSettings { get; set; }
@@ -49,7 +50,7 @@ namespace GolemUI
         public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
         public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardSettingsAdv _dashboardSettingsAdv, DashboardMain dashboardMain,
-            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider)
+            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel)
         {
             _processControler = processControler;
             _providerConfig = providerConfig;
@@ -57,6 +58,8 @@ namespace GolemUI
             _userSettingsProvider = userSettingsProvider;
 
             InitializeComponent();
+            ViewModel = dashboardViewModel;
+            this.DataContext = this.ViewModel;
 
             DashboardMain = dashboardMain;
             DashboardSettings = _dashboardSettings;
@@ -75,7 +78,6 @@ namespace GolemUI
             _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
 
             _pageSelected = DashboardPages.PageDashboardMain;
-            btnPageDashboard.IsChecked = true;
 
             dashboardMain.Model.LoadData();
 
