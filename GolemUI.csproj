@@ -356,9 +356,6 @@
     <Compile Include="UI\Dashboard.xaml.cs">
       <DependentUpon>Dashboard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\DashboardAdvancedSettings.xaml.cs">
-      <DependentUpon>DashboardAdvancedSettings.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\DashboardMain.xaml.cs">
       <DependentUpon>DashboardMain.xaml</DependentUpon>
     </Compile>
@@ -421,10 +418,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Dashboard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\DashboardAdvancedSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

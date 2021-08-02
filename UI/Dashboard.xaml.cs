@@ -202,7 +202,7 @@ namespace GolemUI
 
         private void btnInformation_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SwitchPage(DashboardViewModel.DashboardPages.PageDashboardSettingsAdv);
+            //todo: implement information
         }
     }
 }

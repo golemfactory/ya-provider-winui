@@ -32,8 +32,8 @@ namespace GolemUI.ViewModel
         public SettingsAdvViewModel(IUserSettingsProvider userSettingsProvider)
         {
             _userSettingsProvider = userSettingsProvider;
-            UserSettings = _userSettingsProvider.LoadUserSettings();
-            UserSettings.PropertyChanged += OnUserSettingsPropertyChanged;
+            _userSettings = _userSettingsProvider.LoadUserSettings();
+            _userSettings.PropertyChanged += OnUserSettingsPropertyChanged;
 
             PropertyChanged += OnPropertyChanged;
 
