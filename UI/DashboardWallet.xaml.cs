@@ -45,7 +45,7 @@ namespace GolemUI
 
         private void BtnEditWalletAddress_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new UI.DlgEditAddress(Model.EditModel);
+            var dlg = new UI.Dialogs.DlgEditAddress(Model.EditModel);
             dlg.Owner = Window.GetWindow(this);
             if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
             {

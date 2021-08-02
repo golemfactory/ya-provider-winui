@@ -1,4 +1,4 @@
-﻿<Window x:Class="GolemUI.UI.DlgEditAddress"
+﻿<Window x:Class="GolemUI.UI.Dialogs.DlgEditAddress"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -40,9 +40,9 @@
                 </Style.Triggers>
             </Style>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/PinkButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/BlueButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/BlueButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>        
     </Window.Resources>

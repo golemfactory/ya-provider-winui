@@ -16,15 +16,15 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/Defaults.xaml"/>
-                <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
-                <ResourceDictionary Source="Themes/WindowControls.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/NavSidePanelInformationButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/NavSidepanelButton.xaml"/>
-                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
-
+                <ResourceDictionary Source="/UI/Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/SemiTransparentBorder.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/WindowControls.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/NavSidePanelInformationButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/NavSidepanelButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary>
                     <ContextMenu x:Key="TrayMenu">
                         <MenuItem Header="Show" Command="{commands:ShowWindowCommand}"/>
@@ -46,6 +46,8 @@
                 <ColumnDefinition Width="168"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+
+            
 
             <tb:TaskbarIcon x:Name="tbNotificationIcon" IconSource="/Media/tray.ico" DoubleClickCommand="{commands:ShowWindowCommand}" ToolTipText="GolemUI" ContextMenu="{StaticResource TrayMenu}"/>
             <!-- todo:// following code generates binding errors -->
@@ -77,7 +79,8 @@
                     <RadioButton IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=3}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}"/>
                 </StackPanel>
             </Border>
-            <Button x:Name="btnInformation" Style="{StaticResource NavSidepanelButtonInformation}" Margin="79,568,69,40" Grid.Row="1" Click="btnInformation_Click" Height="Auto"/>
+            <Button x:Name="btnAppInformation" Style="{StaticResource NavSidepanelButtonInformation}" Click="btnAppInformation_Click" VerticalAlignment="Bottom" Margin="10,0,0,40" Grid.Row="1"/>
+            <Border x:Name="RectBlack" Style="{StaticResource SemiTransparentBorder}" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         </Grid>
     </Border>
 </Window>

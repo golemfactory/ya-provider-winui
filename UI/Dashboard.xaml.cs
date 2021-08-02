@@ -74,7 +74,6 @@ namespace GolemUI
             });
         }
 
-
         static void AnimateScroll(UIElement element, double amount, TimeSpan duration)
         {
             var sb = new Storyboard();
@@ -200,9 +199,13 @@ namespace GolemUI
         private readonly BenchmarkService _benchmarkService;
         private readonly IUserSettingsProvider _userSettingsProvider;
 
-        private void btnInformation_Click(object sender, RoutedEventArgs e)
+        private void btnAppInformation_Click(object sender, RoutedEventArgs e)
         {
-            //todo: implement information
+            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig));
+            dlg.Owner = Window.GetWindow(this);
+            RectBlack.Visibility = Visibility.Visible;
+            dlg?.ShowDialog();
+            RectBlack.Visibility = Visibility.Hidden;
         }
     }
 }

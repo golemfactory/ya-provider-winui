@@ -203,10 +203,7 @@ namespace GolemUI.UI
             Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.OwnWallet;
         }
 
-        private void OnEMWalletStepDone(object sender, RoutedEventArgs e)
-        {
-            Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Name;
-        }
+
 
         private void OnEMNameStepDone(object sender, RoutedEventArgs e)
         {
@@ -221,6 +218,14 @@ namespace GolemUI.UI
             EnableBlur();
         }
 
-
+        private void ConfirmAddress_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new UI.Dialogs.DlgConfirmAddress(new ViewModel.Dialogs.DlgConfirmAddressViewModel(Model.Address));
+            dlg.Owner = Window.GetWindow(this);
+            RectBlack.Visibility = Visibility.Visible;
+            bool? result = dlg?.ShowDialog();
+            RectBlack.Visibility = Visibility.Hidden;
+            if (result == true) Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Name;
+        }
     }
 }

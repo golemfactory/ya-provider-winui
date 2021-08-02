@@ -42,6 +42,7 @@ namespace GolemUI.Src
 
         public async void Refresh()
         {
+
             var markets = await _client.CoinsClient.GetCoinMarkets("USD", new string[] { "golem", "ethereum-classic", "ethereum" }, "", perPage: null, page: null, sparkline: false, priceChangePercentage: null, category: null);
             foreach (var market in markets)
             {
@@ -64,6 +65,7 @@ namespace GolemUI.Src
                         break;
                 }
             }
+
         }
 
         public void Dispose()
