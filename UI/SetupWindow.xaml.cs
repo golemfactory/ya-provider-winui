@@ -220,6 +220,10 @@ namespace GolemUI.UI
 
         private void ConfirmAddress_Click(object sender, RoutedEventArgs e)
         {
+            if (Model == null || Model.Address == null)
+            {
+                return;
+            }
             var dlg = new UI.Dialogs.DlgConfirmAddress(new ViewModel.Dialogs.DlgConfirmAddressViewModel(Model.Address));
             dlg.Owner = Window.GetWindow(this);
             RectBlack.Visibility = Visibility.Visible;
