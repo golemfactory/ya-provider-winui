@@ -40,8 +40,7 @@ namespace GolemUI
 
         
 
-        public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardSettingsAdv _dashboardSettingsAdv, DashboardMain dashboardMain,
-            Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel)
+        public Dashboard(DashboardSettingsAdv _dashboardSettingsAdv, Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel)
         {
             _processControler = processControler;
             _providerConfig = providerConfig;
@@ -52,14 +51,10 @@ namespace GolemUI
             ViewModel = dashboardViewModel;
             this.DataContext = this.ViewModel;
 
-       
-
             foreach (var pair in ViewModel._pages)
             {
                 UserControl control = pair.Value.View;
-                control.Visibility = Visibility.Hidden;
-                control.Opacity = 0;
-                tcNo1.Children.Add(control);
+                grdPagesContainer.Children.Add(control);
             }
 
             singleInstanceLock.ActivateEvent += OnAppReactivate;

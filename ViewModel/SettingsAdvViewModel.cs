@@ -15,12 +15,24 @@ namespace GolemUI.ViewModel
         private readonly IUserSettingsProvider _userSettingsProvider;
         public event PageChangeRequestedEvent? PageChangeRequested;
 
-        public UserSettings UserSettings {get;set;}
+        private UserSettings _userSettings;
+        public UserSettings UserSettings {
+            get
+            {
+                return _userSettings;
+            }
+            set
+            {
+                NotifyChanged("UserSettings");
+                _userSettings = value;
+            }
+        }
 
         public SettingsAdvViewModel(IUserSettingsProvider userSettingsProvider)
         {
             _userSettingsProvider = userSettingsProvider;
             UserSettings = _userSettingsProvider.LoadUserSettings();
+            UserSettings.PropertyChanged += OnUserSettingsPropertyChanged;
 
             PropertyChanged += OnPropertyChanged;
 
@@ -32,6 +44,7 @@ namespace GolemUI.ViewModel
         public void LoadData()
         {
             UserSettings = _userSettingsProvider.LoadUserSettings();
+            UserSettings.PropertyChanged += OnUserSettingsPropertyChanged;
         }
 
         public void SaveData()
@@ -47,9 +60,13 @@ namespace GolemUI.ViewModel
             }
         }
 
+        private void OnUserSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SaveData();
+        }
+
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            //
             if (PageChangeRequested != null)
             {
 

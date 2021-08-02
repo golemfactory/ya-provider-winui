@@ -43,6 +43,9 @@ namespace GolemUI.ViewModel
                 ViewModel = viewModel;
                 ShouldAutoLoad = true;
                 ShouldAutoSave = true;
+
+                view.Visibility = Visibility.Hidden;
+                view.Opacity = 0;
                 viewModel.PageChangeRequested += ViewModel_PageChangeRequested;
             }
 
