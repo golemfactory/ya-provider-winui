@@ -334,6 +334,9 @@
     <Compile Include="Src\HdWalletService.cs" />
     <Compile Include="Src\BenchmarkResultsProvider.cs" />
     <Compile Include="Src\UserSettingsProvider.cs" />
+    <Compile Include="UI\Dialogs\DlgAppInfo.xaml.cs">
+      <DependentUpon>DlgAppInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\LazyInit.cs" />
     <Compile Include="Src\NameGenerator.cs" />
     <Compile Include="Src\PaymentService.cs" />
@@ -369,7 +372,7 @@
     <Compile Include="UI\DebugWindow.xaml.cs">
       <DependentUpon>DebugWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\DlgEditAddress.xaml.cs">
+    <Compile Include="UI\Dialogs\DlgEditAddress.xaml.cs">
       <DependentUpon>DlgEditAddress.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ExistingProcessesWindow.xaml.cs">
@@ -440,7 +443,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\DlgEditAddress.xaml">
+    <Page Include="UI\Dialogs\DlgAppInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Dialogs\DlgEditAddress.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -649,7 +656,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UI\init.png" />
     <Resource Include="UI\Icons\Settings\CPU_icon_new.png" />
     <Resource Include="UI\Icons\Settings\GPU_icon_new.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Enjoy.png" />

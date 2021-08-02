@@ -18,6 +18,7 @@
         </Style.Triggers>
     </Style>
     <Style x:Key="CloseWindowButton" TargetType="Button" BasedOn="{StaticResource TitleBarButton}">
+        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -30,6 +31,7 @@
         </Setter>
     </Style>
     <Style x:Key="MinWindowButton" TargetType="Button" BasedOn="{StaticResource TitleBarButton}">
+        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">

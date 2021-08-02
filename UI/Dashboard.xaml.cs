@@ -298,7 +298,7 @@ namespace GolemUI
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed)
-            {
+            {   
                 this.DragMove();
             }
         }
@@ -312,5 +312,12 @@ namespace GolemUI
         private readonly IProviderConfig _providerConfig;
         private readonly BenchmarkService _benchmarkService;
         private readonly IUserSettingsProvider _userSettingsProvider;
+
+        private void btnAppInformation_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new UI.Dialogs.DlgAppInfo();
+            dlg.Owner = Window.GetWindow(this);
+            dlg?.ShowDialog();
+        }
     }
 }
