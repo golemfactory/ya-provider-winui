@@ -2,10 +2,10 @@
 {
     public enum DashboardPages
     {
+        PageDashboardNone,
         PageDashboardMain,
         PageDashboardSettings,
         PageDashboardSettingsAdv,
-        PageDashboardAdvancedSettings,
         PageDashboardBenchmark,
         PageDashboardWallet,
         PageDashboardDetails

@@ -16,7 +16,6 @@ namespace GolemUI.ViewModel
 
         public DashboardMain DashboardMain { get; set; }
         public DashboardSettings DashboardSettings { get; set; }
-        public DashboardAdvancedSettings DashboardAdvancedSettings { get; set; }
         public DashboardSettingsAdv DashboardSettingsAdv { get; set; }
         public DashboardWallet DashboardWallet { get; set; }
 
@@ -58,16 +57,13 @@ namespace GolemUI.ViewModel
                 }
                 OnPropertyChanged("SelectedPage");
             }
-
-
-    }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public DashboardViewModel(DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet)
         {
             PropertyChanged += OnPropertyChanged;
-            _selectedPage = DashboardPages.PageDashboardMain;
 
             DashboardMain = dashboardMain;
             DashboardSettings = dashboardSettings;
@@ -99,20 +95,20 @@ namespace GolemUI.ViewModel
 
         public void SwitchPage(DashboardPages page)
         {
-
             if (page == _selectedPage) return;
 
             _pages.ToList().Where(x => x.Key != _selectedPage && x.Key != page).ToList().ForEach(x => x.Value.Clear());
 
-            var lastPage = GetPageDescriptorFromPage(_selectedPage);
-            lastPage.Unmount();
-            lastPage.Hide();
+            if (_selectedPage != DashboardPages.PageDashboardNone)
+            {
+                var lastPage = GetPageDescriptorFromPage(_selectedPage);
+                lastPage.Unmount();
+                lastPage.Hide();
+            }
 
             var currentPage = GetPageDescriptorFromPage(page);
             currentPage.Mount();
             currentPage.Show();
-
-
 
             LastPage = _selectedPage;
 

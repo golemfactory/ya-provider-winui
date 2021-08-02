@@ -35,17 +35,10 @@ namespace GolemUI
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
         public ViewModel.DashboardViewModel ViewModel {get;set;}
-        public DashboardMain DashboardMain { get; set; }
-        public DashboardSettings DashboardSettings { get; set; }
-        public DashboardAdvancedSettings DashboardAdvancedSettings { get; set; }
-        public DashboardSettingsAdv DashboardSettingsAdv { get; set; }
-        public DashboardWallet DashboardWallet { get; set; }
 
 
 
-        public DashboardPages LastPage { get; set; }
-
-
+        
 
         public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardSettingsAdv _dashboardSettingsAdv, DashboardMain dashboardMain,
             Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel)
@@ -59,12 +52,7 @@ namespace GolemUI
             ViewModel = dashboardViewModel;
             this.DataContext = this.ViewModel;
 
-            DashboardMain = dashboardMain;
-            DashboardSettings = _dashboardSettings;
-            DashboardAdvancedSettings = new DashboardAdvancedSettings(userSettingsProvider);
-            DashboardWallet = _dashboardWallet;
-            DashboardSettingsAdv = _dashboardSettingsAdv;
-
+       
 
             foreach (var pair in ViewModel._pages)
             {
@@ -74,32 +62,14 @@ namespace GolemUI
                 tcNo1.Children.Add(control);
             }
 
-
-            /*
-            _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
-
-            _pageSelected = DashboardPages.PageDashboardMain;
-
-            dashboardMain.Model.LoadData();
-
-            foreach (var pair in _pages)
-            {
-                UserControl control = pair.Value.View;
-                control.Visibility = Visibility.Hidden;
-                control.Opacity = 0;
-                tcNo1.Children.Add(control);
-            }
-
-
-            _pages[_pageSelected].View.Visibility = Visibility.Visible;
-            _pages[_pageSelected].View.Opacity = 1.0f;
-            */
             singleInstanceLock.ActivateEvent += OnAppReactivate;
+
+            ViewModel.SwitchPage(DashboardPages.PageDashboardMain);
         }
 
         private void PageChangeRequested(DashboardPages page)
         {
-            SwitchPage(page);
+            ViewModel.SwitchPage(page);
         }
 
         public void OnAppReactivate(object sender)
@@ -110,46 +80,6 @@ namespace GolemUI
                 ShowInTaskbar = true;
                 Activate();
             });
-        }
-
-      
-
-        /*
-        public DashboardPage GetPageDescriptorFromPage(DashboardPages page)
-        {
-            
-            if (!_pages.ContainsKey(page))
-            {
-                throw new Exception(String.Format("Requested page not added to _pages. Page: {0}", (int)page));
-            }
-            return _pages[page];
-        }*/
-
-        public void SwitchPageBack()
-        {
-            SwitchPage(LastPage);
-        }
-
-        public void SwitchPage(DashboardPages page)
-        {
-            /*
-            if (page == _pageSelected) return;
-
-            _pages.ToList().Where(x => x.Key != _pageSelected && x.Key != page).ToList().ForEach(x => x.Value.Clear());
-
-            var lastPage = GetPageDescriptorFromPage(_pageSelected);
-            lastPage.Unmount();
-            lastPage.Hide();
-
-            var currentPage = GetPageDescriptorFromPage(page);
-            currentPage.Mount();
-            currentPage.Show();
-
-
-
-            LastPage = _pageSelected;
-
-            _pageSelected = page;*/
         }
 
 
@@ -242,8 +172,6 @@ namespace GolemUI
                 _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible),
                 _processControler.Prepare()
             );
-
-
         }
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
@@ -267,22 +195,12 @@ namespace GolemUI
             this.Close();
         }
 
-        private void TitleBar_DragEnter(object sender, DragEventArgs e)
-        {
-
-        }
-
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed)
             {
                 this.DragMove();
             }
-        }
-
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
         }
 
         private readonly Interfaces.IProcessControler _processControler;

@@ -18,11 +18,9 @@ namespace GolemUI
 {
     public partial class DashboardSettings : UserControl
     {
-
         public SettingsViewModel ViewModel;
         public DashboardSettings(SettingsViewModel viewModel)
         {
-
             InitializeComponent();
             ViewModel = viewModel;
             this.DataContext = this.ViewModel;
@@ -36,11 +34,6 @@ namespace GolemUI
         private void btnStopBenchmark_Click(object sender, RoutedEventArgs e)
         {
             ViewModel!.StopBenchmark();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void BtnAdvancedSettings_Click(object sender, RoutedEventArgs e)
