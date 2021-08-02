@@ -300,7 +300,6 @@
     <Compile Include="Converters\RadioBoolToIntConverter.cs" />
     <Compile Include="Converters\StringToClaymorePerformanceThrottlingConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="DataAccess\DataAccess.cs" />
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\MockupDashboardStatusViewModel.cs" />
     <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
