@@ -383,6 +383,12 @@
 
             </Grid>
             <Image  Grid.Row="2" Grid.Column="5"  Source="/UI/Icons/DefaultStyle/png/Branding/SupportedByGolem.png" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,30,20" />
+            <Button Grid.Row="3" Cursor="Hand" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="BtnAdvancedSettings" Click="BtnAdvancedSettings_Click" Margin="50,0,0,0">
+                <StackPanel Orientation="Horizontal"  >
+                    <Image  Source="/UI/Icons/DefaultStyle/png/Settings/AdvancedSettings.png"  Width="20"  />
+                    <Label Content="Advanced settings" FontSize="10" Margin="10,0" />
+                </StackPanel>
+            </Button>
         </Grid>
     </Border>
 </UserControl>

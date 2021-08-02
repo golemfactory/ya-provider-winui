@@ -15,7 +15,7 @@ namespace GolemUI.ViewModel
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-
+        public event PageChangeRequestedEvent PageChangeRequested;
         private readonly Command.Provider _provider;
         private readonly IProviderConfig _providerConfig;
         private readonly IPriceProvider _priceProvider;
@@ -45,6 +45,10 @@ namespace GolemUI.ViewModel
 
             ActiveCpusCount = 3;
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
+        }
+        public void SwitchToAdvancedSettings()
+        {
+            PageChangeRequested?.Invoke(Controllers.DashboardPages.PageDashboardAdvancedSettings);
         }
         public void StartBenchmark()
         {

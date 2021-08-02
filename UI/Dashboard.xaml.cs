@@ -26,17 +26,6 @@ using GolemUI.Model;
 
 namespace GolemUI
 {
-    public enum DashboardPages
-    {
-        PageDashboardMain,
-        PageDashboardSettings,
-        PageDashboardSettingsAdv,
-        PageDashboardAdvancedSettings,
-        PageDashboardBenchmark,
-        PageDashboardWallet,
-        PageDashboardDetails
-    }
-
     /// <summary>
     /// Interaction logic for Dashboard.xaml
     /// </summary>
@@ -83,6 +72,8 @@ namespace GolemUI
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
             _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
 
+            _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
+
             _pageSelected = DashboardPages.PageDashboardMain;
             btnPageDashboard.IsChecked = true;
 
@@ -101,6 +92,11 @@ namespace GolemUI
             _pages[_pageSelected].View.Opacity = 1.0f;
 
             singleInstanceLock.ActivateEvent += OnAppReactivate;
+        }
+
+        private void PageChangeRequested(DashboardPages page)
+        {
+            SwitchPage(page);
         }
 
         public void OnAppReactivate(object sender)

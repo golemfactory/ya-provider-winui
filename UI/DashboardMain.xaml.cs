@@ -65,5 +65,33 @@ namespace GolemUI
             Model!.Stop();
         }
 
+        private void BtnGpuSettings_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Model.SwitchToSettings();
+        }
+
+        private void BorderGpu_MouseEnter(object sender, MouseEventArgs e)
+        {
+            BtnGpuSettings.Visibility = Visibility.Visible;
+        }
+
+        private void BorderGpu_MouseLeave(object sender, MouseEventArgs e)
+        {
+            BtnGpuSettings.Visibility = Visibility.Collapsed;
+        }
+        private void BorderCpu_MouseEnter(object sender, MouseEventArgs e)
+        {
+            BtnCpuSettings.Visibility = Visibility.Visible;
+        }
+
+        private void BorderCpu_MouseLeave(object sender, MouseEventArgs e)
+        {
+            BtnCpuSettings.Visibility = Visibility.Collapsed;
+        }
     }
 }
