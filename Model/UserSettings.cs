@@ -15,7 +15,6 @@ namespace GolemUI.Model
         public string? CustomPool { get; set; }
         public string? OptionalEmail { get; set; }
 
-        public bool EnableDetailedBenchmarkInfo { get; set; }
         public bool EnableDebugLogs { get; set; }
         public bool StartYagnaCommandLine { get; set; }
         public bool StartProviderCommandLine { get; set; }

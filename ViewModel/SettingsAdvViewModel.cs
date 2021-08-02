@@ -14,12 +14,12 @@ namespace GolemUI.ViewModel
     {
         private readonly IUserSettingsProvider _userSettingsProvider;
 
-        public UserSettings _userSettings;
+        public UserSettings UserSettings {get;set;}
 
         public SettingsAdvViewModel(IUserSettingsProvider userSettingsProvider)
         {
             _userSettingsProvider = userSettingsProvider;
-            _userSettings = _userSettingsProvider.LoadUserSettings();
+            UserSettings = _userSettingsProvider.LoadUserSettings();
 
             PropertyChanged += OnPropertyChanged;
         }
@@ -28,12 +28,12 @@ namespace GolemUI.ViewModel
 
         public void LoadData()
         {
-            _userSettings = _userSettingsProvider.LoadUserSettings();
+            UserSettings = _userSettingsProvider.LoadUserSettings();
         }
 
         public void SaveData()
         {
-            _userSettingsProvider.SaveUserSettings(_userSettings);
+            _userSettingsProvider.SaveUserSettings(UserSettings);
         }
 
         private void NotifyChanged([CallerMemberName] string? propertyName = null)
