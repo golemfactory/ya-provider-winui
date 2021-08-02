@@ -16,7 +16,8 @@ namespace GolemUI.ViewModel
         public event PageChangeRequestedEvent? PageChangeRequested;
 
         private UserSettings _userSettings;
-        public UserSettings UserSettings {
+        public UserSettings UserSettings
+        {
             get
             {
                 return _userSettings;

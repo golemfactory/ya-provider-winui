@@ -137,7 +137,8 @@ namespace GolemUI.ViewModel
         private DashboardPages _selectedPage;
 
         public DashboardPages LastPage { get; set; }
-        public int SelectedPage {
+        public int SelectedPage
+        {
             get
             {
                 switch (_selectedPage)
@@ -156,7 +157,7 @@ namespace GolemUI.ViewModel
                         return -1;
                 }
             }
-            set 
+            set
             {
                 if (value == 1)
                 {
