@@ -3,15 +3,22 @@
                      xmlns:local="clr-namespace:GolemUI">
 
     <Style x:Key="CancelButtonStyle" TargetType="Button">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Cursor" Value="Hand"></Setter>
+            </Trigger>
+        </Style.Triggers>
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
+                    <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"> 
                     <Hyperlink TextDecorations="None" Foreground="#fff" FontFamily="Arial" FontWeight="Bold">
                         <Run Text="{TemplateBinding Content}" />
                     </Hyperlink>
                     </TextBlock>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

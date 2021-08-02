@@ -137,8 +137,6 @@ namespace GolemUI
             SwitchPage(DashboardPages.PageDashboardWallet);
         }
 
-
-
         public DashboardPage GetPageDescriptorFromPage(DashboardPages page)
         {
             if (!_pages.ContainsKey(page))
@@ -303,14 +301,18 @@ namespace GolemUI
             }
         }
 
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
         private readonly Interfaces.IProcessControler _processControler;
         private readonly IProviderConfig _providerConfig;
         private readonly BenchmarkService _benchmarkService;
         private readonly IUserSettingsProvider _userSettingsProvider;
+
+        private void btnAppInformation_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig));
+            dlg.Owner = Window.GetWindow(this);
+            RectBlack.Visibility = Visibility.Visible;
+            dlg?.ShowDialog();
+            RectBlack.Visibility = Visibility.Hidden;
+        }
     }
 }

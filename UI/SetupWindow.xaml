@@ -29,6 +29,7 @@
                 <ResourceDictionary Source="/Ui/Icons/Status_Card_error.xaml"/>
                 <ResourceDictionary Source="/Ui/Icons/Status_Ready_icon.xaml"/>
                 <!-- icons end -->
+                <ResourceDictionary Source="/UI/Themes/Borders/SemiTransparentBorder.xaml"/>
                 <ResourceDictionary Source="Themes/Defaults.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
                 <ResourceDictionary Source="Themes/WindowControls.xaml"/>
@@ -593,7 +594,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             </TextBox>
 
                                         </StackPanel>
-                                        <Button Grid.Column="1" VerticalAlignment="Bottom" Margin="50, 30,0,0" MinHeight="44" Click="OnEMWalletStepDone" Content="Next">
+                                        <Button Grid.Column="1" VerticalAlignment="Bottom" Margin="50, 30,0,0" MinHeight="44" Click="ConfirmAddress_Click" Content="Next">
                                             <Button.Style>
                                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource GradientButtonStyle}">
                                                     <Setter Property="IsEnabled" Value="false" />
@@ -752,6 +753,8 @@ They are a backup for your wallet and in case your disk fails or any other unexp
 
                 </TabControl>
             </Grid>
+            <Border x:Name="RectBlack" Style="{StaticResource SemiTransparentBorder}" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         </Grid>
+        
     </Border>
 </Window>

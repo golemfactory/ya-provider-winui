@@ -7,9 +7,8 @@
              xmlns:animated="clr-namespace:GolemUI.UI.AnimatedIcons" 
              mc:Ignorable="d" 
              d:DesignHeight="690" d:DesignWidth="1112"
-             xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
-             xmlns:enumAlias="clr-namespace:GolemUI.Model"
+             xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
              d:DataContext ="{d:DesignInstance {x:Type dvm:MockupSettingsViewModel}, IsDesignTimeCreatable=True}"
              >
     <UserControl.Resources>
