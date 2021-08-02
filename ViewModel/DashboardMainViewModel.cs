@@ -27,6 +27,11 @@ namespace GolemUI.ViewModel
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
         }
 
+        public void SwitchToSettings()
+        {
+            PageChangeRequested?.Invoke(Controllers.DashboardPages.PageDashboardSettings);
+        }
+
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")

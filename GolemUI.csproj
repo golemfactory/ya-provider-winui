@@ -529,6 +529,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\Themes\Buttons\AdvancedSettingsButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\TransparentButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Themes\Buttons\CancelButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
