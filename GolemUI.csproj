@@ -288,6 +288,7 @@
     <Compile Include="Command\Provider.cs" />
     <Compile Include="Command\YagnaSrv.cs" />
     <Compile Include="Controllers\DashboardPage.cs" />
+    <Compile Include="Controllers\DashboardPages.cs" />
     <Compile Include="Converters\AmountConverter.cs" />
     <Compile Include="Converters\BoolToHeightConverter.cs" />
     <Compile Include="Converters\DashboardStatusToIconConverter.cs" />
@@ -528,6 +529,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\Themes\Buttons\AdvancedSettingsButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\TransparentButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Themes\Buttons\CancelButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -716,6 +725,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Settings\TaskType.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Settings\AdvancedSettings.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Expert.png" />
