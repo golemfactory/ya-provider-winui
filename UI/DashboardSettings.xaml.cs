@@ -37,5 +37,14 @@ namespace GolemUI
             ViewModel!.StopBenchmark();
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnAdvancedSettings_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SwitchToAdvancedSettings();
+        }
     }
 }
