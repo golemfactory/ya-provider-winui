@@ -666,7 +666,6 @@
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\NodeName.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Prepare.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Print.png" />
-    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Seed.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -729,6 +728,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Settings\AdvancedSettings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Expert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Seed.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
