@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GolemUI.Command;
+using GolemUI.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sentry;
@@ -90,7 +91,9 @@ namespace GolemUI
 
             services.AddTransient(typeof(DashboardMain));
             services.AddTransient(typeof(DashboardSettings));
+            services.AddTransient(typeof(DashboardSettingsAdv));
             services.AddTransient(typeof(SettingsViewModel));
+            services.AddTransient(typeof(SettingsAdvViewModel));
 
             // Top-Level Windows
             services.AddTransient(typeof(Dashboard));

@@ -30,6 +30,7 @@ namespace GolemUI
     {
         PageDashboardMain,
         PageDashboardSettings,
+        PageDashboardSettingsAdv,
         PageDashboardAdvancedSettings,
         PageDashboardBenchmark,
         PageDashboardWallet,
@@ -47,6 +48,7 @@ namespace GolemUI
         public DashboardMain DashboardMain { get; set; }
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardAdvancedSettings DashboardAdvancedSettings { get; set; }
+        public DashboardSettingsAdv DashboardSettingsAdv { get; set; }
         public DashboardWallet DashboardWallet { get; set; }
 
 
@@ -57,7 +59,7 @@ namespace GolemUI
 
         public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
-        public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardMain dashboardMain,
+        public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardSettingsAdv _dashboardSettingsAdv, DashboardMain dashboardMain,
             Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider)
         {
             _processControler = processControler;
@@ -71,6 +73,7 @@ namespace GolemUI
             DashboardSettings = _dashboardSettings;
             DashboardAdvancedSettings = new DashboardAdvancedSettings(userSettingsProvider);
             DashboardWallet = _dashboardWallet;
+            DashboardSettingsAdv = _dashboardSettingsAdv;
 
 
 
@@ -78,6 +81,7 @@ namespace GolemUI
             _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
             _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPage(DashboardAdvancedSettings));
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
+            _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
 
             _pageSelected = DashboardPages.PageDashboardMain;
             btnPageDashboard.IsChecked = true;
@@ -313,5 +317,10 @@ namespace GolemUI
         private readonly IProviderConfig _providerConfig;
         private readonly BenchmarkService _benchmarkService;
         private readonly IUserSettingsProvider _userSettingsProvider;
+
+        private void btnInformation_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchPage(DashboardPages.PageDashboardSettingsAdv);
+        }
     }
 }

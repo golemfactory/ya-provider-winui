@@ -11,7 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 
-namespace GolemUI
+namespace GolemUI.ViewModel
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
