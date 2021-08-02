@@ -42,27 +42,34 @@ namespace GolemUI.Src
 
         public async void Refresh()
         {
-            var markets = await _client.CoinsClient.GetCoinMarkets("USD", new string[] { "golem", "ethereum-classic", "ethereum" }, "", perPage: null, page: null, sparkline: false, priceChangePercentage: null, category: null);
-            foreach (var market in markets)
+            try
             {
-                var price = market.CurrentPrice;
-                if (price == null)
+                var markets = await _client.CoinsClient.GetCoinMarkets("USD", new string[] { "golem", "ethereum-classic", "ethereum" }, "", perPage: null, page: null, sparkline: false, priceChangePercentage: null, category: null);
+                foreach (var market in markets)
                 {
-                    continue;
-                }
+                    var price = market.CurrentPrice;
+                    if (price == null)
+                    {
+                        continue;
+                    }
 
-                switch (market.Id)
-                {
-                    case "golem":
-                        _prices[IPriceProvider.Coin.GLM] = price ?? 0m;
-                        break;
-                    case "ethereum":
-                        _prices[IPriceProvider.Coin.ETH] = price ?? 0m;
-                        break;
-                    case "ethereum-classic":
-                        _prices[IPriceProvider.Coin.ETC] = price ?? 0m;
-                        break;
+                    switch (market.Id)
+                    {
+                        case "golem":
+                            _prices[IPriceProvider.Coin.GLM] = price ?? 0m;
+                            break;
+                        case "ethereum":
+                            _prices[IPriceProvider.Coin.ETH] = price ?? 0m;
+                            break;
+                        case "ethereum-classic":
+                            _prices[IPriceProvider.Coin.ETC] = price ?? 0m;
+                            break;
+                    }
                 }
+            }
+            catch
+            {
+
             }
         }
 

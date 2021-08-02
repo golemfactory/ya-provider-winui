@@ -19,10 +19,10 @@ namespace GolemUI.UI.Dialogs
     /// <summary>
     /// Interaction logic for DlgEditAddress.xaml
     /// </summary>
-    public partial class DlgAppInfo : Window
+    public partial class DlgConfirmAddress : Window
     {
-        DlgAppInfoViewModel? _model = null;
-        public DlgAppInfo(DlgAppInfoViewModel model)
+        DlgConfirmAddressViewModel? _model = null;
+        public DlgConfirmAddress(DlgConfirmAddressViewModel model)
         {
             InitializeComponent();
             _model = model;
@@ -31,6 +31,19 @@ namespace GolemUI.UI.Dialogs
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
+            this.DialogResult = false;
+            this.Close();
+        }
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+            this.Close();
+        }
+
+        private void BtnOK_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
             this.Close();
         }
     }

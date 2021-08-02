@@ -303,6 +303,8 @@
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="DataAccess\DataAccess.cs" />
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgAppInfoViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="DesignViewModel\MockupDashboardStatusViewModel.cs" />
     <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
@@ -334,6 +336,9 @@
     <Compile Include="Src\HdWalletService.cs" />
     <Compile Include="Src\BenchmarkResultsProvider.cs" />
     <Compile Include="Src\UserSettingsProvider.cs" />
+    <Compile Include="UI\Dialogs\DlgConfirmAddress.xaml.cs">
+      <DependentUpon>DlgConfirmAddress.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\DlgAppInfo.xaml.cs">
       <DependentUpon>DlgAppInfo.xaml</DependentUpon>
     </Compile>
@@ -395,6 +400,8 @@
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
     <Compile Include="ViewModel\EditAddressViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
@@ -440,6 +447,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\DebugWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Dialogs\DlgConfirmAddress.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -596,6 +607,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Themes\ProgressBars\BenchmarkProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Borders\SemiTransparentBorder.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
