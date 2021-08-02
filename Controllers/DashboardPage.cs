@@ -17,13 +17,22 @@ namespace GolemUI.Controllers
         {
             View = view;
         }
+
+        public event PageChangeRequestedEvent PageChangeRequested;
         public DashboardPage(UserControl view, ISavableLoadableDashboardPage viewModel)
         {
             View = view;
             ViewModel = viewModel;
             ShouldAutoLoad = true;
             ShouldAutoSave = true;
+            viewModel.PageChangeRequested += ViewModel_PageChangeRequested;
         }
+
+        private void ViewModel_PageChangeRequested(DashboardPages page)
+        {
+            PageChangeRequested?.Invoke(page);
+        }
+
         public void Unmount()
         {
             if (ShouldAutoSave && ViewModel != null)
