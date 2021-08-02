@@ -23,13 +23,13 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Border Style="{DynamicResource PageBackground}">
-        <StackPanel Orientation="Vertical" Margin="30">
+        <StackPanel Orientation="Vertical" Margin="30,0,30,0">
             <Border Height="40" BorderThickness="1 0 0 0" BorderBrush="White">
                 <Label Content="Wallet" FontFamily="Segoe UI" FontSize="24"></Label>
                 <!--<Label Content="Dashboard"></Label>-->
             </Border>
-            <Canvas Height="50"></Canvas>
-            <Grid>
+            
+            <Grid VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="0.1*"/>
@@ -38,10 +38,10 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="19*"/>
+                    <RowDefinition Height="45"/>
                     <RowDefinition Height="20"/>
-                    <RowDefinition Height="136*"/>
-                    <RowDefinition Height="0*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="151"/>
                 </Grid.RowDefinitions>
                 <WrapPanel Margin="8,11" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center">
                     <TextBlock><Run Text="Your Address: "/><Run Text="{Binding WalletAddress, Mode=OneWay}" /></TextBlock>
@@ -93,7 +93,7 @@
                         </StackPanel>
                     </Grid>
                 </Border>
-                <Border Grid.Column="4" Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="0" >
+                <Border Grid.Column="4" Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" >
                     <Grid Margin="20">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
