@@ -16,13 +16,13 @@ using System.Diagnostics;
 using System.Windows.Media.Animation;
 
 using GolemUI.Notifications;
-using GolemUI.Controllers;
 using GolemUI.Interfaces;
 using GolemUI.Src;
 using GolemUI.UI;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
 using GolemUI.Model;
+using GolemUI.ViewModel;
 
 namespace GolemUI
 {
@@ -64,10 +64,10 @@ namespace GolemUI
 
             singleInstanceLock.ActivateEvent += OnAppReactivate;
 
-            ViewModel.SwitchPage(DashboardPages.PageDashboardMain);
+            ViewModel.SwitchPage(DashboardViewModel.DashboardPages.PageDashboardMain);
         }
 
-        private void PageChangeRequested(DashboardPages page)
+        private void PageChangeRequested(DashboardViewModel.DashboardPages page)
         {
             ViewModel.SwitchPage(page);
         }
@@ -210,7 +210,7 @@ namespace GolemUI
 
         private void btnInformation_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SwitchPage(DashboardPages.PageDashboardSettingsAdv);
+            ViewModel.SwitchPage(DashboardViewModel.DashboardPages.PageDashboardSettingsAdv);
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using GolemUI.Controllers;
+﻿using GolemUI.ViewModel;
 
 namespace GolemUI
 {
-    public delegate void PageChangeRequestedEvent(DashboardPages page);
+    public delegate void PageChangeRequestedEvent(DashboardViewModel.DashboardPages page);
     public interface ISavableLoadableDashboardPage
     {
         public event PageChangeRequestedEvent? PageChangeRequested;

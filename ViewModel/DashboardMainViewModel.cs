@@ -13,7 +13,6 @@ namespace GolemUI.ViewModel
 
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-        public event PageChangeRequestedEvent? PageChangeRequested;
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;
@@ -29,7 +28,7 @@ namespace GolemUI.ViewModel
 
         public void SwitchToSettings()
         {
-            PageChangeRequested?.Invoke(Controllers.DashboardPages.PageDashboardSettings);
+            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettings);
         }
 
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
@@ -77,6 +76,7 @@ namespace GolemUI.ViewModel
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+        public event PageChangeRequestedEvent? PageChangeRequested;
 
         public IProcessControler Process => _processController;
         public decimal? Amount => _paymentService.State?.Balance;

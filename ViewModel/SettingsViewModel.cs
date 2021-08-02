@@ -48,7 +48,7 @@ namespace GolemUI.ViewModel
         }
         public void SwitchToAdvancedSettings()
         {
-            PageChangeRequested?.Invoke(Controllers.DashboardPages.PageDashboardSettingsAdv);
+            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettingsAdv);
         }
         public void StartBenchmark()
         {
