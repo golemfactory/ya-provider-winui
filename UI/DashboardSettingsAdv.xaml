@@ -69,20 +69,24 @@
             <Border Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="300" Height="auto" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="left" VerticalAlignment="Top" Grid.Column="0" Margin="30,30" >
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Margin="10">
-                        <CheckBox IsChecked="{Binding Path=UserSettings.CloseOnExit}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" />
-                        <TextBlock VerticalAlignment="Center" Text="Close on exit"></TextBlock>
+                        <CheckBox IsChecked="{Binding Path=UserSettings.CloseOnExit}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" >
+                            <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Close on exit"></TextBlock>
+                        </CheckBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="10">
-                        <CheckBox IsChecked="{Binding Path=UserSettings.MinimizeToTrayOnMinimize}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" />
-                        <TextBlock VerticalAlignment="Center" Text="Minimize to tray on minimize"></TextBlock>
+                        <CheckBox IsChecked="{Binding Path=UserSettings.MinimizeToTrayOnMinimize}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" >
+                            <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Minimize to tray on minimize"></TextBlock>
+                        </CheckBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="10">
-                        <CheckBox IsChecked="{Binding Path=UserSettings.StartWithWindows}" Margin="0,2,5,0" Style="{DynamicResource CheckBoxGpu}" />
-                        <TextBlock VerticalAlignment="Center" Text="Start with windows"></TextBlock>
+                        <CheckBox IsChecked="{Binding Path=UserSettings.StartWithWindows}" Margin="0,2,5,0" Style="{DynamicResource CheckBoxGpu}" >
+                            <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Start with windows"></TextBlock>
+                        </CheckBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="10">
-                        <CheckBox IsChecked="{Binding Path=UserSettings.DisableNotificationsWhenMinimized}" Margin="0,2,5,0" Style="{DynamicResource CheckBoxGpu}" />
-                        <TextBlock VerticalAlignment="Center" Text="Disable notifications when minimized"></TextBlock>
+                        <CheckBox IsChecked="{Binding Path=UserSettings.DisableNotificationsWhenMinimized}" Style="{DynamicResource CheckBoxGpu}" >
+                            <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Disable notifications when minimized"></TextBlock>
+                        </CheckBox>
                     </StackPanel>
                 </StackPanel>
 
