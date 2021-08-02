@@ -24,8 +24,8 @@ namespace GolemUI.ViewModel
             }
             set
             {
-                NotifyChanged("UserSettings");
                 _userSettings = value;
+                NotifyChanged("UserSettings");
             }
         }
 
