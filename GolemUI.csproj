@@ -302,7 +302,6 @@
     <Compile Include="Converters\RadioBoolToIntConverter.cs" />
     <Compile Include="Converters\StringToClaymorePerformanceThrottlingConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="CustomControls\EditButton.cs" />
     <Compile Include="DataAccess\DataAccess.cs" />
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\MockupDashboardStatusViewModel.cs" />
@@ -575,10 +574,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Themes\Buttons\_NotWorkingEditButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\Themes\CheckBox\GpuCheckBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -719,9 +714,6 @@
     <Folder Include="UI\Icons\DefaultStyle\png\Dashboard\Wallet\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="__Media\screen_dashboard.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Branding\Logo.png" />
   </ItemGroup>
   <ItemGroup>
@@ -729,9 +721,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Branding\SupportedByGolem.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="__Media\screen_settings.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Settings\TaskType.png" />

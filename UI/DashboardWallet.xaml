@@ -23,13 +23,24 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Border Style="{DynamicResource PageBackground}">
-        <StackPanel Orientation="Vertical" Margin="30,0,30,0">
-            <Border Height="40" BorderThickness="1 0 0 0" BorderBrush="White">
-                <Label Content="Wallet" FontFamily="Segoe UI" FontSize="24"></Label>
-                <!--<Label Content="Dashboard"></Label>-->
-            </Border>
-            
-            <Grid VerticalAlignment="Stretch">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="151"/>
+            </Grid.RowDefinitions>
+
+            <Image  Source="/UI/Icons/DefaultStyle/png/Branding/Thorg.png" HorizontalAlignment="Right" VerticalAlignment="Top" Width="160" Margin="0,10,30,20" Grid.Column="4" Grid.RowSpan="1" Grid.Row="0"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Margin="0,39,0,0">
+                <Border Width="232" Height="25" BorderThickness="1 0 0 0" BorderBrush="White"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 20, 0, 0">
+                    <Label Margin ="26,-5" Padding="0"  Foreground="#FFFFFF" Content="Wallet"  FontSize="24"></Label>
+                </Border>
+            </StackPanel>
+
+            <Grid VerticalAlignment="Stretch" Margin="30,0" Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="0.1*"/>
@@ -38,39 +49,42 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="45"/>
+                    
+                    <RowDefinition Height="78"/>
                     <RowDefinition Height="20"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="151"/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
-                <WrapPanel Margin="8,11" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center">
+
+
+
+                <WrapPanel Margin="8,19,8,19" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Grid.Row="0" Height="16">
                     <TextBlock><Run Text="Your Address: "/><Run Text="{Binding WalletAddress, Mode=OneWay}" /></TextBlock>
 
                     <Button Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0" Click="Copy_Click" Content="Copy ⎘"/>
                     <Button x:Name="BtnEditWalletAddress" Style="{DynamicResource HyperLinkButtonStyle}" Margin="5, 0, 5, 0" Click="BtnEditWalletAddress_Click" Content="Edit ✍"/>
                 </WrapPanel>
 
-                <StackPanel Margin="0" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1">
+                <StackPanel Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" VerticalAlignment="Center">
                     <Button x:Name="BtnWithdraw" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToVisibleConverter}}" Click="BtnWithdraw_Click" Content="Withdraw"/>
                     <Button x:Name="BtnOpenZkSync" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenZkSync_Click" Content="Open ZkSync"/>
                 </StackPanel>
                 <Border Grid.Column="0" Grid.Row="2"  Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" >
                     <StackPanel Margin="20">
-                        <Label Content="MyBalance" Foreground="#ccc" FontFamily="Arial" FontSize="12"/>
+                        <Label Content="My Balance" Foreground="#ccc"  FontSize="12"/>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Margin="12">
                                 <ContentControl Content="{DynamicResource Wallet_icon}" Width="42"/>
                             </StackPanel>
                             <StackPanel>
-                                <Label Content="Earned" Foreground="#aaa" FontFamily="Segoe UI Black"/>
-                                <Label Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="25" RenderTransformOrigin="0.374,0.428" Content="{Binding AmountUSD, Converter={StaticResource AmountConverter}}"/>
+                                <Label Content="Earned" Foreground="#99b" FontFamily="Segoe UI Black"/>
+                                <Label Foreground="#FFFFFF" FontWeight="Black" FontSize="25" RenderTransformOrigin="0.374,0.428" Content="{Binding AmountUSD, Converter={StaticResource AmountConverter}}"/>
 
-                                <Label Content="{Binding Amount, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}" Foreground="#a88" FontFamily="Arial" FontSize="12"/>
+                                <Label Foreground="#99b" Content="{Binding Amount, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}"  FontSize="12"/>
 
                                 <Canvas Height="20"/>
-                                <Label Content="Pending" Foreground="#aaa" FontFamily="Arial" FontSize="12"/>
-                                <Label Content="{Binding PendingAmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Arial Black" FontSize="16"/>
-                                <Label Content="{Binding PendingAmount, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}" Foreground="#a88" FontFamily="Arial" FontSize="12"/>
+                                <Label Foreground="#99b"  Content="Pending"  FontSize="12"/>
+                                <Label Content="{Binding PendingAmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Segoe UI" FontWeight="Black" FontSize="16"/>
+                                <Label Foreground="#99b"  Content="{Binding PendingAmount, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}"  FontSize="12"/>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -88,8 +102,8 @@
                         <Label Grid.Row="0" Grid.Column="0"/>
                         <ContentControl Content="{DynamicResource Profit_icon}" Grid.Column="0" Grid.Row="1" Margin="35, 5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"/>
                         <StackPanel Margin="5" Grid.Column="0" Grid.Row="2">
-                            <Label HorizontalAlignment="Center" FontFamily="Arial" FontSize="12" Margin="0, 10" Content="Estimated Profit"/>
-                            <TextBlock HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" Margin="0, 10"><Run Text="{Binding UsdPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay}"/><Run Text=" / day"/></TextBlock>
+                            <Label HorizontalAlignment="Center" FontSize="12" Margin="0, 10" Content="Estimated Profit"/>
+                            <TextBlock HorizontalAlignment="Center"  FontWeight="Black" FontSize="16" Margin="0, 10"><Run Text="{Binding UsdPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay}"/><Run Text=" / day"/></TextBlock>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -103,11 +117,12 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock FontFamily="Arial Black" FontSize="20" Grid.Row="1"><Run Text="Tips and tricks"/></TextBlock>
-                        <TextBlock FontFamily="Arial" FontSize="10pt" Grid.Row="3" Foreground="#aaa"><Run Text="It is way safer to use external wallet and keep your hard erarned fund there than to keep large amounts of tokens in the app wallet. You can easyly change your waller address."/></TextBlock>
+                        <TextBlock FontWeight="Black" FontSize="20" Grid.Row="1"><Run Text="Tips and tricks"/></TextBlock>
+                        <TextBlock  FontSize="10pt" Grid.Row="3" Foreground="#aaa"><Run Text="It is way safer to use external wallet and keep your hard erarned fund there than to keep large amounts of tokens in the app wallet. You can easyly change your waller address."/></TextBlock>
                     </Grid>
                 </Border>
             </Grid>
-        </StackPanel>
+            <Image  Grid.Row="3" Source="/UI/Icons/DefaultStyle/png/Branding/SupportedByGolem.png" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,30,0" />
+        </Grid>
     </Border>
 </UserControl>
