@@ -42,12 +42,10 @@ namespace GolemUI
         public DashboardWallet DashboardWallet { get; set; }
 
 
-        public DashboardPages _pageSelected = DashboardPages.PageDashboardMain;
 
         public DashboardPages LastPage { get; set; }
 
 
-        public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
         public Dashboard(DashboardWallet _dashboardWallet, DashboardSettings _dashboardSettings, DashboardSettingsAdv _dashboardSettingsAdv, DashboardMain dashboardMain,
             Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel)
@@ -68,13 +66,16 @@ namespace GolemUI
             DashboardSettingsAdv = _dashboardSettingsAdv;
 
 
+            foreach (var pair in ViewModel._pages)
+            {
+                UserControl control = pair.Value.View;
+                control.Visibility = Visibility.Hidden;
+                control.Opacity = 0;
+                tcNo1.Children.Add(control);
+            }
 
-            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
-            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
-            _pages.Add(DashboardPages.PageDashboardAdvancedSettings, new DashboardPage(DashboardAdvancedSettings));
-            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
-            _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
 
+            /*
             _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
 
             _pageSelected = DashboardPages.PageDashboardMain;
@@ -92,7 +93,7 @@ namespace GolemUI
 
             _pages[_pageSelected].View.Visibility = Visibility.Visible;
             _pages[_pageSelected].View.Opacity = 1.0f;
-
+            */
             singleInstanceLock.ActivateEvent += OnAppReactivate;
         }
 
@@ -111,45 +112,18 @@ namespace GolemUI
             });
         }
 
-        private void btnPageDashboard_Click(object sender, RoutedEventArgs e)
-        {
-            SwitchPage(DashboardPages.PageDashboardMain);
-        }
+      
 
-        private void btnPageWallet_Click(object sender, RoutedEventArgs e)
-        {
-            SwitchPage(DashboardPages.PageDashboardSettings);
-        }
-
-        private void Page3Click(object sender, RoutedEventArgs e)
-        {
-            SwitchPage(DashboardPages.PageDashboardBenchmark);
-        }
-
-        private void Page4Click(object sender, RoutedEventArgs e)
-        {
-            SwitchPage(DashboardPages.PageDashboardDetails);
-        }
-
-        private void Page5Click(object sender, RoutedEventArgs e)
-        {
-            SwitchPage(DashboardPages.PageDashboardAdvancedSettings);
-        }
-        private void btnPageSettings_Click(object sender, RoutedEventArgs e)
-        {
-            SwitchPage(DashboardPages.PageDashboardWallet);
-        }
-
-
-
+        /*
         public DashboardPage GetPageDescriptorFromPage(DashboardPages page)
         {
+            
             if (!_pages.ContainsKey(page))
             {
                 throw new Exception(String.Format("Requested page not added to _pages. Page: {0}", (int)page));
             }
             return _pages[page];
-        }
+        }*/
 
         public void SwitchPageBack()
         {
@@ -158,7 +132,7 @@ namespace GolemUI
 
         public void SwitchPage(DashboardPages page)
         {
-
+            /*
             if (page == _pageSelected) return;
 
             _pages.ToList().Where(x => x.Key != _pageSelected && x.Key != page).ToList().ForEach(x => x.Value.Clear());
@@ -175,7 +149,7 @@ namespace GolemUI
 
             LastPage = _pageSelected;
 
-            _pageSelected = page;
+            _pageSelected = page;*/
         }
 
 
@@ -318,7 +292,7 @@ namespace GolemUI
 
         private void btnInformation_Click(object sender, RoutedEventArgs e)
         {
-            SwitchPage(DashboardPages.PageDashboardSettingsAdv);
+            ViewModel.SwitchPage(DashboardPages.PageDashboardSettingsAdv);
         }
     }
 }

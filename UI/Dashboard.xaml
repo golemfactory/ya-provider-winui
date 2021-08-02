@@ -72,9 +72,9 @@
             <Border x:Name="brdNavigation" BorderBrush="White" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 0.5 0">
                 <StackPanel>
 
-                    <RadioButton IsChecked="{Binding Path=IsSuccess, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=1}" GroupName="nav" Style="{StaticResource NavSidepanelButtonDashboard}" Click="btnPageDashboard_Click"/>
-                    <RadioButton IsChecked="{Binding Path=IsSuccess, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=2}" GroupName="nav" Style="{StaticResource NavSidepanelButtonWallet}" Click="btnPageWallet_Click"/>
-                    <RadioButton IsChecked="{Binding Path=IsSuccess, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=3}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}" Click="btnPageSettings_Click"/>
+                    <RadioButton IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=1}" GroupName="nav" Style="{StaticResource NavSidepanelButtonDashboard}"/>
+                    <RadioButton IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=2}" GroupName="nav" Style="{StaticResource NavSidepanelButtonWallet}"/>
+                    <RadioButton IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=3}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}"/>
                 </StackPanel>
             </Border>
             <Button x:Name="btnInformation" Style="{StaticResource NavSidepanelButtonInformation}" Margin="79,568,69,40" Grid.Row="1" Click="btnInformation_Click" Height="Auto"/>

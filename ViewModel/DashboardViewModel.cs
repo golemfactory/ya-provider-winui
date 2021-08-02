@@ -10,7 +10,19 @@ namespace GolemUI.ViewModel
 {
     public class DashboardViewModel : INotifyPropertyChanged
     {
+
+
+        public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
+
+        public DashboardMain DashboardMain { get; set; }
+        public DashboardSettings DashboardSettings { get; set; }
+        public DashboardAdvancedSettings DashboardAdvancedSettings { get; set; }
+        public DashboardSettingsAdv DashboardSettingsAdv { get; set; }
+        public DashboardWallet DashboardWallet { get; set; }
+
         private DashboardPages _selectedPage;
+
+        public DashboardPages LastPage { get; set; }
         public int SelectedPage {
             get
             {
@@ -34,26 +46,40 @@ namespace GolemUI.ViewModel
             {
                 if (value == 1)
                 {
-                    _selectedPage = DashboardPages.PageDashboardMain;
+                    SwitchPage(DashboardPages.PageDashboardMain);
                 }
                 if (value == 2)
                 {
-                    _selectedPage = DashboardPages.PageDashboardSettings;
+                    SwitchPage(DashboardPages.PageDashboardSettings);
                 }
                 if (value == 3)
                 {
-                    _selectedPage = DashboardPages.PageDashboardWallet;
+                    SwitchPage(DashboardPages.PageDashboardWallet);
                 }
                 OnPropertyChanged("SelectedPage");
-            } 
-        }
+            }
+
+
+    }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DashboardViewModel()
+        public DashboardViewModel(DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet)
         {
             PropertyChanged += OnPropertyChanged;
             _selectedPage = DashboardPages.PageDashboardMain;
+
+            DashboardMain = dashboardMain;
+            DashboardSettings = dashboardSettings;
+            DashboardSettingsAdv = dashboardSettingsAdv;
+            DashboardWallet = dashboardWallet;
+
+            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
+            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
+            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
+            _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
+
+            _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
         }
 
 
@@ -68,6 +94,48 @@ namespace GolemUI.ViewModel
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
 
+        }
+
+
+        public void SwitchPage(DashboardPages page)
+        {
+
+            if (page == _selectedPage) return;
+
+            _pages.ToList().Where(x => x.Key != _selectedPage && x.Key != page).ToList().ForEach(x => x.Value.Clear());
+
+            var lastPage = GetPageDescriptorFromPage(_selectedPage);
+            lastPage.Unmount();
+            lastPage.Hide();
+
+            var currentPage = GetPageDescriptorFromPage(page);
+            currentPage.Mount();
+            currentPage.Show();
+
+
+
+            LastPage = _selectedPage;
+
+            _selectedPage = page;
+        }
+
+        public DashboardPage GetPageDescriptorFromPage(DashboardPages page)
+        {
+            if (!_pages.ContainsKey(page))
+            {
+                throw new Exception(String.Format("Requested page not added to _pages. Page: {0}", (int)page));
+            }
+            return _pages[page];
+        }
+
+        public void SwitchPageBack()
+        {
+            SwitchPage(LastPage);
+        }
+
+        private void PageChangeRequested(DashboardPages page)
+        {
+            SwitchPage(page);
         }
 
     }
