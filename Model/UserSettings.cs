@@ -20,8 +20,35 @@ namespace GolemUI.Model
         public bool EnableDebugLogs { get; set; }
         public bool StartYagnaCommandLine { get; set; }
         public bool StartProviderCommandLine { get; set; }
-        public bool DisableNotificationsWhenMinimized { get; set; }
-        public bool MinimizeToTrayOnMinimize { get; set; }
+
+        private bool _disableNotificationsWhenMinimized;
+        public bool DisableNotificationsWhenMinimized
+        {
+            get
+            {
+                return _disableNotificationsWhenMinimized;
+            }
+            set
+            {
+                _disableNotificationsWhenMinimized = value;
+                NotifyChanged("DisableNotificationsWhenMinimized");
+            }
+        }
+
+        private bool _minimizeToTrayOnMinimize;
+        public bool MinimizeToTrayOnMinimize
+        {
+            get
+            {
+                return _minimizeToTrayOnMinimize;
+            }
+            set
+            {
+                _minimizeToTrayOnMinimize = value;
+                NotifyChanged("MinimizeToTrayOnMinimize");
+            }
+        }
+
         private bool _closeOnExit;
         public bool CloseOnExit
         {
@@ -36,7 +63,20 @@ namespace GolemUI.Model
             }
         }
 
-        public bool StartWithWindows { get; set; }
+        private bool _startWithWindows;
+        public bool StartWithWindows
+        {
+            get
+            {
+                return _startWithWindows;
+            }
+            set
+            {
+                _startWithWindows = value;
+                NotifyChanged("StartWithWindows");
+            }
+        }
+
         public bool EnableWASMUnit { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
