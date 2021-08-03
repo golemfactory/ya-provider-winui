@@ -94,7 +94,7 @@ namespace GolemUI.UI
                 if (item.DataContext is NavBarItem clickItem)
                 {
                     if (clickItem.Status == NavBarItem.ItemStatus.Realized)
-                        this.Step = clickItem.StepIndex ?? 0;
+                        this.Step = clickItem.StepIndex ?? clickItem.Index-1 ?? 0;
                 }
             }
         }

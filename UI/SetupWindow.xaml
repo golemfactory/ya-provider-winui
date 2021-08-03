@@ -262,7 +262,7 @@
                     </TabItem>
                     <TabItem Header="WantToLearn">
                         <StackPanel>
-                            <lui:NavBar Step="{Binding NoobStep, Mode=TwoWay}" SelectedNav="NavBar_ButtonClick">
+                            <lui:NavBar Step="{Binding NoobStep, Mode=TwoWay}">
                                 <lui:NavBar.Items>
                                     <lm:NavBarItem StepName="Prepare"/>
                                     <lm:NavBarItem StepName="Seed Phrase"/>
@@ -549,7 +549,11 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                     <Button Content="New Wallet" FontSize="18"  Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="45" Click="OnChooseNewWallet"/>
                                 </StackPanel>
                                 <StackPanel Margin="60, 0">
-                                    <ContentControl Content="{DynamicResource Use_my_wallet_icon}" Margin="20,20"/>
+                                    <!--<ContentControl Content="{DynamicResource Use_my_wallet_icon}" Margin="20,20"/>-->
+                                    <Canvas Width="310" Height="310">
+                                        <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
+                                        <Image Source="/UI/Icons/DefaultStyle/png/SetupWindow/UseMyWallet.png" Canvas.Top="72" Width="190" Height="114" Canvas.Left="67"/>
+                                    </Canvas>
                                     <Button Content="Use my own" FontSize="18" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="45" Click="OnChooseOwnWallet"/>
                                 </StackPanel>
                             </UniformGrid>
