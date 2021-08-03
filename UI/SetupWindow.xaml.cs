@@ -231,5 +231,13 @@ namespace GolemUI.UI
             RectBlack.Visibility = Visibility.Hidden;
             if (result == true) Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Name;
         }
+
+        private void BtnBackToMainScreen_Click(object sender, RoutedEventArgs e)
+        {
+            Model.GoToStart();
+            Model.NoobStep = 0;
+            Model.ExpertStep = 0;
+            if (Model.BenchmarkIsRunning) Model.BenchmarkService.StopBenchmark();
+        }
     }
 }

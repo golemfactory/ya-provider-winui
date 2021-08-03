@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GolemUI.DesignViewModel
 {
@@ -26,6 +27,7 @@ namespace GolemUI.DesignViewModel
 
         public double? ExpectedProfit { get; set; } = 150.33;
 
+        public Visibility BackButtonVisibility => Visibility.Visible;
         public SetupViewModel()
         {
             IsDesingMode = true;
