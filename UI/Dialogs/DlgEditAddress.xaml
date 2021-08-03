@@ -8,73 +8,80 @@
         xmlns:lc="clr-namespace:GolemUI.Validators"        
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="Edit Wallet Address" Width="600" VerticalAlignment="Center" Height="Auto" ResizeMode="CanResizeWithGrip" SizeToContent="Height">
+        Title="Edit Wallet Address" Width="666" Height="416" VerticalAlignment="Center" ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True"
+        xmlns:dvm="clr-namespace:GolemUI.DesignViewModel.Dialogs"
+        d:DataContext ="{d:DesignInstance {x:Type dvm:DlgEditAddressViewModel}, IsDesignTimeCreatable=True}"
+        >
     <Window.Resources>
         <ResourceDictionary>
-            <ControlTemplate x:Key="ValidationTemplate">
-                <DockPanel>
-                    <TextBlock Foreground="Red" FontSize="16" Margin="4" FontFamily="Arial Black">!</TextBlock>
-                    <AdornedElementPlaceholder/>                    
-                </DockPanel>
-            </ControlTemplate>
-
-            <Style x:Key="TextBoxInError" TargetType="{x:Type TextBox}">
-                <Style.Triggers>
-                    <Trigger Property="Validation.HasError" Value="true">
-                        <Setter Property="ToolTip"
-              Value="{Binding RelativeSource={x:Static RelativeSource.Self},
-                              Path=(Validation.Errors)[0].ErrorContent}"/>
-                        <Setter Property="Background" Value="#faa"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-            <Style x:Key="SaveButton" TargetType="{x:Type Button}" BasedOn="{StaticResource PinkButtonStyle}">
-                <Setter Property="IsEnabled" Value="False"/>
-                <Style.Triggers>
-                    <MultiDataTrigger>
-                        <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding Path=(Validation.HasError), ElementName=TxtAddress}" Value="False"/>
-                        </MultiDataTrigger.Conditions>
-                        <Setter Property="IsEnabled" Value="True"/>
-                    </MultiDataTrigger>
-                </Style.Triggers>
-            </Style>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UI/Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/WindowControls.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/Buttons/BlueButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/CancelButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/TextBox/TextBoxInError.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Validation/ValidationTemplate.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>        
+        </ResourceDictionary>
     </Window.Resources>
-    <Border BorderThickness="0" BorderBrush="Black" Background="#710D39">
-    <StackPanel Orientation="Vertical">
-        <Grid Margin="8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Label Content="Address" Grid.Column="0" Margin="8" Foreground="#fff"></Label>
-                <TextBox Name="TxtAddress" Grid.Column="1" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Margin="8" Padding="2" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
-                    <TextBox.Text>
-                        <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <lc:EthAddrValidator ShouldCheckForChecksum="False"/>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>        
-        <Grid VerticalAlignment="Bottom" Margin="15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button Content="Cancel" Margin="8" Padding="8" IsCancel="True" Style="{StaticResource BlueButtonStyle}" HorizontalAlignment="Stretch" Grid.Column="0"></Button>
-                <Button Content="Confirm" Margin="8" Padding="8" HorizontalAlignment="Stretch" Style="{StaticResource GradientButtonStyle}" Grid.Column="2" Click="Confirm_Click"></Button>
-                <Button Content="Transfer Funds" Margin="8" Padding="8" Style="{StaticResource GradientButtonStyle}" HorizontalAlignment="Stretch" Grid.Column="1"
-                        Visibility="{Binding Path=CanTransferOut, Converter={StaticResource BoolToVisibleConverter}}" Click="TransferOUt_Click"></Button>
+    <Border BorderBrush="#999"  BorderThickness="1" CornerRadius="12" Background="{DynamicResource SetupWindow.Background}" >
+        <Grid>
+            <StackPanel Orientation="Vertical" Margin="0">
+                <DockPanel>
+                    <DockPanel x:Name="TitleBar" DockPanel.Dock="Top">
+                        <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="BtnClose_Click" Style="{DynamicResource CloseWindowButton}" Margin="0,0,8,0"/>
+
+                        <TextBlock HorizontalAlignment="Center"></TextBlock>
+                    </DockPanel>
+                </DockPanel>
+                <StackPanel Margin="79,30">
+                    <Label Content="Change the wallet address" FontSize="14" Margin="0,0,0,60"/>
+                    
+                    <TextBox x:Name="NewAddressTextBox" FontSize="16" Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" BorderThickness="0,0,0,2" Grid.Row="1" VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Margin="0, 12,0,0"  Padding="0,0,0,5">
+                        <TextBox.Text>
+                            <Binding Path="NewAddress" UpdateSourceTrigger="PropertyChanged" Delay="100">
+                                <Binding.ValidationRules>
+                                    <lc:EthAddrValidator ShouldCheckForChecksum="False" xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,20">
+                        <CheckBox Style="{StaticResource CheckBoxGpu}" IsChecked="{Binding ShouldTransferFunds}" />
+                        <StackPanel Margin="10,0,0,0">
+                            <Label FontSize="12" FontWeight="Bold" Content="Transfer all tokens to the new address during the address change." Margin="0" Padding="0"/>
+                            <Label FontSize="10" Content="This way you will not loose your income. Remember that you will need small amount of ETH to cover tx fees"  Margin="0" Padding="0"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                </StackPanel>
+
+
+            </StackPanel>
+            <UniformGrid Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="79,0,79,61" >
+                <Button FontSize="18" IsCancel="True" Margin="0,0,0,0" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCancel_Click" Name="BtnCancel" Style="{StaticResource CancelButtonStyle}" Content="Cancel" />
+                <Button FontSize="18" Margin="0,0,0,0" HorizontalAlignment="Stretch"  Height="45"  Click="BtnOK_Click" Name="BtnOK" Content="Confirm" >
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource GradientButtonStyle}">
+                            <Setter Property="IsEnabled" Value="false" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=NewAddressTextBox, Path=(Validation.HasError)}" Value="false" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="true" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </UniformGrid>
         </Grid>
-    </StackPanel>
     </Border>
 </Window>

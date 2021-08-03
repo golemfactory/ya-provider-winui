@@ -43,7 +43,7 @@
             
 
         </StackPanel>
-            <UniformGrid Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="110,0,110,0">
+            <UniformGrid Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="79,0,79,0">
                 <Button FontSize="18" IsCancel="True" Margin="0,0,0,20" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCancel_Click" Name="BtnCancel" Style="{StaticResource CancelButtonStyle}" Content="Cancel" />
                 <Button FontSize="18" Margin="0,0,0,20" HorizontalAlignment="Stretch"  Height="45"  Click="BtnOK_Click" Name="BtnOK" Style="{StaticResource GradientButtonStyle}" Content="Confirm" />
             </UniformGrid>
