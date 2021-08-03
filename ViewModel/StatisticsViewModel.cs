@@ -25,6 +25,7 @@ namespace GolemUI.ViewModel
 
         public void LoadData()
         {
+            RandomData();
             //throw new NotImplementedException();
         }
 
