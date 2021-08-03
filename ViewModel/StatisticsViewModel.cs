@@ -54,6 +54,30 @@ namespace GolemUI.ViewModel
 
             NotifyChange("ChartData");
         }
+        public void MoveDataRight()
+        {
+            var chartData = (PrettyChartData)ChartData.Clone();
+            var binEntries = chartData.BinData.BinEntries;
+
+            var firstElem = binEntries[0];
+            for (int i = 0; i < binEntries.Count; i++)
+            {
+                if (i == binEntries.Count - 1)
+                {
+                    binEntries[i] = firstElem;
+                }
+                else
+                {
+                    binEntries[i] = binEntries[i + 1];
+                }
+            }
+
+            ChartData = new PrettyChartData() { BinData = new PrettyChartBinData() { BinEntries = binEntries } };
+
+
+            NotifyChange("ChartData");
+        }
+
 
         private void NotifyChange([CallerMemberName] string? propertyName = null)
         {

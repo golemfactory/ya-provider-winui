@@ -71,7 +71,10 @@
                     <charts:PrettyChart ChartData="{Binding ChartData}"></charts:PrettyChart>
                 </Grid>
             </Border>
-            <Button x:Name="btnReload" Grid.Row="2" Margin="30" Click="btnReload_Click">Reload</Button>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" >
+                <Button x:Name="btnReload" Margin="30" Click="btnReload_Click">Reload</Button>
+                <Button x:Name="btnMoveRight" Grid.Row="2" Margin="30" Click="btnMoveRight_Click">Move right</Button>
+            </StackPanel>
         </Grid>
     </Border>
 </UserControl>

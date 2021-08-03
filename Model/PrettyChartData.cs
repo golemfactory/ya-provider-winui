@@ -6,18 +6,39 @@ using System.Threading.Tasks;
 
 namespace GolemUI.Model
 {
-
-    public class PrettyChartData
+    static class Extensions
     {
-        public class PrettyChartBinEntry
+        public static List<T> Clone<T>(this List<T> listToClone) where T : ICloneable
+        {
+            return listToClone.Select(item => (T)item.Clone()).ToList();
+        }
+    }
+
+
+    public class PrettyChartData : ICloneable
+    {
+
+
+        public class PrettyChartBinEntry : ICloneable
         {
             public string? Label { get; set; } = null;
             public double Value { get; set; } = 0.0;
+
+            public object Clone()
+            {
+                return new PrettyChartBinEntry { Label = Label, Value = Value };
+            }
         }
 
-        public class PrettyChartBinData
+        public class PrettyChartBinData : ICloneable
         {
             public List<PrettyChartBinEntry> BinEntries { get; set; } = new List<PrettyChartBinEntry>();
+
+            public object Clone()
+            {
+                return new PrettyChartBinData() { BinEntries = BinEntries.Clone() };
+               
+            }
 
             public double GetMaxValue(double minValue)
             {
@@ -31,6 +52,7 @@ namespace GolemUI.Model
                 }
                 return maxValue;
             }
+
         }
 
         public PrettyChartBinData BinData { get; set; } = new PrettyChartBinData();
@@ -38,10 +60,15 @@ namespace GolemUI.Model
 
         public PrettyChartData()
         {
-            BinData = new PrettyChartBinData();
+            //BinData = new PrettyChartBinData();
 
 
         }
 
+        public object Clone()
+        {
+            return new PrettyChartData() { BinData = (PrettyChartBinData)BinData.Clone(), NoAnimate = NoAnimate };
+            
+        }
     }
 }

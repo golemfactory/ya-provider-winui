@@ -33,5 +33,11 @@ namespace GolemUI.UI
         {
             ViewModel.RandomData();
         }
+        private void btnMoveRight_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.MoveDataRight();
+        }
+
+        
     }
 }
