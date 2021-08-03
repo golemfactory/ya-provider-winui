@@ -103,11 +103,11 @@ namespace GolemUI
         public void StopYagna()
         {
             const int YAGNA_STOPPING_TIMOUT = 2500;
-            if (_yagnaDaemon != null)
+            if (_yagnaDaemon != null && !_yagnaDaemon.HasExited)
             {
                 if (!_yagnaDaemon.StopWithCtrlC(YAGNA_STOPPING_TIMOUT))
                 {
-                    _yagnaDaemon.Kill(entireProcessTree: true);
+                    _yagnaDaemon.Kill();
                 }
             }
         }
