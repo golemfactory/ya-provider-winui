@@ -60,7 +60,7 @@ namespace GolemUI.ViewModel
 
         public bool IsDesingMode => false;
 
-        private Nethereum.HdWallet.Wallet _wallet = null;
+        private Nethereum.HdWallet.Wallet? _wallet = null;
 
         public SetupViewModel(Interfaces.IProviderConfig providerConfig,
             Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider)

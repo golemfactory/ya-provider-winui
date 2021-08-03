@@ -234,10 +234,14 @@ namespace GolemUI.UI
 
         private void BtnBackToMainScreen_Click(object sender, RoutedEventArgs e)
         {
-            Model.GoToStart();
-            Model.NoobStep = 0;
-            Model.ExpertStep = 0;
-            if (Model.BenchmarkIsRunning) Model.BenchmarkService.StopBenchmark();
+            if (Model != null)
+            {
+                Model.GoToStart();
+
+                Model.NoobStep = 0;
+                Model.ExpertStep = 0;
+                if (Model.BenchmarkIsRunning) Model.BenchmarkService.StopBenchmark();
+            }
         }
 
 
