@@ -128,6 +128,7 @@ namespace GolemUI
             else
             {
                 tbNotificationIcon.Visibility = Visibility.Visible;
+                tbNotificationIcon.ShowBalloonTip("Torg Miner is still running in tray", "To close application use Thorg's tray's context menu.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
                 this.WindowState = WindowState.Minimized;
                 this.ShowInTaskbar = false;
             }
@@ -172,6 +173,7 @@ namespace GolemUI
             if (ls.MinimizeToTrayOnMinimize)
             {
                 tbNotificationIcon.Visibility = Visibility.Visible;
+                tbNotificationIcon.ShowBalloonTip("Torg Miner is still running in tray", "To close application use Thorg's tray's context menu.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
                 this.WindowState = WindowState.Minimized;
                 this.ShowInTaskbar = false;
             }
