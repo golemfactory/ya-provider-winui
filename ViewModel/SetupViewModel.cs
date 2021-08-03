@@ -196,12 +196,12 @@ namespace GolemUI.ViewModel
         public ObservableCollection<Claymore.ClaymoreGpuStatus>? GPUs => _gpus;
         public string? BenchmarkError { get; set; }
 
-        internal async void ActivateHdWallet()
+        internal async Task<bool> ActivateHdWallet()
         {
             if (_mnemo == null)
             {
                 // TODO: Error message to user here.
-                return;
+                return false;
             }
 
             var seed = _mnemo.ToString();
@@ -212,6 +212,7 @@ namespace GolemUI.ViewModel
                 _providerConfig.UpdateWalletAddress(address);
                 NoobStep = (int)NoobSteps.Name;
             }
+            return true;
         }
 
         public float? TotalHashRate => _benchmarkService.TotalMhs;
