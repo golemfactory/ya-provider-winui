@@ -8,10 +8,8 @@ using static GolemUI.Model.PrettyChartData;
 
 namespace GolemUI.DesignViewModel
 {
-    class PrettyChartDesignViewModel
+    class DashboardStatisticsDesignViewModel
     {
-        public int NumberOfBins => ChartData.BinData.BinEntries.Count;
-
         public PrettyChartData ChartData => new PrettyChartData()
         {
             BinData = new PrettyChartBinData()

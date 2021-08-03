@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800"
 
              >
-    <Grid Background="LightBlue">
+    <Grid>
         <Canvas Name="cv">
             <Canvas.LayoutTransform>
                 <ScaleTransform ScaleX="1" ScaleY="-1" CenterX=".5" CenterY=".5" />

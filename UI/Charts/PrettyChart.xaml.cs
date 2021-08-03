@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -60,16 +61,16 @@ namespace GolemUI.UI.Charts
         }
         public void PropertyChangedCallback(DependencyPropertyChangedEventArgs e)
         {
-            if (e.Property == _chartData && e.NewValue is PrettyChartData newChartData && e.OldValue is PrettyChartData oldChartData)
+            if (e.Property == _chartData)
             {
-                UpdateBinChart(newChartData, oldChartData);
+                UpdateBinChart((PrettyChartData?)e.NewValue, (PrettyChartData?)e.OldValue, animate:true);
             }
         }
 
 
         BinCompatibilityResult CheckBinCompatibility(PrettyChartData newData, PrettyChartData? oldData)
         {
-            if (oldData == null)
+            if (oldData == null || newData == null)
             {
                 return BinCompatibilityResult.Recreate;
             }
@@ -87,13 +88,18 @@ namespace GolemUI.UI.Charts
 
         public void OnSizeChanged(object sender, System.EventArgs e)
         {
-            UpdateBinChart(ChartData, null);
+            UpdateBinChart(ChartData, null, animate:false);
         }
 
 
-        void RecreateBins(PrettyChartData cd)
+        void RecreateBins(PrettyChartData? cd)
         {
             cv.Children.Clear();
+
+            if (cd == null)
+            {
+                return;
+            }
 
             int numBins = cd.BinData.BinEntries.Count;
             double newFullWidth = (DrawWidth - LeftMargin - RightMargin) / numBins;
@@ -112,12 +118,13 @@ namespace GolemUI.UI.Charts
 
                 Polygon myPolygon = new Polygon();
                 myPolygon.Points = myPointCollection;
-                myPolygon.Fill = Brushes.Blue;
+                myPolygon.Fill = Brushes.White;
+                myPolygon.Opacity = 0.6;
                 myPolygon.Stretch = Stretch.Fill;
-                myPolygon.Stroke = Brushes.Black;
-                myPolygon.StrokeThickness = 2;
+                myPolygon.Stroke = Brushes.Gray;
+                myPolygon.StrokeThickness = 1;
                 myPolygon.Width = widthWithoutMargins;
-
+                
                 SetPosition(myPolygon, LeftMargin + entryNo * newFullWidth + BinMargin / 2.0, BottomMargin);
 
                 cv.Children.Add(myPolygon);
@@ -125,9 +132,12 @@ namespace GolemUI.UI.Charts
         }
 
 
-        void UpdateBinChart(PrettyChartData newData, PrettyChartData? oldData)
+
+        void UpdateBinChart(PrettyChartData? newData, PrettyChartData? oldData, bool animate)
         {
-            var cd = ChartData;
+            var cd = newData;
+
+            double speedChange = 0.4;
 
             var res = CheckBinCompatibility(newData, oldData);
             if (res == BinCompatibilityResult.Recreate)
@@ -135,19 +145,55 @@ namespace GolemUI.UI.Charts
                 RecreateBins(cd);
             }
 
+            if (cd == null)
+            {
+                return;
+            }
+
             double maxVal = cd.BinData.GetMaxValue(-1.0);
 
             double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
 
-            for (int entryNo = 0; entryNo < cd.BinData.BinEntries.Count; entryNo++)
+            Storyboard? myStoryboard = null;
+            if (animate)
+            {
+                myStoryboard = new Storyboard();
+            }
+
+            int entryCount = cd.BinData.BinEntries.Count;
+            for (int entryNo = 0; entryNo < entryCount; entryNo++)
             {
                 double val = cd.BinData.BinEntries[entryNo].Value;
+                double? valOld = null;
+                if (res == BinCompatibilityResult.Compatible)
+                {
+                    valOld = oldData.BinData.BinEntries[entryNo].Value;
+                }
 
                 if (cv.Children[entryNo] is Polygon p)
                 {
-                    p.Height = val / maxVal * heightWithoutMargins;
+                    if (animate)
+                    {
+                        DoubleAnimation myDoubleAnimation = new DoubleAnimation();
+                        myDoubleAnimation.From = 0;
+                        if (valOld != null)
+                        {
+                            myDoubleAnimation.From = valOld / maxVal * heightWithoutMargins;
+                        }
+                        myDoubleAnimation.To = val / maxVal * heightWithoutMargins;
+                        myDoubleAnimation.BeginTime = TimeSpan.FromSeconds((double)entryNo / (double)entryCount * speedChange);
+                        myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(val / maxVal * speedChange));
+                        Storyboard.SetTarget(myDoubleAnimation, p);
+                        Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(Polygon.HeightProperty));
+                        myStoryboard.Children.Add(myDoubleAnimation);
+                    }
+                    else
+                    {
+                        p.Height = val / maxVal * heightWithoutMargins;
+                    }
                 }
             }
+            myStoryboard?.Begin(this);
         }
 
         private static void SetPosition(DependencyObject obj, double? x, double? y)

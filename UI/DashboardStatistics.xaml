@@ -10,7 +10,7 @@
              xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:enumAlias="clr-namespace:GolemUI.Model"
-             d:DataContext ="{d:DesignInstance {x:Type dvm:MockupSettingsViewModel}, IsDesignTimeCreatable=True}"
+             d:DataContext ="{d:DesignInstance {x:Type dvm:DashboardStatisticsDesignViewModel}, IsDesignTimeCreatable=True}"
              xmlns:charts="clr-namespace:GolemUI.UI.Charts"
              >
     <UserControl.Resources>
@@ -71,7 +71,7 @@
                     <charts:PrettyChart ChartData="{Binding ChartData}"></charts:PrettyChart>
                 </Grid>
             </Border>
-            <Button x:Name="btnReload" Grid.Row="2" Margin="30">Reload</Button>
+            <Button x:Name="btnReload" Grid.Row="2" Margin="30" Click="btnReload_Click">Reload</Button>
         </Grid>
     </Border>
 </UserControl>

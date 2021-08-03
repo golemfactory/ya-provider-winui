@@ -28,5 +28,10 @@ namespace GolemUI.UI
             ViewModel = viewModel;
             this.DataContext = this.ViewModel;
         }
+
+        private void btnReload_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.RandomData();
+        }
     }
 }

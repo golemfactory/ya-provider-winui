@@ -306,6 +306,7 @@
     <Compile Include="DesignViewModel\MockupDashboardStatusViewModel.cs" />
     <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
+    <Compile Include="DesignViewModel\DashboardStatisticsDesignViewModel.cs" />
     <Compile Include="DesignViewModel\PrettyChartDesignViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
