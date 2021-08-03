@@ -231,9 +231,6 @@ namespace GolemUI.ViewModel
                     NoobStep = (int)NoobSteps.Name;
                 }
             }
-
-
-
         }
 
         public float? TotalHashRate => _benchmarkService.TotalMhs;
