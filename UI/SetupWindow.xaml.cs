@@ -239,5 +239,11 @@ namespace GolemUI.UI
             Model.ExpertStep = 0;
             if (Model.BenchmarkIsRunning) Model.BenchmarkService.StopBenchmark();
         }
+
+
+        private void NavBar_ButtonClick(int selection)
+        {
+            MessageBox.Show(selection.ToString());
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -22,6 +23,7 @@ namespace GolemUI.UI
     /// </summary>
     public partial class NavBar : UserControl
     {
+
         public static readonly DependencyProperty StepProperty = DependencyProperty.Register("Step", typeof(int), typeof(NavBar), new FrameworkPropertyMetadata(
                                 0,
                                 new PropertyChangedCallback(OnStepChanged)));
@@ -29,6 +31,7 @@ namespace GolemUI.UI
         public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register("Items", typeof(Model.NavBarItems), typeof(NavBar), new FrameworkPropertyMetadata(
                         null,
                         new PropertyChangedCallback(OnItemsChanged)));
+
 
         private Model.NavBar _model = new Model.NavBar();
 
@@ -81,6 +84,19 @@ namespace GolemUI.UI
         private void OnReady(object sender, RoutedEventArgs e)
         {
             Items?.UpdateItems(Step);
+        }
+
+        private void NavButtons_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var item = ItemsControl.ContainerFromElement(sender as ListBox, e.OriginalSource as DependencyObject) as ListBoxItem;
+            if (item != null)
+            {
+                if (item.DataContext is NavBarItem clickItem)
+                {
+                    if (clickItem.Status == NavBarItem.ItemStatus.Realized)
+                        this.Step = clickItem.StepIndex ?? 0;
+                }
+            }
         }
     }
 }

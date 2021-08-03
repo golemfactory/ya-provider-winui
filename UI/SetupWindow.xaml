@@ -262,7 +262,7 @@
                     </TabItem>
                     <TabItem Header="WantToLearn">
                         <StackPanel>
-                            <lui:NavBar Step="{Binding NoobStep}">
+                            <lui:NavBar Step="{Binding NoobStep, Mode=TwoWay}" SelectedNav="NavBar_ButtonClick">
                                 <lui:NavBar.Items>
                                     <lm:NavBarItem StepName="Prepare"/>
                                     <lm:NavBarItem StepName="Seed Phrase"/>
@@ -557,7 +557,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                     </TabItem>
                     <TabItem Header="OwnWallet">
                         <StackPanel>
-                            <lui:NavBar Step="{Binding ExpertStep}">
+                            <lui:NavBar Step="{Binding ExpertStep, Mode=TwoWay}">
                                 <lui:NavBar.Items>
                                     <lm:NavBarItem StepName="Wallet"/>
                                     <lm:NavBarItem StepName="Name"/>

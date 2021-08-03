@@ -21,7 +21,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal">
-        <ListBox Background="#000" Foreground="#aaa" Focusable="false"  IsHitTestVisible="False" ItemsSource="{Binding Path=Items, ElementName=uc}">
+        <ListBox x:Name="NavButtons" Background="#000" Foreground="#aaa" Focusable="false"  ItemsSource="{Binding Path=Items, ElementName=uc}"  PreviewMouseDown="NavButtons_PreviewMouseDown">
+            <!--Focusable="false"  IsHitTestVisible="False"-->
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="Focusable" Value="False"/>

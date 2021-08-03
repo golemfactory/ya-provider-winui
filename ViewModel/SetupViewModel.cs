@@ -161,6 +161,7 @@ namespace GolemUI.ViewModel
             get => _noobStep;
             set
             {
+                if (BenchmarkIsRunning) _benchmarkService.StopBenchmark();
                 _noobStep = value;
                 OnPropertyChanged("NoobStep");
             }
@@ -171,6 +172,7 @@ namespace GolemUI.ViewModel
             get => (int)_expertStep;
             set
             {
+                if (BenchmarkIsRunning) _benchmarkService.StopBenchmark();
                 _expertStep = (ExpertSteps)value;
                 OnPropertyChanged("ExpertStep");
             }
