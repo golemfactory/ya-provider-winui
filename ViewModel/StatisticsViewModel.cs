@@ -43,7 +43,7 @@ namespace GolemUI.ViewModel
             {
                 var bin = new PrettyChartBinEntry();
                 bin.Value = rand.NextDouble() * 30;
-                bin.Label = $"Entry no {i}";
+                bin.Label = $"{i}";
 
                 chartData.BinData.BinEntries.Add(bin);
             }
