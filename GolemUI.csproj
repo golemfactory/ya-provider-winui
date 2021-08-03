@@ -287,8 +287,6 @@
     <Compile Include="Command\PaymentData.cs" />
     <Compile Include="Command\Provider.cs" />
     <Compile Include="Command\YagnaSrv.cs" />
-    <Compile Include="Controllers\DashboardPage.cs" />
-    <Compile Include="Controllers\DashboardPages.cs" />
     <Compile Include="Converters\AmountConverter.cs" />
     <Compile Include="Converters\BoolToHeightConverter.cs" />
     <Compile Include="Converters\DashboardStatusToIconConverter.cs" />
@@ -299,9 +297,9 @@
     <Compile Include="Converters\EnumToBrush.cs" />
     <Compile Include="Converters\DashboardStatusToTextConverter.cs" />
     <Compile Include="Converters\HashRateConverter.cs" />
+    <Compile Include="Converters\RadioBoolToIntConverter.cs" />
     <Compile Include="Converters\StringToClaymorePerformanceThrottlingConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="DataAccess\DataAccess.cs" />
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgAppInfoViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
@@ -336,6 +334,9 @@
     <Compile Include="Src\HdWalletService.cs" />
     <Compile Include="Src\BenchmarkResultsProvider.cs" />
     <Compile Include="Src\UserSettingsProvider.cs" />
+    <Compile Include="UI\DashboardSettingsAdv.xaml.cs">
+      <DependentUpon>DashboardSettingsAdv.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\DlgConfirmAddress.xaml.cs">
       <DependentUpon>DlgConfirmAddress.xaml</DependentUpon>
     </Compile>
@@ -361,9 +362,6 @@
     <Compile Include="UI\AnimatedIcons\DesignWorkingAnimIconModel.cs" />
     <Compile Include="UI\Dashboard.xaml.cs">
       <DependentUpon>Dashboard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\DashboardAdvancedSettings.xaml.cs">
-      <DependentUpon>DashboardAdvancedSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\DashboardMain.xaml.cs">
       <DependentUpon>DashboardMain.xaml</DependentUpon>
@@ -400,9 +398,11 @@
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
+    <Compile Include="ViewModel\DashboardViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
     <Compile Include="ViewModel\EditAddressViewModel.cs" />
+    <Compile Include="ViewModel\SettingsAdvViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
     <Compile Include="ViewModel\WalletViewModel.cs" />
@@ -430,15 +430,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\DashboardAdvancedSettings.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\DashboardMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\DashboardSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DashboardSettingsAdv.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

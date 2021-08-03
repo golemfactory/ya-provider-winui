@@ -15,7 +15,7 @@ namespace GolemUI.ViewModel.Dialogs
     {
 
         public string AppVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        public string NodeName => _provider?.Config?.NodeName;
+        public string? NodeName => _provider?.Config?.NodeName;
         private readonly IProviderConfig _provider;
         public DlgAppInfoViewModel(IProviderConfig provider)
         {
