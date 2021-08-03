@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace GolemUI.Interfaces
 {
-    public interface IPriceProvider: INotifyPropertyChanged
+    public interface IPriceProvider
     {
-       
+
         public enum Coin
         {
             GLM,

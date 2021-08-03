@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using CoinGecko.Interfaces;
 using System.Windows.Threading;
 using Microsoft.Extensions.Logging;
-using System.ComponentModel;
 
 namespace GolemUI.Src
 {
@@ -18,39 +17,7 @@ namespace GolemUI.Src
         private readonly DispatcherTimer _timer;
         private readonly ILogger _logger;
 
-        private bool _wasLastRefreshSuccessful = false;
-        public bool WasLastRefreshSuccessful
-        {
-            get => _wasLastRefreshSuccessful;
-            set
-            {
-                _wasLastRefreshSuccessful = value;
-                OnPropertyChanged("WasLastRefreshSuccessful");
-            }
-        }
 
-        public DateTime? _lastModified=null;
-        public DateTime? LastModified
-        {
-            get => _lastModified;
-            set
-            {
-                _lastModified = value;
-                OnPropertyChanged("LastModified");
-            }
-        }
-
-        public string _errorMsg = null;
-        public string ErrorMsg
-        {
-            get => _errorMsg;
-            set
-            {
-                _errorMsg = value;
-                OnPropertyChanged("ErrorMsg");
-            }
-        }
-        
         public CoinGeckoPriceProvider(ILogger<CoinGeckoPriceProvider> logger)
         {
             _logger = logger;
@@ -65,15 +32,6 @@ namespace GolemUI.Src
         private void OnRefreshTick(object sender, EventArgs e)
         {
             Refresh();
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged( string? propertyName = null)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
 
         public decimal CoinValue(decimal amount, IPriceProvider.Coin coin, IPriceProvider.Currency currency = IPriceProvider.Currency.USD)
@@ -112,15 +70,11 @@ namespace GolemUI.Src
                             break;
                     }
                 }
-                LastModified = DateTime.Now;
-                ErrorMsg = null;
-                WasLastRefreshSuccessful = true;
+
             }
             catch (System.Net.Http.HttpRequestException)
             {
                 _logger.LogError("no internet connection");
-                ErrorMsg = "no internet connection";
-                WasLastRefreshSuccessful = false;
             }
         }
 
