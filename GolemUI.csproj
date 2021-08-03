@@ -306,6 +306,7 @@
     <Compile Include="DesignViewModel\MockupDashboardStatusViewModel.cs" />
     <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
+    <Compile Include="DesignViewModel\PrettyChartDesignViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
     <Compile Include="Interfaces\IAppKeyProvider.cs" />
@@ -321,6 +322,7 @@
     <Compile Include="Model\claymorePerformanceThrottlingEnum.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
+    <Compile Include="Model\PrettyChartData.cs" />
     <Compile Include="Model\UserSettings.cs" />
     <Compile Include="Model\WalletState.cs" />
     <Compile Include="Notifications\CloseWindowCommand.cs" />
@@ -334,6 +336,12 @@
     <Compile Include="Src\HdWalletService.cs" />
     <Compile Include="Src\BenchmarkResultsProvider.cs" />
     <Compile Include="Src\UserSettingsProvider.cs" />
+    <Compile Include="UI\Charts\PrettyChart.xaml.cs">
+      <DependentUpon>PrettyChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Charts\PrettyChartDesign.xaml.cs">
+      <DependentUpon>PrettyChartDesign.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\DashboardSettingsAdv.xaml.cs">
       <DependentUpon>DashboardSettingsAdv.xaml</DependentUpon>
     </Compile>
@@ -423,6 +431,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\AnimatedIcons\WorkingAnimIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Charts\PrettyChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Charts\PrettyChartDesign.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
