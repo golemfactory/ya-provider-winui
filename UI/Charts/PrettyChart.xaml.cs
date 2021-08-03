@@ -52,6 +52,9 @@ namespace GolemUI.UI.Charts
         public double RightMargin { get; set; } = 5.0;
         public double TopMargin { get; set; } = 5.0;
 
+
+
+
         public static void StaticPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             if (dependencyObject is PrettyChart prettyChart)
@@ -91,43 +94,106 @@ namespace GolemUI.UI.Charts
             UpdateBinChart(ChartData, null, animate:false);
         }
 
+        double MaxAnimSpeed = 0.4;
 
-        void RecreateBins(PrettyChartData? cd)
+
+        void RecreateBins(PrettyChartData? newData, PrettyChartData? oldData, Storyboard? myStoryboard)
         {
-            cv.Children.Clear();
-
-            if (cd == null)
+            if (newData == null)
             {
                 return;
             }
 
-            int numBins = cd.BinData.BinEntries.Count;
+            int numBins = newData.BinData.BinEntries.Count;
             double newFullWidth = (DrawWidth - LeftMargin - RightMargin) / numBins;
             double widthWithoutMargins = newFullWidth - BinMargin;
 
-
-            for (int entryNo = 0; entryNo < numBins; entryNo++)
+            double oldFullWidth = newFullWidth;
+            int oldNumBins = numBins;
+            double oldWidthWithoutMargins = widthWithoutMargins;
+            if (oldData != null)
             {
-                double val = cd.BinData.BinEntries[entryNo].Value;
+                oldNumBins = oldData.BinData.BinEntries.Count;
+                oldFullWidth = (DrawWidth - LeftMargin - RightMargin) / oldNumBins;
+                oldWidthWithoutMargins = oldFullWidth - BinMargin;
+            }
 
-                PointCollection myPointCollection = new PointCollection();
-                myPointCollection.Add(new Point(0, 0));
-                myPointCollection.Add(new Point(0, 1));
-                myPointCollection.Add(new Point(1, 1));
-                myPointCollection.Add(new Point(1, 0));
+            for (int entryNo = 0; ; entryNo++)
+            {
+                string name = $"poly_no_{entryNo}";
 
-                Polygon myPolygon = new Polygon();
-                myPolygon.Points = myPointCollection;
-                myPolygon.Fill = Brushes.White;
-                myPolygon.Opacity = 0.6;
-                myPolygon.Stretch = Stretch.Fill;
-                myPolygon.Stroke = Brushes.Gray;
-                myPolygon.StrokeThickness = 1;
-                myPolygon.Width = widthWithoutMargins;
-                
-                SetPosition(myPolygon, LeftMargin + entryNo * newFullWidth + BinMargin / 2.0, BottomMargin);
+                Polygon? pol = null;
+                object? obj = cv.FindName(name);
+                if (obj?.GetType() == typeof(Polygon))
+                {
+                    pol = (Polygon)obj;
+                }
+                else
+                {
+                    if (entryNo < numBins)
+                    {
 
-                cv.Children.Add(myPolygon);
+                        PointCollection myPointCollection = new PointCollection();
+                        myPointCollection.Add(new Point(0, 0));
+                        myPointCollection.Add(new Point(0, 1));
+                        myPointCollection.Add(new Point(1, 1));
+                        myPointCollection.Add(new Point(1, 0));
+
+                        pol = new Polygon();
+                        pol.Points = myPointCollection;
+                        pol.Fill = Brushes.White;
+                        pol.Opacity = 0.6;
+                        pol.Stretch = Stretch.Fill;
+                        pol.Stroke = Brushes.Gray;
+                        pol.StrokeThickness = 1;
+
+                        pol.Name = name;
+
+                        cv.Children.Add(pol);
+                        NameScope.GetNameScope(this).RegisterName(name, pol);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                if (entryNo < numBins)
+                {
+                    if (myStoryboard == null)
+                    {
+                        pol.Width = widthWithoutMargins;
+                        SetPosition(pol, LeftMargin + entryNo * newFullWidth + BinMargin / 2.0, BottomMargin);
+                    }
+                    else
+                    {
+                        {
+                            DoubleAnimation anim = new DoubleAnimation();
+                            anim.From = oldWidthWithoutMargins;
+                            anim.To = widthWithoutMargins;
+                            anim.Duration = new Duration(TimeSpan.FromSeconds(MaxAnimSpeed));
+                            Storyboard.SetTarget(anim, pol);
+                            Storyboard.SetTargetProperty(anim, new PropertyPath(Polygon.WidthProperty));
+                            myStoryboard.Children.Add(anim);
+                        }
+
+                        {
+                            DoubleAnimation anim = new DoubleAnimation();
+                            anim.From = LeftMargin + entryNo * oldFullWidth + BinMargin / 2.0;
+                            anim.To = LeftMargin + entryNo * newFullWidth + BinMargin / 2.0;
+                            anim.Duration = new Duration(TimeSpan.FromSeconds(MaxAnimSpeed));
+                            Storyboard.SetTarget(anim, pol);
+                            Storyboard.SetTargetProperty(anim, new PropertyPath(Canvas.LeftProperty));
+                            myStoryboard.Children.Add(anim);
+                        }
+
+                        //SetPosition(pol, LeftMargin + entryNo * oldFullWidth + BinMargin / 2.0, BottomMargin);
+                    }
+                }
+                else
+                {
+                    cv.Children.Remove(pol);
+                    NameScope.GetNameScope(this).UnregisterName(pol.Name);
+                }
             }
         }
 
@@ -135,24 +201,6 @@ namespace GolemUI.UI.Charts
 
         void UpdateBinChart(PrettyChartData? newData, PrettyChartData? oldData, bool animate)
         {
-            var cd = newData;
-
-            double speedChange = 0.4;
-
-            var res = CheckBinCompatibility(newData, oldData);
-            if (res == BinCompatibilityResult.Recreate)
-            {
-                RecreateBins(cd);
-            }
-
-            if (cd == null)
-            {
-                return;
-            }
-
-            double maxVal = cd.BinData.GetMaxValue(-1.0);
-
-            double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
 
             Storyboard? myStoryboard = null;
             if (animate)
@@ -160,12 +208,30 @@ namespace GolemUI.UI.Charts
                 myStoryboard = new Storyboard();
             }
 
-            int entryCount = cd.BinData.BinEntries.Count;
+            var res = CheckBinCompatibility(newData, oldData);
+            if (res == BinCompatibilityResult.Recreate)
+            {
+                RecreateBins(newData, oldData, myStoryboard);
+            }
+
+            if (newData == null)
+            {
+                return;
+            }
+
+            double maxVal = newData.BinData.GetMaxValue(-1.0);
+            double? oldMaxVal = oldData?.BinData.GetMaxValue(-1.0); 
+
+            double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
+
+
+
+            int entryCount = newData.BinData.BinEntries.Count;
             for (int entryNo = 0; entryNo < entryCount; entryNo++)
             {
-                double val = cd.BinData.BinEntries[entryNo].Value;
+                double val = newData.BinData.BinEntries[entryNo].Value;
                 double? valOld = null;
-                if (res == BinCompatibilityResult.Compatible)
+                if (oldData != null && entryNo < oldData.BinData.BinEntries.Count)
                 {
                     valOld = oldData.BinData.BinEntries[entryNo].Value;
                 }
@@ -174,18 +240,18 @@ namespace GolemUI.UI.Charts
                 {
                     if (animate)
                     {
-                        DoubleAnimation myDoubleAnimation = new DoubleAnimation();
-                        myDoubleAnimation.From = 0;
-                        if (valOld != null)
+                        DoubleAnimation anim = new DoubleAnimation();
+                        anim.From = 0;
+                        if (valOld != null && oldMaxVal != null && oldMaxVal > 0.0)
                         {
-                            myDoubleAnimation.From = valOld / maxVal * heightWithoutMargins;
+                            anim.From = valOld / oldMaxVal * heightWithoutMargins;
                         }
-                        myDoubleAnimation.To = val / maxVal * heightWithoutMargins;
-                        myDoubleAnimation.BeginTime = TimeSpan.FromSeconds((double)entryNo / (double)entryCount * speedChange);
-                        myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(val / maxVal * speedChange));
-                        Storyboard.SetTarget(myDoubleAnimation, p);
-                        Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(Polygon.HeightProperty));
-                        myStoryboard.Children.Add(myDoubleAnimation);
+                        anim.To = val / maxVal * heightWithoutMargins;
+                        anim.BeginTime = TimeSpan.FromSeconds((double)entryNo / (double)entryCount * MaxAnimSpeed);
+                        anim.Duration = new Duration(TimeSpan.FromSeconds(val / maxVal * MaxAnimSpeed));
+                        Storyboard.SetTarget(anim, p);
+                        Storyboard.SetTargetProperty(anim, new PropertyPath(Polygon.HeightProperty));
+                        myStoryboard.Children.Add(anim);
                     }
                     else
                     {

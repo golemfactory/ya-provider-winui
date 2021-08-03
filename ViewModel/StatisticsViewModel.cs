@@ -35,47 +35,19 @@ namespace GolemUI.ViewModel
 
         public void RandomData()
         {
-            var chartData = new PrettyChartData()
-            {
-                BinData = new PrettyChartBinData()
-                {
-                    BinEntries = new List<PrettyChartBinEntry>() {
-                            new PrettyChartBinEntry(){Label="Piąta", Value=5.5},
-                            new PrettyChartBinEntry(){Label="Szósta", Value=2.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=6.5},
-                            new PrettyChartBinEntry(){Label="Piąta", Value=5.5},
-                            new PrettyChartBinEntry(){Label="Szósta", Value=2.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=6.5},
-                            new PrettyChartBinEntry(){Label="Piąta", Value=5.5},
-                            new PrettyChartBinEntry(){Label="Szósta", Value=2.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=6.5},
-                            new PrettyChartBinEntry(){Label="Piąta", Value=5.5},
-                            new PrettyChartBinEntry(){Label="Szósta", Value=2.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=6.5},
-                            new PrettyChartBinEntry(){Label="Piąta", Value=5.5},
-                            new PrettyChartBinEntry(){Label="Szósta", Value=2.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=6.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=6.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=2.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=1.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=0.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=6.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=4.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=3.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=6.5},
-                            new PrettyChartBinEntry(){Label="Siódma", Value=6.5},
-                        }
-                }
-            };
+            var chartData = new PrettyChartData();
 
             var rand = new Random();
             var binData = chartData.BinData;
-            foreach (var bin in binData.BinEntries)
+            for (int i = 0; i < 10 + rand.Next(10); i++)
             {
+                var bin = new PrettyChartBinEntry();
                 bin.Value = rand.NextDouble() * 30;
+                bin.Label = $"Entry no {i}";
+
+                chartData.BinData.BinEntries.Add(bin);
             }
 
-            chartData.BinData = binData;
 
             ChartData = chartData;
 
