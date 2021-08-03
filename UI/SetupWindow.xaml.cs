@@ -169,9 +169,9 @@ namespace GolemUI.UI
 
         private async void OnWTLStep3Next(object sender, RoutedEventArgs e)
         {
-           BtnSeedPhaseGotThemAll.IsEnabled = false;
-           await Model!.ActivateHdWallet();
-           BtnSeedPhaseGotThemAll.IsEnabled = true;
+            BtnSeedPhaseGotThemAll.IsEnabled = false;
+            await Model!.ActivateHdWallet();
+            BtnSeedPhaseGotThemAll.IsEnabled = true;
         }
 
         private void OnWTLStep4Next(object sender, RoutedEventArgs e)
