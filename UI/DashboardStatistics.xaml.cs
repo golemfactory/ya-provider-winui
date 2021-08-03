@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +14,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GolemUI
+namespace GolemUI.UI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DasboardStatistics.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DashboardStatistics : UserControl
     {
-        public MainWindow()
+        public StatisticsViewModel ViewModel;
+        public DashboardStatistics(StatisticsViewModel viewModel)
         {
             InitializeComponent();
+            ViewModel = viewModel;
+            this.DataContext = this.ViewModel;
         }
     }
 }

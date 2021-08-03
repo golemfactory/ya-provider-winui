@@ -8,13 +8,11 @@
              d:DesignHeight="450" d:DesignWidth="800"
 
              >
-    <Grid Background="LightBlue" Width="100" Height="100">
-        <Viewbox Grid.Row="1">
-            <Canvas Name="cv" Width="100" Height="100">
-                <Canvas.LayoutTransform>
-                    <ScaleTransform ScaleX="1" ScaleY="-1" CenterX=".5" CenterY=".5" />
-                </Canvas.LayoutTransform>
-            </Canvas>
-        </Viewbox>  
+    <Grid Background="LightBlue">
+        <Canvas Name="cv">
+            <Canvas.LayoutTransform>
+                <ScaleTransform ScaleX="1" ScaleY="-1" CenterX=".5" CenterY=".5" />
+            </Canvas.LayoutTransform>
+        </Canvas>
     </Grid>
 </UserControl>

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GolemUI.Command;
+using GolemUI.UI;
 using GolemUI.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -88,10 +89,12 @@ namespace GolemUI
             services.AddTransient(typeof(ViewModel.WalletViewModel));
             services.AddTransient(typeof(ViewModel.DashboardMainViewModel));
             services.AddTransient(typeof(ViewModel.SetupViewModel));
+            services.AddTransient(typeof(ViewModel.StatisticsViewModel));
 
             services.AddTransient(typeof(DashboardMain));
             services.AddTransient(typeof(DashboardSettings));
             services.AddTransient(typeof(DashboardSettingsAdv));
+            services.AddTransient(typeof(DashboardStatistics));
             services.AddTransient(typeof(SettingsViewModel));
             services.AddTransient(typeof(SettingsAdvViewModel));
 

@@ -342,6 +342,9 @@
     <Compile Include="UI\Charts\PrettyChartDesign.xaml.cs">
       <DependentUpon>PrettyChartDesign.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\DashboardStatistics.xaml.cs">
+      <DependentUpon>DashboardStatistics.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\DashboardSettingsAdv.xaml.cs">
       <DependentUpon>DashboardSettingsAdv.xaml</DependentUpon>
     </Compile>
@@ -413,6 +416,7 @@
     <Compile Include="ViewModel\SettingsAdvViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
+    <Compile Include="ViewModel\StatisticsViewModel.cs" />
     <Compile Include="ViewModel\WalletViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -439,6 +443,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Charts\PrettyChartDesign.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\DashboardStatistics.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

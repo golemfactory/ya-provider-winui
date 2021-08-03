@@ -32,6 +32,7 @@ namespace GolemUI.UI.Charts
         public PrettyChart()
         {
             InitializeComponent();
+            this.SizeChanged += OnSizeChanged;
         }
 
         public PrettyChartData ChartData
@@ -43,6 +44,12 @@ namespace GolemUI.UI.Charts
         public static readonly DependencyProperty _chartData =
             DependencyProperty.Register("ChartData", typeof(PrettyChartData), typeof(PrettyChart), new UIPropertyMetadata(new PrettyChartData(), StaticPropertyChangedCallback));
 
+
+        public double BinMargin { get; set; } = 5.0;
+        public double BottomMargin { get; set; } = 5.0;
+        public double LeftMargin { get; set; } = 5.0;
+        public double RightMargin { get; set; } = 5.0;
+        public double TopMargin { get; set; } = 5.0;
 
         public static void StaticPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
@@ -60,8 +67,12 @@ namespace GolemUI.UI.Charts
         }
 
 
-        BinCompatibilityResult CheckBinCompatibility(PrettyChartData newData, PrettyChartData oldData)
+        BinCompatibilityResult CheckBinCompatibility(PrettyChartData newData, PrettyChartData? oldData)
         {
+            if (oldData == null)
+            {
+                return BinCompatibilityResult.Recreate;
+            }
             if (newData.BinData.BinEntries.Count != oldData.BinData.BinEntries.Count)
             {
                 return BinCompatibilityResult.Recreate;
@@ -70,13 +81,24 @@ namespace GolemUI.UI.Charts
             return BinCompatibilityResult.Compatible;
         }
 
+        private double DrawWidth => cv.ActualWidth > 0 ? cv.ActualWidth : 100.0;
+
+        private double DrawHeight => cv.ActualHeight > 0 ? cv.ActualHeight : 100.0;
+
+        public void OnSizeChanged(object sender, System.EventArgs e)
+        {
+            UpdateBinChart(ChartData, null);
+        }
+
+
         void RecreateBins(PrettyChartData cd)
         {
             cv.Children.Clear();
 
             int numBins = cd.BinData.BinEntries.Count;
-            int newFullWidth = 100 / numBins;
-            int widthWithoutMargins = newFullWidth - 1;
+            double newFullWidth = (DrawWidth - LeftMargin - RightMargin) / numBins;
+            double widthWithoutMargins = newFullWidth - BinMargin;
+
 
             for (int entryNo = 0; entryNo < numBins; entryNo++)
             {
@@ -96,14 +118,14 @@ namespace GolemUI.UI.Charts
                 myPolygon.StrokeThickness = 2;
                 myPolygon.Width = widthWithoutMargins;
 
-                SetPosition(myPolygon, entryNo * newFullWidth, 100 - myPolygon.Height);
+                SetPosition(myPolygon, LeftMargin + entryNo * newFullWidth + BinMargin / 2.0, BottomMargin);
 
                 cv.Children.Add(myPolygon);
             }
         }
 
 
-        void UpdateBinChart(PrettyChartData newData, PrettyChartData oldData)
+        void UpdateBinChart(PrettyChartData newData, PrettyChartData? oldData)
         {
             var cd = ChartData;
 
@@ -115,21 +137,29 @@ namespace GolemUI.UI.Charts
 
             double maxVal = cd.BinData.GetMaxValue(-1.0);
 
+            double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
+
             for (int entryNo = 0; entryNo < cd.BinData.BinEntries.Count; entryNo++)
             {
                 double val = cd.BinData.BinEntries[entryNo].Value;
 
                 if (cv.Children[entryNo] is Polygon p)
                 {
-                    p.Height = val / maxVal * 100;
+                    p.Height = val / maxVal * heightWithoutMargins;
                 }
             }
         }
 
-        private static void SetPosition(DependencyObject obj, double x, double y)
+        private static void SetPosition(DependencyObject obj, double? x, double? y)
         {
-            obj.SetValue(Canvas.LeftProperty, x);
-            obj.SetValue(Canvas.TopProperty, y);
+            if (x != null)
+            {
+                obj.SetValue(Canvas.LeftProperty, x);
+            }
+            if (y != null)
+            {
+                obj.SetValue(Canvas.TopProperty, y);
+            }
         }
     }
 }
