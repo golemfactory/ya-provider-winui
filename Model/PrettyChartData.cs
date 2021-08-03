@@ -34,6 +34,7 @@ namespace GolemUI.Model
         }
 
         public PrettyChartBinData BinData { get; set; } = new PrettyChartBinData();
+        public bool NoAnimate { get; set; } = false;
 
         public PrettyChartData()
         {

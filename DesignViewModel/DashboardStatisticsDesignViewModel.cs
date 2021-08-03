@@ -12,6 +12,7 @@ namespace GolemUI.DesignViewModel
     {
         public PrettyChartData ChartData => new PrettyChartData()
         {
+            NoAnimate = true,
             BinData = new PrettyChartBinData()
             {
                 BinEntries = new List<PrettyChartBinEntry>() {

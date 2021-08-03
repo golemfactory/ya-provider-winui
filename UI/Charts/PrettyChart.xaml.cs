@@ -108,6 +108,11 @@ namespace GolemUI.UI.Charts
             double newFullWidth = (DrawWidth - LeftMargin - RightMargin) / numBins;
             double widthWithoutMargins = newFullWidth - BinMargin;
 
+            if (widthWithoutMargins <= 1)
+            {
+                widthWithoutMargins = 1;
+            }
+
             double oldFullWidth = newFullWidth;
             int oldNumBins = numBins;
             double oldWidthWithoutMargins = widthWithoutMargins;
@@ -120,13 +125,21 @@ namespace GolemUI.UI.Charts
 
             for (int entryNo = 0; ; entryNo++)
             {
-                string name = $"poly_no_{entryNo}";
-
+                string polyName = $"poly_no_{entryNo}";
+                string textName = $"text_no_{entryNo}";
+                string text2Name = $"text2_no_{entryNo}";
                 Polygon? pol = null;
-                object? obj = cv.FindName(name);
+                TextBlock? lbl = null;
+                TextBlock? val = null;
+
+                object? obj = cv.FindName(polyName);
+                object? obj2 = cv.FindName(textName);
+                object? obj3 = cv.FindName(text2Name);
                 if (obj?.GetType() == typeof(Polygon))
                 {
                     pol = (Polygon)obj;
+                    lbl = (TextBlock)obj2;
+                    val = (TextBlock)obj3;
                 }
                 else
                 {
@@ -147,10 +160,34 @@ namespace GolemUI.UI.Charts
                         pol.Stroke = Brushes.Gray;
                         pol.StrokeThickness = 1;
 
-                        pol.Name = name;
+                        pol.Name = polyName;
 
+                        
                         cv.Children.Add(pol);
-                        NameScope.GetNameScope(this).RegisterName(name, pol);
+
+                        var tb = new TextBlock();
+                        tb.Name = textName;
+                        tb.Text = "test";
+                        var tg = new TransformGroup();
+                        tg.Children.Add(new ScaleTransform(1.0, -1.0));
+                        tg.Children.Add(new RotateTransform(90));
+
+                        tb.LayoutTransform = tg;
+                        cv.Children.Add(tb);
+
+                        var tb2 = new TextBlock();
+                        tb2.Name = text2Name;
+                        tb2.Text = "val";
+                        var tg2 = new TransformGroup();
+                        tg2.Children.Add(new ScaleTransform(1.0, -1.0));
+                        tb2.LayoutTransform = tg2;
+                        cv.Children.Add(tb2);
+
+                        NameScope.GetNameScope(this).RegisterName(polyName, pol);
+                        NameScope.GetNameScope(this).RegisterName(textName, tb);
+                        NameScope.GetNameScope(this).RegisterName(text2Name, tb2);
+                        lbl = tb;
+                        val = tb2;
                     }
                     else
                     {
@@ -163,6 +200,8 @@ namespace GolemUI.UI.Charts
                     {
                         pol.Width = widthWithoutMargins;
                         SetPosition(pol, LeftMargin + entryNo * newFullWidth + BinMargin / 2.0, BottomMargin);
+                        SetPosition(lbl, LeftMargin + entryNo * newFullWidth + BinMargin / 2.0, BottomMargin + 10);
+                        SetPosition(val, LeftMargin + entryNo * newFullWidth + BinMargin / 2.0, BottomMargin + 10);
                     }
                     else
                     {
@@ -186,13 +225,40 @@ namespace GolemUI.UI.Charts
                             myStoryboard.Children.Add(anim);
                         }
 
-                        //SetPosition(pol, LeftMargin + entryNo * oldFullWidth + BinMargin / 2.0, BottomMargin);
+                        {
+                            DoubleAnimation anim = new DoubleAnimation();
+                            anim.From = LeftMargin + entryNo * oldFullWidth + BinMargin / 2.0;
+                            anim.To = LeftMargin + entryNo * newFullWidth + BinMargin / 2.0;
+                            anim.Duration = new Duration(TimeSpan.FromSeconds(MaxAnimSpeed));
+                            Storyboard.SetTarget(anim, lbl);
+                            Storyboard.SetTargetProperty(anim, new PropertyPath(Canvas.LeftProperty));
+                            myStoryboard.Children.Add(anim);
+                        }
+
+                        {
+                            DoubleAnimation anim = new DoubleAnimation();
+                            anim.From = LeftMargin + entryNo * oldFullWidth + BinMargin / 2.0;
+                            anim.To = LeftMargin + entryNo * newFullWidth + BinMargin / 2.0;
+                            anim.Duration = new Duration(TimeSpan.FromSeconds(MaxAnimSpeed));
+                            Storyboard.SetTarget(anim, val);
+                            Storyboard.SetTargetProperty(anim, new PropertyPath(Canvas.LeftProperty));
+                            myStoryboard.Children.Add(anim);
+                        }
+
+
+                        SetPosition(pol, null, BottomMargin);
+                        SetPosition(lbl, null, BottomMargin + 10);
+                        SetPosition(val, null, BottomMargin + 40);
                     }
                 }
                 else
                 {
                     cv.Children.Remove(pol);
                     NameScope.GetNameScope(this).UnregisterName(pol.Name);
+                    cv.Children.Remove(lbl);
+                    NameScope.GetNameScope(this).UnregisterName(lbl.Name);
+                    cv.Children.Remove(val);
+                    NameScope.GetNameScope(this).UnregisterName(val.Name);
                 }
             }
         }
@@ -203,7 +269,7 @@ namespace GolemUI.UI.Charts
         {
 
             Storyboard? myStoryboard = null;
-            if (animate)
+            if (animate && (newData != null && !newData.NoAnimate))
             {
                 myStoryboard = new Storyboard();
             }
@@ -236,27 +302,36 @@ namespace GolemUI.UI.Charts
                     valOld = oldData.BinData.BinEntries[entryNo].Value;
                 }
 
-                if (cv.Children[entryNo] is Polygon p)
+
+                string polyName = $"poly_no_{entryNo}";
+                string textName = $"text_no_{entryNo}";
+                string text2Name = $"text2_no_{entryNo}";
+
+
+                Polygon p = (Polygon)cv.FindName(polyName);
+                TextBlock lbl = (TextBlock)cv.FindName(textName);
+                TextBlock tbVal = (TextBlock)cv.FindName(text2Name);
+
+                lbl.Text = newData.BinData.BinEntries[entryNo].Label;
+                tbVal.Text = val.ToString("F2");
+                if (animate)
                 {
-                    if (animate)
+                    DoubleAnimation anim = new DoubleAnimation();
+                    anim.From = 0;
+                    if (valOld != null && oldMaxVal != null && oldMaxVal > 0.0)
                     {
-                        DoubleAnimation anim = new DoubleAnimation();
-                        anim.From = 0;
-                        if (valOld != null && oldMaxVal != null && oldMaxVal > 0.0)
-                        {
-                            anim.From = valOld / oldMaxVal * heightWithoutMargins;
-                        }
-                        anim.To = val / maxVal * heightWithoutMargins;
-                        anim.BeginTime = TimeSpan.FromSeconds((double)entryNo / (double)entryCount * MaxAnimSpeed);
-                        anim.Duration = new Duration(TimeSpan.FromSeconds(val / maxVal * MaxAnimSpeed));
-                        Storyboard.SetTarget(anim, p);
-                        Storyboard.SetTargetProperty(anim, new PropertyPath(Polygon.HeightProperty));
-                        myStoryboard.Children.Add(anim);
+                        anim.From = valOld / oldMaxVal * heightWithoutMargins;
                     }
-                    else
-                    {
-                        p.Height = val / maxVal * heightWithoutMargins;
-                    }
+                    anim.To = val / maxVal * heightWithoutMargins;
+                    anim.BeginTime = TimeSpan.FromSeconds((double)entryNo / (double)entryCount * MaxAnimSpeed);
+                    anim.Duration = new Duration(TimeSpan.FromSeconds(val / maxVal * MaxAnimSpeed));
+                    Storyboard.SetTarget(anim, p);
+                    Storyboard.SetTargetProperty(anim, new PropertyPath(Polygon.HeightProperty));
+                    myStoryboard.Children.Add(anim);
+                }
+                else
+                {
+                    p.Height = val / maxVal * heightWithoutMargins;
                 }
             }
             myStoryboard?.Begin(this);
