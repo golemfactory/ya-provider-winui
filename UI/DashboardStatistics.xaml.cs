@@ -31,7 +31,7 @@ namespace GolemUI.UI
 
         private void btnReload_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.RandomData();
+            ViewModel.LoadData();
         }
         private void btnMoveRight_Click(object sender, RoutedEventArgs e)
         {

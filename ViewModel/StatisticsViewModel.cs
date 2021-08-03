@@ -17,15 +17,28 @@ namespace GolemUI.ViewModel
 
         }
 
-        public PrettyChartData ChartData { get; set; }
-        
+        public PrettyChartData ChartData1 { get; set; }
+        public PrettyChartData ChartData2 { get; set; }
+        public PrettyChartData ChartData3 { get; set; }
+        public PrettyChartData ChartData4 { get; set; }
+
 
         public event PageChangeRequestedEvent PageChangeRequested;
         public event PropertyChangedEventHandler PropertyChanged;
 
+        Random _rand = new Random();
+
         public void LoadData()
         {
-            RandomData();
+            ChartData1 = RandomData();
+            ChartData2 = RandomData();
+            ChartData3 = RandomData();
+            ChartData4 = RandomData();
+
+            NotifyChange("ChartData1");
+            NotifyChange("ChartData2");
+            NotifyChange("ChartData3");
+            NotifyChange("ChartData4");
             //throw new NotImplementedException();
         }
 
@@ -34,31 +47,29 @@ namespace GolemUI.ViewModel
             //throw new NotImplementedException();
         }
 
-        public void RandomData()
+        public PrettyChartData RandomData()
         {
             var chartData = new PrettyChartData();
             chartData.NoAnimate = false;
 
-            var rand = new Random();
             var binData = chartData.BinData;
-            for (int i = 0; i < 10 + rand.Next(10); i++)
+            for (int i = 0; i < 10 + _rand.Next(10); i++)
             {
                 var bin = new PrettyChartBinEntry();
-                bin.Value = rand.NextDouble() * 30;
+                bin.Value = _rand.NextDouble() * 30;
                 bin.Label = $"{i}";
 
                 chartData.BinData.BinEntries.Add(bin);
             }
 
 
-            ChartData = chartData;
+            return chartData;
 
 
-            NotifyChange("ChartData");
         }
-        public void MoveDataRight()
+        public PrettyChartData MoveDataRight(PrettyChartData cd)
         {
-            var chartData = (PrettyChartData)ChartData.Clone();
+            var chartData = (PrettyChartData)cd.Clone();
             var binEntries = chartData.BinData.BinEntries;
 
             var firstElem = binEntries[0];
@@ -74,12 +85,23 @@ namespace GolemUI.ViewModel
                 }
             }
 
-            ChartData = new PrettyChartData() { BinData = new PrettyChartBinData() { BinEntries = binEntries } };
+            return new PrettyChartData() { BinData = new PrettyChartBinData() { BinEntries = binEntries } };
 
 
-            NotifyChange("ChartData");
         }
 
+        public void MoveDataRight()
+        {
+            ChartData1 = MoveDataRight(ChartData1);
+            ChartData2 = MoveDataRight(ChartData2);
+            ChartData3 = MoveDataRight(ChartData3);
+            ChartData4 = MoveDataRight(ChartData4);
+
+            NotifyChange("ChartData1");
+            NotifyChange("ChartData2");
+            NotifyChange("ChartData3");
+            NotifyChange("ChartData4");
+        }
 
         private void NotifyChange([CallerMemberName] string? propertyName = null)
         {
