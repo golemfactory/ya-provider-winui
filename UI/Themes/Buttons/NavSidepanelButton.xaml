@@ -72,8 +72,8 @@
                                 </Canvas.RenderTransform>
                                 <!-- rectangle helps with generating mouse hover events, otherwise it won't work as desired -->
                                 <!-- Making rectangle a bit bigger helps with hitting button with the mouse -->
-                                <Rectangle x:Name="backRect" StrokeThickness="1" Stroke="{StaticResource StrokeBrush}" Fill="{StaticResource BackBrush}" Canvas.Top="-3" Canvas.Left="-3" Height="30" Width="30" ToolTip="Dashboard"></Rectangle>
-                                <Path x:Name="pathIcon" Fill="{StaticResource FillBrush}" Data="{StaticResource PathWalletButton}" ToolTip="Dashboard"/>
+                                <Rectangle x:Name="backRect" StrokeThickness="1" Stroke="{StaticResource StrokeBrush}" Fill="{StaticResource BackBrush}" Canvas.Top="-3" Canvas.Left="-3" Height="30" Width="30" ToolTip="Settings"></Rectangle>
+                                <Path x:Name="pathIcon" Fill="{StaticResource FillBrush}" Data="{StaticResource PathSettingsButton}" ToolTip="Settings"/>
                             </Canvas>
                         </Viewbox>
                     </Border>
@@ -107,8 +107,8 @@
                                 </Canvas.RenderTransform>
                                 <!-- rectangle helps with generating mouse hover events, otherwise it won't work as desired -->
                                 <!-- Making rectangle a bit bigger helps with hitting button with the mouse -->
-                                <Rectangle x:Name="backRect" StrokeThickness="1" Stroke="{StaticResource StrokeBrush}" Fill="{StaticResource BackBrush}" Canvas.Top="-3" Canvas.Left="-3" Height="30" Width="30" ToolTip="Dashboard"></Rectangle>
-                                <Path x:Name="pathIcon" Fill="{StaticResource FillBrush}" Data="{StaticResource PathSettingsButton}" ToolTip="Dashboard"/>
+                                <Rectangle x:Name="backRect" StrokeThickness="1" Stroke="{StaticResource StrokeBrush}" Fill="{StaticResource BackBrush}" Canvas.Top="-3" Canvas.Left="-3" Height="30" Width="30" ToolTip="Wallet"></Rectangle>
+                                <Path x:Name="pathIcon" Fill="{StaticResource FillBrush}" Data="{StaticResource PathWalletButton}" ToolTip="Wallet"/>
                             </Canvas>
                         </Viewbox>
                     </Border>
