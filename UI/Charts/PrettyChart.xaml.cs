@@ -202,7 +202,7 @@ namespace GolemUI.UI.Charts
                     {
                         pol.Width = widthWithoutMargins;
                         SetPosition(pol, LeftMargin + entryNo * newFullWidth + BinMargin / 2.0, BottomMargin);
-                        SetPosition(lbl, LeftMargin + entryNo * newFullWidth + BinMargin / 2.0, BottomMargin + 10);
+                        SetPosition(lbl, LeftMargin + entryNo * newFullWidth + BinMargin / 2.0, BottomMargin - 20);
                         SetPosition(val, LeftMargin + entryNo * newFullWidth + BinMargin / 2.0, BottomMargin + 10);
                     }
                     else
@@ -269,9 +269,13 @@ namespace GolemUI.UI.Charts
 
         void UpdateBinChart(PrettyChartData? newData, PrettyChartData? oldData, bool animate)
         {
+            if (newData != null && newData.NoAnimate)
+            {
+                animate = false;
+            }
 
             Storyboard? myStoryboard = null;
-            if (animate && (newData != null && !newData.NoAnimate))
+            if (animate)
             {
                 myStoryboard = new Storyboard();
             }
@@ -350,6 +354,7 @@ namespace GolemUI.UI.Charts
                 }
                 else
                 {
+                    SetPosition(tbVal, null, val / maxVal * heightWithoutMargins + 3);
                     p.Height = val / maxVal * heightWithoutMargins;
                 }
             }

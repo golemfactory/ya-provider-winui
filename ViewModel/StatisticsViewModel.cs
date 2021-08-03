@@ -36,6 +36,7 @@ namespace GolemUI.ViewModel
         public void RandomData()
         {
             var chartData = new PrettyChartData();
+            chartData.NoAnimate = false;
 
             var rand = new Random();
             var binData = chartData.BinData;
