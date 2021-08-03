@@ -19,6 +19,18 @@ namespace GolemUI.Model
         {
             public List<PrettyChartBinEntry> BinEntries { get; set; } = new List<PrettyChartBinEntry>();
 
+            public double GetMaxValue(double minValue)
+            {
+                double maxValue = minValue;
+                foreach (var entry in BinEntries)
+                {
+                    if (entry.Value > maxValue)
+                    {
+                        maxValue = entry.Value;
+                    }
+                }
+                return maxValue;
+            }
         }
 
         public PrettyChartBinData BinData { get; set; } = new PrettyChartBinData();

@@ -1,6 +1,7 @@
 ﻿using GolemUI.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,12 +22,16 @@ namespace GolemUI.UI.Charts
     /// </summary>
     public partial class PrettyChart : UserControl
     {
+        enum BinCompatibilityResult
+        {
+            Compatible,
+            MoveDataLeft,
+            Recreate,
+        }
+
         public PrettyChart()
         {
             InitializeComponent();
-            DrawChart();
-
-
         }
 
         public PrettyChartData ChartData
@@ -36,46 +41,46 @@ namespace GolemUI.UI.Charts
         }
 
         public static readonly DependencyProperty _chartData =
-            DependencyProperty.Register("ChartData", typeof(PrettyChartData), typeof(PrettyChart), new UIPropertyMetadata(new PrettyChartData()));
+            DependencyProperty.Register("ChartData", typeof(PrettyChartData), typeof(PrettyChart), new UIPropertyMetadata(new PrettyChartData(), StaticPropertyChangedCallback));
 
 
-        void DrawChart()
+        public static void StaticPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            var cd = ChartData;
-
+            if (dependencyObject is PrettyChart prettyChart)
             {
-                PointCollection myPointCollection = new PointCollection();
-
-                if (cd.BinData.BinEntries.Count > 0)
-                {
-                    myPointCollection.Add(new Point(0, 0));
-                    myPointCollection.Add(new Point(0, 1));
-                    myPointCollection.Add(new Point(1, 1));
-                }
-                else
-                {
-                    myPointCollection.Add(new Point(0, 0));
-                    myPointCollection.Add(new Point(0, 1));
-                    myPointCollection.Add(new Point(1, 1));
-                    myPointCollection.Add(new Point(1, 0));
-                }
-
-                Polygon myPolygon = new Polygon();
-                myPolygon.Points = myPointCollection;
-                myPolygon.Fill = Brushes.Blue;
-                myPolygon.Width = 100;
-                myPolygon.Height = 100;
-                myPolygon.Stretch = Stretch.Fill;
-                myPolygon.Stroke = Brushes.Black;
-                myPolygon.StrokeThickness = 2;
-
-                cv.Children.Add(myPolygon);
-
+                prettyChart.PropertyChangedCallback(e);
             }
-            
-            for (int i = 0; i < cd.BinData.BinEntries.Count; i++)
+        }
+        public void PropertyChangedCallback(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.Property == _chartData && e.NewValue is PrettyChartData newChartData && e.OldValue is PrettyChartData oldChartData)
             {
-                double val = cd.BinData.BinEntries[i].Value;
+                UpdateBinChart(newChartData, oldChartData);
+            }
+        }
+
+
+        BinCompatibilityResult CheckBinCompatibility(PrettyChartData newData, PrettyChartData oldData)
+        {
+            if (newData.BinData.BinEntries.Count != oldData.BinData.BinEntries.Count)
+            {
+                return BinCompatibilityResult.Recreate;
+            }
+
+            return BinCompatibilityResult.Compatible;
+        }
+
+        void RecreateBins(PrettyChartData cd)
+        {
+            cv.Children.Clear();
+
+            int numBins = cd.BinData.BinEntries.Count;
+            int newFullWidth = 100 / numBins;
+            int widthWithoutMargins = newFullWidth - 1;
+
+            for (int entryNo = 0; entryNo < numBins; entryNo++)
+            {
+                double val = cd.BinData.BinEntries[entryNo].Value;
 
                 PointCollection myPointCollection = new PointCollection();
                 myPointCollection.Add(new Point(0, 0));
@@ -86,18 +91,39 @@ namespace GolemUI.UI.Charts
                 Polygon myPolygon = new Polygon();
                 myPolygon.Points = myPointCollection;
                 myPolygon.Fill = Brushes.Blue;
-                myPolygon.Width = 10;
-                myPolygon.Height = 10;
                 myPolygon.Stretch = Stretch.Fill;
                 myPolygon.Stroke = Brushes.Black;
                 myPolygon.StrokeThickness = 2;
+                myPolygon.Width = widthWithoutMargins;
 
-                SetPosition(myPolygon, i * 10, val);
+                SetPosition(myPolygon, entryNo * newFullWidth, 100 - myPolygon.Height);
 
                 cv.Children.Add(myPolygon);
             }
-           
+        }
 
+
+        void UpdateBinChart(PrettyChartData newData, PrettyChartData oldData)
+        {
+            var cd = ChartData;
+
+            var res = CheckBinCompatibility(newData, oldData);
+            if (res == BinCompatibilityResult.Recreate)
+            {
+                RecreateBins(cd);
+            }
+
+            double maxVal = cd.BinData.GetMaxValue(-1.0);
+
+            for (int entryNo = 0; entryNo < cd.BinData.BinEntries.Count; entryNo++)
+            {
+                double val = cd.BinData.BinEntries[entryNo].Value;
+
+                if (cv.Children[entryNo] is Polygon p)
+                {
+                    p.Height = val / maxVal * 100;
+                }
+            }
         }
 
         private static void SetPosition(DependencyObject obj, double x, double y)

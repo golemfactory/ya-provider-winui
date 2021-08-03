@@ -20,6 +20,7 @@ namespace GolemUI.DesignViewModel
                     new PrettyChartBinEntry(){Label="Piąta", Value=5.5},
                     new PrettyChartBinEntry(){Label="Szósta", Value=2.5},
                     new PrettyChartBinEntry(){Label="Siódma", Value=6.5},
+                    new PrettyChartBinEntry(){Label="Siódma", Value=3.2},
                 }
             }
         };

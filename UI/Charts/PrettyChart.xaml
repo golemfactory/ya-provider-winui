@@ -9,21 +9,11 @@
 
              >
     <Grid Background="LightBlue" Width="100" Height="100">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition>
-                
-            </RowDefinition>
-            <RowDefinition>
-
-            </RowDefinition>
-        </Grid.RowDefinitions>
         <Viewbox Grid.Row="1">
             <Canvas Name="cv" Width="100" Height="100">
-                
+                <Canvas.LayoutTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="-1" CenterX=".5" CenterY=".5" />
+                </Canvas.LayoutTransform>
             </Canvas>
         </Viewbox>  
     </Grid>
