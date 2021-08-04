@@ -1,4 +1,4 @@
-﻿<Window x:Class="GolemUI.Dashboard"
+<Window x:Class="GolemUI.Dashboard"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -62,7 +62,7 @@
             </Border>
             <Border Grid.Column="1" Grid.Row="0" VerticalAlignment="Top">
                 <DockPanel>
-                    <DockPanel x:Name="TitleBar" DockPanel.Dock="Top">
+                    <DockPanel x:Name="TitleBar" DockPanel.Dock="Top" Margin="0,0,8,0">
                         <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="CloseButton_Click" Style="{DynamicResource CloseWindowButton}"/>
                         <Button x:Name="MinButton" Content="Min" DockPanel.Dock="Right" Click="MinButton_Click" Style="{DynamicResource MinWindowButton}"/>
                         <TextBlock HorizontalAlignment="Center"></TextBlock>
@@ -77,9 +77,9 @@
             <Border x:Name="brdNavigation" BorderBrush="White" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 0.5 0">
                 <StackPanel>
 
-                    <RadioButton IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=1}" GroupName="nav" Style="{StaticResource NavSidepanelButtonDashboard}"/>
-                    <RadioButton IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=2}" GroupName="nav" Style="{StaticResource NavSidepanelButtonWallet}"/>
-                    <RadioButton IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=3}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}"/>
+                    <RadioButton  ToolTip="Dashboard" IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=1}" GroupName="nav" Style="{StaticResource NavSidepanelButtonDashboard}"/>
+                    <RadioButton  ToolTip="Wallet"    IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=3}" GroupName="nav" Style="{StaticResource NavSidepanelButtonWallet}"/>
+                    <RadioButton  ToolTip="Settings"  IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=2}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}"/>
                 </StackPanel>
             </Border>
             <Button x:Name="btnAppInformation" Style="{StaticResource NavSidepanelButtonInformation}" Click="btnAppInformation_Click" VerticalAlignment="Bottom" Margin="10,0,0,40" Grid.Row="1"/>
