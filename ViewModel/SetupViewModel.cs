@@ -1,6 +1,7 @@
 ﻿using GolemUI.Claymore;
 using GolemUI.Interfaces;
 using GolemUI.Validators;
+using Microsoft.Extensions.Logging;
 using NBitcoin;
 using Nethereum.Util;
 using System;
@@ -62,8 +63,10 @@ namespace GolemUI.ViewModel
 
         private Nethereum.HdWallet.Wallet? _wallet = null;
 
+        private ILogger<SetupViewModel> _logger;
+
         public SetupViewModel(Interfaces.IProviderConfig providerConfig,
-            Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider)
+            Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider, ILogger<SetupViewModel> logger)
         {
             _flow = 0;
             _noobStep = 0;
@@ -73,7 +76,7 @@ namespace GolemUI.ViewModel
             _processControler = processControler;
             _priceProvider = priceProvider;
             _userSettingsProvider = userSettingsProvider;
-
+            _logger = logger;
 
 
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
@@ -201,38 +204,37 @@ namespace GolemUI.ViewModel
         public ObservableCollection<Claymore.ClaymoreGpuStatus>? GPUs => _gpus;
         public string? BenchmarkError { get; set; }
 
-        internal async void ActivateHdWallet()
+        internal async Task<bool> ActivateHdWallet()
         {
-
-
-
             if (_mnemo == null)
             {
                 // TODO: Error message to user here.
-                return;
+                _logger.LogError("_mnemo is null");
+                return false;
             }
 
             var seed = _mnemo.ToString();
 
-
             if (_wallet != null)
             {
                 NoobStep = (int)NoobSteps.Name;
+                return true;
             }
-            else if (_processControler.IsServerRunning)
+
+            if (_processControler.IsServerRunning)
             {
-                throw new Exception("should not happen");
+                _logger.LogError("Wallet is null and server is running and it shouldn't be possible");
+                throw new Exception("Wallet is null and server is running and it shouldn't be possible");
             }
-            else
+
+            _wallet = new Nethereum.HdWallet.Wallet(seed, "");
+            var address = await _processControler.PrepareForKey(_wallet.GetPrivateKey(0));
+            if (address == _wallet.GetAccount(0).Address.ToLower())
             {
-                _wallet = new Nethereum.HdWallet.Wallet(seed, "");
-                var address = await _processControler.PrepareForKey(_wallet.GetPrivateKey(0));
-                if (address == _wallet.GetAccount(0).Address.ToLower())
-                {
-                    _providerConfig.UpdateWalletAddress(address);
-                    NoobStep = (int)NoobSteps.Name;
-                }
+                _providerConfig.UpdateWalletAddress(address);
+                NoobStep = (int)NoobSteps.Name;
             }
+            return true;
         }
 
         public float? TotalHashRate => _benchmarkService.TotalMhs;

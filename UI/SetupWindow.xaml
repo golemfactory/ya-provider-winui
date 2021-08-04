@@ -363,7 +363,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             </ItemsControl>
 
                                         </StackPanel>
-                                        <Button Content="Got them all"  Height="44" VerticalAlignment="Bottom" Margin="70,0 ,0,0"  HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" IsDefault="True" Click="OnWTLStep3Next"
+                                        <Button x:Name="BtnSeedPhaseGotThemAll" Content="Got them all"  Height="44" VerticalAlignment="Bottom" Margin="70,0 ,0,0"  HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" IsDefault="True" Click="OnWTLStep3Next"
                                             Grid.Row="1" Grid.Column="1"/>
                                         <Button Content="Print" Height="44" VerticalAlignment="Bottom" Margin="0,0,0,0" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep3Print"
                                             Grid.Row="1" Grid.Column="0" />
