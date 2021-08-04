@@ -80,6 +80,7 @@ namespace GolemUI
             services.AddSingleton(GolemUI.Properties.Settings.Default.TestNet ? Network.Rinkeby : Network.Mainnet);
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
+            services.AddSingleton<Interfaces.IStatusProvider, Src.YaSSEStatusProvider>();
             services.AddSingleton<Src.BenchmarkService>();
 
 

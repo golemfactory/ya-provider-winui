@@ -308,7 +308,6 @@
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
-    <Compile Include="Interfaces\IAppKeyProvider.cs" />
     <Compile Include="Interfaces\IEstimatedProfiProvider.cs" />
     <Compile Include="Interfaces\IPaymentService.cs" />
     <Compile Include="Interfaces\IPriceProvider.cs" />
@@ -316,9 +315,11 @@
     <Compile Include="Interfaces\IProviderConfig.cs" />
     <Compile Include="Interfaces\ISavableLoadableDashboardPage.cs" />
     <Compile Include="Interfaces\IBenchmarkResultsProvider.cs" />
+    <Compile Include="Interfaces\IStatusProvider.cs" />
     <Compile Include="Interfaces\IUserSettingsProvider.cs" />
     <Compile Include="Model\BenchmarkResults.cs" />
     <Compile Include="Model\claymorePerformanceThrottlingEnum.cs" />
+    <Compile Include="Model\ActivityState.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
     <Compile Include="Model\UserSettings.cs" />
@@ -334,6 +335,7 @@
     <Compile Include="Src\HdWalletService.cs" />
     <Compile Include="Src\BenchmarkResultsProvider.cs" />
     <Compile Include="Src\UserSettingsProvider.cs" />
+    <Compile Include="Src\YaSSEStatusProvider.cs" />
     <Compile Include="UI\DashboardSettingsAdv.xaml.cs">
       <DependentUpon>DashboardSettingsAdv.xaml</DependentUpon>
     </Compile>

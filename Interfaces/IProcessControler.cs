@@ -12,6 +12,9 @@ namespace GolemUI.Interfaces
 
     public interface IProcessControler : INotifyPropertyChanged
     {
+        string ServerUri { get; }
+        Task<string> GetAppKey();
+
         public Task<bool> Prepare();
 
         /// <summary>

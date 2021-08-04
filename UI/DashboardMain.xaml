@@ -154,8 +154,9 @@
                         <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24">
                             <Label Padding="0" Content="GPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18"  HorizontalAlignment="Center"></Label>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,6">
-                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsMiningActive}"/>
-                                <Label Content="Idle"></Label>
+                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsMiningActive}">
+                                    <Label Content="{Binding GpuStatus}"/>
+                                </CheckBox>
                             </StackPanel>
 
                             <Button Style="{StaticResource AdvancedSettingsButtonStyle}" Grid.Row="3" Cursor="Hand" Background="Transparent" Visibility="Collapsed" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="BtnGpuSettings" Click="BtnSettings_Click" Margin="0,10,0,0" />
@@ -182,9 +183,10 @@
                         <StackPanel Grid.Row="2" Margin="0,24" HorizontalAlignment="Center">
                             <Label Content="CPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18" Padding="0"></Label>
                             <StackPanel Orientation="Horizontal" Margin="0,6">
-                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuActive}"/>
-                                <Label Content="Idle"></Label>
-                                
+                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuActive}">
+                                    <Label Content="Idle"/>
+                                </CheckBox>
+
                             </StackPanel>
                             <Button Style="{StaticResource AdvancedSettingsButtonStyle}" Grid.Row="3" Cursor="Hand" Background="Transparent" Visibility="Collapsed" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="BtnCpuSettings" Click="BtnSettings_Click" Margin="0,10,0,0" />
                         </StackPanel>

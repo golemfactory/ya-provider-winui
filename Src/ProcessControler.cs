@@ -24,7 +24,7 @@ namespace GolemUI
     public class ProcessController : IDisposable, IProcessControler
     {
 
-        private readonly LazyInit<string> _generatedAppKey = new LazyInit<string>(() =>
+        private readonly Lazy<string> _generatedAppKey = new Lazy<string>(() =>
         {
             using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
             {
@@ -121,6 +121,8 @@ namespace GolemUI
 
         private int _startCnt = 0;
         public bool IsStarting => _startCnt > 0;
+
+        public string ServerUri => _baseUrl;
 
         private void _lock()
         {
@@ -383,6 +385,11 @@ namespace GolemUI
             KillProvider();
             StopYagna();
             _client.Dispose();
+        }
+
+        public Task<string> GetAppKey()
+        {
+            return Task.FromResult(this._generatedAppKey.Value);
         }
     }
 
