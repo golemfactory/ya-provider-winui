@@ -40,7 +40,9 @@ namespace GolemUI.ViewModel
             var gpuStatus = "Idle";
             if (isGpuMining)
             {
-                if (gminerState.Usage.TryGetValue("golem.usage.mining.hash-rate", out var hashRate) && hashRate > 0.0)
+                float hashRate = 0.0f;
+                gminerState?.Usage?.TryGetValue("golem.usage.mining.hash-rate", out hashRate);
+                if (hashRate > 0.0)
                 {
                     gpuStatus = $"running {hashRate:0#.00} MH/s";
                 }

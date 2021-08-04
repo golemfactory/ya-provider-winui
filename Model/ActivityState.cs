@@ -18,11 +18,11 @@ namespace GolemUI.Model
             Unresponsive,
         }
 
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         public StateType State { get; set; }
 
-        public Dictionary<string, float> Usage { get; set; }
+        public Dictionary<string, float>? Usage { get; set; }
 
         public string? ExeUnit { get; set; }
     }

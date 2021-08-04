@@ -19,7 +19,7 @@ namespace GolemUI.Src
     {
         public DateTime? LastUpdate { get; private set; }
 
-        public ICollection<ActivityState> Activities { get; private set; }
+        public ICollection<ActivityState>? Activities { get; private set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -95,8 +95,8 @@ namespace GolemUI.Src
                         try
                         {
                             var ev = JsonSerializer.Deserialize<TrackingEvent>(json, options);
-                            Activities = ev.Activities;
-                            LastUpdate = ev.Ts;
+                            Activities = ev?.Activities ?? null;
+                            LastUpdate = ev?.Ts ?? null;
                             OnPropertyChanged("Activities");
                         }
                         catch (JsonException e)
@@ -119,7 +119,7 @@ namespace GolemUI.Src
         {
             public DateTime Ts { get; set; }
 
-            public List<Model.ActivityState> Activities { get; set; }
+            public List<Model.ActivityState>? Activities { get; set; }
         }
 
 
