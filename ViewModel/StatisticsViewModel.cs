@@ -1,4 +1,5 @@
-﻿using GolemUI.Model;
+﻿using GolemUI.Interfaces;
+using GolemUI.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,15 +7,26 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using static GolemUI.Model.PrettyChartData;
 
 namespace GolemUI.ViewModel
 {
     public class StatisticsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-        public StatisticsViewModel()
-        {
+        private readonly DispatcherTimer _timer;
 
+        IHistoryDataProvider _historyDataProvider;
+        public StatisticsViewModel(IHistoryDataProvider historyDataProvider)
+        {
+            _historyDataProvider = historyDataProvider;
+            historyDataProvider.PropertyChanged += HistoryDataProvider_PropertyChanged;
+        }
+
+        private void HistoryDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            ChartData1 = _historyDataProvider.GetMegaHashHistory();
+            NotifyChange("ChartData1");
         }
 
         public PrettyChartData ChartData1 { get; set; }
@@ -30,7 +42,6 @@ namespace GolemUI.ViewModel
 
         public void LoadData()
         {
-            ChartData1 = RandomData();
             ChartData2 = RandomData();
             ChartData3 = RandomData();
             ChartData4 = RandomData();

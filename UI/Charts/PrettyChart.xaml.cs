@@ -118,7 +118,7 @@ namespace GolemUI.UI.Charts
             double oldWidthWithoutMargins = widthWithoutMargins;
             if (oldData != null)
             {
-                oldNumBins = oldData.BinData.BinEntries.Count;
+                oldNumBins = Math.Max(oldData.BinData.BinEntries.Count, 1);
                 oldFullWidth = (DrawWidth - LeftMargin - RightMargin) / oldNumBins;
                 oldWidthWithoutMargins = oldFullWidth - BinMargin;
             }
@@ -291,8 +291,8 @@ namespace GolemUI.UI.Charts
                 return;
             }
 
-            double maxVal = newData.BinData.GetMaxValue(-1.0);
-            double? oldMaxVal = oldData?.BinData.GetMaxValue(-1.0); 
+            double maxVal = newData.BinData.GetMaxValue(0.001);
+            double? oldMaxVal = oldData?.BinData.GetMaxValue(0.001); 
 
             double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
 
@@ -319,7 +319,7 @@ namespace GolemUI.UI.Charts
                 TextBlock tbVal = (TextBlock)cv.FindName(text2Name);
 
                 lbl.Text = newData.BinData.BinEntries[entryNo].Label;
-                tbVal.Text = val.ToString("F1");
+                tbVal.Text = val.ToString("F2");
                 if (animate)
                 {
                     {
