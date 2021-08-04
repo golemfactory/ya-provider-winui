@@ -167,6 +167,13 @@ namespace GolemUI
             }
         }
 
+        public void UpdateAppearance()
+        {
+            if (_dashboard != null)
+            {
+                _dashboard.UpdateAppearance();
+            }
+        }
 
         private void StopApp()
         {
