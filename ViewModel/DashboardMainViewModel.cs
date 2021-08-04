@@ -31,7 +31,7 @@ namespace GolemUI.ViewModel
         }
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
-        {            
+        {
             if (e.PropertyName == "IsProviderRunning")
             {
                 RefreshStatus();
@@ -46,7 +46,7 @@ namespace GolemUI.ViewModel
             Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
             var isGpuMining = gminerState != null;
             var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
-            
+
 
             var gpuStatus = "Idle";
             if (gminerState?.Usage is Dictionary<string, float> usage)
@@ -58,7 +58,7 @@ namespace GolemUI.ViewModel
                 else
                 {
                     gpuStatus = "running";
-                }                
+                }
             }
             if (GpuStatus != gpuStatus)
             {
