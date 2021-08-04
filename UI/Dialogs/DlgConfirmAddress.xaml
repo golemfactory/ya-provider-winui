@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="App Information" Width="600" VerticalAlignment="Center" Height="300" MinHeight="300" ResizeMode="NoResize" SizeToContent="Height"
+        Title="App Information" Width="666" VerticalAlignment="Center" Height="416" MinHeight="416" ResizeMode="NoResize" SizeToContent="Height"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -24,28 +24,28 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>        
     </Window.Resources>
-    <Border  BorderThickness="1" CornerRadius="12" Background="{DynamicResource SetupWindow.Background}" >
+    <Border BorderBrush="#999"  BorderThickness="1" CornerRadius="12" Background="{DynamicResource SetupWindow.Background}" >
         <Grid>
         <StackPanel Orientation="Vertical" Margin="0">
             <DockPanel>
                 <DockPanel x:Name="TitleBar" DockPanel.Dock="Top">
-                        <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="BtnClose_Click" Style="{DynamicResource CloseWindowButton}"/>
+                        <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="BtnClose_Click" Style="{DynamicResource CloseWindowButton}" Margin="0,0,8,0"/>
                     
                     <TextBlock HorizontalAlignment="Center"></TextBlock>
                 </DockPanel>
             </DockPanel>
             <StackPanel Margin="30">
-                    <Label Content="Confirm address" Margin="0,0,0,20"/>
-                    <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="16" Foreground="#eee" Content="{Binding Address}" Margin="0,0,0,20"/>
+                    <Label Content="Confirm address" FontSize="14" Margin="0,0,0,20"/>
+                    <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="24" Foreground="#eee"  Content="{Binding Address}" Margin="0,70,0,20"/>
 
 
                 </StackPanel>
             
 
         </StackPanel>
-            <UniformGrid Columns="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
-                <Button IsCancel="True" Margin="0,0,0,20" HorizontalAlignment="Center" Width="300"  Height="45" Grid.Row="0" Grid.Column="4" Click="BtnCancel_Click" Name="BtnCancel" Style="{StaticResource CancelButtonStyle}" Content="Close" />
-                <Button Margin="0,0,0,20" HorizontalAlignment="Center" Width="300"  Height="45" Grid.Row="0" Grid.Column="4" Click="BtnOK_Click" Name="BtnOK" Style="{StaticResource GradientButtonStyle}" Content="Confirm" />
+            <UniformGrid Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="79,0,79,0">
+                <Button FontSize="18" IsCancel="True" Margin="0,0,0,20" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCancel_Click" Name="BtnCancel" Style="{StaticResource CancelButtonStyle}" Content="Cancel" />
+                <Button FontSize="18" Margin="0,0,0,20" HorizontalAlignment="Stretch"  Height="45"  Click="BtnOK_Click" Name="BtnOK" Style="{StaticResource GradientButtonStyle}" Content="Confirm" />
             </UniformGrid>
         </Grid>
     </Border>

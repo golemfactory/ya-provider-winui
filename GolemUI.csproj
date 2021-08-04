@@ -300,11 +300,13 @@
     <Compile Include="Converters\RadioBoolToIntConverter.cs" />
     <Compile Include="Converters\StringToClaymorePerformanceThrottlingConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="DesignViewModel\DashboardViewModel.cs" />
+    <Compile Include="DesignViewModel\DashboardMainViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgAppInfoViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgEditAddressViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="DesignViewModel\MockupDashboardStatusViewModel.cs" />
     <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
+    <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
@@ -314,6 +316,7 @@
     <Compile Include="Interfaces\IPriceProvider.cs" />
     <Compile Include="Interfaces\IProcessControler.cs" />
     <Compile Include="Interfaces\IProviderConfig.cs" />
+    <Compile Include="Interfaces\IDialogInvoker.cs" />
     <Compile Include="Interfaces\ISavableLoadableDashboardPage.cs" />
     <Compile Include="Interfaces\IBenchmarkResultsProvider.cs" />
     <Compile Include="Interfaces\IUserSettingsProvider.cs" />
@@ -401,7 +404,7 @@
     <Compile Include="ViewModel\DashboardViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
-    <Compile Include="ViewModel\EditAddressViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgEditAddressViewModel.cs" />
     <Compile Include="ViewModel\SettingsAdvViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
@@ -550,7 +553,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Themes\Buttons\TransparentButton.xaml">
+    <Page Include="UI\Themes\Buttons\BackButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -9,8 +9,10 @@
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
-        xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
+        xmlns:dvm="clr-namespace:GolemUI.DesignViewModel.Dialogs"
         d:DataContext ="{d:DesignInstance {x:Type dvm:DlgAppInfoViewModel}, IsDesignTimeCreatable=True}"
+       
+        
      >
 
     <Window.Resources>
@@ -23,7 +25,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>        
     </Window.Resources>
-    <Border  BorderThickness="1" CornerRadius="12" Background="{DynamicResource SetupWindow.Background}" >
+    <Border BorderBrush="#999" BorderThickness="1" CornerRadius="12" Background="{DynamicResource SetupWindow.Background}" >
         <Grid>
         <StackPanel Orientation="Vertical" Margin="0">
             <DockPanel>

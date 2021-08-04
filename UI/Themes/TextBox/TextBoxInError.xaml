@@ -7,7 +7,7 @@
             <Trigger Property="Validation.HasError" Value="true">
                 <Setter Property="ToolTip"
               Value="{Binding RelativeSource={x:Static RelativeSource.Self},
-                              Path=(Validation.Errors)[0].ErrorContent}"/>
+                              Path=(Validation.Errors)/ErrorContent}"/>
                 <Setter Property="Background" Value="#faa"/>
                 <Setter Property="BorderBrush" Value="#faa"/>
                 <Setter Property="BorderThickness" Value="1"/>
