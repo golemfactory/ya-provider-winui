@@ -250,7 +250,7 @@
                                             <ContentControl Content="{DynamicResource i_am_expert_icon}" VerticalAlignment="Top" Margin="10,14,0,0"/>
                                             <StackPanel Grid.Column="1" Margin="12, 14,0,0" Grid.RowSpan="2">
                                                 <TextBlock FontFamily="Segoe UI" FontSize="13" Margin="8" MinHeight="70">
-                                                You should know what you are doing and you have your own crypto wallet allready.
+                                                You should know what you are doing and you already have crypto wallet.
                                                 </TextBlock>
                                                 <Button FontSize="18"  VerticalAlignment="Bottom" Style="{DynamicResource GradientButtonStyle}" Margin="8,25,8,0" MinHeight="45" Content="I'm an expert" Click="ExpertMode_Click"/>
                                             </StackPanel>
