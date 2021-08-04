@@ -19,12 +19,20 @@
     </Style>
     <Style x:Key="CloseWindowButton" TargetType="Button" BasedOn="{StaticResource TitleBarButton}">
         <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Width" Value="48" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Canvas Height="32" Width="32" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}">
-                        <Path Data="M22.5 9.5L9.5 22.5" Stroke="{TemplateBinding Foreground}" StrokeStartLineCap="square" StrokeEndLineCap="square" Fill="#00000000" />
-                        <Path Data="M22.5 22.5L9.5 9.5" Stroke="{TemplateBinding Foreground}" StrokeStartLineCap="square" StrokeEndLineCap="square" Fill="#00000000" />
+                    <Canvas Height="32" Width="48" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}">
+                        <Canvas Height="32" Width="32" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}">
+                            <Canvas.RenderTransform>
+                                <TransformGroup>
+                                    <TranslateTransform X="8" Y="0" />
+                                </TransformGroup>
+                            </Canvas.RenderTransform>
+                            <Path Data="M22.5 9.5L9.5 22.5" Stroke="{TemplateBinding Foreground}" StrokeStartLineCap="square" StrokeEndLineCap="square" Fill="#00000000" />
+                            <Path Data="M22.5 22.5L9.5 9.5" Stroke="{TemplateBinding Foreground}" StrokeStartLineCap="square" StrokeEndLineCap="square" Fill="#00000000" />
+                        </Canvas>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>
@@ -32,11 +40,19 @@
     </Style>
     <Style x:Key="MinWindowButton" TargetType="Button" BasedOn="{StaticResource TitleBarButton}">
         <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Width" Value="48" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Canvas Height="32" Width="32" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}">
-                        <Path Data="M8.5 15.5H23.5" Stroke="{TemplateBinding Foreground}" StrokeStartLineCap="square" StrokeEndLineCap="square" Fill="#00000000" />
+                    <Canvas Height="32" Width="48" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}">
+                        <Canvas Height="32" Width="32" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}">
+                            <Canvas.RenderTransform>
+                                <TransformGroup>
+                                    <TranslateTransform X="8" Y="0" />
+                                </TransformGroup>
+                            </Canvas.RenderTransform>
+                            <Path Data="M8.5 15.5H23.5" Stroke="{TemplateBinding Foreground}" StrokeStartLineCap="square" StrokeEndLineCap="square" Fill="#00000000" />
+                        </Canvas>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>

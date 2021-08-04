@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace GolemUI.DesignViewModel
 {
-    public class DashboardViewModel
+    public class DashboardMainViewModel
     {
-        public string GpuStatus => "idle";
         public decimal AmountUSD => 0.00m;
         public decimal Amount => 0;
         public decimal PendingAmountUSD => 0;
@@ -18,8 +17,5 @@ namespace GolemUI.DesignViewModel
         public string CpuCardsInfo => "3/7";
         public bool IsProviderRunning { get; } = true;
         public DashboardStatusEnum Status => DashboardStatusEnum.Ready;
-
-        public bool DarkBackgroundVisible => false;
-
     }
 }

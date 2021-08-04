@@ -167,9 +167,11 @@ namespace GolemUI.UI
             printDlg.PrintDocument(idpSource.DocumentPaginator, "Wallet Recovery Sheet");
         }
 
-        private /*async*/ void OnWTLStep3Next(object sender, RoutedEventArgs e)
+        private async void OnWTLStep3Next(object sender, RoutedEventArgs e)
         {
-            Model!.ActivateHdWallet();
+            BtnSeedPhaseGotThemAll.IsEnabled = false;
+            await Model!.ActivateHdWallet();
+            BtnSeedPhaseGotThemAll.IsEnabled = true;
         }
 
         private void OnWTLStep4Next(object sender, RoutedEventArgs e)
@@ -230,6 +232,24 @@ namespace GolemUI.UI
             bool? result = dlg?.ShowDialog();
             RectBlack.Visibility = Visibility.Hidden;
             if (result == true) Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Name;
+        }
+
+        private void BtnBackToMainScreen_Click(object sender, RoutedEventArgs e)
+        {
+            if (Model != null)
+            {
+                Model.GoToStart();
+
+                Model.NoobStep = 0;
+                Model.ExpertStep = 0;
+                if (Model.BenchmarkIsRunning) Model.BenchmarkService.StopBenchmark();
+            }
+        }
+
+
+        private void NavBar_ButtonClick(int selection)
+        {
+            MessageBox.Show(selection.ToString());
         }
     }
 }
