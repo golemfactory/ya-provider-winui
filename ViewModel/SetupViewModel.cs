@@ -220,7 +220,7 @@ namespace GolemUI.ViewModel
                 NoobStep = (int)NoobSteps.Name;
                 return true;
             }
-            
+
             if (_processControler.IsServerRunning)
             {
                 _logger.LogError("Wallet is null and server is running and it shouldn't be possible");
