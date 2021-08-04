@@ -14,6 +14,7 @@
         x:Name="DashboardWindow"
         xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
         d:DataContext ="{d:DesignInstance {x:Type dvm:DashboardViewModel}, IsDesignTimeCreatable=True}"
+        Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/tray.ico" MinHeight="600" MinWidth="1024"        
         >
     <Window.Resources>
         <ResourceDictionary>

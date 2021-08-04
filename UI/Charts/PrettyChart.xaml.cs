@@ -171,7 +171,7 @@ namespace GolemUI.UI.Charts
                         tb.FontSize = 12;
                         var tg = new TransformGroup();
                         tg.Children.Add(new ScaleTransform(1.0, -1.0));
-                        //tg.Children.Add(new RotateTransform(90));
+                        tg.Children.Add(new RotateTransform(90));
 
                         tb.LayoutTransform = tg;
                         cv.Children.Add(tb);
@@ -182,6 +182,7 @@ namespace GolemUI.UI.Charts
                         tb2.FontSize = 14;
                         var tg2 = new TransformGroup();
                         tg2.Children.Add(new ScaleTransform(1.0, -1.0));
+                        tg2.Children.Add(new RotateTransform(70));
                         tb2.LayoutTransform = tg2;
                         cv.Children.Add(tb2);
 
@@ -341,9 +342,9 @@ namespace GolemUI.UI.Charts
                         anim.From = 0;
                         if (valOld != null && oldMaxVal != null && oldMaxVal > 0.0)
                         {
-                            anim.From = valOld / oldMaxVal * heightWithoutMargins + 3;
+                            anim.From = valOld / oldMaxVal * heightWithoutMargins + 6;
                         }
-                        anim.To = val / maxVal * heightWithoutMargins + 3;
+                        anim.To = val / maxVal * heightWithoutMargins + 6;
                         anim.BeginTime = TimeSpan.FromSeconds((double)entryNo / (double)entryCount * MaxAnimSpeed);
                         anim.Duration = new Duration(TimeSpan.FromSeconds(val / maxVal * MaxAnimSpeed));
                         Storyboard.SetTarget(anim, tbVal);
@@ -354,7 +355,7 @@ namespace GolemUI.UI.Charts
                 }
                 else
                 {
-                    SetPosition(tbVal, null, val / maxVal * heightWithoutMargins + 3);
+                    SetPosition(tbVal, null, val / maxVal * heightWithoutMargins + 6);
                     p.Height = val / maxVal * heightWithoutMargins;
                 }
             }
