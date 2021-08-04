@@ -1,4 +1,5 @@
-﻿using GolemUI.Settings;
+﻿
+using GolemUI.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,9 @@ namespace GolemUI
 {
     public partial class DashboardSettings : UserControl
     {
-
         public SettingsViewModel ViewModel;
         public DashboardSettings(SettingsViewModel viewModel)
         {
-
             InitializeComponent();
             ViewModel = viewModel;
             this.DataContext = this.ViewModel;
@@ -37,5 +36,9 @@ namespace GolemUI
             ViewModel!.StopBenchmark();
         }
 
+        private void BtnAdvancedSettings_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SwitchToAdvancedSettings();
+        }
     }
 }

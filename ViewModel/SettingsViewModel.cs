@@ -1,6 +1,7 @@
 ﻿using GolemUI.Claymore;
 using GolemUI.Interfaces;
-using GolemUI.Settings;
+using GolemUI.Model;
+
 using GolemUI.Src;
 using System;
 using System.Collections.Generic;
@@ -10,26 +11,28 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 
-namespace GolemUI
+namespace GolemUI.ViewModel
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-
+        public event PageChangeRequestedEvent? PageChangeRequested;
         private readonly Command.Provider _provider;
         private readonly IProviderConfig _providerConfig;
         private readonly IPriceProvider _priceProvider;
         private readonly IEstimatedProfitProvider _profitEstimator;
         private readonly BenchmarkService _benchmarkService;
-        private BenchmarkResults? _benchmarkSettings;
+        private BenchmarkResults _benchmarkSettings;
+        private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
         public BenchmarkService BenchmarkService => _benchmarkService;
         public ObservableCollection<ClaymoreGpuStatus>? GpuList { get; set; }
         public string BenchmarkError { get; set; }
 
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
-        public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator)
+        public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider)
         {
             GpuList = new ObservableCollection<ClaymoreGpuStatus>();
+            _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
             _provider = provider;
             _providerConfig = providerConfig;
@@ -41,6 +44,11 @@ namespace GolemUI
             BenchmarkError = "";
 
             ActiveCpusCount = 3;
+            _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
+        }
+        public void SwitchToAdvancedSettings()
+        {
+            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettingsAdv);
         }
         public void StartBenchmark()
         {
@@ -50,7 +58,7 @@ namespace GolemUI
 
             string niceness = "";
 
-            var gpus = _benchmarkSettings?.liveStatus?.GPUs.Values;
+            var gpus = _benchmarkSettings.liveStatus?.GPUs.Values;
             if (gpus != null)
             {
                 foreach (var gpu in gpus)
@@ -78,7 +86,7 @@ namespace GolemUI
                 cards = "";
             }
 
-            ClaymoreLiveStatus? externalStatusCopy = (ClaymoreLiveStatus?)_benchmarkSettings?.liveStatus?.Clone();
+            ClaymoreLiveStatus? externalStatusCopy = (ClaymoreLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
             BenchmarkService.StartBenchmark(cards, niceness, "", "", externalStatusCopy);
         }
         public void StopBenchmark()
@@ -88,9 +96,9 @@ namespace GolemUI
         public void LoadData()
         {
             GpuList?.Clear();
-            _benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+            _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
             if (IsBenchmarkSettingsCorrupted()) return;
-            _benchmarkSettings?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null).ToList().ForEach(gpu =>
+            _benchmarkSettings.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null).ToList().ForEach(gpu =>
             {
                 var val = gpu.Value;
                 GpuList?.Add(val);
@@ -102,6 +110,7 @@ namespace GolemUI
             else
                 ActiveCpusCount = TotalCpusCount;
 
+            NotifyChange("TotalCpusCountAsString");
 
         }
 
@@ -115,7 +124,7 @@ namespace GolemUI
             GpuList?.ToList().ForEach(gpu =>
             {
                 if (IsBenchmarkSettingsCorrupted()) return;
-                var res = _benchmarkSettings?.liveStatus?.GPUs.ToList().Find(x => x.Value.GpuNo == gpu.GpuNo);
+                var res = _benchmarkSettings.liveStatus?.GPUs.ToList().Find(x => x.Value.GpuNo == gpu.GpuNo);
                 if (res != null && res.HasValue && !res.Equals(default(KeyValuePair<int, Claymore.ClaymoreGpuStatus>)))
                 {
                     KeyValuePair<int, Claymore.ClaymoreGpuStatus> keyVal = res.Value;
@@ -126,12 +135,12 @@ namespace GolemUI
 
 
             _providerConfig?.UpdateActiveCpuThreadsCount(ActiveCpusCount);
-            var _ls = _benchmarkSettings?.liveStatus;
+            var _ls = _benchmarkSettings.liveStatus;
             if (_ls != null)
             {
                 _benchmarkService.Apply(_ls);
             }
-            SettingsLoader.SaveBenchmarkToFile(_benchmarkSettings);
+            _benchmarkResultsProvider.SaveBenchmarkResults(_benchmarkSettings);
         }
 
         private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
@@ -180,7 +189,7 @@ namespace GolemUI
                 if (!BenchmarkIsRunning && _benchmarkService != null)
                 {
                     _benchmarkService.Save();
-                    _benchmarkSettings = SettingsLoader.LoadBenchmarkFromFileOrDefault();
+                    _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
 
                     var _newGpus = _benchmarkService.Status?.GPUs.Values?.ToArray();
                     GpuList!.Clear();
@@ -240,6 +249,8 @@ namespace GolemUI
                 _providerConfig.IsCpuActive = value;
             }
         }
+        public string TotalCpusCountAsString => TotalCpusCount.ToString();
+        public string ActiveCpusCountAsString => ActiveCpusCount.ToString();
         public int ActiveCpusCount
         {
             get => _activeCpusCount;
@@ -247,6 +258,8 @@ namespace GolemUI
             {
                 _activeCpusCount = value;
                 NotifyChange("ActiveCpusCount");
+                NotifyChange("ActiveCpusCountAsString");
+
             }
         }
         public int TotalCpusCount => _totalCpusCount;

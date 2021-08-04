@@ -22,7 +22,7 @@ namespace GolemUI.Converters
         public EnumToBrush()
         {
             InactiveBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9B9B9B"));
-            RealizedBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1E9231")); ;
+            RealizedBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1E9231"));
             ActiveBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D119AD")); ;
         }
 

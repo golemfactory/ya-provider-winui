@@ -1,6 +1,7 @@
 ﻿using GolemUI.Claymore;
 using GolemUI.Interfaces;
 using GolemUI.Validators;
+using Microsoft.Extensions.Logging;
 using NBitcoin;
 using Nethereum.Util;
 using System;
@@ -10,6 +11,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GolemUI.ViewModel
 {
@@ -20,6 +22,7 @@ namespace GolemUI.ViewModel
         private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;
         private readonly IProcessControler _processControler;
         private readonly IPriceProvider _priceProvider;
+        private readonly IUserSettingsProvider _userSettingsProvider;
 
 
         public enum FlowSteps
@@ -58,8 +61,12 @@ namespace GolemUI.ViewModel
 
         public bool IsDesingMode => false;
 
+        private Nethereum.HdWallet.Wallet? _wallet = null;
+
+        private ILogger<SetupViewModel> _logger;
+
         public SetupViewModel(Interfaces.IProviderConfig providerConfig,
-            Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler, Interfaces.IPriceProvider priceProvider)
+            Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider, ILogger<SetupViewModel> logger)
         {
             _flow = 0;
             _noobStep = 0;
@@ -68,7 +75,8 @@ namespace GolemUI.ViewModel
             _profitEstimator = profitEstimator;
             _processControler = processControler;
             _priceProvider = priceProvider;
-
+            _userSettingsProvider = userSettingsProvider;
+            _logger = logger;
 
 
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
@@ -156,6 +164,7 @@ namespace GolemUI.ViewModel
             get => _noobStep;
             set
             {
+                if (BenchmarkIsRunning) _benchmarkService.StopBenchmark();
                 _noobStep = value;
                 OnPropertyChanged("NoobStep");
             }
@@ -166,6 +175,7 @@ namespace GolemUI.ViewModel
             get => (int)_expertStep;
             set
             {
+                if (BenchmarkIsRunning) _benchmarkService.StopBenchmark();
                 _expertStep = (ExpertSteps)value;
                 OnPropertyChanged("ExpertStep");
             }
@@ -194,22 +204,37 @@ namespace GolemUI.ViewModel
         public ObservableCollection<Claymore.ClaymoreGpuStatus>? GPUs => _gpus;
         public string? BenchmarkError { get; set; }
 
-        internal async void ActivateHdWallet()
+        internal async Task<bool> ActivateHdWallet()
         {
             if (_mnemo == null)
             {
                 // TODO: Error message to user here.
-                return;
+                _logger.LogError("_mnemo is null");
+                return false;
             }
 
             var seed = _mnemo.ToString();
-            var wallet = new Nethereum.HdWallet.Wallet(seed, "");
-            var address = await _processControler.PrepareForKey(wallet.GetPrivateKey(0));
-            if (address == wallet.GetAccount(0).Address.ToLower())
+
+            if (_wallet != null)
+            {
+                NoobStep = (int)NoobSteps.Name;
+                return true;
+            }
+
+            if (_processControler.IsServerRunning)
+            {
+                _logger.LogError("Wallet is null and server is running and it shouldn't be possible");
+                throw new Exception("Wallet is null and server is running and it shouldn't be possible");
+            }
+
+            _wallet = new Nethereum.HdWallet.Wallet(seed, "");
+            var address = await _processControler.PrepareForKey(_wallet.GetPrivateKey(0));
+            if (address == _wallet.GetAccount(0).Address.ToLower())
             {
                 _providerConfig.UpdateWalletAddress(address);
                 NoobStep = (int)NoobSteps.Name;
             }
+            return true;
         }
 
         public float? TotalHashRate => _benchmarkService.TotalMhs;
@@ -229,17 +254,22 @@ namespace GolemUI.ViewModel
 
         public bool BenchmarkIsRunning => _benchmarkService.IsRunning;
 
+        public Visibility BackButtonVisibilty => Flow == 0 ? Visibility.Hidden : Visibility.Visible;
+
         public void GoToStart()
         {
             Flow = 0;
+            OnPropertyChanged("BackButtonVisibilty");
         }
         public void GoToNoobFlow()
         {
             Flow = 1;
+            OnPropertyChanged("BackButtonVisibilty");
         }
         public void GoToExpertMode()
         {
             Flow = 2;
+            OnPropertyChanged("BackButtonVisibilty");
         }
 
         public string? NodeName
@@ -265,9 +295,10 @@ namespace GolemUI.ViewModel
         public bool Save()
         {
             _benchmarkService.Save();
-            var settings = GolemUI.Properties.Settings.Default;
-            settings.Configured = true;
-            settings.Save();
+            var ls = _userSettingsProvider.LoadUserSettings();
+            ls.SetupFinished = true;
+            _userSettingsProvider.SaveUserSettings(ls);
+
             return true;
         }
 

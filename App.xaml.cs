@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GolemUI.Command;
-using GolemUI.Settings;
+using GolemUI.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sentry;
@@ -29,6 +29,7 @@ namespace GolemUI
         private readonly GolemUI.ChildProcessManager _childProcessManager;
         private readonly IDisposable _sentrySdk;
 
+        private Dashboard? _dashboard;
         public App()
         {
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
@@ -48,13 +49,8 @@ namespace GolemUI
                 };
             });
 
-
-
             _childProcessManager = new GolemUI.ChildProcessManager();
             _childProcessManager.AddProcess(Process.GetCurrentProcess());
-
-
-            GlobalApplicationState.Initialize();
 
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
@@ -71,6 +67,8 @@ namespace GolemUI
         }
         private void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<Interfaces.IBenchmarkResultsProvider, Src.BenchmarkResultsProvider>();
+            services.AddSingleton<Interfaces.IUserSettingsProvider, Src.UserSettingsProvider>();
             services.AddSingleton<Interfaces.IPriceProvider, Src.CoinGeckoPriceProvider>();
             services.AddSingleton<Interfaces.IEstimatedProfitProvider, Src.StaticEstimatedEarningsProvider>();
 
@@ -82,6 +80,7 @@ namespace GolemUI
             services.AddSingleton(GolemUI.Properties.Settings.Default.TestNet ? Network.Rinkeby : Network.Mainnet);
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
+            services.AddSingleton<Interfaces.IStatusProvider, Src.YaSSEStatusProvider>();
             services.AddSingleton<Src.BenchmarkService>();
 
 
@@ -93,13 +92,16 @@ namespace GolemUI
 
             services.AddTransient(typeof(DashboardMain));
             services.AddTransient(typeof(DashboardSettings));
+            services.AddTransient(typeof(DashboardSettingsAdv));
             services.AddTransient(typeof(SettingsViewModel));
+            services.AddTransient(typeof(SettingsAdvViewModel));
+
+            services.AddTransient(typeof(ViewModel.DashboardViewModel));
 
             // Top-Level Windows
             services.AddTransient(typeof(Dashboard));
             services.AddTransient(typeof(UI.SetupWindow));
             services.AddTransient(typeof(GolemUI.DebugWindow));
-
 
             services.AddLogging(logBuilder =>
             {
@@ -117,13 +119,14 @@ namespace GolemUI
                 this.Shutdown();
                 return;
             }
+            var userSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IUserSettingsProvider>();
             var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
             var args = e.Args;
             if (args.Length > 0 && args[0] == "skip_setup")
             {
                 //skip setup
             }
-            else if ((args.Length > 0 && args[0] == "setup") || !GolemUI.Properties.Settings.Default.Configured)
+            else if ((args.Length > 0 && args[0] == "setup") || !userSettingsLoader.LoadUserSettings().SetupFinished)
             {
                 var window = _serviceProvider!.GetRequiredService<UI.SetupWindow>();
                 window.Show();
@@ -135,31 +138,42 @@ namespace GolemUI
             {
 
                 var dashboardWindow = _serviceProvider!.GetRequiredService<Dashboard>();
-                if (GlobalApplicationState.Instance != null)
-                {
-                    GlobalApplicationState.Instance.Dashboard = dashboardWindow;
 
-                    dashboardWindow.Show();
+                dashboardWindow.Show();
 #if DEBUG
-                    StartDebugWindow();
-
-
-
+                StartDebugWindow(dashboardWindow);
 #endif
-                }
-                else
-                {
-                    throw new NullReferenceException("GlobalApplicationState.Instance should not be null! ");
 
-                }
-
+                _dashboard = dashboardWindow;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
+        public void RequestClose()
+        {
+            if (_dashboard != null)
+            {
+                _dashboard.RequestClose();
+            }
+        }
 
+        public void ActivateFromTray()
+        {
+            if (_dashboard != null)
+            {
+                _dashboard.OnAppReactivate(this);
+            }
+        }
+
+        public void UpdateAppearance()
+        {
+            if (_dashboard != null)
+            {
+                _dashboard.UpdateAppearance();
+            }
+        }
 
         private void StopApp()
         {
@@ -171,26 +185,16 @@ namespace GolemUI
             StopApp();
         }
 
-        public void StartDebugWindow()
+        public void StartDebugWindow(Dashboard dashboardWindow)
         {
+            var debugWindow = _serviceProvider.GetRequiredService<DebugWindow>();
 
-            if (GlobalApplicationState.Instance?.DebugWindow == null)
+            if (dashboardWindow != null)
             {
-                var debugWindow = _serviceProvider.GetRequiredService<DebugWindow>();
-                if (GlobalApplicationState.Instance != null)
-                {
-                    GlobalApplicationState.Instance.DebugWindow = debugWindow;
-
-                    var dashboard = GlobalApplicationState.Instance.Dashboard;
-                    if (dashboard != null)
-                    {
-                        debugWindow.Owner = dashboard;
-                        debugWindow.Left = dashboard.Left + dashboard.Width;
-                        debugWindow.Top = dashboard.Top;
-                        debugWindow.Show();
-                    }
-
-                }
+                debugWindow.Owner = dashboardWindow;
+                debugWindow.Left = dashboardWindow.Left + dashboardWindow.Width;
+                debugWindow.Top = dashboardWindow.Top;
+                debugWindow.Show();
             }
         }
 

@@ -167,9 +167,11 @@ namespace GolemUI.UI
             printDlg.PrintDocument(idpSource.DocumentPaginator, "Wallet Recovery Sheet");
         }
 
-        private /*async*/ void OnWTLStep3Next(object sender, RoutedEventArgs e)
+        private async void OnWTLStep3Next(object sender, RoutedEventArgs e)
         {
-            Model!.ActivateHdWallet();
+            BtnSeedPhaseGotThemAll.IsEnabled = false;
+            await Model!.ActivateHdWallet();
+            BtnSeedPhaseGotThemAll.IsEnabled = true;
         }
 
         private void OnWTLStep4Next(object sender, RoutedEventArgs e)
@@ -203,10 +205,7 @@ namespace GolemUI.UI
             Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.OwnWallet;
         }
 
-        private void OnEMWalletStepDone(object sender, RoutedEventArgs e)
-        {
-            Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Name;
-        }
+
 
         private void OnEMNameStepDone(object sender, RoutedEventArgs e)
         {
@@ -221,6 +220,36 @@ namespace GolemUI.UI
             EnableBlur();
         }
 
+        private void ConfirmAddress_Click(object sender, RoutedEventArgs e)
+        {
+            if (Model == null || Model.Address == null)
+            {
+                return;
+            }
+            var dlg = new UI.Dialogs.DlgConfirmAddress(new ViewModel.Dialogs.DlgConfirmAddressViewModel(Model.Address));
+            dlg.Owner = Window.GetWindow(this);
+            RectBlack.Visibility = Visibility.Visible;
+            bool? result = dlg?.ShowDialog();
+            RectBlack.Visibility = Visibility.Hidden;
+            if (result == true) Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Name;
+        }
 
+        private void BtnBackToMainScreen_Click(object sender, RoutedEventArgs e)
+        {
+            if (Model != null)
+            {
+                Model.GoToStart();
+
+                Model.NoobStep = 0;
+                Model.ExpertStep = 0;
+                if (Model.BenchmarkIsRunning) Model.BenchmarkService.StopBenchmark();
+            }
+        }
+
+
+        private void NavBar_ButtonClick(int selection)
+        {
+            MessageBox.Show(selection.ToString());
+        }
     }
 }

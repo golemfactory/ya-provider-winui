@@ -1,7 +1,8 @@
 ﻿using GolemUI.Claymore;
 using GolemUI.Command;
 using GolemUI.Interfaces;
-using GolemUI.Settings;
+using GolemUI.Model;
+
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,15 @@ namespace GolemUI.Src
 {
     public class BenchmarkService : INotifyPropertyChanged
     {
+        public BenchmarkService(IProviderConfig providerConfig, ILogger<BenchmarkService> logger, IBenchmarkResultsProvider benchmarkResultsProvider)
+        {
+            _benchmarkResultsProvider = benchmarkResultsProvider;
+            _providerConfig = providerConfig;
+            _logger = logger;
+        }
+
         private readonly Interfaces.IProviderConfig _providerConfig;
-        private readonly ILogger _logger;
+        private readonly ILogger<BenchmarkService> _logger;
         private ClaymoreLiveStatus? _claymoreLiveStatus = null;
 
         public ClaymoreLiveStatus? Status => _claymoreLiveStatus;
@@ -29,7 +37,7 @@ namespace GolemUI.Src
 
         private readonly double CLAYMORE_GPU_INFO_TIMEOUT = 10.0;
         private readonly double CLAYMORE_TOTAL_BENCHMARK_TIMEOUT = 200.0;
-
+        private IBenchmarkResultsProvider _benchmarkResultsProvider;
 
         public async void StartBenchmark(string cards, string niceness, string pool, string ethereumAddress, ClaymoreLiveStatus? externalLiveStatus)
         {
@@ -44,7 +52,7 @@ namespace GolemUI.Src
 
             DateTime benchmarkStartTime = DateTime.Now;
             var walletAddress = _providerConfig.Config?.Account ?? "0xD593411F3E6e79995E787b5f81D10e12fA6eCF04";
-            var poolAddr = GlobalSettings.DefaultProxy;
+            var poolAddr = GolemUI.Properties.Settings.Default.DefaultProxy;
             var totalClaymoreReportsNeeded = 5;
 
             IsRunning = true;
@@ -52,7 +60,7 @@ namespace GolemUI.Src
 
             bool preBenchmarkNeeded = !String.IsNullOrEmpty(cards);
 
-            var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded);
+            var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded, logger: _logger);
 
 
             _logger.LogInformation("Benchmark started");  
@@ -236,7 +244,7 @@ namespace GolemUI.Src
 
         internal string? ExtractClaymoreParams()
         {
-            var status = _claymoreLiveStatus ?? SettingsLoader.LoadBenchmarkFromFileOrDefault().liveStatus;
+            var status = _claymoreLiveStatus ?? _benchmarkResultsProvider.LoadBenchmarkResults().liveStatus;
             if (status == null)
             {
                 return null;
@@ -273,18 +281,11 @@ namespace GolemUI.Src
         {
             var results = new BenchmarkResults()
             {
-                BenchmarkResultVersion = GlobalSettings.CurrentBenchmarkResultVersion,
+                BenchmarkResultVersion = GolemUI.Properties.Settings.Default.BenchmarkResultsVersion,
                 liveStatus = _claymoreLiveStatus
             };
-            SettingsLoader.SaveBenchmarkToFile(results);
+            _benchmarkResultsProvider.SaveBenchmarkResults(results);
         }
-
-        public BenchmarkService(IProviderConfig providerConfig, ILoggerFactory logger)
-        {
-            _providerConfig = providerConfig;
-            _logger = logger.CreateLogger("BenchmarkService");
-        }
-
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged(string propertyName)

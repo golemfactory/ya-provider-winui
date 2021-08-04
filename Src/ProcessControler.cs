@@ -10,7 +10,7 @@ using System.Threading;
 using System.Diagnostics;
 using GolemUI.Interfaces;
 using GolemUI.Command;
-using GolemUI.Settings;
+
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -18,14 +18,13 @@ using System.Security.Cryptography;
 using System.Text;
 using GolemUI.Utils;
 using System.Windows;
-using GolemUI.Extensions;
 
 namespace GolemUI
 {
     public class ProcessController : IDisposable, IProcessControler
     {
 
-        private readonly LazyInit<string> _generatedAppKey = new LazyInit<string>(() =>
+        private readonly Lazy<string> _generatedAppKey = new Lazy<string>(() =>
         {
             using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
             {
@@ -104,11 +103,11 @@ namespace GolemUI
         public void StopYagna()
         {
             const int YAGNA_STOPPING_TIMOUT = 2500;
-            if (_yagnaDaemon != null)
+            if (_yagnaDaemon != null && !_yagnaDaemon.HasExited)
             {
                 if (!_yagnaDaemon.StopWithCtrlC(YAGNA_STOPPING_TIMOUT))
                 {
-                    _yagnaDaemon.Kill(entireProcessTree: true);
+                    _yagnaDaemon.Kill();
                 }
                 _yagnaDaemon = null;
             }
@@ -123,6 +122,8 @@ namespace GolemUI
 
         private int _startCnt = 0;
         public bool IsStarting => _startCnt > 0;
+
+        public string ServerUri => _baseUrl;
 
         private void _lock()
         {
@@ -184,16 +185,13 @@ namespace GolemUI
             _yagnaDaemon = _yagna.Run(new YagnaStartupOptions()
             {
                 ForceAppKey = _generatedAppKey.Value,
-                OpenConsole = Properties.Settings.Default.StartYagnaCommandLine,
+                OpenConsole = false,
                 PrivateKey = privateKey
             });
-            if (!Properties.Settings.Default.StartYagnaCommandLine)
-            {
-                _yagnaDaemon.ErrorDataReceived += OnYagnaErrorDataRecv;
-                _yagnaDaemon.OutputDataReceived += OnYagnaOutputDataRecv;
-                _yagnaDaemon.BeginErrorReadLine();
-                _yagnaDaemon.BeginOutputReadLine();
-            }
+            _yagnaDaemon.ErrorDataReceived += OnYagnaErrorDataRecv;
+            _yagnaDaemon.OutputDataReceived += OnYagnaOutputDataRecv;
+            _yagnaDaemon.BeginErrorReadLine();
+            _yagnaDaemon.BeginOutputReadLine();
 
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _generatedAppKey.Value);
 
@@ -235,9 +233,6 @@ namespace GolemUI
 
         private void StartupProvider(Network network, string? claymoreExtraParams)
         {
-            BenchmarkResults br = SettingsLoader.LoadBenchmarkFromFileOrDefault();
-            LocalSettings ls = SettingsLoader.LoadSettingsFromFileOrDefault();
-
             ConfigurationInfoDebug = "";
             if (_providerDaemon != null)
             {
@@ -261,11 +256,9 @@ namespace GolemUI
             _providerDaemon.Start();
             _providerDaemon.EnableRaisingEvents = true;
 
-            if (!ls.StartProviderCommandLine)
-            {
-                _providerDaemon.BeginErrorReadLine();
-                _providerDaemon.BeginOutputReadLine();
-            }
+            _providerDaemon.BeginErrorReadLine();
+            _providerDaemon.BeginOutputReadLine();
+
             OnPropertyChanged("IsProviderRunning");
         }
 
@@ -393,6 +386,11 @@ namespace GolemUI
             KillProvider();
             StopYagna();
             _client.Dispose();
+        }
+
+        public Task<string> GetAppKey()
+        {
+            return Task.FromResult(this._generatedAppKey.Value);
         }
     }
 

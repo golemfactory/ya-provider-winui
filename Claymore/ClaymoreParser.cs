@@ -1,4 +1,5 @@
-﻿using GolemUI.Settings;
+﻿using GolemUI.Utils;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -385,6 +386,7 @@ namespace GolemUI.Claymore
 
     public class ClaymoreParser
     {
+        private readonly ILogger? _logger;
         const StringComparison STR_COMP_TYPE = StringComparison.InvariantCultureIgnoreCase;
 
         ClaymoreLiveStatus _liveStatus;
@@ -397,15 +399,15 @@ namespace GolemUI.Claymore
         private DateTime _start;
         private string? _benchmarkRecordingPath = null;
 
-
         private bool _gpusInfosParsed = false;
         public bool AreAllCardInfosParsed()
         {
             return _gpusInfosParsed;
         }
 
-        public ClaymoreParser(bool isBenchmark, bool isPreBenchmark, int totalClaymoreReportsNeeded)
+        public ClaymoreParser(bool isBenchmark, bool isPreBenchmark, int totalClaymoreReportsNeeded, ILogger logger)
         {
+            _logger = logger;
             _isPreBenchmark = isPreBenchmark;
             _liveStatus = new ClaymoreLiveStatus(isBenchmark, totalClaymoreReportsNeeded);
         }
@@ -441,7 +443,12 @@ namespace GolemUI.Claymore
             _start = DateTime.Now;
             if (enableRecording)
             {
-                string benchmarkRecordingFolder = SettingsLoader.GetLocalPath();
+                string benchmarkRecordingFolder = Path.Combine(PathUtil.GetLocalPath(), "BenchmarkRecordings");
+
+                if (!Directory.Exists(benchmarkRecordingFolder))
+                {
+                    Directory.CreateDirectory(benchmarkRecordingFolder);
+                }
 
                 string suffix = _isPreBenchmark ? "pre_recording" : "recording";
 
@@ -721,6 +728,7 @@ namespace GolemUI.Claymore
                     }
                 }
             }
+            _logger.LogDebug("done log {0}", line);
         }
     }
 }

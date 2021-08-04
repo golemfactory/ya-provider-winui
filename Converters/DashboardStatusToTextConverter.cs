@@ -22,7 +22,7 @@ namespace GolemUI.Converters
             {
                 DashboardStatusEnum.Error => "error",
                 DashboardStatusEnum.Hidden => "",
-                DashboardStatusEnum.Ready => "ready for tasks",
+                DashboardStatusEnum.Ready => "ready to mine",
                 DashboardStatusEnum.Mining => "mining",
                 _ => ""
             };

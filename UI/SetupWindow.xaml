@@ -8,7 +8,7 @@
         xmlns:lui="clr-namespace:GolemUI.UI"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:GolemUI.UI"
-        xmlns:DataAccess="clr-namespace:GolemUI.DataAccess" x:Class="GolemUI.UI.SetupWindow"
+         x:Class="GolemUI.UI.SetupWindow"
         xmlns:lv="clr-namespace:GolemUI.DesignViewModel"             
         d:DataContext="{d:DesignInstance Type=lv:SetupViewModel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
@@ -19,7 +19,7 @@
     MinHeight="720"
     MinWidth="1280"
         Title="SetupWindow" Height="720" Width="1280" Icon="/GolemUI;component/Media/tray.ico" Loaded="Window_Loaded">
-    
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,16 +29,18 @@
                 <ResourceDictionary Source="/Ui/Icons/Status_Card_error.xaml"/>
                 <ResourceDictionary Source="/Ui/Icons/Status_Ready_icon.xaml"/>
                 <!-- icons end -->
-                <ResourceDictionary Source="Themes/Defaults.xaml"/>
-                <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
-                <ResourceDictionary Source="Themes/WindowControls.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/CancelButton.xaml"/>
-                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
-                <ResourceDictionary Source="Themes/Labels/InfoLabel.xaml"/>
-                <ResourceDictionary Source="Themes/TextBox/TextBoxInError.xaml"/>
-                <ResourceDictionary Source="Themes/Validation/ValidationTemplate.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/SemiTransparentBorder.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/WindowControls.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/BackButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/CancelButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Labels/InfoLabel.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/TextBox/TextBoxInError.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Validation/ValidationTemplate.xaml"/>
                 <ResourceDictionary>
                     <DataTemplate x:Key="DTGPU">
                         <StackPanel Margin="1" MaxWidth="250" ToolTip="{Binding Path=GPUError}">
@@ -168,7 +170,7 @@
             </Grid.RowDefinitions>
 
             <Label HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" MouseDown="TitleBar_MouseDown"></Label>
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,8,0">
                 <Button Style="{DynamicResource MinWindowButton}" Click="MinimizeApp" Grid.Column="1"/>
                 <Button Style="{DynamicResource CloseWindowButton}" Click="CloseApp" Grid.Column="2"/>
             </StackPanel>
@@ -184,8 +186,11 @@
                     <RowDefinition Height="{Binding Path=IsDesingMode, Converter={StaticResource BoolToHeightConverter}}"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label Padding="0"  FontFamily="Segoe UI" FontSize="24" Grid.Column="1" Margin="8,40,8,24">Getting Started</Label>
-
+                <StackPanel Grid.Column="1">
+                    
+                <Label Padding="0"  FontFamily="Segoe UI" FontSize="24" Grid.Column="1" Margin="8,40,8,10">Getting Started</Label>
+                <Button Style="{StaticResource BackButtonStyle}" VerticalAlignment="Top" Margin="20,0,0,0"  x:Name="BtnBackToMainScreen" Click="BtnBackToMainScreen_Click"    HorizontalAlignment="Left" Visibility="{Binding BackButtonVisibilty}"/>
+                </StackPanel>
                 <TabControl Margin="0" Padding="0" Grid.Row="2" Grid.Column="1" Background="Transparent" BorderBrush="Transparent"  SelectedIndex="{Binding Path=Flow, Mode=OneWay}" Height="auto" >
                     <TabControl.ItemContainerStyle>
                         <Style TargetType="{x:Type TabItem}">
@@ -206,7 +211,7 @@
                                 <RowDefinition Height="2.3*"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                        
+
                             <Label FontSize="17" FontWeight="Bold" Margin="4,0,0,50" Grid.Row="1">Choose your path</Label>
                             <UniformGrid Columns="2" Rows="1" Grid.Row="2">
                                 <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8" VerticalAlignment="Stretch" >
@@ -220,7 +225,7 @@
                                             <ContentControl Content="{DynamicResource Whish_to_learn_icon}" Margin="2, 16"/>
                                             <StackPanel Grid.Column="1" Margin="28, 8,4,0">
                                                 <TextBlock FontFamily="Segoe Ui" FontSize="13" Margin="8">Choose this option if you would like us to guide you trough the process step by step and help you learn about safety</TextBlock>
-                                                <Button VerticalAlignment="Bottom" Style="{DynamicResource GradientButtonStyle}" Margin="8,30,8,0" MinHeight="42" Content="I Want to Learn" Click="WantToLearn_Click"/>
+                                                <Button FontSize="18" VerticalAlignment="Bottom" Style="{DynamicResource GradientButtonStyle}" Margin="8,30,8,0" MinHeight="45" Content="I Want to Learn" Click="WantToLearn_Click"/>
                                             </StackPanel>
                                         </Grid>
                                         <StackPanel Orientation="Horizontal">
@@ -234,16 +239,20 @@
                                     <StackPanel Margin="22">
                                         <Label FontFamily="Segoe UI Black" FontSize="14">I’m quite experienced</Label>
                                         <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="132*"/>
+                                                <RowDefinition Height="35*"/>
+                                            </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="1.4*"/>
                                                 <ColumnDefinition Width="3*"/>
                                             </Grid.ColumnDefinitions>
-                                            <ContentControl Content="{DynamicResource i_em_expert_icon}" VerticalAlignment="Top" Margin="10,14,0,0"/>
-                                            <StackPanel Grid.Column="1" Margin="12, 14,0,0">
+                                            <ContentControl Content="{DynamicResource i_am_expert_icon}" VerticalAlignment="Top" Margin="10,14,0,0"/>
+                                            <StackPanel Grid.Column="1" Margin="12, 14,0,0" Grid.RowSpan="2">
                                                 <TextBlock FontFamily="Segoe UI" FontSize="13" Margin="8" MinHeight="70">
-                                                You should know what you are doing and you own your own cryoto wallet allready.
+                                                You should know what you are doing and you already have crypto wallet.
                                                 </TextBlock>
-                                                <Button VerticalAlignment="Bottom" Style="{DynamicResource GradientButtonStyle}" Margin="8,25,8,0" MinHeight="42" Content="I'm an expert" Click="ExpertMode_Click"/>
+                                                <Button FontSize="18"  VerticalAlignment="Bottom" Style="{DynamicResource GradientButtonStyle}" Margin="8,25,8,0" MinHeight="45" Content="I'm an expert" Click="ExpertMode_Click"/>
                                             </StackPanel>
                                         </Grid>
                                     </StackPanel>
@@ -253,7 +262,7 @@
                     </TabItem>
                     <TabItem Header="WantToLearn">
                         <StackPanel>
-                            <lui:NavBar Step="{Binding NoobStep}">
+                            <lui:NavBar Step="{Binding NoobStep, Mode=TwoWay}">
                                 <lui:NavBar.Items>
                                     <lm:NavBarItem StepName="Prepare"/>
                                     <lm:NavBarItem StepName="Seed Phrase"/>
@@ -276,10 +285,10 @@
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
-                                            <RowDefinition Height="44"/>
+                                            <RowDefinition Height="46"/>
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Prepare_Step_icon}" Margin="6,20,0,0" Padding="0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
-                                      
+
                                         <StackPanel Margin="52,36,52,0" Grid.Column="1" HorizontalAlignment="Stretch">
                                             <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">We will create a wallet for you</TextBlock>
                                             <TextBlock FontFamily="Segoe UI" FontSize="15">You will need</TextBlock>
@@ -289,7 +298,7 @@
                                         </StackPanel>
                                         <UniformGrid Grid.Column="1" Grid.Row="1" Rows="1" Columns="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
                                             <Button Content="Cancel" FontSize="18" Margin="0,0,2,0"  HorizontalAlignment="Stretch" Style="{DynamicResource CancelButtonStyle}" Click="OnCancelNoobFlow"/>
-                                            <Button Content="Got It!" Height="50" Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep1" />
+                                            <Button Content="Got It!" FontSize="18" Height="45" Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep1" />
                                         </UniformGrid>
                                         <!--<StackPanel Orientation="Horizontal" Margin="2,35,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="1" >
                                           
@@ -318,7 +327,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </StackPanel>
                                         <Button Height="44" Margin="72,0,0,0" Content="Got It!" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep2"
                                             Grid.Row="1" Grid.Column="1"/>
-                                        
+
                                     </Grid>
                                 </TabItem>
                                 <TabItem Header="Seed Phase">
@@ -326,7 +335,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" MinWidth="275"/>
                                             <ColumnDefinition Width="3*"/>
-     
+
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
@@ -354,11 +363,11 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             </ItemsControl>
 
                                         </StackPanel>
-                                        <Button Content="Got them all"  Height="44" VerticalAlignment="Bottom" Margin="70,0 ,0,0"  HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" IsDefault="True" Click="OnWTLStep3Next"
+                                        <Button x:Name="BtnSeedPhaseGotThemAll" Content="Got them all"  Height="44" VerticalAlignment="Bottom" Margin="70,0 ,0,0"  HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" IsDefault="True" Click="OnWTLStep3Next"
                                             Grid.Row="1" Grid.Column="1"/>
                                         <Button Content="Print" Height="44" VerticalAlignment="Bottom" Margin="0,0,0,0" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep3Print"
                                             Grid.Row="1" Grid.Column="0" />
-                                        
+
                                     </Grid>
                                 </TabItem>
                                 <TabItem Header="Name">
@@ -380,7 +389,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
                                                         <Binding.ValidationRules>
                                                             <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
-                                                        </Binding.ValidationRules>  
+                                                        </Binding.ValidationRules>
                                                     </Binding>
                                                 </TextBox.Text>
                                             </TextBox>
@@ -424,12 +433,12 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" MinWidth="275"/>
                                             <ColumnDefinition Width="6*"/>
-                                            
+
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="64"/>
-                                
+
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Benchmark_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
                                         <StackPanel MinWidth="400" Margin="20,40" Grid.Column="1" HorizontalAlignment="Stretch">
@@ -474,12 +483,12 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" MinWidth="275"/>
                                             <ColumnDefinition Width="6*"/>
-                                           
+
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="64"/>
-                                           
+
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top"/>
                                         <StackPanel MinWidth="400" Margin="20,40" Grid.Column="1" HorizontalAlignment="Stretch">
@@ -502,7 +511,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
                                                     <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
-                                                    <Button Content="Next" Margin="0, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnNoobFinish"
+                                                    <Button Content="Next" FontSize="18" Margin="0, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="45" IsDefault="True" Click="OnNoobFinish"
                                                        
                                             />
                                                 </StackPanel>
@@ -537,18 +546,22 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             <ContentControl Content="{DynamicResource Wallet_icon}" Width="180" Canvas.Top="50" Canvas.Left="70"/>
                                         </Canvas>
                                     </Viewbox>
-                                    <Button Content="New Wallet" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" Click="OnChooseNewWallet"/>
+                                    <Button Content="New Wallet" FontSize="18"  Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="45" Click="OnChooseNewWallet"/>
                                 </StackPanel>
                                 <StackPanel Margin="60, 0">
-                                    <ContentControl Content="{DynamicResource Use_my_wallet_icon}" Margin="20,20"/>
-                                    <Button Content="Use my own" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" Click="OnChooseOwnWallet"/>
+                                    <!--<ContentControl Content="{DynamicResource Use_my_wallet_icon}" Margin="20,20"/>-->
+                                    <Canvas Width="310" Height="310">
+                                        <Ellipse Width="310" Height="310" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
+                                        <Image Source="/UI/Icons/DefaultStyle/png/SetupWindow/UseMyWallet.png" Canvas.Top="72" Width="190" Height="114" Canvas.Left="67"/>
+                                    </Canvas>
+                                    <Button Content="Use my own" FontSize="18" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="45" Click="OnChooseOwnWallet"/>
                                 </StackPanel>
                             </UniformGrid>
                         </Grid>
                     </TabItem>
                     <TabItem Header="OwnWallet">
                         <StackPanel>
-                            <lui:NavBar Step="{Binding ExpertStep}">
+                            <lui:NavBar Step="{Binding ExpertStep, Mode=TwoWay}">
                                 <lui:NavBar.Items>
                                     <lm:NavBarItem StepName="Wallet"/>
                                     <lm:NavBarItem StepName="Name"/>
@@ -566,11 +579,11 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" MinWidth="275"/>
                                             <ColumnDefinition Width="3*"/>
-                                           
+
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
-                                    
+
                                         </Grid.RowDefinitions>
                                         <TextBlock FontSize="18" FontWeight="Bold" Margin="40,40,40,20" Grid.Column="1">Use only Ethereum address</TextBlock>
                                         <ContentControl Content="{StaticResource Use_my_wallet_icon}" Grid.Row="0" Grid.RowSpan="2" Margin="6,20,0,0" VerticalAlignment="Top"/>
@@ -589,7 +602,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             </TextBox>
 
                                         </StackPanel>
-                                        <Button Grid.Column="1" VerticalAlignment="Bottom" Margin="50, 30,0,0" MinHeight="44" Click="OnEMWalletStepDone" Content="Next">
+                                        <Button Grid.Column="1" VerticalAlignment="Bottom" Margin="50, 30,0,0" MinHeight="44" Click="ConfirmAddress_Click" Content="Next">
                                             <Button.Style>
                                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource GradientButtonStyle}">
                                                     <Setter Property="IsEnabled" Value="false" />
@@ -603,7 +616,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     </Style.Triggers>
                                                 </Style>
                                             </Button.Style>
-                                        
+
                                         </Button>
                                     </Grid>
                                 </TabItem>
@@ -612,12 +625,12 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" MinWidth="275"/>
                                             <ColumnDefinition Width="3*"/>
-                                           
+
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
-                                           
-                                           
+
+
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="6,20,0,0"/>
                                         <TextBlock  FontSize="22" FontWeight="Bold" Margin="50, 40" Grid.Column="1">Name your node</TextBlock>
@@ -647,7 +660,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     </Style>
                                                 </Label.Style>
                                             </Label>
-                                            
+
                                         </StackPanel>
                                         <Button Content="Next" VerticalAlignment="Bottom" Grid.Column="1" Margin="50, 30,0,0" Height="44" IsDefault="True" Click="OnEMNameStepDone">
                                             <Button.Style>
@@ -663,9 +676,9 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     </Style.Triggers>
                                                 </Style>
                                             </Button.Style>
-                                            
+
                                         </Button>
-                                       
+
                                     </Grid>
                                 </TabItem>
                                 <TabItem Header="Benchmark">
@@ -673,12 +686,12 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" MinWidth="275"/>
                                             <ColumnDefinition Width="3*"/>
-                                           
+
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="64"/>
-                                            
+
                                         </Grid.RowDefinitions>
                                         <ContentControl VerticalAlignment="Top" Content="{DynamicResource Benchmark_Step_icon}" Margin="6,20,0,0"/>
                                         <StackPanel MinWidth="400" Margin="10,20,0,0" Grid.Column="1" HorizontalAlignment="Stretch">
@@ -710,11 +723,11 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" MinWidth="275"/>
                                             <ColumnDefinition Width="3*"/>
-                                        
+
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
-                                        
+
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top"/>
                                         <StackPanel MinWidth="400" Margin="20,20,0,0" Grid.Column="1" HorizontalAlignment="Stretch">
@@ -739,7 +752,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </StackPanel>
                                             </UniformGrid>
                                         </StackPanel>
-                                        
+
                                     </Grid>
                                 </TabItem>
                             </TabControl>
@@ -748,6 +761,8 @@ They are a backup for your wallet and in case your disk fails or any other unexp
 
                 </TabControl>
             </Grid>
+            <Border x:Name="RectBlack" Style="{StaticResource SemiTransparentBorder}" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         </Grid>
+        
     </Border>
 </Window>

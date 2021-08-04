@@ -10,9 +10,9 @@ namespace GolemUI.DesignViewModel
 {
     public class MockupSettingsViewModel
     {
-        public double? ExpectedProfit => 300;
+        public double? ExpectedProfit => 41.32f;
 
-        public float? Hashrate => 78.0f;
+        public float? Hashrate => 10.19f;
 
         public ObservableCollection<ClaymoreGpuStatus> GpuList { get; } = new ObservableCollection<ClaymoreGpuStatus>(new ClaymoreGpuStatus[]
         {
@@ -41,9 +41,10 @@ namespace GolemUI.DesignViewModel
 
         public string? NodeName { get; set; } = "SuperNode1";
 
-        public int ActiveCpusCount { get; set; } = 3;
+        public string ActiveCpusCountAsString => 3.ToString();
+        public int ActiveCpus => 3;
 
-        public int TotalCpusCount => 7;
+        public string TotalCpusCountAsString => 7.ToString();
 
         public bool BenchmarkIsRunning => false;
 

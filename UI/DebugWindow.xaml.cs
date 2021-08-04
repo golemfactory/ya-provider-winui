@@ -1,5 +1,5 @@
 ﻿using GolemUI.Interfaces;
-using GolemUI.Settings;
+using GolemUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,8 +20,13 @@ namespace GolemUI
     /// </summary>
     public partial class DebugWindow : Window
     {
-        public DebugWindow(IProcessControler processControler)
+        IUserSettingsProvider _userSettingsProvider;
+
+        public static bool EnableLoggingToDebugWindow = true;
+
+        public DebugWindow(IProcessControler processControler, IUserSettingsProvider userSettingsProvider)
         {
+            _userSettingsProvider = userSettingsProvider;
             InitializeComponent();
             processControler.LineHandler += LogLine;
 
@@ -33,6 +38,8 @@ namespace GolemUI
             }
 #endif
         }
+
+
 
         void TrimControlTextSize(TextBox tb)
         {
@@ -46,7 +53,7 @@ namespace GolemUI
 
         void LogLine(string logger, string line)
         {
-            if (GlobalSettings.enableLoggingToDebugWindow)
+            if (EnableLoggingToDebugWindow)
             {
                 if (logger == "provider")
                 {
@@ -75,13 +82,11 @@ namespace GolemUI
 
         private void btnOpenSettingsData_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("explorer.exe", SettingsLoader.GetLocalPath());
+            Process.Start("explorer.exe", PathUtil.GetLocalSettingsPath());
         }
 
         private void btnVersionInfo_Click(object sender, RoutedEventArgs e)
         {
-            //txtYagna.Text = await GlobalApplicationState.Instance.ProcessController.GetOffers();
-            //txtYagna.Text = GlobalApplicationState.Instance.ProcessController.GetStatus().ToString();
         }
 
     }
