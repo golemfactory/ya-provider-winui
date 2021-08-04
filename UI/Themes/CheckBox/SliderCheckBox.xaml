@@ -27,7 +27,7 @@
                     </ControlTemplate.Resources>
 
                     <DockPanel x:Name="dockPanel">
-                        <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" RecognizesAccessKey="True" VerticalAlignment="Center"/>
+                        <ContentPresenter DockPanel.Dock="Right" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" RecognizesAccessKey="True" VerticalAlignment="Center"/>
                         <Border HorizontalAlignment="Left" x:Name="SliderBg" Width="30" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"  Height="19" RenderTransformOrigin="0.5,0.5" Margin="1,1,1,1" >
                             <Ellipse HorizontalAlignment="Left" x:Name="SliderCircle" Width="15" Height="15"  RenderTransformOrigin="0.5,0.5" Fill="White" >
                                 <Ellipse.RenderTransform>
@@ -37,6 +37,7 @@
                                 </Ellipse.RenderTransform>
                             </Ellipse>
                         </Border>
+                        
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">

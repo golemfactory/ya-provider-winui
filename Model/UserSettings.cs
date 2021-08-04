@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GolemUI.Model
 {
@@ -86,6 +87,20 @@ namespace GolemUI.Model
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public int? _opacity = null;
+        public int? Opacity
+        {
+            get
+            {
+                return _opacity;
+            }
+            set
+            {
+                _opacity = value;
+                NotifyChanged("Opacity");
             }
         }
     }

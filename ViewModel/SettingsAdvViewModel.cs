@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GolemUI.ViewModel
 {
@@ -64,6 +65,11 @@ namespace GolemUI.ViewModel
         private void OnUserSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             SaveData();
+            if (e.PropertyName == "Opacity")
+            {
+                App app = (App)Application.Current;
+                app.UpdateAppearance();
+            }
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -13,7 +13,8 @@ namespace GolemUI.ViewModel
 
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider)
+        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
+            IStatusProvider statusProvider)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
@@ -21,9 +22,40 @@ namespace GolemUI.ViewModel
             _processController = processControler;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
+            _statusProvider = statusProvider;
 
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
+            _statusProvider.PropertyChanged += OnActivityStatusChanged;
+        }
+
+        public string GpuStatus { get; private set; } = "Idle";
+
+        private void OnActivityStatusChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var act = _statusProvider.Activities;
+            Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
+            var isGpuMining = gminerState != null;
+            var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
+            var gpuStatus = "Idle";
+            if (isGpuMining)
+            {
+                float hashRate = 0.0f;
+                gminerState?.Usage?.TryGetValue("golem.usage.mining.hash-rate", out hashRate);
+                if (hashRate > 0.0)
+                {
+                    gpuStatus = $"running {hashRate:0#.00} MH/s";
+                }
+                else
+                {
+                    gpuStatus = "running";
+                }
+            }
+            if (GpuStatus != gpuStatus)
+            {
+                GpuStatus = gpuStatus;
+                OnPropertyChanged("GpuStatus");
+            }
         }
 
         public void SwitchToSettings()
@@ -155,6 +187,7 @@ namespace GolemUI.ViewModel
         private readonly IPaymentService _paymentService;
         private readonly IProviderConfig _providerConfig;
         private readonly BenchmarkService _benchmarkService;
+        private readonly IStatusProvider _statusProvider;
         private readonly IProcessControler _processController;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
     }

@@ -19,4 +19,4 @@ function Extract-Package {
 	$ExtractShell.NameSpace($OutputDir).CopyHere($ExtractFiles)
 }
 Extract-Package -BundleName "wasi" -Url "https://github.com/golemfactory/ya-runtime-wasi/releases/download/v0.3.0/ya-runtime-wasi-windows-v0.3.0.zip"
-Extract-Package -BundleName "gminer" -Url "https://github.com/golemfactory/ya-runtime-gminer/releases/download/v0.1.3/ya-runtime-gminer-windows-v0.1.3.zip"
+Extract-Package -BundleName "gminer" -Url "https://github.com/golemfactory/ya-runtime-gminer/releases/download/v0.1.4/ya-runtime-gminer-windows-v0.1.4.zip"

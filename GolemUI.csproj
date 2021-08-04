@@ -220,6 +220,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Reflection, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Reflection.4.1.0\lib\net462\System.Reflection.dll</HintPath>
@@ -312,7 +315,6 @@
     <Compile Include="DesignViewModel\PrettyChartDesignViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
-    <Compile Include="Interfaces\IAppKeyProvider.cs" />
     <Compile Include="Interfaces\IEstimatedProfiProvider.cs" />
     <Compile Include="Interfaces\IPaymentService.cs" />
     <Compile Include="Interfaces\IPriceProvider.cs" />
@@ -321,9 +323,11 @@
     <Compile Include="Interfaces\IDialogInvoker.cs" />
     <Compile Include="Interfaces\ISavableLoadableDashboardPage.cs" />
     <Compile Include="Interfaces\IBenchmarkResultsProvider.cs" />
+    <Compile Include="Interfaces\IStatusProvider.cs" />
     <Compile Include="Interfaces\IUserSettingsProvider.cs" />
     <Compile Include="Model\BenchmarkResults.cs" />
     <Compile Include="Model\claymorePerformanceThrottlingEnum.cs" />
+    <Compile Include="Model\ActivityState.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
     <Compile Include="Model\PrettyChartData.cs" />
@@ -340,6 +344,7 @@
     <Compile Include="Src\HdWalletService.cs" />
     <Compile Include="Src\BenchmarkResultsProvider.cs" />
     <Compile Include="Src\UserSettingsProvider.cs" />
+    <Compile Include="Src\YaSSEStatusProvider.cs" />
     <Compile Include="UI\Charts\PrettyChart.xaml.cs">
       <DependentUpon>PrettyChart.xaml</DependentUpon>
     </Compile>
@@ -348,8 +353,7 @@
     </Compile>
     <Compile Include="UI\DashboardStatistics.xaml.cs">
       <DependentUpon>DashboardStatistics.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\DashboardSettingsAdv.xaml.cs">
+    </Compile>    <Compile Include="UI\DashboardSettingsAdv.xaml.cs">
       <DependentUpon>DashboardSettingsAdv.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\DlgConfirmAddress.xaml.cs">
