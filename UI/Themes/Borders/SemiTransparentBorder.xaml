@@ -3,9 +3,10 @@
                      xmlns:local="clr-namespace:GolemUI">
 
     <Style x:Key="SemiTransparentBorder" TargetType="Border">
-        <Setter Property="Opacity" Value="0.8" />
+        <Setter Property="Opacity" Value="0.95" />
+
         <Setter Property="Visibility" Value="Hidden" />
-        <Setter Property="Background" Value="Black" />
+        <Setter Property="Background" Value="#0f0b31" />
         <Setter Property="CornerRadius" Value="12" />
     </Style>
 

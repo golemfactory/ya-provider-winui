@@ -1,4 +1,6 @@
-﻿using GolemUI.ViewModel;
+﻿
+using GolemUI.ViewModel;
+using GolemUI.ViewModel.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,33 +22,41 @@ namespace GolemUI.UI.Dialogs
     /// </summary>
     public partial class DlgEditAddress : Window
     {
-        public DlgEditAddress(EditAddressViewModel model)
+
+        public DlgEditAddress(DlgEditAddressViewModel model)
         {
             InitializeComponent();
             DataContext = model;
         }
 
-        public EditAddressViewModel? Model => DataContext as EditAddressViewModel;
+        public DlgEditAddressViewModel? Model => DataContext as DlgEditAddressViewModel;
 
-        private void Confirm_Click(object sender, RoutedEventArgs e)
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (Model != null)
+                Model.ChangeAction = DlgEditAddressViewModel.Action.None;
+            this.DialogResult = false;
+            this.Close();
+        }
+
+        private void BtnOK_Click(object sender, RoutedEventArgs e)
         {
             if (Model != null)
             {
-                Model.ChangeAction = EditAddressViewModel.Action.Change;
+                Model.ChangeAction = Model.ShouldTransferFunds ? DlgEditAddressViewModel.Action.TransferOut : DlgEditAddressViewModel.Action.Change;
             }
-            DialogResult = true;
-            Close();
+            this.DialogResult = true;
+            this.Close();
         }
 
-
-        private void TransferOUt_Click(object sender, RoutedEventArgs e)
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             if (Model != null)
-            {
-                Model.ChangeAction = EditAddressViewModel.Action.TransferOut;
-            }
-            DialogResult = true;
-            Close();
+                Model.ChangeAction = DlgEditAddressViewModel.Action.None;
+            this.DialogResult = false;
+            this.Close();
         }
+
     }
 }

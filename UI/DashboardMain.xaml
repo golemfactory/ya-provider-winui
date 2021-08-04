@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:lv="clr-namespace:GolemUI.DesignViewModel"
-             d:DataContext="{d:DesignInstance Type=lv:DashboardViewModel, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance Type=lv:DashboardMainViewModel, IsDesignTimeCreatable=True}"
              xmlns:local="clr-namespace:GolemUI"
              mc:Ignorable="d"
              FontFamily="Segoe UI" d:DesignHeight="690" d:DesignWidth="1112" 

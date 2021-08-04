@@ -36,20 +36,36 @@ namespace GolemUI.ViewModel
             public DashboardPage(UserControl view)
             {
                 View = view;
+                view.Visibility = Visibility.Hidden;
+                view.Opacity = 0;
             }
 
             public event PageChangeRequestedEvent? PageChangeRequested;
-            public DashboardPage(UserControl view, ISavableLoadableDashboardPage viewModel)
+            public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
+            public DashboardPage(UserControl view, object viewModel)
             {
                 View = view;
-                ViewModel = viewModel;
-                ShouldAutoLoad = true;
-                ShouldAutoSave = true;
+                if (viewModel is ISavableLoadableDashboardPage model)
+                {
+                    ViewModel = model;
+                    ShouldAutoLoad = true;
+                    ShouldAutoSave = true;
+                    view.Visibility = Visibility.Hidden;
+                    view.Opacity = 0;
+                    model.PageChangeRequested += ViewModel_PageChangeRequested;
+                }
 
-                view.Visibility = Visibility.Hidden;
-                view.Opacity = 0;
-                viewModel.PageChangeRequested += ViewModel_PageChangeRequested;
+                if (viewModel is IDialogInvoker dialogInvoker)
+                {
+                    dialogInvoker.DarkBackgroundRequested += DialogInvoker_DarkBackgroundRequested;
+                }
             }
+
+            private void DialogInvoker_DarkBackgroundRequested(bool shouldBackgroundBeVisible)
+            {
+                DarkBackgroundRequested?.Invoke(shouldBackgroundBeVisible);
+            }
+
 
             private void ViewModel_PageChangeRequested(DashboardViewModel.DashboardPages page)
             {
@@ -186,6 +202,16 @@ namespace GolemUI.ViewModel
             }
         }
 
+        bool _darkBackgroundVisible = false;
+        public bool DarkBackgroundVisible
+        {
+            get => _darkBackgroundVisible; set
+            {
+                _darkBackgroundVisible = value;
+                OnPropertyChanged("DarkBackgroundVisible");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public DashboardViewModel(DashboardStatistics dashboardStatistics, DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet)
@@ -200,13 +226,20 @@ namespace GolemUI.ViewModel
 
             _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
             _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
-            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet));
+            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet, DashboardWallet.Model));
             _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
             _pages.Add(DashboardPages.PageDashboardStatistics, new DashboardPage(DashboardStatistics, DashboardStatistics.ViewModel));
 
             _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
+
+            _pages.Values.ToList().ForEach(page =>
+                page.DarkBackgroundRequested += Page_DarkBackgroundRequested);
         }
 
+        private void Page_DarkBackgroundRequested(bool shouldBackgroundBeVisible)
+        {
+            DarkBackgroundVisible = shouldBackgroundBeVisible;
+        }
 
         private void OnPropertyChanged(string? propertyName)
         {
