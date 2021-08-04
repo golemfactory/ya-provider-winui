@@ -6,7 +6,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:fw="http://schemas.microsoft.com/wix/FirewallExtension">
   <Product
         Id='*'
-        Name='Golem Provider'
+        Name='Thorg Miner'
         UpgradeCode='{96497EC7-11EA-4257-A0E4-37688d0C7EC0}'
         Manufacturer='golemfactory'
         Language='1033'
@@ -37,7 +37,7 @@
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="fa2a64b9-19f8-4830-a931-18de65ed4e26">
         <Shortcut Id="ApplicationStartMenuShortcut"
-                  Name="Golem Provider UI"
+                  Name="Thorg Miner"
                   Target="[APPLICATIONFOLDER]GolemUI.Exe"
                   WorkingDirectory="APPLICATIONFOLDER"/>
         <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
@@ -50,7 +50,7 @@
         <Directory Id="ApplicationProgramsFolder" Name="Golem"/>
       </Directory>
       <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
-        <Directory Id='APPLICATIONFOLDER' Name='GolemProvider'>
+        <Directory Id='APPLICATIONFOLDER' Name='ThorgMiner'>
           <Component Id='License' Guid='8aa900e0-cca3-49e0-9e1f-0692d8a3ab29' Win64='$(var.Win64)'>
             <File Id='LicenseFile'
                 Name='License'
