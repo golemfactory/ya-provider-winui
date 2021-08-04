@@ -27,6 +27,15 @@ namespace GolemUI.ViewModel
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
             _statusProvider.PropertyChanged += OnActivityStatusChanged;
+            _processController.PropertyChanged += OnProcessControllerChanged;
+        }
+
+        private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsProviderRunning")
+            {
+                RefreshStatus();
+            }
         }
 
         public string GpuStatus { get; private set; } = "Idle";
@@ -37,12 +46,12 @@ namespace GolemUI.ViewModel
             Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
             var isGpuMining = gminerState != null;
             var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
+
+
             var gpuStatus = "Idle";
-            if (isGpuMining)
+            if (gminerState?.Usage is Dictionary<string, float> usage)
             {
-                float hashRate = 0.0f;
-                gminerState?.Usage?.TryGetValue("golem.usage.mining.hash-rate", out hashRate);
-                if (hashRate > 0.0)
+                if (usage.TryGetValue("golem.usage.mining.hash-rate", out var hashRate) && hashRate > 0.0)
                 {
                     gpuStatus = $"running {hashRate:0#.00} MH/s";
                 }
@@ -56,6 +65,26 @@ namespace GolemUI.ViewModel
                 GpuStatus = gpuStatus;
                 OnPropertyChanged("GpuStatus");
             }
+
+            RefreshStatus();
+        }
+
+        private void RefreshStatus()
+        {
+            var isMining = _statusProvider.Activities.Any(a => a.State == Model.ActivityState.StateType.Ready);
+            var newStatus = DashboardStatusEnum.Hidden;
+            if (isMining)
+            {
+                newStatus = DashboardStatusEnum.Mining;
+            }
+            else if (_processController.IsProviderRunning && (IsCpuActive || IsMiningActive))
+            {
+                newStatus = DashboardStatusEnum.Ready;
+            }
+            if (_status != newStatus)
+            {
+                Status = newStatus;
+            }
         }
 
         public void SwitchToSettings()
@@ -68,6 +97,7 @@ namespace GolemUI.ViewModel
             if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
             {
                 OnPropertyChanged(e.PropertyName);
+                RefreshStatus();
             }
         }
 
