@@ -11,11 +11,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 
-namespace GolemUI
+namespace GolemUI.ViewModel
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-        public event PageChangeRequestedEvent PageChangeRequested;
+        public event PageChangeRequestedEvent? PageChangeRequested;
         private readonly Command.Provider _provider;
         private readonly IProviderConfig _providerConfig;
         private readonly IPriceProvider _priceProvider;
@@ -48,7 +48,7 @@ namespace GolemUI
         }
         public void SwitchToAdvancedSettings()
         {
-            PageChangeRequested?.Invoke(Controllers.DashboardPages.PageDashboardAdvancedSettings);
+            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettingsAdv);
         }
         public void StartBenchmark()
         {

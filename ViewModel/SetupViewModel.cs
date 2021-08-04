@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GolemUI.ViewModel
 {
@@ -58,6 +59,8 @@ namespace GolemUI.ViewModel
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public bool IsDesingMode => false;
+
+        private Nethereum.HdWallet.Wallet? _wallet = null;
 
         public SetupViewModel(Interfaces.IProviderConfig providerConfig,
             Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider)
@@ -158,6 +161,7 @@ namespace GolemUI.ViewModel
             get => _noobStep;
             set
             {
+                if (BenchmarkIsRunning) _benchmarkService.StopBenchmark();
                 _noobStep = value;
                 OnPropertyChanged("NoobStep");
             }
@@ -168,6 +172,7 @@ namespace GolemUI.ViewModel
             get => (int)_expertStep;
             set
             {
+                if (BenchmarkIsRunning) _benchmarkService.StopBenchmark();
                 _expertStep = (ExpertSteps)value;
                 OnPropertyChanged("ExpertStep");
             }
@@ -198,6 +203,9 @@ namespace GolemUI.ViewModel
 
         internal async void ActivateHdWallet()
         {
+
+
+
             if (_mnemo == null)
             {
                 // TODO: Error message to user here.
@@ -205,12 +213,25 @@ namespace GolemUI.ViewModel
             }
 
             var seed = _mnemo.ToString();
-            var wallet = new Nethereum.HdWallet.Wallet(seed, "");
-            var address = await _processControler.PrepareForKey(wallet.GetPrivateKey(0));
-            if (address == wallet.GetAccount(0).Address.ToLower())
+
+
+            if (_wallet != null)
             {
-                _providerConfig.UpdateWalletAddress(address);
                 NoobStep = (int)NoobSteps.Name;
+            }
+            else if (_processControler.IsServerRunning)
+            {
+                throw new Exception("should not happen");
+            }
+            else
+            {
+                _wallet = new Nethereum.HdWallet.Wallet(seed, "");
+                var address = await _processControler.PrepareForKey(_wallet.GetPrivateKey(0));
+                if (address == _wallet.GetAccount(0).Address.ToLower())
+                {
+                    _providerConfig.UpdateWalletAddress(address);
+                    NoobStep = (int)NoobSteps.Name;
+                }
             }
         }
 
@@ -231,17 +252,22 @@ namespace GolemUI.ViewModel
 
         public bool BenchmarkIsRunning => _benchmarkService.IsRunning;
 
+        public Visibility BackButtonVisibilty => Flow == 0 ? Visibility.Hidden : Visibility.Visible;
+
         public void GoToStart()
         {
             Flow = 0;
+            OnPropertyChanged("BackButtonVisibilty");
         }
         public void GoToNoobFlow()
         {
             Flow = 1;
+            OnPropertyChanged("BackButtonVisibilty");
         }
         public void GoToExpertMode()
         {
             Flow = 2;
+            OnPropertyChanged("BackButtonVisibilty");
         }
 
         public string? NodeName

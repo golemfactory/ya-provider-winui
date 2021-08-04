@@ -287,8 +287,6 @@
     <Compile Include="Command\PaymentData.cs" />
     <Compile Include="Command\Provider.cs" />
     <Compile Include="Command\YagnaSrv.cs" />
-    <Compile Include="Controllers\DashboardPage.cs" />
-    <Compile Include="Controllers\DashboardPages.cs" />
     <Compile Include="Converters\AmountConverter.cs" />
     <Compile Include="Converters\BoolToHeightConverter.cs" />
     <Compile Include="Converters\DashboardStatusToIconConverter.cs" />
@@ -299,12 +297,16 @@
     <Compile Include="Converters\EnumToBrush.cs" />
     <Compile Include="Converters\DashboardStatusToTextConverter.cs" />
     <Compile Include="Converters\HashRateConverter.cs" />
+    <Compile Include="Converters\RadioBoolToIntConverter.cs" />
     <Compile Include="Converters\StringToClaymorePerformanceThrottlingConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="DataAccess\DataAccess.cs" />
-    <Compile Include="DesignViewModel\DashboardViewModel.cs" />
+    <Compile Include="DesignViewModel\DashboardMainViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgAppInfoViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgEditAddressViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="DesignViewModel\MockupDashboardStatusViewModel.cs" />
     <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
+    <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
@@ -314,6 +316,7 @@
     <Compile Include="Interfaces\IPriceProvider.cs" />
     <Compile Include="Interfaces\IProcessControler.cs" />
     <Compile Include="Interfaces\IProviderConfig.cs" />
+    <Compile Include="Interfaces\IDialogInvoker.cs" />
     <Compile Include="Interfaces\ISavableLoadableDashboardPage.cs" />
     <Compile Include="Interfaces\IBenchmarkResultsProvider.cs" />
     <Compile Include="Interfaces\IUserSettingsProvider.cs" />
@@ -334,6 +337,15 @@
     <Compile Include="Src\HdWalletService.cs" />
     <Compile Include="Src\BenchmarkResultsProvider.cs" />
     <Compile Include="Src\UserSettingsProvider.cs" />
+    <Compile Include="UI\DashboardSettingsAdv.xaml.cs">
+      <DependentUpon>DashboardSettingsAdv.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\DlgConfirmAddress.xaml.cs">
+      <DependentUpon>DlgConfirmAddress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\DlgAppInfo.xaml.cs">
+      <DependentUpon>DlgAppInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\LazyInit.cs" />
     <Compile Include="Src\NameGenerator.cs" />
     <Compile Include="Src\PaymentService.cs" />
@@ -354,9 +366,6 @@
     <Compile Include="UI\Dashboard.xaml.cs">
       <DependentUpon>Dashboard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\DashboardAdvancedSettings.xaml.cs">
-      <DependentUpon>DashboardAdvancedSettings.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\DashboardMain.xaml.cs">
       <DependentUpon>DashboardMain.xaml</DependentUpon>
     </Compile>
@@ -369,7 +378,7 @@
     <Compile Include="UI\DebugWindow.xaml.cs">
       <DependentUpon>DebugWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\DlgEditAddress.xaml.cs">
+    <Compile Include="UI\Dialogs\DlgEditAddress.xaml.cs">
       <DependentUpon>DlgEditAddress.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ExistingProcessesWindow.xaml.cs">
@@ -392,7 +401,11 @@
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
-    <Compile Include="ViewModel\EditAddressViewModel.cs" />
+    <Compile Include="ViewModel\DashboardViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgEditAddressViewModel.cs" />
+    <Compile Include="ViewModel\SettingsAdvViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
     <Compile Include="ViewModel\WalletViewModel.cs" />
@@ -420,15 +433,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\DashboardAdvancedSettings.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\DashboardMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\DashboardSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DashboardSettingsAdv.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -440,7 +453,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\DlgEditAddress.xaml">
+    <Page Include="UI\Dialogs\DlgConfirmAddress.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Dialogs\DlgAppInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Dialogs\DlgEditAddress.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -532,7 +553,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Themes\Buttons\TransparentButton.xaml">
+    <Page Include="UI\Themes\Buttons\BackButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -589,6 +610,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Themes\ProgressBars\BenchmarkProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Borders\SemiTransparentBorder.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -649,7 +674,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UI\init.png" />
     <Resource Include="UI\Icons\Settings\CPU_icon_new.png" />
     <Resource Include="UI\Icons\Settings\GPU_icon_new.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Enjoy.png" />

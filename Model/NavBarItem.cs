@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace GolemUI.Model
 {
@@ -72,6 +74,8 @@ namespace GolemUI.Model
         public bool IsLast { get; set; }
 
         private ItemStatus _status;
+
+        public SolidColorBrush HoverColor => _status == ItemStatus.Realized ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0FB2AB")) : new SolidColorBrush(Colors.Gray);
         public ItemStatus Status
         {
             get => _status;
@@ -79,6 +83,8 @@ namespace GolemUI.Model
             {
                 _status = value;
                 OnPropertyChanged();
+                OnPropertyChanged("Status");
+                OnPropertyChanged("HoverColor");
             }
         }
 

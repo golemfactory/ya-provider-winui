@@ -76,6 +76,7 @@ namespace GolemUI.Src
             {
                 _logger.LogError("no internet connection");
             }
+
         }
 
         public void Dispose()

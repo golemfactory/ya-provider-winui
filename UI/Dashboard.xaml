@@ -12,19 +12,22 @@
         Background="Transparent"
         AllowsTransparency="True"
         x:Name="DashboardWindow"
-        Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/tray.ico" MinHeight="600" MinWidth="1024">
+        Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/tray.ico" MinHeight="600" MinWidth="1024"
+        xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
+        d:DataContext ="{d:DesignInstance {x:Type dvm:DashboardViewModel}, IsDesignTimeCreatable=True}"
+        >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/Defaults.xaml"/>
-                <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
-                <ResourceDictionary Source="Themes/WindowControls.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/NavSidePanelInformationButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/NavSidepanelButton.xaml"/>
-                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
-                
+                <ResourceDictionary Source="/UI/Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/SemiTransparentBorder.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/WindowControls.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/NavSidePanelInformationButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/NavSidepanelButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary>
                     <ContextMenu x:Key="TrayMenu">
                         <MenuItem Header="Show" Command="{commands:ShowWindowCommand}"/>
@@ -47,6 +50,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
+
+
             <tb:TaskbarIcon x:Name="tbNotificationIcon" IconSource="/Media/tray.ico" DoubleClickCommand="{commands:ShowWindowCommand}" ToolTipText="GolemUI" ContextMenu="{StaticResource TrayMenu}"/>
             <!-- todo:// following code generates binding errors -->
             <!--DoubleClickCommand="{Binding ElementName=DashboardWindow, Path=ShowCommand, Mode=OneWay}"-->
@@ -66,18 +71,19 @@
             </Border>
 
             <Border BorderThickness="0" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="0,30,0,0">
-                <Grid x:Name="tcNo1" >
+                <Grid x:Name="grdPagesContainer" >
                 </Grid>
             </Border>
             <Border x:Name="brdNavigation" BorderBrush="White" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 0.5 0">
                 <StackPanel>
 
-                    <RadioButton x:Name="btnPageDashboard" GroupName="nav" Style="{StaticResource NavSidepanelButtonDashboard}" Click="btnPageDashboard_Click"/>
-                    <RadioButton x:Name="btnPageWallet" GroupName="nav" Style="{StaticResource NavSidepanelButtonWallet}" Click="btnPageWallet_Click"/>
-                    <RadioButton x:Name="btnPageSettings" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}" Click="btnPageSettings_Click"/>
+                    <RadioButton IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=1}" GroupName="nav" Style="{StaticResource NavSidepanelButtonDashboard}"/>
+                    <RadioButton IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=2}" GroupName="nav" Style="{StaticResource NavSidepanelButtonWallet}"/>
+                    <RadioButton IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=3}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}"/>
                 </StackPanel>
             </Border>
-            <Button x:Name="btnInformation" Style="{StaticResource NavSidepanelButtonInformation}" VerticalAlignment="Bottom" Margin="10,0,0,40" Grid.Row="1"/>
+            <Button x:Name="btnAppInformation" Style="{StaticResource NavSidepanelButtonInformation}" Click="btnAppInformation_Click" VerticalAlignment="Bottom" Margin="10,0,0,40" Grid.Row="1"/>
+            <Border x:Name="RectBlack" Style="{StaticResource SemiTransparentBorder}" Visibility="{Binding DarkBackgroundVisible, Converter={StaticResource BoolToVisibleConverter}}" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         </Grid>
     </Border>
 </Window>

@@ -16,6 +16,7 @@
         <converters:DashboardStatusToVisibleConverter x:Key="DashboardStatusToVisibleConverter"/>
         <converters:DashboardStatusToIconConverter x:Key="DashboardStatusToIconConverter"/>
         <converters:BoolToHeightConverter x:Key="BoolToHeightConverter"/>
+        <converters:RadioBoolToIntConverter x:Key="RadioBoolToIntConverter"/>
     </Application.Resources>
 </Application>
 
