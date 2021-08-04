@@ -13,7 +13,8 @@ namespace GolemUI.ViewModel
 
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider)
+        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
+            IStatusProvider statusProvider)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
@@ -21,9 +22,69 @@ namespace GolemUI.ViewModel
             _processController = processControler;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
+            _statusProvider = statusProvider;
 
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
+            _statusProvider.PropertyChanged += OnActivityStatusChanged;
+            _processController.PropertyChanged += OnProcessControllerChanged;
+        }
+
+        private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsProviderRunning")
+            {
+                RefreshStatus();
+            }
+        }
+
+        public string GpuStatus { get; private set; } = "Idle";
+
+        private void OnActivityStatusChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var act = _statusProvider.Activities;
+            Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
+            var isGpuMining = gminerState != null;
+            var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
+
+
+            var gpuStatus = "Idle";
+            if (gminerState?.Usage is Dictionary<string, float> usage)
+            {
+                if (usage.TryGetValue("golem.usage.mining.hash-rate", out var hashRate) && hashRate > 0.0)
+                {
+                    gpuStatus = $"running {hashRate:0#.00} MH/s";
+                }
+                else
+                {
+                    gpuStatus = "running";
+                }
+            }
+            if (GpuStatus != gpuStatus)
+            {
+                GpuStatus = gpuStatus;
+                OnPropertyChanged("GpuStatus");
+            }
+
+            RefreshStatus();
+        }
+
+        private void RefreshStatus()
+        {
+            var isMining = _statusProvider.Activities.Any(a => a.State == Model.ActivityState.StateType.Ready);
+            var newStatus = DashboardStatusEnum.Hidden;
+            if (isMining)
+            {
+                newStatus = DashboardStatusEnum.Mining;
+            }
+            else if (_processController.IsProviderRunning && (IsCpuActive || IsMiningActive))
+            {
+                newStatus = DashboardStatusEnum.Ready;
+            }
+            if (_status != newStatus)
+            {
+                Status = newStatus;
+            }
         }
 
         public void SwitchToSettings()
@@ -36,6 +97,7 @@ namespace GolemUI.ViewModel
             if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
             {
                 OnPropertyChanged(e.PropertyName);
+                RefreshStatus();
             }
         }
 
@@ -155,6 +217,7 @@ namespace GolemUI.ViewModel
         private readonly IPaymentService _paymentService;
         private readonly IProviderConfig _providerConfig;
         private readonly BenchmarkService _benchmarkService;
+        private readonly IStatusProvider _statusProvider;
         private readonly IProcessControler _processController;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
     }

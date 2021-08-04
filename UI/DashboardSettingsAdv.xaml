@@ -66,7 +66,7 @@
                 </Border>
             </StackPanel>
 
-            <Border Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="300" Height="auto" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="left" VerticalAlignment="Top" Grid.Column="0" Margin="30,30" >
+            <Border Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="auto" Height="auto" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="left" VerticalAlignment="Top" Grid.Column="0" Margin="30,30" >
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Margin="10">
                         <CheckBox IsChecked="{Binding Path=UserSettings.CloseOnExit}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" >
@@ -87,6 +87,12 @@
                         <CheckBox IsChecked="{Binding Path=UserSettings.DisableNotificationsWhenMinimized}" Style="{DynamicResource CheckBoxGpu}" >
                             <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Disable notifications when minimized"></TextBlock>
                         </CheckBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <TextBlock>Background opacity:</TextBlock>
+                        <Slider Width="200" Value="{Binding Path=UserSettings.Opacity}" Minimum="1" Maximum="100"></Slider>
+
+                        <TextBlock Text="{Binding Path=UserSettings.Opacity}"></TextBlock>
                     </StackPanel>
                 </StackPanel>
 

@@ -8,6 +8,7 @@ namespace GolemUI.DesignViewModel
 {
     public class DashboardMainViewModel
     {
+        public string GpuStatus => "idle";
         public decimal AmountUSD => 0.00m;
         public decimal Amount => 0;
         public decimal PendingAmountUSD => 0;

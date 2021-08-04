@@ -64,6 +64,35 @@ namespace GolemUI
             ViewModel.SwitchPage(page);
         }
 
+        public void UpdateAppearance()
+        {
+            var us = _userSettingsProvider.LoadUserSettings();
+            if (us.Opacity == null || us.Opacity < 100)
+            {
+                EnableBlur();
+            }
+
+            SolidColorBrush b = (SolidColorBrush)this.Resources["SetupWindow.Background"];
+            if (us.Opacity != null)
+            {
+                int op = (int)us.Opacity;
+                if (op >= 100)
+                {
+                    b.Opacity = 1.0;
+                }
+                else if (op <= 1)
+                {
+                    b.Opacity = 0.01;
+                }
+                else
+                {
+                    b.Opacity = op / 100.0;
+                }
+            }
+            this.Resources["SetupWindow.Background"] = b;
+        }
+
+
         public void OnAppReactivate(object sender)
         {
             Dispatcher.Invoke(() =>
@@ -159,7 +188,8 @@ namespace GolemUI
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            EnableBlur();
+            UpdateAppearance();
+
             await Task.WhenAll(
                 _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible),
                 _processControler.Prepare()
