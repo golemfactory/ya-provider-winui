@@ -101,7 +101,7 @@ namespace GolemUI.Src
                         }
                         catch (JsonException e)
                         {
-                            _logger.LogError(e, "invalid montiring event: {0}", json);
+                            _logger.LogError(e, "Invalid monitoring event: {0}", json);
                             break;
                         }
                     }
