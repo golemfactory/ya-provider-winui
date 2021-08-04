@@ -1,4 +1,4 @@
-﻿<Window x:Class="GolemUI.Dashboard"
+<Window x:Class="GolemUI.Dashboard"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +12,10 @@
         Background="Transparent"
         AllowsTransparency="True"
         x:Name="DashboardWindow"
-        Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/tray.ico" MinHeight="600" MinWidth="1024">
+        Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/tray.ico" MinHeight="600" MinWidth="1024"
+        xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
+        d:DataContext ="{d:DesignInstance {x:Type dvm:DashboardViewModel}, IsDesignTimeCreatable=True}"
+        >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -47,7 +50,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            
+
 
             <tb:TaskbarIcon x:Name="tbNotificationIcon" IconSource="/Media/tray.ico" DoubleClickCommand="{commands:ShowWindowCommand}" ToolTipText="GolemUI" ContextMenu="{StaticResource TrayMenu}"/>
             <!-- todo:// following code generates binding errors -->
@@ -80,7 +83,7 @@
                 </StackPanel>
             </Border>
             <Button x:Name="btnAppInformation" Style="{StaticResource NavSidepanelButtonInformation}" Click="btnAppInformation_Click" VerticalAlignment="Bottom" Margin="10,0,0,40" Grid.Row="1"/>
-            <Border x:Name="RectBlack" Style="{StaticResource SemiTransparentBorder}" Grid.RowSpan="2" Grid.ColumnSpan="2" />
+            <Border x:Name="RectBlack" Style="{StaticResource SemiTransparentBorder}" Visibility="{Binding DarkBackgroundVisible, Converter={StaticResource BoolToVisibleConverter}}" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         </Grid>
     </Border>
 </Window>
