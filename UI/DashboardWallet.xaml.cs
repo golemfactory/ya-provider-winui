@@ -47,10 +47,12 @@ namespace GolemUI
         {
             var dlg = new UI.Dialogs.DlgEditAddress(Model.EditModel);
             dlg.Owner = Window.GetWindow(this);
+            Model.RequestDarkBackgroundVisibilityChange(true);
             if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
             {
-                Model.UpdateAddress(dlg.Model.ChangeAction, dlg.Model.Address);
+                Model.UpdateAddress(dlg.Model.ChangeAction, dlg.Model.NewAddress);
             }
+            Model.RequestDarkBackgroundVisibilityChange(false);
         }
 
         private void Copy_Click(object sender, RoutedEventArgs e)

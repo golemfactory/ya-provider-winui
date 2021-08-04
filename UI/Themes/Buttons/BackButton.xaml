@@ -1,0 +1,39 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:local="clr-namespace:GolemUI">
+
+    <Style x:Key="BackButtonStyle" TargetType="Button">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border" 
+                        BorderThickness="0"
+                        Padding="0" 
+                        BorderBrush="Transparent" 
+                            Background="Transparent"
+                        CornerRadius="3" 
+                            Height="20"
+                            Width="150"
+                            
+                        >
+                        <StackPanel Orientation="Horizontal">
+                           
+                            <Polygon Name="arrow" Points="20 11 7.8 11 13.4 5.4 12 4 4 12 12 20 13.4 18.6 7.8 13 20 13" Fill="White"  />
+                            <TextBlock Name="label" TextDecorations="None" FontSize="12" Text="Back to main screen" Foreground="#fff" Margin="10,3" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Cursor" Value="Hand" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            <Setter TargetName="label" Property="TextDecorations" Value="Underline" />
+                            <Setter TargetName="label" Property="Foreground" Value="#0FB2AB" />
+                            <Setter TargetName="arrow" Property="Fill" Value="#0FB2AB" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
