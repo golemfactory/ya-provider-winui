@@ -203,9 +203,9 @@ namespace GolemUI
         {
             var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig));
             dlg.Owner = Window.GetWindow(this);
-            RectBlack.Visibility = Visibility.Visible;
+            ViewModel.DarkBackgroundVisible = true;
             dlg?.ShowDialog();
-            RectBlack.Visibility = Visibility.Hidden;
+            ViewModel.DarkBackgroundVisible = false;
         }
     }
 }

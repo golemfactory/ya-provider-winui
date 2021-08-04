@@ -1,6 +1,7 @@
 ﻿using GolemUI.Command;
 using GolemUI.Interfaces;
 using GolemUI.Model;
+using GolemUI.ViewModel.Dialogs;
 using Nethereum.Util;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,15 @@ namespace GolemUI.ViewModel
 {
 
 
-    public class WalletViewModel : INotifyPropertyChanged, IDisposable
+    public class WalletViewModel : INotifyPropertyChanged, IDisposable, IDialogInvoker
     {
         private IPriceProvider _priceProvider;
         private IPaymentService _paymentService;
         private Command.Provider _provider;
         private readonly IProviderConfig? _providerConfig;
         private PropertyChangedEventHandler _handler;
+
+        public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
 
 
         private string? _walletAddress;
@@ -52,13 +55,18 @@ namespace GolemUI.ViewModel
             paymentService.PropertyChanged += _handler;
         }
 
-        public async void UpdateAddress(EditAddressViewModel.Action changeAction, string? address)
+        public void RequestDarkBackgroundVisibilityChange(bool shouldBackgroundBeVisible)
+        {
+            DarkBackgroundRequested?.Invoke(shouldBackgroundBeVisible);
+        }
+
+        public async void UpdateAddress(DlgEditAddressViewModel.Action changeAction, string? address)
         {
             if (address == null)
             {
                 return;
             }
-            if (changeAction == EditAddressViewModel.Action.TransferOut)
+            if (changeAction == DlgEditAddressViewModel.Action.TransferOut)
             {
                 var trnsferOut = _paymentService.TransferOutTo(address);
                 _providerConfig?.UpdateWalletAddress(address);
@@ -135,7 +143,7 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public EditAddressViewModel EditModel => new EditAddressViewModel(_paymentService);
+        public DlgEditAddressViewModel EditModel => new DlgEditAddressViewModel(_paymentService);
 
         public void Dispose()
         {
