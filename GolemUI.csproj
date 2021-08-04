@@ -64,7 +64,7 @@
     <StartupObject>GolemUI.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Media\golem.ico</ApplicationIcon>
+    <ApplicationIcon>Thorg.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -752,6 +752,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Seed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Thorg.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\Thorg.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
