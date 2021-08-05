@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -703,10 +703,6 @@
     <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Cpu.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Gpu.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Profit.png" />
-    <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Settings\TaskType.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Icons\DefaultStyle\png\Dashboard\Wallet\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Branding\Logo.png" />
