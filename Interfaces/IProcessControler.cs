@@ -37,5 +37,7 @@ namespace GolemUI.Interfaces
         LogLineHandler? LineHandler { get; set; }
 
         Task<bool> Stop();
+
+        void StopYagna();
     }
 }

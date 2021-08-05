@@ -72,15 +72,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <local:DashboardStatusControl Status="{Binding Path=Status}" Margin="0,0,0,4" Grid.ColumnSpan="2" />
-                <Button Click="btnStop_Click" Margin="0,25,0,0"
-                    Style="{StaticResource BlueButtonStyle}" VerticalAlignment="Bottom" Height="40" 
-                    Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3"
-                    HorizontalAlignment="Stretch"                        
-                        IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}"
-                    Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToVisibleConverter}}">Stop Mining</Button>
-                <Button Style="{StaticResource GradientButtonStyle}" Click="btnStart_Click"  Margin="0,25,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="40"
-                        Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}"
-                        Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToHiddenConverter}}">Start Mining</Button>
+                <Button Click="btnStop_Click" Margin="0,15,0,0" Style="{StaticResource GradientButtonStyle}" VerticalAlignment="Bottom" Height="45" Grid.Column="4" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToVisibleConverter}}">Stop Mining</Button>
+                <Button Style="{StaticResource GradientButtonStyle}" Click="btnStart_Click"  Margin="0,15,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="45" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToHiddenConverter}}">Start Mining</Button>
+
                 <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="0" Padding="8" Grid.Row="2">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -91,8 +85,8 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Label Content="MyBalance" FontSize="14" Margin="17,22,0,0" Grid.ColumnSpan="2"/>
-                        <ContentControl Content="{DynamicResource Wallet_icon}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Margin="20" HorizontalAlignment="Center"></ContentControl>
+                        <Label Content="My Balance" FontSize="14" Margin="17,22,0,0" Grid.ColumnSpan="2"/>
+                        <Image Source="Icons/DefaultStyle/png/Dashboard/Balance.png" Grid.Column="0" Grid.Row="1" Margin="23, 5" Stretch="Uniform" VerticalAlignment="Top"  RenderOptions.BitmapScalingMode="HighQuality" />
                         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="0,13,0,0">
                             <Label Content="Earned" Foreground="#99b" FontFamily="Segoe UI" FontSize="14"></Label>
                             <Label Content="{Binding Path=AmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Segoe UI Black" FontSize="42" Margin="0, -12"></Label>
@@ -113,7 +107,7 @@
                             <RowDefinition Height="2*"/>
                             <RowDefinition Height="3*"/>
                         </Grid.RowDefinitions>
-                        <ContentControl Content="{DynamicResource Profit_icon}"  Grid.Row="1" Margin="35, 0,35,20" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"></ContentControl>
+                        <Image Source="Icons/DefaultStyle/png/Dashboard/Profit.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
                         <StackPanel Margin="0,22" Grid.Row="2">
                             <Label HorizontalAlignment="Center" FontFamily="Segoe UI" FontSize="14" Margin="0, 2">Estimated Profit</Label>
                             <TextBlock HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" Margin="0, 12">
@@ -136,7 +130,7 @@
                             <Label FontSize="10" FontWeight="Bold" Content="Cards:"  Padding="0"/>
                             <Label FontSize="10" Content="{Binding Path=GpuCardsInfo, Mode=OneWay}" Margin="4,0,0,0" Foreground="#99b" Padding="0"/>
                         </StackPanel>
-                        <Image Source="Icons/Settings/GPU_Icon.png" Grid.Column="0" Grid.Row="1" Margin="25, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality">
+                        <Image Source="Icons/DefaultStyle/png/Dashboard/Gpu.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" >
                             <!--<Image.Style>
                                 <Style TargetType="{x:Type Image}">
                                     <Style.Triggers>
@@ -178,7 +172,7 @@
                             <Label FontSize="10" FontWeight="Bold" Content="Threads:"  Padding="0"/>
                             <Label FontSize="10" Content="{Binding Path=CpuCardsInfo, Mode=OneWay}" Margin="4,0,0,0" Foreground="#99b" Padding="0"/>
                         </StackPanel>
-                        <ContentControl Grid.Row="1"  Content="{DynamicResource CPU_icon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Padding="0" />
+                        <Image Source="Icons/DefaultStyle/png/Dashboard/Cpu.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
 
                         <StackPanel Grid.Row="2" Margin="0,24" HorizontalAlignment="Center">
                             <Label Content="CPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18" Padding="0"></Label>
