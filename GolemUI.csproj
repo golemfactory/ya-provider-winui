@@ -64,7 +64,7 @@
     <StartupObject>GolemUI.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Thorg.ico</ApplicationIcon>
+    <ApplicationIcon>Media/Thorg.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -728,9 +728,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Seed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Thorg.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Media\Thorg.ico" />
