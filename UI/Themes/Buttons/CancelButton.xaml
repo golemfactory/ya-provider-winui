@@ -13,12 +13,17 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"> 
-                    <Hyperlink TextDecorations="None" Foreground="#fff" FontFamily="Arial" FontWeight="Bold">
-                        <Run Text="{TemplateBinding Content}" />
-                    </Hyperlink>
-                    </TextBlock>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" > 
+                            <Hyperlink  x:Name="txt" TextDecorations="None" Foreground="#fff" FontFamily="Arial" FontWeight="Bold">
+                                <Run Text="{TemplateBinding Content}" />
+                            </Hyperlink>    
+                        </TextBlock>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" TargetName="txt" Value="#0FB2AB"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
