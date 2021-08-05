@@ -24,7 +24,7 @@ namespace GolemUI.Src
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private double? _estimatedEarningsPerSecond;
-        public double? EstimatedEarningsPerSecond 
+        public double? EstimatedEarningsPerSecond
         {
             get
             {

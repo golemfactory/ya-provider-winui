@@ -181,16 +181,17 @@ namespace GolemUI.ViewModel
         public decimal? Amount => _paymentService.State?.Balance;
 
         public decimal? _usdPerDay = null;
-        public decimal? UsdPerDay {
-            get 
+        public decimal? UsdPerDay
+        {
+            get
             {
                 return _usdPerDay;
-            }  
-            set 
+            }
+            set
             {
                 _usdPerDay = value;
                 OnPropertyChanged("UsdPerDay");
-            } 
+            }
         }
 
         public decimal? AmountUSD => _priceProvider.CoinValue(Amount ?? 0, IPriceProvider.Coin.GLM);

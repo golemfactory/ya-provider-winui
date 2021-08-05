@@ -151,7 +151,7 @@ namespace GolemUI.ViewModel
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardSettingsAdv DashboardSettingsAdv { get; set; }
         public DashboardWallet DashboardWallet { get; set; }
-        public DashboardStatistics DashboardStatistics {get;set;}
+        public DashboardStatistics DashboardStatistics { get; set; }
 
         private DashboardPages _selectedPage;
 

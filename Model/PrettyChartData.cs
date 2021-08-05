@@ -37,7 +37,7 @@ namespace GolemUI.Model
             public object Clone()
             {
                 return new PrettyChartBinData() { BinEntries = BinEntries.Clone() };
-               
+
             }
 
             public double GetMaxValue(double minValue)
@@ -68,7 +68,7 @@ namespace GolemUI.Model
         public object Clone()
         {
             return new PrettyChartData() { BinData = (PrettyChartBinData)BinData.Clone(), NoAnimate = NoAnimate };
-            
+
         }
     }
 }

@@ -57,7 +57,7 @@ namespace GolemUI
         ILogger<ProcessController> _logger;
 
         public ProcessController(ILogger<ProcessController> logger)
-        { 
+        {
             _logger = logger;
 
         }

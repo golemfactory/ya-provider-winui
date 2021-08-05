@@ -66,7 +66,7 @@ namespace GolemUI.UI.Charts
         {
             if (e.Property == _chartData)
             {
-                UpdateBinChart((PrettyChartData?)e.NewValue, (PrettyChartData?)e.OldValue, animate:true);
+                UpdateBinChart((PrettyChartData?)e.NewValue, (PrettyChartData?)e.OldValue, animate: true);
             }
         }
 
@@ -91,7 +91,7 @@ namespace GolemUI.UI.Charts
 
         public void OnSizeChanged(object sender, System.EventArgs e)
         {
-            UpdateBinChart(ChartData, null, animate:false);
+            UpdateBinChart(ChartData, null, animate: false);
         }
 
         double MaxAnimSpeed = 0.4;
@@ -162,7 +162,7 @@ namespace GolemUI.UI.Charts
 
                         pol.Name = polyName;
 
-                        
+
                         cv.Children.Add(pol);
 
                         var tb = new TextBlock();
@@ -293,7 +293,7 @@ namespace GolemUI.UI.Charts
             }
 
             double maxVal = newData.BinData.GetMaxValue(0.001);
-            double? oldMaxVal = oldData?.BinData.GetMaxValue(0.001); 
+            double? oldMaxVal = oldData?.BinData.GetMaxValue(0.001);
 
             double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
 

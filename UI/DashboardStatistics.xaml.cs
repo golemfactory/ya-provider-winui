@@ -38,6 +38,6 @@ namespace GolemUI.UI
             ViewModel.MoveDataRight();
         }
 
-        
+
     }
 }
