@@ -99,7 +99,7 @@ namespace GolemUI
 
         private async void btntest_Click(object sender, RoutedEventArgs e)
         {
-            await _processControler.GetAgreement(Model.ActiveActivityID);
+            await _processControler.GetAgreement(Model.ActiveAgreementID);
         }
     }
 }

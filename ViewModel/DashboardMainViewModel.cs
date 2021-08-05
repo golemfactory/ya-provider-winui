@@ -36,9 +36,23 @@ namespace GolemUI.ViewModel
 
         private void _historyDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ActiveActivityID")
+            if (e.PropertyName == "ActiveAgreementID")
             {
-                OnPropertyChanged("ActiveActivityID");
+                OnPropertyChanged("ActiveAgreementID");
+            }
+            if (e.PropertyName == "EstimatedEarningsPerSecond")
+            {
+                if (_historyDataProvider.EstimatedEarningsPerSecond != null)
+                {
+                    var glmPerDay = (decimal)(_historyDataProvider.EstimatedEarningsPerSecond * 3600 * 24);
+                    UsdPerDay = _priceProvider.CoinValue(glmPerDay, IPriceProvider.Coin.GLM);
+
+                }
+                else
+                {
+                    UsdPerDay = null;
+                }
+
             }
 
         }
@@ -52,11 +66,11 @@ namespace GolemUI.ViewModel
         }
 
 
-        public string ActiveActivityID
+        public string ActiveAgreementID
         {
             get
             {
-                return _historyDataProvider.ActiveActivityID;
+                return _historyDataProvider.ActiveAgreementID;
             }
         }
 
@@ -165,7 +179,20 @@ namespace GolemUI.ViewModel
 
         public IProcessControler Process => _processController;
         public decimal? Amount => _paymentService.State?.Balance;
-        public decimal UsdPerDay => 99.99m;
+
+        public decimal? _usdPerDay = null;
+        public decimal? UsdPerDay {
+            get 
+            {
+                return _usdPerDay;
+            }  
+            set 
+            {
+                _usdPerDay = value;
+                OnPropertyChanged("UsdPerDay");
+            } 
+        }
+
         public decimal? AmountUSD => _priceProvider.CoinValue(Amount ?? 0, IPriceProvider.Coin.GLM);
 
         public decimal? PendingAmount => _paymentService.State?.PendingBalance;

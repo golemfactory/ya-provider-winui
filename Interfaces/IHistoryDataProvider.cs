@@ -12,7 +12,9 @@ namespace GolemUI.Interfaces
     {
         PrettyChartData GetMegaHashHistory();
 
-        public string? ActiveActivityID { get; set; }
+        public string? ActiveAgreementID { get; set; }
+
+        public double? EstimatedEarningsPerSecond { get; set; }
 
     }
 }

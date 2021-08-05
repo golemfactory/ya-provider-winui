@@ -14,34 +14,84 @@ namespace GolemUI.Src
     public class HistoryDataProvider : IHistoryDataProvider
     {
         List<double> HashrateHistory { get; set; } = new List<double>();
+        Dictionary<DateTime, double> MoneyHistory { get; set; } = new Dictionary<DateTime, double>();
         PrettyChartData ChartData { get; set; } = new PrettyChartData();
+
+
 
         IStatusProvider _statusProvider;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string? _activeActivityID = null;
-        public string? ActiveActivityID
+        private double? _estimatedEarningsPerSecond;
+        public double? EstimatedEarningsPerSecond 
         {
             get
             {
-                return _activeActivityID;
+                return _estimatedEarningsPerSecond;
             }
             set
             {
-                _activeActivityID = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("ActiveActivityID"));
+                _estimatedEarningsPerSecond = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("EstimatedEarningsPerSecond"));
+            }
+        }
+
+        public void ComputeEstimatedEarnings()
+        {
+            if (MoneyHistory.Count > 1)
+            {
+                DateTime timeStart = MoneyHistory.First().Key;
+                DateTime timeEnd = MoneyHistory.Last().Key;
+                double moneyStart = MoneyHistory.First().Value;
+                double moneyEnd = MoneyHistory.Last().Value;
+
+                if (moneyEnd - moneyStart > 0 && (timeEnd - timeStart).TotalSeconds > 0)
+                {
+                    var glmValue = (moneyEnd - moneyStart) / (timeEnd - timeStart).TotalSeconds;
+                    EstimatedEarningsPerSecond = glmValue;
+                }
+
+            }
+
+        }
+
+        public string? _activeAgreementID = null;
+        public string? ActiveAgreementID
+        {
+            get
+            {
+                return _activeAgreementID;
+            }
+            set
+            {
+                _activeAgreementID = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("ActiveAgreementID"));
             }
         }
 
         Dictionary<string, double>? UsageVectorsAsDict { get; set; } = null;
 
-
+        double _sumMoney = 0.0;
+        double SumMoney
+        {
+            get
+            {
+                return _sumMoney;
+            }
+            set
+            {
+                _sumMoney = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("SumMoney"));
+            }
+        }
         IProcessControler _processControler;
         ILogger<HistoryDataProvider> _logger;
+        IPriceProvider _priveProvider;
 
-        public HistoryDataProvider(IStatusProvider statusProvider, IProcessControler processControler, ILogger<HistoryDataProvider> logger)
+        public HistoryDataProvider(IStatusProvider statusProvider, IProcessControler processControler, ILogger<HistoryDataProvider> logger, IPriceProvider priveProvider)
         {
+            _priveProvider = priveProvider;
             _statusProvider = statusProvider;
             statusProvider.PropertyChanged += StatusProvider_PropertyChanged;
             _processControler = processControler;
@@ -55,7 +105,6 @@ namespace GolemUI.Src
             {
                 var act = _statusProvider.Activities;
 
-
                 foreach (ActivityState actState in act)
                 {
                     if (actState.ExeUnit == "gminer")
@@ -63,25 +112,40 @@ namespace GolemUI.Src
                         Model.ActivityState a = act.First();
                         if (a.State == ActivityState.StateType.New)
                         {
-                            ActiveActivityID = actState.AgreementId;
+                            ActiveAgreementID = actState.AgreementId;
                             Task.Run(() => GetUsageVectors());
                         }
                         if (a.State == ActivityState.StateType.Terminated)
                         {
-                            ActiveActivityID = null;
+                            ActiveAgreementID = null;
                         }
                     }
                 }
-
 
                 Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
                 var isGpuMining = gminerState != null;
                 var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
                 var gpuStatus = "Idle";
+
                 if (isGpuMining)
                 {
-
                     float hashRate = 0.0f;
+
+                    if (UsageVectorsAsDict != null && gminerState?.Usage != null)
+                    {
+                        double sumMoney = 0.0;
+                        foreach (var usage in gminerState.Usage)
+                        {
+                            if (UsageVectorsAsDict.ContainsKey(usage.Key))
+                            {
+                                sumMoney += UsageVectorsAsDict[usage.Key] * usage.Value;
+                            }
+                        }
+                        SumMoney = sumMoney;
+
+                        MoneyHistory.Add(DateTime.Now, SumMoney);
+                        ComputeEstimatedEarnings();
+                    }
                     gminerState?.Usage?.TryGetValue("golem.usage.mining.hash-rate", out hashRate);
                     if (HashrateHistory.Count == 0 || HashrateHistory.Last() != hashRate)
                     {
@@ -102,16 +166,14 @@ namespace GolemUI.Src
                             PropertyChanged(this, new PropertyChangedEventArgs("ChartData"));
                         }
                     }
-
-
-
                 }
             }
         }
+
         private async void GetUsageVectors()
         {
             Dictionary<string, double> usageDict = new Dictionary<string, double>();
-            YagnaAgreement? aggr = await _processControler.GetAgreement(ActiveActivityID);
+            YagnaAgreement? aggr = await _processControler.GetAgreement(ActiveAgreementID);
 
             if (aggr == null)
             {
