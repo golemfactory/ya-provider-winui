@@ -189,7 +189,7 @@
                 <StackPanel Grid.Column="1">
                     
                 <Label Padding="0"  FontFamily="Segoe UI" FontSize="24" Grid.Column="1" Margin="8,40,8,10">Getting Started</Label>
-                <Button Style="{StaticResource BackButtonStyle}" VerticalAlignment="Top" Margin="20,0,0,0"  x:Name="BtnBackToMainScreen" Click="BtnBackToMainScreen_Click"    HorizontalAlignment="Left" Visibility="{Binding BackButtonVisibilty}"/>
+                <Button Style="{StaticResource BackButtonStyle}" VerticalAlignment="Top" Margin="6,0,0,0"  x:Name="BtnBackToMainScreen" Click="BtnBackToMainScreen_Click"    HorizontalAlignment="Left" Visibility="{Binding BackButtonVisibilty}"/>
                 </StackPanel>
                 <TabControl Margin="0" Padding="0" Grid.Row="2" Grid.Column="1" Background="Transparent" BorderBrush="Transparent"  SelectedIndex="{Binding Path=Flow, Mode=OneWay}" Height="auto" >
                     <TabControl.ItemContainerStyle>
