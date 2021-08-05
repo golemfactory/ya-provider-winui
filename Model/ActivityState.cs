@@ -20,6 +20,8 @@ namespace GolemUI.Model
 
         public string? Id { get; set; }
 
+        public string? AgreementId { get; set; }
+
         public StateType State { get; set; }
 
         public Dictionary<string, float>? Usage { get; set; }

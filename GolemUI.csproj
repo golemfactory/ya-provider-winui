@@ -310,6 +310,7 @@
     <Compile Include="Model\PrettyChartData.cs" />
     <Compile Include="Model\UserSettings.cs" />
     <Compile Include="Model\WalletState.cs" />
+    <Compile Include="Model\YagnaAgreement.cs" />
     <Compile Include="Notifications\CloseWindowCommand.cs" />
     <Compile Include="Notifications\CommandBase.cs" />
     <Compile Include="Notifications\ShowWindowCommand.cs" />

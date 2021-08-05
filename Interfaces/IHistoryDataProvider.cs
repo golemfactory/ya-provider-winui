@@ -11,6 +11,9 @@ namespace GolemUI.Interfaces
     public interface IHistoryDataProvider : INotifyPropertyChanged
     {
         PrettyChartData GetMegaHashHistory();
+
+        public string? ActiveActivityID { get; set; }
+
     }
 }
 

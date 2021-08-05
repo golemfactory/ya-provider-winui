@@ -4,6 +4,7 @@ using GolemUI.Src;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace GolemUI.ViewModel
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
-            IStatusProvider statusProvider)
+            IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
@@ -23,11 +24,23 @@ namespace GolemUI.ViewModel
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
             _statusProvider = statusProvider;
+            _historyDataProvider = historyDataProvider;
 
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
             _statusProvider.PropertyChanged += OnActivityStatusChanged;
             _processController.PropertyChanged += OnProcessControllerChanged;
+
+            _historyDataProvider.PropertyChanged += _historyDataProvider_PropertyChanged;
+        }
+
+        private void _historyDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ActiveActivityID")
+            {
+                OnPropertyChanged("ActiveActivityID");
+            }
+
         }
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
@@ -38,11 +51,21 @@ namespace GolemUI.ViewModel
             }
         }
 
+
+        public string ActiveActivityID
+        {
+            get
+            {
+                return _historyDataProvider.ActiveActivityID;
+            }
+        }
+
         public string GpuStatus { get; private set; } = "Idle";
 
         private void OnActivityStatusChanged(object sender, PropertyChangedEventArgs e)
         {
             var act = _statusProvider.Activities;
+            Debug.WriteLine(act.ToString());
             Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
             var isGpuMining = gminerState != null;
             var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
@@ -220,5 +243,6 @@ namespace GolemUI.ViewModel
         private readonly IStatusProvider _statusProvider;
         private readonly IProcessControler _processController;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
+        private readonly IHistoryDataProvider _historyDataProvider;
     }
 }

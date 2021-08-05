@@ -18,6 +18,9 @@ using System.Security.Cryptography;
 using System.Text;
 using GolemUI.Utils;
 using System.Windows;
+using GolemUI.Model;
+using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace GolemUI
 {
@@ -50,6 +53,15 @@ namespace GolemUI
         public string ConfigurationInfoDebug = "";
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        ILogger<ProcessController> _logger;
+
+        public ProcessController(ILogger<ProcessController> logger)
+        { 
+            _logger = logger;
+
+        }
+
 
         public void KillYagna()
         {
@@ -180,6 +192,25 @@ namespace GolemUI
             var txt = await _client.GetStringAsync($"{_baseUrl}/me");
             return JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? throw new HttpRequestException("null response on /me");
         }
+
+        public async Task<YagnaAgreement?> GetAgreement(string agreementID)
+        {
+            try
+            {
+
+                var txt = await _client.GetStringAsync($"{_baseUrl}/market-api/v1/agreements/{agreementID}");
+
+                YagnaAgreement? aggr = JsonConvert.DeserializeObject<YagnaAgreement>(txt) ?? null;
+
+                return aggr;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed GetAgreementInfo: " + ex.Message);
+                return null;
+            }
+        }
+
         private KeyInfo StartupYagna(string? privateKey = null)
         {
             _yagnaDaemon = _yagna.Run(new YagnaStartupOptions()

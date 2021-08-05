@@ -27,12 +27,15 @@ namespace GolemUI
     {
         public DashboardMainViewModel Model => (DataContext as DashboardMainViewModel)!;
 
+        IProcessControler _processControler;
+
         IBenchmarkResultsProvider _benchmarkResultsProvider;
-        public DashboardMain(DashboardMainViewModel viewModel, IBenchmarkResultsProvider benchmarkResultsProvider)
+        public DashboardMain(DashboardMainViewModel viewModel, IBenchmarkResultsProvider benchmarkResultsProvider, IProcessControler processControler)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;
             DataContext = viewModel;
             InitializeComponent();
+            _processControler = processControler;
         }
 
         public void RefreshStatus()
@@ -92,6 +95,11 @@ namespace GolemUI
         private void BorderCpu_MouseLeave(object sender, MouseEventArgs e)
         {
             BtnCpuSettings.Visibility = Visibility.Collapsed;
+        }
+
+        private async void btntest_Click(object sender, RoutedEventArgs e)
+        {
+            await _processControler.GetAgreement(Model.ActiveActivityID);
         }
     }
 }
