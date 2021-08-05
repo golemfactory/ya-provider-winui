@@ -15,7 +15,6 @@
         Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/Thorg.ico" MinHeight="600" MinWidth="1024"
         xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
         d:DataContext ="{d:DesignInstance {x:Type dvm:DashboardViewModel}, IsDesignTimeCreatable=True}"
-        Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/tray.ico" MinHeight="600" MinWidth="1024"        
         >
     <Window.Resources>
         <ResourceDictionary>
@@ -51,6 +50,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
+
+
             <tb:TaskbarIcon x:Name="tbNotificationIcon" IconSource="/Media/Thorg.ico" DoubleClickCommand="{commands:ShowWindowCommand}" ToolTipText="GolemUI" ContextMenu="{StaticResource TrayMenu}"/>
             <!-- todo:// following code generates binding errors -->
             <!--DoubleClickCommand="{Binding ElementName=DashboardWindow, Path=ShowCommand, Mode=OneWay}"-->
@@ -75,6 +76,7 @@
             </Border>
             <Border x:Name="brdNavigation" BorderBrush="White" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 0.5 0">
                 <StackPanel>
+
                     <RadioButton  ToolTip="Dashboard" IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=1}" GroupName="nav" Style="{StaticResource NavSidepanelButtonDashboard}"/>
                     <RadioButton  ToolTip="Wallet"    IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=3}" GroupName="nav" Style="{StaticResource NavSidepanelButtonWallet}"/>
                     <RadioButton  ToolTip="Settings"  IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=2}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}"/>
