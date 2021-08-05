@@ -37,25 +37,29 @@ namespace GolemUI.Src
                 {
                     float hashRate = 0.0f;
                     gminerState?.Usage?.TryGetValue("golem.usage.mining.hash-rate", out hashRate);
-                    HashrateHistory.Add(hashRate);
-
-                    if (PropertyChanged != null)
+                    if (HashrateHistory.Count == 0 || HashrateHistory.Last() != hashRate)
                     {
-
-                        PrettyChartData chartData = new PrettyChartData() { BinData = new PrettyChartData.PrettyChartBinData() };
-
-                        int idx_f = 0;
-                        for (int i = Math.Max(HashrateHistory.Count - 14, 0); i < HashrateHistory.Count; i++)
+                        HashrateHistory.Add(hashRate);
+                        if (PropertyChanged != null)
                         {
-                            chartData.BinData.BinEntries.Add(new PrettyChartData.PrettyChartBinEntry() { Label = i.ToString(), Value = HashrateHistory[i] });
-                            idx_f += 1;
+
+                            PrettyChartData chartData = new PrettyChartData() { BinData = new PrettyChartData.PrettyChartBinData() };
+
+                            int idx_f = 0;
+                            for (int i = Math.Max(HashrateHistory.Count - 14, 0); i < HashrateHistory.Count; i++)
+                            {
+                                chartData.BinData.BinEntries.Add(new PrettyChartData.PrettyChartBinEntry() { Label = i.ToString(), Value = HashrateHistory[i] });
+                                idx_f += 1;
+                            }
+
+                            ChartData = chartData;
+
+                            PropertyChanged(this, new PropertyChangedEventArgs("ChartData"));
                         }
-
-                        ChartData = chartData;
-
-                        PropertyChanged(this, new PropertyChangedEventArgs("ChartData"));
-
                     }
+
+
+
                 }
             }
         }
