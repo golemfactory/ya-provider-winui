@@ -28,7 +28,7 @@
     <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1'/>
     <!-- Allow upgrades and prevent downgrades -->
     <!--MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." /-->
-    <Property Id='DiskPrompt' Value='Golem Installation'/>
+    <Property Id='DiskPrompt' Value='Thorg Miner Installation'/>
 
     <!--Condition Message="Required vc++ runtime version 14.22.27812.0 or newer">
     		<![CDATA[Installed OR VCRUNTIMEVERSION]]>
@@ -136,27 +136,15 @@
       Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
     </UI>
     <WixVariable Id='WixUILicenseRtf' Value='LICENSE.rtf'/>
-    <!--WixVariable Id="WixUIBannerBmp" Value="WixUIBannerBmp.bmp" /-->
+    <WixVariable Id="WixUIBannerBmp" Value="WixUIBannerBmp.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="WixUIDialogBmp.bmp" />
     <WixVariable Id="WixUIExclamationIco" Value="WixUIExclamationIco.ico"/>
 
-    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Start Golem" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Start Thorg Miner" />
     <CustomAction Id='LaunchApplication' ExeCommand='[APPLICATIONFOLDER]GolemUI.Exe' Return="asyncNoWait" Directory="APPLICATIONFOLDER"/>
-
+    <Icon Id="icon.ico" SourceFile="WixUIExclamationIco.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
   </Product>  
-  <Fragment>
-    <Property Id="VCRUNTIMEVERSION">
-      <DirectorySearch Id="SystemFolderDriverVersion" Path="[SystemFolder]">
-        <FileSearch Name="vcruntime140.dll" MinVersion="14.22.27821.0"/>
-      </DirectorySearch>
-    </Property>
-    <PackageGroup Id="redist_vc140">
-      <ExePackage Id="vc140" Cache="yes" PerMachine="yes" Permanent="yes" Vital="yes" Compressed="yes"
-             SourceFile="redist\vcredist_x64.exe"
-             InstallCommand="/quiet /norestart"
-       DetectCondition="(VCRUNTIMEVERSION &gt;= 14.22.27821.0)" />
-    </PackageGroup>
-  </Fragment>
   <Fragment>
     <Component Id="cmp2064A296D7784C7B9E0A88832769F2B7" Directory="APPLICATIONFOLDER" Guid="*">
       <File Id="filE191C2D49C12AE32405B1455AA8C7D41" KeyPath="yes" Source="$(var.GolemUI.TargetDir)\GolemUI.exe" Assembly=".net" />
