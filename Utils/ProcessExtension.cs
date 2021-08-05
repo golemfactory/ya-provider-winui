@@ -85,7 +85,13 @@ namespace GolemUI.Utils
             {
                 process.Kill();
             }
+        }
 
+        public static IDisposable WithJob(this Process process, string? name = null)
+        {
+            var cpm = new ChildProcessManager(name);
+            cpm.AddProcess(process);
+            return cpm;
         }
     }
 }

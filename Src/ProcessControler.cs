@@ -44,6 +44,7 @@ namespace GolemUI
 
         private Process? _yagnaDaemon;
         private Process? _providerDaemon;
+        private IDisposable? _providerJob;
 
         public LogLineHandler? LineHandler { get; set; }
 
@@ -66,8 +67,16 @@ namespace GolemUI
         {
             if (_providerDaemon != null)
             {
-                _providerDaemon.Kill(entireProcessTree: true);
-                _providerDaemon.Dispose();
+                if (_providerJob != null)
+                {
+                    _providerJob.Dispose();
+                    _providerJob = null;
+                }
+                else
+                {
+                    _providerDaemon.Kill(entireProcessTree: true);
+                    _providerDaemon.Dispose();
+                }
                 _providerDaemon = null;
             }
         }
@@ -254,6 +263,7 @@ namespace GolemUI
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
             _providerDaemon.OutputDataReceived += OnProviderOutputDataRecv;
             _providerDaemon.Start();
+            _providerJob = _providerDaemon.WithJob("miner provider");
             _providerDaemon.EnableRaisingEvents = true;
 
             _providerDaemon.BeginErrorReadLine();
@@ -367,10 +377,7 @@ namespace GolemUI
             {
                 _lock();
                 bool providerEndedSuccessfully = await StopProvider();
-                if (!providerEndedSuccessfully)
-                {
-                    KillProvider();
-                }
+                KillProvider();
             }
             finally
             {
