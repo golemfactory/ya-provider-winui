@@ -112,6 +112,10 @@ namespace GolemUI.Src
                         Model.ActivityState a = act.First();
                         if (a.State == ActivityState.StateType.New)
                         {
+                            MoneyHistory.Clear();
+                            ChartData = new PrettyChartData(); //clear chart data
+                            EstimatedEarningsPerSecond = null;
+
                             ActiveAgreementID = actState.AgreementId;
                             Task.Run(() => GetUsageVectors());
                         }
