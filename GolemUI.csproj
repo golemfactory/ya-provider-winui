@@ -727,7 +727,6 @@
     <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Cpu.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Gpu.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Profit.png" />
-    <Resource Include="UI\Icons\DefaultStyle\png\Dashboard\Settings\TaskType.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UI\Icons\DefaultStyle\png\Dashboard\Wallet\" />
