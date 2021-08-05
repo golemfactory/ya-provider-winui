@@ -109,6 +109,7 @@ namespace GolemUI
                 {
                     _yagnaDaemon.Kill();
                 }
+                _yagnaDaemon = null;
             }
         }
 
