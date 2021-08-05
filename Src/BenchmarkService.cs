@@ -63,13 +63,13 @@ namespace GolemUI.Src
             var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded, logger: _logger);
 
 
-            _logger.LogInformation("Benchmark started");  
+            _logger.LogInformation("Benchmark started");
 
             try
             {
                 if (preBenchmarkNeeded)
                 {
-                    _logger.LogInformation("PreBenchmarkNeeded cards: " + cards + " niceness: " + niceness);  
+                    _logger.LogInformation("PreBenchmarkNeeded cards: " + cards + " niceness: " + niceness);
 
 
                     bool result = cc.RunBenchmarkRecording(@"test.pre_recording", isPreBenchmark: true);
