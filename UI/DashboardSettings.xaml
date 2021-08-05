@@ -92,8 +92,8 @@
                 </StackPanel>
 
 
-                <Button Margin="0,2,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"  Height="45" Grid.Row="0" Grid.Column="4" IsEnabled="{Binding Path=BenchmarkReadyToRun}" Visibility="{Binding Path=BenchmarkReadyToRun, Converter={StaticResource BoolToVisibleConverter}}"  Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}" Width="Auto" Click="btnRunBenchmark_Click" Grid.RowSpan="3" >Run Benchmark</Button>
-                <Button Margin="0,2,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="45" Grid.Row="0" Grid.Column="4" IsEnabled="{Binding Path=BenchmarkIsRunning}" Visibility="{Binding Path=BenchmarkIsRunning, Converter={StaticResource BoolToVisibleConverter}}" Name="btnStopBenchmark" Style="{StaticResource GradientButtonStyle}" Width="Auto" Click="btnStopBenchmark_Click" Grid.RowSpan="3" >Stop Benchmark</Button>
+                <Button Margin="0,2,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Grid.Column="4" IsEnabled="{Binding Path=BenchmarkReadyToRun}" Visibility="{Binding Path=BenchmarkReadyToRun, Converter={StaticResource BoolToVisibleConverter}}"  Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}"  Click="btnRunBenchmark_Click" >Run Benchmark</Button>
+                <Button Margin="0,2,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Grid.Column="4" IsEnabled="{Binding Path=BenchmarkIsRunning}" Visibility="{Binding Path=BenchmarkIsRunning, Converter={StaticResource BoolToVisibleConverter}}" Name="btnStopBenchmark" Style="{StaticResource GradientButtonStyle}" Click="btnStopBenchmark_Click" >Stop Benchmark</Button>
 
 
 
@@ -138,7 +138,7 @@
                             <RowDefinition Height="60" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/Settings/GPU_icon_new.png" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10, 10,10, 0" Stretch="Uniform" />
+                        <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="/UI/Icons/DefaultStyle/png/Dashboard/Gpu.png" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="25, 10,20, 0" Stretch="Uniform" />
 
 
                         <StackPanel Visibility="{Binding Path=BenchmarkIsRunning, Converter={StaticResource BoolToVisibleConverter}}"  Orientation="Horizontal" Grid.ColumnSpan="2" >
@@ -338,7 +338,7 @@
 
                             <Label Margin="25,20,0,0" Content="CPU" FontSize="22" FontWeight="Bold" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF" />
 
-                            <Image Grid.Row="1" RenderOptions.BitmapScalingMode="HighQuality"  Source="Icons/Settings/CPU_icon_new.png"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20, 10, 3, 10" Stretch="Uniform" />
+                            <Image Grid.Row="1" RenderOptions.BitmapScalingMode="HighQuality"  Source="/UI/Icons/DefaultStyle/png/Dashboard/Cpu.png"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20, 10, 3, 10" Stretch="Uniform" />
 
 
                             <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="1" Margin="0,0,10,10">
