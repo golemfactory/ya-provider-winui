@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
-             d:DataContext ="{d:DesignInstance {x:Type dvm:PrettyChartDesignViewModel}, IsDesignTimeCreatable=True}"             
+             d:DataContext ="{d:DesignInstance {x:Type local:PrettyChartDesignViewModel}, IsDesignTimeCreatable=True}"             
              >
     <Grid>
         <local:PrettyChart Width="500" Height="300" ChartData="{Binding Path=ChartData}"></local:PrettyChart>

@@ -288,7 +288,6 @@
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
     <Compile Include="DesignViewModel\DashboardStatisticsDesignViewModel.cs" />
-    <Compile Include="DesignViewModel\PrettyChartDesignViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
     <Compile Include="Interfaces\IEstimatedProfiProvider.cs" />
