@@ -262,6 +262,7 @@
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
     <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />
     <Compile Include="Src\AppNotificationService\SimpleNotificationObject.cs" />
+    <Compile Include="Src\HistoryDataProvider.cs" />
     <Compile Include="UI\UserControls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>

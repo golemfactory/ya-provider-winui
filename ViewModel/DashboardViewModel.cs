@@ -265,7 +265,8 @@ namespace GolemUI.ViewModel
 #endif
 
             _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
-
+            _pages.Values.ToList().ForEach(page => page.DarkBackgroundRequested += Page_DarkBackgroundRequested);
+        }
 
             private void Page_DarkBackgroundRequested(bool shouldBackgroundBeVisible)
             {

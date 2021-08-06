@@ -97,6 +97,7 @@ namespace GolemUI
             services.AddTransient(typeof(ViewModel.WalletViewModel));
             services.AddTransient(typeof(ViewModel.DashboardMainViewModel));
             services.AddTransient(typeof(ViewModel.SetupViewModel));
+            services.AddTransient(typeof(ViewModel.CustomControls.NotificationBarViewModel));
 #if STATISTICS_ENABLED
             services.AddTransient(typeof(ViewModel.StatisticsViewModel));
 #endif
