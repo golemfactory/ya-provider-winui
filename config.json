@@ -1,3 +1,5 @@
 {
-  "version": "0.1.7"
+  "version": "0.1.7",
+  "ethPricePerMhs": 0.00004,
+  "etcPricePerMhs": 0.000002,
 }
