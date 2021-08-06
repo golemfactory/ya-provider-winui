@@ -15,9 +15,9 @@ namespace GolemUI.Src
 {
     public class HistoryDataProvider : IHistoryDataProvider
     {
-        List<double> HashrateHistory { get; set; } = new List<double>();
-        Dictionary<DateTime, double> EarningsHistoryGpu { get; set; } = new Dictionary<DateTime, double>();
-        PrettyChartData ChartData { get; set; } = new PrettyChartData();
+        public List<double> HashrateHistory { get; set; } = new List<double>();
+        public Dictionary<DateTime, double> EarningsHistoryGpu { get; set; } = new Dictionary<DateTime, double>();
+        public PrettyChartData HashrateChartData { get; set; } = new PrettyChartData();
 
 
         IStatusProvider _statusProvider;
@@ -119,7 +119,7 @@ namespace GolemUI.Src
             if (gminerState.State == ActivityState.StateType.New)
             {
                 EarningsHistoryGpu.Clear();
-                ChartData = new PrettyChartData(); //clear chart data
+                HashrateChartData.Clear(); //clear chart data
                 EstimatedEarningsPerSecond = null;
 
                 ActiveAgreementID = gminerState.AgreementId;
@@ -131,6 +131,22 @@ namespace GolemUI.Src
             }
         }
 
+        private void UpdateChartData()
+        {
+            PrettyChartData chartData = new PrettyChartData() { BinData = new PrettyChartData.PrettyChartBinData() };
+
+            int idx_f = 0;
+            for (int i = Math.Max(HashrateHistory.Count - 14, 0); i < HashrateHistory.Count; i++)
+            {
+                chartData.BinData.BinEntries.Add(new PrettyChartData.PrettyChartBinEntry() { Label = i.ToString(), Value = HashrateHistory[i] });
+                idx_f += 1;
+            }
+
+            HashrateChartData = chartData;
+
+            NotifyChanged("HashrateChartData");
+        }
+
         private void CheckForActivityHashrateChange(Model.ActivityState gminerState)
         {
             float hashRate = 0.0f;
@@ -139,21 +155,7 @@ namespace GolemUI.Src
             if (HashrateHistory.Count == 0 || HashrateHistory.Last() != hashRate)
             {
                 HashrateHistory.Add(hashRate);
-                if (PropertyChanged != null)
-                {
-                    PrettyChartData chartData = new PrettyChartData() { BinData = new PrettyChartData.PrettyChartBinData() };
-
-                    int idx_f = 0;
-                    for (int i = Math.Max(HashrateHistory.Count - 14, 0); i < HashrateHistory.Count; i++)
-                    {
-                        chartData.BinData.BinEntries.Add(new PrettyChartData.PrettyChartBinEntry() { Label = i.ToString(), Value = HashrateHistory[i] });
-                        idx_f += 1;
-                    }
-
-                    ChartData = chartData;
-
-                    PropertyChanged(this, new PropertyChangedEventArgs("ChartData"));
-                }
+                UpdateChartData();
             }
         }
 
@@ -185,7 +187,7 @@ namespace GolemUI.Src
                 Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
                 var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
 
-                foreach (ActivityState actState in _statusProvider.Activities)
+                foreach (ActivityState actState in _statusProvider.Activities ?? new List<ActivityState>())
                 {
                     if (actState.ExeUnit == "gminer")
                     {
@@ -195,11 +197,6 @@ namespace GolemUI.Src
                     }
                 }
             }
-        }
-
-        public PrettyChartData GetMegaHashHistory()
-        {
-            return ChartData;
         }
 
         private void NotifyChanged([CallerMemberName] string? propertyName = null)

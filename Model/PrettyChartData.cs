@@ -58,6 +58,12 @@ namespace GolemUI.Model
         public PrettyChartBinData BinData { get; set; } = new PrettyChartBinData();
         public bool NoAnimate { get; set; } = false;
 
+
+        public void Clear()
+        {
+            BinData.BinEntries.Clear();
+        }
+
         public PrettyChartData()
         {
             //BinData = new PrettyChartBinData();
