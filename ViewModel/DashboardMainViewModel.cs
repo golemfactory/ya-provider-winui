@@ -201,7 +201,8 @@ namespace GolemUI.ViewModel
         public string EstimationMessage
         {
             get => _estimationMessage;
-            set {
+            set
+            {
                 _estimationMessage = value;
                 OnPropertyChanged();
             }

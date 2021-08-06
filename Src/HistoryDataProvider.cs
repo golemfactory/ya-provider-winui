@@ -36,9 +36,9 @@ namespace GolemUI.Src
         }
 
         private string _estimatedEarningsMessage = "";
-        public string EstimatedEarningsMessage 
-        { 
-            get => _estimatedEarningsMessage; 
+        public string EstimatedEarningsMessage
+        {
+            get => _estimatedEarningsMessage;
             set
             {
                 _estimatedEarningsMessage = value;
