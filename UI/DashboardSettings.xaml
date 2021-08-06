@@ -92,8 +92,8 @@
                 </StackPanel>
 
 
-                <Button Margin="0,2,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Grid.Column="4" IsEnabled="{Binding Path=BenchmarkReadyToRun}" Visibility="{Binding Path=BenchmarkReadyToRun, Converter={StaticResource BoolToVisibleConverter}}"  Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}"  Click="btnRunBenchmark_Click" >Run Benchmark</Button>
-                <Button Margin="0,2,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Grid.Column="4" IsEnabled="{Binding Path=BenchmarkIsRunning}" Visibility="{Binding Path=BenchmarkIsRunning, Converter={StaticResource BoolToVisibleConverter}}" Name="btnStopBenchmark" Style="{StaticResource GradientButtonStyle}" Click="btnStopBenchmark_Click" >Stop Benchmark</Button>
+                <Button Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Grid.Column="4" IsEnabled="{Binding Path=BenchmarkReadyToRun}" Visibility="{Binding Path=BenchmarkReadyToRun, Converter={StaticResource BoolToVisibleConverter}}"  Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}"  Click="btnRunBenchmark_Click" >Run Benchmark</Button>
+                <Button Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Grid.Column="4" IsEnabled="{Binding Path=BenchmarkIsRunning}" Visibility="{Binding Path=BenchmarkIsRunning, Converter={StaticResource BoolToVisibleConverter}}" Name="btnStopBenchmark" Style="{StaticResource GradientButtonStyle}" Click="btnStopBenchmark_Click" >Stop Benchmark</Button>
 
 
 
