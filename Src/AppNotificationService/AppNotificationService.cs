@@ -33,7 +33,7 @@ namespace GolemUI.Src.AppNotificationService
        
         public void DeleteNotification(INotificationObject notification)
         {
-
+            NotificationDeleted?.Invoke(notification);
         }
     }
 }

@@ -28,17 +28,17 @@ namespace GolemUI.Src.AppNotificationService
         {
             if (e.PropertyName == "IsServerRunning")
             {
-                _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStatus, "yagna " + (_processControler.IsServerRunning ? "started" : "stopped",5000)));
+                _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStatus, "yagna " + (_processControler.IsServerRunning ? "started" : "stopped"),5000));
             }
             if (e.PropertyName == "IsProviderRunning")
             {
-                _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStatus, "provider " + (_processControler.IsProviderRunning ? "started" : "stopped",5000)));
+                _notificationService.PushNotification(new SimpleNotificationObject(Tag.ProviderStatus, "provider " + (_processControler.IsProviderRunning ? "started" : "stopped"),5000));
             }
             if (e.PropertyName == "IsStarting")
             {
-                _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStatus, (_processControler.IsStarting ? "starting" : "stopping") + " subsystems...",4000));
+                _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStarting, (_processControler.IsStarting ? "starting" : "stopping") + " subsystems...",4000));
             }
         }
-
     }
 }
+ 

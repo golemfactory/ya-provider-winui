@@ -2,7 +2,7 @@
 
 namespace GolemUI.Src.AppNotificationService
 {
-    public enum Tag { YagnaStatus, SettingsChanged, MiningStatus, AppStatus, Info };
+    public enum Tag { YagnaStatus, YagnaStarting, ProviderStatus, SettingsChanged, MiningStatus, AppStatus, Info };
     public class SimpleNotificationObject: INotificationObject
     {
 
@@ -34,5 +34,6 @@ namespace GolemUI.Src.AppNotificationService
         {
             ExpiryTimeInMs = expiryTimeInMs;
         }
+        public string GetId() => Tag.ToString();
     }
 }
