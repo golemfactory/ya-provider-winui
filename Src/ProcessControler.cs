@@ -70,7 +70,7 @@ namespace GolemUI
                 using (_providerJob)
                 {
                     _providerJob = null;
-                }                
+                }
             }
             else if (_providerDaemon != null)
             {
