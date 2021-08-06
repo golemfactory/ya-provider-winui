@@ -148,7 +148,7 @@
                         <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24">
                             <Label Padding="0" Content="GPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18"  HorizontalAlignment="Center"></Label>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,6">
-                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsMiningActive}">
+                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsGpuEnabled}">
                                     <Label Content="{Binding GpuStatus}"/>
                                 </CheckBox>
                             </StackPanel>
@@ -177,7 +177,7 @@
                         <StackPanel Grid.Row="2" Margin="0,24" HorizontalAlignment="Center">
                             <Label Content="CPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18" Padding="0"></Label>
                             <StackPanel Orientation="Horizontal" Margin="0,6">
-                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuActive}">
+                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuEnabled}">
                                     <Label Content="Idle"/>
                                 </CheckBox>
 

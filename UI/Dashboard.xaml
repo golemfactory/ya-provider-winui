@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:lui="clr-namespace:GolemUI"
+        xmlns:cc="clr-namespace:GolemUI.UI.CustomControls"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:commands="clr-namespace:GolemUI.Notifications"
         mc:Ignorable="d"
@@ -56,6 +56,7 @@
             <!-- todo:// following code generates binding errors -->
             <!--DoubleClickCommand="{Binding ElementName=DashboardWindow, Path=ShowCommand, Mode=OneWay}"-->
 
+            <cc:NotificationBar Grid.Column="1"/>
 
             <Border Grid.Column="0" Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0.5 0" Margin="0,0,0,0">
                 <Label Foreground="White" VerticalAlignment="Center" Visibility="Hidden">GolemUI 0.0.1</Label>

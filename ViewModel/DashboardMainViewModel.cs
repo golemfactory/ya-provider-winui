@@ -77,7 +77,7 @@ namespace GolemUI.ViewModel
             {
                 newStatus = DashboardStatusEnum.Mining;
             }
-            else if (_processController.IsProviderRunning && (IsCpuActive || IsMiningActive))
+            else if (_processController.IsProviderRunning && (IsCpuEnabled || IsGpuEnabled))
             {
                 newStatus = DashboardStatusEnum.Ready;
             }
@@ -164,21 +164,23 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public bool IsMiningActive
+        public bool IsGpuEnabled
         {
             get => _providerConfig.IsMiningActive;
             set
             {
                 _providerConfig.IsMiningActive = value;
+                OnPropertyChanged("IsGpuEnabled");
             }
         }
 
-        public bool IsCpuActive
+        public bool IsCpuEnabled
         {
             get => _providerConfig.IsCpuActive;
             set
             {
                 _providerConfig.IsCpuActive = value;
+                OnPropertyChanged("IsCpuEnabled");
             }
         }
 

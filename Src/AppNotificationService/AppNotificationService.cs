@@ -15,15 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GolemUI.Src
+namespace GolemUI.Src.AppNotificationService
 {
-
-    public class SimpleNotificationObject: INotificationObject
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Message { get; set; }
-    }
 
     public class AppNotificationService : INotificationService
     {
