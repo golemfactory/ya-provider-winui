@@ -126,20 +126,6 @@ namespace GolemUI.Src
         }
 
         Dictionary<string, double>? UsageVectorsAsDict { get; set; } = null;
-
-        double _sumMoney = 0.0;
-        double SumMoney
-        {
-            get
-            {
-                return _sumMoney;
-            }
-            set
-            {
-                _sumMoney = value;
-                NotifyChanged();
-            }
-        }
         IProcessControler _processControler;
         ILogger<HistoryDataProvider> _logger;
         IPriceProvider _priveProvider;
@@ -151,7 +137,6 @@ namespace GolemUI.Src
             statusProvider.PropertyChanged += StatusProvider_PropertyChanged;
             _processControler = processControler;
             _logger = logger;
-
         }
 
         Task? _getUsageVectorsTask = null;
@@ -248,9 +233,7 @@ namespace GolemUI.Src
                         sumMoney += UsageVectorsAsDict[usage.Key] * usage.Value;
                     }
                 }
-                SumMoney = sumMoney;
-
-                MiningHistoryGpu.Add(DateTime.Now, new GPUHistoryUsage((int)(shares + 0.5), SumMoney, duration, sharesTimesDiff, hashRate));
+                MiningHistoryGpu.Add(DateTime.Now, new GPUHistoryUsage((int)(shares + 0.5), sumMoney, duration, sharesTimesDiff, hashRate));
                 ComputeEstimatedEarnings();
             }
         }

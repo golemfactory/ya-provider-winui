@@ -19,8 +19,8 @@ namespace GolemUI.Model
         {
             public Dictionary<string, object>? Properties { get; set; }
             public string? Constraints { get; set; }
-            public string? offerID { get; set; }
-            public string? providerID { get; set; }
+            public string? OfferID { get; set; }
+            public string? ProviderID { get; set; }
             public DateTime? Timestamp { get; set; }
         }
         public string? AgreementID { get; set; }
