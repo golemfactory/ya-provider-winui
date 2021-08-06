@@ -91,12 +91,16 @@ namespace GolemUI
             services.AddTransient(typeof(ViewModel.WalletViewModel));
             services.AddTransient(typeof(ViewModel.DashboardMainViewModel));
             services.AddTransient(typeof(ViewModel.SetupViewModel));
+#if STATISTICS_ENABLED
             services.AddTransient(typeof(ViewModel.StatisticsViewModel));
+#endif
 
             services.AddTransient(typeof(DashboardMain));
             services.AddTransient(typeof(DashboardSettings));
             services.AddTransient(typeof(DashboardSettingsAdv));
+#if STATISTICS_ENABLED
             services.AddTransient(typeof(DashboardStatistics));
+#endif
             services.AddTransient(typeof(SettingsViewModel));
             services.AddTransient(typeof(SettingsAdvViewModel));
 

@@ -214,21 +214,30 @@ namespace GolemUI.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DashboardViewModel(DashboardStatistics dashboardStatistics, DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet)
+        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet
+#if STATISTICS_ENABLED
+                ,DashboardStatistics dashboardStatistics
+#endif
+            )
         {
             PropertyChanged += OnPropertyChanged;
 
             DashboardMain = dashboardMain;
+#if STATISTICS_ENABLED
             DashboardSettings = dashboardSettings;
+#endif
             DashboardSettingsAdv = dashboardSettingsAdv;
             DashboardWallet = dashboardWallet;
-            DashboardStatistics = dashboardStatistics;
+            DashboardSettings = dashboardSettings;
 
             _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
             _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet, DashboardWallet.Model));
             _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
+
+#if STATISTICS_ENABLED
             _pages.Add(DashboardPages.PageDashboardStatistics, new DashboardPage(DashboardStatistics, DashboardStatistics.ViewModel));
+#endif
 
             _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
 

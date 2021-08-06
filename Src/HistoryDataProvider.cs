@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,7 +17,6 @@ namespace GolemUI.Src
         List<double> HashrateHistory { get; set; } = new List<double>();
         Dictionary<DateTime, double> MoneyHistory { get; set; } = new Dictionary<DateTime, double>();
         PrettyChartData ChartData { get; set; } = new PrettyChartData();
-
 
 
         IStatusProvider _statusProvider;
@@ -33,7 +33,7 @@ namespace GolemUI.Src
             set
             {
                 _estimatedEarningsPerSecond = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("EstimatedEarningsPerSecond"));
+                NotifyChanged("EstimatedEarningsPerSecond");
             }
         }
 
@@ -66,7 +66,7 @@ namespace GolemUI.Src
             set
             {
                 _activeAgreementID = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("ActiveAgreementID"));
+                NotifyChanged("ActiveAgreementID");
             }
         }
 
@@ -82,7 +82,7 @@ namespace GolemUI.Src
             set
             {
                 _sumMoney = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("SumMoney"));
+                NotifyChanged("SumMoney");
             }
         }
         IProcessControler _processControler;
@@ -105,7 +105,7 @@ namespace GolemUI.Src
             {
                 var act = _statusProvider.Activities;
 
-                foreach (ActivityState actState in act)
+                foreach (ActivityState actState in act ?? new List<ActivityState>())
                 {
                     if (actState.ExeUnit == "gminer")
                     {
@@ -129,7 +129,6 @@ namespace GolemUI.Src
                 Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
                 var isGpuMining = gminerState != null;
                 var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
-                var gpuStatus = "Idle";
 
                 if (isGpuMining)
                 {
@@ -219,6 +218,15 @@ namespace GolemUI.Src
         public PrettyChartData GetMegaHashHistory()
         {
             return ChartData;
+        }
+
+
+        private void NotifyChanged([CallerMemberName] string? propertyName = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

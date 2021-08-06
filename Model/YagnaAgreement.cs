@@ -23,16 +23,16 @@ namespace GolemUI.Model
             public string? providerID { get; set; }
             public DateTime? Timestamp { get; set; }
         }
-        public string agreementID { get; set; }
+        public string? AgreementID { get; set; }
 
-        public YagnaAgreementOffer Offer { get; set; }
-        public YagnaAgreementDemand Demand { get; set; }
+        public YagnaAgreementOffer? Offer { get; set; }
+        public YagnaAgreementDemand? Demand { get; set; }
 
         public DateTime? ValidTo { get; set; }
         public DateTime? ApprovedDate { get; set; }
-        public string? state { get; set; }
+        public string? State { get; set; }
         public DateTime? Timestamp { get; set; }
-        public string? appSessionID { get; set; }
+        public string? AppSessionID { get; set; }
 
 
 

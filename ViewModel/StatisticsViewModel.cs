@@ -12,6 +12,7 @@ using static GolemUI.Model.PrettyChartData;
 
 namespace GolemUI.ViewModel
 {
+#if STATISTICS_ENABLED
     public class StatisticsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
         private readonly DispatcherTimer _timer;
@@ -21,6 +22,13 @@ namespace GolemUI.ViewModel
         {
             _historyDataProvider = historyDataProvider;
             historyDataProvider.PropertyChanged += HistoryDataProvider_PropertyChanged;
+
+            //get rid of null
+            if (PageChangeRequested != null)
+            {
+
+            }
+            _timer = new DispatcherTimer();
         }
 
         private void HistoryDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -35,7 +43,7 @@ namespace GolemUI.ViewModel
         public PrettyChartData ChartData4 { get; set; }
 
 
-        public event PageChangeRequestedEvent PageChangeRequested;
+        public event PageChangeRequestedEvent? PageChangeRequested;
         public event PropertyChangedEventHandler PropertyChanged;
 
         Random _rand = new Random();
@@ -120,4 +128,5 @@ namespace GolemUI.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+#endif
 }
