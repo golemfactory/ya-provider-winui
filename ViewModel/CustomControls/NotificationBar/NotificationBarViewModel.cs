@@ -5,21 +5,36 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Timers;
 
 namespace GolemUI.ViewModel.CustomControls
 {
 
-    public class NotificationBarViewModel: INotifyPropertyChanged
+    public class NotificationBarViewModel: INotifyPropertyChanged, IDisposable
     {
-
+        Timer timer = new Timer();
+        
         public NotificationBarViewModel(INotificationService notificationService)
         {
+
+            timer.Elapsed += Timer_Elapsed;
+            timer.Interval = 100;
+            timer.Enabled = false;
+
             _items = new ObservableCollection<NotificationBarNotification>();
             _notificationService = notificationService;
             _notificationService.NotificationArrived += _notificationService_NotificationArrived;
         }
 
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => x.LifeTime += (int)timer.Interval);
+
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => { if (x.ShouldDisappear) Items.Remove(x); });
+            });
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         INotificationService _notificationService;
@@ -42,7 +57,7 @@ namespace GolemUI.ViewModel.CustomControls
 
         private void _notificationService_NotificationArrived(INotificationObject ntf)
         {
-            AddOrUpdate(new NotificationBarNotification(NotificationState.Visible, ntf.Title, ntf.GetId(), ntf.Message, 5000, 0));
+            AddOrUpdate(new NotificationBarNotification(true,NotificationState.Visible, ntf.Title, ntf.GetId(), ntf.Message, 5000, 0));
         }
         private bool ElementWithSpecifiedIdAlreatExists(string id)
         {
@@ -58,13 +73,15 @@ namespace GolemUI.ViewModel.CustomControls
         }
         private void AddOrUpdate(NotificationBarNotification ntf)
         {
-            App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            App.Current.Dispatcher.Invoke((Action)delegate 
             {
                 LastNotification = ntf.Title;
                 if (ElementWithSpecifiedIdAlreatExists(ntf.Id))
                     TryUpdateElement(ntf);
                 else
                     Items.Add(ntf);
+
+                timer.Enabled = Items.Count > 0;
             });
         }
         private void OnPropertyChanged(string? propertyName)
@@ -73,6 +90,11 @@ namespace GolemUI.ViewModel.CustomControls
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+        public void Dispose()
+        {
+            timer.Stop();
+            timer.Dispose();
         }
     }
 }

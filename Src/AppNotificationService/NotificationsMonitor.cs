@@ -36,7 +36,7 @@ namespace GolemUI.Src.AppNotificationService
             }
             if (e.PropertyName == "IsStarting")
             {
-                _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStarting, (_processControler.IsStarting ? "starting" : "stopping") + " subsystems...",4000));
+                //   _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStarting, (_processControler.IsStarting ? "starting" : "stopping") + " subsystems...",4000));
             }
         }
     }

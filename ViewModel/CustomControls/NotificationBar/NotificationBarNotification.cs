@@ -4,8 +4,18 @@ namespace GolemUI.ViewModel.CustomControls
 {
     public class NotificationBarNotification : INotifyPropertyChanged
     {
+        public NotificationBarNotification(bool shouldAutoHide, NotificationState state, string title, string id, string message, int expirationTime, int lifeTime)
+        {
+            ShouldAutoHide = shouldAutoHide;
+            State = state;
+            Title = title;
+            Id = id;
+            Message = message;
+            ExpirationTime = expirationTime;
+            LifeTime = lifeTime;
+        }
 
-
+        public bool ShouldAutoHide = false;
 
         private NotificationState _state;
 
@@ -52,6 +62,14 @@ namespace GolemUI.ViewModel.CustomControls
             }
         }
 
+        public bool ShouldDisappear
+        {
+            get
+            {
+                return ShouldAutoHide && LifeTime > ExpirationTime;
+
+            }
+        }
         private int _expirationTime = 1000;
         public int ExpirationTime
         {
@@ -65,16 +83,7 @@ namespace GolemUI.ViewModel.CustomControls
 
         private int _lifeTime = 0;
 
-        public NotificationBarNotification(NotificationState state, string title, string id, string message, int expirationTime, int lifeTime)
-        {
-            State = state;
-            Title = title;
-            Id = id;
-            Message = message;
-            ExpirationTime = expirationTime;
-            LifeTime = lifeTime;
-        }
-
+      
         public int LifeTime
         {
             get => _lifeTime;
@@ -82,6 +91,29 @@ namespace GolemUI.ViewModel.CustomControls
             {
                 _lifeTime = value;
                 OnPropertyChanged(nameof(LifeTime));
+                OnPropertyChanged(nameof(Percentage));
+                OnPropertyChanged(nameof(PercentageAsString));
+            }
+        }
+
+        private const int MaxHeight = 20;
+        public int Percentage
+        {
+            get
+            {
+                if (!ShouldAutoHide && ExpirationTime == 0) return MaxHeight;
+                int percentage = MaxHeight- (int)((double)MaxHeight * (double)LifeTime/ (double)ExpirationTime);
+                if (percentage > MaxHeight) return MaxHeight;
+                if (percentage <0) return 0;
+                return percentage;
+
+            }
+        }
+        public string PercentageAsString
+        {
+            get
+            {
+                return Percentage.ToString();
             }
         }
 

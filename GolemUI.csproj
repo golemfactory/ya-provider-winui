@@ -388,9 +388,9 @@
     <Compile Include="Utils\ProcessExtension.cs" />
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
-    <Compile Include="ViewModel\CustomControls\NotificationBarNotification.cs" />
-    <Compile Include="ViewModel\CustomControls\NotificationBarViewModel.cs" />
-    <Compile Include="ViewModel\CustomControls\NotificationState.cs" />
+    <Compile Include="ViewModel\CustomControls\NotificationBar\NotificationBarNotification.cs" />
+    <Compile Include="ViewModel\CustomControls\NotificationBar\NotificationBarViewModel.cs" />
+    <Compile Include="ViewModel\CustomControls\NotificationBar\NotificationState.cs" />
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
     <Compile Include="ViewModel\DashboardViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />

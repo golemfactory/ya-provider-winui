@@ -26,7 +26,7 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <Label Content="{Binding LastNotification}" VerticalAlignment="Center" />
+           
             <ListBox x:Name="NavButtons" Background="#000" Foreground="White" Focusable="false"  ItemsSource="{Binding Path=Items}"  PreviewMouseDown="NavButtons_PreviewMouseDown">
 
                 <!--Focusable="false"  IsHitTestVisible="False"-->
@@ -62,13 +62,14 @@
                 </d:ListBox.ItemsSource>-->
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-
-
-                            <Rectangle Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBox}}" Width="1" Height="20" Margin="4,0,5,0" />
-                            <Label VerticalAlignment="Center" Margin="5,0,0,0" Content="{Binding Title}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"></Label>
-                           
-                        </StackPanel>
+                        
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBox}}" Width="1" Height="{Binding Percentage}" Margin="4,0,5,0" />
+                                <Label VerticalAlignment="Center" Margin="5,0,0,0" Content="{Binding Title, Mode=OneWay}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"></Label>
+                                
+                            </StackPanel> 
+                            <!--<Rectangle HorizontalAlignment="Stretch" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBox}}" Width="30" Height="2" Margin="4,0,5,0" />-->
+                        
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <ListBox.Template>
