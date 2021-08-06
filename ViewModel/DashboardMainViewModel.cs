@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,15 +47,16 @@ namespace GolemUI.ViewModel
                 {
                     var glmPerDay = (decimal)(_historyDataProvider.EstimatedEarningsPerSecond * 3600 * 24);
                     UsdPerDay = _priceProvider.CoinValue(glmPerDay, IPriceProvider.Coin.GLM);
-
                 }
                 else
                 {
                     UsdPerDay = null;
                 }
-
             }
-
+            if (e.PropertyName == "EstimatedEarningsMessage")
+            {
+                EstimationMessage = _historyDataProvider.EstimatedEarningsMessage;
+            }
         }
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
@@ -187,14 +189,21 @@ namespace GolemUI.ViewModel
         public decimal? _usdPerDay = null;
         public decimal? UsdPerDay
         {
-            get
-            {
-                return _usdPerDay;
-            }
+            get => _usdPerDay;
             set
             {
                 _usdPerDay = value;
-                OnPropertyChanged("UsdPerDay");
+                OnPropertyChanged();
+            }
+        }
+
+        public string _estimationMessage = "";
+        public string EstimationMessage
+        {
+            get => _estimationMessage;
+            set {
+                _estimationMessage = value;
+                OnPropertyChanged();
             }
         }
 
@@ -259,7 +268,7 @@ namespace GolemUI.ViewModel
             await _processController.Start(_providerConfig.Network, extraClaymoreParams);
         }
 
-        private void OnPropertyChanged(string? propertyName)
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             if (PropertyChanged != null)
             {

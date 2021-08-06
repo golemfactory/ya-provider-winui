@@ -27,13 +27,21 @@ namespace GolemUI.Src
         private double? _estimatedEarningsPerSecond;
         public double? EstimatedEarningsPerSecond
         {
-            get
-            {
-                return _estimatedEarningsPerSecond;
-            }
+            get => _estimatedEarningsPerSecond;
             set
             {
                 _estimatedEarningsPerSecond = value;
+                NotifyChanged();
+            }
+        }
+
+        private string _estimatedEarningsMessage = "";
+        public string EstimatedEarningsMessage 
+        { 
+            get => _estimatedEarningsMessage; 
+            set
+            {
+                _estimatedEarningsMessage = value;
                 NotifyChanged();
             }
         }
@@ -47,13 +55,30 @@ namespace GolemUI.Src
             {
                 DateTime timeStart = EarningsHistoryGpu.First().Key;
                 DateTime timeEnd = EarningsHistoryGpu.Last().Key;
-                double moneyStart = EarningsHistoryGpu.First().Value;
-                double moneyEnd = EarningsHistoryGpu.Last().Value;
+                double earningsStart = EarningsHistoryGpu.First().Value;
+                double earningsEnd = EarningsHistoryGpu.Last().Value;
 
-                if (moneyEnd - moneyStart > 0 && (timeEnd - timeStart).TotalSeconds > 0)
+                if (earningsEnd - earningsStart > 0 && (timeEnd - timeStart).TotalSeconds > 0)
                 {
-                    var glmValue = (moneyEnd - moneyStart) / (timeEnd - timeStart).TotalSeconds;
+                    var glmValue = (earningsEnd - earningsStart) / (timeEnd - timeStart).TotalSeconds;
                     EstimatedEarningsPerSecond = glmValue;
+
+                    int totalSecs = ((int)(timeEnd - timeStart).TotalSeconds);
+                    if (totalSecs < 0)
+                    {
+                        _logger.LogError("totalSecs < 0 which cannot be possible");
+                    }
+                    int hours = totalSecs / 3600;
+                    int minutes = (totalSecs - hours * 3600) / 60;
+
+                    if (hours == 0)
+                    {
+                        EstimatedEarningsMessage = $"Estimation based on earnings during last {minutes} minutes";
+                    }
+                    else if (hours > 0)
+                    {
+                        EstimatedEarningsMessage = $"Estimation based on earnings during last {hours} hours and {minutes} minutes";
+                    }
                 }
             }
         }

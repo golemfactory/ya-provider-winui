@@ -16,6 +16,9 @@ namespace GolemUI.Interfaces
 
         public double? EstimatedEarningsPerSecond { get; set; }
 
+        public string EstimatedEarningsMessage { get; set; }
+
+
     }
 }
 
