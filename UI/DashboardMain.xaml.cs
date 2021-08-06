@@ -96,10 +96,5 @@ namespace GolemUI
         {
             BtnCpuSettings.Visibility = Visibility.Collapsed;
         }
-
-        private async void btntest_Click(object sender, RoutedEventArgs e)
-        {
-            await _processControler.GetAgreement(Model.ActiveAgreementID);
-        }
     }
 }

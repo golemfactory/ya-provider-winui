@@ -211,6 +211,54 @@ namespace GolemUI
             }
         }
 
+        public async Task<Dictionary<string, double>?> GetUsageVectors(string? agreementID)
+        {
+            if (String.IsNullOrEmpty(agreementID))
+            {
+                return null;
+            }
+
+            Dictionary<string, double> usageDict = new Dictionary<string, double>();
+            YagnaAgreement? aggr = await GetAgreement(agreementID);
+
+            if (aggr == null)
+            {
+                _logger.LogError("Failed to get GetAgreementInfo.");
+                return null;
+            }
+            try
+            {
+                object linearCoefficients = null;
+                object usageVector = null;
+                if (aggr.Offer.Properties?.TryGetValue("golem.com.pricing.model.linear.coeffs", out linearCoefficients) ?? false)
+                {
+                    if (aggr.Offer.Properties?.TryGetValue("golem.com.usage.vector", out usageVector) ?? false)
+                    {
+                        Newtonsoft.Json.Linq.JArray? lc = (Newtonsoft.Json.Linq.JArray)linearCoefficients;
+                        Newtonsoft.Json.Linq.JArray? usV = (Newtonsoft.Json.Linq.JArray)usageVector;
+
+                        if (lc != null && usV != null && lc.Count > 0)
+                        {
+                            usageDict["start"] = (double)lc[0];
+                            for (int i = 0; i < usV.Count; i++)
+                            {
+                                usageDict[(string)usV[i]] = (double)lc[i + 1];
+                            }
+                        }
+                    }
+                }
+
+                _logger.LogInformation("Parsed usage vector: " + "{" + string.Join(",", usageDict.Select(kv => kv.Key + "=" + ((double)kv.Value).ToString(CultureInfo.InvariantCulture)).ToArray()) + "}");
+                return usageDict;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed GetAgreementInfo: " + ex.Message);
+            }
+            return null;
+        }
+
+
         private KeyInfo StartupYagna(string? privateKey = null)
         {
             _yagnaDaemon = _yagna.Run(new YagnaStartupOptions()

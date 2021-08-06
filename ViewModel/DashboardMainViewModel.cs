@@ -66,7 +66,7 @@ namespace GolemUI.ViewModel
         }
 
 
-        public string ActiveAgreementID
+        public string? ActiveAgreementID
         {
             get
             {
@@ -79,6 +79,10 @@ namespace GolemUI.ViewModel
         private void OnActivityStatusChanged(object sender, PropertyChangedEventArgs e)
         {
             var act = _statusProvider.Activities;
+            if (act == null)
+            {
+                return;
+            }
             Debug.WriteLine(act.ToString());
             Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
             var isGpuMining = gminerState != null;

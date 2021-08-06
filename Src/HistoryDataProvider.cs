@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace GolemUI.Src
     public class HistoryDataProvider : IHistoryDataProvider
     {
         List<double> HashrateHistory { get; set; } = new List<double>();
-        Dictionary<DateTime, double> MoneyHistory { get; set; } = new Dictionary<DateTime, double>();
+        Dictionary<DateTime, double> EarningsHistory { get; set; } = new Dictionary<DateTime, double>();
         PrettyChartData ChartData { get; set; } = new PrettyChartData();
 
 
@@ -33,27 +34,28 @@ namespace GolemUI.Src
             set
             {
                 _estimatedEarningsPerSecond = value;
-                NotifyChanged("EstimatedEarningsPerSecond");
+                NotifyChanged();
             }
         }
 
         public void ComputeEstimatedEarnings()
         {
-            if (MoneyHistory.Count > 1)
+            /*
+             * TODO: this should be more
+             */
+            if (EarningsHistory.Count > 1)
             {
-                DateTime timeStart = MoneyHistory.First().Key;
-                DateTime timeEnd = MoneyHistory.Last().Key;
-                double moneyStart = MoneyHistory.First().Value;
-                double moneyEnd = MoneyHistory.Last().Value;
+                DateTime timeStart = EarningsHistory.First().Key;
+                DateTime timeEnd = EarningsHistory.Last().Key;
+                double moneyStart = EarningsHistory.First().Value;
+                double moneyEnd = EarningsHistory.Last().Value;
 
                 if (moneyEnd - moneyStart > 0 && (timeEnd - timeStart).TotalSeconds > 0)
                 {
                     var glmValue = (moneyEnd - moneyStart) / (timeEnd - timeStart).TotalSeconds;
                     EstimatedEarningsPerSecond = glmValue;
                 }
-
             }
-
         }
 
         public string? _activeAgreementID = null;
@@ -66,7 +68,7 @@ namespace GolemUI.Src
             set
             {
                 _activeAgreementID = value;
-                NotifyChanged("ActiveAgreementID");
+                NotifyChanged();
             }
         }
 
@@ -82,7 +84,7 @@ namespace GolemUI.Src
             set
             {
                 _sumMoney = value;
-                NotifyChanged("SumMoney");
+                NotifyChanged();
             }
         }
         IProcessControler _processControler;
@@ -112,12 +114,12 @@ namespace GolemUI.Src
                         Model.ActivityState a = act.First();
                         if (a.State == ActivityState.StateType.New)
                         {
-                            MoneyHistory.Clear();
+                            EarningsHistory.Clear();
                             ChartData = new PrettyChartData(); //clear chart data
                             EstimatedEarningsPerSecond = null;
 
                             ActiveAgreementID = actState.AgreementId;
-                            Task.Run(() => GetUsageVectors());
+                            GetUsageVectors(ActiveAgreementID);
                         }
                         if (a.State == ActivityState.StateType.Terminated)
                         {
@@ -146,7 +148,7 @@ namespace GolemUI.Src
                         }
                         SumMoney = sumMoney;
 
-                        MoneyHistory.Add(DateTime.Now, SumMoney);
+                        EarningsHistory.Add(DateTime.Now, SumMoney);
                         ComputeEstimatedEarnings();
                     }
                     gminerState?.Usage?.TryGetValue("golem.usage.mining.hash-rate", out hashRate);
@@ -173,53 +175,28 @@ namespace GolemUI.Src
             }
         }
 
-        private async void GetUsageVectors()
+        Task? _getUsageVectorsTask = null;
+        private void GetUsageVectors(string? agreementID)
         {
-            Dictionary<string, double> usageDict = new Dictionary<string, double>();
-            YagnaAgreement? aggr = await _processControler.GetAgreement(ActiveAgreementID);
-
-            if (aggr == null)
+            if (_getUsageVectorsTask != null)
             {
-                _logger.LogError("Failed to get GetAgreementInfo.");
-                return;
+                _logger.LogError("_getUsageVectorsTask should be null before calling get usage vectors");
             }
-            try
-            {
-                object linearCoefficients = null;
-                object usageVector = null;
-                if (aggr.Offer.Properties?.TryGetValue("golem.com.pricing.model.linear.coeffs", out linearCoefficients) ?? false)
-                {
-                    if (aggr.Offer.Properties?.TryGetValue("golem.com.usage.vector", out usageVector) ?? false)
-                    {
-                        Newtonsoft.Json.Linq.JArray? lc = (Newtonsoft.Json.Linq.JArray)linearCoefficients;
-                        Newtonsoft.Json.Linq.JArray? usV = (Newtonsoft.Json.Linq.JArray)usageVector;
-
-                        if (lc != null && usV != null && lc.Count > 0)
-                        {
-                            usageDict["start"] = (double)lc[0];
-                            for (int i = 0; i < usV.Count; i++)
-                            {
-                                usageDict[(string)usV[i]] = (double)lc[i + 1];
-                            }
-                        }
-                    }
-                }
-
-                UsageVectorsAsDict = usageDict;
-                _logger.LogInformation("Parsed usage vector: " + "{" + string.Join(",", usageDict.Select(kv => kv.Key + "=" + ((double)kv.Value).ToString(CultureInfo.InvariantCulture)).ToArray()) + "}");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Failed GetAgreementInfo: " + ex.Message);
-                UsageVectorsAsDict = null;
-            }
+            _getUsageVectorsTask = Task.Run(() => GetUsageVectorAsync(agreementID));
         }
+
+        private async void GetUsageVectorAsync(string? agreementID)
+        {
+            UsageVectorsAsDict = await _processControler.GetUsageVectors(agreementID);
+            _getUsageVectorsTask = null;
+        }
+
+
 
         public PrettyChartData GetMegaHashHistory()
         {
             return ChartData;
         }
-
 
         private void NotifyChanged([CallerMemberName] string? propertyName = null)
         {
