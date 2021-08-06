@@ -27,12 +27,15 @@ namespace GolemUI
     {
         public DashboardMainViewModel Model => (DataContext as DashboardMainViewModel)!;
 
+        IProcessControler _processControler;
+
         IBenchmarkResultsProvider _benchmarkResultsProvider;
-        public DashboardMain(DashboardMainViewModel viewModel, IBenchmarkResultsProvider benchmarkResultsProvider)
+        public DashboardMain(DashboardMainViewModel viewModel, IBenchmarkResultsProvider benchmarkResultsProvider, IProcessControler processControler)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;
             DataContext = viewModel;
             InitializeComponent();
+            _processControler = processControler;
         }
 
         public void RefreshStatus()

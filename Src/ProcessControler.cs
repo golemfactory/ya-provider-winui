@@ -18,6 +18,9 @@ using System.Security.Cryptography;
 using System.Text;
 using GolemUI.Utils;
 using System.Windows;
+using GolemUI.Model;
+using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace GolemUI
 {
@@ -50,6 +53,15 @@ namespace GolemUI
         public string ConfigurationInfoDebug = "";
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        ILogger<ProcessController> _logger;
+
+        public ProcessController(ILogger<ProcessController> logger)
+        {
+            _logger = logger;
+
+        }
+
 
         public void KillYagna()
         {
@@ -180,6 +192,100 @@ namespace GolemUI
             var txt = await _client.GetStringAsync($"{_baseUrl}/me");
             return JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? throw new HttpRequestException("null response on /me");
         }
+
+        public async Task<YagnaAgreement?> GetAgreement(string agreementID)
+        {
+            try
+            {
+
+                var txt = await _client.GetStringAsync($"{_baseUrl}/market-api/v1/agreements/{agreementID}");
+
+                YagnaAgreement? aggr = JsonConvert.DeserializeObject<YagnaAgreement>(txt) ?? null;
+
+                return aggr;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed GetAgreementInfo: " + ex.Message);
+                return null;
+            }
+        }
+
+        public async Task<Dictionary<string, double>?> GetUsageVectors(string? agreementID)
+        {
+            if (String.IsNullOrEmpty(agreementID) || agreementID == null) //second check to get rid of warnings
+            {
+                return null;
+            }
+
+            Dictionary<string, double> usageDict = new Dictionary<string, double>();
+            YagnaAgreement? aggr = await GetAgreement(agreementID);
+
+            if (aggr == null)
+            {
+                _logger.LogError("Failed to get GetAgreementInfo.");
+                return null;
+            }
+            try
+            {
+                object? linearCoefficients = null;
+                object? usageVector = null;
+                if (aggr.Offer?.Properties?.TryGetValue("golem.com.pricing.model.linear.coeffs", out linearCoefficients) ?? false)
+                {
+                    if (aggr.Offer?.Properties?.TryGetValue("golem.com.usage.vector", out usageVector) ?? false)
+                    {
+                        Newtonsoft.Json.Linq.JArray? lc = (Newtonsoft.Json.Linq.JArray?)linearCoefficients;
+                        Newtonsoft.Json.Linq.JArray? usV = (Newtonsoft.Json.Linq.JArray?)usageVector;
+
+                        if (lc != null && usV != null && lc.Count > 0)
+                        {
+                            //first value should be starting price
+
+                            double? startVal = (double)lc[0];
+                            if (startVal == null)
+                            {
+                                throw new Exception("Failed to parse lc[0] (starting price)");
+                            }
+
+                            usageDict["start"] = startVal.Value;
+
+                            for (int i = 0; i < usV.Count; i++)
+                            {
+                                try
+                                {
+                                    string? entryString = (string?)usV[i];
+                                    if (entryString == null)
+                                    {
+                                        throw new Exception("usV[i] cannot be null");
+                                    }
+                                    double? entryVal = (double?)lc[i + 1];
+                                    if (entryVal == null)
+                                    {
+                                        throw new Exception("lc[i + 1] cannot be null");
+                                    }
+
+                                    usageDict[entryString] = entryVal.Value;
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw new Exception("Failed to parse usage vectors usV and lc: " + ex.Message);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                _logger.LogInformation("Parsed usage vector: " + "{" + string.Join(",", usageDict.Select(kv => kv.Key + "=" + ((double)kv.Value).ToString(CultureInfo.InvariantCulture)).ToArray()) + "}");
+                return usageDict;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed GetAgreementInfo: " + ex.Message);
+            }
+            return null;
+        }
+
+
         private KeyInfo StartupYagna(string? privateKey = null)
         {
             _yagnaDaemon = _yagna.Run(new YagnaStartupOptions()
