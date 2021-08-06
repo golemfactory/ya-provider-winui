@@ -71,7 +71,7 @@ namespace GolemUI.UI.Charts
         }
 
 
-        BinCompatibilityResult CheckBinCompatibility(PrettyChartData newData, PrettyChartData? oldData)
+        BinCompatibilityResult CheckBinCompatibility(PrettyChartData? newData, PrettyChartData? oldData)
         {
             if (oldData == null || newData == null)
             {
@@ -335,7 +335,7 @@ namespace GolemUI.UI.Charts
                         anim.Duration = new Duration(TimeSpan.FromSeconds(val / maxVal * MaxAnimSpeed));
                         Storyboard.SetTarget(anim, p);
                         Storyboard.SetTargetProperty(anim, new PropertyPath(Polygon.HeightProperty));
-                        myStoryboard.Children.Add(anim);
+                        myStoryboard?.Children.Add(anim);
                     }
                     {
                         DoubleAnimation anim = new DoubleAnimation();
@@ -349,7 +349,7 @@ namespace GolemUI.UI.Charts
                         anim.Duration = new Duration(TimeSpan.FromSeconds(val / maxVal * MaxAnimSpeed));
                         Storyboard.SetTarget(anim, tbVal);
                         Storyboard.SetTargetProperty(anim, new PropertyPath(Canvas.TopProperty));
-                        myStoryboard.Children.Add(anim);
+                        myStoryboard?.Children.Add(anim);
                     }
 
                 }

@@ -213,7 +213,7 @@ namespace GolemUI
 
         public async Task<Dictionary<string, double>?> GetUsageVectors(string? agreementID)
         {
-            if (String.IsNullOrEmpty(agreementID))
+            if (String.IsNullOrEmpty(agreementID) || agreementID == null) //second check to get rid of warnings
             {
                 return null;
             }
@@ -228,21 +228,48 @@ namespace GolemUI
             }
             try
             {
-                object linearCoefficients = null;
-                object usageVector = null;
-                if (aggr.Offer.Properties?.TryGetValue("golem.com.pricing.model.linear.coeffs", out linearCoefficients) ?? false)
+                object? linearCoefficients = null;
+                object? usageVector = null;
+                if (aggr.Offer?.Properties?.TryGetValue("golem.com.pricing.model.linear.coeffs", out linearCoefficients) ?? false)
                 {
-                    if (aggr.Offer.Properties?.TryGetValue("golem.com.usage.vector", out usageVector) ?? false)
+                    if (aggr.Offer?.Properties?.TryGetValue("golem.com.usage.vector", out usageVector) ?? false)
                     {
-                        Newtonsoft.Json.Linq.JArray? lc = (Newtonsoft.Json.Linq.JArray)linearCoefficients;
-                        Newtonsoft.Json.Linq.JArray? usV = (Newtonsoft.Json.Linq.JArray)usageVector;
+                        Newtonsoft.Json.Linq.JArray? lc = (Newtonsoft.Json.Linq.JArray?)linearCoefficients;
+                        Newtonsoft.Json.Linq.JArray? usV = (Newtonsoft.Json.Linq.JArray?)usageVector;
 
                         if (lc != null && usV != null && lc.Count > 0)
                         {
-                            usageDict["start"] = (double)lc[0];
+                            //first value should be starting price
+
+                            double? startVal = (double)lc[0];
+                            if (startVal == null)
+                            {
+                                throw new Exception("Failed to parse lc[0] (starting price)");
+                            }
+
+                            usageDict["start"] = startVal.Value;
+
                             for (int i = 0; i < usV.Count; i++)
                             {
-                                usageDict[(string)usV[i]] = (double)lc[i + 1];
+                                try
+                                {
+                                    string? entryString = (string?)usV[i];
+                                    if (entryString == null)
+                                    {
+                                        throw new Exception("usV[i] cannot be null");
+                                    }
+                                    double? entryVal = (double?)lc[i + 1];
+                                    if (entryVal == null)
+                                    {
+                                        throw new Exception("lc[i + 1] cannot be null");
+                                    }
+
+                                    usageDict[entryString] = entryVal.Value;
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw new Exception("Failed to parse usage vectors usV and lc: " + ex.Message);
+                                }
                             }
                         }
                     }
