@@ -259,7 +259,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ChildProcessManager.cs" />
+    <Compile Include="Utils\ChildProcessManager.cs" />
     <Compile Include="Claymore\ClaymoreParser.cs" />
     <Compile Include="Command\Claymore.cs" />
     <Compile Include="Command\GpuInfo.cs" />
@@ -329,7 +329,6 @@
     <Compile Include="UI\Dialogs\DlgAppInfo.xaml.cs">
       <DependentUpon>DlgAppInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utils\LazyInit.cs" />
     <Compile Include="Src\NameGenerator.cs" />
     <Compile Include="Src\PaymentService.cs" />
     <Compile Include="Src\ProcessControler.cs" />

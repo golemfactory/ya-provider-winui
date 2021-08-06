@@ -14,9 +14,9 @@ namespace GolemUI
     {
         private SafeJobHandle? _handle;
 
-        public ChildProcessManager()
+        public ChildProcessManager(string? name = null)
         {
-            _handle = new SafeJobHandle(CreateJobObject(IntPtr.Zero, null));
+            _handle = new SafeJobHandle(CreateJobObject(IntPtr.Zero, name));
 
             var info = new JOBOBJECT_BASIC_LIMIT_INFORMATION
             {
