@@ -26,6 +26,11 @@ namespace GolemUI.ViewModel.CustomControls
             _notificationService.NotificationArrived += _notificationService_NotificationArrived;
         }
 
+        public NotificationBarViewModel()
+        {
+            _items = new ObservableCollection<NotificationBarNotification>();
+            Enumerable.Range(1, 5).ToList().ForEach(x => Items.Add(new NotificationBarNotification(true, NotificationState.Visible, $"title {x}", $"id {x}", $"message {x}", 5000, x * 1000)));
+        }
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => x.LifeTime += (int)timer.Interval);
@@ -38,7 +43,7 @@ namespace GolemUI.ViewModel.CustomControls
 
         public event PropertyChangedEventHandler PropertyChanged;
         INotificationService _notificationService;
-        private string __lastNotification = "hello";
+       /* private string __lastNotification = "hello";
         public string LastNotification
         {
             get => __lastNotification;
@@ -48,7 +53,7 @@ namespace GolemUI.ViewModel.CustomControls
                 OnPropertyChanged(nameof(LastNotification));
             }
         }
-
+       */
         public ObservableCollection<NotificationBarNotification> _items;
         public ObservableCollection<NotificationBarNotification> Items => _items;
 
@@ -57,7 +62,7 @@ namespace GolemUI.ViewModel.CustomControls
 
         private void _notificationService_NotificationArrived(INotificationObject ntf)
         {
-            AddOrUpdate(new NotificationBarNotification(true,NotificationState.Visible, ntf.Title, ntf.GetId(), ntf.Message, 5000, 0));
+            AddOrUpdate(new NotificationBarNotification(ntf.ExpirationTimeInMs > 0, NotificationState.Visible, ntf.Title, ntf.GetId(), ntf.Message, ntf.ExpirationTimeInMs, 0));
         }
         private bool ElementWithSpecifiedIdAlreatExists(string id)
         {
@@ -69,13 +74,15 @@ namespace GolemUI.ViewModel.CustomControls
             if (item != default(NotificationBarNotification))
             {
                 item.Title = ntf.Title;
+                item.ShouldAutoHide = ntf.ShouldAutoHide;
+                item.ExpirationTime = ntf.ExpirationTime;
             }
         }
         private void AddOrUpdate(NotificationBarNotification ntf)
         {
             App.Current.Dispatcher.Invoke((Action)delegate 
             {
-                LastNotification = ntf.Title;
+               // LastNotification = ntf.Title;
                 if (ElementWithSpecifiedIdAlreatExists(ntf.Id))
                     TryUpdateElement(ntf);
                 else

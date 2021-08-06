@@ -9,7 +9,8 @@
              mc:Ignorable="d dlm"
              x:Name="uc"
              xmlns:lc="clr-namespace:GolemUI.Converters"                
-             d:DesignHeight="40" d:DesignWidth="1000" Loaded="OnReady"
+             d:DesignHeight="20" d:DesignWidth="1000" Loaded="OnReady"
+             Height="20" MinHeight="20"
              xmlns:dvm="clr-namespace:GolemUI.DesignViewModel.CustomControls"
              d:DataContext ="{d:DesignInstance {x:Type dvm:NotificationBarViewModel}, IsDesignTimeCreatable=True}"
        
@@ -17,17 +18,15 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/UI/Themes/Defaults.xaml"/>
-                <ResourceDictionary>
-
-                </ResourceDictionary>
+                <ResourceDictionary Source="../Themes/Defaults.xaml"/>
+                
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <StackPanel Orientation="Horizontal">
            
-            <ListBox x:Name="NavButtons" Background="#000" Foreground="White" Focusable="false"  ItemsSource="{Binding Path=Items}"  PreviewMouseDown="NavButtons_PreviewMouseDown">
+            <ListBox Margin="13,0,0,0" x:Name="NavButtons" Background="#000" Foreground="White" Focusable="false"  ItemsSource="{Binding Path=Items}"  PreviewMouseDown="NavButtons_PreviewMouseDown">
 
                 <!--Focusable="false"  IsHitTestVisible="False"-->
                 <ListBox.ItemContainerStyle>
@@ -65,9 +64,8 @@
                         
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBox}}" Width="1" Height="{Binding Percentage}" Margin="4,0,5,0" />
-                                <Label VerticalAlignment="Center" Margin="5,0,0,0" Content="{Binding Title, Mode=OneWay}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"></Label>
-                                
-                            </StackPanel> 
+                            <Label Padding="0" VerticalAlignment="Center" Margin="5,0,0,0" Content="{Binding Title, Mode=OneWay}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"></Label>
+                        </StackPanel> 
                             <!--<Rectangle HorizontalAlignment="Stretch" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBox}}" Width="30" Height="2" Margin="4,0,5,0" />-->
                         
                     </DataTemplate>

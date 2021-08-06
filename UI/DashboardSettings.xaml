@@ -117,7 +117,7 @@
                         <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="/UI/Icons/DefaultStyle/png/Settings/TaskType.png" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20" Stretch="Uniform" />
                         <StackPanel Grid.Row="2" Margin="0,28,0,0" HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox  Margin="0" Grid.Column="0" Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsMiningActive}"/>
+                                <CheckBox  Margin="0" Grid.Column="0" Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsMiningActive}" IsEnabled="{Binding BenchmarkReadyToRun}" />
                                 <TextBlock FontSize="10"   Margin="8, 5, 5, 5"  Text="Mining (GPU)" Foreground="#FFFFFF" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,13">
@@ -186,7 +186,7 @@
                                                     <ColumnDefinition Width="auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <CheckBox Grid.Column="0" IsChecked="{Binding Path=IsEnabledByUser}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" />
+                                                <CheckBox IsEnabled="{Binding DataContext.BenchmarkReadyToRun, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" Grid.Column="0" IsChecked="{Binding Path=IsEnabledByUser}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" />
                                                 <TextBlock Grid.Column="1" TextWrapping="Wrap" FontFamily="Segoe Ui" FontWeight="Regular" Foreground="White" FontSize="13" Text="{Binding Path=DisplayName}" Margin="0"/>
                                             </Grid>
                                             <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Hashrate:" Margin="0, 5, 0, 3" />

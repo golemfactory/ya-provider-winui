@@ -2,7 +2,7 @@
 
 namespace GolemUI.Src.AppNotificationService
 {
-    public enum Tag { YagnaStatus, YagnaStarting, ProviderStatus, SettingsChanged, MiningStatus, AppStatus, Info };
+    public enum Tag { YagnaStatus, Benchmark, YagnaStarting, ProviderStatus, SettingsChanged, MiningStatus, AppStatus, Info };
     public class SimpleNotificationObject: INotificationObject
     {
 
@@ -10,7 +10,7 @@ namespace GolemUI.Src.AppNotificationService
         public Tag Tag { get; set; }
         public string Title { get; set; }
         public string Message { get; set; }
-        public int ExpiryTimeInMs { get; set; }
+        public int ExpirationTimeInMs { get; set; }
 
         public SimpleNotificationObject(Tag tag, string title)
         {
@@ -25,14 +25,14 @@ namespace GolemUI.Src.AppNotificationService
             Message = message;
         }
 
-        public SimpleNotificationObject(Tag tag, string title, string message, int expiryTimeInMs) : this(tag, title, message)
+        public SimpleNotificationObject(Tag tag, string title, string message, int expirationTimeInMs) : this(tag, title, message)
         {
-            ExpiryTimeInMs = expiryTimeInMs;
+            ExpirationTimeInMs = expirationTimeInMs;
         }
 
-        public SimpleNotificationObject(Tag tag, string title, int expiryTimeInMs) : this(tag, title)
+        public SimpleNotificationObject(Tag tag, string title, int expirationTimeInMs) : this(tag, title)
         {
-            ExpiryTimeInMs = expiryTimeInMs;
+            ExpirationTimeInMs = expirationTimeInMs;
         }
         public string GetId() => Tag.ToString();
     }

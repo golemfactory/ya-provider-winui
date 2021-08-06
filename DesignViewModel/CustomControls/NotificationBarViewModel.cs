@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GolemUI.DesignViewModel.CustomControls
 {
-   
+
     public class NotificationBarViewModel : INotifyPropertyChanged
     {
         private string __lastNotification = "hello";
@@ -29,9 +29,7 @@ namespace GolemUI.DesignViewModel.CustomControls
         {
             _items = new ObservableCollection<NotificationBarNotification>();
             LastNotification = "hello2";
-            Enumerable.Range(1, 5).ToList().ForEach(x =>
-             Items.Add(new NotificationBarNotification(true,NotificationState.Visible, $"title {x}", $"id {x}", $"message {x}", 5000, x*1000))
-            );
+            Enumerable.Range(1, 5).ToList().ForEach(x =>Items.Add(new NotificationBarNotification(true, NotificationState.Visible, $"title {x}", $"id {x}", $"message {x}", 5000, x * 1000)));
 
         }
         public event PropertyChangedEventHandler PropertyChanged;
