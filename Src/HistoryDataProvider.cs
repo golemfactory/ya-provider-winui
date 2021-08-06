@@ -16,7 +16,7 @@ namespace GolemUI.Src
     public class HistoryDataProvider : IHistoryDataProvider
     {
         List<double> HashrateHistory { get; set; } = new List<double>();
-        Dictionary<DateTime, double> EarningsHistory { get; set; } = new Dictionary<DateTime, double>();
+        Dictionary<DateTime, double> EarningsHistoryGpu { get; set; } = new Dictionary<DateTime, double>();
         PrettyChartData ChartData { get; set; } = new PrettyChartData();
 
 
@@ -43,12 +43,12 @@ namespace GolemUI.Src
             /*
              * TODO: this should be more
              */
-            if (EarningsHistory.Count > 1)
+            if (EarningsHistoryGpu.Count > 1)
             {
-                DateTime timeStart = EarningsHistory.First().Key;
-                DateTime timeEnd = EarningsHistory.Last().Key;
-                double moneyStart = EarningsHistory.First().Value;
-                double moneyEnd = EarningsHistory.Last().Value;
+                DateTime timeStart = EarningsHistoryGpu.First().Key;
+                DateTime timeEnd = EarningsHistoryGpu.Last().Key;
+                double moneyStart = EarningsHistoryGpu.First().Value;
+                double moneyEnd = EarningsHistoryGpu.Last().Value;
 
                 if (moneyEnd - moneyStart > 0 && (timeEnd - timeStart).TotalSeconds > 0)
                 {
@@ -61,10 +61,7 @@ namespace GolemUI.Src
         public string? _activeAgreementID = null;
         public string? ActiveAgreementID
         {
-            get
-            {
-                return _activeAgreementID;
-            }
+            get => _activeAgreementID;
             set
             {
                 _activeAgreementID = value;
@@ -101,80 +98,6 @@ namespace GolemUI.Src
 
         }
 
-        private void StatusProvider_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Activities")
-            {
-                var act = _statusProvider.Activities;
-
-                foreach (ActivityState actState in act ?? new List<ActivityState>())
-                {
-                    if (actState.ExeUnit == "gminer")
-                    {
-                        Model.ActivityState a = act.First();
-                        if (a.State == ActivityState.StateType.New)
-                        {
-                            EarningsHistory.Clear();
-                            ChartData = new PrettyChartData(); //clear chart data
-                            EstimatedEarningsPerSecond = null;
-
-                            ActiveAgreementID = actState.AgreementId;
-                            GetUsageVectors(ActiveAgreementID);
-                        }
-                        if (a.State == ActivityState.StateType.Terminated)
-                        {
-                            ActiveAgreementID = null;
-                        }
-                    }
-                }
-
-                Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
-                var isGpuMining = gminerState != null;
-                var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
-
-                if (isGpuMining)
-                {
-                    float hashRate = 0.0f;
-
-                    if (UsageVectorsAsDict != null && gminerState?.Usage != null)
-                    {
-                        double sumMoney = 0.0;
-                        foreach (var usage in gminerState.Usage)
-                        {
-                            if (UsageVectorsAsDict.ContainsKey(usage.Key))
-                            {
-                                sumMoney += UsageVectorsAsDict[usage.Key] * usage.Value;
-                            }
-                        }
-                        SumMoney = sumMoney;
-
-                        EarningsHistory.Add(DateTime.Now, SumMoney);
-                        ComputeEstimatedEarnings();
-                    }
-                    gminerState?.Usage?.TryGetValue("golem.usage.mining.hash-rate", out hashRate);
-                    if (HashrateHistory.Count == 0 || HashrateHistory.Last() != hashRate)
-                    {
-                        HashrateHistory.Add(hashRate);
-                        if (PropertyChanged != null)
-                        {
-                            PrettyChartData chartData = new PrettyChartData() { BinData = new PrettyChartData.PrettyChartBinData() };
-
-                            int idx_f = 0;
-                            for (int i = Math.Max(HashrateHistory.Count - 14, 0); i < HashrateHistory.Count; i++)
-                            {
-                                chartData.BinData.BinEntries.Add(new PrettyChartData.PrettyChartBinEntry() { Label = i.ToString(), Value = HashrateHistory[i] });
-                                idx_f += 1;
-                            }
-
-                            ChartData = chartData;
-
-                            PropertyChanged(this, new PropertyChangedEventArgs("ChartData"));
-                        }
-                    }
-                }
-            }
-        }
-
         Task? _getUsageVectorsTask = null;
         private void GetUsageVectors(string? agreementID)
         {
@@ -191,7 +114,88 @@ namespace GolemUI.Src
             _getUsageVectorsTask = null;
         }
 
+        private void CheckForMiningActivityStateChange(Model.ActivityState gminerState)
+        {
+            if (gminerState.State == ActivityState.StateType.New)
+            {
+                EarningsHistoryGpu.Clear();
+                ChartData = new PrettyChartData(); //clear chart data
+                EstimatedEarningsPerSecond = null;
 
+                ActiveAgreementID = gminerState.AgreementId;
+                GetUsageVectors(ActiveAgreementID);
+            }
+            if (gminerState.State == ActivityState.StateType.Terminated)
+            {
+                ActiveAgreementID = null;
+            }
+        }
+
+        private void CheckForActivityHashrateChange(Model.ActivityState gminerState)
+        {
+            float hashRate = 0.0f;
+
+            gminerState.Usage?.TryGetValue("golem.usage.mining.hash-rate", out hashRate);
+            if (HashrateHistory.Count == 0 || HashrateHistory.Last() != hashRate)
+            {
+                HashrateHistory.Add(hashRate);
+                if (PropertyChanged != null)
+                {
+                    PrettyChartData chartData = new PrettyChartData() { BinData = new PrettyChartData.PrettyChartBinData() };
+
+                    int idx_f = 0;
+                    for (int i = Math.Max(HashrateHistory.Count - 14, 0); i < HashrateHistory.Count; i++)
+                    {
+                        chartData.BinData.BinEntries.Add(new PrettyChartData.PrettyChartBinEntry() { Label = i.ToString(), Value = HashrateHistory[i] });
+                        idx_f += 1;
+                    }
+
+                    ChartData = chartData;
+
+                    PropertyChanged(this, new PropertyChangedEventArgs("ChartData"));
+                }
+            }
+        }
+
+        private void CheckForActivityEarningChange(Model.ActivityState gminerState)
+        {
+            if (UsageVectorsAsDict != null && gminerState?.Usage != null)
+            {
+                double sumMoney = 0.0;
+                foreach (var usage in gminerState.Usage)
+                {
+                    if (UsageVectorsAsDict.ContainsKey(usage.Key))
+                    {
+                        sumMoney += UsageVectorsAsDict[usage.Key] * usage.Value;
+                    }
+                }
+                SumMoney = sumMoney;
+
+                EarningsHistoryGpu.Add(DateTime.Now, SumMoney);
+                ComputeEstimatedEarnings();
+            }
+        }
+
+        private void StatusProvider_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Activities")
+            {
+                var act = _statusProvider.Activities;
+
+                Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
+                var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
+
+                foreach (ActivityState actState in _statusProvider.Activities)
+                {
+                    if (actState.ExeUnit == "gminer")
+                    {
+                        CheckForMiningActivityStateChange(actState);
+                        CheckForActivityEarningChange(actState);
+                        CheckForActivityHashrateChange(actState);
+                    }
+                }
+            }
+        }
 
         public PrettyChartData GetMegaHashHistory()
         {
