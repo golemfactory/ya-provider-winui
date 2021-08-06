@@ -25,16 +25,12 @@ namespace GolemUI.Src.AppNotificationService
         }
 
         public event NewNotificationEventHandler? NotificationArrived;
-        public event NewNotificationEventHandler? NotificationUpdated;
         public event NewNotificationEventHandler? NotificationDeleted;
         public void PushNotification(INotificationObject notification)
         {
-
+            NotificationArrived?.Invoke(notification);
         }
-        public void UpdateNotification(INotificationObject notification)
-        {
-
-        }
+       
         public void DeleteNotification(INotificationObject notification)
         {
 

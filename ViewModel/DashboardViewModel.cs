@@ -1,4 +1,5 @@
 ﻿using GolemUI.Interfaces;
+using GolemUI.UI.CustomControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,26 @@ namespace GolemUI.ViewModel
 {
     public class DashboardViewModel : INotifyPropertyChanged
     {
+        public DashboardViewModel(DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, NotificationBar notificationBar)
+        {
+
+            PropertyChanged += OnPropertyChanged;
+
+            DashboardMain = dashboardMain;
+            DashboardSettings = dashboardSettings;
+            DashboardSettingsAdv = dashboardSettingsAdv;
+            DashboardWallet = dashboardWallet;
+
+            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
+            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
+            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet, DashboardWallet.Model));
+            _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
+
+            _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
+
+            _pages.Values.ToList().ForEach(page =>
+                page.DarkBackgroundRequested += Page_DarkBackgroundRequested);
+        }
         public enum DashboardPages
         {
             PageDashboardNone,
@@ -147,6 +168,7 @@ namespace GolemUI.ViewModel
         public Dictionary<DashboardPages, DashboardPage> _pages = new Dictionary<DashboardPages, DashboardPage>();
 
         public DashboardMain DashboardMain { get; set; }
+        public NotificationBar NotificationBar { get; set; }
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardSettingsAdv DashboardSettingsAdv { get; set; }
         public DashboardWallet DashboardWallet { get; set; }
@@ -204,26 +226,7 @@ namespace GolemUI.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DashboardViewModel(DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, INotificationService notificationService )
-        {
-
-            PropertyChanged += OnPropertyChanged;
-
-            DashboardMain = dashboardMain;
-            DashboardSettings = dashboardSettings;
-            DashboardSettingsAdv = dashboardSettingsAdv;
-            DashboardWallet = dashboardWallet;
-
-            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
-            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
-            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet, DashboardWallet.Model));
-            _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
-
-            _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
-
-            _pages.Values.ToList().ForEach(page =>
-                page.DarkBackgroundRequested += Page_DarkBackgroundRequested);
-        }
+        
 
         private void Page_DarkBackgroundRequested(bool shouldBackgroundBeVisible)
         {

@@ -27,11 +27,15 @@ namespace GolemUI.UI.CustomControls
 
 
         private NotificationBarViewModel _model;
-        public NotificationBar(NotificationBarViewModel model)
+        public NotificationBar()
+        {
+            InitializeComponent();
+        }
+        public void SetViewModel(NotificationBarViewModel model)
         {
             _model = model;
             this.DataContext = model;
-            InitializeComponent();
+         
         }
         private static void OnStepChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
