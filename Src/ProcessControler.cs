@@ -44,6 +44,7 @@ namespace GolemUI
 
         private Process? _yagnaDaemon;
         private Process? _providerDaemon;
+        private IDisposable? _providerJob;
 
         public LogLineHandler? LineHandler { get; set; }
 
@@ -64,11 +65,20 @@ namespace GolemUI
 
         public void KillProvider()
         {
-            if (_providerDaemon != null)
+            if (_providerJob != null)
             {
-                _providerDaemon.Kill(entireProcessTree: true);
-                _providerDaemon.Dispose();
-                _providerDaemon = null;
+                using (_providerJob)
+                {
+                    _providerJob = null;
+                }
+            }
+            else if (_providerDaemon != null)
+            {
+                using (_providerDaemon)
+                {
+                    _providerDaemon.Kill(entireProcessTree: true);
+                    _providerDaemon = null;
+                }
             }
         }
 
@@ -80,24 +90,6 @@ namespace GolemUI
                 return st;
             }
             return null;
-        }
-
-        private async Task<bool> StopProvider()
-        {
-            const int PROVIDER_STOPPING_TIMEOUT = 2500;
-            if (_providerDaemon != null)
-            {
-                bool succesfullyExited = await _providerDaemon.StopWithCtrlCAsync(PROVIDER_STOPPING_TIMEOUT);
-                if (succesfullyExited)
-                {
-                    _providerDaemon = null;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return true;
         }
 
         public void StopYagna()
@@ -254,6 +246,7 @@ namespace GolemUI
             _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
             _providerDaemon.OutputDataReceived += OnProviderOutputDataRecv;
             _providerDaemon.Start();
+            _providerJob = _providerDaemon.WithJob("miner provider");
             _providerDaemon.EnableRaisingEvents = true;
 
             _providerDaemon.BeginErrorReadLine();
@@ -304,6 +297,13 @@ namespace GolemUI
             {
                 _providerDaemon.Dispose();
                 _providerDaemon = null;
+            }
+            if (_providerJob != null)
+            {
+                using (_providerJob)
+                {
+                    _providerJob = null;
+                }
             }
             OnPropertyChanged("IsProviderRunning");
         }
@@ -366,11 +366,11 @@ namespace GolemUI
             try
             {
                 _lock();
-                bool providerEndedSuccessfully = await StopProvider();
-                if (!providerEndedSuccessfully)
+                if (_providerDaemon != null && !_providerDaemon.HasExited)
                 {
-                    KillProvider();
+                    await _providerDaemon.StopWithCtrlCAsync(1000);
                 }
+                KillProvider();
             }
             finally
             {
