@@ -96,7 +96,7 @@ namespace GolemUI.ViewModel
             {
                 if (usage.TryGetValue("golem.usage.mining.hash-rate", out var hashRate) && hashRate > 0.0)
                 {
-                    gpuStatus = $"running {hashRate:0#.00} MH/s";
+                    gpuStatus = $"running {hashRate:#.00} MH/s";
                 }
                 else
                 {

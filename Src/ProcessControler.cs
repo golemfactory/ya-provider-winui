@@ -239,15 +239,17 @@ namespace GolemUI
 
                         if (lc != null && usV != null && lc.Count > 0)
                         {
-                            //first value should be starting price
-
-                            double? startVal = (double)lc[0];
-                            if (startVal == null)
+                            if (lc.Count == usV.Count + 1)
                             {
-                                throw new Exception("Failed to parse lc[0] (starting price)");
-                            }
+                                //last value should be starting price
 
-                            usageDict["start"] = startVal.Value;
+                                double? startVal = (double)lc.Last();
+                                if (startVal == null)
+                                {
+                                    throw new Exception("Failed to parse lc[0] (starting price)");
+                                }
+                                usageDict["start"] = startVal.Value;
+                            }
 
                             for (int i = 0; i < usV.Count; i++)
                             {
@@ -258,10 +260,10 @@ namespace GolemUI
                                     {
                                         throw new Exception("usV[i] cannot be null");
                                     }
-                                    double? entryVal = (double?)lc[i + 1];
+                                    double? entryVal = (double?)lc[i];
                                     if (entryVal == null)
                                     {
-                                        throw new Exception("lc[i + 1] cannot be null");
+                                        throw new Exception("lc[i] cannot be null");
                                     }
 
                                     usageDict[entryString] = entryVal.Value;
@@ -272,6 +274,7 @@ namespace GolemUI
                                 }
                             }
                         }
+
                     }
                 }
 
@@ -499,7 +502,4 @@ namespace GolemUI
             return Task.FromResult(this._generatedAppKey.Value);
         }
     }
-
-
-
 }

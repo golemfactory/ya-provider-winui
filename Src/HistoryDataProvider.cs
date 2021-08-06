@@ -15,8 +15,27 @@ namespace GolemUI.Src
 {
     public class HistoryDataProvider : IHistoryDataProvider
     {
+        public struct GPUHistoryUsage
+        {
+            public int Shares;
+            public double Earnings;
+            public double Duration;
+            public double SharesTimesDifficulty;
+            public double HashRate;
+
+            public GPUHistoryUsage(int shares, double earnings, double duration, double sharesTimesDifficulty, double hashRate)
+            {
+                Shares = shares;
+                Earnings = earnings;
+                Duration = duration;
+                SharesTimesDifficulty = sharesTimesDifficulty;
+                HashRate = hashRate;
+            }
+        };
+
+
         public List<double> HashrateHistory { get; set; } = new List<double>();
-        public Dictionary<DateTime, double> EarningsHistoryGpu { get; set; } = new Dictionary<DateTime, double>();
+        public Dictionary<DateTime, GPUHistoryUsage> MiningHistoryGpu { get; set; } = new Dictionary<DateTime, GPUHistoryUsage>();
         public PrettyChartData HashrateChartData { get; set; } = new PrettyChartData();
 
 
@@ -51,19 +70,21 @@ namespace GolemUI.Src
             /*
              * TODO: this should be more
              */
-            if (EarningsHistoryGpu.Count > 1)
+            if (MiningHistoryGpu.Count > 1)
             {
-                DateTime timeStart = EarningsHistoryGpu.First().Key;
-                DateTime timeEnd = EarningsHistoryGpu.Last().Key;
-                double earningsStart = EarningsHistoryGpu.First().Value;
-                double earningsEnd = EarningsHistoryGpu.Last().Value;
+                DateTime timeStart = MiningHistoryGpu.First().Key;
+                DateTime timeEnd = MiningHistoryGpu.Last().Key;
+                GPUHistoryUsage earningsStart = MiningHistoryGpu.First().Value;
+                GPUHistoryUsage earningsEnd = MiningHistoryGpu.Last().Value;
 
-                if (earningsEnd - earningsStart > 0 && (timeEnd - timeStart).TotalSeconds > 0)
+                double diffEarnings = earningsEnd.Earnings - earningsStart.Earnings;
+                double diffTime = (timeEnd - timeStart).TotalSeconds;
+                if (diffEarnings > 0 && diffTime > 0)
                 {
-                    var glmValue = (earningsEnd - earningsStart) / (timeEnd - timeStart).TotalSeconds;
+                    var glmValue = diffEarnings / diffTime;
                     EstimatedEarningsPerSecond = glmValue;
 
-                    int totalSecs = ((int)(timeEnd - timeStart).TotalSeconds);
+                    int totalSecs = (int)diffTime;
                     if (totalSecs < 0)
                     {
                         _logger.LogError("totalSecs < 0 which cannot be possible");
@@ -71,15 +92,25 @@ namespace GolemUI.Src
                     int hours = totalSecs / 3600;
                     int minutes = (totalSecs - hours * 3600) / 60;
 
+                    int shares = earningsEnd.Shares - earningsStart.Shares;
+
                     if (hours == 0)
                     {
-                        EstimatedEarningsMessage = $"Estimation based on earnings during last {minutes} minutes";
+                        EstimatedEarningsMessage = $"Estimation based on {shares} shares mined during last {minutes} minutes.";
                     }
                     else if (hours > 0)
                     {
-                        EstimatedEarningsMessage = $"Estimation based on earnings during last {hours} hours and {minutes} minutes";
+                        EstimatedEarningsMessage = $"Estimation based on {shares} shares mined during last {hours} hours and {minutes} minutes";
                     }
                 }
+                else
+                {
+                    EstimatedEarningsMessage = $"Estimation in progress...";
+                }
+            }
+            else
+            {
+                EstimatedEarningsMessage = $"No estimation available";
             }
         }
 
@@ -143,7 +174,7 @@ namespace GolemUI.Src
         {
             if (gminerState.State == ActivityState.StateType.New)
             {
-                EarningsHistoryGpu.Clear();
+                MiningHistoryGpu.Clear();
                 HashrateChartData.Clear(); //clear chart data
                 EstimatedEarningsPerSecond = null;
 
@@ -189,8 +220,29 @@ namespace GolemUI.Src
             if (UsageVectorsAsDict != null && gminerState?.Usage != null)
             {
                 double sumMoney = 0.0;
+                double shares = 0.0;
+                double hashRate = 0.0;
+                double sharesTimesDiff = 0.0;
+                double duration = 0.0;
+
                 foreach (var usage in gminerState.Usage)
                 {
+                    switch (usage.Key)
+                    {
+                        case "golem.usage.mining.share":
+                            shares = usage.Value;
+                            break;
+                        case "golem.usage.duration_sec":
+                            duration = usage.Value;
+                            break;
+                        case "golem.usage.mining.hash":
+                            sharesTimesDiff = usage.Value;
+                            break;
+                        case "golem.usage.mining.hash-rate":
+                            hashRate = usage.Value;
+                            break;
+                    }
+
                     if (UsageVectorsAsDict.ContainsKey(usage.Key))
                     {
                         sumMoney += UsageVectorsAsDict[usage.Key] * usage.Value;
@@ -198,7 +250,7 @@ namespace GolemUI.Src
                 }
                 SumMoney = sumMoney;
 
-                EarningsHistoryGpu.Add(DateTime.Now, SumMoney);
+                MiningHistoryGpu.Add(DateTime.Now, new GPUHistoryUsage((int)(shares + 0.5), SumMoney, duration, sharesTimesDiff, hashRate));
                 ComputeEstimatedEarnings();
             }
         }
