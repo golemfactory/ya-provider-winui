@@ -168,24 +168,29 @@ namespace GolemUI
 
         internal void EnableBlur()
         {
-            var windowHelper = new WindowInteropHelper(this);
+            if (!_blurEffectApplied)
+            {
+                _blurEffectApplied = true;
 
-            var accent = new AccentPolicy();
-            accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
+                var windowHelper = new WindowInteropHelper(this);
 
-            var accentStructSize = Marshal.SizeOf(accent);
+                var accent = new AccentPolicy();
+                accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
 
-            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
-            Marshal.StructureToPtr(accent, accentPtr, false);
+                var accentStructSize = Marshal.SizeOf(accent);
 
-            var data = new WindowCompositionAttributeData();
-            data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
-            data.SizeOfData = accentStructSize;
-            data.Data = accentPtr;
+                var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+                Marshal.StructureToPtr(accent, accentPtr, false);
 
-            SetWindowCompositionAttribute(windowHelper.Handle, ref data);
+                var data = new WindowCompositionAttributeData();
+                data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
+                data.SizeOfData = accentStructSize;
+                data.Data = accentPtr;
 
-            Marshal.FreeHGlobal(accentPtr);
+                SetWindowCompositionAttribute(windowHelper.Handle, ref data);
+
+                Marshal.FreeHGlobal(accentPtr);
+            }
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -227,6 +232,9 @@ namespace GolemUI
                 this.DragMove();
             }
         }
+
+        //apply blur only once
+        private bool _blurEffectApplied = false;
 
         private readonly Interfaces.IProcessControler _processControler;
         private readonly IProviderConfig _providerConfig;

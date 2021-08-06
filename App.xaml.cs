@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GolemUI.Command;
+using GolemUI.UI;
 using GolemUI.UI.CustomControls;
 using GolemUI.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
@@ -82,6 +83,7 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
             services.AddSingleton<Interfaces.IStatusProvider, Src.YaSSEStatusProvider>();
+            services.AddSingleton<Interfaces.IHistoryDataProvider, Src.HistoryDataProvider>();
             services.AddSingleton<Interfaces.INotificationService, Src.AppNotificationService.AppNotificationService>();
             services.AddSingleton<Src.BenchmarkService>();
 
@@ -95,12 +97,17 @@ namespace GolemUI
             services.AddTransient(typeof(ViewModel.WalletViewModel));
             services.AddTransient(typeof(ViewModel.DashboardMainViewModel));
             services.AddTransient(typeof(ViewModel.SetupViewModel));
-            services.AddTransient(typeof(ViewModel.CustomControls.NotificationBarViewModel));
+#if STATISTICS_ENABLED
+            services.AddTransient(typeof(ViewModel.StatisticsViewModel));
+#endif
 
             services.AddTransient(typeof(DashboardMain));
             services.AddTransient(typeof(NotificationBar));
             services.AddTransient(typeof(DashboardSettings));
             services.AddTransient(typeof(DashboardSettingsAdv));
+#if STATISTICS_ENABLED
+            services.AddTransient(typeof(DashboardStatistics));
+#endif
             services.AddTransient(typeof(SettingsViewModel));
             services.AddTransient(typeof(SettingsAdvViewModel));
 

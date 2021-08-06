@@ -3,9 +3,9 @@
                      xmlns:local="clr-namespace:GolemUI">
 
     <ControlTemplate x:Key="ValidationTemplate">
-        <DockPanel>
-            <TextBlock Foreground="Red" FontSize="16" Margin="4" FontFamily="Segoe UI Black">!</TextBlock>
+        <StackPanel Orientation="Vertical">
             <AdornedElementPlaceholder/>
-        </DockPanel>
+            <TextBlock Foreground="Red" FontSize="12" Margin="4" FontFamily="Segoe UI Black">! Hover for details</TextBlock>
+        </StackPanel>
     </ControlTemplate>
 </ResourceDictionary>

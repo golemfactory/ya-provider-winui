@@ -4,7 +4,9 @@ using GolemUI.Src;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +16,7 @@ namespace GolemUI.ViewModel
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
-            IStatusProvider statusProvider)
+            IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
@@ -23,11 +25,38 @@ namespace GolemUI.ViewModel
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
             _statusProvider = statusProvider;
+            _historyDataProvider = historyDataProvider;
 
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
             _statusProvider.PropertyChanged += OnActivityStatusChanged;
             _processController.PropertyChanged += OnProcessControllerChanged;
+
+            _historyDataProvider.PropertyChanged += _historyDataProvider_PropertyChanged;
+        }
+
+        private void _historyDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ActiveAgreementID")
+            {
+                OnPropertyChanged("ActiveAgreementID");
+            }
+            if (e.PropertyName == "EstimatedEarningsPerSecond")
+            {
+                if (_historyDataProvider.EstimatedEarningsPerSecond != null)
+                {
+                    var glmPerDay = (decimal)(_historyDataProvider.EstimatedEarningsPerSecond * 3600 * 24);
+                    UsdPerDay = _priceProvider.CoinValue(glmPerDay, IPriceProvider.Coin.GLM);
+                }
+                else
+                {
+                    UsdPerDay = null;
+                }
+            }
+            if (e.PropertyName == "EstimatedEarningsMessage")
+            {
+                EstimationMessage = _historyDataProvider.EstimatedEarningsMessage;
+            }
         }
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
@@ -38,11 +67,25 @@ namespace GolemUI.ViewModel
             }
         }
 
+
+        public string? ActiveAgreementID
+        {
+            get
+            {
+                return _historyDataProvider.ActiveAgreementID;
+            }
+        }
+
         public string GpuStatus { get; private set; } = "Idle";
 
         private void OnActivityStatusChanged(object sender, PropertyChangedEventArgs e)
         {
             var act = _statusProvider.Activities;
+            if (act == null)
+            {
+                return;
+            }
+            Debug.WriteLine(act.ToString());
             Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
             var isGpuMining = gminerState != null;
             var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
@@ -53,7 +96,7 @@ namespace GolemUI.ViewModel
             {
                 if (usage.TryGetValue("golem.usage.mining.hash-rate", out var hashRate) && hashRate > 0.0)
                 {
-                    gpuStatus = $"running {hashRate:0#.00} MH/s";
+                    gpuStatus = $"running {hashRate:#.00} MH/s";
                 }
                 else
                 {
@@ -142,7 +185,29 @@ namespace GolemUI.ViewModel
 
         public IProcessControler Process => _processController;
         public decimal? Amount => _paymentService.State?.Balance;
-        public decimal UsdPerDay => 99.99m;
+
+        public decimal? _usdPerDay = null;
+        public decimal? UsdPerDay
+        {
+            get => _usdPerDay;
+            set
+            {
+                _usdPerDay = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string _estimationMessage = "";
+        public string EstimationMessage
+        {
+            get => _estimationMessage;
+            set
+            {
+                _estimationMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
         public decimal? AmountUSD => _priceProvider.CoinValue(Amount ?? 0, IPriceProvider.Coin.GLM);
 
         public decimal? PendingAmount => _paymentService.State?.PendingBalance;
@@ -206,7 +271,7 @@ namespace GolemUI.ViewModel
             await _processController.Start(_providerConfig.Network, extraClaymoreParams);
         }
 
-        private void OnPropertyChanged(string? propertyName)
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             if (PropertyChanged != null)
             {
@@ -222,5 +287,6 @@ namespace GolemUI.ViewModel
         private readonly IStatusProvider _statusProvider;
         private readonly IProcessControler _processController;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
+        private readonly IHistoryDataProvider _historyDataProvider;
     }
 }

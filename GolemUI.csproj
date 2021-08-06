@@ -293,10 +293,12 @@
     <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
+    <Compile Include="DesignViewModel\DashboardStatisticsDesignViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
     <Compile Include="Interfaces\IEstimatedProfiProvider.cs" />
+    <Compile Include="Interfaces\IHistoryDataProvider.cs" />
     <Compile Include="Interfaces\IPaymentService.cs" />
     <Compile Include="Interfaces\IPriceProvider.cs" />
     <Compile Include="Interfaces\IProcessControler.cs" />
@@ -311,8 +313,10 @@
     <Compile Include="Model\ActivityState.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
+    <Compile Include="Model\PrettyChartData.cs" />
     <Compile Include="Model\UserSettings.cs" />
     <Compile Include="Model\WalletState.cs" />
+    <Compile Include="Model\YagnaAgreement.cs" />
     <Compile Include="Notifications\CloseWindowCommand.cs" />
     <Compile Include="Notifications\CommandBase.cs" />
     <Compile Include="Notifications\ShowWindowCommand.cs" />
@@ -326,6 +330,15 @@
     <Compile Include="Src\BenchmarkResultsProvider.cs" />
     <Compile Include="Src\UserSettingsProvider.cs" />
     <Compile Include="Src\YaSSEStatusProvider.cs" />
+    <Compile Include="UI\Charts\PrettyChart.xaml.cs">
+      <DependentUpon>PrettyChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Charts\PrettyChartDesign.xaml.cs">
+      <DependentUpon>PrettyChartDesign.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DashboardStatistics.xaml.cs">
+      <DependentUpon>DashboardStatistics.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\DashboardSettingsAdv.xaml.cs">
       <DependentUpon>DashboardSettingsAdv.xaml</DependentUpon>
     </Compile>
@@ -399,6 +412,7 @@
     <Compile Include="ViewModel\SettingsAdvViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
+    <Compile Include="ViewModel\StatisticsViewModel.cs" />
     <Compile Include="ViewModel\WalletViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -417,6 +431,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\AnimatedIcons\WorkingAnimIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Charts\PrettyChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Charts\PrettyChartDesign.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\DashboardStatistics.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

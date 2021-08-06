@@ -1,8 +1,10 @@
 ﻿using GolemUI.Interfaces;
 using GolemUI.UI.CustomControls;
+using GolemUI.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +45,7 @@ namespace GolemUI.ViewModel
             PageDashboardSettingsAdv,
             PageDashboardBenchmark,
             PageDashboardWallet,
-            PageDashboardDetails
+            PageDashboardStatistics
         }
 
         public class DashboardPage
@@ -172,6 +174,9 @@ namespace GolemUI.ViewModel
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardSettingsAdv DashboardSettingsAdv { get; set; }
         public DashboardWallet DashboardWallet { get; set; }
+#if STATISTICS_ENABLED
+        public DashboardStatistics DashboardStatistics { get; set; }
+#endif
 
         private DashboardPages _selectedPage;
 
@@ -190,7 +195,7 @@ namespace GolemUI.ViewModel
                         return 2;
                     case DashboardPages.PageDashboardWallet:
                         return 3;
-                    case DashboardPages.PageDashboardDetails:
+                    case DashboardPages.PageDashboardStatistics:
                         return 4;
                     default:
                         return -1;
@@ -202,13 +207,21 @@ namespace GolemUI.ViewModel
                 {
                     SwitchPage(DashboardPages.PageDashboardMain);
                 }
-                if (value == 2)
+                else if (value == 2)
                 {
                     SwitchPage(DashboardPages.PageDashboardSettings);
                 }
-                if (value == 3)
+                else if (value == 3)
                 {
                     SwitchPage(DashboardPages.PageDashboardWallet);
+                }
+                else if (value == 4)
+                {
+                    SwitchPage(DashboardPages.PageDashboardStatistics);
+                }
+                else
+                {
+                    Debug.Fail("No such page");
                 }
                 OnPropertyChanged("SelectedPage");
             }
@@ -226,6 +239,32 @@ namespace GolemUI.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet
+#if STATISTICS_ENABLED
+                ,DashboardStatistics dashboardStatistics
+#endif
+            )
+        {
+            PropertyChanged += OnPropertyChanged;
+
+            DashboardMain = dashboardMain;
+#if STATISTICS_ENABLED
+            DashboardSettings = dashboardSettings;
+#endif
+            DashboardSettingsAdv = dashboardSettingsAdv;
+            DashboardWallet = dashboardWallet;
+            DashboardSettings = dashboardSettings;
+
+            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
+            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
+            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet, DashboardWallet.Model));
+            _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
+
+#if STATISTICS_ENABLED
+            _pages.Add(DashboardPages.PageDashboardStatistics, new DashboardPage(DashboardStatistics, DashboardStatistics.ViewModel));
+#endif
+
+            _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
 
 
         private void Page_DarkBackgroundRequested(bool shouldBackgroundBeVisible)
