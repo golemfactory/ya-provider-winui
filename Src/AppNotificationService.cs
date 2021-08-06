@@ -1,4 +1,5 @@
-﻿using NBitcoin;
+﻿using GolemUI.Interfaces;
+using NBitcoin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,9 @@ namespace GolemUI.Src
         public string Message { get; set; }
     }
 
-    public class NotificationsService : INotificationsService
+    public class AppNotificationService : INotificationService
     {
-        public NotificationsService()
+        public AppNotificationService()
         {
         }
 

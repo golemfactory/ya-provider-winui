@@ -81,6 +81,7 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
             services.AddSingleton<Interfaces.IStatusProvider, Src.YaSSEStatusProvider>();
+            services.AddSingleton<Interfaces.INotificationService, Src.AppNotificationService>();
             services.AddSingleton<Src.BenchmarkService>();
 
 

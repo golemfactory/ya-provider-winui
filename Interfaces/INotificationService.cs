@@ -1,10 +1,10 @@
 ﻿using GolemUI.ViewModel;
 
-namespace GolemUI
+namespace GolemUI.Interfaces
 {
 
     public delegate void NewNotificationEventHandler(INotificationObject notification);
-    public interface INotificationsService
+    public interface INotificationService
     {
         public event NewNotificationEventHandler? NotificationArrived;
         public event NewNotificationEventHandler? NotificationUpdated;

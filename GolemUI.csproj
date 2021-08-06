@@ -289,7 +289,7 @@
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
-    <Compile Include="Interfaces\INotificationsService.cs" />
+    <Compile Include="Interfaces\INotificationService.cs" />
     <Compile Include="Interfaces\IEstimatedProfiProvider.cs" />
     <Compile Include="Interfaces\IPaymentService.cs" />
     <Compile Include="Interfaces\IPriceProvider.cs" />
@@ -311,7 +311,7 @@
     <Compile Include="Notifications\CommandBase.cs" />
     <Compile Include="Notifications\ShowWindowCommand.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Src\NotificationsService.cs" />
+    <Compile Include="Src\AppNotificationService.cs" />
     <Compile Include="Src\Sentry\SentryAdditionalDataIngester.cs" />
     <Compile Include="Src\BenchmarkService.cs" />
     <Compile Include="Src\CoinGeckoPriceProvider.cs" />

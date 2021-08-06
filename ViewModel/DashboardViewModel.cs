@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -203,8 +204,9 @@ namespace GolemUI.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DashboardViewModel(DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet)
+        public DashboardViewModel(DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, INotificationService notificationService )
         {
+
             PropertyChanged += OnPropertyChanged;
 
             DashboardMain = dashboardMain;

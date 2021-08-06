@@ -29,9 +29,11 @@ namespace GolemUI.ViewModel
 
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
-        public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider)
+        private readonly Interfaces.INotificationService _notificationService;
+        public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService)
         {
             GpuList = new ObservableCollection<ClaymoreGpuStatus>();
+            _notificationService = notificationService;
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
             _provider = provider;
