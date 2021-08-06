@@ -267,65 +267,65 @@ namespace GolemUI.ViewModel
             _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
 
 
-        private void Page_DarkBackgroundRequested(bool shouldBackgroundBeVisible)
-        {
-            DarkBackgroundVisible = shouldBackgroundBeVisible;
-        }
-
-        private void OnPropertyChanged(string? propertyName)
-        {
-            if (PropertyChanged != null)
+            private void Page_DarkBackgroundRequested(bool shouldBackgroundBeVisible)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-
-        }
-
-
-        public void SwitchPage(DashboardPages page)
-        {
-            if (page == _selectedPage) return;
-
-            _pages.ToList().Where(x => x.Key != _selectedPage && x.Key != page).ToList().ForEach(x => x.Value.Clear());
-
-            if (_selectedPage != DashboardPages.PageDashboardNone)
-            {
-                var lastPage = GetPageDescriptorFromPage(_selectedPage);
-                lastPage.Unmount();
-                lastPage.Hide();
+                DarkBackgroundVisible = shouldBackgroundBeVisible;
             }
 
-            var currentPage = GetPageDescriptorFromPage(page);
-            currentPage.Mount();
-            currentPage.Show();
-
-            LastPage = _selectedPage;
-
-            _selectedPage = page;
-        }
-
-        public DashboardPage GetPageDescriptorFromPage(DashboardPages page)
-        {
-            if (!_pages.ContainsKey(page))
+            private void OnPropertyChanged(string? propertyName)
             {
-                throw new Exception(String.Format("Requested page not added to _pages. Page: {0}", (int)page));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                }
             }
-            return _pages[page];
-        }
 
-        public void SwitchPageBack()
-        {
-            SwitchPage(LastPage);
-        }
+            private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+            {
 
-        private void PageChangeRequested(DashboardPages page)
-        {
-            SwitchPage(page);
-        }
+            }
 
+
+            public void SwitchPage(DashboardPages page)
+            {
+                if (page == _selectedPage) return;
+
+                _pages.ToList().Where(x => x.Key != _selectedPage && x.Key != page).ToList().ForEach(x => x.Value.Clear());
+
+                if (_selectedPage != DashboardPages.PageDashboardNone)
+                {
+                    var lastPage = GetPageDescriptorFromPage(_selectedPage);
+                    lastPage.Unmount();
+                    lastPage.Hide();
+                }
+
+                var currentPage = GetPageDescriptorFromPage(page);
+                currentPage.Mount();
+                currentPage.Show();
+
+                LastPage = _selectedPage;
+
+                _selectedPage = page;
+            }
+
+            public DashboardPage GetPageDescriptorFromPage(DashboardPages page)
+            {
+                if (!_pages.ContainsKey(page))
+                {
+                    throw new Exception(String.Format("Requested page not added to _pages. Page: {0}", (int)page));
+                }
+                return _pages[page];
+            }
+
+            public void SwitchPageBack()
+            {
+                SwitchPage(LastPage);
+            }
+
+            private void PageChangeRequested(DashboardPages page)
+            {
+                SwitchPage(page);
+            }
+
+        }
     }
-}
