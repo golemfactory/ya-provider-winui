@@ -29,7 +29,7 @@ namespace GolemUI.Src.AppNotificationService
         {
             if (e.PropertyName == "IsRunning")
             {
-                if(_benchmarkService.IsRunning)
+                if (_benchmarkService.IsRunning)
                 {
                     _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "benchmark is running", 0));
                 }
@@ -56,15 +56,15 @@ namespace GolemUI.Src.AppNotificationService
             }
         }
 
-        private  void _processControler_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void _processControler_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsServerRunning")
             {
-                _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStatus, "yagna " + (_processControler.IsServerRunning ? "started" : "stopped"),5000));
+                _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStatus, "yagna " + (_processControler.IsServerRunning ? "started" : "stopped"), 5000));
             }
             if (e.PropertyName == "IsProviderRunning")
             {
-                _notificationService.PushNotification(new SimpleNotificationObject(Tag.ProviderStatus, "provider " + (_processControler.IsProviderRunning ? "started" : "stopped"),5000));
+                _notificationService.PushNotification(new SimpleNotificationObject(Tag.ProviderStatus, "provider " + (_processControler.IsProviderRunning ? "started" : "stopped"), 5000));
             }
             /*if (e.PropertyName == "IsStarting")
             {
@@ -73,4 +73,3 @@ namespace GolemUI.Src.AppNotificationService
         }
     }
 }
- 

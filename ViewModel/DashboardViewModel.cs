@@ -226,7 +226,7 @@ namespace GolemUI.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        
+
 
         private void Page_DarkBackgroundRequested(bool shouldBackgroundBeVisible)
         {

@@ -35,7 +35,7 @@ namespace GolemUI.UI.CustomControls
         {
             _model = model;
             this.DataContext = model;
-         
+
         }
         private static void OnStepChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -43,19 +43,19 @@ namespace GolemUI.UI.CustomControls
 
         private static void OnItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-          
+
         }
 
-   
+
 
         private void OnReady(object sender, RoutedEventArgs e)
         {
-          
+
         }
 
         private void NavButtons_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            
+
         }
     }
 }

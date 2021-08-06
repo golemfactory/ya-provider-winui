@@ -10,10 +10,10 @@ using System.Timers;
 namespace GolemUI.ViewModel.CustomControls
 {
 
-    public class NotificationBarViewModel: INotifyPropertyChanged, IDisposable
+    public class NotificationBarViewModel : INotifyPropertyChanged, IDisposable
     {
         Timer timer = new Timer();
-        
+
         public NotificationBarViewModel(INotificationService notificationService)
         {
 
@@ -43,22 +43,22 @@ namespace GolemUI.ViewModel.CustomControls
 
         public event PropertyChangedEventHandler PropertyChanged;
         INotificationService _notificationService;
-       /* private string __lastNotification = "hello";
-        public string LastNotification
-        {
-            get => __lastNotification;
-            set
-            {
-                __lastNotification = value;
-                OnPropertyChanged(nameof(LastNotification));
-            }
-        }
-       */
+        /* private string __lastNotification = "hello";
+         public string LastNotification
+         {
+             get => __lastNotification;
+             set
+             {
+                 __lastNotification = value;
+                 OnPropertyChanged(nameof(LastNotification));
+             }
+         }
+        */
         public ObservableCollection<NotificationBarNotification> _items;
         public ObservableCollection<NotificationBarNotification> Items => _items;
 
 
-      
+
 
         private void _notificationService_NotificationArrived(INotificationObject ntf)
         {
@@ -80,9 +80,9 @@ namespace GolemUI.ViewModel.CustomControls
         }
         private void AddOrUpdate(NotificationBarNotification ntf)
         {
-            App.Current.Dispatcher.Invoke((Action)delegate 
+            App.Current.Dispatcher.Invoke((Action)delegate
             {
-               // LastNotification = ntf.Title;
+                // LastNotification = ntf.Title;
                 if (ElementWithSpecifiedIdAlreatExists(ntf.Id))
                     TryUpdateElement(ntf);
                 else

@@ -83,7 +83,7 @@ namespace GolemUI.ViewModel.CustomControls
 
         private int _lifeTime = 0;
 
-      
+
         public int LifeTime
         {
             get => _lifeTime;
@@ -102,9 +102,9 @@ namespace GolemUI.ViewModel.CustomControls
             get
             {
                 if (!ShouldAutoHide && ExpirationTime == 0) return MaxHeight;
-                int percentage = MaxHeight- (int)((double)MaxHeight * (double)LifeTime/ (double)ExpirationTime);
+                int percentage = MaxHeight - (int)((double)MaxHeight * (double)LifeTime / (double)ExpirationTime);
                 if (percentage > MaxHeight) return MaxHeight;
-                if (percentage <0) return 0;
+                if (percentage < 0) return 0;
                 return percentage;
 
             }
