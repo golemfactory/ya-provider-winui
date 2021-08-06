@@ -17,6 +17,11 @@ namespace GolemUI.Interfaces
 
         public Task<bool> Prepare();
 
+
+        public Task<YagnaAgreement?> GetAgreement(string agreementID);
+
+        public Task<Dictionary<string, double>?> GetUsageVectors(string? agreementID);
+
         /// <summary>
         /// Starts daemon with given private key.
         /// </summary>

@@ -14,8 +14,15 @@ namespace GolemUI.Converters
         {
             if (value == null)
             {
-                return "N/A";
+                return "$-.--";
             }
+
+            /*
+            if (value == null)
+            {
+                return "N/A";
+            }*/
+
 
             var dv = value as decimal?;
             if (dv == null && value.GetType() == typeof(double))
