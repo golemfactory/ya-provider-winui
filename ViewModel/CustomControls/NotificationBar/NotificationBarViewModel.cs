@@ -41,8 +41,8 @@ namespace GolemUI.ViewModel.CustomControls
             });
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        INotificationService _notificationService;
+        public event PropertyChangedEventHandler? PropertyChanged;
+        INotificationService? _notificationService;
         /* private string __lastNotification = "hello";
          public string LastNotification
          {

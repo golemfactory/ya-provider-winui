@@ -26,7 +26,7 @@ namespace GolemUI.UI.CustomControls
     {
 
 
-        private NotificationBarViewModel _model;
+        private NotificationBarViewModel? _model = null;
         public NotificationBar()
         {
             InitializeComponent();

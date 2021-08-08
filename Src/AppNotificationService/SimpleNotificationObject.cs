@@ -16,12 +16,12 @@ namespace GolemUI.Src.AppNotificationService
         {
             Tag = tag;
             Title = title;
+            Message = "";
+            ExpirationTimeInMs = 0;
         }
 
-        public SimpleNotificationObject(Tag tag, string title, string message)
+        public SimpleNotificationObject(Tag tag, string title, string message) : this(tag, title)
         {
-            Tag = tag;
-            Title = title;
             Message = message;
         }
 

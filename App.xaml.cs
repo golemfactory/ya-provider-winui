@@ -47,7 +47,7 @@ namespace GolemUI
             {
                 scope.Contexts["user_data"] = new
                 {
-                    UserName = Environment.UserName
+                    Environment.UserName
                 };
             });
 
@@ -201,6 +201,7 @@ namespace GolemUI
         private void StopApp()
         {
             _serviceProvider.Dispose();
+            _sentrySdk.Dispose();
         }
 
         private void OnExit(object sender, ExitEventArgs e)

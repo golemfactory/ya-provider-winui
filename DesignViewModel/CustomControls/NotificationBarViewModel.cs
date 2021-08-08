@@ -32,14 +32,11 @@ namespace GolemUI.DesignViewModel.CustomControls
             Enumerable.Range(1, 5).ToList().ForEach(x => Items.Add(new NotificationBarNotification(true, NotificationState.Visible, $"title {x}", $"id {x}", $"message {x}", 5000, x * 1000)));
 
         }
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged(string? propertyName)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

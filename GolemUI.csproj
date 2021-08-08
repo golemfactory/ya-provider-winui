@@ -406,6 +406,7 @@
     <Compile Include="ViewModel\CustomControls\NotificationBar\NotificationBarViewModel.cs" />
     <Compile Include="ViewModel\CustomControls\NotificationBar\NotificationState.cs" />
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
+    <Compile Include="ViewModel\DashboardPage.cs" />
     <Compile Include="ViewModel\DashboardViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
