@@ -57,7 +57,7 @@ namespace GolemUI.ViewModel
                     return "Please wait until all subsystems are initialized";
                 if (_benchmarkService.IsRunning)
                     return "Can't start mining while benchmark is running";
-                
+
                 return "";
             }
         }
