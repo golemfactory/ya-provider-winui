@@ -16,7 +16,7 @@ namespace GolemUI.ViewModel
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
-            IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider)
+            IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, IRemoteSettingsProvider remoteSettingsProvider)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
@@ -26,6 +26,7 @@ namespace GolemUI.ViewModel
             _benchmarkService = benchmarkService;
             _statusProvider = statusProvider;
             _historyDataProvider = historyDataProvider;
+            _remoteSettingsProvider = remoteSettingsProvider;
 
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
@@ -322,5 +323,6 @@ namespace GolemUI.ViewModel
         private readonly IProcessControler _processController;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
         private readonly IHistoryDataProvider _historyDataProvider;
+        private readonly IRemoteSettingsProvider _remoteSettingsProvider;
     }
 }

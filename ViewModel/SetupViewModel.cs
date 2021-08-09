@@ -64,9 +64,11 @@ namespace GolemUI.ViewModel
         private Nethereum.HdWallet.Wallet? _wallet = null;
 
         private ILogger<SetupViewModel> _logger;
+        private readonly IRemoteSettingsProvider _remoteSettingsProvider;
 
         public SetupViewModel(Interfaces.IProviderConfig providerConfig,
-            Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider, ILogger<SetupViewModel> logger)
+            Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider, ILogger<SetupViewModel> logger,
+            IRemoteSettingsProvider remoteSettingsProvider)
         {
             _flow = 0;
             _noobStep = 0;
@@ -77,6 +79,7 @@ namespace GolemUI.ViewModel
             _priceProvider = priceProvider;
             _userSettingsProvider = userSettingsProvider;
             _logger = logger;
+            _remoteSettingsProvider = remoteSettingsProvider;
 
 
             _providerConfig.PropertyChanged += OnProviderConfigChanged;

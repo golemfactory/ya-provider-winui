@@ -9,8 +9,6 @@ namespace GolemUI.Interfaces
 {
     public interface IRemoteSettingsProvider
     {
-        public Task<bool> RequestRemoteSettingsUpdate();
-
         public bool LoadRemoteSettings(out RemoteSettings remoteSettings);
     }
 }

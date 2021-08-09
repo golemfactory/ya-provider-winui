@@ -35,5 +35,18 @@ namespace GolemUI.Utils
             string result = Path.Combine(GetLocalPath(), "BenchmarkResults.json");
             return result;
         }
+
+        public static string GetRemoteSettingsPath()
+        {
+            string result = Path.Combine(GetLocalPath(), "RemoteSettings.json");
+            return result;
+        }
+
+        public static string GetRemoteTmpSettingsPath()
+        {
+            string result = Path.Combine(GetLocalPath(), "RemoteSettings-tmp.json");
+            return result;
+        }
+
     }
 }

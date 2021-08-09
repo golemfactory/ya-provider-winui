@@ -71,6 +71,7 @@ namespace GolemUI
         {
             services.AddSingleton<Interfaces.IBenchmarkResultsProvider, Src.BenchmarkResultsProvider>();
             services.AddSingleton<Interfaces.IUserSettingsProvider, Src.UserSettingsProvider>();
+            services.AddSingleton<Interfaces.IRemoteSettingsProvider, Src.RemoteSettingsProvider>();
             services.AddSingleton<Interfaces.IPriceProvider, Src.CoinGeckoPriceProvider>();
             services.AddSingleton<Interfaces.IEstimatedProfitProvider, Src.StaticEstimatedEarningsProvider>();
 
@@ -135,7 +136,10 @@ namespace GolemUI
                 this.Shutdown();
                 return;
             }
+            var remoteSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IRemoteSettingsProvider>();
+
             var userSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IUserSettingsProvider>();
+
             var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
             var notificationMonitor = _serviceProvider!.GetRequiredService<Src.AppNotificationService.NotificationsMonitor>();
 
