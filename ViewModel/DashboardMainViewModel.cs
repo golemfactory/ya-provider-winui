@@ -58,7 +58,7 @@ namespace GolemUI.ViewModel
             }
         }
 
-            
+
 
         private void _historyDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
