@@ -10,7 +10,8 @@ namespace GolemUI.Model
     {
         public DateTime? DownloadedDateTime { get; set; }
         public string? Version { get; set; }
-        public double? EthPricePerMhs { get; set; }
-        public double? EtcPricePerMhs { get; set; }
+        public double? DayEthPerGH { get; set; } = 0.02;
+        public double? DayEtcPerGH { get; set; } = 0.9;
+        public double? RequestorCoeff { get; set; } = 0.66;
     }
 }

@@ -265,6 +265,7 @@
     <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />
     <Compile Include="Src\AppNotificationService\SimpleNotificationObject.cs" />
     <Compile Include="Src\HistoryDataProvider.cs" />
+    <Compile Include="Src\EstimatedEarningsProvider.cs" />
     <Compile Include="Src\RemoteSettingsProvider.cs" />
     <Compile Include="UI\UserControls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
