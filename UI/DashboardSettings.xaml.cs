@@ -37,7 +37,7 @@ namespace GolemUI
                 ViewModel.RequestDarkBackgroundVisibilityChange(true);
                 if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
                 {
-                    //Model.UpdateAddress(dlg.Model.ChangeAction, dlg.Model.NewAddress);
+                    ViewModel.UpdateBenchmarkDialogSettings(dlg.Model.ShouldAutoRestartMining,dlg.Model.RememberMyPreference);
                 }
                 else
                 {

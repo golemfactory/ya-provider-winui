@@ -14,7 +14,7 @@ namespace GolemUI.ViewModel.Dialogs
     public class DlgShouldStopMiningBeforeBenchmarkViewModel : INotifyPropertyChanged
     {
 
-        public bool _shouldAutoRestartMining;
+        private bool _shouldAutoRestartMining;
         public bool ShouldAutoRestartMining
         {
             get => _shouldAutoRestartMining;
@@ -25,7 +25,7 @@ namespace GolemUI.ViewModel.Dialogs
             }
         }
 
-        public bool _rememberMyPreference;
+        private bool _rememberMyPreference;
         public bool RememberMyPreference
         {
             get => _rememberMyPreference;

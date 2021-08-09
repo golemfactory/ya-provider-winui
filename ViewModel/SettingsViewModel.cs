@@ -25,6 +25,7 @@ namespace GolemUI.ViewModel
         private readonly IStatusProvider _statusProvider;
         private readonly BenchmarkService _benchmarkService;
         private BenchmarkResults _benchmarkSettings;
+        private readonly IUserSettingsProvider _userSettingsProvider;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
         public BenchmarkService BenchmarkService => _benchmarkService;
         public ObservableCollection<ClaymoreGpuStatus>? GpuList { get; set; }
@@ -32,10 +33,15 @@ namespace GolemUI.ViewModel
 
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
+
+       
+      
+
         private readonly Interfaces.INotificationService _notificationService;
         public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
-        public SettingsViewModel(IPriceProvider priceProvider, IProcessControler processControler, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService)
+        public SettingsViewModel(IUserSettingsProvider userSettingsProvider, IPriceProvider priceProvider, IProcessControler processControler, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService)
         {
+            _userSettingsProvider = userSettingsProvider;
             _statusProvider = statusProvider;
             _processControler = processControler;
             GpuList = new ObservableCollection<ClaymoreGpuStatus>();
@@ -50,10 +56,16 @@ namespace GolemUI.ViewModel
             _profitEstimator = profitEstimator;
             _totalCpusCount = Src.CpuInfo.GetCpuCount(Src.CpuCountMode.Threads);
             BenchmarkError = "";
-
             ActiveCpusCount = 3;
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
         }
+        internal void UpdateBenchmarkDialogSettings(bool shouldAutoRestartMining, bool rememberMyPreference)
+        {
+            var settings = _userSettingsProvider.LoadUserSettings();
+            settings.ShouldAutoRestartMiningAfterBenchmark = shouldAutoRestartMining;
+            settings.ShouldDisplayNotificationsIfMiningIsActive = rememberMyPreference;
+        }
+
         public void RequestDarkBackgroundVisibilityChange(bool shouldBackgroundBeVisible)
         {
             DarkBackgroundRequested?.Invoke(shouldBackgroundBeVisible);
