@@ -37,12 +37,13 @@ namespace GolemUI
                 if (userSettings.ShouldDisplayNotificationsIfMiningIsActive)
                 {
 
-                    ViewModel.ShouldRestartMiningAfterBenchmark = true;
+                    ViewModel.ShouldRestartMiningAfterBenchmark = false;
                     var dlg = new UI.Dialogs.DlgShouldStopMiningBeforeBenchmark(new GolemUI.ViewModel.Dialogs.DlgShouldStopMiningBeforeBenchmarkViewModel(shouldAutoRestartMining: userSettings.ShouldAutoRestartMiningAfterBenchmark, rememberMyPreference: !userSettings.ShouldDisplayNotificationsIfMiningIsActive));
                     dlg.Owner = Window.GetWindow(this);
                     ViewModel.RequestDarkBackgroundVisibilityChange(true);
                     if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
                     {
+                        ViewModel.ShouldRestartMiningAfterBenchmark = dlg.Model.ShouldAutoRestartMining;
                         ViewModel.UpdateBenchmarkDialogSettings(dlg.Model.ShouldAutoRestartMining, !dlg.Model.RememberMyPreference);
                     }
                     else

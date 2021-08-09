@@ -187,22 +187,28 @@ namespace GolemUI.ViewModel
 
         }
 
+        void ChangeSettingsWithMiningRestart(string msg)
+        {
+            if (IsMiningProcessRunning())
+            {
+                _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, msg, expirationTimeInMs: 2000));
+                SaveData();
+                StopMiningProcess();
+                Task.Delay(3000).ContinueWith(_ => RestartMiningProcess());
+
+            }
+        }
         private void Val_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SelectedMiningMode")
+            if (sender is ClaymoreGpuStatus status)
             {
-                if (sender is ClaymoreGpuStatus status)
+                if (e.PropertyName == "SelectedMiningMode")
                 {
-
-                    if (IsMiningProcessRunning())
-                    {
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "applying settings (performance throttling changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")", expirationTimeInMs: 2000));
-                        SaveData();
-                        StopMiningProcess();
-
-                        Task.Delay(3000).ContinueWith(_ => RestartMiningProcess());
-
-                    }
+                    ChangeSettingsWithMiningRestart("applying settings (performance throttling changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")");
+                }
+                if (e.PropertyName == "IsEnabledByUser")
+                {
+                    ChangeSettingsWithMiningRestart("applying settings (card enabled: " + status.IsEnabledByUser.ToString() + ")");
                 }
             }
         }
