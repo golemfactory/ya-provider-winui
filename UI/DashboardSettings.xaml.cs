@@ -31,7 +31,7 @@ namespace GolemUI
             bool shouldStartBenchmark = true;
             if (ViewModel.IsMiningProcessRunning())
             {
-                ViewModel.StopMiningProcess();
+
 
                 var userSettings = ViewModel.UserSettings;
                 if (userSettings.ShouldDisplayNotificationsIfMiningIsActive)
@@ -43,6 +43,7 @@ namespace GolemUI
                     ViewModel.RequestDarkBackgroundVisibilityChange(true);
                     if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
                     {
+
                         ViewModel.ShouldRestartMiningAfterBenchmark = dlg.Model.ShouldAutoRestartMining;
                         ViewModel.UpdateBenchmarkDialogSettings(dlg.Model.ShouldAutoRestartMining, !dlg.Model.RememberMyPreference);
                     }
@@ -64,8 +65,14 @@ namespace GolemUI
                 ViewModel.ShouldRestartMiningAfterBenchmark = false;
             }
 
+
+
             if (shouldStartBenchmark)
+            {
+                if (ViewModel.IsMiningProcessRunning())
+                    ViewModel.StopMiningProcess();
                 ViewModel!.StartBenchmark();
+            }
         }
 
         private void btnStopBenchmark_Click(object sender, RoutedEventArgs e)
