@@ -193,7 +193,7 @@ namespace GolemUI.ViewModel
                 {
                     
                     if (IsMiningProcessRunning())
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "applying settings (performance throttling changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")", 5000));
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "applying settings (performance throttling changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")",expirationTimeInMs: 5000));
                 }
             }
         }
