@@ -14,6 +14,7 @@ namespace GolemUI.Src
         const double DAY_ETC_FOR_GH = 0.925568;
 
         const double REQUESTOR_COEF = 0.66;
+
         double IEstimatedProfitProvider.HashRateToCoinPerDay(double hashRate, IEstimatedProfitProvider.Coin coin)
         {
             switch (coin)
@@ -25,6 +26,11 @@ namespace GolemUI.Src
                 default:
                     return 0;
             }
+        }
+
+        void IEstimatedProfitProvider.UpdateCurrentRequestorPayout(double pricePerGhDay, IEstimatedProfitProvider.Coin coin)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -79,7 +79,15 @@ namespace GolemUI.Src
 
                 double diffEarnings = earningsEnd.Earnings - earningsStart.Earnings;
                 double diffTime = (timeEnd - timeStart).TotalSeconds;
-                if (diffEarnings > 0 && diffTime > 0)
+                int shares = earningsEnd.Shares - earningsStart.Shares;
+
+                if (shares < 1)
+                {
+                    double hashRate = MiningHistoryGpu.Last().Value.HashRate;
+                    EstimatedEarningsPerSecond = _backupProvider.HashRateToCoinPerDay(hashRate);
+                    EstimatedEarningsMessage = $"Estimation based on current hashrate only.";
+                }
+                else if (diffEarnings > 0 && diffTime > 0)
                 {
                     var glmValue = diffEarnings / diffTime;
                     EstimatedEarningsPerSecond = glmValue;
@@ -92,7 +100,6 @@ namespace GolemUI.Src
                     int hours = totalSecs / 3600;
                     int minutes = (totalSecs - hours * 3600) / 60;
 
-                    int shares = earningsEnd.Shares - earningsStart.Shares;
 
                     if (hours == 0)
                     {
@@ -129,9 +136,11 @@ namespace GolemUI.Src
         IProcessControler _processControler;
         ILogger<HistoryDataProvider> _logger;
         IPriceProvider _priveProvider;
+        IEstimatedProfitProvider _backupProvider;
 
-        public HistoryDataProvider(IStatusProvider statusProvider, IProcessControler processControler, ILogger<HistoryDataProvider> logger, IPriceProvider priveProvider)
+        public HistoryDataProvider(IEstimatedProfitProvider estimatedProfitProvider, IStatusProvider statusProvider, IProcessControler processControler, ILogger<HistoryDataProvider> logger, IPriceProvider priveProvider)
         {
+            _backupProvider = estimatedProfitProvider;
             _priveProvider = priveProvider;
             _statusProvider = statusProvider;
             statusProvider.PropertyChanged += StatusProvider_PropertyChanged;
