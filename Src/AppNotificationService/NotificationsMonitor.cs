@@ -36,12 +36,12 @@ namespace GolemUI.Src.AppNotificationService
             {
                 if (_benchmarkService.IsRunning)
                 {
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "Benchmark is running", expirationTimeInMs:0));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "Benchmark is running", expirationTimeInMs: 0));
                 }
 
                 if (!_benchmarkService.IsRunning)
                 {
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "benchmark finished", expirationTimeInMs:NOTIFICATION_TIMEOUT));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "benchmark finished", expirationTimeInMs: NOTIFICATION_TIMEOUT));
                 }
 
             }
@@ -96,7 +96,7 @@ namespace GolemUI.Src.AppNotificationService
                 }
                 if (notificationText != null)
                 {
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.ProviderStatus, notificationText, expirationTimeInMs: NOTIFICATION_TIMEOUT, group:false));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.ProviderStatus, notificationText, expirationTimeInMs: NOTIFICATION_TIMEOUT, group: false));
                 }
             }
             /*if (e.PropertyName == "IsStarting")
