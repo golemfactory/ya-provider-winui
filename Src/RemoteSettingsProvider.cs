@@ -91,7 +91,7 @@ namespace GolemUI.Src
                     rs.DownloadedDateTime = DateTime.Now;
                     File.WriteAllText(remotePath, JsonConvert.SerializeObject(rs, Formatting.Indented));
 
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Config downloaded: " + rs.Version, 5000));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Config downloaded: " + rs.Version, expirationTimeInMs: 5000));
                     return true;
                 }
             }
