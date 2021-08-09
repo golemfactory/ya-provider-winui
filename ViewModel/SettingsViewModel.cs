@@ -47,8 +47,8 @@ namespace GolemUI.ViewModel
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
 
-       
-      
+
+
 
         private readonly Interfaces.INotificationService _notificationService;
         public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
@@ -103,7 +103,7 @@ namespace GolemUI.ViewModel
         }
         public void RestartMiningProcess()
         {
-            
+
             var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
 
             _processControler.Start(_providerConfig.Network, extraClaymoreParams);

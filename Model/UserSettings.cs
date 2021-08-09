@@ -35,7 +35,7 @@ namespace GolemUI.Model
                 NotifyChanged("DisableNotificationsWhenMinimized");
             }
         }
-        private bool _shouldDisplayNotificationsIfMiningIsActive=true;
+        private bool _shouldDisplayNotificationsIfMiningIsActive = true;
         public bool ShouldDisplayNotificationsIfMiningIsActive
         {
             get
@@ -48,7 +48,7 @@ namespace GolemUI.Model
                 NotifyChanged(nameof(ShouldDisplayNotificationsIfMiningIsActive));
             }
         }
-        private bool _shouldAutoRestartMiningAfterBenchmark=true;
+        private bool _shouldAutoRestartMiningAfterBenchmark = true;
         public bool ShouldAutoRestartMiningAfterBenchmark
         {
             get
