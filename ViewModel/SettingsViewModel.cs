@@ -137,7 +137,7 @@ namespace GolemUI.ViewModel
                     //}
                     mining = _processControler.IsProviderRunning;
                     if (mining)
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "currently mining && changed card setting to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ", TODO: restarting mining service", 5000));
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "applying settings (performance throttling changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")", 5000));
                 }
             }
         }
