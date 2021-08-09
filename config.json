@@ -1,5 +1,6 @@
 {
-  "version": "0.1.7",
-  "ethPricePerMhs": 0.00004,
-  "etcPricePerMhs": 0.000002,
+  "version": "0.1.8",
+  "DayEthPerMH": 0.000024,
+  "DayEtcPerMH": 0.015,
+  "RequestorCoeff": 0.90
 }
