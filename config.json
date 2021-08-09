@@ -1,6 +1,6 @@
 {
   "version": "0.1.8",
-  "DayEthPerMH": 0.000024,
-  "DayEtcPerMH": 0.015,
+  "DayEthPerMH": 0.015,
+  "DayEtcPerMH": 0.81,
   "RequestorCoeff": 0.90
 }
