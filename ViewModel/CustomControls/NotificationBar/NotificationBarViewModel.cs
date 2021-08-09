@@ -37,7 +37,7 @@ namespace GolemUI.ViewModel.CustomControls
 
             App.Current.Dispatcher.Invoke((Action)delegate
             {
-                Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => { if (x.ShouldBeRemoved) Items.Remove(x); });
+                Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => { if (x.ShouldBeRemoved) Items.RemoveAt(0); });
             });
         }
 
