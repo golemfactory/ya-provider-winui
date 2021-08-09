@@ -22,7 +22,7 @@
                 <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/PinkButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/AdvancedSettingsButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/GoToSettingsButton.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/SliderCheckBox.xaml"/>
@@ -154,7 +154,7 @@
                                 </CheckBox>
                             </StackPanel>
 
-                            <Button Style="{StaticResource AdvancedSettingsButtonStyle}" Grid.Row="3" Cursor="Hand" Background="Transparent" Visibility="Collapsed" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="BtnGpuSettings" Click="BtnSettings_Click" Margin="0,10,0,0" />
+                            <Button Style="{StaticResource GoToSettingsButtonStyle}" Grid.Row="3" Cursor="Hand" Background="Transparent" Visibility="Collapsed" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="BtnGpuSettings" Click="BtnSettings_Click" Margin="0,10,0,0" />
 
                         </StackPanel>
                     </Grid>
@@ -183,7 +183,7 @@
                                 </CheckBox>
 
                             </StackPanel>
-                            <Button Style="{StaticResource AdvancedSettingsButtonStyle}" Grid.Row="3" Cursor="Hand" Background="Transparent" Visibility="Collapsed" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="BtnCpuSettings" Click="BtnSettings_Click" Margin="0,10,0,0" />
+                            <Button Style="{StaticResource GoToSettingsButtonStyle}" Grid.Row="3" Cursor="Hand" Background="Transparent" Visibility="Collapsed" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="BtnCpuSettings" Click="BtnSettings_Click" Margin="0,10,0,0" />
                         </StackPanel>
                     </Grid>
 

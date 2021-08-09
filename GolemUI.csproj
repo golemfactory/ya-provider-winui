@@ -260,10 +260,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
+    <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
+    <Compile Include="Model\RemoteSettings.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel - Copy.cs" />
     <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />
     <Compile Include="Src\AppNotificationService\SimpleNotificationObject.cs" />
     <Compile Include="Src\HistoryDataProvider.cs" />
+    <Compile Include="Src\RemoteSettingsProvider.cs" />
     <Compile Include="UI\Dialogs\DlgShouldStopMiningBeforeBenchmark.xaml.cs">
       <DependentUpon>DlgShouldStopMiningBeforeBenchmark.xaml</DependentUpon>
     </Compile>
@@ -558,6 +561,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\SetupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\GoToSettingsButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
