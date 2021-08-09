@@ -13,7 +13,14 @@ namespace GolemUI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var baseValue = value as float?;
+            double? baseValue = value as double?;
+            float? baseValue2 = value as float?;
+
+            if (baseValue == null && baseValue2 != null)
+            {
+                baseValue = (double)baseValue2;
+            }
+
             if (baseValue == null || baseValue < 0.1)
             {
                 return "-- MH/s";

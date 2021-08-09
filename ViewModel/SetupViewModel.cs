@@ -240,7 +240,7 @@ namespace GolemUI.ViewModel
             return true;
         }
 
-        public float? TotalHashRate => _benchmarkService.TotalMhs;
+        public double? TotalHashRate => _benchmarkService.TotalMhs;
 
         public double? ExpectedProfit
         {

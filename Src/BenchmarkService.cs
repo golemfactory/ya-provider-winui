@@ -33,9 +33,26 @@ namespace GolemUI.Src
 
         public bool _requestStop = false;
 
-        public float? TotalMhs => _claymoreLiveStatus == null ? null : (from gpus in _claymoreLiveStatus?.GPUs.Values select gpus.BenchmarkSpeed).Sum();
+        public double? TotalMhs
+        {
+            get
+            {
+                double totalMhs = 0.0;
+                if (_claymoreLiveStatus != null)
+                {
+                    foreach (var gpu in _claymoreLiveStatus.GPUs)
+                    {
+                        if (gpu.Value.IsEnabledByUser && gpu.Value.IsReadyForMining)
+                        {
+                            totalMhs += gpu.Value.BenchmarkSpeed;
+                        }
+                    }
+                }
+                return totalMhs;
+            }
+        }
 
-        private readonly double CLAYMORE_GPU_INFO_TIMEOUT = 10.0;
+    private readonly double CLAYMORE_GPU_INFO_TIMEOUT = 10.0;
         private readonly double CLAYMORE_TOTAL_BENCHMARK_TIMEOUT = 200.0;
         private IBenchmarkResultsProvider _benchmarkResultsProvider;
 

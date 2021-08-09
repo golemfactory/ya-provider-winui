@@ -30,10 +30,11 @@ namespace GolemUI.Claymore
             get => _isEnabledByUser;
             set
             {
-
                 if (value != _isEnabledByUser)
+                {
+                    _isEnabledByUser = value;
                     NotifyChange(nameof(IsEnabledByUser));
-                _isEnabledByUser = value;
+                }
             }
         }
         public float DagProgress { get; set; }
