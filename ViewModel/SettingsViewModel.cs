@@ -32,7 +32,8 @@ namespace GolemUI.ViewModel
 
         //It's needed to prevent blinking button when transition to advanced window
         public bool _advancedSettingsButtonEnabled;
-        public bool AdvancedSettingsButtonEnabled { 
+        public bool AdvancedSettingsButtonEnabled
+        {
             get => _advancedSettingsButtonEnabled;
             set
             {
