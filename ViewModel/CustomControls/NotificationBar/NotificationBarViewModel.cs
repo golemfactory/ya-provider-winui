@@ -29,7 +29,7 @@ namespace GolemUI.ViewModel.CustomControls
         public NotificationBarViewModel()
         {
             _items = new ObservableCollection<NotificationBarNotification>();
-            Enumerable.Range(1, 5).ToList().ForEach(x => Items.Add(new NotificationBarNotification(true, NotificationState.Visible, $"title {x}", $"id {x}", $"message {x}", 5000, x * 1000)));
+            Enumerable.Range(1, 5).ToList().ForEach(x => Items.Add(new NotificationBarNotification(true, NotificationState.Visible, $"title {x}", $"id {x}", $"message {x}", 5000, x * 1000, false)));
         }
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -62,7 +62,7 @@ namespace GolemUI.ViewModel.CustomControls
 
         private void _notificationService_NotificationArrived(INotificationObject ntf)
         {
-            AddOrUpdate(new NotificationBarNotification(ntf.ExpirationTimeInMs > 0, NotificationState.Visible, ntf.Title, ntf.GetId(), ntf.Message, ntf.ExpirationTimeInMs, 0));
+            AddOrUpdate(new NotificationBarNotification(ntf.ExpirationTimeInMs > 0, NotificationState.Visible, ntf.Title, ntf.GetId(), ntf.Message, ntf.ExpirationTimeInMs, 0, ntf.Group));
         }
         private bool ElementWithSpecifiedIdAlreatExists(string id)
         {
@@ -84,7 +84,7 @@ namespace GolemUI.ViewModel.CustomControls
             App.Current.Dispatcher.Invoke((Action)delegate
             {
                 // LastNotification = ntf.Title;
-                if (ElementWithSpecifiedIdAlreatExists(ntf.Id))
+                if (ElementWithSpecifiedIdAlreatExists(ntf.Id) && ntf.Group)
                     TryUpdateElement(ntf);
                 else
                     Items.Add(ntf);

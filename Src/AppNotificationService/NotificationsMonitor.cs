@@ -36,12 +36,12 @@ namespace GolemUI.Src.AppNotificationService
             {
                 if (_benchmarkService.IsRunning)
                 {
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "Benchmark is running", 0));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "Benchmark is running", expirationTimeInMs: 0));
                 }
 
                 if (!_benchmarkService.IsRunning)
                 {
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "benchmark finished", NOTIFICATION_TIMEOUT));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "benchmark finished", expirationTimeInMs: NOTIFICATION_TIMEOUT));
                 }
 
             }
@@ -51,11 +51,11 @@ namespace GolemUI.Src.AppNotificationService
                 {
                     if (_benchmarkService.TotalMhs != 0)
                     {
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, $"benchmark is running ({_benchmarkService.TotalMhs} MH/s)", 0));
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, $"benchmark is running ({_benchmarkService.TotalMhs} MH/s)", expirationTimeInMs: 0));
                     }
                     else
                     {
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, $"benchmark is running (building DAG)", 0));
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, $"benchmark is running (building DAG)", expirationTimeInMs: 0));
                     }
                 }
             }
@@ -78,7 +78,7 @@ namespace GolemUI.Src.AppNotificationService
                 }
                 if (notificationText != null)
                 {
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStatus, notificationText, NOTIFICATION_TIMEOUT));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStatus, notificationText, expirationTimeInMs: NOTIFICATION_TIMEOUT));
                 }
             }
             if (e.PropertyName == "IsProviderRunning")
@@ -96,7 +96,7 @@ namespace GolemUI.Src.AppNotificationService
                 }
                 if (notificationText != null)
                 {
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.ProviderStatus, notificationText, NOTIFICATION_TIMEOUT));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.ProviderStatus, notificationText, expirationTimeInMs: NOTIFICATION_TIMEOUT, group: false));
                 }
             }
             /*if (e.PropertyName == "IsStarting")
