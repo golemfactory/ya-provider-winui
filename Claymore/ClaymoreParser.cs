@@ -82,7 +82,11 @@ namespace GolemUI.Claymore
             }
             set
             {
-                ClaymorePerformanceThrottling = (int)value;
+                if (ClaymorePerformanceThrottling != (int)value)
+                {
+                    ClaymorePerformanceThrottling = (int)value;
+                    NotifyChange(nameof(SelectedMiningMode));
+                }
             }
         }
 
