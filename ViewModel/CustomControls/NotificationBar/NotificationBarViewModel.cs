@@ -76,6 +76,7 @@ namespace GolemUI.ViewModel.CustomControls
                 item.Title = ntf.Title;
                 item.ShouldAutoHide = ntf.ShouldAutoHide;
                 item.ExpirationTime = ntf.ExpirationTime;
+                item.LifeTime = 0;
             }
         }
         private void AddOrUpdate(NotificationBarNotification ntf)
