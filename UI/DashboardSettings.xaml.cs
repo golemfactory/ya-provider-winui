@@ -31,7 +31,7 @@ namespace GolemUI
             bool shouldStartBenchmark = true;
             if (ViewModel.IsMiningProcessRunning())
             {
-                ViewModel.StopBenchmark();
+                ViewModel.StopMiningProcess();
 
                 var userSettings = ViewModel.UserSettings;
                 if (userSettings.ShouldDisplayNotificationsIfMiningIsActive)
@@ -43,7 +43,7 @@ namespace GolemUI
                     ViewModel.RequestDarkBackgroundVisibilityChange(true);
                     if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
                     {
-                        ViewModel.UpdateBenchmarkDialogSettings(dlg.Model.ShouldAutoRestartMining, dlg.Model.RememberMyPreference);
+                        ViewModel.UpdateBenchmarkDialogSettings(dlg.Model.ShouldAutoRestartMining, !dlg.Model.RememberMyPreference);
                     }
                     else
                     {

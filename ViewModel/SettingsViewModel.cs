@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-
+using System.Threading.Tasks;
 
 namespace GolemUI.ViewModel
 {
@@ -99,6 +99,7 @@ namespace GolemUI.ViewModel
         public void StopMiningProcess()
         {
             _processControler.Stop();
+            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "stopping mining...", expirationTimeInMs: 3000, group: false));
         }
         public void RestartMiningProcess()
         {
@@ -106,6 +107,7 @@ namespace GolemUI.ViewModel
             var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
 
             _processControler.Start(_providerConfig.Network, extraClaymoreParams);
+            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "starting mining...", expirationTimeInMs: 3000, group: false));
         }
         public bool IsMiningProcessRunning()
         {
@@ -191,9 +193,16 @@ namespace GolemUI.ViewModel
             {
                 if (sender is ClaymoreGpuStatus status)
                 {
-                    
+
                     if (IsMiningProcessRunning())
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "applying settings (performance throttling changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")",expirationTimeInMs: 5000));
+                    {
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "applying settings (performance throttling changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")", expirationTimeInMs: 2000));
+                        SaveData();
+                        StopMiningProcess();
+
+                        Task.Delay(3000).ContinueWith(_ => RestartMiningProcess());
+
+                    }
                 }
             }
         }
@@ -275,7 +284,7 @@ namespace GolemUI.ViewModel
                     // finished ?
 
                     if (ShouldRestartMiningAfterBenchmark)
-                        RestartMiningProcess();
+                        Task.Delay(3000).ContinueWith(_ => RestartMiningProcess());
 
                     _benchmarkService.Save();
                     _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
