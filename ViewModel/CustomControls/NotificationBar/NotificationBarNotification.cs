@@ -70,6 +70,14 @@ namespace GolemUI.ViewModel.CustomControls
 
             }
         }
+        public bool ShouldBeRemoved
+        {
+            get
+            {
+                return ShouldAutoHide && LifeTime > ExpirationTime + 1000;
+
+            }
+        }
         private int _expirationTime = 1000;
         public int ExpirationTime
         {
@@ -92,6 +100,7 @@ namespace GolemUI.ViewModel.CustomControls
                 _lifeTime = value;
                 OnPropertyChanged(nameof(LifeTime));
                 OnPropertyChanged(nameof(Percentage));
+                OnPropertyChanged(nameof(ShouldDisappear));
                 OnPropertyChanged(nameof(PercentageAsString));
             }
         }

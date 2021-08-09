@@ -63,11 +63,53 @@
                     <DataTemplate>
                         
                             <StackPanel Orientation="Horizontal">
+                            <StackPanel.RenderTransform>
+                                <TranslateTransform Y="-20" />
+                            </StackPanel.RenderTransform>
+                            <StackPanel.Triggers>
+                                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                         
+                                            <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).Y" To="0" Duration="00:00:00.4" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </StackPanel.Triggers>
                                 <Rectangle Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBox}}" Width="1" Height="{Binding Percentage}" Margin="4,0,5,0" />
-                            <Label Padding="0" VerticalAlignment="Center" Margin="5,0,0,0" Content="{Binding Title, Mode=OneWay}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"></Label>
+                            <Label x:Name="lbl"  Opacity="1" Padding="0" VerticalAlignment="Center" Margin="5,0,0,0" Content="{Binding Title, Mode=OneWay}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
+                                <Label.Triggers>
+                                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <!--<DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                     Duration="00:00:01"
+                                                     From="0"
+                                                     To="1" />-->
+                                                
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                  
+                                </Label.Triggers>
+                                
+                            </Label>
                         </StackPanel> 
                             <!--<Rectangle HorizontalAlignment="Stretch" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBox}}" Width="30" Height="2" Margin="4,0,5,0" />-->
-                        
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=ShouldDisappear}" Value="true">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="lbl" Storyboard.TargetProperty="Opacity"
+                                                     Duration="00:00:01"
+                                                     From="1"
+                                                     To="0" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <ListBox.Template>
