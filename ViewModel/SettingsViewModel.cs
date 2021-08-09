@@ -16,6 +16,7 @@ namespace GolemUI.ViewModel
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage, IDialogInvoker
     {
+        public bool ShouldRestartMiningAfterBenchmark = false;
         public event PageChangeRequestedEvent? PageChangeRequested;
         private readonly Command.Provider _provider;
         private readonly IProviderConfig _providerConfig;
@@ -59,11 +60,18 @@ namespace GolemUI.ViewModel
             ActiveCpusCount = 3;
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
         }
+        internal UserSettings UserSettings => _userSettingsProvider.LoadUserSettings();
         internal void UpdateBenchmarkDialogSettings(bool shouldAutoRestartMining, bool rememberMyPreference)
         {
             var settings = _userSettingsProvider.LoadUserSettings();
             settings.ShouldAutoRestartMiningAfterBenchmark = shouldAutoRestartMining;
             settings.ShouldDisplayNotificationsIfMiningIsActive = rememberMyPreference;
+            _userSettingsProvider.SaveUserSettings(settings);
+        }
+
+        public void PushNotification(INotificationObject notification)
+        {
+            _notificationService.PushNotification(notification);
         }
 
         public void RequestDarkBackgroundVisibilityChange(bool shouldBackgroundBeVisible)
@@ -75,6 +83,17 @@ namespace GolemUI.ViewModel
             PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettingsAdv);
         }
 
+        public void StopMiningProcess()
+        {
+            _processControler.Stop();
+        }
+        public void RestartMiningProcess()
+        {
+            
+            var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
+
+            _processControler.Start(_providerConfig.Network, extraClaymoreParams);
+        }
         public bool IsMiningProcessRunning()
         {
             bool mining = false;
@@ -239,6 +258,11 @@ namespace GolemUI.ViewModel
 
                 if (!BenchmarkIsRunning && _benchmarkService != null)
                 {
+                    // finished ?
+
+                    if (ShouldRestartMiningAfterBenchmark)
+                        RestartMiningProcess();
+
                     _benchmarkService.Save();
                     _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
 

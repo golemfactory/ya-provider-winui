@@ -35,11 +35,11 @@ namespace GolemUI.ViewModel.Dialogs
                 OnPropertyChanged(nameof(RememberMyPreference));
             }
         }
-      
 
-        public DlgShouldStopMiningBeforeBenchmarkViewModel( )
+        public DlgShouldStopMiningBeforeBenchmarkViewModel(bool shouldAutoRestartMining, bool rememberMyPreference)
         {
-          
+            ShouldAutoRestartMining = shouldAutoRestartMining;
+            RememberMyPreference = rememberMyPreference;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

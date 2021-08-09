@@ -31,24 +31,39 @@ namespace GolemUI
             bool shouldStartBenchmark = true;
             if (ViewModel.IsMiningProcessRunning())
             {
-               
-                var dlg = new UI.Dialogs.DlgShouldStopMiningBeforeBenchmark(new GolemUI.ViewModel.Dialogs.DlgShouldStopMiningBeforeBenchmarkViewModel());
-                dlg.Owner = Window.GetWindow(this);
-                ViewModel.RequestDarkBackgroundVisibilityChange(true);
-                if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
+                ViewModel.StopBenchmark();
+
+                var userSettings = ViewModel.UserSettings;
+                if (userSettings.ShouldDisplayNotificationsIfMiningIsActive)
                 {
-                    ViewModel.UpdateBenchmarkDialogSettings(dlg.Model.ShouldAutoRestartMining,dlg.Model.RememberMyPreference);
+
+                    ViewModel.ShouldRestartMiningAfterBenchmark = true;
+                    var dlg = new UI.Dialogs.DlgShouldStopMiningBeforeBenchmark(new GolemUI.ViewModel.Dialogs.DlgShouldStopMiningBeforeBenchmarkViewModel(shouldAutoRestartMining: userSettings.ShouldAutoRestartMiningAfterBenchmark, rememberMyPreference: !userSettings.ShouldDisplayNotificationsIfMiningIsActive));
+                    dlg.Owner = Window.GetWindow(this);
+                    ViewModel.RequestDarkBackgroundVisibilityChange(true);
+                    if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
+                    {
+                        ViewModel.UpdateBenchmarkDialogSettings(dlg.Model.ShouldAutoRestartMining, dlg.Model.RememberMyPreference);
+                    }
+                    else
+                    {
+                        shouldStartBenchmark = false;
+                    }
+
+                    ViewModel.RequestDarkBackgroundVisibilityChange(false);
                 }
                 else
                 {
-                    shouldStartBenchmark=false;
+                    ViewModel.ShouldRestartMiningAfterBenchmark = userSettings.ShouldAutoRestartMiningAfterBenchmark;
                 }
-               
-                ViewModel.RequestDarkBackgroundVisibilityChange(false);
 
             }
-            if (shouldStartBenchmark)
+            else
+            {
+                ViewModel.ShouldRestartMiningAfterBenchmark = false;
+            }
 
+            if (shouldStartBenchmark)
                 ViewModel!.StartBenchmark();
         }
 
