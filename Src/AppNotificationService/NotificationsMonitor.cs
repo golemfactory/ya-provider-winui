@@ -15,6 +15,11 @@ namespace GolemUI.Src.AppNotificationService
         private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.INotificationService _notificationService;
 
+        private bool _lastIsServerRunning = false;
+        private bool _lastIsProviderRunning = false;
+
+
+        public const int NOTIFICATION_TIMEOUT = 5000;
 
         public NotificationsMonitor(Interfaces.INotificationService notificationService, Interfaces.IProcessControler processControler, Src.BenchmarkService benchmarkService)
         {
@@ -31,12 +36,12 @@ namespace GolemUI.Src.AppNotificationService
             {
                 if (_benchmarkService.IsRunning)
                 {
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "benchmark is running", 0));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "Benchmark is running", 0));
                 }
 
                 if (!_benchmarkService.IsRunning)
                 {
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "benchmark finished", 5000));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "benchmark finished", NOTIFICATION_TIMEOUT));
                 }
 
             }
@@ -60,11 +65,39 @@ namespace GolemUI.Src.AppNotificationService
         {
             if (e.PropertyName == "IsServerRunning")
             {
-                _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStatus, "yagna " + (_processControler.IsServerRunning ? "started" : "stopped"), 5000));
+                string? notificationText = null;
+                if (!_lastIsServerRunning && _processControler.IsServerRunning)
+                {
+                    notificationText = "Backend service is ready";
+                    _lastIsServerRunning = true;
+                }
+                else if (_lastIsServerRunning && !_processControler.IsServerRunning)
+                {
+                    notificationText = "Backend service stopped";
+                    _lastIsServerRunning = false;
+                }
+                if (notificationText != null)
+                {
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStatus, notificationText, NOTIFICATION_TIMEOUT));
+                }
             }
             if (e.PropertyName == "IsProviderRunning")
             {
-                _notificationService.PushNotification(new SimpleNotificationObject(Tag.ProviderStatus, "provider " + (_processControler.IsProviderRunning ? "started" : "stopped"), 5000));
+                string? notificationText = null;
+                if (!_lastIsProviderRunning && _processControler.IsProviderRunning)
+                {
+                    notificationText = "Provider service started";
+                    _lastIsProviderRunning = true;
+                }
+                else if (_lastIsProviderRunning && !_processControler.IsProviderRunning)
+                {
+                    notificationText = "Provider service stopped";
+                    _lastIsProviderRunning = false;
+                }
+                if (notificationText != null)
+                {
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.ProviderStatus, notificationText, NOTIFICATION_TIMEOUT));
+                }
             }
             /*if (e.PropertyName == "IsStarting")
             {

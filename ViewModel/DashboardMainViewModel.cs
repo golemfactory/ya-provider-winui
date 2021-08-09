@@ -51,7 +51,7 @@ namespace GolemUI.ViewModel
             get
             {
                 if (Process.IsStarting)
-                    return "Please waint until all subsystems will initialize";
+                    return "Please wait until all subsystems are initialized";
                 if (_benchmarkService.IsRunning)
                     return "Can't start mining while benchmark is running";
                 return "";
