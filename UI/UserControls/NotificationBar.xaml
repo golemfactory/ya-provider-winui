@@ -99,7 +99,7 @@
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=ShouldDisappear}" Value="true">
                                 <DataTrigger.EnterActions>
-                                    <BeginStoryboard>
+                                    <BeginStoryboard  x:Name="trueStoryBoard">
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="lbl" Storyboard.TargetProperty="Opacity"
                                                      Duration="00:00:01"
@@ -108,6 +108,24 @@
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="trueStoryBoard" />
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=ShouldDisappear}" Value="false">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard x:Name="falseStoryBoard">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="lbl" Storyboard.TargetProperty="Opacity"
+                                                     Duration="00:00:01.1"
+                                                     
+                                                     To="1" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="falseStoryBoard" />
+                                </DataTrigger.ExitActions>
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>

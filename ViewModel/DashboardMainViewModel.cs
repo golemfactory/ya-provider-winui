@@ -40,20 +40,24 @@ namespace GolemUI.ViewModel
         {
             if (e.PropertyName == "IsRunning")
             {
-                OnPropertyChanged(nameof(MiningReadyToRun));
+                OnPropertyChanged(nameof(IsMiningReadyToRun));
                 OnPropertyChanged(nameof(StartButtonExplanation));
+                OnPropertyChanged(nameof(IsBenchmarkNotRunning));
+
             }
         }
 
-        public bool MiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning;
+        public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning;
+        public bool IsBenchmarkNotRunning => !_benchmarkService.IsRunning;
         public string StartButtonExplanation
         {
             get
             {
                 if (Process.IsStarting)
-                    return "Please waint until all subsystems will initialize";
+                    return "Please wait until all subsystems are initialized";
                 if (_benchmarkService.IsRunning)
                     return "Can't start mining while benchmark is running";
+
                 return "";
             }
         }
@@ -92,7 +96,7 @@ namespace GolemUI.ViewModel
             }
             if (e.PropertyName == "IsStarting")
             {
-                OnPropertyChanged(nameof(MiningReadyToRun));
+                OnPropertyChanged(nameof(IsMiningReadyToRun));
                 OnPropertyChanged(nameof(StartButtonExplanation));
             }
         }
