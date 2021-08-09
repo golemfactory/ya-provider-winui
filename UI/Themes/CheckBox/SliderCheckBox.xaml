@@ -6,6 +6,8 @@
 
     <SolidColorBrush x:Key="CheckBox.Slider.Active" Color="#0FB2AB"/>
     <SolidColorBrush x:Key="CheckBox.Slider.Inactive" Color="#F36986"/>
+    <SolidColorBrush x:Key="CheckBox.Slider.Disabled" Color="Gray"/>
+    <SolidColorBrush x:Key="CheckBox.Slider.DisabledCircle" Color="LightGray"/>
     <Style x:Key="CheckBoxSlider" TargetType="{x:Type CheckBox}">
         <Setter Property="Template">
             <Setter.Value>
@@ -29,7 +31,7 @@
                     <DockPanel x:Name="dockPanel">
                         <ContentPresenter DockPanel.Dock="Right" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" RecognizesAccessKey="True" VerticalAlignment="Center"/>
                         <Border HorizontalAlignment="Left" x:Name="SliderBg" Width="30" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8"  Height="19" RenderTransformOrigin="0.5,0.5" Margin="1,1,1,1" >
-                            <Ellipse HorizontalAlignment="Left" x:Name="SliderCircle" Width="15" Height="15"  RenderTransformOrigin="0.5,0.5" Fill="White" >
+                            <Ellipse   HorizontalAlignment="Left" x:Name="SliderCircle" Width="15" Height="15"  RenderTransformOrigin="0.5,0.5" Fill="White" >
                                 <Ellipse.RenderTransform>
                                     <TransformGroup>
                                         <TranslateTransform X="01" Y="0"/>
@@ -53,11 +55,10 @@
                             <Setter TargetName="SliderBg" Property="Background" Value="{StaticResource CheckBox.Slider.Inactive}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            <Setter TargetName="SliderBg" Property="Background"  Value="{StaticResource CheckBox.Slider.Disabled}"/>
+                            <Setter TargetName="SliderCircle" Property="Fill"  Value="{StaticResource CheckBox.Slider.DisabledCircle}"/>
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextColor}}"/>
-                        </Trigger>
+                       
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

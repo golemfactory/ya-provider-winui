@@ -33,7 +33,32 @@ namespace GolemUI.ViewModel
             _processController.PropertyChanged += OnProcessControllerChanged;
 
             _historyDataProvider.PropertyChanged += _historyDataProvider_PropertyChanged;
+            _benchmarkService.PropertyChanged += _benchmarkService_PropertyChanged;
         }
+
+        private void _benchmarkService_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsRunning")
+            {
+                OnPropertyChanged(nameof(MiningReadyToRun));
+                OnPropertyChanged(nameof(StartButtonExplanation));
+            }
+        }
+
+        public bool MiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning;
+        public string StartButtonExplanation
+        {
+            get
+            {
+                if (Process.IsStarting)
+                    return "Please waint until all subsystems will initialize";
+                if (_benchmarkService.IsRunning)
+                    return "Can't start mining while benchmark is running";
+                return "";
+            }
+        }
+
+
 
         private void _historyDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -64,6 +89,11 @@ namespace GolemUI.ViewModel
             if (e.PropertyName == "IsProviderRunning")
             {
                 RefreshStatus();
+            }
+            if (e.PropertyName == "IsStarting")
+            {
+                OnPropertyChanged(nameof(MiningReadyToRun));
+                OnPropertyChanged(nameof(StartButtonExplanation));
             }
         }
 
@@ -120,7 +150,7 @@ namespace GolemUI.ViewModel
             {
                 newStatus = DashboardStatusEnum.Mining;
             }
-            else if (_processController.IsProviderRunning && (IsCpuActive || IsMiningActive))
+            else if (_processController.IsProviderRunning && (IsCpuEnabled || IsGpuEnabled))
             {
                 newStatus = DashboardStatusEnum.Ready;
             }
@@ -229,21 +259,23 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public bool IsMiningActive
+        public bool IsGpuEnabled
         {
             get => _providerConfig.IsMiningActive;
             set
             {
                 _providerConfig.IsMiningActive = value;
+                OnPropertyChanged("IsGpuEnabled");
             }
         }
 
-        public bool IsCpuActive
+        public bool IsCpuEnabled
         {
             get => _providerConfig.IsCpuActive;
             set
             {
                 _providerConfig.IsCpuActive = value;
+                OnPropertyChanged("IsCpuEnabled");
             }
         }
 

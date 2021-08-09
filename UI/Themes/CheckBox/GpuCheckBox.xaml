@@ -44,6 +44,10 @@
                             <Setter TargetName="GpuCheckboxBG" Property="Background" Value="{StaticResource CheckBox.Gpu.Inactive}" />
                             <Setter Property="Opacity" TargetName="optionMark" Value="0"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="GpuCheckboxBG" Property="Background" Value="{StaticResource OptionMark.Static.Border}" />
+                            
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

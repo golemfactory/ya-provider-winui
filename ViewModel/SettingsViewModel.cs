@@ -3,6 +3,7 @@ using GolemUI.Interfaces;
 using GolemUI.Model;
 
 using GolemUI.Src;
+using GolemUI.Src.AppNotificationService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,7 +20,9 @@ namespace GolemUI.ViewModel
         private readonly Command.Provider _provider;
         private readonly IProviderConfig _providerConfig;
         private readonly IPriceProvider _priceProvider;
+        private readonly IProcessControler _processControler;
         private readonly IEstimatedProfitProvider _profitEstimator;
+        private readonly IStatusProvider _statusProvider;
         private readonly BenchmarkService _benchmarkService;
         private BenchmarkResults _benchmarkSettings;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
@@ -29,9 +32,13 @@ namespace GolemUI.ViewModel
 
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
-        public SettingsViewModel(IPriceProvider priceProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider)
+        private readonly Interfaces.INotificationService _notificationService;
+        public SettingsViewModel(IPriceProvider priceProvider, IProcessControler processControler, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService)
         {
+            _statusProvider = statusProvider;
+            _processControler = processControler;
             GpuList = new ObservableCollection<ClaymoreGpuStatus>();
+            _notificationService = notificationService;
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
             _provider = provider;
@@ -101,6 +108,7 @@ namespace GolemUI.ViewModel
             _benchmarkSettings.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null).ToList().ForEach(gpu =>
             {
                 var val = gpu.Value;
+                val.PropertyChanged += Val_PropertyChanged;
                 GpuList?.Add(val);
             });
             NodeName = _providerConfig?.Config?.NodeName;
@@ -112,6 +120,26 @@ namespace GolemUI.ViewModel
 
             NotifyChange("TotalCpusCountAsString");
 
+        }
+
+        private void Val_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SelectedMiningMode")
+            {
+                if (sender is ClaymoreGpuStatus status)
+                {
+                    bool mining = false;
+                    //var act = _statusProvider.Activities;
+                    //if (act != null)
+                    //{
+                    //    Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer"/* && a.State == Model.ActivityState.StateType.Ready*/).SingleOrDefault();
+                    //    mining = gminerState != null;
+                    //}
+                    mining = _processControler.IsProviderRunning;
+                    if (mining)
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "applying settings (performance throttling changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")", 5000));
+                }
+            }
         }
 
         private bool IsBenchmarkSettingsCorrupted()

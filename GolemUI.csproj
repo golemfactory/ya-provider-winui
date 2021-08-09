@@ -259,6 +259,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
+    <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />
+    <Compile Include="Src\AppNotificationService\SimpleNotificationObject.cs" />
+    <Compile Include="Src\HistoryDataProvider.cs" />
+    <Compile Include="UI\UserControls\NotificationBar.xaml.cs">
+      <DependentUpon>NotificationBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ChildProcessManager.cs" />
     <Compile Include="Claymore\ClaymoreParser.cs" />
     <Compile Include="Command\Claymore.cs" />
@@ -290,6 +297,7 @@
     <Compile Include="DesignViewModel\DashboardStatisticsDesignViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
+    <Compile Include="Interfaces\INotificationService.cs" />
     <Compile Include="Interfaces\IEstimatedProfiProvider.cs" />
     <Compile Include="Interfaces\IHistoryDataProvider.cs" />
     <Compile Include="Interfaces\IPaymentService.cs" />
@@ -314,7 +322,7 @@
     <Compile Include="Notifications\CommandBase.cs" />
     <Compile Include="Notifications\ShowWindowCommand.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Src\HistoryDataProvider.cs" />
+    <Compile Include="Src\AppNotificationService\AppNotificationService.cs" />
     <Compile Include="Src\Sentry\SentryAdditionalDataIngester.cs" />
     <Compile Include="Src\BenchmarkService.cs" />
     <Compile Include="Src\CoinGeckoPriceProvider.cs" />
@@ -384,7 +392,7 @@
     <Compile Include="UI\SetupWindow.xaml.cs">
       <DependentUpon>SetupWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\SmallerControls\DashboardStatusControl.xaml.cs">
+    <Compile Include="UI\UserControls\DashboardStatusControl.xaml.cs">
       <DependentUpon>DashboardStatusControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\UsageDescription.xaml.cs">
@@ -394,7 +402,11 @@
     <Compile Include="Utils\ProcessExtension.cs" />
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
+    <Compile Include="ViewModel\CustomControls\NotificationBar\NotificationBarNotification.cs" />
+    <Compile Include="ViewModel\CustomControls\NotificationBar\NotificationBarViewModel.cs" />
+    <Compile Include="ViewModel\CustomControls\NotificationBar\NotificationState.cs" />
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
+    <Compile Include="ViewModel\DashboardPage.cs" />
     <Compile Include="ViewModel\DashboardViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
@@ -540,7 +552,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\SmallerControls\DashboardStatusControl.xaml">
+    <Page Include="UI\UserControls\DashboardStatusControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -652,6 +664,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\UserControls\NotificationBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -754,5 +770,6 @@
   <ItemGroup>
     <Resource Include="Media\Thorg.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

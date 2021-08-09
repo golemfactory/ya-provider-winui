@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Threading;
 using GolemUI.Command;
 using GolemUI.UI;
+using GolemUI.UI.CustomControls;
 using GolemUI.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -46,7 +47,7 @@ namespace GolemUI
             {
                 scope.Contexts["user_data"] = new
                 {
-                    UserName = Environment.UserName
+                    Environment.UserName
                 };
             });
 
@@ -83,19 +84,26 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
             services.AddSingleton<Interfaces.IStatusProvider, Src.YaSSEStatusProvider>();
             services.AddSingleton<Interfaces.IHistoryDataProvider, Src.HistoryDataProvider>();
+            services.AddSingleton<Interfaces.INotificationService, Src.AppNotificationService.AppNotificationService>();
             services.AddSingleton<Src.BenchmarkService>();
 
 
+
+
+
             services.AddTransient(typeof(SentryAdditionalDataIngester));
+            services.AddTransient(typeof(Src.AppNotificationService.NotificationsMonitor));
             services.AddTransient(typeof(DashboardWallet));
             services.AddTransient(typeof(ViewModel.WalletViewModel));
             services.AddTransient(typeof(ViewModel.DashboardMainViewModel));
             services.AddTransient(typeof(ViewModel.SetupViewModel));
+            services.AddTransient(typeof(ViewModel.CustomControls.NotificationBarViewModel));
 #if STATISTICS_ENABLED
             services.AddTransient(typeof(ViewModel.StatisticsViewModel));
 #endif
 
             services.AddTransient(typeof(DashboardMain));
+            services.AddTransient(typeof(NotificationBar));
             services.AddTransient(typeof(DashboardSettings));
             services.AddTransient(typeof(DashboardSettingsAdv));
 #if STATISTICS_ENABLED
@@ -129,6 +137,13 @@ namespace GolemUI
             }
             var userSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IUserSettingsProvider>();
             var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
+            var notificationMonitor = _serviceProvider!.GetRequiredService<Src.AppNotificationService.NotificationsMonitor>();
+
+
+
+
+
+
             var args = e.Args;
             if (args.Length > 0 && args[0] == "skip_setup")
             {
@@ -186,6 +201,7 @@ namespace GolemUI
         private void StopApp()
         {
             _serviceProvider.Dispose();
+            _sentrySdk.Dispose();
         }
 
         private void OnExit(object sender, ExitEventArgs e)

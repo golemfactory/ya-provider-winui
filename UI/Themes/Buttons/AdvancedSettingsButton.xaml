@@ -12,7 +12,7 @@
                         BorderThickness="0"
                         Padding="0" 
                         Background="{TemplateBinding Background}">
-                        <TextBlock Name="labelContent" TextDecorations="Underline" FontSize="12" Text="ADVANCED" Foreground="#fff" Margin="0,0" Padding="5" />
+                        <TextBlock Name="labelContent" TextDecorations="Underline" FontSize="12" Text="SETTINGS" Foreground="#fff" Margin="0,0" Padding="5" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

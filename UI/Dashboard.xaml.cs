@@ -23,6 +23,7 @@ using System.Windows.Interop;
 using System.Runtime.InteropServices;
 using GolemUI.Model;
 using GolemUI.ViewModel;
+using GolemUI.ViewModel.CustomControls;
 
 namespace GolemUI
 {
@@ -37,7 +38,7 @@ namespace GolemUI
         public ViewModel.DashboardViewModel ViewModel { get; set; }
 
 
-        public Dashboard(DashboardSettingsAdv _dashboardSettingsAdv, Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel)
+        public Dashboard(DashboardSettingsAdv _dashboardSettingsAdv, Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel, NotificationBarViewModel notificationViewModel)
         {
             _processControler = processControler;
             _providerConfig = providerConfig;
@@ -57,6 +58,7 @@ namespace GolemUI
             singleInstanceLock.ActivateEvent += OnAppReactivate;
 
             ViewModel.SwitchPage(DashboardViewModel.DashboardPages.PageDashboardMain);
+            this.NB.SetViewModel(notificationViewModel);
         }
 
         private void PageChangeRequested(DashboardViewModel.DashboardPages page)
