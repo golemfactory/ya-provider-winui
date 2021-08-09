@@ -28,7 +28,28 @@ namespace GolemUI
 
         private void btnRunBenchmark_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel!.StartBenchmark();
+            bool shouldStartBenchmark = true;
+            if (ViewModel.IsMiningProcessRunning())
+            {
+               
+                var dlg = new UI.Dialogs.DlgShouldStopMiningBeforeBenchmark(new GolemUI.ViewModel.Dialogs.DlgShouldStopMiningBeforeBenchmarkViewModel());
+                dlg.Owner = Window.GetWindow(this);
+                ViewModel.RequestDarkBackgroundVisibilityChange(true);
+                if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
+                {
+                    //Model.UpdateAddress(dlg.Model.ChangeAction, dlg.Model.NewAddress);
+                }
+                else
+                {
+                    shouldStartBenchmark=false;
+                }
+               
+                ViewModel.RequestDarkBackgroundVisibilityChange(false);
+
+            }
+            if (shouldStartBenchmark)
+
+                ViewModel!.StartBenchmark();
         }
 
         private void btnStopBenchmark_Click(object sender, RoutedEventArgs e)

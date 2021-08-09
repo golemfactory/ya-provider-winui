@@ -14,7 +14,7 @@ using System.Runtime.CompilerServices;
 
 namespace GolemUI.ViewModel
 {
-    public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
+    public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage, IDialogInvoker
     {
         public event PageChangeRequestedEvent? PageChangeRequested;
         private readonly Command.Provider _provider;
@@ -33,6 +33,7 @@ namespace GolemUI.ViewModel
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
         private readonly Interfaces.INotificationService _notificationService;
+        public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
         public SettingsViewModel(IPriceProvider priceProvider, IProcessControler processControler, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService)
         {
             _statusProvider = statusProvider;
@@ -53,9 +54,26 @@ namespace GolemUI.ViewModel
             ActiveCpusCount = 3;
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
         }
+        public void RequestDarkBackgroundVisibilityChange(bool shouldBackgroundBeVisible)
+        {
+            DarkBackgroundRequested?.Invoke(shouldBackgroundBeVisible);
+        }
         public void SwitchToAdvancedSettings()
         {
             PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettingsAdv);
+        }
+
+        public bool IsMiningProcessRunning()
+        {
+            bool mining = false;
+            //var act = _statusProvider.Activities;
+            //if (act != null)
+            //{
+            //    Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer"/* && a.State == Model.ActivityState.StateType.Ready*/).SingleOrDefault();
+            //    mining = gminerState != null;
+            //}
+            mining = _processControler.IsProviderRunning;
+            return mining;
         }
         public void StartBenchmark()
         {
@@ -128,15 +146,8 @@ namespace GolemUI.ViewModel
             {
                 if (sender is ClaymoreGpuStatus status)
                 {
-                    bool mining = false;
-                    //var act = _statusProvider.Activities;
-                    //if (act != null)
-                    //{
-                    //    Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer"/* && a.State == Model.ActivityState.StateType.Ready*/).SingleOrDefault();
-                    //    mining = gminerState != null;
-                    //}
-                    mining = _processControler.IsProviderRunning;
-                    if (mining)
+                    
+                    if (IsMiningProcessRunning())
                         _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "applying settings (performance throttling changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")", 5000));
                 }
             }

@@ -260,9 +260,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel - Copy.cs" />
     <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />
     <Compile Include="Src\AppNotificationService\SimpleNotificationObject.cs" />
     <Compile Include="Src\HistoryDataProvider.cs" />
+    <Compile Include="UI\Dialogs\DlgShouldStopMiningBeforeBenchmark.xaml.cs">
+      <DependentUpon>DlgShouldStopMiningBeforeBenchmark.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>
@@ -408,6 +412,7 @@
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
     <Compile Include="ViewModel\DashboardPage.cs" />
     <Compile Include="ViewModel\DashboardViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgShouldStopMiningBeforeBenchmarkViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgEditAddressViewModel.cs" />
@@ -469,6 +474,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\DebugWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Dialogs\DlgShouldStopMiningBeforeBenchmark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
