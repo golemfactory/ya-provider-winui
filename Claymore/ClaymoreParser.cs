@@ -37,7 +37,7 @@ namespace GolemUI.Claymore
                     NotifyChange(nameof(IsEnabledByUser));
                 }
 
-             
+
             }
         }
         public float DagProgress { get; set; }

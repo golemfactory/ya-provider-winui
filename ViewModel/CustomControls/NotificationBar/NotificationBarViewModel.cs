@@ -19,8 +19,8 @@ namespace GolemUI.ViewModel.CustomControls
         {
 
             timer.Tick += Timer_Tick; ;
-            timer.Interval = new TimeSpan(0,0,0,0,100);
-            
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+
 
             _items = new ObservableCollection<NotificationBarNotification>();
             _notificationService = notificationService;
@@ -43,7 +43,7 @@ namespace GolemUI.ViewModel.CustomControls
             _items = new ObservableCollection<NotificationBarNotification>();
             Enumerable.Range(1, 5).ToList().ForEach(x => Items.Add(new NotificationBarNotification(true, NotificationState.Visible, $"title {x}", $"id {x}", $"message {x}", 5000, x * 1000, false)));
         }
-       
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
         INotificationService? _notificationService;
@@ -93,7 +93,7 @@ namespace GolemUI.ViewModel.CustomControls
                 else
                     Items.Add(ntf);
 
-                if( Items.Count > 0 && timer.IsEnabled == false)timer.Start();
+                if (Items.Count > 0 && timer.IsEnabled == false) timer.Start();
             });
         }
         private void OnPropertyChanged(string? propertyName)
@@ -106,7 +106,7 @@ namespace GolemUI.ViewModel.CustomControls
         public void Dispose()
         {
             timer.Stop();
-         
+
         }
     }
 }
