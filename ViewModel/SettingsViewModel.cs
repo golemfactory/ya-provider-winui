@@ -30,6 +30,18 @@ namespace GolemUI.ViewModel
         public ObservableCollection<ClaymoreGpuStatus>? GpuList { get; set; }
         public string BenchmarkError { get; set; }
 
+        //It's needed to prevent blinking button when transition to advanced window
+        public bool _advancedSettingsButtonEnabled;
+        public bool AdvancedSettingsButtonEnabled
+        {
+            get => _advancedSettingsButtonEnabled;
+            set
+            {
+                _advancedSettingsButtonEnabled = value;
+                NotifyChange();
+            }
+        }
+
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
         private readonly Interfaces.INotificationService _notificationService;
@@ -55,6 +67,7 @@ namespace GolemUI.ViewModel
         }
         public void SwitchToAdvancedSettings()
         {
+            AdvancedSettingsButtonEnabled = false;
             PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettingsAdv);
         }
         public void StartBenchmark()
@@ -102,6 +115,7 @@ namespace GolemUI.ViewModel
         }
         public void LoadData()
         {
+            AdvancedSettingsButtonEnabled = true;
             GpuList?.Clear();
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
             if (IsBenchmarkSettingsCorrupted()) return;
