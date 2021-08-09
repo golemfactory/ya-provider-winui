@@ -204,7 +204,7 @@ namespace GolemUI.ViewModel
             {
                 if (e.PropertyName == "SelectedMiningMode")
                 {
-                    ChangeSettingsWithMiningRestart("applying settings (performance throttling changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")");
+                    ChangeSettingsWithMiningRestart("applying settings (gpu intensity changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")");
                 }
                 if (e.PropertyName == "IsEnabledByUser")
                 {
