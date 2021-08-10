@@ -128,11 +128,13 @@ namespace GolemUI.Src
         Dictionary<string, double>? UsageVectorsAsDict { get; set; } = null;
         IProcessControler _processControler;
         ILogger<HistoryDataProvider> _logger;
-        IPriceProvider _priveProvider;
+        IPriceProvider _priceProvider;
+        IEstimatedProfitProvider _estimatedProfitProvider;
 
-        public HistoryDataProvider(IStatusProvider statusProvider, IProcessControler processControler, ILogger<HistoryDataProvider> logger, IPriceProvider priveProvider)
+        public HistoryDataProvider(IStatusProvider statusProvider, IProcessControler processControler, ILogger<HistoryDataProvider> logger, IPriceProvider priceProvider, IEstimatedProfitProvider estimatedProfitProvider)
         {
-            _priveProvider = priveProvider;
+            _estimatedProfitProvider = estimatedProfitProvider;
+            _priceProvider = priceProvider;
             _statusProvider = statusProvider;
             statusProvider.PropertyChanged += StatusProvider_PropertyChanged;
             _processControler = processControler;
@@ -152,6 +154,13 @@ namespace GolemUI.Src
         private async void GetUsageVectorAsync(string? agreementID)
         {
             UsageVectorsAsDict = await _processControler.GetUsageVectors(agreementID);
+            if (UsageVectorsAsDict.TryGetValue("golem.usage.mining.hash", out double miningHashParameter))
+            {
+                double valueInUsd = _priceProvider.CoinValue((miningHashParameter * 3600 * 24), IPriceProvider.Coin.GLM);
+                double ethValueInUsd = _priceProvider.CoinValue(1.0, IPriceProvider.Coin.ETH);
+                double valueInEth = valueInUsd / ethValueInUsd;
+                _estimatedProfitProvider.UpdateCurrentRequestorPayout(valueInUsd);
+            }
             _getUsageVectorsTask = null;
         }
 

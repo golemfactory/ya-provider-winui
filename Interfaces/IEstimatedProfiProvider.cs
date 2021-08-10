@@ -15,5 +15,7 @@ namespace GolemUI.Interfaces
         }
 
         double HashRateToCoinPerDay(double hashRate, Coin coin = Coin.ETH);
+        public void UpdateCurrentRequestorPayout(double pricePerGhDay, IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH);
+
     }
 }
