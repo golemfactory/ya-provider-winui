@@ -8,8 +8,8 @@ namespace GolemUI.DesignViewModel
 {
     public class DashboardMainViewModel
     {
-        public string StartButtonExplanation => "Please wait until all subsystems will initialize";
-        public string GpuStatus => "idle";
+        public string StartButtonExplanation => "Please wait until all subsystems are initialized";
+        public string GpuStatus => "Ready";
         public decimal AmountUSD => 0.00m;
         public decimal Amount => 0;
         public decimal PendingAmountUSD => 0;

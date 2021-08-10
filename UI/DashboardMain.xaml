@@ -124,7 +124,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1.4*" />
                             <RowDefinition Height="2*" />
-                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="3*"/>    
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,22,0">
                             <Label FontSize="10" FontWeight="Bold" Content="Cards:"  Padding="0"/>
@@ -137,7 +137,7 @@
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Effect">
                                                 <Setter.Value>
-                                                    <DropShadowEffect ShadowDepth="0" Color="Blue" Opacity="1" BlurRadius="20"/>
+                                                    <DropShadowEffect ShadowDepth="0" Color="#0FB2AB" Opacity="0.6" BlurRadius="20"/>
                                                 </Setter.Value>
                                             </Setter>
                                         </Trigger>
@@ -178,7 +178,7 @@
                             <Label Content="CPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18" Padding="0"></Label>
                             <StackPanel Orientation="Horizontal" Margin="0,6">
                                 <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuEnabled}">
-                                    <Label Content="Idle"/>
+                                    <Label Content="Ready"/>
                                 </CheckBox>
 
                             </StackPanel>

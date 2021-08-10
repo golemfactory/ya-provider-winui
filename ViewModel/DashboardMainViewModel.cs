@@ -110,8 +110,26 @@ namespace GolemUI.ViewModel
                 return _historyDataProvider.ActiveAgreementID;
             }
         }
+        private string _gpuStatus = "Ready";
 
-        public string GpuStatus { get; private set; } = "Idle";
+        public string GpuStatus
+        {
+            get
+            {
+                if (!IsGpuEnabled)
+                    return "Off";
+                return _gpuStatus;
+            }
+            set
+            {
+                if (_gpuStatus != value)
+                {
+                    _gpuStatus = value;
+                    OnPropertyChanged("GpuStatus");
+                }
+            }
+        }
+        public string CpuStatus { get; private set; } = "Ready"; // or computing // or Off // or Ready
 
         private void OnActivityStatusChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -126,30 +144,27 @@ namespace GolemUI.ViewModel
             var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
 
 
-            var gpuStatus = "Idle";
+            var gpuStatus = "Ready";
             if (gminerState?.Usage is Dictionary<string, float> usage)
             {
                 if (usage.TryGetValue("golem.usage.mining.hash-rate", out var hashRate) && hashRate > 0.0)
                 {
-                    gpuStatus = $"running {hashRate:#.00} MH/s";
+                    gpuStatus = $"Mining [{hashRate:#.00} MH/s]";
                 }
                 else
                 {
-                    gpuStatus = "running";
+                    gpuStatus = "Mining";
                 }
             }
-            if (GpuStatus != gpuStatus)
-            {
-                GpuStatus = gpuStatus;
-                OnPropertyChanged("GpuStatus");
-            }
+
+            GpuStatus = gpuStatus;
 
             RefreshStatus();
         }
 
         private void RefreshStatus()
         {
-            var isMining = _statusProvider.Activities.Any(a => a.State == Model.ActivityState.StateType.Ready);
+            var isMining = _statusProvider.Activities?.Any(a => a.State == Model.ActivityState.StateType.Ready)??false;
             var newStatus = DashboardStatusEnum.Hidden;
             if (isMining)
             {
@@ -270,7 +285,10 @@ namespace GolemUI.ViewModel
             set
             {
                 _providerConfig.IsMiningActive = value;
+
                 OnPropertyChanged("IsGpuEnabled");
+                OnPropertyChanged("GpuStatus");
+
             }
         }
 
