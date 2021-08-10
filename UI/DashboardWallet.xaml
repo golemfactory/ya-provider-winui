@@ -11,14 +11,15 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/Defaults.xaml"/>
-                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
-                <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/PinkButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
-                <ResourceDictionary Source="Icons/Profit_icon.xaml"/>
-                <ResourceDictionary Source="Icons/DefaultStyle/xaml/Wallet/WalletIcon.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GolemLogo.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="/UI/Icons/Profit_icon.xaml"/>
+                <ResourceDictionary Source="/UI/Icons/DefaultStyle/xaml/Wallet/WalletIcon.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -131,7 +132,7 @@
                     </Grid>
                 </Border>
             </Grid>
-            <Image  Grid.Row="3" Source="/UI/Icons/DefaultStyle/png/Branding/SupportedByGolem.png" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,30,0" />
+            <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click"  Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,30,0" />
         </Grid>
     </Border>
 </UserControl>
