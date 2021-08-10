@@ -158,13 +158,12 @@ namespace GolemUI.ViewModel
             }
 
             GpuStatus = gpuStatus;
-
             RefreshStatus();
         }
 
         private void RefreshStatus()
         {
-            var isMining = _statusProvider.Activities?.Any(a => a.State == Model.ActivityState.StateType.Ready)??false;
+            var isMining = _statusProvider.Activities?.Any(a => a.State == Model.ActivityState.StateType.Ready) ?? false;
             var newStatus = DashboardStatusEnum.Hidden;
             if (isMining)
             {
