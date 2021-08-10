@@ -182,6 +182,7 @@ namespace GolemUI.ViewModel
                 val.PropertyChanged += Val_PropertyChanged;
                 GpuList.Add(val);
             });
+
             NodeName = _providerConfig?.Config?.NodeName;
             var activeCpuCount = _providerConfig?.ActiveCpuCount ?? 0;
             if (activeCpuCount <= TotalCpusCount)
@@ -190,7 +191,8 @@ namespace GolemUI.ViewModel
                 ActiveCpusCount = TotalCpusCount;
 
             NotifyChange("TotalCpusCountAsString");
-
+            NotifyChange("HashRate");
+            NotifyChange("ExpectedProfit");
         }
 
         void ChangeSettingsWithMiningRestart(string msg)
@@ -252,6 +254,10 @@ namespace GolemUI.ViewModel
                 {
                     var newGpus = _benchmarkService.Status?.GPUs.Values;
                     GpuList.CopyFromStandardCollection(newGpus);
+                    foreach (var gpu in GpuList)
+                    {
+                        gpu.PropertyChanged += Val_PropertyChanged;
+                    }
                 }
 
                 BenchmarkError = _benchmarkService?.Status?.ErrorMsg ?? "";
@@ -334,23 +340,20 @@ namespace GolemUI.ViewModel
             }
         }
         public int TotalCpusCount => _totalCpusCount;
-        public double? Hashrate
+        public double? HashRate
         {
             get
             {
                 double totalMhs = 0.0;
-                if (_benchmarkService.IsRunning)
+                /*if (_benchmarkService.IsRunning)
                 {
                     return _benchmarkService.TotalMhs;
-                }
-                if (_benchmarkSettings.liveStatus != null)
+                }*/
+                foreach (var gpu in GpuList)
                 {
-                    foreach (var gpu in _benchmarkSettings.liveStatus.GPUs)
+                    if (gpu.IsEnabledByUser && gpu.IsReadyForMining)
                     {
-                        if (gpu.Value.IsEnabledByUser && gpu.Value.IsReadyForMining)
-                        {
-                            totalMhs += gpu.Value.BenchmarkSpeed;
-                        }
+                        totalMhs += gpu.BenchmarkSpeed;
                     }
                 }
                 return totalMhs;
@@ -369,7 +372,7 @@ namespace GolemUI.ViewModel
         {
             get
             {
-                var totalHr = Hashrate;
+                var totalHr = HashRate;
                 if (totalHr != null)
                 {
                     return (double)_priceProvider.CoinValue((decimal)_profitEstimator.HashRateToCoinPerDay((double)totalHr), IPriceProvider.Coin.ETH);
