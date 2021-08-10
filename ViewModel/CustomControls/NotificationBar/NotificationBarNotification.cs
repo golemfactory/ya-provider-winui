@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace GolemUI.ViewModel.CustomControls
 {
     public class NotificationBarNotification : INotifyPropertyChanged
     {
-        public NotificationBarNotification(bool shouldAutoHide, NotificationState state, string title, string id, string message, int expirationTime, int lifeTime)
+        public NotificationBarNotification(bool shouldAutoHide, NotificationState state, string title, string id, string message, int expirationTime, int lifeTime, bool group)
         {
             ShouldAutoHide = shouldAutoHide;
             State = state;
@@ -13,6 +14,7 @@ namespace GolemUI.ViewModel.CustomControls
             Message = message;
             ExpirationTime = expirationTime;
             LifeTime = lifeTime;
+            Group = group;
         }
 
         public bool ShouldAutoHide = false;
@@ -25,7 +27,7 @@ namespace GolemUI.ViewModel.CustomControls
             set
             {
                 _state = value;
-                OnPropertyChanged(nameof(State));
+                OnPropertyChanged();
             }
         }
 
@@ -36,7 +38,7 @@ namespace GolemUI.ViewModel.CustomControls
             set
             {
                 _title = value;
-                OnPropertyChanged(nameof(Title));
+                OnPropertyChanged();
             }
         }
 
@@ -47,7 +49,7 @@ namespace GolemUI.ViewModel.CustomControls
             set
             {
                 _id = value;
-                OnPropertyChanged(nameof(Id));
+                OnPropertyChanged();
             }
         }
 
@@ -58,7 +60,7 @@ namespace GolemUI.ViewModel.CustomControls
             set
             {
                 _message = value;
-                OnPropertyChanged(nameof(Message));
+                OnPropertyChanged();
             }
         }
 
@@ -85,7 +87,7 @@ namespace GolemUI.ViewModel.CustomControls
             set
             {
                 _expirationTime = value;
-                OnPropertyChanged(nameof(ExpirationTime));
+                OnPropertyChanged();
             }
         }
 
@@ -98,12 +100,25 @@ namespace GolemUI.ViewModel.CustomControls
             set
             {
                 _lifeTime = value;
-                OnPropertyChanged(nameof(LifeTime));
+                OnPropertyChanged();
                 OnPropertyChanged(nameof(Percentage));
                 OnPropertyChanged(nameof(ShouldDisappear));
                 OnPropertyChanged(nameof(PercentageAsString));
             }
         }
+
+        private bool _group = false;
+
+        public bool Group
+        {
+            get => _group;
+            set
+            {
+                _group = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         private const int MaxHeight = 20;
         public int Percentage
@@ -128,7 +143,7 @@ namespace GolemUI.ViewModel.CustomControls
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private void OnPropertyChanged(string? propertyName)
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             if (PropertyChanged != null)
             {

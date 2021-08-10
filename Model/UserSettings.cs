@@ -35,6 +35,32 @@ namespace GolemUI.Model
                 NotifyChanged("DisableNotificationsWhenMinimized");
             }
         }
+        private bool _shouldDisplayNotificationsIfMiningIsActive = true;
+        public bool ShouldDisplayNotificationsIfMiningIsActive
+        {
+            get
+            {
+                return _shouldDisplayNotificationsIfMiningIsActive;
+            }
+            set
+            {
+                _shouldDisplayNotificationsIfMiningIsActive = value;
+                NotifyChanged(nameof(ShouldDisplayNotificationsIfMiningIsActive));
+            }
+        }
+        private bool _shouldAutoRestartMiningAfterBenchmark = true;
+        public bool ShouldAutoRestartMiningAfterBenchmark
+        {
+            get
+            {
+                return _shouldAutoRestartMiningAfterBenchmark;
+            }
+            set
+            {
+                _shouldAutoRestartMiningAfterBenchmark = value;
+                NotifyChanged(nameof(ShouldAutoRestartMiningAfterBenchmark));
+            }
+        }
 
         private bool _minimizeToTrayOnMinimize;
         public bool MinimizeToTrayOnMinimize

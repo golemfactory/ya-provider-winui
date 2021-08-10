@@ -187,7 +187,7 @@
                                                     <ColumnDefinition Width="auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <CheckBox IsEnabled="{Binding DataContext.BenchmarkReadyToRun, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" Grid.Column="0" IsChecked="{Binding Path=IsEnabledByUser}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" />
+                                                <CheckBox IsEnabled="{Binding DataContext.BenchmarkReadyToRun, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" Grid.Column="0" IsChecked="{Binding Path=IsEnabledByUser, Delay=2000}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" />
                                                 <TextBlock Grid.Column="1" TextWrapping="Wrap" FontFamily="Segoe Ui" FontWeight="Regular" Foreground="White" FontSize="13" Text="{Binding Path=DisplayName}" Margin="0"/>
                                             </Grid>
                                             <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Hashrate:" Margin="0, 5, 0, 3" />

@@ -24,7 +24,18 @@ namespace GolemUI.Claymore
         public bool GPUNotFound { get; set; }
         public float BenchmarkSpeed { get; set; }
         public bool IsDagCreating { get; set; }
-        public bool IsEnabledByUser { get; set; }
+        private bool _isEnabledByUser;
+        public bool IsEnabledByUser
+        {
+            get => _isEnabledByUser;
+            set
+            {
+
+                if (value != _isEnabledByUser)
+                    NotifyChange(nameof(IsEnabledByUser));
+                _isEnabledByUser = value;
+            }
+        }
         public float DagProgress { get; set; }
         public string? GPUVendor { get; set; }
         public string? GPUDetails { get; set; }

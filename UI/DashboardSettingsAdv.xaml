@@ -88,12 +88,26 @@
                             <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Disable notifications when minimized"></TextBlock>
                         </CheckBox>
                     </StackPanel>
+                    <StackPanel>
+                        <Label>Benchmark:</Label>
+                        <StackPanel Orientation="Horizontal" Margin="35,10">
+                            <CheckBox IsChecked="{Binding Path=UserSettings.ShouldAutoRestartMiningAfterBenchmark}" Style="{DynamicResource CheckBoxGpu}" >
+                                <TextBlock Margin="10,5" VerticalAlignment="Center" Text="auto restart mining after benchmark"></TextBlock>
+                            </CheckBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="35,10">
+                            <CheckBox IsChecked="{Binding Path=UserSettings.ShouldDisplayNotificationsIfMiningIsActive}" Style="{DynamicResource CheckBoxGpu}" >
+                                <TextBlock Margin="10,5" VerticalAlignment="Center" Text="display notification if mining is active"></TextBlock>
+                            </CheckBox>
+                        </StackPanel>
+                    </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="10">
                         <TextBlock>Background opacity:</TextBlock>
                         <Slider Width="200" Value="{Binding Path=UserSettings.Opacity}" Minimum="1" Maximum="100"></Slider>
 
                         <TextBlock Text="{Binding Path=UserSettings.Opacity}"></TextBlock>
                     </StackPanel>
+
                 </StackPanel>
 
             </Border>

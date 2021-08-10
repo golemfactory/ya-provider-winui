@@ -10,12 +10,13 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-
+using System.Threading.Tasks;
 
 namespace GolemUI.ViewModel
 {
-    public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
+    public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage, IDialogInvoker
     {
+        public bool ShouldRestartMiningAfterBenchmark = false;
         public event PageChangeRequestedEvent? PageChangeRequested;
         private readonly Command.Provider _provider;
         private readonly IProviderConfig _providerConfig;
@@ -25,6 +26,7 @@ namespace GolemUI.ViewModel
         private readonly IStatusProvider _statusProvider;
         private readonly BenchmarkService _benchmarkService;
         private BenchmarkResults _benchmarkSettings;
+        private readonly IUserSettingsProvider _userSettingsProvider;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
         public BenchmarkService BenchmarkService => _benchmarkService;
         public ObservableCollection<ClaymoreGpuStatus>? GpuList { get; set; }
@@ -44,9 +46,15 @@ namespace GolemUI.ViewModel
 
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
+
+
+
+
         private readonly Interfaces.INotificationService _notificationService;
-        public SettingsViewModel(IPriceProvider priceProvider, IProcessControler processControler, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService)
+        public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
+        public SettingsViewModel(IUserSettingsProvider userSettingsProvider, IPriceProvider priceProvider, IProcessControler processControler, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService)
         {
+            _userSettingsProvider = userSettingsProvider;
             _statusProvider = statusProvider;
             _processControler = processControler;
             GpuList = new ObservableCollection<ClaymoreGpuStatus>();
@@ -61,14 +69,57 @@ namespace GolemUI.ViewModel
             _profitEstimator = profitEstimator;
             _totalCpusCount = Src.CpuInfo.GetCpuCount(Src.CpuCountMode.Threads);
             BenchmarkError = "";
-
             ActiveCpusCount = 3;
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
+        }
+        internal UserSettings UserSettings => _userSettingsProvider.LoadUserSettings();
+        internal void UpdateBenchmarkDialogSettings(bool shouldAutoRestartMining, bool rememberMyPreference)
+        {
+            var settings = _userSettingsProvider.LoadUserSettings();
+            settings.ShouldAutoRestartMiningAfterBenchmark = shouldAutoRestartMining;
+            settings.ShouldDisplayNotificationsIfMiningIsActive = rememberMyPreference;
+            _userSettingsProvider.SaveUserSettings(settings);
+        }
+
+        public void PushNotification(INotificationObject notification)
+        {
+            _notificationService.PushNotification(notification);
+        }
+
+        public void RequestDarkBackgroundVisibilityChange(bool shouldBackgroundBeVisible)
+        {
+            DarkBackgroundRequested?.Invoke(shouldBackgroundBeVisible);
         }
         public void SwitchToAdvancedSettings()
         {
             AdvancedSettingsButtonEnabled = false;
             PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettingsAdv);
+        }
+
+        public void StopMiningProcess()
+        {
+            _processControler.Stop();
+            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "stopping mining...", expirationTimeInMs: 3000, group: false));
+        }
+        public void RestartMiningProcess()
+        {
+
+            var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
+
+            _processControler.Start(_providerConfig.Network, extraClaymoreParams);
+            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "starting mining...", expirationTimeInMs: 3000, group: false));
+        }
+        public bool IsMiningProcessRunning()
+        {
+            bool mining = false;
+            //var act = _statusProvider.Activities;
+            //if (act != null)
+            //{
+            //    Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer"/* && a.State == Model.ActivityState.StateType.Ready*/).SingleOrDefault();
+            //    mining = gminerState != null;
+            //}
+            mining = _processControler.IsProviderRunning;
+            return mining;
         }
         public void StartBenchmark()
         {
@@ -136,22 +187,28 @@ namespace GolemUI.ViewModel
 
         }
 
+        void ChangeSettingsWithMiningRestart(string msg)
+        {
+            if (IsMiningProcessRunning())
+            {
+                _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, msg, expirationTimeInMs: 2000));
+                SaveData();
+                StopMiningProcess();
+                Task.Delay(3000).ContinueWith(_ => RestartMiningProcess());
+
+            }
+        }
         private void Val_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SelectedMiningMode")
+            if (sender is ClaymoreGpuStatus status)
             {
-                if (sender is ClaymoreGpuStatus status)
+                if (e.PropertyName == "SelectedMiningMode")
                 {
-                    bool mining = false;
-                    //var act = _statusProvider.Activities;
-                    //if (act != null)
-                    //{
-                    //    Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer"/* && a.State == Model.ActivityState.StateType.Ready*/).SingleOrDefault();
-                    //    mining = gminerState != null;
-                    //}
-                    mining = _processControler.IsProviderRunning;
-                    if (mining)
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "applying settings (performance throttling changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")", 5000));
+                    ChangeSettingsWithMiningRestart("applying settings (gpu intensity changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")");
+                }
+                if (e.PropertyName == "IsEnabledByUser")
+                {
+                    ChangeSettingsWithMiningRestart("applying settings (card enabled: " + status.IsEnabledByUser.ToString() + ")");
                 }
             }
         }
@@ -230,6 +287,11 @@ namespace GolemUI.ViewModel
 
                 if (!BenchmarkIsRunning && _benchmarkService != null)
                 {
+                    // finished ?
+
+                    if (ShouldRestartMiningAfterBenchmark)
+                        Task.Delay(3000).ContinueWith(_ => RestartMiningProcess());
+
                     _benchmarkService.Save();
                     _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
 
