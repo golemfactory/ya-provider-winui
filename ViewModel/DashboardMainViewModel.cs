@@ -129,6 +129,9 @@ namespace GolemUI.ViewModel
                 }
             }
         }
+
+        public string? GpuStatusAnnotation { get; private set; }
+
         public string CpuStatus { get; private set; } = "Ready"; // or computing // or Off // or Ready
 
         private void OnActivityStatusChanged(object sender, PropertyChangedEventArgs e)
@@ -145,19 +148,21 @@ namespace GolemUI.ViewModel
 
 
             var gpuStatus = "Ready";
+            string? gpuStatusAnnotation = null;
             if (gminerState?.Usage is Dictionary<string, float> usage)
             {
+                gpuStatus = "Mining";
                 if (usage.TryGetValue("golem.usage.mining.hash-rate", out var hashRate) && hashRate > 0.0)
                 {
-                    gpuStatus = $"Mining [{hashRate:#.00} MH/s]";
-                }
-                else
-                {
-                    gpuStatus = "Mining";
+                    gpuStatusAnnotation = $"{hashRate:#.00} MH/s";
                 }
             }
-
             GpuStatus = gpuStatus;
+            if (gpuStatusAnnotation != GpuStatusAnnotation)
+            {
+                GpuStatusAnnotation = gpuStatusAnnotation;
+                OnPropertyChanged("GpuStatusAnnotation");
+            }
             RefreshStatus();
         }
 
