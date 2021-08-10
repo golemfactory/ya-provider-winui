@@ -223,6 +223,17 @@ namespace GolemUI.ViewModel
 
         public void SaveData()
         {
+            GpuList?.ToList().ForEach(gpu =>
+            {
+                var res = _benchmarkSettings.liveStatus?.GPUs.ToList().Find(x => x.Value.GpuNo == gpu.GpuNo);
+                if (res != null && res.HasValue && !res.Equals(default(KeyValuePair<int, Claymore.ClaymoreGpuStatus>)))
+                {
+                    KeyValuePair<int, Claymore.ClaymoreGpuStatus> keyVal = res.Value;
+                    keyVal.Value.IsEnabledByUser = gpu.IsEnabledByUser;
+                    keyVal.Value.ClaymorePerformanceThrottling = gpu.ClaymorePerformanceThrottling;
+                }
+            });
+
             _providerConfig?.UpdateActiveCpuThreadsCount(ActiveCpusCount);
             var _ls = _benchmarkSettings.liveStatus;
             if (_ls != null)
