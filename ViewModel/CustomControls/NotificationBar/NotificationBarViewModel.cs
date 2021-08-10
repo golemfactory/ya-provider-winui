@@ -6,24 +6,36 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Timers;
+using System.Windows.Threading;
 
 namespace GolemUI.ViewModel.CustomControls
 {
 
     public class NotificationBarViewModel : INotifyPropertyChanged, IDisposable
     {
-        Timer timer = new Timer();
+        DispatcherTimer timer = new DispatcherTimer();
 
         public NotificationBarViewModel(INotificationService notificationService)
         {
 
-            timer.Elapsed += Timer_Elapsed;
-            timer.Interval = 100;
-            timer.Enabled = false;
+            timer.Tick += Timer_Tick; ;
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+
 
             _items = new ObservableCollection<NotificationBarNotification>();
             _notificationService = notificationService;
             _notificationService.NotificationArrived += _notificationService_NotificationArrived;
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => x.LifeTime += (int)timer.Interval.TotalMilliseconds);
+
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => { if (x.ShouldBeRemoved) Items.RemoveAt(0); });
+            });
+            if (Items.Count == 0 && timer.IsEnabled) timer.Stop();
         }
 
         public NotificationBarViewModel()
@@ -31,15 +43,7 @@ namespace GolemUI.ViewModel.CustomControls
             _items = new ObservableCollection<NotificationBarNotification>();
             Enumerable.Range(1, 5).ToList().ForEach(x => Items.Add(new NotificationBarNotification(true, NotificationState.Visible, $"title {x}", $"id {x}", $"message {x}", 5000, x * 1000, false)));
         }
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => x.LifeTime += (int)timer.Interval);
 
-            App.Current.Dispatcher.Invoke((Action)delegate
-            {
-                Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => { if (x.ShouldBeRemoved) Items.Remove(x); });
-            });
-        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         INotificationService? _notificationService;
@@ -89,7 +93,7 @@ namespace GolemUI.ViewModel.CustomControls
                 else
                     Items.Add(ntf);
 
-                timer.Enabled = Items.Count > 0;
+                if (Items.Count > 0 && timer.IsEnabled == false) timer.Start();
             });
         }
         private void OnPropertyChanged(string? propertyName)
@@ -102,7 +106,7 @@ namespace GolemUI.ViewModel.CustomControls
         public void Dispose()
         {
             timer.Stop();
-            timer.Dispose();
+
         }
     }
 }
