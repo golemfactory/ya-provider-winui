@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.IO;
 using Newtonsoft.Json;
@@ -7,6 +8,7 @@ using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using System.Collections.Specialized;
 using System.Globalization;
+using Microsoft.Extensions.Logging;
 
 namespace GolemUI.Command
 {
@@ -98,10 +100,13 @@ namespace GolemUI.Command
         private string _yaProviderPath;
         private string _pluginsPath;
         private string _exeUnitsPath;
+        private readonly ILogger? _logger;
 
-        public Provider()
+        public Provider(ILogger logger = null)
         {
+            _logger = logger;
             var appBaseDir = AppContext.BaseDirectory;
+
             if (appBaseDir == null)
             {
                 appBaseDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -133,6 +138,7 @@ namespace GolemUI.Command
 
         private string ExecToText(string arguments)
         {
+            _logger?.LogInformation("Executing: provider {0}", arguments);
             var startInfo = new ProcessStartInfo
             {
                 FileName = this._yaProviderPath,
@@ -147,8 +153,18 @@ namespace GolemUI.Command
             {
                 StartInfo = startInfo
             };
-            process.Start();
-            return process.StandardOutput.ReadToEnd();
+            try
+            {
+                process.Start();
+                var result = process.StandardOutput.ReadToEnd();
+                _logger?.LogInformation("Execution result: {0}", result);
+                return result;
+            }
+            catch (IOException e)
+            {
+                _logger?.LogError(e, "failed to execute {0}", arguments);
+                throw e;
+            }
         }
 
         public List<ExeUnitDesc> ExeUnitList()
@@ -195,6 +211,8 @@ namespace GolemUI.Command
                 return this.Exec<List<Preset>>("--json preset list") ?? new List<Preset>();
             }
         }
+
+        public PresetCmd Preset => new PresetCmd(this);
         public Profile? DefaultProfile
         {
             get
@@ -278,6 +296,39 @@ namespace GolemUI.Command
             };
 
             return process;
+        }
+
+        public class PresetCmd
+        {
+            private Provider _parent;
+
+            internal PresetCmd(Provider parent)
+            {
+                _parent = parent;
+            }
+
+            public PresetInstanceCmd this[string name] => new PresetInstanceCmd(_parent, name);
+
+
+        }
+        public class PresetInstanceCmd
+        {
+            private Provider _parent;
+            private string _name;
+
+            internal PresetInstanceCmd(Provider parent, string name)
+            {
+                _parent = parent;
+                _name = name;
+            }
+
+            public void UpdatePrices(IDictionary<string, decimal> prices)
+            {
+                var pargs = String.Join(" ", from e in prices select $"--price {e.Key}={e.Value}");
+
+                string args = $"preset update --no-interactive {_name} {pargs}";
+                var _result = _parent.ExecToText(args);
+            }
         }
     }
 }

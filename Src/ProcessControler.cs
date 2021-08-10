@@ -43,7 +43,7 @@ namespace GolemUI
         private HttpClient _client = new HttpClient();
         private string _baseUrl = "http://127.0.0.1:7465";
         private Command.YagnaSrv _yagna = new Command.YagnaSrv();
-        private Command.Provider _provider = new Command.Provider();
+        private Command.Provider _provider;
 
         private Process? _yagnaDaemon;
         private Process? _providerDaemon;
@@ -57,9 +57,10 @@ namespace GolemUI
 
         ILogger<ProcessController> _logger;
 
-        public ProcessController(ILogger<ProcessController> logger)
+        public ProcessController(ILogger<ProcessController> logger, ILogger<Provider> providerLogger)
         {
             _logger = logger;
+            _provider = new Provider(providerLogger);
 
         }
 
