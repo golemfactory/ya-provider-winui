@@ -716,13 +716,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UI\Icons\Settings\CPU_icon_new.png" />
-    <Resource Include="UI\Icons\Settings\GPU_icon_new.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Enjoy.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\UseMyWallet.png" />
     <Resource Include="Media\golem.ico" />
     <Resource Include="Media\tray.ico" />
-    <Resource Include="UI\Icons\Settings\GPU_icon.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Benchmark.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\NodeName.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Prepare.png" />
