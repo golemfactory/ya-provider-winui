@@ -2,7 +2,7 @@
 
 namespace GolemUI.Src.AppNotificationService
 {
-    public enum Tag { YagnaStatus, Benchmark, YagnaStarting, ProviderStatus, SettingsChanged, MiningStatus, AppStatus, Info,Clipboard };
+    public enum Tag { YagnaStatus, Benchmark, YagnaStarting, ProviderStatus, SettingsChanged, MiningStatus, AppStatus, Info, Clipboard };
     public class SimpleNotificationObject : INotificationObject
     {
         public Tag Tag { get; set; }

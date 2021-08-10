@@ -30,7 +30,7 @@ namespace GolemUI.ViewModel.CustomControls
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => x.LifeTime =(int) (DateTime.Now-x.CreationTime).TotalMilliseconds);
+            Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => x.LifeTime = (int)(DateTime.Now - x.CreationTime).TotalMilliseconds);
 
             App.Current.Dispatcher.Invoke((Action)delegate
             {

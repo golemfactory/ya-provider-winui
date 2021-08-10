@@ -19,7 +19,7 @@ namespace GolemUI.ViewModel.CustomControls
             CreationTime = DateTime.Now;
         }
 
-        public DateTime CreationTime; 
+        public DateTime CreationTime;
 
         public bool ShouldAutoHide = false;
 

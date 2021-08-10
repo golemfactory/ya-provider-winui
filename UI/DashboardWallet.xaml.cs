@@ -61,7 +61,7 @@ namespace GolemUI
         {
             if (Model.WalletAddress != null)
             {
-                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.Clipboard, "Eth Address has been copied to clipboard",expirationTimeInMs:5000));
+                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.Clipboard, "Eth Address has been copied to clipboard", expirationTimeInMs: 5000));
                 Clipboard.SetText(Model.WalletAddress);
             }
         }
