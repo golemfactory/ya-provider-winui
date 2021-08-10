@@ -21,6 +21,11 @@ namespace GolemUI.Src
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _providerConfig = providerConfig;
             _logger = logger;
+            var results = benchmarkResultsProvider.LoadBenchmarkResults();
+            if (results != null)
+            {
+                _claymoreLiveStatus = results.liveStatus;
+            }
         }
 
         private readonly Interfaces.IProviderConfig _providerConfig;
