@@ -229,8 +229,6 @@ namespace GolemUI.ViewModel
                 if (res != null && res.HasValue && !res.Equals(default(KeyValuePair<int, Claymore.ClaymoreGpuStatus>)))
                 {
                     KeyValuePair<int, Claymore.ClaymoreGpuStatus> keyVal = res.Value;
-                    keyVal.Value.IsEnabledByUser = gpu.IsEnabledByUser;
-                    keyVal.Value.ClaymorePerformanceThrottling = gpu.ClaymorePerformanceThrottling;
                 }
             });
 
@@ -257,8 +255,6 @@ namespace GolemUI.ViewModel
                         {
                             if (i < GpuList.Count)
                             {
-                                _newGpus[i].IsEnabledByUser = GpuList[i].IsEnabledByUser;
-                                _newGpus[i].ClaymorePerformanceThrottling = GpuList[i].ClaymorePerformanceThrottling;
                                 GpuList[i] = _newGpus[i];
                             }
                             else
@@ -307,8 +303,6 @@ namespace GolemUI.ViewModel
                             {
                                 if (i < GpuList!.Count)
                                 {
-                                    _newGpus[i].IsEnabledByUser = GpuList[i].IsEnabledByUser;
-                                    _newGpus[i].ClaymorePerformanceThrottling = GpuList[i].ClaymorePerformanceThrottling;
                                     GpuList[i] = _newGpus[i];
                                 }
                                 else
