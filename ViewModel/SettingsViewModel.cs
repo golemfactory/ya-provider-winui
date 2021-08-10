@@ -244,7 +244,7 @@ namespace GolemUI.ViewModel
             _benchmarkResultsProvider.SaveBenchmarkResults(_benchmarkSettings);
         }
 
-        
+
         private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Status")
