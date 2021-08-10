@@ -54,7 +54,7 @@ namespace GolemUI.Src
                     return 0;
             }
 
-            return rs.DayEtcPerGH * hashRate * rs.RequestorCoeff * 0.001 ?? 0.0;
+            return pricePerGH * hashRate * rs.RequestorCoeff * 0.001 ?? 0.0;
 
         }
 

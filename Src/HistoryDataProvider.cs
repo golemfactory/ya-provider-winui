@@ -70,7 +70,7 @@ namespace GolemUI.Src
             /*
              * TODO: this should be more
              */
-            if (MiningHistoryGpu.Count > 1)
+            if (MiningHistoryGpu.Count > 2)
             {
                 DateTime timeStart = MiningHistoryGpu.First().Key;
                 DateTime timeEnd = MiningHistoryGpu.Last().Key;
@@ -79,7 +79,10 @@ namespace GolemUI.Src
 
                 double diffEarnings = earningsEnd.Earnings - earningsStart.Earnings;
                 double diffTime = (timeEnd - timeStart).TotalSeconds;
-                if (diffEarnings > 0 && diffTime > 0)
+                int shares = earningsEnd.Shares - earningsStart.Shares;
+
+                double currentHashrate = MiningHistoryGpu.Last().Value.HashRate;
+                if (shares > 3 && diffEarnings > 0 && diffTime > 0)
                 {
                     var glmValue = diffEarnings / diffTime;
                     EstimatedEarningsPerSecond = glmValue;
@@ -92,7 +95,6 @@ namespace GolemUI.Src
                     int hours = totalSecs / 3600;
                     int minutes = (totalSecs - hours * 3600) / 60;
 
-                    int shares = earningsEnd.Shares - earningsStart.Shares;
 
                     if (hours == 0)
                     {
@@ -102,6 +104,12 @@ namespace GolemUI.Src
                     {
                         EstimatedEarningsMessage = $"Estimation based on {shares} shares mined during last {hours} hours and {minutes} minutes";
                     }
+                }
+                else if (currentHashrate > 0)
+                {
+                    EstimatedEarningsPerSecond = (double)_priceProvider.CoinValue(_estimatedProfitProvider.HashRateToCoinPerDay(currentHashrate), IPriceProvider.Coin.ETH) / 3600.0 / 24.0;
+
+                    EstimatedEarningsMessage = $"Estimation based on current hashrate and requestor payout.";
                 }
                 else
                 {
@@ -159,7 +167,7 @@ namespace GolemUI.Src
                 double valueInUsd = _priceProvider.CoinValue((miningHashParameter * 3600 * 24), IPriceProvider.Coin.GLM);
                 double ethValueInUsd = _priceProvider.CoinValue(1.0, IPriceProvider.Coin.ETH);
                 double valueInEth = valueInUsd / ethValueInUsd;
-                _estimatedProfitProvider.UpdateCurrentRequestorPayout(valueInUsd);
+                _estimatedProfitProvider.UpdateCurrentRequestorPayout(valueInEth);
             }
             _getUsageVectorsTask = null;
         }
