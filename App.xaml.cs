@@ -73,7 +73,7 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IUserSettingsProvider, Src.UserSettingsProvider>();
             services.AddSingleton<Interfaces.IRemoteSettingsProvider, Src.RemoteSettingsProvider>();
             services.AddSingleton<Interfaces.IPriceProvider, Src.CoinGeckoPriceProvider>();
-            services.AddSingleton<Interfaces.IEstimatedProfitProvider, Src.StaticEstimatedEarningsProvider>();
+            services.AddSingleton<Interfaces.IEstimatedProfitProvider, Src.EstimatedEarningsProvider>();
 
             services.AddSingleton(typeof(Interfaces.IProcessControler), typeof(GolemUI.ProcessController));
             services.AddSingleton(typeof(Command.YagnaSrv));
