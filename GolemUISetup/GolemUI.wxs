@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
 <?define Win64 = "yes" ?>
-<?define Version="0.1.6"?>
+<?define Version="0.1.8"?>
 <?define BuildOutputDir="..\bin\Release"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:fw="http://schemas.microsoft.com/wix/FirewallExtension">
   <Product
