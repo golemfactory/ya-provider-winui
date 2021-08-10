@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace GolemUI.Src
 {
@@ -28,13 +29,32 @@ namespace GolemUI.Src
             _processControler = processControler;
             _logger = logger;
             _tokenSource = new CancellationTokenSource();
-
             _processControler.PropertyChanged += OnProcessControlerChanged;
+            _hc = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromMinutes(2)
+            };
+            _hc.Tick += this._checkHealth;
+            _hc.Start();
 
+        }
+
+        private void _checkHealth(object sender, EventArgs e)
+        {
+            if (_loop != null && _loop.IsFaulted)
+            {
+                _logger.LogError(_loop.Exception, "Restarting status event receiver, IsServerRunning={0}", _processControler.IsServerRunning);
+
+                if (_processControler.IsServerRunning && !_processControler.IsStarting)
+                {
+                    _loop = _refreshLoop();
+                }
+            }
         }
 
         public void Dispose()
         {
+            _hc.Stop();
             _processControler.PropertyChanged -= OnProcessControlerChanged;
             _tokenSource.Cancel();
         }
@@ -60,56 +80,76 @@ namespace GolemUI.Src
             };
 
             using WebClient webClient = new WebClient();
-            var appKey = await _processControler.GetAppKey();
+            token.Register(webClient.CancelAsync);
 
+            var appKey = await _processControler.GetAppKey();
             webClient.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {appKey}");
             webClient.BaseAddress = _processControler.ServerUri;
-            token.Register(webClient.CancelAsync);
-            try
-            {
-                var stream = await webClient.OpenReadTaskAsync("/activity-api/v1/_monitor");
-                using StreamReader reader = new StreamReader(stream);
-                token.Register(() =>
-                {
-                    _logger.LogDebug("stop");
-                    reader.Close();
 
-                });
-                StringBuilder dataBuilder = new StringBuilder();
-                while (true)
+            DateTime newReconnect = DateTime.Now;
+            while (!token.IsCancellationRequested)
+            {
+                var now = DateTime.Now;
+                if (newReconnect > now)
                 {
-                    if (token.IsCancellationRequested)
+                    await Task.Delay(newReconnect - now);
+                }
+                newReconnect = now + TimeSpan.FromMinutes(2);
+                if (token.IsCancellationRequested)
+                {
+                    token.ThrowIfCancellationRequested();
+                }
+
+                try
+                {
+                    var stream = await webClient.OpenReadTaskAsync("/activity-api/v1/_monitor");
+                    using StreamReader reader = new StreamReader(stream);
+                    token.Register(() =>
                     {
-                        token.ThrowIfCancellationRequested();
-                    }
-                    var line = await reader.ReadLineAsync();
-                    if (line.StartsWith("data:"))
+                        _logger.LogDebug("stop");
+                        reader.Close();
+
+                    });
+                    StringBuilder dataBuilder = new StringBuilder();
+                    while (true)
                     {
-                        dataBuilder.Append(line.Substring(5).TrimStart());
-                    }
-                    else if (line == "")
-                    {
-                        var json = dataBuilder.ToString();
-                        dataBuilder.Clear();
-                        _logger.LogTrace("got json {0}", json);
-                        try
+                        if (token.IsCancellationRequested)
                         {
-                            var ev = JsonSerializer.Deserialize<TrackingEvent>(json, options);
-                            Activities = ev?.Activities ?? null;
-                            LastUpdate = ev?.Ts ?? null;
-                            OnPropertyChanged("Activities");
+                            token.ThrowIfCancellationRequested();
                         }
-                        catch (JsonException e)
+                        var line = await reader.ReadLineAsync();
+                        if (line.StartsWith("data:"))
                         {
-                            _logger.LogError(e, "Invalid monitoring event: {0}", json);
-                            break;
+                            dataBuilder.Append(line.Substring(5).TrimStart());
+                        }
+                        else if (line == "")
+                        {
+                            var json = dataBuilder.ToString();
+                            dataBuilder.Clear();
+                            _logger.LogTrace("got json {0}", json);
+                            try
+                            {
+                                var ev = JsonSerializer.Deserialize<TrackingEvent>(json, options);
+                                Activities = ev?.Activities ?? null;
+                                LastUpdate = ev?.Ts ?? null;
+                                OnPropertyChanged("Activities");
+                            }
+                            catch (JsonException e)
+                            {
+                                _logger.LogError(e, "Invalid monitoring event: {0}", json);
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            catch (WebException e)
-            {
-                _logger.LogError(e, "failed to get exe-units status");
+                catch (WebException e)
+                {
+                    _logger.LogError(e, "failed to get exe-units status");
+                }
+                catch (IOException e)
+                {
+                    _logger.LogError(e, "status loop failure");
+                }
             }
         }
 
@@ -127,5 +167,6 @@ namespace GolemUI.Src
         private readonly ILogger<YaSSEStatusProvider> _logger;
         private Task? _loop;
         private readonly CancellationTokenSource _tokenSource;
+        private readonly DispatcherTimer _hc;
     }
 }
