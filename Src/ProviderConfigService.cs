@@ -118,18 +118,32 @@ namespace GolemUI.Src
 
                 var presets = _provider.ActivePresets;
                 string _info, _args;
-                if (!presets.Contains("gminer") && isGpuCapable)
+                if (isGpuCapable)
                 {
-
-                    _provider.AddPreset(new GolemUI.Command.Preset("gminer", "gminer", new Dictionary<string, decimal>()
+                    if (!presets.Contains("gminer"))
                     {
-                        { "share", 0.1m },
-                        { "duration", 0m }
+
+                        _provider.AddPreset(new GolemUI.Command.Preset("gminer", "gminer", new Dictionary<string, decimal>()
+                    {
+                        { "share", 0.02m },
+                        { "duration", 0m },
+                        { "raw-share", 0m },
+                        { "hash-rate", 0m }
                     }), out _args, out _info);
 
-                    _provider.ActivatePreset("gminer");
-                    changedProperties.Add("IsMiningActive");
+                        _provider.ActivatePreset("gminer");
+                        changedProperties.Add("IsMiningActive");
+                    }
+                    else
+                    {
+                        _provider.Preset["gminer"].UpdatePrices(new Dictionary<string, decimal>() {
+                            { "share", 0.02m },
+                            { "duration", 0m },
+                            { "raw-share", 0m },
+                            { "hash-rate", 0m }
+                        });
 
+                    }
                 }
                 if (!presets.Contains("wasmtime"))
                 {
