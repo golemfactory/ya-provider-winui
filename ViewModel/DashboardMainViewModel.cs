@@ -253,7 +253,7 @@ namespace GolemUI.ViewModel
         public int _enabledGpuCount;
         public int _enabledCpuCount;
 
-        public DashboardStatusEnum _status = DashboardStatusEnum.Ready;
+        public DashboardStatusEnum _status = DashboardStatusEnum.Hidden;
         public DashboardStatusEnum Status
         {
             get => _status;
