@@ -49,7 +49,7 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    
+
                     <RowDefinition Height="78"/>
                     <RowDefinition Height="20"/>
                     <RowDefinition/>
@@ -70,9 +70,9 @@
                 </StackPanel>
                 <Border Grid.Column="0" Grid.Row="2"  Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" >
                     <StackPanel Margin="20">
-                      
-                      
-                            <Grid>
+
+
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.2*" MinWidth="100" />
                                 <ColumnDefinition Width="1*" />
@@ -85,18 +85,18 @@
                             <Image Source="Icons/DefaultStyle/png/Dashboard/Balance.png" Grid.Column="0" Grid.Row="1" Margin="15, 5" Stretch="Uniform" VerticalAlignment="Top"  RenderOptions.BitmapScalingMode="HighQuality" />
 
                             <StackPanel Grid.Column="1" Grid.Row="1">
-                                    <Label Content="Earned" Foreground="#99b" FontFamily="Segoe UI"/>
-                                    <Label Foreground="#FFFFFF" FontWeight="Black" FontSize="25" RenderTransformOrigin="0.374,0.428" Content="{Binding AmountUSD, Converter={StaticResource AmountConverter}}"/>
+                                <Label Content="Earned" Foreground="#99b" FontFamily="Segoe UI"/>
+                                <Label Foreground="#FFFFFF" FontWeight="Black" FontSize="25" RenderTransformOrigin="0.374,0.428" Content="{Binding AmountUSD, Converter={StaticResource AmountConverter}}"/>
 
-                                    <Label Foreground="#99b" Content="{Binding Amount, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}"  FontSize="12"/>
+                                <Label Foreground="#99b" Content="{Binding Amount, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}"  FontSize="12"/>
 
-                                    <Canvas Height="20"/>
-                                    <Label Foreground="#99b"  Content="Pending"  FontSize="12"/>
-                                    <Label Content="{Binding PendingAmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Segoe UI" FontWeight="Black" FontSize="16"/>
-                                    <Label Foreground="#99b"  Content="{Binding PendingAmount, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}"  FontSize="12"/>
-                                </StackPanel>
+                                <Canvas Height="20"/>
+                                <Label Foreground="#99b"  Content="Pending"  FontSize="12"/>
+                                <Label Content="{Binding PendingAmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Segoe UI" FontWeight="Black" FontSize="16"/>
+                                <Label Foreground="#99b"  Content="{Binding PendingAmount, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}"  FontSize="12"/>
+                            </StackPanel>
                         </Grid>
-            </StackPanel>
+                    </StackPanel>
                 </Border>
                 <Border Grid.Column="2" Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                     <Grid>
@@ -127,7 +127,7 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock FontWeight="Black" FontSize="20" Grid.Row="1"><Run Text="Tips and tricks"/></TextBlock>
-                        <TextBlock  FontSize="10pt" Grid.Row="3" Foreground="#fff"><Run Text="It is way safer to use external wallet and keep your hard erarned fund there than to keep large amounts of tokens in the app wallet. You can easyly change your waller address."/></TextBlock>
+                        <TextBlock  FontSize="10pt" Grid.Row="3" Foreground="#fff"><Run Text="The safest way to store your hard-earned tokens is using an external wallet. You can easily change your wallet address by going to the Wallet tab and clicking edit."/></TextBlock>
                     </Grid>
                 </Border>
             </Grid>
