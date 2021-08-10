@@ -233,7 +233,9 @@ namespace GolemUI.Src
                         sumMoney += UsageVectorsAsDict[usage.Key] * usage.Value;
                     }
                 }
-                MiningHistoryGpu.Add(DateTime.Now, new GPUHistoryUsage((int)(shares + 0.5), sumMoney, duration, sharesTimesDiff, hashRate));
+                DateTime key = DateTime.Now;
+                MiningHistoryGpu[key] = new GPUHistoryUsage((int)(shares + 0.5), sumMoney, duration, sharesTimesDiff, hashRate);
+
                 ComputeEstimatedEarnings();
             }
         }
