@@ -76,7 +76,7 @@ namespace GolemUI.ViewModel.CustomControls
         {
             get
             {
-                return ShouldAutoHide && LifeTime > ExpirationTime + 1000;
+                return ShouldAutoHide && LifeTime > ExpirationTime + 500;
 
             }
         }

@@ -47,6 +47,9 @@ namespace GolemUI.ViewModel
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
 
+
+
+
         private readonly Interfaces.INotificationService _notificationService;
         public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
         public SettingsViewModel(IUserSettingsProvider userSettingsProvider, IPriceProvider priceProvider, IProcessControler processControler, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService)
@@ -207,8 +210,6 @@ namespace GolemUI.ViewModel
                 {
                     ChangeSettingsWithMiningRestart("applying settings (card enabled: " + status.IsEnabledByUser.ToString() + ")");
                 }
-                NotifyChange("HashRate");
-                NotifyChange("ExpectedProfit");
             }
         }
 
@@ -329,6 +330,7 @@ namespace GolemUI.ViewModel
                     NotifyChange("BenchmarkIsRunning");
                     NotifyChange("BenchmarkReadyToRun");
                     NotifyChange("BenchmarkError");
+
                 }
             }
         }
@@ -387,7 +389,6 @@ namespace GolemUI.ViewModel
                 return totalMhs;
             }
         }
-
         public string? NodeName
         {
             get => _providerConfig?.Config?.NodeName;

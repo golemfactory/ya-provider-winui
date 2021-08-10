@@ -52,7 +52,7 @@ namespace GolemUI.Src
             }
         }
 
-    private readonly double CLAYMORE_GPU_INFO_TIMEOUT = 10.0;
+        private readonly double CLAYMORE_GPU_INFO_TIMEOUT = 10.0;
         private readonly double CLAYMORE_TOTAL_BENCHMARK_TIMEOUT = 200.0;
         private IBenchmarkResultsProvider _benchmarkResultsProvider;
 

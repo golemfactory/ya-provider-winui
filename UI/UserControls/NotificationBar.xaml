@@ -13,56 +13,43 @@
              Height="20" MinHeight="20"
              xmlns:dvm="clr-namespace:GolemUI.DesignViewModel.CustomControls"
              d:DataContext ="{d:DesignInstance {x:Type dvm:NotificationBarViewModel}, IsDesignTimeCreatable=True}"
-       
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Themes/Defaults.xaml"/>
-                
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <StackPanel Orientation="Horizontal">
-           
-            <ListBox Margin="13,0,0,0" x:Name="NavButtons" Background="#000" Foreground="White" Focusable="false"  ItemsSource="{Binding Path=Items}"  PreviewMouseDown="NavButtons_PreviewMouseDown">
 
-                <!--Focusable="false"  IsHitTestVisible="False"-->
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                    <Grid Background="{TemplateBinding Background}">
-                                        <ContentPresenter 
-                                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                                    Content="{TemplateBinding Content}"
-                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                    Margin="{TemplateBinding Padding}">
-                                        </ContentPresenter>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="Focusable" Value="False"/>
+            <ItemsControl Margin="13,0,0,0" x:Name="NavButtons" MinHeight="20" Background="#000" Foreground="White" Focusable="false"  ItemsSource="{Binding Path=Items}"  PreviewMouseDown="NavButtons_PreviewMouseDown">
+                <ItemsControl.Template>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <Border BorderBrush="AliceBlue" CornerRadius="14">
+                            <ItemsPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="Control.Width" Value="auto"/>
+                        <Setter Property="Control.Margin" Value="5"/>
                         <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Cursor" Value="Hand" />
-                                <Setter Property="Foreground" Value="gray" />
+                            <Trigger Property="Control.IsMouseOver" Value="True">
+                                <Setter Property="Control.ToolTip"
+                  Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                          Path=Content.Description}"/>
                             </Trigger>
                         </Style.Triggers>
-
                     </Style>
-                </ListBox.ItemContainerStyle>
-                <!--<d:ListBox.ItemsSource>
-                    --><!--<d:DesignInstance IsDesignTimeCreatable="True" Type="{x:Type dlm:NavBarItems}"/>--><!--
-                </d:ListBox.ItemsSource>-->
-                <ListBox.ItemTemplate>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        
-                            <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
                             <StackPanel.RenderTransform>
                                 <TranslateTransform Y="-20" />
                             </StackPanel.RenderTransform>
@@ -70,39 +57,22 @@
                                 <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                                     <BeginStoryboard>
                                         <Storyboard>
-                                         
+
                                             <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).Y" To="0" Duration="00:00:00.4" />
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>
                             </StackPanel.Triggers>
-                                <Rectangle Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBox}}" Width="1" Height="{Binding Percentage}" Margin="4,0,5,0" />
-                            <Label x:Name="lbl"  Opacity="1" Padding="0" VerticalAlignment="Center" Margin="5,0,0,0" Content="{Binding Title, Mode=OneWay}" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}">
-                                <Label.Triggers>
-                                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <!--<DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                     Duration="00:00:01"
-                                                     From="0"
-                                                     To="1" />-->
-                                                
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                  
-                                </Label.Triggers>
-                                
-                            </Label>
-                        </StackPanel> 
-                            <!--<Rectangle HorizontalAlignment="Stretch" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=ListBox}}" Width="30" Height="2" Margin="4,0,5,0" />-->
+                            <Rectangle Fill="White" Width="1" Height="{Binding Percentage}" Margin="4,0,5,0" VerticalAlignment="Center" />
+                            <Label x:Name="lbl"  Opacity="1" Padding="0" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="5,-4,0,0" Content="{Binding Title, Mode=OneWay}"/>
+                        </StackPanel>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=ShouldDisappear}" Value="true">
                                 <DataTrigger.EnterActions>
                                     <BeginStoryboard  x:Name="trueStoryBoard">
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="lbl" Storyboard.TargetProperty="Opacity"
-                                                     Duration="00:00:01"
+                                                     Duration="00:00:00.3"
                                                      From="1"
                                                      To="0" />
                                         </Storyboard>
@@ -117,7 +87,7 @@
                                     <BeginStoryboard x:Name="falseStoryBoard">
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="lbl" Storyboard.TargetProperty="Opacity"
-                                                     Duration="00:00:01.1"
+                                                     Duration="00:00:00.1"
                                                      
                                                      To="1" />
                                         </Storyboard>
@@ -129,13 +99,21 @@
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.Template>
-                    <ControlTemplate TargetType="ListBox">
-                        <StackPanel IsItemsHost="True"  Orientation="Horizontal"/>
-                    </ControlTemplate>
-                </ListBox.Template>
-            </ListBox>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <i:Interaction.Behaviors>
+                                <i:FluidMoveBehavior AppliesTo="Children" Duration="0:0:0.7">
+                                    <i:FluidMoveBehavior.EaseX>
+                                        <CubicEase EasingMode="EaseInOut"/>
+                                    </i:FluidMoveBehavior.EaseX>
+                                </i:FluidMoveBehavior>
+                            </i:Interaction.Behaviors>
+                        </StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </StackPanel>
     </Grid>
 </UserControl>
