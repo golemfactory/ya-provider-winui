@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace GolemUI.ViewModel.CustomControls
@@ -15,7 +16,10 @@ namespace GolemUI.ViewModel.CustomControls
             ExpirationTime = expirationTime;
             LifeTime = lifeTime;
             Group = group;
+            CreationTime = DateTime.Now;
         }
+
+        public DateTime CreationTime; 
 
         public bool ShouldAutoHide = false;
 

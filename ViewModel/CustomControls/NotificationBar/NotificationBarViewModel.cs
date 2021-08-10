@@ -14,12 +14,13 @@ namespace GolemUI.ViewModel.CustomControls
     public class NotificationBarViewModel : INotifyPropertyChanged, IDisposable
     {
         DispatcherTimer timer = new DispatcherTimer();
+        const int TIMER_INTERVAL = 100;
 
         public NotificationBarViewModel(INotificationService notificationService)
         {
 
             timer.Tick += Timer_Tick; ;
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, TIMER_INTERVAL);
 
 
             _items = new ObservableCollection<NotificationBarNotification>();
@@ -29,7 +30,7 @@ namespace GolemUI.ViewModel.CustomControls
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => x.LifeTime += (int)timer.Interval.TotalMilliseconds);
+            Items.Where(x => x.ShouldAutoHide).ToList().ForEach(x => x.LifeTime =(int) (DateTime.Now-x.CreationTime).TotalMilliseconds);
 
             App.Current.Dispatcher.Invoke((Action)delegate
             {
@@ -81,6 +82,7 @@ namespace GolemUI.ViewModel.CustomControls
                 item.ShouldAutoHide = ntf.ShouldAutoHide;
                 item.ExpirationTime = ntf.ExpirationTime;
                 item.LifeTime = 0;
+                item.CreationTime = DateTime.Now;
             }
         }
         private void AddOrUpdate(NotificationBarNotification ntf)
