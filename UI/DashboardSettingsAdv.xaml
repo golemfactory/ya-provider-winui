@@ -75,7 +75,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="10">
                         <CheckBox IsChecked="{Binding Path=UserSettings.MinimizeToTrayOnMinimize}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" >
-                            <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Minimize to tray on minimize"></TextBlock>
+                            <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Hide to tray on minimize"></TextBlock>
                         </CheckBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="10">
@@ -83,10 +83,18 @@
                             <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Start with windows"></TextBlock>
                         </CheckBox>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="10">
-                        <CheckBox IsChecked="{Binding Path=UserSettings.DisableNotificationsWhenMinimized}" Style="{DynamicResource CheckBoxGpu}" >
-                            <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Disable notifications when minimized"></TextBlock>
-                        </CheckBox>
+                    <StackPanel>
+                        <Label>Notifications:</Label>
+                        <StackPanel Orientation="Horizontal" Margin="35,10">
+                            <CheckBox IsChecked="{Binding Path=UserSettings.NotificationsEnabled }" Style="{DynamicResource CheckBoxGpu}" >
+                                <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Enable notifications"></TextBlock>
+                            </CheckBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="35,10">
+                            <CheckBox IsChecked="{Binding Path=UserSettings.DisableNotificationsWhenMinimized}" Style="{DynamicResource CheckBoxGpu}" >
+                                <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Disable notifications when minimized"></TextBlock>
+                            </CheckBox>
+                        </StackPanel>
                     </StackPanel>
                     <StackPanel>
                         <Label>Benchmark:</Label>

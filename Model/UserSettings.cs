@@ -25,23 +25,28 @@ namespace GolemUI.Model
         private bool _disableNotificationsWhenMinimized;
         public bool DisableNotificationsWhenMinimized
         {
-            get
-            {
-                return _disableNotificationsWhenMinimized;
-            }
+            get => _disableNotificationsWhenMinimized;
             set
             {
                 _disableNotificationsWhenMinimized = value;
                 NotifyChanged("DisableNotificationsWhenMinimized");
             }
         }
+
+        private bool _notificationsEnabled = true;
+        public bool NotificationsEnabled
+        {
+            get => _notificationsEnabled;
+            set
+            {
+                _notificationsEnabled = value;
+                NotifyChanged(nameof(NotificationsEnabled));
+            }
+        }
         private bool _shouldDisplayNotificationsIfMiningIsActive = true;
         public bool ShouldDisplayNotificationsIfMiningIsActive
         {
-            get
-            {
-                return _shouldDisplayNotificationsIfMiningIsActive;
-            }
+            get => _shouldDisplayNotificationsIfMiningIsActive;
             set
             {
                 _shouldDisplayNotificationsIfMiningIsActive = value;
@@ -51,10 +56,7 @@ namespace GolemUI.Model
         private bool _shouldAutoRestartMiningAfterBenchmark = true;
         public bool ShouldAutoRestartMiningAfterBenchmark
         {
-            get
-            {
-                return _shouldAutoRestartMiningAfterBenchmark;
-            }
+            get => _shouldAutoRestartMiningAfterBenchmark;
             set
             {
                 _shouldAutoRestartMiningAfterBenchmark = value;
@@ -65,10 +67,7 @@ namespace GolemUI.Model
         private bool _minimizeToTrayOnMinimize;
         public bool MinimizeToTrayOnMinimize
         {
-            get
-            {
-                return _minimizeToTrayOnMinimize;
-            }
+            get => _minimizeToTrayOnMinimize;
             set
             {
                 _minimizeToTrayOnMinimize = value;
@@ -79,10 +78,7 @@ namespace GolemUI.Model
         private bool _closeOnExit;
         public bool CloseOnExit
         {
-            get
-            {
-                return _closeOnExit;
-            }
+            get => _closeOnExit;
             set
             {
                 _closeOnExit = value;
@@ -93,10 +89,7 @@ namespace GolemUI.Model
         private bool _startWithWindows;
         public bool StartWithWindows
         {
-            get
-            {
-                return _startWithWindows;
-            }
+            get => _startWithWindows;
             set
             {
                 _startWithWindows = value;
