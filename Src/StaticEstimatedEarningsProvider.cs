@@ -20,7 +20,7 @@ namespace GolemUI.Src
             throw new NotImplementedException();
         }
 
-        double IEstimatedProfitProvider.HashRateToCoinPerDay(double hashRate, IEstimatedProfitProvider.Coin coin)
+        double IEstimatedProfitProvider.HashRateToUSDPerDay(double hashRate, IEstimatedProfitProvider.Coin coin)
         {
             switch (coin)
             {

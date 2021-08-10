@@ -12,49 +12,104 @@ namespace GolemUI.Src
     class EstimatedEarningsProvider : IEstimatedProfitProvider
     {
         IRemoteSettingsProvider _remoteSettingsProvider;
+        IPriceProvider _priceProvider;
 
-        public EstimatedEarningsProvider(IRemoteSettingsProvider remoteSettingsProvider)
+        public EstimatedEarningsProvider(IRemoteSettingsProvider remoteSettingsProvider, IPriceProvider priceProvider)
         {
             _remoteSettingsProvider = remoteSettingsProvider;
+            _priceProvider = priceProvider;
         }
 
-        double? overrideDayEtcPerGH = null;
-        double? overrideDayEthPerGH = null;
+        double? glmPerGhEtc = null;
+        double? glmPerGhEth = null;
 
-        public void UpdateCurrentRequestorPayout(double pricePerGhDay, IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH)
+
+        public double? ConvertGlmPerGhToDollarsPerDay(double? glmPerGh)
+        {
+            if (glmPerGh == null)
+            {
+                return null;
+            }
+            const double secondsInDay = 3600 * 24;
+            const double GhToMh = 0.001;
+            double valueInUsd = _priceProvider.CoinValue((glmPerGh.Value * secondsInDay * GhToMh), IPriceProvider.Coin.GLM);
+            return valueInUsd;
+        }
+
+        public double? ConvertEthPerGhToDollarsPerDay(double? dayEthPerGh)
+        {
+            if (dayEthPerGh == null)
+            {
+                return null;
+            }
+            double ethValueInUsd = _priceProvider.CoinValue(1.0, IPriceProvider.Coin.ETH);
+            double valueInUSD = dayEthPerGh.Value * ethValueInUsd;
+            return valueInUSD;
+        }
+
+        public double? ConvertEtcPerGhToDollarsPerDay(double? dayEtcPerGh)
+        {
+            if (dayEtcPerGh == null)
+            {
+                return null;
+            }
+            double ethValueInUsd = _priceProvider.CoinValue(1.0, IPriceProvider.Coin.ETC);
+            double valueInUSD = dayEtcPerGh.Value * ethValueInUsd;
+            return valueInUSD;
+        }
+
+
+        public void UpdateCurrentRequestorPayout(double golemPerGh, IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH)
         {
             switch (coin)
             {
                 case IEstimatedProfitProvider.Coin.ETC:
-                    overrideDayEtcPerGH = pricePerGhDay;
+                    glmPerGhEtc = golemPerGh;
                     break;
                 case IEstimatedProfitProvider.Coin.ETH:
-                    overrideDayEthPerGH = pricePerGhDay;
+                    glmPerGhEth = golemPerGh;
                     break;
                 default:
                     break;
             }
         }
 
-        double IEstimatedProfitProvider.HashRateToCoinPerDay(double hashRate, IEstimatedProfitProvider.Coin coin)
+        double IEstimatedProfitProvider.HashRateToUSDPerDay(double hashRate, IEstimatedProfitProvider.Coin coin)
         {
             RemoteSettings rs;
-            _remoteSettingsProvider.LoadRemoteSettings(out rs);
 
-            double? pricePerGH;
+            double? dailyUSDPerMh;
             switch (coin)
             {
                 case IEstimatedProfitProvider.Coin.ETC:
-                    pricePerGH = overrideDayEtcPerGH != null ? overrideDayEtcPerGH : rs.DayEtcPerGH;
+                    if (glmPerGhEtc != null)
+                    {
+                        dailyUSDPerMh = ConvertGlmPerGhToDollarsPerDay(glmPerGhEtc.Value);
+                    }
+                    else
+                    {
+                        _remoteSettingsProvider.LoadRemoteSettings(out rs);
+                        dailyUSDPerMh = ConvertEtcPerGhToDollarsPerDay(rs.DayEtcPerGH.Value);
+                        dailyUSDPerMh *= rs.RequestorCoeff;
+                    }
                     break;
                 case IEstimatedProfitProvider.Coin.ETH:
-                    pricePerGH = overrideDayEthPerGH != null ? overrideDayEthPerGH : rs.DayEthPerGH;
+                    if (glmPerGhEth != null)
+                    {
+                        dailyUSDPerMh = ConvertGlmPerGhToDollarsPerDay(glmPerGhEth.Value);
+                    }
+                    else
+                    {
+                        _remoteSettingsProvider.LoadRemoteSettings(out rs);
+                        dailyUSDPerMh = ConvertEtcPerGhToDollarsPerDay(rs.DayEthPerGH.Value);
+                        dailyUSDPerMh *= rs.RequestorCoeff;
+                    }
                     break;
                 default:
                     return 0;
             }
 
-            return pricePerGH * hashRate * rs.RequestorCoeff * 0.001 ?? 0.0;
+            return dailyUSDPerMh * hashRate ?? 0.0;
 
         }
 
