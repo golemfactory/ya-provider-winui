@@ -1,5 +1,5 @@
 ﻿using GolemUI.Interfaces;
-
+using GolemUI.Src.AppNotificationService;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,9 +25,11 @@ namespace GolemUI
     public partial class DashboardWallet : UserControl
     {
         private readonly IPaymentService _paymentService;
+        private readonly INotificationService _notificationService;
         public ViewModel.WalletViewModel Model => (DataContext as ViewModel.WalletViewModel)!;
-        public DashboardWallet(ViewModel.WalletViewModel model, IPaymentService paymentService)
+        public DashboardWallet(ViewModel.WalletViewModel model, IPaymentService paymentService, INotificationService notificationService)
         {
+            _notificationService = notificationService;
             _paymentService = paymentService;
             InitializeComponent();
             DataContext = model;
@@ -58,7 +60,10 @@ namespace GolemUI
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
             if (Model.WalletAddress != null)
+            {
+                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.Clipboard, "Eth Address has been copied to clipboard", expirationTimeInMs: 5000));
                 Clipboard.SetText(Model.WalletAddress);
+            }
         }
     }
 }
