@@ -211,6 +211,8 @@ namespace GolemUI.ViewModel
                     ChangeSettingsWithMiningRestart("applying settings (card enabled: " + status.IsEnabledByUser.ToString() + ")");
                 }
             }
+            NotifyChange("HashRate");
+            NotifyChange("ExpectedProfit");
         }
 
         private bool IsBenchmarkSettingsCorrupted()
