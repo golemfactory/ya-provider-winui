@@ -14,8 +14,14 @@ namespace GolemUI.Interfaces
             ETC
         }
 
-        double HashRateToUSDPerDay(double hashRate, Coin coin = Coin.ETH);
-        public void UpdateCurrentRequestorPayout(double pricePerGhDay, IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH);
+        public enum Currency
+        {
+            USD
+        }
 
+        public double HashRateToUSDPerDay(double hashRate, IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH);
+
+        public void UpdateCurrentRequestorPayout(double glmPerGh, IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH);
     }
 }
+
