@@ -15,6 +15,16 @@ namespace GolemUI.Src
 
         const double REQUESTOR_COEF = 0.66;
 
+        public double HashRateToCoinPerDay(double hashRate, IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double HashRateToCurrencyPerDay(double hashRate, IEstimatedProfitProvider.Currency currency = IEstimatedProfitProvider.Currency.USD)
+        {
+            throw new NotImplementedException();
+        }
+
         public void UpdateCurrentRequestorPayout(double pricePerGhDay, IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH)
         {
             throw new NotImplementedException();
