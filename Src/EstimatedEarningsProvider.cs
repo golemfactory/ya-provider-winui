@@ -23,9 +23,28 @@ namespace GolemUI.Src
             _historyDataProvider = historyDataProvider;
         }
 
-        double IEstimatedProfitProvider.HashRateToUSDPerDay(double hashRate, IEstimatedProfitProvider.Coin coin)
+        private double _estimateFromSettings(double hashRate, Coin coin)
         {
-            return EarningsCalculator.HashRateToUSDPerDay(hashRate, _historyDataProvider, coin, _priceProvider, _remoteSettingsProvider);
+            if (_remoteSettingsProvider.LoadRemoteSettings(out var settings))
+            {
+                var dayIncomePerGH = coin switch { Coin.ETC => settings.DayEtcPerGH, Coin.ETH => settings.DayEthPerGH, _ => null };
+                if (dayIncomePerGH is double v)
+                {
+
+                    return Convert.ToDouble(_priceProvider.CoinValue(Convert.ToDecimal(v * 0.001 * (settings.RequestorCoeff ?? 1.0)), coin));
+                }
+            }
+            return 0;
+        }
+
+        public double HashRateToUSDPerDay(double hashRate, Coin coin)
+        {
+            if (_historyDataProvider.GetCurrentRequestorPayout(coin) is double payout)
+            {
+                var dailyUSDPerMh = _priceProvider.GLMPerGhsToUSDPerDay(payout);
+                return dailyUSDPerMh * hashRate ?? 0.0;
+            }
+            return _estimateFromSettings(hashRate, coin);
         }
     }
 

@@ -1,21 +1,18 @@
 ﻿using GolemUI.Interfaces;
+using GolemUI.Model;
+using System;
 
 namespace GolemUI.Src
 {
     public class StaticPriceProvider : IPriceProvider
     {
-        public decimal CoinValue(decimal amount, IPriceProvider.Coin coin, IPriceProvider.Currency currency = IPriceProvider.Currency.USD)
+        public decimal CoinValue(decimal amount, Coin coin, Currency currency = Currency.USD) => amount * coin switch
         {
-            switch (coin)
-            {
-                case IPriceProvider.Coin.ETC:
-                    return 47.76m * amount;
-                case IPriceProvider.Coin.ETH:
-                    return 2250.96m * amount;
-                case IPriceProvider.Coin.GLM:
-                    return 0.343176m * amount;
-            }
-            return 0m;
-        }
+            Coin.ETC => 47.76m,
+            Coin.ETH => 2250.96m,
+            Coin.GLM => 0.343176m,
+            var _id => throw new ArgumentException($"unnamed coin: id={_id}")
+        };
+
     }
 }

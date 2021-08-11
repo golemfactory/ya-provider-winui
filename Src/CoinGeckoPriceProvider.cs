@@ -7,13 +7,21 @@ using System.Threading.Tasks;
 using CoinGecko.Interfaces;
 using System.Windows.Threading;
 using Microsoft.Extensions.Logging;
+using GolemUI.Model;
 
 namespace GolemUI.Src
 {
     public class CoinGeckoPriceProvider : IPriceProvider, IDisposable
     {
+        private static readonly Dictionary<string, Coin> _coinGeckoNames = new Dictionary<string, Coin>()
+        {
+            { "golem", Coin.GLM},
+            { "ethereum", Coin.ETH },
+            { "ethereum-classic", Coin.ETC }
+        };
+
         private readonly ICoinGeckoClient _client;
-        private readonly Dictionary<IPriceProvider.Coin, decimal> _prices = new Dictionary<IPriceProvider.Coin, decimal>();
+        private readonly Dictionary<Coin, decimal> _prices = new Dictionary<Coin, decimal>();
         private readonly DispatcherTimer _timer;
         private readonly ILogger _logger;
 
@@ -34,7 +42,7 @@ namespace GolemUI.Src
             Refresh();
         }
 
-        public decimal CoinValue(decimal amount, IPriceProvider.Coin coin, IPriceProvider.Currency currency = IPriceProvider.Currency.USD)
+        public decimal CoinValue(decimal amount, Coin coin, Currency currency = Currency.USD)
         {
             decimal value;
             if (_prices.TryGetValue(coin, out value))
@@ -48,29 +56,14 @@ namespace GolemUI.Src
         {
             try
             {
-                var markets = await _client.CoinsClient.GetCoinMarkets("USD", new string[] { "golem", "ethereum-classic", "ethereum" }, "", perPage: null, page: null, sparkline: false, priceChangePercentage: null, category: null);
+                var markets = await _client.CoinsClient.GetCoinMarkets("USD", _coinGeckoNames.Keys.ToArray<string>(), "", perPage: null, page: null, sparkline: false, priceChangePercentage: null, category: null);
                 foreach (var market in markets)
                 {
-                    var price = market.CurrentPrice;
-                    if (price == null)
+                    if (_coinGeckoNames.TryGetValue(market.Id, out Coin coin) && market.CurrentPrice is decimal price)
                     {
-                        continue;
-                    }
-
-                    switch (market.Id)
-                    {
-                        case "golem":
-                            _prices[IPriceProvider.Coin.GLM] = price ?? 0m;
-                            break;
-                        case "ethereum":
-                            _prices[IPriceProvider.Coin.ETH] = price ?? 0m;
-                            break;
-                        case "ethereum-classic":
-                            _prices[IPriceProvider.Coin.ETC] = price ?? 0m;
-                            break;
+                        _prices[coin] = price;
                     }
                 }
-
             }
             catch (System.Net.Http.HttpRequestException)
             {

@@ -136,7 +136,14 @@ namespace GolemUI.Src
                                 var ev = JsonSerializer.Deserialize<TrackingEvent>(json, options);
                                 _activities = ev?.Activities ?? new List<ActivityState>();
                                 LastUpdate = ev?.Ts ?? null;
-                                OnPropertyChanged("Activities");
+                                try
+                                {
+                                    OnPropertyChanged("Activities");
+                                }
+                                catch (Exception e)
+                                {
+                                    _logger.LogError(e, "Failed to send notification");
+                                }
                             }
                             catch (JsonException e)
                             {

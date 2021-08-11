@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,19 +10,6 @@ namespace GolemUI.Interfaces
 {
     public interface IPriceProvider
     {
-
-        public enum Coin
-        {
-            GLM,
-            ETH,
-            ETC
-        }
-
-        public enum Currency
-        {
-            USD
-        }
-
         decimal CoinValue(decimal amount, Coin coin, Currency currency = Currency.USD);
     }
 }

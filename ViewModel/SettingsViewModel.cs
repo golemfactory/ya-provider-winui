@@ -395,7 +395,7 @@ namespace GolemUI.ViewModel
                 var totalHr = HashRate;
                 if (totalHr != null)
                 {
-                    return (double)_profitEstimator.HashRateToUSDPerDay(totalHr.Value, IEstimatedProfitProvider.Coin.ETH);
+                    return (double)_profitEstimator.HashRateToUSDPerDay(totalHr.Value, Coin.ETH);
                 }
                 return null;
             }
