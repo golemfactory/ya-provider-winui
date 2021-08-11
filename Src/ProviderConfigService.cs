@@ -131,8 +131,8 @@ namespace GolemUI.Src
                         { "hash-rate", 0m }
                     }), out _args, out _info);
 
-                        _provider.ActivatePreset("gminer");
-                        changedProperties.Add("IsMiningActive");
+                        /* _provider.ActivatePreset("gminer");
+                         changedProperties.Add("IsMiningActive");*/
                     }
                     else
                     {
@@ -152,8 +152,8 @@ namespace GolemUI.Src
                         { "cpu", 0.001m },
                         { "duration", 0m }
                     }), out _args, out _info);
-                    _provider.ActivatePreset("wasmtime");
-                    changedProperties.Add("IsCpuActive");
+                    /*_provider.ActivatePreset("wasmtime");
+                     changedProperties.Add("IsCpuActive");*/
                 }
 
                 if (presets.Contains("default"))
