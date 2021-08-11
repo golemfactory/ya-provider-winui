@@ -212,7 +212,7 @@ namespace GolemUI.Src
                         cc.Stop();
                         _claymoreLiveStatus.ErrorMsg = "Stopped by user";
                         OnPropertyChanged("Status");
-                        _logger.LogError("PreBenchmark stopped by user.");
+                        _logger.LogError("Benchmark stopped by user.");
                         break;
                     }
                     if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT && !_claymoreLiveStatus.GPUInfosParsed)
@@ -246,11 +246,18 @@ namespace GolemUI.Src
                     _claymoreLiveStatus.BenchmarkFinished = true;
                     foreach (var gpu in _claymoreLiveStatus.GPUs.Values)
                     {
-                        gpu.SetStepFinished();
-                        if (!gpu.IsReadyForMining && !gpu.IsOperationStopped)
+                        if (_requestStop)
                         {
-                            gpu.GPUError = "Timeout";
+                            gpu.GPUError = "Benchmark stopped by user";
                         }
+                        else
+                        {
+                            if (!gpu.IsReadyForMining && !gpu.IsOperationStopped)
+                            {
+                                gpu.GPUError = "Timeout";
+                            }
+                        }
+                        gpu.SetStepFinished();
                     }
                 }
                 OnPropertyChanged("IsRunning");
