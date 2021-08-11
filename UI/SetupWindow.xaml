@@ -49,15 +49,15 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="Mining ablity " Foreground="#aaa" Margin="0, 5" />
                                 <Grid Visibility="{Binding Path=IsPreInitialization, Converter={StaticResource BoolToVisibleConverter}}">
-                                    <ProgressBar IsIndeterminate="True" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                    <ProgressBar Foreground="Gray" IsIndeterminate="True" Margin="0, 5" BorderThickness="0" Background="Transparent" />
                                     <TextBlock Foreground="#aaa"  VerticalAlignment="Center">initializing...</TextBlock>
                                 </Grid>
                                 <Grid Visibility="{Binding Path=IsInitialization, Converter={StaticResource BoolToVisibleConverter}}">
-                                    <ProgressBar Minimum="0" Maximum="1" Value="{Binding Path=DagProgress}" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                    <ProgressBar Foreground="Gray" Minimum="0" Maximum="1" Value="{Binding Path=DagProgress}" Margin="0, 5" BorderThickness="0" Background="Transparent" />
                                     <TextBlock Foreground="#aaa"  VerticalAlignment="Center">initializing...</TextBlock>
                                 </Grid>
                                 <Grid Visibility="{Binding Path=IsEstimation, Converter={StaticResource BoolToVisibleConverter}}">
-                                    <ProgressBar IsIndeterminate="True" Minimum="0" Maximum="1" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                    <ProgressBar Foreground="Gray" IsIndeterminate="True" Minimum="0" Maximum="1" Margin="0, 5" BorderThickness="0" Background="Transparent" />
                                     <TextBlock Foreground="#aaa"  VerticalAlignment="Center">estimating...</TextBlock>
                                 </Grid>
 
