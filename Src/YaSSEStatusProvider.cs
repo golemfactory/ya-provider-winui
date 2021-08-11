@@ -20,7 +20,7 @@ namespace GolemUI.Src
     {
         public DateTime? LastUpdate { get; private set; }
 
-        public ICollection<ActivityState> Activities 
+        public ICollection<ActivityState> Activities
         {
             get => _activities;
         }
