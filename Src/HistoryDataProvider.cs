@@ -148,11 +148,9 @@ namespace GolemUI.Src
         IProcessControler _processControler;
         ILogger<HistoryDataProvider> _logger;
         IPriceProvider _priceProvider;
-        IEstimatedProfitProvider _estimatedProfitProvider;
 
-        public HistoryDataProvider(IStatusProvider statusProvider, IProcessControler processControler, ILogger<HistoryDataProvider> logger, IPriceProvider priceProvider, IEstimatedProfitProvider estimatedProfitProvider)
+        public HistoryDataProvider(IStatusProvider statusProvider, IProcessControler processControler, ILogger<HistoryDataProvider> logger, IPriceProvider priceProvider)
         {
-            _estimatedProfitProvider = estimatedProfitProvider;
             _priceProvider = priceProvider;
             _statusProvider = statusProvider;
             statusProvider.PropertyChanged += StatusProvider_PropertyChanged;
