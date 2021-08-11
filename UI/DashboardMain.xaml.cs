@@ -53,6 +53,9 @@ namespace GolemUI
             Model.SwitchToSettings();
         }
 
-
+        private void BtnGolemLogo_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(GolemUI.Properties.Settings.Default.GolemWebPage);
+        }
     }
 }

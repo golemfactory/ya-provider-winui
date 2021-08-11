@@ -14,25 +14,26 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/Defaults.xaml"/>
-                <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
-                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/PinkButton.xaml"/>
-                <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
-                <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
-                <ResourceDictionary Source="Themes/CheckBox/SliderCheckBox.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/AdvancedSettingsButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
-                <ResourceDictionary Source="Themes/ComboBox/MiningModeComboBox.xaml"/>
-                <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
-                <ResourceDictionary Source="Icons/Task_Type.xaml"/>
-                <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
-                <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
-                <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
-                <ResourceDictionary Source="Themes/TextBox/TextBoxInError.xaml"/>
-                <ResourceDictionary Source="Themes/Validation/ValidationTemplate.xaml"/>
-                <ResourceDictionary Source="Themes/Labels/InfoLabel.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/CheckBox/SliderCheckBox.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/AdvancedSettingsButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GolemLogo.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/ComboBox/MiningModeComboBox.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/TrackBar/Slider.xaml"/>
+                <ResourceDictionary Source="/UI/Icons/Task_Type.xaml"/>
+                <ResourceDictionary Source="/UI/Icons/CPU_icon.xaml"/>
+                <ResourceDictionary Source="/UI/Icons/Status_Card_error.xaml"/>
+                <ResourceDictionary Source="/UI/Icons/Status_Ready_icon.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/TextBox/TextBoxInError.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Validation/ValidationTemplate.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Labels/InfoLabel.xaml"/>
                 <ResourceDictionary>
                     <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
                         <ObjectDataProvider.MethodParameters>
@@ -382,7 +383,7 @@
                 </Grid>
 
             </Grid>
-            <Image  Grid.Row="2" Grid.Column="5"  Source="/UI/Icons/DefaultStyle/png/Branding/SupportedByGolem.png" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,30,20" />
+            <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click" Grid.Row="2" Grid.Column="5"  HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,30,20" />
             <Button Grid.Row="3" Cursor="Hand" IsEnabled="{Binding Path=AdvancedSettingsButtonEnabled}" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="BtnAdvancedSettings" Click="BtnAdvancedSettings_Click" Margin="50,0,0,0" Style="{StaticResource AdvancedSettingsButtonStyle}"/>
         </Grid>
     </Border>
