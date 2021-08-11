@@ -162,7 +162,7 @@ namespace GolemUI.Src
         private async void GetUsageVectorAsync(string? agreementID)
         {
             UsageVectorsAsDict = await _processControler.GetUsageVectors(agreementID);
-            if (UsageVectorsAsDict.TryGetValue("golem.usage.mining.hash", out double miningHashParameter))
+            if (UsageVectorsAsDict != null && UsageVectorsAsDict.TryGetValue("golem.usage.mining.hash", out double miningHashParameter))
             {
                 /*double valueInUsd = _priceProvider.CoinValue((miningHashParameter * 3600 * 24), IPriceProvider.Coin.GLM);
                 double ethValueInUsd = _priceProvider.CoinValue(1.0, IPriceProvider.Coin.ETH);

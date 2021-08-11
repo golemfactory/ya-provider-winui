@@ -89,8 +89,11 @@ namespace GolemUI.Src
                     else
                     {
                         _remoteSettingsProvider.LoadRemoteSettings(out rs);
-                        dailyUSDPerMh = ConvertEtcPerGhToDollarsPerDay(rs.DayEtcPerGH.Value);
-                        dailyUSDPerMh *= rs.RequestorCoeff;
+                        dailyUSDPerMh = rs.DayEtcPerGH.HasValue ? ConvertEtcPerGhToDollarsPerDay(rs.DayEtcPerGH.Value) : null;
+                        if (rs.RequestorCoeff.HasValue && dailyUSDPerMh.HasValue)
+                        {
+                            dailyUSDPerMh *= rs.RequestorCoeff;
+                        }
                     }
                     break;
                 case IEstimatedProfitProvider.Coin.ETH:
@@ -101,8 +104,11 @@ namespace GolemUI.Src
                     else
                     {
                         _remoteSettingsProvider.LoadRemoteSettings(out rs);
-                        dailyUSDPerMh = ConvertEtcPerGhToDollarsPerDay(rs.DayEthPerGH.Value);
-                        dailyUSDPerMh *= rs.RequestorCoeff;
+                        dailyUSDPerMh = rs.DayEthPerGH.HasValue ? ConvertEthPerGhToDollarsPerDay(rs.DayEthPerGH.Value) : null;
+                        if (rs.RequestorCoeff.HasValue && dailyUSDPerMh.HasValue)
+                        {
+                            dailyUSDPerMh *= rs.RequestorCoeff;
+                        }
                     }
                     break;
                 default:
