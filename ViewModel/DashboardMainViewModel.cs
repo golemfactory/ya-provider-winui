@@ -1,6 +1,7 @@
 ﻿using GolemUI.Interfaces;
 
 using GolemUI.Src;
+using GolemUI.Src.AppNotificationService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,7 @@ namespace GolemUI.ViewModel
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
-            IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, IRemoteSettingsProvider remoteSettingsProvider)
+            IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, IRemoteSettingsProvider remoteSettingsProvider, INotificationService notificationService)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
@@ -27,6 +28,7 @@ namespace GolemUI.ViewModel
             _statusProvider = statusProvider;
             _historyDataProvider = historyDataProvider;
             _remoteSettingsProvider = remoteSettingsProvider;
+            _notificationService = notificationService;
 
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
@@ -48,7 +50,7 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning;
+        public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning && IsGpuEnabled;
         public bool IsBenchmarkNotRunning => !_benchmarkService.IsRunning;
         public string StartButtonExplanation
         {
@@ -58,6 +60,8 @@ namespace GolemUI.ViewModel
                     return "Please wait until all subsystems are initialized";
                 if (_benchmarkService.IsRunning)
                     return "Can't start mining while benchmark is running";
+                if (!_providerConfig.IsMiningActive)
+                    return "Can't start mining with GPU support disabled";
 
                 return "";
             }
@@ -184,6 +188,7 @@ namespace GolemUI.ViewModel
             }
         }
 
+
         public void SwitchToSettings()
         {
             PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettings);
@@ -227,6 +232,10 @@ namespace GolemUI.ViewModel
             OnPropertyChanged("EnabledGpuCount");
             OnPropertyChanged("GpuCardsInfo");
             OnPropertyChanged("CpuCardsInfo");
+            OnPropertyChanged(nameof(IsMiningReadyToRun));
+            OnPropertyChanged(nameof(IsGpuEnabled));
+            OnPropertyChanged(nameof(GpuStatus));
+            OnPropertyChanged(nameof(StartButtonExplanation));
         }
 
 
@@ -289,9 +298,16 @@ namespace GolemUI.ViewModel
             set
             {
                 _providerConfig.IsMiningActive = value;
+                if (value == false)
+                {
+                    _processController.Stop();
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "gpu disabled - stopping mining", expirationTimeInMs: 3000, group: false));
+                }
 
-                OnPropertyChanged("IsGpuEnabled");
-                OnPropertyChanged("GpuStatus");
+                OnPropertyChanged(nameof(IsMiningReadyToRun));
+                OnPropertyChanged(nameof(IsGpuEnabled));
+                OnPropertyChanged(nameof(GpuStatus));
+                OnPropertyChanged(nameof(StartButtonExplanation));
 
             }
         }
@@ -346,5 +362,6 @@ namespace GolemUI.ViewModel
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
         private readonly IHistoryDataProvider _historyDataProvider;
         private readonly IRemoteSettingsProvider _remoteSettingsProvider;
+        private readonly INotificationService _notificationService;
     }
 }

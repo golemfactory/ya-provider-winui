@@ -20,16 +20,16 @@
                 <ResourceDictionary Source="Themes/Defaults.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GolemLogo.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/PinkButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GoToSettingsButton.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/SliderCheckBox.xaml"/>
-
                 <ResourceDictionary Source="Themes/Buttons/BlueButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
-    
+
             </ResourceDictionary.MergedDictionaries>
 
 
@@ -124,26 +124,42 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1.4*" />
                             <RowDefinition Height="2*" />
-                            <RowDefinition Height="3*"/>    
+                            <RowDefinition Height="3*"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,22,0">
                             <Label FontSize="10" FontWeight="Bold" Content="Cards:"  Padding="0"/>
                             <Label FontSize="10" Content="{Binding Path=GpuCardsInfo, Mode=OneWay}" Margin="4,0,0,0" Foreground="#99b" Padding="0"/>
                         </StackPanel>
                         <Image Source="Icons/DefaultStyle/png/Dashboard/Gpu.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" >
-                            <!--<Image.Style>
+                            <Image.Style>
                                 <Style TargetType="{x:Type Image}">
+                                    <Style.Resources>
+                                        <Storyboard x:Key="GlowLoop">
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"  Storyboard.TargetProperty="(Effect).BlurRadius" RepeatBehavior="Forever">
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.0" Value="40"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:2" Value="40"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </Style.Resources>
                                     <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
+                                        <DataTrigger Binding="{Binding Status}" Value="Mining">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard
+                                                    Storyboard="{StaticResource GlowLoop}"/>
+                                            </DataTrigger.EnterActions>
+                                            <DataTrigger.ExitActions>
+                                                <StopStoryboard BeginStoryboardName="GlowLoop" />
+                                            </DataTrigger.ExitActions>
                                             <Setter Property="Effect">
                                                 <Setter.Value>
-                                                    <DropShadowEffect ShadowDepth="0" Color="#0FB2AB" Opacity="0.6" BlurRadius="20"/>
+                                                    <DropShadowEffect ShadowDepth="0" Color="#0FB2AB" Opacity="0.6" />
                                                 </Setter.Value>
                                             </Setter>
-                                        </Trigger>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Image.Style>-->
+                            </Image.Style>
                         </Image>
                         <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24,0,8">
                             <Label Padding="0" Content="GPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18"  HorizontalAlignment="Center"></Label>
@@ -196,7 +212,9 @@
 
                 </Border>
             </Grid>
-            <Image  Grid.Row="3" Grid.ColumnSpan="3" Source="/UI/Icons/DefaultStyle/png/Branding/SupportedByGolem.png" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,22,0" />
+            <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,22,0" />
+
+       
         </Grid>
     </Border>
 </UserControl>

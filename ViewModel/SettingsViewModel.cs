@@ -21,7 +21,7 @@ namespace GolemUI.ViewModel
         private readonly Command.Provider _provider;
         private readonly IProviderConfig _providerConfig;
         private readonly IPriceProvider _priceProvider;
-        private readonly IProcessControler _processControler;
+        private readonly IProcessControler _processController;
         private readonly IEstimatedProfitProvider _profitEstimator;
         private readonly IStatusProvider _statusProvider;
         private readonly BenchmarkService _benchmarkService;
@@ -56,7 +56,7 @@ namespace GolemUI.ViewModel
         {
             _userSettingsProvider = userSettingsProvider;
             _statusProvider = statusProvider;
-            _processControler = processControler;
+            _processController = processControler;
             GpuList = new ObservableCollection<ClaymoreGpuStatus>();
             _notificationService = notificationService;
             _benchmarkResultsProvider = benchmarkResultsProvider;
@@ -98,7 +98,7 @@ namespace GolemUI.ViewModel
 
         public void StopMiningProcess()
         {
-            _processControler.Stop();
+            _processController.Stop();
             _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "stopping mining...", expirationTimeInMs: 3000, group: false));
         }
         public void RestartMiningProcess()
@@ -106,7 +106,7 @@ namespace GolemUI.ViewModel
 
             var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
 
-            _processControler.Start(_providerConfig.Network, extraClaymoreParams);
+            _processController.Start(_providerConfig.Network, extraClaymoreParams);
             _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "starting mining...", expirationTimeInMs: 3000, group: false));
         }
         public bool IsMiningProcessRunning()
@@ -118,7 +118,7 @@ namespace GolemUI.ViewModel
             //    Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer"/* && a.State == Model.ActivityState.StateType.Ready*/).SingleOrDefault();
             //    mining = gminerState != null;
             //}
-            mining = _processControler.IsProviderRunning;
+            mining = _processController.IsProviderRunning;
             return mining;
         }
         public void StartBenchmark()
@@ -183,7 +183,9 @@ namespace GolemUI.ViewModel
                 ActiveCpusCount = TotalCpusCount;
 
             NotifyChange("TotalCpusCountAsString");
-
+            NotifyChange(nameof(IsCpuEnabled));
+            NotifyChange(nameof(IsGpuEnabled));
+            NotifyChange(nameof(BenchmarkReadyToRun));
         }
 
         void ChangeSettingsWithMiningRestart(string msg)
@@ -193,7 +195,8 @@ namespace GolemUI.ViewModel
                 _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, msg, expirationTimeInMs: 2000));
                 SaveData();
                 StopMiningProcess();
-                Task.Delay(3000).ContinueWith(_ => RestartMiningProcess());
+                if (IsGpuEnabled)
+                    Task.Delay(3000).ContinueWith(_ => RestartMiningProcess());
 
             }
         }
@@ -207,7 +210,19 @@ namespace GolemUI.ViewModel
                 }
                 if (e.PropertyName == "IsEnabledByUser")
                 {
+                    bool isAnyCardEnabled = false;
+                    GpuList.ToList().ForEach(x =>
+                    {
+                        isAnyCardEnabled = isAnyCardEnabled || (x.IsEnabledByUser /*&& x.IsReadyForMining*/);
+                    });
+                    if (!isAnyCardEnabled && IsGpuEnabled)
+                    {
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "Gpu disabled since user disabled all cards, to enable mining again please activate at least one card and enable GPU support in Task type", expirationTimeInMs: 10000, group: false));
+                        IsGpuEnabled = false;
+                    }
+
                     ChangeSettingsWithMiningRestart("applying settings (card enabled: " + status.IsEnabledByUser.ToString() + ")");
+
                 }
             }
         }
@@ -277,13 +292,14 @@ namespace GolemUI.ViewModel
                 NotifyChange("BenchmarkIsRunning");
                 NotifyChange("BenchmarkReadyToRun");
                 NotifyChange("BenchmarkError");
+                NotifyChange(nameof(IsBenchmarkNotRunning));
             }
             if (e.PropertyName == "IsRunning")
             {
                 NotifyChange("BenchmarkReadyToRun");
                 NotifyChange("BenchmarkIsRunning");
                 NotifyChange("ExpectedProfit");
-
+                NotifyChange(nameof(IsBenchmarkNotRunning));
                 if (!BenchmarkIsRunning && _benchmarkService != null)
                 {
                     // finished ?
@@ -329,27 +345,38 @@ namespace GolemUI.ViewModel
                     NotifyChange("BenchmarkIsRunning");
                     NotifyChange("BenchmarkReadyToRun");
                     NotifyChange("BenchmarkError");
+                    NotifyChange(nameof(IsBenchmarkNotRunning));
 
                 }
             }
         }
         public bool BenchmarkIsRunning => _benchmarkService.IsRunning;
-        public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning);
+        public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning) && IsGpuEnabled;
+        public bool IsBenchmarkNotRunning => !(_benchmarkService.IsRunning);
 
-        public bool IsMiningActive
+        public bool IsGpuEnabled
         {
             get => _providerConfig?.IsMiningActive ?? false;
             set
             {
                 _providerConfig.IsMiningActive = value;
+                if (value == false)
+                {
+                    _processController.Stop();
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "gpu disabled - stopping mining", expirationTimeInMs: 3000, group: false));
+                }
+                NotifyChange(nameof(IsGpuEnabled));
+                NotifyChange(nameof(IsBenchmarkNotRunning));
+                NotifyChange(nameof(BenchmarkReadyToRun));
             }
         }
-        public bool IsCpuActive
+        public bool IsCpuEnabled
         {
             get => _providerConfig?.IsCpuActive ?? false;
             set
             {
                 _providerConfig.IsCpuActive = value;
+                NotifyChange(nameof(IsCpuEnabled));
             }
         }
         public string TotalCpusCountAsString => TotalCpusCount.ToString();
