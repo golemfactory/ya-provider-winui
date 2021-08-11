@@ -150,6 +150,7 @@
                                                  AnimationFPS="60"
                                                  WaveWidth="1.2"
                                                  Width="20"
+                                                 CircleSize="5.0"
                                                 Margin="-5,37,0,0"
                                             />
                         </StackPanel>

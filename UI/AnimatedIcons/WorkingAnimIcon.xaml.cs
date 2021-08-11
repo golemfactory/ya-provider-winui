@@ -58,9 +58,17 @@ namespace GolemUI.UI.AnimatedIcons
             set { SetValue(CircleCountProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for MyVarIconX.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CircleCountProperty =
             DependencyProperty.Register("CircleCount", typeof(int), typeof(WorkingAnimIcon), new UIPropertyMetadata(3));
+
+        public double CircleSize
+        {
+            get { return (double)GetValue(CircleSizeProperty); }
+            set { SetValue(CircleSizeProperty, value); }
+        }
+
+        public static readonly DependencyProperty CircleSizeProperty =
+            DependencyProperty.Register("CircleSize", typeof(double), typeof(WorkingAnimIcon), new UIPropertyMetadata(5.0));
 
 
         List<Ellipse> _circles = new List<Ellipse>();
@@ -77,16 +85,7 @@ namespace GolemUI.UI.AnimatedIcons
             _animationTimer = new DispatcherTimer(DispatcherPriority.ContextIdle, Dispatcher);
             _animationTimer.Interval = TimeSpan.FromMilliseconds(1000.0 / AnimationFPS);
 
-            for (int i = 0; i < CircleCount; i++)
-            {
-                var ellipse = new Ellipse();
-                ellipse.Width = 20;
-                ellipse.Height = 20;
-                ellipse.VerticalAlignment = VerticalAlignment.Center;
-                ellipse.Fill = Brushes.White;
-                _circles.Add(ellipse);
-                cvAnim.Children.Add(ellipse);
-            }
+
         }
 
         private void Start()
@@ -112,10 +111,24 @@ namespace GolemUI.UI.AnimatedIcons
 
         private void UpdateAnimTick()
         {
-            double _ellipseMaxSizeX = cvAnim.ActualWidth / _circles.Count;
-            double _ellipseMaxSizeY = cvAnim.ActualHeight / 2.0;
+            //double _ellipseMaxSizeX = cvAnim.ActualWidth / _circles.Count;
+            //double _ellipseMaxSizeY = cvAnim.ActualHeight / 2.0;
 
-            double _ellipseMaxSize = 5.0;
+            if (cvAnim.Children.Count == 0)
+            {
+                for (int i = 0; i < CircleCount; i++)
+                {
+                    var ellipse = new Ellipse();
+                    ellipse.Width = 20;
+                    ellipse.Height = 20;
+                    ellipse.VerticalAlignment = VerticalAlignment.Center;
+                    ellipse.Fill = Brushes.White;
+                    _circles.Add(ellipse);
+                    cvAnim.Children.Add(ellipse);
+                }
+            }
+
+            double _ellipseMaxSize = CircleSize;
 
             var elapsedTime = DateTime.Now - lastTime;
             lastTime = DateTime.Now;
