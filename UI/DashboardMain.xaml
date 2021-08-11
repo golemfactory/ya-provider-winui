@@ -172,7 +172,7 @@
 
                             <Button Style="{StaticResource GoToSettingsButtonStyle}" 
                                     Cursor="Hand" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Click="BtnSettings_Click" Margin="0"
-                                    Visibility="visibile"
+                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=IsMouseOver, Converter={StaticResource BoolToVisibleConverter}}"
                                     HorizontalAlignment="Left"/>
 
                         </StackPanel>
