@@ -368,7 +368,6 @@ namespace GolemUI.ViewModel
                 _activeCpusCount = value;
                 NotifyChange("ActiveCpusCount");
                 NotifyChange("ActiveCpusCountAsString");
-
             }
         }
         public int TotalCpusCount => _totalCpusCount;

@@ -18,7 +18,7 @@ namespace GolemUI.Interfaces
 
         public string EstimatedEarningsMessage { get; set; }
 
-
+        public double? GetCurrentRequestorPayout(IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH);
     }
 }
 

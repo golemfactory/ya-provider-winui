@@ -43,6 +43,17 @@ namespace GolemUI.Src
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        private double? _currentRequestorPayoutETH;
+        public double? CurrentRequestorPayoutETH
+        {
+            get => _currentRequestorPayoutETH;
+            set
+            {
+                _currentRequestorPayoutETH = value;
+                NotifyChanged();
+            }
+        }
+
         private double? _estimatedEarningsPerSecond;
         public double? EstimatedEarningsPerSecond
         {
@@ -164,10 +175,7 @@ namespace GolemUI.Src
             UsageVectorsAsDict = await _processControler.GetUsageVectors(agreementID);
             if (UsageVectorsAsDict != null && UsageVectorsAsDict.TryGetValue("golem.usage.mining.hash", out double miningHashParameter))
             {
-                /*double valueInUsd = _priceProvider.CoinValue((miningHashParameter * 3600 * 24), IPriceProvider.Coin.GLM);
-                double ethValueInUsd = _priceProvider.CoinValue(1.0, IPriceProvider.Coin.ETH);
-                double valueInEth = valueInUsd / ethValueInUsd;*/
-                _estimatedProfitProvider.UpdateCurrentRequestorPayout(miningHashParameter);
+                CurrentRequestorPayoutETH = miningHashParameter;
             }
             _getUsageVectorsTask = null;
         }
@@ -281,6 +289,11 @@ namespace GolemUI.Src
                     }
                 }
             }
+        }
+
+        public double? GetCurrentRequestorPayout(IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH)
+        {
+            return 0.0;
         }
 
         private void NotifyChanged([CallerMemberName] string? propertyName = null)

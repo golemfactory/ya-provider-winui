@@ -13,15 +13,14 @@ namespace GolemUI.Src
     {
         IRemoteSettingsProvider _remoteSettingsProvider;
         IPriceProvider _priceProvider;
+        IHistoryDataProvider _historyDataProvider;
 
-        public EstimatedEarningsProvider(IRemoteSettingsProvider remoteSettingsProvider, IPriceProvider priceProvider)
+        public EstimatedEarningsProvider(IRemoteSettingsProvider remoteSettingsProvider, IPriceProvider priceProvider, IHistoryDataProvider historyDataProvider)
         {
             _remoteSettingsProvider = remoteSettingsProvider;
             _priceProvider = priceProvider;
+            _historyDataProvider = historyDataProvider;
         }
-
-        double? glmPerGhEtc = null;
-        double? glmPerGhEth = null;
 
 
         public double? ConvertGlmPerGhToDollarsPerDay(double? glmPerGh)
@@ -59,29 +58,16 @@ namespace GolemUI.Src
         }
 
 
-        public void UpdateCurrentRequestorPayout(double golemPerGh, IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH)
-        {
-            switch (coin)
-            {
-                case IEstimatedProfitProvider.Coin.ETC:
-                    glmPerGhEtc = golemPerGh;
-                    break;
-                case IEstimatedProfitProvider.Coin.ETH:
-                    glmPerGhEth = golemPerGh;
-                    break;
-                default:
-                    break;
-            }
-        }
-
         double IEstimatedProfitProvider.HashRateToUSDPerDay(double hashRate, IEstimatedProfitProvider.Coin coin)
         {
             RemoteSettings rs;
 
             double? dailyUSDPerMh;
+
             switch (coin)
             {
                 case IEstimatedProfitProvider.Coin.ETC:
+                    double? glmPerGhEtc = _historyDataProvider.GetCurrentRequestorPayout(IEstimatedProfitProvider.Coin.ETC);
                     if (glmPerGhEtc != null)
                     {
                         dailyUSDPerMh = ConvertGlmPerGhToDollarsPerDay(glmPerGhEtc.Value);
@@ -97,6 +83,7 @@ namespace GolemUI.Src
                     }
                     break;
                 case IEstimatedProfitProvider.Coin.ETH:
+                    double? glmPerGhEth = _historyDataProvider.GetCurrentRequestorPayout(IEstimatedProfitProvider.Coin.ETH);
                     if (glmPerGhEth != null)
                     {
                         dailyUSDPerMh = ConvertGlmPerGhToDollarsPerDay(glmPerGhEth.Value);
