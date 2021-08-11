@@ -39,7 +39,7 @@ namespace GolemUI.UI.AnimatedIcons
 
         // Using a DependencyProperty as the backing store for MyVarIconX.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AnimationFPSProperty =
-            DependencyProperty.Register("AnimationFPS", typeof(double), typeof(WorkingAnimIcon), new UIPropertyMetadata(60.0));
+            DependencyProperty.Register("AnimationFPS", typeof(double), typeof(WorkingAnimIcon), new UIPropertyMetadata(30.0));
 
 
         public double WaveWidth
@@ -60,7 +60,7 @@ namespace GolemUI.UI.AnimatedIcons
 
         // Using a DependencyProperty as the backing store for MyVarIconX.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CircleCountProperty =
-            DependencyProperty.Register("CircleCount", typeof(int), typeof(WorkingAnimIcon), new UIPropertyMetadata(10));
+            DependencyProperty.Register("CircleCount", typeof(int), typeof(WorkingAnimIcon), new UIPropertyMetadata(3));
 
 
         List<Ellipse> _circles = new List<Ellipse>();
@@ -115,7 +115,7 @@ namespace GolemUI.UI.AnimatedIcons
             double _ellipseMaxSizeX = cvAnim.ActualWidth / _circles.Count;
             double _ellipseMaxSizeY = cvAnim.ActualHeight / 2.0;
 
-            double _ellipseMaxSize = Math.Min(_ellipseMaxSizeY, _ellipseMaxSizeX);
+            double _ellipseMaxSize = 5.0;
 
             var elapsedTime = DateTime.Now - lastTime;
             lastTime = DateTime.Now;
@@ -124,7 +124,7 @@ namespace GolemUI.UI.AnimatedIcons
             totalElapsed = Math.Max(Math.Min(totalElapsed, 200.0), 0.0);
             totalElapsed /= _animationLength;
 
-            _animationPosition += totalElapsed / 1000.0;
+            _animationPosition += totalElapsed / 1400.0;
 
             if (_animationPosition >= 1.0)
             {
