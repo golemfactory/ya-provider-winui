@@ -100,9 +100,9 @@ namespace GolemUI.Command
         private string _yaProviderPath;
         private string _pluginsPath;
         private string _exeUnitsPath;
-        private readonly ILogger<Provider> _logger;
+        private readonly ILogger? _logger;
 
-        public Provider(ILogger<Provider> logger)
+        public Provider(ILogger? logger)
         {
             _logger = logger;
             var appBaseDir = AppContext.BaseDirectory;
