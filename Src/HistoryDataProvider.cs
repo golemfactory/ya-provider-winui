@@ -1,5 +1,6 @@
 ﻿using GolemUI.Interfaces;
 using GolemUI.Model;
+using GolemUI.Utils;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,18 @@ namespace GolemUI.Src
             }
         }
 
+        private double? _currentRequestorPayoutETC;
+        public double? CurrentRequestorPayoutETC
+        {
+            get => _currentRequestorPayoutETC;
+            set
+            {
+                _currentRequestorPayoutETC = value;
+                NotifyChanged();
+            }
+        }
+
+
         private double? _estimatedEarningsPerSecond;
         public double? EstimatedEarningsPerSecond
         {
@@ -75,6 +88,7 @@ namespace GolemUI.Src
                 NotifyChanged();
             }
         }
+
 
         public void ComputeEstimatedEarnings()
         {
@@ -118,7 +132,8 @@ namespace GolemUI.Src
                 }
                 else if (currentHashrate > 0)
                 {
-                    EstimatedEarningsPerSecond = _estimatedProfitProvider.HashRateToUSDPerDay(currentHashrate) / 3600.0 / 24.0;
+                    //EarningsCalculator.HashRateToUSDPerDay
+                    EstimatedEarningsPerSecond = EarningsCalculator.HashRateToUSDPerDay(currentHashrate, this, IEstimatedProfitProvider.Coin.ETH, _priceProvider, null) / 3600.0 / 24.0;
 
                     EstimatedEarningsMessage = $"Estimation based on current hashrate and requestor payout.";
                 }
@@ -291,7 +306,15 @@ namespace GolemUI.Src
 
         public double? GetCurrentRequestorPayout(IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH)
         {
-            return 0.0;
+            switch (coin)
+            {
+                case IEstimatedProfitProvider.Coin.ETC:
+                    return CurrentRequestorPayoutETC;
+                case IEstimatedProfitProvider.Coin.ETH:
+                    return CurrentRequestorPayoutETH;
+                default:
+                    return null;
+            }
         }
 
         private void NotifyChanged([CallerMemberName] string? propertyName = null)

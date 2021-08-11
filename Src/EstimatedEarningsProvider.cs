@@ -1,5 +1,6 @@
 ﻿using GolemUI.Interfaces;
 using GolemUI.Model;
+using GolemUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,50 +61,7 @@ namespace GolemUI.Src
 
         double IEstimatedProfitProvider.HashRateToUSDPerDay(double hashRate, IEstimatedProfitProvider.Coin coin)
         {
-            RemoteSettings rs;
-
-            double? dailyUSDPerMh;
-
-            switch (coin)
-            {
-                case IEstimatedProfitProvider.Coin.ETC:
-                    double? glmPerGhEtc = _historyDataProvider.GetCurrentRequestorPayout(IEstimatedProfitProvider.Coin.ETC);
-                    if (glmPerGhEtc != null)
-                    {
-                        dailyUSDPerMh = ConvertGlmPerGhToDollarsPerDay(glmPerGhEtc.Value);
-                    }
-                    else
-                    {
-                        _remoteSettingsProvider.LoadRemoteSettings(out rs);
-                        dailyUSDPerMh = rs.DayEtcPerGH.HasValue ? ConvertEtcPerGhToDollarsPerDay(rs.DayEtcPerGH.Value) : null;
-                        if (rs.RequestorCoeff.HasValue && dailyUSDPerMh.HasValue)
-                        {
-                            dailyUSDPerMh *= rs.RequestorCoeff;
-                        }
-                    }
-                    break;
-                case IEstimatedProfitProvider.Coin.ETH:
-                    double? glmPerGhEth = _historyDataProvider.GetCurrentRequestorPayout(IEstimatedProfitProvider.Coin.ETH);
-                    if (glmPerGhEth != null)
-                    {
-                        dailyUSDPerMh = ConvertGlmPerGhToDollarsPerDay(glmPerGhEth.Value);
-                    }
-                    else
-                    {
-                        _remoteSettingsProvider.LoadRemoteSettings(out rs);
-                        dailyUSDPerMh = rs.DayEthPerGH.HasValue ? ConvertEthPerGhToDollarsPerDay(rs.DayEthPerGH.Value) : null;
-                        if (rs.RequestorCoeff.HasValue && dailyUSDPerMh.HasValue)
-                        {
-                            dailyUSDPerMh *= rs.RequestorCoeff;
-                        }
-                    }
-                    break;
-                default:
-                    return 0;
-            }
-
-            return dailyUSDPerMh * hashRate ?? 0.0;
-
+            return EarningsCalculator.HashRateToUSDPerDay(hashRate, _historyDataProvider, coin, _priceProvider, _remoteSettingsProvider);
         }
 
 

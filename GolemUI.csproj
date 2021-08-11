@@ -408,6 +408,7 @@
     <Compile Include="UI\UsageDescription.xaml.cs">
       <DependentUpon>UsageDescription.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\EarningsCalculator.cs" />
     <Compile Include="Utils\ObservableListExtensions.cs" />
     <Compile Include="Utils\PathUtil.cs" />
     <Compile Include="Utils\ProcessExtension.cs" />
