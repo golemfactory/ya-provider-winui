@@ -34,16 +34,6 @@ namespace GolemUI.Src
             Refresh();
         }
 
-        public double CoinValue(double amount, IPriceProvider.Coin coin, IPriceProvider.Currency currency = IPriceProvider.Currency.USD)
-        {
-            decimal value;
-            if (_prices.TryGetValue(coin, out value))
-            {
-                return amount * (double)value;
-            }
-            return 0;
-        }
-
         public decimal CoinValue(decimal amount, IPriceProvider.Coin coin, IPriceProvider.Currency currency = IPriceProvider.Currency.USD)
         {
             decimal value;

@@ -110,7 +110,7 @@ namespace GolemUI.ViewModel
 
         public decimal AmountUSD
         {
-            get { return _priceProvider.CoinValue(_amount, IPriceProvider.Coin.GLM); }
+            get { return _priceProvider.CoinValue((decimal)_amount, IPriceProvider.Coin.GLM); }
         }
 
         public decimal PendingAmount

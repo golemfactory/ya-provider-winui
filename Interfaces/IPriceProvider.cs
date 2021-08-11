@@ -23,6 +23,5 @@ namespace GolemUI.Interfaces
         }
 
         decimal CoinValue(decimal amount, Coin coin, Currency currency = Currency.USD);
-        double CoinValue(double amount, Coin coin, Currency currency = Currency.USD);
     }
 }

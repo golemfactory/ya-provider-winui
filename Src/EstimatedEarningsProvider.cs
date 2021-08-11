@@ -32,7 +32,7 @@ namespace GolemUI.Src
             }
             const double secondsInDay = 3600 * 24;
             const double GhToMh = 0.001;
-            double valueInUsd = _priceProvider.CoinValue((glmPerGh.Value * secondsInDay * GhToMh), IPriceProvider.Coin.GLM);
+            double valueInUsd = (double)_priceProvider.CoinValue((decimal)(glmPerGh.Value * secondsInDay * GhToMh), IPriceProvider.Coin.GLM);
             return valueInUsd;
         }
 
@@ -42,7 +42,7 @@ namespace GolemUI.Src
             {
                 return null;
             }
-            double ethValueInUsd = _priceProvider.CoinValue(1.0, IPriceProvider.Coin.ETH);
+            double ethValueInUsd = (double)_priceProvider.CoinValue(1.0m, IPriceProvider.Coin.ETH);
             double valueInUSD = dayEthPerGh.Value * ethValueInUsd;
             return valueInUSD;
         }
@@ -53,7 +53,7 @@ namespace GolemUI.Src
             {
                 return null;
             }
-            double ethValueInUsd = _priceProvider.CoinValue(1.0, IPriceProvider.Coin.ETC);
+            double ethValueInUsd = (double)_priceProvider.CoinValue(1.0m, IPriceProvider.Coin.ETC);
             double valueInUSD = dayEtcPerGh.Value * ethValueInUsd;
             return valueInUSD;
         }
