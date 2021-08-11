@@ -71,6 +71,16 @@ namespace GolemUI.UI.AnimatedIcons
             DependencyProperty.Register("CircleSize", typeof(double), typeof(WorkingAnimIcon), new UIPropertyMetadata(5.0));
 
 
+        public double DelayBetweenWaves
+        {
+            get { return (double)GetValue(DelayBetweenWavesProperty); }
+            set { SetValue(DelayBetweenWavesProperty, value); }
+        }
+
+        public static readonly DependencyProperty DelayBetweenWavesProperty =
+            DependencyProperty.Register("DelayBetweenWaves", typeof(double), typeof(WorkingAnimIcon), new UIPropertyMetadata(1.0));
+
+
         List<Ellipse> _circles = new List<Ellipse>();
 
         public WorkingAnimIcon()
@@ -141,7 +151,7 @@ namespace GolemUI.UI.AnimatedIcons
 
             if (_animationPosition >= 1.0)
             {
-                _animationPosition -= 1.0; //reset animation state to 0
+                _animationPosition = _animationPosition - (1.0 + DelayBetweenWaves); //reset animation state to 0
             }
 
             double centerWavePos = _animationPosition * 2.0;
