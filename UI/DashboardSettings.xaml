@@ -93,7 +93,7 @@
                 </StackPanel>
 
 
-                <Button Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Grid.Column="4" IsEnabled="{Binding Path=BenchmarkReadyToRun}" Visibility="{Binding Path=BenchmarkReadyToRun, Converter={StaticResource BoolToVisibleConverter}}"  Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}"  Click="btnRunBenchmark_Click" >Run Benchmark</Button>
+                <Button Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Grid.Column="4" IsEnabled="{Binding Path=BenchmarkReadyToRun}" Visibility="{Binding Path=IsBenchmarkNotRunning, Converter={StaticResource BoolToVisibleConverter}}"  Name="btnRunBenchmark" Style="{StaticResource GradientButtonStyle}"  Click="btnRunBenchmark_Click" >Run Benchmark</Button>
                 <Button Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Grid.Column="4" IsEnabled="{Binding Path=BenchmarkIsRunning}" Visibility="{Binding Path=BenchmarkIsRunning, Converter={StaticResource BoolToVisibleConverter}}" Name="btnStopBenchmark" Style="{StaticResource GradientButtonStyle}" Click="btnStopBenchmark_Click" >Stop Benchmark</Button>
 
 
@@ -118,11 +118,11 @@
                         <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="/UI/Icons/DefaultStyle/png/Settings/TaskType.png" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20" Stretch="Uniform" />
                         <StackPanel Grid.Row="2" Margin="0,28,0,0" HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox  Margin="0" Grid.Column="0" Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsMiningActive}" IsEnabled="{Binding BenchmarkReadyToRun}" />
+                                <CheckBox  Margin="0" Grid.Column="0" Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsGpuEnabled}" IsEnabled="{Binding IsBenchmarkNotRunning}" />
                                 <TextBlock FontSize="10"   Margin="8, 5, 5, 5"  Text="Mining (GPU)" Foreground="#FFFFFF" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,13">
-                                <CheckBox Margin="0" Style="{DynamicResource CheckBoxSlider}"  IsChecked="{Binding IsCpuActive}" />
+                                <CheckBox Margin="0" Style="{DynamicResource CheckBoxSlider}"  IsChecked="{Binding IsCpuEnabled}" />
                                 <TextBlock  FontSize="10" Margin="10, 1,0,0" TextWrapping="Wrap" Text="Golem Network (CPU)" Foreground="#FFFFFF" />
                             </StackPanel>
                         </StackPanel>
@@ -187,7 +187,7 @@
                                                     <ColumnDefinition Width="auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <CheckBox IsEnabled="{Binding DataContext.BenchmarkReadyToRun, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" Grid.Column="0" IsChecked="{Binding Path=IsEnabledByUser}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" />
+                                                <CheckBox IsEnabled="{Binding DataContext.IsBenchmarkNotRunning, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" Grid.Column="0" IsChecked="{Binding Path=IsEnabledByUser}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" />
                                                 <TextBlock Grid.Column="1" TextWrapping="Wrap" FontFamily="Segoe Ui" FontWeight="Regular" Foreground="White" FontSize="13" Text="{Binding Path=DisplayName}" Margin="0"/>
                                             </Grid>
                                             <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Hashrate:" Margin="0, 5, 0, 3" />
@@ -304,7 +304,7 @@
                                             <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,3,0,3">
                                                 <Label VerticalAlignment="Center" FontFamily="Segoe Ui" FontSize="12" Padding="0" FontWeight="Light" Content="Mode:" ToolTip="{Binding ClaymorePerformanceThrottlingDebug}"/>
                                             </StackPanel>
-                                            <ComboBox HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" Margin="5,0,0,0" IsEnabled="{Binding DataContext.BenchmarkReadyToRun, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode}"  Width="90" >
+                                            <ComboBox HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" Margin="5,0,0,0" IsEnabled="{Binding DataContext.IsBenchmarkNotRunning, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode}"  Width="90" >
 
                                             </ComboBox>
                                         </Grid>
