@@ -176,7 +176,6 @@ namespace GolemUI.ViewModel
                 val.PropertyChanged += Val_PropertyChanged;
                 GpuList?.Add(val);
             });
-            NodeName = _providerConfig?.Config?.NodeName;
             var activeCpuCount = _providerConfig?.ActiveCpuCount ?? 0;
             if (activeCpuCount <= TotalCpusCount)
                 ActiveCpusCount = activeCpuCount;
