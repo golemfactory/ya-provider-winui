@@ -42,18 +42,8 @@ namespace GolemUI.Src
         {
             get
             {
-                double totalMhs = 0.0;
-                if (_claymoreLiveStatus != null)
-                {
-                    foreach (var gpu in _claymoreLiveStatus.GPUs)
-                    {
-                        if (gpu.Value.IsEnabledByUser && gpu.Value.IsReadyForMining)
-                        {
-                            totalMhs += gpu.Value.BenchmarkSpeed;
-                        }
-                    }
-                }
-                return totalMhs;
+                var enabledAndCapableGpus = _claymoreLiveStatus?.GPUs.Values.Where(gpu => gpu.IsEnabledByUser && gpu.IsReadyForMining);
+                return enabledAndCapableGpus?.Sum(gpu => gpu.BenchmarkSpeed);
             }
         }
 

@@ -376,19 +376,8 @@ namespace GolemUI.ViewModel
         {
             get
             {
-                double totalMhs = 0.0;
-                /*if (_benchmarkService.IsRunning)
-                {
-                    return _benchmarkService.TotalMhs;
-                }*/
-                foreach (var gpu in GpuList)
-                {
-                    if (gpu.IsEnabledByUser && gpu.IsReadyForMining)
-                    {
-                        totalMhs += gpu.BenchmarkSpeed;
-                    }
-                }
-                return totalMhs;
+                var enabledAndCapableGpus = GpuList.Where(gpu => gpu.IsEnabledByUser && gpu.IsReadyForMining);
+                return enabledAndCapableGpus?.Sum(gpu => gpu.BenchmarkSpeed);
             }
         }
         public string? NodeName
