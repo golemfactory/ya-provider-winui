@@ -184,6 +184,7 @@ namespace GolemUI.ViewModel
             }
         }
 
+
         public void SwitchToSettings()
         {
             PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettings);
