@@ -26,5 +26,8 @@
     <Setting Name="DefaultProxy" Type="System.String" Scope="Application">
       <Value Profile="(Default)">staging-backend.chessongolem.app:3334</Value>
     </Setting>
+    <Setting Name="GolemWebPage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">www.golem.network</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

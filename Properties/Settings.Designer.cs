@@ -94,5 +94,14 @@ namespace GolemUI.Properties {
                 return ((string)(this["DefaultProxy"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("www.golem.network")]
+        public string GolemWebPage {
+            get {
+                return ((string)(this["GolemWebPage"]));
+            }
+        }
     }
 }
