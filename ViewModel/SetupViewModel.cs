@@ -42,7 +42,7 @@ namespace GolemUI.ViewModel
             Name,
             Benchmark,
             Enjoy
-           
+
         }
 
         public enum ExpertSteps
@@ -158,7 +158,7 @@ namespace GolemUI.ViewModel
         }
         bool AnySufficientGpusFound()
         {
-           return  _benchmarkService.Status.GPUs.Values.Where(x => x.IsReadyForMining == true).Count()>0;
+            return _benchmarkService.Status.GPUs.Values.Where(x => x.IsReadyForMining == true).Count() > 0;
 
         }
         private void OnProviderConfigChanged(object? sender, PropertyChangedEventArgs e)
