@@ -330,7 +330,7 @@ namespace GolemUI.ViewModel
             }
         }
         public bool BenchmarkIsRunning => _benchmarkService.IsRunning;
-        public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning) && IsGpuEnabled;
+        public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning);
         public bool IsBenchmarkNotRunning => !(_benchmarkService.IsRunning);
 
         public bool IsGpuEnabled
