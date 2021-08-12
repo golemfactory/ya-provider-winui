@@ -242,8 +242,11 @@ namespace GolemUI.ViewModel
             OnPropertyChanged("EnabledGpuCount");
             OnPropertyChanged("GpuCardsInfo");
             OnPropertyChanged("CpuCardsInfo");
+            OnPropertyChanged(nameof(EnabledCpuCount));
+            OnPropertyChanged(nameof(EnabledGpuCount));
             OnPropertyChanged(nameof(IsMiningReadyToRun));
             OnPropertyChanged(nameof(IsGpuEnabled));
+            OnPropertyChanged(nameof(IsCpuEnabled));
             OnPropertyChanged(nameof(GpuStatus));
             OnPropertyChanged(nameof(StartButtonExplanation));
         }
