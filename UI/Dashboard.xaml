@@ -84,7 +84,7 @@
                     <RadioButton  ToolTip="Settings"  IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=2}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}"/>
                 </StackPanel>
             </Border>
-            <Button x:Name="btnAppInformation" Style="{StaticResource NavSidepanelButtonInformation}" Click="btnAppInformation_Click" VerticalAlignment="Bottom" Margin="10,0,0,40" Grid.Row="1"/>
+            <Button x:Name="btnAppInformation" Style="{StaticResource NavSidepanelButtonInformation}" Click="btnAppInformation_Click" VerticalAlignment="Bottom" Margin="10,0,0,43" Grid.Row="1"/>
             <Border x:Name="RectBlack" Style="{StaticResource SemiTransparentBorder}" Visibility="{Binding DarkBackgroundVisible, Converter={StaticResource BoolToVisibleConverter}}" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         </Grid>
     </Border>
