@@ -413,6 +413,7 @@
       <DependentUpon>UsageDescription.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\LookupCache.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\ObservableListExtensions.cs" />
     <Compile Include="Utils\PathUtil.cs" />
     <Compile Include="Utils\PriceProviderExtension.cs" />

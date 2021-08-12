@@ -135,7 +135,7 @@ namespace GolemUI.Src
 
             {
                 double sumMoney = 0.0;
-                double shares = 0.0;
+                int shares = 0;
                 double hashRate = 0.0;
                 double sharesTimesDiff = 0.0;
                 double duration = 0.0;
@@ -145,7 +145,7 @@ namespace GolemUI.Src
                     switch (usage.Key)
                     {
                         case "golem.usage.mining.share":
-                            shares = usage.Value;
+                            shares = MathUtils.RoundToInt(usage.Value);
                             break;
                         case "golem.usage.duration_sec":
                             duration = usage.Value;
@@ -167,12 +167,15 @@ namespace GolemUI.Src
 
                 if (MiningHistoryGpu.Count == 0)
                 {
-                    MiningHistoryGpu[key] = new GPUHistoryUsage((int)(shares + 0.5), sumMoney, duration, sharesTimesDiff, hashRate);
+                    MiningHistoryGpu[key] = new GPUHistoryUsage(shares, sumMoney, duration, sharesTimesDiff, hashRate);
                 }
                 else
                 {
-                    var lastEntry = MiningHistoryGpu.Last().Value;
-                    MiningHistoryGpu[key] = new GPUHistoryUsage((int)(lastEntry.Shares + shares + 0.5), lastEntry.Earnings + sumMoney, lastEntry.Duration + duration, sharesTimesDiff, hashRate);
+                    if (shares > 0)
+                    {
+                        var lastEntry = MiningHistoryGpu.Last().Value;
+                        MiningHistoryGpu[key] = new GPUHistoryUsage(lastEntry.Shares + shares, lastEntry.Earnings + sumMoney, lastEntry.Duration + duration, sharesTimesDiff, hashRate);
+                    }
                 }
 
             }
