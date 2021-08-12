@@ -148,9 +148,6 @@
                                                 <BeginStoryboard
                                                     Storyboard="{StaticResource GlowLoop}"/>
                                             </DataTrigger.EnterActions>
-                                            <DataTrigger.ExitActions>
-                                                <StopStoryboard BeginStoryboardName="GlowLoop" />
-                                            </DataTrigger.ExitActions>
                                             <Setter Property="Effect">
                                                 <Setter.Value>
                                                     <DropShadowEffect ShadowDepth="0" Color="#0FB2AB" Opacity="0.6" />
