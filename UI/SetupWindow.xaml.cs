@@ -251,5 +251,13 @@ namespace GolemUI.UI
         {
             MessageBox.Show(selection.ToString());
         }
+
+        private void BtnNoGpuContinue_Click(object sender, RoutedEventArgs e)
+        {
+            Model!.Save();
+            var wnd = _serviceProvider.GetService(typeof(GolemUI.Dashboard)) as GolemUI.Dashboard;
+            wnd?.Show();
+            Close();
+        }
     }
 }

@@ -30,7 +30,8 @@ namespace GolemUI.ViewModel
             Start = 0,
             Noob,
             Expert,
-            OwnWallet
+            OwnWallet,
+            NoGPU
         }
 
         public enum NoobSteps
@@ -41,6 +42,7 @@ namespace GolemUI.ViewModel
             Name,
             Benchmark,
             Enjoy
+           
         }
 
         public enum ExpertSteps
@@ -49,6 +51,15 @@ namespace GolemUI.ViewModel
             Name,
             Benchmark,
             Enjoy
+
+        }
+
+        public enum GpuCardStatus
+        {
+            None,
+            BenchmarkInProgress,
+            AtLeastOneGoodGpu,
+            NoSufficientGpuDetected
         }
 
         private int _flow;
@@ -80,12 +91,8 @@ namespace GolemUI.ViewModel
             _userSettingsProvider = userSettingsProvider;
             _logger = logger;
             _remoteSettingsProvider = remoteSettingsProvider;
-
-
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
-
             _benchmarkService.PropertyChanged += OnBenchmarkChanged;
-
 
         }
 
@@ -131,19 +138,29 @@ namespace GolemUI.ViewModel
                 {
                     if (_noobStep == (int)NoobSteps.Benchmark && !BenchmarkIsRunning)
                     {
-                        NoobStep = (int)NoobSteps.Enjoy;
+                        if (AnySufficientGpusFound())
+                            NoobStep = (int)NoobSteps.Enjoy;
+                        else
+                            Flow = (int)FlowSteps.NoGPU;
                     }
                 }
                 else if (_flow == (int)FlowSteps.OwnWallet)
                 {
                     if (_expertStep == ExpertSteps.Benchmark && !BenchmarkIsRunning)
                     {
-                        ExpertStep = (int)ExpertSteps.Enjoy;
+                        if (AnySufficientGpusFound())
+                            ExpertStep = (int)ExpertSteps.Enjoy;
+                        else
+                            Flow = (int)FlowSteps.NoGPU;
                     }
                 }
             }
         }
+        bool AnySufficientGpusFound()
+        {
+           return  _benchmarkService.Status.GPUs.Values.Where(x => x.IsReadyForMining == true).Count()>0;
 
+        }
         private void OnProviderConfigChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "NodeName")
