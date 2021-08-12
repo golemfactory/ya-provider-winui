@@ -152,6 +152,10 @@ namespace GolemUI.ViewModel
                 }
 
             }
+            else
+            {
+                niceness = ((int)PerformanceThrottlingEnum.High).ToString();
+            }
             if (allEnabled)
             {
                 //If all cards are enabled benchmark prerun is not needed and no need to select cards

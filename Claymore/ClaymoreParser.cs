@@ -580,7 +580,7 @@ namespace GolemUI.Claymore
                 {
                     if (!_liveStatus.GPUs.ContainsKey(gpuNo))
                     {
-                        _liveStatus.GPUs.Add(gpuNo, new ClaymoreGpuStatus(gpuNo, true, 0));
+                        _liveStatus.GPUs.Add(gpuNo, new ClaymoreGpuStatus(gpuNo, true, (int)PerformanceThrottlingEnum.High));
                     }
                     currentStatus = _liveStatus.GPUs[gpuNo];
 
