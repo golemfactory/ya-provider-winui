@@ -175,6 +175,7 @@ namespace GolemUI.ViewModel
             LastPage = _selectedPage;
 
             _selectedPage = page;
+            OnPropertyChanged(nameof(SelectedPage));
         }
 
         public DashboardPage GetPageDescriptorFromPage(DashboardPages page)
