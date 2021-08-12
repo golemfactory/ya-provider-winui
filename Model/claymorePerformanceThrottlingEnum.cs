@@ -17,6 +17,8 @@ namespace GolemUI
 
     static class PerformanceThrottlingEnumConverter
     {
+        public const PerformanceThrottlingEnum Default = PerformanceThrottlingEnum.High;
+
         public static PerformanceThrottlingEnum FromInt(int value)
         {
             return value switch

@@ -77,7 +77,7 @@ namespace GolemUI.Claymore
         public string ClaymorePerformanceThrottlingDebug => "(debug: " + ClaymorePerformanceThrottling + ") ";
 
         [JsonIgnore]
-        public int _claymorePerformanceThrottling { get; set; } = (int)PerformanceThrottlingEnum.High;
+        public int _claymorePerformanceThrottling { get; set; } = (int)PerformanceThrottlingEnumConverter.Default;
         public int ClaymorePerformanceThrottling
         {
             get { return _claymorePerformanceThrottling; }
@@ -580,7 +580,7 @@ namespace GolemUI.Claymore
                 {
                     if (!_liveStatus.GPUs.ContainsKey(gpuNo))
                     {
-                        _liveStatus.GPUs.Add(gpuNo, new ClaymoreGpuStatus(gpuNo, true, (int)PerformanceThrottlingEnum.High));
+                        _liveStatus.GPUs.Add(gpuNo, new ClaymoreGpuStatus(gpuNo, true, (int)PerformanceThrottlingEnumConverter.Default));
                     }
                     currentStatus = _liveStatus.GPUs[gpuNo];
 

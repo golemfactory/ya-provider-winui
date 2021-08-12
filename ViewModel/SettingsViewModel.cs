@@ -154,7 +154,7 @@ namespace GolemUI.ViewModel
             }
             else
             {
-                niceness = ((int)PerformanceThrottlingEnum.High).ToString();
+                niceness = ((int)PerformanceThrottlingEnumConverter.Default).ToString();
             }
             if (allEnabled)
             {
