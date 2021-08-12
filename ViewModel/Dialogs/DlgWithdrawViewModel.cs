@@ -8,12 +8,16 @@ using System.Threading.Tasks;
 
 namespace GolemUI.ViewModel.Dialogs
 {
+    public enum DlgWithdrawStatus { Pending, Ok, Error, None };
     public class DlgWithdrawViewModel : INotifyPropertyChanged
     {
+
         public DlgWithdrawViewModel(Interfaces.IPaymentService paymentService)
         {
-
+            OnPropertyChanged(nameof(TransactionStatus));
         }
+
+        public DlgWithdrawStatus TransactionStatus => DlgWithdrawStatus.None;
         string? _withdrawAddress = "0x605Af04a3cF9a9162bcBaED33f3AfBf671064eE4";
         public string WithdrawAddress
         {
@@ -53,6 +57,7 @@ namespace GolemUI.ViewModel.Dialogs
                 _shouldTransferAllTokensToL1 = value;
             }
         }
+        public string WithdrawTextStatus => "Withdraw success";
 
         public double MinAmount => 0;
         public double MaxAmount => _availableGLM;

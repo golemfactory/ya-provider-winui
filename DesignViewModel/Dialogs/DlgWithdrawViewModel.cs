@@ -1,4 +1,5 @@
 ﻿using GolemUI.Interfaces;
+using GolemUI.ViewModel.Dialogs;
 using Nethereum.Util;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace GolemUI.DesignViewModel.Dialogs
 {
     public class DlgWithdrawViewModel
     {
+        public DlgWithdrawStatus TransactionStatus => DlgWithdrawStatus.Ok;
+        public string WithdrawTextStatus => "Withdraw success";
         string? _withdrawAddress = "0x605Af04a3cF9a9162bcBaED33f3AfBf671064eE4";
         public string WithdrawAddress
         {
@@ -47,6 +50,7 @@ namespace GolemUI.DesignViewModel.Dialogs
         public string TxFeeUSD => "$" + 2.46f.ToString("f2");
         public string AmountGLMasString => Amount.ToString("f4");
         public string AmountUSDasString => "$" + 99f.ToString("f4");
+
 
         bool _shouldTransferAllTokensToL1 = true;
         public bool ShouldTransferAllTokensToL1
