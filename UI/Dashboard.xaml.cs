@@ -124,24 +124,24 @@ namespace GolemUI
             sb.Begin();
         }
 
+        public async Task<bool> RequestCloseAsync()
+        {
+            //Disable logging in debugwindow to prevent problems with invoke 
+            DebugWindow.EnableLoggingToDebugWindow = false;
+
+            //Stop provider
+            await _processControler.Stop();
+
+            //force exit know after trying to gently stop yagna (which may succeeded or failed)
+            this._forceExit = true;
+            this.Close();
+            return false;
+        }
+
         private bool _forceExit = false;
         public void RequestClose()
         {
-            Task.Run(async () =>
-            {
-                //Disable logging in debugwindow to prevent problems with invoke 
-                DebugWindow.EnableLoggingToDebugWindow = false;
-
-                //Stop provider
-                await _processControler.Stop();
-
-                this.Dispatcher.Invoke(() =>
-                {
-                    //force exit know after trying to gently stop yagna (which may succeeded or failed)
-                    this._forceExit = true;
-                    this.Close();
-                });
-            });
+            Task.Run(() => this.Dispatcher.Invoke(async () => await RequestCloseAsync()));
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
