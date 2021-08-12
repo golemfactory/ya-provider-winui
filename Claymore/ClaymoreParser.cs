@@ -77,7 +77,7 @@ namespace GolemUI.Claymore
         public string ClaymorePerformanceThrottlingDebug => "(debug: " + ClaymorePerformanceThrottling + ") ";
 
         [JsonIgnore]
-        public int _claymorePerformanceThrottling { get; set; }
+        public int _claymorePerformanceThrottling { get; set; } = (int)PerformanceThrottlingEnum.High;
         public int ClaymorePerformanceThrottling
         {
             get { return _claymorePerformanceThrottling; }
