@@ -49,15 +49,15 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="Mining ablity " Foreground="#aaa" Margin="0, 5" />
                                 <Grid Visibility="{Binding Path=IsPreInitialization, Converter={StaticResource BoolToVisibleConverter}}">
-                                    <ProgressBar IsIndeterminate="True" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                    <ProgressBar Foreground="Gray" IsIndeterminate="True" Margin="0, 5" BorderThickness="0" Background="Transparent" />
                                     <TextBlock Foreground="#aaa"  VerticalAlignment="Center">initializing...</TextBlock>
                                 </Grid>
                                 <Grid Visibility="{Binding Path=IsInitialization, Converter={StaticResource BoolToVisibleConverter}}">
-                                    <ProgressBar Minimum="0" Maximum="1" Value="{Binding Path=DagProgress}" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                    <ProgressBar Foreground="Gray" Minimum="0" Maximum="1" Value="{Binding Path=DagProgress}" Margin="0, 5" BorderThickness="0" Background="Transparent" />
                                     <TextBlock Foreground="#aaa"  VerticalAlignment="Center">initializing...</TextBlock>
                                 </Grid>
                                 <Grid Visibility="{Binding Path=IsEstimation, Converter={StaticResource BoolToVisibleConverter}}">
-                                    <ProgressBar IsIndeterminate="True" Minimum="0" Maximum="1" Margin="0, 5" BorderThickness="0" Background="Transparent" />
+                                    <ProgressBar Foreground="Gray" IsIndeterminate="True" Minimum="0" Maximum="1" Margin="0, 5" BorderThickness="0" Background="Transparent" />
                                     <TextBlock Foreground="#aaa"  VerticalAlignment="Center">estimating...</TextBlock>
                                 </Grid>
 
@@ -444,13 +444,13 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <StackPanel MinWidth="400" Margin="20,40" Grid.Column="1" HorizontalAlignment="Stretch">
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 0" VerticalAlignment="Center">Calculating your hash power</TextBlock>
-                                                <animated:WorkingAnimIcon VerticalAlignment="Center"
-                                                 Height="15"
+                                                <animated:WorkingAnimIcon VerticalAlignment="Top" CircleCount="3"
+                                                 Height="10"
                                                  AnimationFPS="60"
                                                  WaveWidth="1.2"
-                                                 Width="100"
-                                                Margin="10, 0, 0, 3"
-                                            />
+                                                 Width="20"
+                                                 CircleSize="5.0"
+                                                Margin="5,10,0,0" />
                                             </StackPanel>
                                             <UniformGrid Rows="1" Columns="2">
                                                 <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{DynamicResource DTGPU}">
@@ -695,7 +695,16 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl VerticalAlignment="Top" Content="{DynamicResource Benchmark_Step_icon}" Margin="6,20,0,0"/>
                                         <StackPanel MinWidth="400" Margin="10,20,0,0" Grid.Column="1" HorizontalAlignment="Stretch">
-                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="5, 0, 0 15">Calculating your hash power</TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 0" VerticalAlignment="Center">Calculating your hash power</TextBlock>
+                                                <animated:WorkingAnimIcon VerticalAlignment="Top" CircleCount="3"
+                                                 Height="10"
+                                                 AnimationFPS="60"
+                                                 WaveWidth="1.2"
+                                                 Width="20"
+                                                 CircleSize="5.0"
+                                                Margin="5,10,0,0" />
+                                            </StackPanel>
                                             <UniformGrid Rows="1" Columns="2">
                                                 <ListBox Background="Transparent" Margin="0,10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
                                                     <ListBox.ItemsPanel>

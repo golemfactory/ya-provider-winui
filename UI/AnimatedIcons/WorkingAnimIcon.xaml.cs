@@ -39,7 +39,7 @@ namespace GolemUI.UI.AnimatedIcons
 
         // Using a DependencyProperty as the backing store for MyVarIconX.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AnimationFPSProperty =
-            DependencyProperty.Register("AnimationFPS", typeof(double), typeof(WorkingAnimIcon), new UIPropertyMetadata(60.0));
+            DependencyProperty.Register("AnimationFPS", typeof(double), typeof(WorkingAnimIcon), new UIPropertyMetadata(30.0));
 
 
         public double WaveWidth
@@ -58,9 +58,27 @@ namespace GolemUI.UI.AnimatedIcons
             set { SetValue(CircleCountProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for MyVarIconX.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CircleCountProperty =
-            DependencyProperty.Register("CircleCount", typeof(int), typeof(WorkingAnimIcon), new UIPropertyMetadata(10));
+            DependencyProperty.Register("CircleCount", typeof(int), typeof(WorkingAnimIcon), new UIPropertyMetadata(3));
+
+        public double CircleSize
+        {
+            get { return (double)GetValue(CircleSizeProperty); }
+            set { SetValue(CircleSizeProperty, value); }
+        }
+
+        public static readonly DependencyProperty CircleSizeProperty =
+            DependencyProperty.Register("CircleSize", typeof(double), typeof(WorkingAnimIcon), new UIPropertyMetadata(5.0));
+
+
+        public double DelayBetweenWaves
+        {
+            get { return (double)GetValue(DelayBetweenWavesProperty); }
+            set { SetValue(DelayBetweenWavesProperty, value); }
+        }
+
+        public static readonly DependencyProperty DelayBetweenWavesProperty =
+            DependencyProperty.Register("DelayBetweenWaves", typeof(double), typeof(WorkingAnimIcon), new UIPropertyMetadata(1.0));
 
 
         List<Ellipse> _circles = new List<Ellipse>();
@@ -77,16 +95,7 @@ namespace GolemUI.UI.AnimatedIcons
             _animationTimer = new DispatcherTimer(DispatcherPriority.ContextIdle, Dispatcher);
             _animationTimer.Interval = TimeSpan.FromMilliseconds(1000.0 / AnimationFPS);
 
-            for (int i = 0; i < CircleCount; i++)
-            {
-                var ellipse = new Ellipse();
-                ellipse.Width = 20;
-                ellipse.Height = 20;
-                ellipse.VerticalAlignment = VerticalAlignment.Center;
-                ellipse.Fill = Brushes.White;
-                _circles.Add(ellipse);
-                cvAnim.Children.Add(ellipse);
-            }
+
         }
 
         private void Start()
@@ -112,10 +121,24 @@ namespace GolemUI.UI.AnimatedIcons
 
         private void UpdateAnimTick()
         {
-            double _ellipseMaxSizeX = cvAnim.ActualWidth / _circles.Count;
-            double _ellipseMaxSizeY = cvAnim.ActualHeight / 2.0;
+            //double _ellipseMaxSizeX = cvAnim.ActualWidth / _circles.Count;
+            //double _ellipseMaxSizeY = cvAnim.ActualHeight / 2.0;
 
-            double _ellipseMaxSize = Math.Min(_ellipseMaxSizeY, _ellipseMaxSizeX);
+            if (cvAnim.Children.Count == 0)
+            {
+                for (int i = 0; i < CircleCount; i++)
+                {
+                    var ellipse = new Ellipse();
+                    ellipse.Width = 20;
+                    ellipse.Height = 20;
+                    ellipse.VerticalAlignment = VerticalAlignment.Center;
+                    ellipse.Fill = Brushes.White;
+                    _circles.Add(ellipse);
+                    cvAnim.Children.Add(ellipse);
+                }
+            }
+
+            double _ellipseMaxSize = CircleSize;
 
             var elapsedTime = DateTime.Now - lastTime;
             lastTime = DateTime.Now;
@@ -124,11 +147,11 @@ namespace GolemUI.UI.AnimatedIcons
             totalElapsed = Math.Max(Math.Min(totalElapsed, 200.0), 0.0);
             totalElapsed /= _animationLength;
 
-            _animationPosition += totalElapsed / 1000.0;
+            _animationPosition += totalElapsed / 1400.0;
 
             if (_animationPosition >= 1.0)
             {
-                _animationPosition -= 1.0; //reset animation state to 0
+                _animationPosition = _animationPosition - (1.0 + DelayBetweenWaves); //reset animation state to 0
             }
 
             double centerWavePos = _animationPosition * 2.0;
