@@ -54,9 +54,9 @@
                     <Grid>
                         <StackPanel Margin="79,30">
                             <Label Content="Withdraw options" FontSize="14" Margin="0,0,0,20" Padding="0"/>
-                            <UniformGrid Height="42"  Columns="2">
+                            <UniformGrid Height="48"  Columns="2">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                                    <StackPanel>
+                                    <StackPanel VerticalAlignment="Bottom">
                                         <Label Foreground="#99b" Padding="0">Available</Label>
                                         <StackPanel Orientation="Horizontal">
                                             <Label  Padding="0" Margin="0"  VerticalAlignment="Bottom"  FontWeight="Bold" FontSize="20"  Content="{Binding AvailableGLM, Mode=OneWay}" ContentStringFormat="{}{0:F4}"/>
