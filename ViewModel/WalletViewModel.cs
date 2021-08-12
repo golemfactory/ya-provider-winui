@@ -132,7 +132,7 @@ namespace GolemUI.ViewModel
 
         public string Tickler { get; private set; }
 
-        public bool IsInternal => _paymentService.Address == _paymentService.InternalAddress;
+        public bool IsInternal => true;// _paymentService.Address == _paymentService.InternalAddress; //todo: change back
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string? propertyName = null)
@@ -144,6 +144,7 @@ namespace GolemUI.ViewModel
         }
 
         public DlgEditAddressViewModel EditModel => new DlgEditAddressViewModel(_paymentService);
+        public DlgWithdrawViewModel WithDrawModel => new DlgWithdrawViewModel(_paymentService);
 
         public void Dispose()
         {
