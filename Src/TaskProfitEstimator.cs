@@ -13,8 +13,6 @@ namespace GolemUI.Src
 {
     class TaskProfitEstimator : ITaskProfitEstimator
     {
-
-
         private double? _estimatedEarningsPerSecond;
         public double? EstimatedEarningsPerSecond
         {

@@ -31,7 +31,7 @@ namespace GolemUI.Src
                 if (dayIncomePerGH is double v)
                 {
 
-                    return Convert.ToDouble(_priceProvider.CoinValue(Convert.ToDecimal(v * 0.001 * (settings.RequestorCoeff ?? 1.0)), coin));
+                    return hashRate * Convert.ToDouble(_priceProvider.CoinValue(Convert.ToDecimal(v * 0.001 * (settings.RequestorCoeff ?? 1.0)), coin));
                 }
             }
             return 0;
