@@ -36,7 +36,7 @@ namespace GolemUI.Src
 
 
         public List<double> HashrateHistory { get; set; } = new List<double>();
-        public Dictionary<DateTime, GPUHistoryUsage> MiningHistoryGpu { get; set; } = new Dictionary<DateTime, GPUHistoryUsage>();
+        public SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpu { get; set; } = new SortedDictionary<DateTime, GPUHistoryUsage>();
         public PrettyChartData HashrateChartData { get; set; } = new PrettyChartData();
 
 
