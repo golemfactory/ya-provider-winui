@@ -240,7 +240,7 @@ namespace GolemUI.ViewModel
             return true;
         }
 
-        public float? TotalHashRate => _benchmarkService.TotalMhs;
+        public double? TotalHashRate => _benchmarkService.TotalMhs;
 
         public double? ExpectedProfit
         {
@@ -249,7 +249,7 @@ namespace GolemUI.ViewModel
                 var totalHr = TotalHashRate;
                 if (totalHr != null)
                 {
-                    return (double)_priceProvider.CoinValue((decimal)_profitEstimator.HashRateToCoinPerDay((double)totalHr), IPriceProvider.Coin.ETH);
+                    return _profitEstimator.HashRateToUSDPerDay(totalHr.Value);
                 }
                 return null;
             }

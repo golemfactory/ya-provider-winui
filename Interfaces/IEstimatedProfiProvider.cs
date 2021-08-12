@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +7,10 @@ using System.Threading.Tasks;
 
 namespace GolemUI.Interfaces
 {
+    // Estimates profit from hash rate.
     public interface IEstimatedProfitProvider
     {
-        public enum Coin
-        {
-            ETH,
-            ETC
-        }
-
-        double HashRateToCoinPerDay(double hashRate, Coin coin = Coin.ETH);
+        public double HashRateToUSDPerDay(double hashRate, Coin coin = Coin.ETH);
     }
 }
+

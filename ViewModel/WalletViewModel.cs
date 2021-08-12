@@ -21,6 +21,7 @@ namespace GolemUI.ViewModel
         private IPaymentService _paymentService;
         private Command.Provider _provider;
         private readonly IProviderConfig? _providerConfig;
+        private readonly ITaskProfitEstimator _taskProfitEstimator;
         private PropertyChangedEventHandler _handler;
 
         public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
@@ -31,12 +32,14 @@ namespace GolemUI.ViewModel
         private decimal _pendingAmount;
         private decimal _glmPerDay;
 
-        public WalletViewModel(IPriceProvider priceProvider, IPaymentService paymentService, Command.Provider provider, IProviderConfig providerConfig)
+        public WalletViewModel(IPriceProvider priceProvider, IPaymentService paymentService, Command.Provider provider, IProviderConfig providerConfig,
+            ITaskProfitEstimator taskProfitEstimator)
         {
             _priceProvider = priceProvider;
             _paymentService = paymentService;
             _provider = provider;
             _providerConfig = providerConfig;
+            _taskProfitEstimator = taskProfitEstimator;
 
             var wallet = _providerConfig?.Config?.Account;
 
@@ -53,6 +56,14 @@ namespace GolemUI.ViewModel
             }
             _handler = this.OnPaymentStateChanged;
             paymentService.PropertyChanged += _handler;
+
+            _taskProfitEstimator.PropertyChanged += OnProfitEstimatorChanged;
+        }
+
+        private void OnProfitEstimatorChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged("GlmPerDay");
+            OnPropertyChanged("UsdPerDay");
         }
 
         public void RequestDarkBackgroundVisibilityChange(bool shouldBackgroundBeVisible)
@@ -108,27 +119,16 @@ namespace GolemUI.ViewModel
             get { return _amount; }
         }
 
-        public decimal AmountUSD
-        {
-            get { return _priceProvider.CoinValue(_amount, IPriceProvider.Coin.GLM); }
-        }
+        public decimal AmountUSD => _priceProvider.CoinValue(_amount, Coin.GLM);
 
-        public decimal PendingAmount
-        {
-            get { return _pendingAmount; }
-        }
 
-        public decimal PendingAmountUSD => _priceProvider.CoinValue(_pendingAmount, IPriceProvider.Coin.GLM);
+        public decimal PendingAmount => _pendingAmount;
 
-        public decimal GlmPerDay
-        {
-            get
-            {
-                return _glmPerDay;
-            }
-        }
+        public decimal PendingAmountUSD => _priceProvider.CoinValue(_pendingAmount, Coin.GLM);
 
-        public decimal UsdPerDay => _priceProvider.CoinValue(_glmPerDay, IPriceProvider.Coin.GLM);
+        public decimal GlmPerDay => (decimal)((_taskProfitEstimator.EstimatedEarningsPerSecond ?? 0) * 3600 * 24);
+
+        public decimal UsdPerDay => _priceProvider.CoinValue(GlmPerDay, Coin.GLM);
 
         public string Tickler { get; private set; }
 

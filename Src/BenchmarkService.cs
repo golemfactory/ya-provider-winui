@@ -38,7 +38,14 @@ namespace GolemUI.Src
 
         public bool _requestStop = false;
 
-        public float? TotalMhs => _claymoreLiveStatus == null ? null : (from gpus in _claymoreLiveStatus?.GPUs.Values select gpus.BenchmarkSpeed).Sum();
+        public double? TotalMhs
+        {
+            get
+            {
+                var enabledAndCapableGpus = _claymoreLiveStatus?.GPUs.Values.Where(gpu => gpu.IsEnabledByUser && gpu.IsReadyForMining);
+                return enabledAndCapableGpus?.Sum(gpu => gpu.BenchmarkSpeed);
+            }
+        }
 
         private readonly double CLAYMORE_GPU_INFO_TIMEOUT = 10.0;
         private readonly double CLAYMORE_TOTAL_BENCHMARK_TIMEOUT = 200.0;
@@ -195,7 +202,7 @@ namespace GolemUI.Src
                         cc.Stop();
                         _claymoreLiveStatus.ErrorMsg = "Stopped by user";
                         OnPropertyChanged("Status");
-                        _logger.LogError("PreBenchmark stopped by user.");
+                        _logger.LogError("Benchmark stopped by user.");
                         break;
                     }
                     if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT && !_claymoreLiveStatus.GPUInfosParsed)
@@ -229,11 +236,18 @@ namespace GolemUI.Src
                     _claymoreLiveStatus.BenchmarkFinished = true;
                     foreach (var gpu in _claymoreLiveStatus.GPUs.Values)
                     {
-                        gpu.SetStepFinished();
-                        if (!gpu.IsReadyForMining && !gpu.IsOperationStopped)
+                        if (_requestStop)
                         {
-                            gpu.GPUError = "Timeout";
+                            gpu.GPUError = "Benchmark stopped by user";
                         }
+                        else
+                        {
+                            if (!gpu.IsReadyForMining && !gpu.IsOperationStopped)
+                            {
+                                gpu.GPUError = "Timeout";
+                            }
+                        }
+                        gpu.SetStepFinished();
                     }
                 }
                 OnPropertyChanged("IsRunning");

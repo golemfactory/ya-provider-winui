@@ -90,7 +90,7 @@
                     <Label VerticalAlignment="Bottom" Content="Estimated profit: " FontSize="15" FontWeight="Light" Margin="0" Padding="0"/>
                     <TextBlock VerticalAlignment="Bottom" FontFamily="Segoe UI Black" FontSize="24" Margin="1, 0, 0, 0" Padding="0" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
                     <Label VerticalAlignment="Bottom" Content="Current Hash rate: "  FontSize="15" FontWeight="Light"  Padding="0" Margin="50,0,0,0"/>
-                    <TextBlock VerticalAlignment="Bottom"   FontFamily="Segoe UI Black" FontSize="24" Margin="15, 0, 0, 0" Foreground="#fff" Text="{Binding Path=Hashrate, Converter={StaticResource HashRateConverter}}"/>
+                    <TextBlock VerticalAlignment="Bottom"   FontFamily="Segoe UI Black" FontSize="24" Margin="15, 0, 0, 0" Foreground="#fff" Text="{Binding Path=HashRate, Converter={StaticResource HashRateConverter}}"/>
                 </StackPanel>
 
 
@@ -189,7 +189,7 @@
                                                     <ColumnDefinition Width="auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <CheckBox IsEnabled="{Binding DataContext.IsBenchmarkNotRunning, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" Grid.Column="0" IsChecked="{Binding Path=IsEnabledByUser, Delay=2000}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" />
+                                                <CheckBox IsEnabled="{Binding DataContext.IsBenchmarkNotRunning, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" Grid.Column="0" IsChecked="{Binding Path=IsEnabledByUser}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" />
                                                 <TextBlock Grid.Column="1" TextWrapping="Wrap" FontFamily="Segoe Ui" FontWeight="Regular" Foreground="White" FontSize="13" Text="{Binding Path=DisplayName}" Margin="0"/>
                                             </Grid>
                                             <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Hashrate:" Margin="0, 5, 0, 3" />
@@ -306,7 +306,7 @@
                                             <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,3,0,3">
                                                 <Label VerticalAlignment="Center" FontFamily="Segoe Ui" FontSize="12" Padding="0" FontWeight="Light" Content="Mode:" ToolTip="{Binding ClaymorePerformanceThrottlingDebug}"/>
                                             </StackPanel>
-                                            <ComboBox HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" Margin="5,0,0,0" IsEnabled="{Binding DataContext.IsBenchmarkNotRunning, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode, Delay=2000}"  Width="90" >
+                                            <ComboBox HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" Margin="5,0,0,0" IsEnabled="{Binding DataContext.IsBenchmarkNotRunning, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode}"  Width="90" >
 
                                             </ComboBox>
                                         </Grid>

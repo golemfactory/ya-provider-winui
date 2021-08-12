@@ -4,14 +4,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GolemUI.Model;
 
 namespace GolemUI.Interfaces
 {
-    public interface IStatusProvider : INotifyPropertyChanged
+    public interface ITaskProfitEstimator : INotifyPropertyChanged
     {
-        DateTime? LastUpdate { get; }
+        public double? EstimatedEarningsPerSecond { get; }
 
-        ICollection<ActivityState> Activities { get; }
+        public string EstimatedEarningsMessage { get; }
     }
 }

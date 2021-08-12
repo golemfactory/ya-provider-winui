@@ -1,5 +1,6 @@
 ﻿using GolemUI.Interfaces;
 using GolemUI.Model;
+using GolemUI.Utils;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace GolemUI.Src
 
 
         public List<double> HashrateHistory { get; set; } = new List<double>();
-        public Dictionary<DateTime, GPUHistoryUsage> MiningHistoryGpu { get; set; } = new Dictionary<DateTime, GPUHistoryUsage>();
+        public SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpu { get; set; } = new SortedDictionary<DateTime, GPUHistoryUsage>();
         public PrettyChartData HashrateChartData { get; set; } = new PrettyChartData();
 
 
@@ -43,76 +44,10 @@ namespace GolemUI.Src
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private double? _estimatedEarningsPerSecond;
-        public double? EstimatedEarningsPerSecond
-        {
-            get => _estimatedEarningsPerSecond;
-            set
-            {
-                _estimatedEarningsPerSecond = value;
-                NotifyChanged();
-            }
-        }
+        private Dictionary<Coin, double> _currentRequestorPayout = new Dictionary<Coin, double>();
 
-        private string _estimatedEarningsMessage = "";
-        public string EstimatedEarningsMessage
-        {
-            get => _estimatedEarningsMessage;
-            set
-            {
-                _estimatedEarningsMessage = value;
-                NotifyChanged();
-            }
-        }
 
-        public void ComputeEstimatedEarnings()
-        {
-            /*
-             * TODO: this should be more
-             */
-            if (MiningHistoryGpu.Count > 1)
-            {
-                DateTime timeStart = MiningHistoryGpu.First().Key;
-                DateTime timeEnd = MiningHistoryGpu.Last().Key;
-                GPUHistoryUsage earningsStart = MiningHistoryGpu.First().Value;
-                GPUHistoryUsage earningsEnd = MiningHistoryGpu.Last().Value;
 
-                double diffEarnings = earningsEnd.Earnings - earningsStart.Earnings;
-                double diffTime = (timeEnd - timeStart).TotalSeconds;
-                if (diffEarnings > 0 && diffTime > 0)
-                {
-                    var glmValue = diffEarnings / diffTime;
-                    EstimatedEarningsPerSecond = glmValue;
-
-                    int totalSecs = (int)diffTime;
-                    if (totalSecs < 0)
-                    {
-                        _logger.LogError("totalSecs < 0 which cannot be possible");
-                    }
-                    int hours = totalSecs / 3600;
-                    int minutes = (totalSecs - hours * 3600) / 60;
-
-                    int shares = earningsEnd.Shares - earningsStart.Shares;
-
-                    if (hours == 0)
-                    {
-                        EstimatedEarningsMessage = $"Estimation based on {shares} shares mined during last {minutes} minutes.";
-                    }
-                    else if (hours > 0)
-                    {
-                        EstimatedEarningsMessage = $"Estimation based on {shares} shares mined during last {hours} hours and {minutes} minutes";
-                    }
-                }
-                else
-                {
-                    EstimatedEarningsMessage = $"Estimation in progress...";
-                }
-            }
-            else
-            {
-                EstimatedEarningsMessage = $"No estimation available";
-            }
-        }
 
         public string? _activeAgreementID = null;
         public string? ActiveAgreementID
@@ -126,17 +61,31 @@ namespace GolemUI.Src
         }
 
         Dictionary<string, double>? UsageVectorsAsDict { get; set; } = null;
+
+        private IHistoryDataProvider.EarningsStatsType? _stats = null;
+        public IHistoryDataProvider.EarningsStatsType? EarningsStats
+        {
+            get => _stats;
+            set
+            {
+                _stats = value;
+                NotifyChanged();
+            }
+        }
+
         IProcessControler _processControler;
         ILogger<HistoryDataProvider> _logger;
-        IPriceProvider _priveProvider;
+        IPriceProvider _priceProvider;
 
-        public HistoryDataProvider(IStatusProvider statusProvider, IProcessControler processControler, ILogger<HistoryDataProvider> logger, IPriceProvider priveProvider)
+        public HistoryDataProvider(IStatusProvider statusProvider, IProcessControler processControler, ILogger<HistoryDataProvider> logger, IPriceProvider priceProvider)
         {
-            _priveProvider = priveProvider;
+            _priceProvider = priceProvider;
             _statusProvider = statusProvider;
             statusProvider.PropertyChanged += StatusProvider_PropertyChanged;
             _processControler = processControler;
             _logger = logger;
+
+            _agreementLookup = LookupCache<string, Dictionary<string, double>?>.FromFunc(agreementID => _processControler.GetUsageVectors(agreementID));
         }
 
         Task? _getUsageVectorsTask = null;
@@ -152,6 +101,10 @@ namespace GolemUI.Src
         private async void GetUsageVectorAsync(string? agreementID)
         {
             UsageVectorsAsDict = await _processControler.GetUsageVectors(agreementID);
+            if (UsageVectorsAsDict != null && UsageVectorsAsDict.TryGetValue("golem.usage.mining.hash", out double miningHashParameter))
+            {
+                _currentRequestorPayout[Coin.ETH] = miningHashParameter;
+            }
             _getUsageVectorsTask = null;
         }
 
@@ -161,7 +114,7 @@ namespace GolemUI.Src
             {
                 MiningHistoryGpu.Clear();
                 HashrateChartData.Clear(); //clear chart data
-                EstimatedEarningsPerSecond = null;
+                EarningsStats = null;
 
                 ActiveAgreementID = gminerState.AgreementId;
                 GetUsageVectors(ActiveAgreementID);
@@ -200,9 +153,15 @@ namespace GolemUI.Src
             }
         }
 
-        private void CheckForActivityEarningChange(Model.ActivityState gminerState)
+        private LookupCache<string, Dictionary<string, double>?> _agreementLookup;
+        private async void CheckForActivityEarningChange(Model.ActivityState gminerState)
         {
-            if (UsageVectorsAsDict != null && gminerState?.Usage != null)
+            Dictionary<string, double>? usageVector = null;
+            if (gminerState.AgreementId != null)
+            {
+                usageVector = await _agreementLookup.Get(gminerState.AgreementId);
+            }
+            if (usageVector != null && gminerState?.Usage != null)
             {
                 double sumMoney = 0.0;
                 double shares = 0.0;
@@ -228,13 +187,42 @@ namespace GolemUI.Src
                             break;
                     }
 
-                    if (UsageVectorsAsDict.ContainsKey(usage.Key))
+                    if (usageVector.ContainsKey(usage.Key))
                     {
-                        sumMoney += UsageVectorsAsDict[usage.Key] * usage.Value;
+                        sumMoney += usageVector[usage.Key] * usage.Value;
                     }
                 }
-                MiningHistoryGpu.Add(DateTime.Now, new GPUHistoryUsage((int)(shares + 0.5), sumMoney, duration, sharesTimesDiff, hashRate));
-                ComputeEstimatedEarnings();
+                DateTime key = DateTime.Now;
+                MiningHistoryGpu[key] = new GPUHistoryUsage((int)(shares + 0.5), sumMoney, duration, sharesTimesDiff, hashRate);
+
+                _computeEstimatedEarnings();
+            }
+        }
+
+        private void _computeEstimatedEarnings()
+        {
+            if (MiningHistoryGpu.Count > 3)
+            {
+                DateTime timeStart = MiningHistoryGpu.First().Key;
+                DateTime timeEnd = MiningHistoryGpu.Last().Key;
+                GPUHistoryUsage earningsStart = MiningHistoryGpu.First().Value;
+                GPUHistoryUsage earningsEnd = MiningHistoryGpu.Last().Value;
+
+                double diffEarnings = earningsEnd.Earnings - earningsStart.Earnings;
+                TimeSpan diffTime = timeEnd - timeStart;
+                int shares = earningsEnd.Shares - earningsStart.Shares;
+
+                double currentHashrate = MiningHistoryGpu.Last().Value.HashRate;
+                if (shares > 0 && diffEarnings > 0 && diffTime.TotalSeconds > 0)
+                {
+                    var glmValue = diffEarnings / diffTime.TotalSeconds;
+                    EarningsStats = new IHistoryDataProvider.EarningsStatsType()
+                    {
+                        Time = diffTime,
+                        Shares = shares,
+                        AvgGlmPerSecond = glmValue
+                    };
+                }
             }
         }
 
@@ -242,10 +230,15 @@ namespace GolemUI.Src
         {
             if (e.PropertyName == "Activities")
             {
-                var act = _statusProvider.Activities;
+                ICollection<ActivityState>? act = _statusProvider.Activities;
 
-                Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
-                var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
+                if (act == null)
+                {
+                    throw new Exception("Activities cannot be null!");
+                }
+
+                //Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
+                //var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
 
                 foreach (ActivityState actState in _statusProvider.Activities ?? new List<ActivityState>())
                 {
@@ -257,6 +250,15 @@ namespace GolemUI.Src
                     }
                 }
             }
+        }
+
+        public double? GetCurrentRequestorPayout(Coin coin = Coin.ETH)
+        {
+            if (_currentRequestorPayout.TryGetValue(coin, out double v))
+            {
+                return v;
+            }
+            return null;
         }
 
         private void NotifyChanged([CallerMemberName] string? propertyName = null)

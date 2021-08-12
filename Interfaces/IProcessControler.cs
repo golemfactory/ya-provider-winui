@@ -18,8 +18,10 @@ namespace GolemUI.Interfaces
         public Task<bool> Prepare();
 
 
+        // TODO: Remove this
         public Task<YagnaAgreement?> GetAgreement(string agreementID);
 
+        // TODO: Remove this.
         public Task<Dictionary<string, double>?> GetUsageVectors(string? agreementID);
 
         /// <summary>

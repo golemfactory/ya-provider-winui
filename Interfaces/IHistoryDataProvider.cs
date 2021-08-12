@@ -10,15 +10,22 @@ namespace GolemUI.Interfaces
 {
     public interface IHistoryDataProvider : INotifyPropertyChanged
     {
+        public class EarningsStatsType
+        {
+            public int Shares { get; set; }
+            public TimeSpan Time { get; set; }
+
+            public double AvgGlmPerSecond { get; set; }
+
+        }
+
         PrettyChartData HashrateChartData { get; set; }
 
         public string? ActiveAgreementID { get; set; }
 
-        public double? EstimatedEarningsPerSecond { get; set; }
+        public EarningsStatsType? EarningsStats { get; set; }
 
-        public string EstimatedEarningsMessage { get; set; }
-
-
+        public double? GetCurrentRequestorPayout(Coin coin = Coin.ETH);
     }
 }
 

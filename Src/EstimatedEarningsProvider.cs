@@ -1,5 +1,6 @@
 ﻿using GolemUI.Interfaces;
 using GolemUI.Model;
+using GolemUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,54 +13,39 @@ namespace GolemUI.Src
     class EstimatedEarningsProvider : IEstimatedProfitProvider
     {
         IRemoteSettingsProvider _remoteSettingsProvider;
+        IPriceProvider _priceProvider;
+        IHistoryDataProvider _historyDataProvider;
 
-        public EstimatedEarningsProvider(IRemoteSettingsProvider remoteSettingsProvider)
+        public EstimatedEarningsProvider(IRemoteSettingsProvider remoteSettingsProvider, IPriceProvider priceProvider, IHistoryDataProvider historyDataProvider)
         {
             _remoteSettingsProvider = remoteSettingsProvider;
+            _priceProvider = priceProvider;
+            _historyDataProvider = historyDataProvider;
         }
 
-        double? overrideDayEtcPerGH = null;
-        double? overrideDayEthPerGH = null;
-
-        public void UpdateCurrentRequestorPayout(double pricePerGhDay, IEstimatedProfitProvider.Coin coin = IEstimatedProfitProvider.Coin.ETH)
+        private double _estimateFromSettings(double hashRate, Coin coin)
         {
-            switch (coin)
+            if (_remoteSettingsProvider.LoadRemoteSettings(out var settings))
             {
-                case IEstimatedProfitProvider.Coin.ETC:
-                    overrideDayEtcPerGH = pricePerGhDay;
-                    break;
-                case IEstimatedProfitProvider.Coin.ETH:
-                    overrideDayEthPerGH = pricePerGhDay;
-                    break;
-                default:
-                    break;
+                var dayIncomePerGH = coin switch { Coin.ETC => settings.DayEtcPerGH, Coin.ETH => settings.DayEthPerGH, _ => null };
+                if (dayIncomePerGH is double v)
+                {
+
+                    return Convert.ToDouble(_priceProvider.CoinValue(Convert.ToDecimal(v * 0.001 * (settings.RequestorCoeff ?? 1.0)), coin));
+                }
             }
+            return 0;
         }
 
-        double IEstimatedProfitProvider.HashRateToCoinPerDay(double hashRate, IEstimatedProfitProvider.Coin coin)
+        public double HashRateToUSDPerDay(double hashRate, Coin coin)
         {
-            RemoteSettings rs;
-            _remoteSettingsProvider.LoadRemoteSettings(out rs);
-
-            double? pricePerGH;
-            switch (coin)
+            if (_historyDataProvider.GetCurrentRequestorPayout(coin) is double payout)
             {
-                case IEstimatedProfitProvider.Coin.ETC:
-                    pricePerGH = overrideDayEtcPerGH != null ? overrideDayEtcPerGH : rs.DayEtcPerGH;
-                    break;
-                case IEstimatedProfitProvider.Coin.ETH:
-                    pricePerGH = overrideDayEthPerGH != null ? overrideDayEthPerGH : rs.DayEthPerGH;
-                    break;
-                default:
-                    return 0;
+                var dailyUSDPerMh = _priceProvider.GLMPerGhsToUSDPerDay(payout);
+                return dailyUSDPerMh * hashRate ?? 0.0;
             }
-
-            return rs.DayEtcPerGH * hashRate * rs.RequestorCoeff * 0.001 ?? 0.0;
-
+            return _estimateFromSettings(hashRate, coin);
         }
-
-
-        //
     }
 
 }

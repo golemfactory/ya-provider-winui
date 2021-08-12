@@ -1,7 +1,8 @@
 ﻿using GolemUI.Interfaces;
-
+using GolemUI.Model;
 using GolemUI.Src;
 using GolemUI.Src.AppNotificationService;
+using GolemUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,8 @@ namespace GolemUI.ViewModel
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
-            IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, IRemoteSettingsProvider remoteSettingsProvider, INotificationService notificationService)
+            IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, IRemoteSettingsProvider remoteSettingsProvider, INotificationService notificationService,
+            ITaskProfitEstimator taskProfitEstimator)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
@@ -29,6 +31,7 @@ namespace GolemUI.ViewModel
             _historyDataProvider = historyDataProvider;
             _remoteSettingsProvider = remoteSettingsProvider;
             _notificationService = notificationService;
+            _taskProfitEstimator = taskProfitEstimator;
 
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
@@ -37,6 +40,7 @@ namespace GolemUI.ViewModel
 
             _historyDataProvider.PropertyChanged += _historyDataProvider_PropertyChanged;
             _benchmarkService.PropertyChanged += _benchmarkService_PropertyChanged;
+            _taskProfitEstimator.PropertyChanged += _taskProfitEstimator_PropertyChanged;
         }
 
         private void _benchmarkService_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -75,12 +79,17 @@ namespace GolemUI.ViewModel
             {
                 OnPropertyChanged("ActiveAgreementID");
             }
+
+        }
+
+        private void _taskProfitEstimator_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
             if (e.PropertyName == "EstimatedEarningsPerSecond")
             {
-                if (_historyDataProvider.EstimatedEarningsPerSecond != null)
+                if (_taskProfitEstimator.EstimatedEarningsPerSecond != null)
                 {
-                    var glmPerDay = (decimal)(_historyDataProvider.EstimatedEarningsPerSecond * 3600 * 24);
-                    UsdPerDay = _priceProvider.CoinValue(glmPerDay, IPriceProvider.Coin.GLM);
+                    var glmPerDay = (decimal)(_taskProfitEstimator.EstimatedEarningsPerSecond * 3600 * 24);
+                    UsdPerDay = _priceProvider.CoinValue(glmPerDay, Coin.GLM);
                 }
                 else
                 {
@@ -89,9 +98,10 @@ namespace GolemUI.ViewModel
             }
             if (e.PropertyName == "EstimatedEarningsMessage")
             {
-                EstimationMessage = _historyDataProvider.EstimatedEarningsMessage;
+                EstimationMessage = _taskProfitEstimator.EstimatedEarningsMessage;
             }
         }
+
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -271,17 +281,17 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public decimal? AmountUSD => _priceProvider.CoinValue(Amount ?? 0, IPriceProvider.Coin.GLM);
+        public decimal? AmountUSD => _priceProvider.GLM2USD(Amount);
 
         public decimal? PendingAmount => _paymentService.State?.PendingBalance;
 
-        public decimal? PendingAmountUSD => _priceProvider.CoinValue(PendingAmount ?? 0m, IPriceProvider.Coin.GLM);
+        public decimal? PendingAmountUSD => _priceProvider.GLM2USD(PendingAmount);
         public int _totalCpuCount;
         public int _totalGpuCount;
         public int _enabledGpuCount;
         public int _enabledCpuCount;
 
-        public DashboardStatusEnum _status = DashboardStatusEnum.Ready;
+        public DashboardStatusEnum _status = DashboardStatusEnum.Hidden;
         public DashboardStatusEnum Status
         {
             get => _status;
@@ -363,5 +373,6 @@ namespace GolemUI.ViewModel
         private readonly IHistoryDataProvider _historyDataProvider;
         private readonly IRemoteSettingsProvider _remoteSettingsProvider;
         private readonly INotificationService _notificationService;
+        private readonly ITaskProfitEstimator _taskProfitEstimator;
     }
 }

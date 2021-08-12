@@ -23,7 +23,9 @@ namespace GolemUI.Claymore
         public bool OutOfMemory { get; set; }
         public bool GPUNotFound { get; set; }
         public float BenchmarkSpeed { get; set; }
+
         public bool IsDagCreating { get; set; }
+
         private bool _isEnabledByUser;
         public bool IsEnabledByUser
         {
@@ -36,10 +38,9 @@ namespace GolemUI.Claymore
                     _isEnabledByUser = value;
                     NotifyChange(nameof(IsEnabledByUser));
                 }
-
-
             }
         }
+
         public float DagProgress { get; set; }
         public string? GPUVendor { get; set; }
         public string? GPUDetails { get; set; }
@@ -113,6 +114,7 @@ namespace GolemUI.Claymore
             IsInitialization = true;
             IsEstimation = false;
             IsFinished = false;
+            NotifyChange("");
         }
 
         public void SetStepEstimation()
@@ -121,6 +123,7 @@ namespace GolemUI.Claymore
             IsInitialization = false;
             IsEstimation = true;
             IsFinished = false;
+            NotifyChange("");
         }
 
         public void SetStepFinished()
@@ -129,6 +132,7 @@ namespace GolemUI.Claymore
             IsInitialization = false;
             IsEstimation = false;
             IsFinished = true;
+            NotifyChange("");
         }
 
         public ClaymoreGpuStatus()

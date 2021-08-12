@@ -20,7 +20,11 @@ namespace GolemUI.Src
     {
         public DateTime? LastUpdate { get; private set; }
 
-        public ICollection<ActivityState>? Activities { get; private set; }
+        public ICollection<ActivityState> Activities
+        {
+            get => _activities;
+        }
+        private List<ActivityState> _activities = new List<ActivityState>();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -130,9 +134,16 @@ namespace GolemUI.Src
                             try
                             {
                                 var ev = JsonSerializer.Deserialize<TrackingEvent>(json, options);
-                                Activities = ev?.Activities ?? null;
+                                _activities = ev?.Activities ?? new List<ActivityState>();
                                 LastUpdate = ev?.Ts ?? null;
-                                OnPropertyChanged("Activities");
+                                try
+                                {
+                                    OnPropertyChanged("Activities");
+                                }
+                                catch (Exception e)
+                                {
+                                    _logger.LogError(e, "Failed to send notification");
+                                }
                             }
                             catch (JsonException e)
                             {
@@ -159,7 +170,7 @@ namespace GolemUI.Src
         {
             public DateTime Ts { get; set; }
 
-            public List<Model.ActivityState>? Activities { get; set; }
+            public List<Model.ActivityState> Activities { get; set; } = new List<ActivityState>();
         }
 
 
