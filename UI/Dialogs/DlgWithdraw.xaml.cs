@@ -84,5 +84,21 @@ namespace GolemUI.UI.Dialogs
         {
             tabControl.SelectedIndex = 0;
         }
+
+        private void BtnConfirmStep3_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+            this.Close();
+        }
+
+        private void BtnCheckOnEtherScan_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://etherscan.io/");
+        }
+
+        private void BtnCheckOnZKsyncExplorer_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://zkscan.io/");
+        }
     }
 }

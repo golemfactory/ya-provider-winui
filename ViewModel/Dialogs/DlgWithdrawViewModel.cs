@@ -31,28 +31,17 @@ namespace GolemUI.ViewModel.Dialogs
             set
             {
                 _amount = value;
+                OnPropertyChanged(nameof(Amount));
+                OnPropertyChanged(nameof(AmountGLMasString));
             }
         }
 
         double _availableGLM = 72;
-        public double AvailaleGLM
-        {
-            get => _availableGLM;
-            set
-            {
-                _availableGLM = value;
-            }
-        }
+        public string AvailableGLM => _availableGLM.ToString("f4");
 
         double _availableUSD = 16;
-        public double AvailableUSD
-        {
-            get => _availableUSD;
-            set
-            {
-                _availableUSD = value;
-            }
-        }
+        public string AvailableUSD => "$" + _availableUSD.ToString("f2");
+
 
 
         bool _shouldTransferAllTokensToL1 = true;
