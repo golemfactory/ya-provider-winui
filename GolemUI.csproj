@@ -263,7 +263,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
-    <Compile Include="Interfaces\IProfitEstimator.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
     <Compile Include="Interfaces\ITaskProfitEstimator.cs" />
     <Compile Include="Model\Coin.cs" />
@@ -413,7 +412,6 @@
     <Compile Include="UI\UsageDescription.xaml.cs">
       <DependentUpon>UsageDescription.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utils\EarningsCalculator.cs" />
     <Compile Include="Utils\LookupCache.cs" />
     <Compile Include="Utils\ObservableListExtensions.cs" />
     <Compile Include="Utils\PathUtil.cs" />
