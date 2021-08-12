@@ -222,7 +222,22 @@ namespace GolemUI.Src
                         break;
                     }
 
-
+                    if (_claymoreLiveStatus.GPUInfosParsed && _claymoreLiveStatus.GPUs.Values.Count > 0)
+                    {
+                        bool allCardsEndedWithError = true;
+                        foreach (var gpu in _claymoreLiveStatus.GPUs.Values)
+                        {
+                            if (String.IsNullOrEmpty(gpu.GPUError))
+                            {
+                                allCardsEndedWithError = false;
+                            }
+                        }
+                        if (allCardsEndedWithError && String.IsNullOrEmpty(_claymoreLiveStatus.ErrorMsg))
+                        {
+                            _claymoreLiveStatus.ErrorMsg = "Failed to validate cards";
+                            break;
+                        }
+                    }
                 }
             }
             finally

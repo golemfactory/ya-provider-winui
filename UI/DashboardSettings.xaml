@@ -157,9 +157,9 @@
                             <Label Margin="22,22,0,0"  Content="GPU" HorizontalAlignment="Left" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"></Label>
                         </StackPanel>
 
-                        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 0, 0, 10">
+                        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 15, 10, 10">
                             <ContentPresenter Content="{StaticResource Status_Card_error}" Margin="0, 0, 0, 0"/>
-                            <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorStyle}" TextWrapping="Wrap" Width="300" Text="{Binding BenchmarkError}" Margin="5, 0, 0, 0" VerticalAlignment="Center"></TextBox>
+                            <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorStyle}" TextWrapping="Wrap" Text="{Binding BenchmarkError}" Margin="5, 0, 10, 0" VerticalAlignment="Center"></TextBox>
                         </StackPanel>
 
                         <ScrollViewer Grid.Column="1" Grid.Row="2" Margin="25,4,0,0" Padding="0" Grid.RowSpan="2" VerticalScrollBarVisibility="Hidden">
