@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:local="clr-namespace:GolemUI">
 
-    <Style x:Key="SetMaxButtonStyle" TargetType="Button">
+    <Style x:Key="UnderlineButtonStyle" TargetType="Button">
 
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Cursor" Value="Hand" />
@@ -16,7 +16,7 @@
                         BorderThickness="0"
                         Padding="0" 
                         Background="{TemplateBinding Background}">
-                        <TextBlock Name="labelContent" TextDecorations="Underline" FontSize="8" Text="SET MAX" Foreground="#fff" Margin="0,0" Padding="2,5" />
+                        <TextBlock Name="labelContent" TextDecorations="Underline" FontSize="{TemplateBinding FontSize}" Text="{TemplateBinding Content}" Foreground="#fff" Margin="0,0" Padding="2,5" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

@@ -26,7 +26,7 @@
                 <ResourceDictionary Source="/UI/Themes/TextBox/TextBoxInError.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Validation/ValidationTemplate.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/Buttons/SetMaxButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/UnderlineButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -78,7 +78,7 @@
                                             </Binding>
                                         </TextBox.Text>
                                     </TextBox>
-                                    <Button Style="{StaticResource SetMaxButtonStyle}" VerticalAlignment="Center" x:Name="BtnSetMax" Click="BtnSetMax_Click" Margin="0" HorizontalAlignment="Right"/>
+                                    <Button Style="{StaticResource UnderlineButtonStyle}" VerticalAlignment="Center" x:Name="BtnSetMax" Content="SET MAX" Click="BtnSetMax_Click" Margin="0" HorizontalAlignment="Right"/>
                                 </StackPanel>
                             </UniformGrid>
                             <TextBox x:Name="TxtWithDrawAddress" FontSize="16" Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" BorderThickness="0,0,0,2" VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Margin="0,  32,0,0"  Padding="0,0,0,5">
@@ -176,13 +176,8 @@
                             <Image Margin="0,20" Source="/UI/Icons/DefaultStyle/png/CardStatus/Ready.png" Width="45" />
                             <Label Margin="0,20,0,0"  HorizontalAlignment="Center" Foreground="#99b" Padding="0">You can check the transaction on L1 and L2 explorers. If you are offboarding from L2</Label>
                             <Label HorizontalAlignment="Center" Foreground="#99b" Padding="0">keep in mind that those transactions tend to take some time.</Label>
-                            <Button Margin="0,10,0,0" Background="Transparent" BorderBrush="Transparent" x:Name="BtnCheckOnEtherScan" Click="BtnCheckOnEtherScan_Click">
-                                <TextBlock TextDecorations="Underline"  >CHECK ON ETHERSCAN</TextBlock>
-                            </Button>
-
-                            <Button Background="Transparent" BorderBrush="Transparent" x:Name="BtnCheckOnZKsyncExplorer" Click="BtnCheckOnZKsyncExplorer_Click">
-                                <TextBlock TextDecorations="Underline"  >CHECK ON ZKSYNC EXPLORER</TextBlock>
-                            </Button>
+                            <Button  Style="{StaticResource UnderlineButtonStyle}" Content="CHECK ON ETHERSCAN" HorizontalAlignment="Center" FontSize="12" Margin="0,10,0,0" Background="Transparent" BorderBrush="Transparent" x:Name="BtnCheckOnEtherScan" Click="BtnCheckOnEtherScan_Click" />
+                            <Button Style="{StaticResource UnderlineButtonStyle}" Content="CHECK ON ZKSYNC EXPLORER" HorizontalAlignment="Center" FontSize="12" Background="Transparent" BorderBrush="Transparent" x:Name="BtnCheckOnZKsyncExplorer" Click="BtnCheckOnZKsyncExplorer_Click" />
                         </StackPanel>
                        
                         <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" Margin="0,0,0,22" VerticalAlignment="Bottom" Width="250" Height="45"  Click="BtnConfirmStep3_Click" Name="BtnConfirmStep3" Content="Confirm" >

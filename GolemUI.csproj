@@ -581,7 +581,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Themes\Buttons\SetMaxButton.xaml">
+    <Page Include="UI\Themes\Buttons\UnderlineButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
