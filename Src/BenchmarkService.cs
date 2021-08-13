@@ -267,7 +267,11 @@ namespace GolemUI.Src
                 }
                 if (_requestStop)
                 {
-                    _claymoreLiveStatus = externalLiveStatus;
+                    //additional conditions when to revert back to old status when benchmark stopped
+                    if (externalLiveStatus != null && String.IsNullOrEmpty(externalLiveStatus.ErrorMsg) && externalLiveStatus.GPUs.Count > 0)
+                    {
+                        _claymoreLiveStatus = externalLiveStatus;
+                    }
                 }
                 OnPropertyChanged("IsRunning");
                 OnPropertyChanged("Status");

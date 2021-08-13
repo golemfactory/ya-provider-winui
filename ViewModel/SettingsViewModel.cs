@@ -254,6 +254,7 @@ namespace GolemUI.ViewModel
                 {
                     KeyValuePair<int, Claymore.ClaymoreGpuStatus> keyVal = res.Value;
                     keyVal.Value.IsEnabledByUser = gpu.IsEnabledByUser;
+                    keyVal.Value.BenchmarkSpeed = gpu.BenchmarkSpeed;
                     keyVal.Value.ClaymorePerformanceThrottling = gpu.ClaymorePerformanceThrottling;
                 }
             });
