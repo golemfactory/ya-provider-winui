@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -109,6 +110,8 @@ namespace GolemUI.Src
                 var hashRate = _statusProvider.Activities
                     .Where(a => a.ExeUnit == "gminer" && (a.Usage?.ContainsKey(HASH_RATE) ?? false))
                     .FirstOrDefault()?.Usage?[HASH_RATE];
+
+                Debug.WriteLine(_statusProvider.Activities);
                 if (hashRate is float hr && hr > 0.0)
                 {
                     EstimatedEarningsPerSecond = _estimatedProfitProvider.HashRateToUSDPerDay(Convert.ToDouble(hr)) / 3600.0 / 24.0;
