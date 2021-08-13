@@ -348,8 +348,15 @@ namespace GolemUI.ViewModel
                 _providerConfig.IsMiningActive = value;
                 if (value == false)
                 {
-                    _processController.Stop();
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "gpu disabled - stopping mining", expirationTimeInMs: 3000, group: false));
+                    if (_processController.IsProviderRunning)
+                    {
+                        _processController.Stop();
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Stopping GPU mining", expirationTimeInMs: 3000, group: false));
+                    }
+                    else
+                    {
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "GPU mining deactivated", expirationTimeInMs: 3000, group: false));
+                    }
                 }
                 NotifyChange(nameof(IsGpuEnabled));
                 NotifyChange(nameof(IsBenchmarkNotRunning));
