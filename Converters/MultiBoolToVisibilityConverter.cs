@@ -25,16 +25,16 @@ namespace GolemUI.Converters
         public object? Convert(object[] values, Type targetType,
             object parameter, CultureInfo culture)
         {
-           var ret =  values.All(v => (v is bool && (bool)v))
-              ? Visibility.Visible
-              : Visibility.Hidden;
+            var ret = values.All(v => (v is bool && (bool)v))
+               ? Visibility.Visible
+               : Visibility.Hidden;
             return ret;
         }
 
         public object[] ConvertBack(object value, Type[] targetType,
             object parameter, CultureInfo culture)
         {
-           throw new NotSupportedException();
+            throw new NotSupportedException();
         }
 
     }
