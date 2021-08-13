@@ -116,7 +116,7 @@ namespace GolemUI.Src
                     _provider.Config = Config;
                 }
 
-                var presets = _provider.Presets.Select(x=>x.Name).ToList();
+                var presets = _provider.Presets.Select(x => x.Name).ToList();
                 string _info, _args;
                 if (isGpuCapable)
                 {
@@ -131,8 +131,8 @@ namespace GolemUI.Src
                         { "hash-rate", 0m }
                     }), out _args, out _info);
 
-                         _provider.ActivatePreset("gminer");
-                         changedProperties.Add("IsMiningActive");
+                        _provider.ActivatePreset("gminer");
+                        changedProperties.Add("IsMiningActive");
                     }
                     else
                     {
@@ -153,7 +153,7 @@ namespace GolemUI.Src
                         { "duration", 0m }
                     }), out _args, out _info);
                     _provider.ActivatePreset("wasmtime");
-                     changedProperties.Add("IsCpuActive");
+                    changedProperties.Add("IsCpuActive");
                 }
 
                 if (presets.Contains("default"))
