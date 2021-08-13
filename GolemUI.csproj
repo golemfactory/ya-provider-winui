@@ -263,6 +263,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\MultiBoolToVisibilityConverter.cs" />
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
     <Compile Include="Interfaces\ITaskProfitEstimator.cs" />

@@ -315,6 +315,15 @@ namespace GolemUI.Src
             }
         }
 
+        public bool IsMiningPossibleWithCurrentSettings
+        {
+            get
+            {
+                int count = _claymoreLiveStatus?.GPUs.Values.Where(x => x.IsEnabledByUser && x.IsReadyForMining).Count() ?? 0;
+                return count > 0;
+            }
+        }
+
         public bool IsClaymoreMiningPossible
         {
             get
