@@ -265,6 +265,10 @@ namespace GolemUI.Src
                         gpu.SetStepFinished();
                     }
                 }
+                if (_requestStop)
+                {
+                    _claymoreLiveStatus = externalLiveStatus;
+                }
                 OnPropertyChanged("IsRunning");
                 OnPropertyChanged("Status");
             }
