@@ -26,8 +26,8 @@ namespace GolemUI.Converters
             object parameter, CultureInfo culture)
         {
             var ret = values.All(v => (v is bool && (bool)v))
-               ? Visibility.Visible
-               : Visibility.Hidden;
+               ? TrueValue
+               : FalseValue;
             return ret;
         }
 
