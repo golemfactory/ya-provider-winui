@@ -24,6 +24,14 @@ namespace GolemUI.Claymore
         public bool GPUNotFound { get; set; }
         public float BenchmarkSpeed { get; set; }
 
+        [JsonIgnore]
+        public bool BenchmarkSpeedForDifferentThrottling
+        {
+            get => (BenchmarkSpeed > 0 && BenchmarkDoneForThrottlingLevel != ClaymorePerformanceThrottling);
+        }
+
+        public int BenchmarkDoneForThrottlingLevel { get; set; }
+
         public bool IsDagCreating { get; set; }
 
         private bool _isEnabledByUser;
@@ -89,10 +97,6 @@ namespace GolemUI.Claymore
             }
         }
 
-        //these files are used only for switching in UI, do not copy these entries
-        float _cachedBenchmarkSpeed = 0.0f;
-        int _cachedPerformanceThrottling = -1;
-
         [JsonIgnore]
         public PerformanceThrottlingEnum SelectedMiningMode
         {
@@ -104,24 +108,10 @@ namespace GolemUI.Claymore
             {
                 if (ClaymorePerformanceThrottling != (int)value)
                 {
-                    if ((int)value == _cachedPerformanceThrottling)
-                    {
-                        ClaymorePerformanceThrottling = _cachedPerformanceThrottling;
-                        BenchmarkSpeed = _cachedBenchmarkSpeed;
-                    }
-                    else
-                    {
-                        if (BenchmarkSpeed > 0.0f)
-                        {
-                            _cachedPerformanceThrottling = ClaymorePerformanceThrottling;
-                            _cachedBenchmarkSpeed = BenchmarkSpeed;
-                            BenchmarkSpeed = 0.0f;
-                        }
-                    }
-
                     ClaymorePerformanceThrottling = (int)value;
                     NotifyChange(nameof(SelectedMiningMode));
                     NotifyChange(nameof(BenchmarkSpeed));
+                    NotifyChange(nameof(BenchmarkSpeedForDifferentThrottling));
                 }
             }
         }
@@ -173,6 +163,7 @@ namespace GolemUI.Claymore
             ClaymoreGpuStatus s = new ClaymoreGpuStatus(this.GpuNo, this.IsEnabledByUser, this.ClaymorePerformanceThrottling);
             s.GpuName = this.GpuName;
             s.OutOfMemory = this.OutOfMemory;
+            s.BenchmarkDoneForThrottlingLevel = this.BenchmarkDoneForThrottlingLevel;
             s.GPUNotFound = this.GPUNotFound;
             s.BenchmarkSpeed = this.BenchmarkSpeed;
             s.IsDagCreating = this.IsDagCreating;
