@@ -52,6 +52,7 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged(nameof(IsBenchmarkNotRunning));
                 OnPropertyChanged(nameof(IsAnyGpuEnabled));
                 OnPropertyChanged(nameof(GpuOpacity));
+                OnPropertyChanged(nameof(ShouldGpuSwitchBeEnabled));
             }
         }
 
@@ -60,6 +61,7 @@ namespace GolemUI.ViewModel
 
         public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning && IsGpuEnabled && IsAnyGpuEnabled;
         public bool IsBenchmarkNotRunning => !_benchmarkService.IsRunning;
+        public bool ShouldGpuSwitchBeEnabled => IsBenchmarkNotRunning && IsAnyGpuEnabled;
         public string StartButtonExplanation
         {
             get
@@ -249,6 +251,7 @@ namespace GolemUI.ViewModel
             OnPropertyChanged("EnabledGpuCount");
             OnPropertyChanged("GpuCardsInfo");
             OnPropertyChanged("CpuCardsInfo");
+            OnPropertyChanged(nameof(ShouldGpuSwitchBeEnabled));
             OnPropertyChanged(nameof(IsAnyGpuEnabled));
             OnPropertyChanged(nameof(GpuOpacity));
             OnPropertyChanged(nameof(EnabledCpuCount));
@@ -258,6 +261,7 @@ namespace GolemUI.ViewModel
             OnPropertyChanged(nameof(IsCpuEnabled));
             OnPropertyChanged(nameof(GpuStatus));
             OnPropertyChanged(nameof(StartButtonExplanation));
+
         }
 
 

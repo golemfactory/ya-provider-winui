@@ -161,7 +161,7 @@
                         <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24,0,8">
                             <Label Padding="0" Content="GPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18"  HorizontalAlignment="Center"></Label>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0,6">
-                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsGpuEnabled}" IsEnabled="{Binding IsBenchmarkNotRunning, Mode=OneWay}">
+                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsGpuEnabled}" IsEnabled="{Binding ShouldGpuSwitchBeEnabled, Mode=OneWay}">
                                     <Label Content="{Binding GpuStatus}"/>
                                 </CheckBox>
                                 <Label Padding="2,5" Content="{Binding Path=GpuStatusAnnotation, TargetNullValue=' '}"/>
