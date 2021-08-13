@@ -201,7 +201,10 @@
                                                 <TextBlock Grid.Column="1" TextWrapping="Wrap" FontFamily="Segoe Ui" FontWeight="Regular" Foreground="White" FontSize="13" Text="{Binding Path=DisplayName}" Margin="0"/>
                                             </Grid>
                                             <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe Ui" FontWeight="Light"  FontSize="12" Padding="0"  Content="Hashrate:" Margin="0, 5, 0, 3" />
-                                            <Label Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5,3,0,0"  FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="12" Content="{Binding Path=BenchmarkSpeed, Converter={StaticResource HashRateConverter}}" Padding="0" />
+                                            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5,3,0,0">
+                                                <Label FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="12" Content="{Binding Path=BenchmarkSpeed, Converter={StaticResource HashRateConverter}}" Padding="0" />
+                                                <Label FontFamily="Segoe Ui" FontWeight="Bold"  FontSize="12" Margin="3,0,0,0" Visibility="{Binding Path=BenchmarkSpeedForDifferentThrottling, Converter={StaticResource BoolToVisibleConverter}}" Content="?" ToolTip="Performance mode changed - run benchmark again to get valid speed" Padding="0" />
+                                            </StackPanel>
                                             <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Left">
                                                 <Label VerticalAlignment="Center"  FontFamily="Segoe Ui" FontWeight="Light" FontSize="12" Padding="0" Content="Mining ability:" Margin="0, 3, 10, 3" />
                                             </StackPanel>

@@ -185,6 +185,11 @@ namespace GolemUI.Src
                     OnPropertyChanged("TotalMhs");
                     if (_claymoreLiveStatus.NumberOfClaymorePerfReports >= _claymoreLiveStatus.TotalClaymoreReportsBenchmark)
                     {
+                        foreach (var gpu in _claymoreLiveStatus.GPUs)
+                        {
+                            gpu.Value.BenchmarkDoneForThrottlingLevel = gpu.Value.ClaymorePerformanceThrottling;
+                        }
+                            
                         _logger.LogInformation("Benchmark succeeded.");
                         break;
                     }
