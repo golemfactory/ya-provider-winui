@@ -50,12 +50,18 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged(nameof(IsMiningReadyToRun));
                 OnPropertyChanged(nameof(StartButtonExplanation));
                 OnPropertyChanged(nameof(IsBenchmarkNotRunning));
-
+                OnPropertyChanged(nameof(IsAnyGpuEnabled));
+                OnPropertyChanged(nameof(GpuOpacity));
+                OnPropertyChanged(nameof(ShouldGpuSwitchBeEnabled));
             }
         }
 
-        public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning && IsGpuEnabled;
+        public bool IsAnyGpuEnabled => _benchmarkService.IsMiningPossibleWithCurrentSettings;
+        public double GpuOpacity => _benchmarkService.IsMiningPossibleWithCurrentSettings ? 1.0 : 0.2f;
+
+        public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning && IsGpuEnabled && IsAnyGpuEnabled;
         public bool IsBenchmarkNotRunning => !_benchmarkService.IsRunning;
+        public bool ShouldGpuSwitchBeEnabled => IsBenchmarkNotRunning && IsAnyGpuEnabled;
         public string StartButtonExplanation
         {
             get
@@ -66,8 +72,12 @@ namespace GolemUI.ViewModel
                     return "Can't start mining while benchmark is running";
                 if (!_providerConfig.IsMiningActive)
                     return "Can't start mining with GPU support disabled";
+                if (!IsAnyGpuEnabled)
+                    return "At least one GPU card with mining capability must be enabled by user " +
+                           "(Settings). You can rerun benchmark to determine gpu capabilities again.";
 
                 return "";
+
             }
         }
 
@@ -79,7 +89,6 @@ namespace GolemUI.ViewModel
             {
                 OnPropertyChanged("ActiveAgreementID");
             }
-
         }
 
         private void _taskProfitEstimator_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -242,10 +251,17 @@ namespace GolemUI.ViewModel
             OnPropertyChanged("EnabledGpuCount");
             OnPropertyChanged("GpuCardsInfo");
             OnPropertyChanged("CpuCardsInfo");
+            OnPropertyChanged(nameof(ShouldGpuSwitchBeEnabled));
+            OnPropertyChanged(nameof(IsAnyGpuEnabled));
+            OnPropertyChanged(nameof(GpuOpacity));
+            OnPropertyChanged(nameof(EnabledCpuCount));
+            OnPropertyChanged(nameof(EnabledGpuCount));
             OnPropertyChanged(nameof(IsMiningReadyToRun));
             OnPropertyChanged(nameof(IsGpuEnabled));
+            OnPropertyChanged(nameof(IsCpuEnabled));
             OnPropertyChanged(nameof(GpuStatus));
             OnPropertyChanged(nameof(StartButtonExplanation));
+
         }
 
 
