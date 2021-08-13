@@ -462,7 +462,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </ListBox>
                                                 <StackPanel Margin="10" HorizontalAlignment="Stretch">
                                                     <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
-                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdmonth}"/>
                                                     <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
                                                     <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep4Next"
@@ -508,7 +508,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </ListBox>
                                                 <StackPanel Margin="10" HorizontalAlignment="Stretch">
                                                     <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profit</TextBlock>
-                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdmonth}"/>
                                                     <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
                                                     <Button Content="Next" FontSize="18" Margin="0, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="45" IsDefault="True" Click="OnNoobFinish"
@@ -715,7 +715,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </ListBox>
                                                 <StackPanel Margin="10" HorizontalAlignment="Stretch">
                                                     <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
-                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdmonth}"/>
                                                     <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
                                                     <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep4Next"
@@ -752,7 +752,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </ListBox>
                                                 <StackPanel Margin="10" HorizontalAlignment="Stretch">
                                                     <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
-                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdmonth}"/>
                                                     <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
                                                     <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnNoobFinish"

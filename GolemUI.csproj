@@ -327,7 +327,7 @@
     <Compile Include="Interfaces\IStatusProvider.cs" />
     <Compile Include="Interfaces\IUserSettingsProvider.cs" />
     <Compile Include="Model\BenchmarkResults.cs" />
-    <Compile Include="Model\claymorePerformanceThrottlingEnum.cs" />
+    <Compile Include="Model\PerformanceThrottlingEnum.cs" />
     <Compile Include="Model\ActivityState.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
@@ -415,6 +415,7 @@
       <DependentUpon>UsageDescription.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\LookupCache.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\ObservableListExtensions.cs" />
     <Compile Include="Utils\PathUtil.cs" />
     <Compile Include="Utils\PriceProviderExtension.cs" />

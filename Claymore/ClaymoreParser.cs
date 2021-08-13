@@ -24,6 +24,14 @@ namespace GolemUI.Claymore
         public bool GPUNotFound { get; set; }
         public float BenchmarkSpeed { get; set; }
 
+        [JsonIgnore]
+        public bool BenchmarkSpeedForDifferentThrottling
+        {
+            get => (BenchmarkSpeed > 0 && BenchmarkDoneForThrottlingLevel != ClaymorePerformanceThrottling);
+        }
+
+        public int BenchmarkDoneForThrottlingLevel { get; set; }
+
         public bool IsDagCreating { get; set; }
 
         private bool _isEnabledByUser;
@@ -77,7 +85,7 @@ namespace GolemUI.Claymore
         public string ClaymorePerformanceThrottlingDebug => "(debug: " + ClaymorePerformanceThrottling + ") ";
 
         [JsonIgnore]
-        public int _claymorePerformanceThrottling { get; set; }
+        public int _claymorePerformanceThrottling { get; set; } = (int)PerformanceThrottlingEnumConverter.Default;
         public int ClaymorePerformanceThrottling
         {
             get { return _claymorePerformanceThrottling; }
@@ -102,6 +110,8 @@ namespace GolemUI.Claymore
                 {
                     ClaymorePerformanceThrottling = (int)value;
                     NotifyChange(nameof(SelectedMiningMode));
+                    NotifyChange(nameof(BenchmarkSpeed));
+                    NotifyChange(nameof(BenchmarkSpeedForDifferentThrottling));
                 }
             }
         }
@@ -153,6 +163,7 @@ namespace GolemUI.Claymore
             ClaymoreGpuStatus s = new ClaymoreGpuStatus(this.GpuNo, this.IsEnabledByUser, this.ClaymorePerformanceThrottling);
             s.GpuName = this.GpuName;
             s.OutOfMemory = this.OutOfMemory;
+            s.BenchmarkDoneForThrottlingLevel = this.BenchmarkDoneForThrottlingLevel;
             s.GPUNotFound = this.GPUNotFound;
             s.BenchmarkSpeed = this.BenchmarkSpeed;
             s.IsDagCreating = this.IsDagCreating;
@@ -174,7 +185,7 @@ namespace GolemUI.Claymore
         public bool IsReadyForMining => (IsDagFinished() && BenchmarkSpeed > 0.5 && String.IsNullOrEmpty(GPUError));
 
         [JsonIgnore]
-        public bool IsOperationStopped => (OutOfMemory || GPUNotFound || GPUError != null || !IsEnabledByUser);
+        public bool IsOperationStopped => (OutOfMemory || GPUNotFound || !String.IsNullOrEmpty(GPUError) || !IsEnabledByUser);
 
         public bool IsDagFinished()
         {
@@ -580,7 +591,7 @@ namespace GolemUI.Claymore
                 {
                     if (!_liveStatus.GPUs.ContainsKey(gpuNo))
                     {
-                        _liveStatus.GPUs.Add(gpuNo, new ClaymoreGpuStatus(gpuNo, true, 0));
+                        _liveStatus.GPUs.Add(gpuNo, new ClaymoreGpuStatus(gpuNo, true, (int)PerformanceThrottlingEnumConverter.Default));
                     }
                     currentStatus = _liveStatus.GPUs[gpuNo];
 
@@ -712,7 +723,7 @@ namespace GolemUI.Claymore
                     }
                 }
 
-                if (_readyForGpusEthInfo && lineText.StartsWith("GPU", STR_COMP_TYPE))
+                if (_readyForGpusEthInfo && lineText.StartsWith("GPUs:", STR_COMP_TYPE))
                 {
                     //sample:
                     //"GPUs: 1: 0.000 MH/s (0) 2: 0.000 MH/s (0)"

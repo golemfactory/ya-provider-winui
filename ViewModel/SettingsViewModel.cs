@@ -152,6 +152,10 @@ namespace GolemUI.ViewModel
                 }
 
             }
+            else
+            {
+                niceness = ((int)PerformanceThrottlingEnumConverter.Default).ToString();
+            }
             if (allEnabled)
             {
                 //If all cards are enabled benchmark prerun is not needed and no need to select cards
@@ -250,6 +254,7 @@ namespace GolemUI.ViewModel
                 {
                     KeyValuePair<int, Claymore.ClaymoreGpuStatus> keyVal = res.Value;
                     keyVal.Value.IsEnabledByUser = gpu.IsEnabledByUser;
+                    keyVal.Value.BenchmarkSpeed = gpu.BenchmarkSpeed;
                     keyVal.Value.ClaymorePerformanceThrottling = gpu.ClaymorePerformanceThrottling;
                 }
             });
@@ -347,8 +352,15 @@ namespace GolemUI.ViewModel
                     _providerConfig.IsMiningActive = value;
                     if (value == false)
                     {
-                        _processController.Stop();
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "gpu disabled - stopping mining", expirationTimeInMs: 3000, group: false));
+                        if (_processController.IsProviderRunning)
+                        {
+                            _processController.Stop();
+                            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Stopping GPU mining", expirationTimeInMs: 3000, group: false));
+                        }
+                        else
+                        {
+                            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "GPU mining deactivated", expirationTimeInMs: 3000, group: false));
+                        }
                     }
                     NotifyChange(nameof(IsGpuEnabled));
                     NotifyChange(nameof(IsBenchmarkNotRunning));
