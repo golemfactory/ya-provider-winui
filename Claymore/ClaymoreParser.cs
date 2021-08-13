@@ -89,6 +89,10 @@ namespace GolemUI.Claymore
             }
         }
 
+        //these files are used only for switching in UI, do not copy these entries
+        float _cachedBenchmarkSpeed = 0.0f;
+        int _cachedPerformanceThrottling = -1;
+
         [JsonIgnore]
         public PerformanceThrottlingEnum SelectedMiningMode
         {
@@ -100,8 +104,24 @@ namespace GolemUI.Claymore
             {
                 if (ClaymorePerformanceThrottling != (int)value)
                 {
+                    if ((int)value == _cachedPerformanceThrottling)
+                    {
+                        ClaymorePerformanceThrottling = _cachedPerformanceThrottling;
+                        BenchmarkSpeed = _cachedBenchmarkSpeed;
+                    }
+                    else
+                    {
+                        if (BenchmarkSpeed > 0.0f)
+                        {
+                            _cachedPerformanceThrottling = ClaymorePerformanceThrottling;
+                            _cachedBenchmarkSpeed = BenchmarkSpeed;
+                            BenchmarkSpeed = 0.0f;
+                        }
+                    }
+
                     ClaymorePerformanceThrottling = (int)value;
                     NotifyChange(nameof(SelectedMiningMode));
+                    NotifyChange(nameof(BenchmarkSpeed));
                 }
             }
         }
