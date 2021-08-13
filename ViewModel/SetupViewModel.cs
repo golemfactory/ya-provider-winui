@@ -158,8 +158,11 @@ namespace GolemUI.ViewModel
         }
         bool AnySufficientGpusFound()
         {
-            return _benchmarkService.Status.GPUs.Values.Where(x => x.IsReadyForMining == true).Count() > 0;
-
+            if (_benchmarkService.Status != null)
+            {
+                return _benchmarkService.Status?.GPUs.Values.Where(x => x.IsReadyForMining == true).Count() > 0;
+            }
+            return false;
         }
         private void OnProviderConfigChanged(object? sender, PropertyChangedEventArgs e)
         {
