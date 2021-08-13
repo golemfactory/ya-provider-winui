@@ -167,10 +167,20 @@
                                 <Label Padding="2,5" Content="{Binding Path=GpuStatusAnnotation, TargetNullValue=' '}"/>
                             </StackPanel>
 
-                            <Button Style="{StaticResource GoToSettingsButtonStyle}" 
-                                    Cursor="Hand" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Click="BtnSettings_Click" Margin="0"
-                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=IsMouseOver, Converter={StaticResource BoolToVisibleConverter}}"
-                                    HorizontalAlignment="Left"/>
+                            <Button  Cursor="Hand" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Click="BtnSettings_Click" Margin="0"  HorizontalAlignment="Left">
+                                <Button.Style >
+                                    <Style TargetType="Button" BasedOn="{StaticResource GoToSettingsButtonStyle}">
+                                        <Setter Property="Visibility">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{StaticResource MultiBoolToVisibleConverter}">
+                                                    <Binding Path="IsMouseOver" RelativeSource="{RelativeSource AncestorType=Border}"/>
+                                                    <Binding Path="IsAnyGpuEnabled" />
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
 
                         </StackPanel>
                     </Grid>

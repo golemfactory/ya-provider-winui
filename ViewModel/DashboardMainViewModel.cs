@@ -53,6 +53,7 @@ namespace GolemUI.ViewModel
             }
         }
 
+        public bool IsAnyGpuEnabled => _benchmarkService.IsMiningPossibleWithCurrentSettings;
         public double GpuOpacity => _benchmarkService.IsMiningPossibleWithCurrentSettings ? 1.0 : 0.2f;
 
         public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning && IsGpuEnabled;
@@ -243,6 +244,7 @@ namespace GolemUI.ViewModel
             OnPropertyChanged("EnabledGpuCount");
             OnPropertyChanged("GpuCardsInfo");
             OnPropertyChanged("CpuCardsInfo");
+            OnPropertyChanged(nameof(IsAnyGpuEnabled));
             OnPropertyChanged(nameof(GpuOpacity));
             OnPropertyChanged(nameof(EnabledCpuCount));
             OnPropertyChanged(nameof(EnabledGpuCount));
