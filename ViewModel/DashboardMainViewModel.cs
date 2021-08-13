@@ -217,7 +217,8 @@ namespace GolemUI.ViewModel
         {
             if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
             {
-                OnPropertyChanged(e.PropertyName);
+                OnPropertyChanged(nameof(IsGpuEnabled));
+                OnPropertyChanged(nameof(IsCpuEnabled));
                 RefreshStatus();
             }
         }
