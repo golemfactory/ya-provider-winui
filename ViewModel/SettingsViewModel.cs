@@ -409,10 +409,11 @@ namespace GolemUI.ViewModel
             {
                 NotifyChange("NodeName");
             }
-            if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
-            {
-                NotifyChange(e.PropertyName);
-            }
+            if (e.PropertyName == "IsMiningActive")
+                NotifyChange(nameof(IsGpuEnabled));
+            if (e.PropertyName == "IsCpuActive")
+                NotifyChange(nameof(IsCpuEnabled));
+        
         }
         private void NotifyChange([CallerMemberName] string? propertyName = null)
         {

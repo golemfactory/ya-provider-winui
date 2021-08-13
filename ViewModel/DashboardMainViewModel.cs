@@ -215,12 +215,13 @@ namespace GolemUI.ViewModel
 
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
-            {
+            if (e.PropertyName == "IsMiningActive")
                 OnPropertyChanged(nameof(IsGpuEnabled));
+            if (e.PropertyName == "IsCpuActive")
                 OnPropertyChanged(nameof(IsCpuEnabled));
+
+            if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
                 RefreshStatus();
-            }
         }
 
         private void OnPaymentServiceChanged(object? sender, PropertyChangedEventArgs e)
