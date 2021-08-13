@@ -21,7 +21,7 @@ namespace GolemUI.Src
                 string fp = PathUtil.GetLocalBenchmarkPath();
                 string jsonText = File.ReadAllText(fp);
                 settings = JsonConvert.DeserializeObject<BenchmarkResults>(jsonText);
-                
+
                 //normalization - if user has only one gpu card it is enabled by default
                 int gpusCount = settings?.liveStatus?.GPUs?.Count ?? 0;
                 if (gpusCount == 1) settings.liveStatus.GPUs.ToArray()[0].Value.IsEnabledByUser = true;
