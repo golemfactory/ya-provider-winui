@@ -261,7 +261,7 @@ namespace GolemUI.ViewModel
             OnPropertyChanged(nameof(IsCpuEnabled));
             OnPropertyChanged(nameof(GpuStatus));
             OnPropertyChanged(nameof(StartButtonExplanation));
-            
+
         }
 
 
