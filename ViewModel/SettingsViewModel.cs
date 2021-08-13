@@ -169,6 +169,7 @@ namespace GolemUI.ViewModel
         {
             BenchmarkService.StopBenchmark();
         }
+
         public void LoadData()
         {
             AdvancedSettingsButtonEnabled = true;
@@ -198,6 +199,7 @@ namespace GolemUI.ViewModel
             NotifyChange(nameof(IsCpuEnabled));
             NotifyChange(nameof(IsGpuEnabled));
             NotifyChange(nameof(BenchmarkReadyToRun));
+            NotifyChange(nameof(ShouldGpuCheckBoxesBeEnabled));
             NotifyChange("HashRate");
             NotifyChange("ExpectedProfit");
         }
@@ -330,13 +332,14 @@ namespace GolemUI.ViewModel
                     NotifyChange("BenchmarkReadyToRun");
                     NotifyChange("BenchmarkError");
                     NotifyChange(nameof(IsBenchmarkNotRunning));
+                    NotifyChange(nameof(ShouldGpuCheckBoxesBeEnabled));
                 }
             }
         }
         public bool BenchmarkIsRunning => _benchmarkService.IsRunning;
-        public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning) && IsGpuEnabled;
+        public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning);
         public bool IsBenchmarkNotRunning => !(_benchmarkService.IsRunning);
-
+        public bool ShouldGpuCheckBoxesBeEnabled => IsBenchmarkNotRunning && ((this._benchmarkService.Status?.GPUs?.Count ?? 0) > 1);
         public bool IsGpuEnabled
         {
             get => _providerConfig?.IsMiningActive ?? false;
