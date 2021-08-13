@@ -21,40 +21,17 @@ namespace GolemUI
 
         public static PerformanceThrottlingEnum FromInt(int value)
         {
-            return value switch
-            {
-                0 => PerformanceThrottlingEnum.Maximum,
-                10 => PerformanceThrottlingEnum.High,
-                100 => PerformanceThrottlingEnum.Medium,
-                200 => PerformanceThrottlingEnum.Low,
-                400 => PerformanceThrottlingEnum.Minimum,
-                _ => PerformanceThrottlingEnum.High,
-            };
+            return typeof(PerformanceThrottlingEnum).IsEnumDefined(value) ? (PerformanceThrottlingEnum)value : Default;
         }
-        public static string ConvertToString(PerformanceThrottlingEnum value)
-        {
-            return value switch
-            {
-                PerformanceThrottlingEnum.Maximum => "Maximum",
-                PerformanceThrottlingEnum.High => "High",
-                PerformanceThrottlingEnum.Medium => "Medium",
-                PerformanceThrottlingEnum.Low => "Low",
-                PerformanceThrottlingEnum.Minimum => "Minimum",
-                _ => "Undefined"
-            };
-        }
+        public static string ConvertToString(PerformanceThrottlingEnum value) => Enum.GetName(typeof(PerformanceThrottlingEnum), value) ?? "Undefined";
+
         public static PerformanceThrottlingEnum FromString(string? value)
         {
-            return value switch
+            if (Enum.TryParse(value, out PerformanceThrottlingEnum result))
             {
-                "Maximum" => PerformanceThrottlingEnum.Maximum,
-                "High" => PerformanceThrottlingEnum.High,
-                "Medium" => PerformanceThrottlingEnum.Medium,
-                "Low" => PerformanceThrottlingEnum.Low,
-                "Minimum" => PerformanceThrottlingEnum.Minimum,
-                _ => PerformanceThrottlingEnum.High,
-            };
-
+                return result;
+            }
+            return Default;
         }
     }
 }

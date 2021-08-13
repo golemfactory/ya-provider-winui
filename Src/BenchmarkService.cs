@@ -268,7 +268,7 @@ namespace GolemUI.Src
                 if (_requestStop)
                 {
                     //additional conditions when to revert back to old status when benchmark stopped
-                    if (externalLiveStatus != null && String.IsNullOrEmpty(externalLiveStatus.ErrorMsg) && externalLiveStatus.GPUs.Count > 0 
+                    if (externalLiveStatus != null && String.IsNullOrEmpty(externalLiveStatus.ErrorMsg) && externalLiveStatus.GPUs.Count > 0
                         && externalLiveStatus.GPUs.Values.Where(x => x.BenchmarkSpeed > 0.0f).Count() > 0)
                     {
                         _claymoreLiveStatus = externalLiveStatus;
