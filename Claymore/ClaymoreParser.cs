@@ -174,7 +174,7 @@ namespace GolemUI.Claymore
         public bool IsReadyForMining => (IsDagFinished() && BenchmarkSpeed > 0.5 && String.IsNullOrEmpty(GPUError));
 
         [JsonIgnore]
-        public bool IsOperationStopped => (OutOfMemory || GPUNotFound || GPUError != null || !IsEnabledByUser);
+        public bool IsOperationStopped => (OutOfMemory || GPUNotFound || !String.IsNullOrEmpty(GPUError) || !IsEnabledByUser);
 
         public bool IsDagFinished()
         {
