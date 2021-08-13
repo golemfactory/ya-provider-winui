@@ -744,11 +744,6 @@ namespace GolemUI.Claymore
 
 
                     }
-
-                    if (_liveStatus.AreAllDagsFinishedOrFailed())
-                    {
-                        _liveStatus.NumberOfClaymorePerfReports += 1;
-                    }
                 }
             }
             _logger.LogDebug("done log {0}", line);
