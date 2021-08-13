@@ -219,12 +219,12 @@ namespace GolemUI.Command
 
             if (options.PrivateKey != null)
             {
-                startInfo.EnvironmentVariables.Add("YAGNA_AC_IDENTITY_PK", options.PrivateKey);
+                startInfo.EnvironmentVariables.Add("YAGNA_AUTOCONF_ID_SECRET", options.PrivateKey);
             }
 
             if (options.ForceAppKey != null)
             {
-                startInfo.EnvironmentVariables.Add("YAGNA_AC_APPKEY", options.ForceAppKey);
+                startInfo.EnvironmentVariables.Add("YAGNA_AUTOCONF_APPKEY", options.ForceAppKey);
             }
 
             if (options.OpenConsole)
