@@ -329,6 +329,7 @@ namespace GolemUI.ViewModel
                     NotifyChange("BenchmarkError");
                     NotifyChange(nameof(IsBenchmarkNotRunning));
                     NotifyChange(nameof(ShouldGpuCheckBoxesBeEnabled));
+                    SaveData();
                 }
             }
         }
@@ -341,15 +342,24 @@ namespace GolemUI.ViewModel
             get => _providerConfig?.IsMiningActive ?? false;
             set
             {
-                _providerConfig.IsMiningActive = value;
-                if (value == false)
+                if (_benchmarkService.IsMiningPossibleWithCurrentSettings)
                 {
-                    _processController.Stop();
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "gpu disabled - stopping mining", expirationTimeInMs: 3000, group: false));
+                    _providerConfig.IsMiningActive = value;
+                    if (value == false)
+                    {
+                        _processController.Stop();
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "gpu disabled - stopping mining", expirationTimeInMs: 3000, group: false));
+                    }
+                    NotifyChange(nameof(IsGpuEnabled));
+                    NotifyChange(nameof(IsBenchmarkNotRunning));
+                    NotifyChange(nameof(BenchmarkReadyToRun));
                 }
-                NotifyChange(nameof(IsGpuEnabled));
-                NotifyChange(nameof(IsBenchmarkNotRunning));
-                NotifyChange(nameof(BenchmarkReadyToRun));
+                else
+                {
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "cannot turn on mining support - please enable at least one GPU with mining ability or re-run benchmark to check your hardware again", expirationTimeInMs: 6000, group: false));
+                }
+
+
             }
         }
         public bool IsCpuEnabled

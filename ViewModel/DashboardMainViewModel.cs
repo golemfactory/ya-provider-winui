@@ -191,6 +191,10 @@ namespace GolemUI.ViewModel
 
         private void RefreshStatus()
         {
+            OnPropertyChanged(nameof(IsMiningReadyToRun));
+            OnPropertyChanged(nameof(IsGpuEnabled));
+            OnPropertyChanged(nameof(GpuStatus));
+            OnPropertyChanged(nameof(StartButtonExplanation));
             var isMining = _statusProvider.Activities?.Any(a => a.State == Model.ActivityState.StateType.Ready) ?? false;
             var newStatus = DashboardStatusEnum.Hidden;
             if (isMining)
@@ -325,17 +329,24 @@ namespace GolemUI.ViewModel
             get => _providerConfig.IsMiningActive;
             set
             {
-                _providerConfig.IsMiningActive = value;
-                if (value == false)
+                if (_benchmarkService.IsMiningPossibleWithCurrentSettings)
                 {
-                    _processController.Stop();
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "gpu disabled - stopping mining", expirationTimeInMs: 3000, group: false));
-                }
+                    _providerConfig.IsMiningActive = value;
+                    if (value == false)
+                    {
+                        _processController.Stop();
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "gpu disabled - stopping mining", expirationTimeInMs: 3000, group: false));
+                    }
 
-                OnPropertyChanged(nameof(IsMiningReadyToRun));
-                OnPropertyChanged(nameof(IsGpuEnabled));
-                OnPropertyChanged(nameof(GpuStatus));
-                OnPropertyChanged(nameof(StartButtonExplanation));
+                    OnPropertyChanged(nameof(IsMiningReadyToRun));
+                    OnPropertyChanged(nameof(IsGpuEnabled));
+                    OnPropertyChanged(nameof(GpuStatus));
+                    OnPropertyChanged(nameof(StartButtonExplanation));
+                }
+                else
+                {
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "cannot turn on mining support - please enable at least one GPU with mining ability or re-run benchmark to check your hardware again", expirationTimeInMs: 6000, group: false));
+                }
 
             }
         }
