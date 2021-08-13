@@ -413,7 +413,7 @@ namespace GolemUI.ViewModel
                 NotifyChange(nameof(IsGpuEnabled));
             if (e.PropertyName == "IsCpuActive")
                 NotifyChange(nameof(IsCpuEnabled));
-        
+
         }
         private void NotifyChange([CallerMemberName] string? propertyName = null)
         {
