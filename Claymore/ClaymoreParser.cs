@@ -712,7 +712,7 @@ namespace GolemUI.Claymore
                     }
                 }
 
-                if (_readyForGpusEthInfo && lineText.StartsWith("GPU", STR_COMP_TYPE))
+                if (_readyForGpusEthInfo && lineText.StartsWith("GPUs:", STR_COMP_TYPE))
                 {
                     //sample:
                     //"GPUs: 1: 0.000 MH/s (0) 2: 0.000 MH/s (0)"
@@ -743,6 +743,11 @@ namespace GolemUI.Claymore
                         }
 
 
+                    }
+
+                    if (_liveStatus.AreAllDagsFinishedOrFailed())
+                    {
+                        _liveStatus.NumberOfClaymorePerfReports += 1;
                     }
                 }
             }
