@@ -41,6 +41,19 @@ namespace GolemUI.Src
             _hc.Tick += this._checkHealth;
             _hc.Start();
 
+            _processControler.PropertyChanged += OnProcessControllerChanged;
+        }
+
+        private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsProviderRunning")
+            {
+                if (!_processControler.IsProviderRunning)
+                {
+                    _activities = new List<ActivityState>();
+                    OnPropertyChanged("");
+                }
+            }
         }
 
         private void _checkHealth(object sender, EventArgs e)

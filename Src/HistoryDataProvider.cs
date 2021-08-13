@@ -37,12 +37,11 @@ namespace GolemUI.Src
 
 
         public List<double> HashrateHistory { get; set; } = new List<double>();
-        
-        /*
-         *  MiningHistoryGPU is gathering entries across one agreement
-         */
-        public SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpu { get; set; } = new SortedDictionary<DateTime, GPUHistoryUsage>();
 
+        
+        public SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpuTotal { get; set; } = new SortedDictionary<DateTime, GPUHistoryUsage>();
+
+        public SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpuSinceStart { get; set; } = new SortedDictionary<DateTime, GPUHistoryUsage>();
 
         public PrettyChartData HashrateChartData { get; set; } = new PrettyChartData();
 
@@ -77,9 +76,9 @@ namespace GolemUI.Src
             }
         }
 
-        IProcessControler _processControler;
-        ILogger<HistoryDataProvider> _logger;
-        IPriceProvider _priceProvider;
+        private readonly IProcessControler _processControler;
+        private readonly ILogger<HistoryDataProvider> _logger;
+        private readonly IPriceProvider _priceProvider;
 
         private LookupCache<string, Dictionary<string, double>?> _agreementLookup;
 
@@ -92,7 +91,22 @@ namespace GolemUI.Src
             _logger = logger;
 
             _agreementLookup = LookupCache<string, Dictionary<string, double>?>.FromFunc(agreementID => _processControler.GetUsageVectors(agreementID));
+            _processControler.PropertyChanged += OnProcessControllerChanged;
         }
+
+
+        private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsProviderRunning")
+            {
+                if (!_processControler.IsProviderRunning)
+                {
+                    MiningHistoryGpuSinceStart.Clear();
+                    _computeEstimatedEarnings();
+                }
+            }
+        }
+
 
 
         public void AddGMinerActivityEntry(ActivityState newActivity, Dictionary<string, double> usageVector, ILogger? logger = null)
@@ -165,22 +179,26 @@ namespace GolemUI.Src
                 }
                 DateTime key = DateTime.Now;
 
-                if (MiningHistoryGpu.Count == 0)
+
+                foreach (SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpu in new SortedDictionary<DateTime, GPUHistoryUsage> []{ MiningHistoryGpuSinceStart, MiningHistoryGpuTotal })
                 {
-                    MiningHistoryGpu[key] = new GPUHistoryUsage(shares, sumMoney, duration, sharesTimesDiff, hashRate);
-                }
-                else
-                {
-                    if (shares > 0)
+                    if (MiningHistoryGpu.Count == 0)
                     {
-                        var lastEntry = MiningHistoryGpu.Last().Value;
-                        MiningHistoryGpu[key] = new GPUHistoryUsage(lastEntry.Shares + shares, lastEntry.Earnings + sumMoney, lastEntry.Duration + duration, sharesTimesDiff, hashRate);
+                        MiningHistoryGpu[key] = new GPUHistoryUsage(shares, sumMoney, duration, sharesTimesDiff, hashRate);
+                    }
+                    else
+                    {
+                        if (shares > 0)
+                        {
+                            var lastEntry = MiningHistoryGpu.Last().Value;
+                            MiningHistoryGpu[key] = new GPUHistoryUsage(lastEntry.Shares + shares, lastEntry.Earnings + sumMoney, lastEntry.Duration + duration, sharesTimesDiff, hashRate);
+                        }
                     }
                 }
-
             }
 
             Activities[newActivity.Id] = newActivity;
+
 
             _computeEstimatedEarnings();
         }
@@ -230,18 +248,18 @@ namespace GolemUI.Src
 
         private void _computeEstimatedEarnings()
         {
-            if (MiningHistoryGpu.Count > 3)
+            if (MiningHistoryGpuSinceStart.Count > 1)
             {
-                DateTime timeStart = MiningHistoryGpu.First().Key;
-                DateTime timeEnd = MiningHistoryGpu.Last().Key;
-                GPUHistoryUsage earningsStart = MiningHistoryGpu.First().Value;
-                GPUHistoryUsage earningsEnd = MiningHistoryGpu.Last().Value;
+                DateTime timeStart = MiningHistoryGpuSinceStart.First().Key;
+                DateTime timeEnd = MiningHistoryGpuSinceStart.Last().Key;
+                GPUHistoryUsage earningsStart = MiningHistoryGpuSinceStart.First().Value;
+                GPUHistoryUsage earningsEnd = MiningHistoryGpuSinceStart.Last().Value;
 
                 double diffEarnings = earningsEnd.Earnings - earningsStart.Earnings;
                 TimeSpan diffTime = timeEnd - timeStart;
                 int shares = earningsEnd.Shares - earningsStart.Shares;
 
-                double currentHashrate = MiningHistoryGpu.Last().Value.HashRate;
+                double currentHashrate = MiningHistoryGpuSinceStart.Last().Value.HashRate;
                 if (shares > 0 && diffEarnings > 0 && diffTime.TotalSeconds > 0)
                 {
                     var glmValue = diffEarnings / diffTime.TotalSeconds;
@@ -252,6 +270,14 @@ namespace GolemUI.Src
                         AvgGlmPerSecond = glmValue
                     };
                 }
+            }
+            else
+            {
+                EarningsStats = null;
+            }
+            if (!_processControler.IsProviderRunning)
+            {
+                EarningsStats = null;
             }
         }
 

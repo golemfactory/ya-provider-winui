@@ -28,7 +28,6 @@ namespace GolemUI.ViewModel
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
             _statusProvider = statusProvider;
-            _historyDataProvider = historyDataProvider;
             _remoteSettingsProvider = remoteSettingsProvider;
             _notificationService = notificationService;
             _taskProfitEstimator = taskProfitEstimator;
@@ -38,7 +37,6 @@ namespace GolemUI.ViewModel
             _statusProvider.PropertyChanged += OnActivityStatusChanged;
             _processController.PropertyChanged += OnProcessControllerChanged;
 
-            _historyDataProvider.PropertyChanged += _historyDataProvider_PropertyChanged;
             _benchmarkService.PropertyChanged += _benchmarkService_PropertyChanged;
             _taskProfitEstimator.PropertyChanged += _taskProfitEstimator_PropertyChanged;
         }
@@ -50,7 +48,6 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged(nameof(IsMiningReadyToRun));
                 OnPropertyChanged(nameof(StartButtonExplanation));
                 OnPropertyChanged(nameof(IsBenchmarkNotRunning));
-
             }
         }
 
@@ -116,14 +113,6 @@ namespace GolemUI.ViewModel
             }
         }
 
-
-        public string? ActiveAgreementID
-        {
-            get
-            {
-                return _historyDataProvider.ActiveAgreementID;
-            }
-        }
         private string _gpuStatus = "Ready";
 
         public string GpuStatus
@@ -343,8 +332,6 @@ namespace GolemUI.ViewModel
         {
             _processController.Stop();
             //insta kill provider and gracefully shutdown yagna
-
-
         }
 
         public async void Start()
@@ -370,7 +357,6 @@ namespace GolemUI.ViewModel
         private readonly IStatusProvider _statusProvider;
         private readonly IProcessControler _processController;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
-        private readonly IHistoryDataProvider _historyDataProvider;
         private readonly IRemoteSettingsProvider _remoteSettingsProvider;
         private readonly INotificationService _notificationService;
         private readonly ITaskProfitEstimator _taskProfitEstimator;

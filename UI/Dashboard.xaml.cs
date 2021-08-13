@@ -124,7 +124,7 @@ namespace GolemUI
             sb.Begin();
         }
 
-        public async Task<bool> RequestCloseAsync()
+        private async Task<bool> RequestCloseAsync()
         {
             //Disable logging in debugwindow to prevent problems with invoke 
             DebugWindow.EnableLoggingToDebugWindow = false;
