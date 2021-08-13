@@ -347,7 +347,7 @@ namespace GolemUI.ViewModel
             get => _providerConfig?.IsMiningActive ?? false;
             set
             {
-                if (_benchmarkService.IsMiningPossibleWithCurrentSettings || value==false)
+                if (_benchmarkService.IsMiningPossibleWithCurrentSettings || value == false)
                 {
                     _providerConfig.IsMiningActive = value;
                     if (value == false)
