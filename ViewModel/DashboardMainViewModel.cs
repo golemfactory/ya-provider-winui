@@ -328,7 +328,7 @@ namespace GolemUI.ViewModel
                         {
                             _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Stopping GPU mining", expirationTimeInMs: 3000, group: false));
                             _processController.Stop();
-                                                   }
+                        }
                         else
                         {
                             _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "GPU mining deactivated", expirationTimeInMs: 3000, group: false));
