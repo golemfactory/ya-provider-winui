@@ -11,9 +11,8 @@ on:
       - main
 
 jobs:
-
   build:
-
+    name: "Check Build"
     strategy:
       matrix:
         targetplatform: [x64]
@@ -61,8 +60,3 @@ jobs:
           Configuration: Release
           TargetPlatform: ${{ matrix.targetplatform }}
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: GolemUI
-          path: bin\Release
