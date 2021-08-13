@@ -38,7 +38,7 @@ namespace GolemUI.Src
 
         public List<double> HashrateHistory { get; set; } = new List<double>();
 
-        
+
         public SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpuTotal { get; set; } = new SortedDictionary<DateTime, GPUHistoryUsage>();
 
         public SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpuSinceStart { get; set; } = new SortedDictionary<DateTime, GPUHistoryUsage>();
@@ -180,7 +180,7 @@ namespace GolemUI.Src
                 DateTime key = DateTime.Now;
 
 
-                foreach (SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpu in new SortedDictionary<DateTime, GPUHistoryUsage> []{ MiningHistoryGpuSinceStart, MiningHistoryGpuTotal })
+                foreach (SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpu in new SortedDictionary<DateTime, GPUHistoryUsage>[] { MiningHistoryGpuSinceStart, MiningHistoryGpuTotal })
                 {
                     if (MiningHistoryGpu.Count == 0)
                     {
