@@ -63,7 +63,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>GolemUI.App</StartupObject>
-  </PropertyGroup>
+ </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Media/Thorg.ico</ApplicationIcon>
   </PropertyGroup>
