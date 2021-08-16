@@ -181,6 +181,10 @@ namespace GolemUI.ViewModel
 
         private void RefreshStatus()
         {
+            OnPropertyChanged(nameof(IsMiningReadyToRun));
+            OnPropertyChanged(nameof(IsGpuEnabled));
+            OnPropertyChanged(nameof(GpuStatus));
+            OnPropertyChanged(nameof(StartButtonExplanation));
             var isMining = _statusProvider.Activities?.Any(a => a.State == Model.ActivityState.StateType.Ready) ?? false;
             var newStatus = DashboardStatusEnum.Hidden;
             if (isMining)
@@ -205,11 +209,13 @@ namespace GolemUI.ViewModel
 
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == "IsMiningActive")
+                OnPropertyChanged(nameof(IsGpuEnabled));
+            if (e.PropertyName == "IsCpuActive")
+                OnPropertyChanged(nameof(IsCpuEnabled));
+
             if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
-            {
-                OnPropertyChanged(e.PropertyName);
                 RefreshStatus();
-            }
         }
 
         private void OnPaymentServiceChanged(object? sender, PropertyChangedEventArgs e)
@@ -313,24 +319,31 @@ namespace GolemUI.ViewModel
             get => _providerConfig.IsMiningActive;
             set
             {
-                _providerConfig.IsMiningActive = value;
-                if (value == false)
+                if (_benchmarkService.IsMiningPossibleWithCurrentSettings || value == false)
                 {
-                    if (_processController.IsProviderRunning)
+                    _providerConfig.IsMiningActive = value;
+                    if (value == false)
                     {
-                        _processController.Stop();
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Stopping GPU mining", expirationTimeInMs: 3000, group: false));
+                        if (_processController.IsProviderRunning)
+                        {
+                            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Stopping GPU mining", expirationTimeInMs: 3000, group: false));
+                            _processController.Stop();
+                        }
+                        else
+                        {
+                            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "GPU mining deactivated", expirationTimeInMs: 3000, group: false));
+                        }
                     }
-                    else
-                    {
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "GPU mining deactivated", expirationTimeInMs: 3000, group: false));
-                    }
-                }
 
-                OnPropertyChanged(nameof(IsMiningReadyToRun));
-                OnPropertyChanged(nameof(IsGpuEnabled));
-                OnPropertyChanged(nameof(GpuStatus));
-                OnPropertyChanged(nameof(StartButtonExplanation));
+                    OnPropertyChanged(nameof(IsMiningReadyToRun));
+                    OnPropertyChanged(nameof(IsGpuEnabled));
+                    OnPropertyChanged(nameof(GpuStatus));
+                    OnPropertyChanged(nameof(StartButtonExplanation));
+                }
+                else
+                {
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "cannot turn on mining support - please enable at least one GPU with mining ability or re-run benchmark to check your hardware again", expirationTimeInMs: 6000, group: false));
+                }
 
             }
         }

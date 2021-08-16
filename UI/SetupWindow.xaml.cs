@@ -164,7 +164,9 @@ namespace GolemUI.UI
             // Create IDocumentPaginatorSource from FlowDocument  
             IDocumentPaginatorSource idpSource = doc;
             // Call PrintDocument method to send document to printer  
-            printDlg.PrintDocument(idpSource.DocumentPaginator, "Wallet Recovery Sheet");
+            bool? result = printDlg.ShowDialog();
+            if (result == true)
+                printDlg.PrintDocument(idpSource.DocumentPaginator, "Wallet Recovery Sheet");
         }
 
         private async void OnWTLStep3Next(object sender, RoutedEventArgs e)
