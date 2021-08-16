@@ -185,6 +185,11 @@ namespace GolemUI.Src
                     OnPropertyChanged("TotalMhs");
                     if (_claymoreLiveStatus.NumberOfClaymorePerfReports >= _claymoreLiveStatus.TotalClaymoreReportsBenchmark)
                     {
+                        foreach (var gpu in _claymoreLiveStatus.GPUs)
+                        {
+                            gpu.Value.BenchmarkDoneForThrottlingLevel = gpu.Value.ClaymorePerformanceThrottling;
+                        }
+
                         _logger.LogInformation("Benchmark succeeded.");
                         break;
                     }
@@ -222,7 +227,22 @@ namespace GolemUI.Src
                         break;
                     }
 
-
+                    if (_claymoreLiveStatus.GPUInfosParsed && _claymoreLiveStatus.GPUs.Values.Count > 0)
+                    {
+                        bool allCardsEndedWithError = true;
+                        foreach (var gpu in _claymoreLiveStatus.GPUs.Values)
+                        {
+                            if (String.IsNullOrEmpty(gpu.GPUError))
+                            {
+                                allCardsEndedWithError = false;
+                            }
+                        }
+                        if (allCardsEndedWithError && String.IsNullOrEmpty(_claymoreLiveStatus.ErrorMsg))
+                        {
+                            _claymoreLiveStatus.ErrorMsg = "Failed to validate cards";
+                            break;
+                        }
+                    }
                 }
             }
             finally
@@ -248,6 +268,15 @@ namespace GolemUI.Src
                             }
                         }
                         gpu.SetStepFinished();
+                    }
+                }
+                if (_requestStop)
+                {
+                    //additional conditions when to revert back to old status when benchmark stopped
+                    if (externalLiveStatus != null && String.IsNullOrEmpty(externalLiveStatus.ErrorMsg) && externalLiveStatus.GPUs.Count > 0
+                        && externalLiveStatus.GPUs.Values.Where(x => x.BenchmarkSpeed > 0.0f).Count() > 0)
+                    {
+                        _claymoreLiveStatus = externalLiveStatus;
                     }
                 }
                 OnPropertyChanged("IsRunning");
@@ -312,6 +341,15 @@ namespace GolemUI.Src
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public bool IsMiningPossibleWithCurrentSettings
+        {
+            get
+            {
+                int count = _claymoreLiveStatus?.GPUs.Values.Where(x => x.IsEnabledByUser && x.IsReadyForMining).Count() ?? 0;
+                return count > 0;
             }
         }
 

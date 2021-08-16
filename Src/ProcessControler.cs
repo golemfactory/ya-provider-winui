@@ -287,13 +287,13 @@ namespace GolemUI
             _yagnaDaemon = _yagna.Run(new YagnaStartupOptions()
             {
                 ForceAppKey = _generatedAppKey.Value,
-                OpenConsole = false,
+                OpenConsole = true,
                 PrivateKey = privateKey
             });
             _yagnaDaemon.ErrorDataReceived += OnYagnaErrorDataRecv;
             _yagnaDaemon.OutputDataReceived += OnYagnaOutputDataRecv;
-            _yagnaDaemon.BeginErrorReadLine();
-            _yagnaDaemon.BeginOutputReadLine();
+            //_yagnaDaemon.BeginErrorReadLine();
+            //_yagnaDaemon.BeginOutputReadLine();
 
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _generatedAppKey.Value);
 

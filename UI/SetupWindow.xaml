@@ -462,7 +462,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </ListBox>
                                                 <StackPanel Margin="10" HorizontalAlignment="Stretch">
                                                     <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
-                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdmonth}"/>
                                                     <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
                                                     <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep4Next"
@@ -490,7 +490,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             <RowDefinition Height="64"/>
 
                                         </Grid.RowDefinitions>
-                                        <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top"/>
+                                        <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top" />
                                         <StackPanel MinWidth="400" Margin="20,40" Grid.Column="1" HorizontalAlignment="Stretch">
                                             <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 10">Enjoy!</TextBlock>
                                             <StackPanel Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 0, 0, 10">
@@ -508,7 +508,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </ListBox>
                                                 <StackPanel Margin="10" HorizontalAlignment="Stretch">
                                                     <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profit</TextBlock>
-                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdmonth}"/>
                                                     <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
                                                     <Button Content="Next" FontSize="18" Margin="0, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="45" IsDefault="True" Click="OnNoobFinish"
@@ -715,7 +715,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </ListBox>
                                                 <StackPanel Margin="10" HorizontalAlignment="Stretch">
                                                     <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
-                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdmonth}"/>
                                                     <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
                                                     <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep4Next"
@@ -752,7 +752,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </ListBox>
                                                 <StackPanel Margin="10" HorizontalAlignment="Stretch">
                                                     <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
-                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdday}"/>
+                                                    <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdmonth}"/>
                                                     <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
                                                     <Button Content="Next" Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnNoobFinish"
@@ -767,7 +767,28 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                             </TabControl>
                         </StackPanel>
                     </TabItem>
+                    <TabItem Header="NoGpu">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" MinWidth="275"/>
+                                <ColumnDefinition Width="3*"/>
 
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+
+                            </Grid.RowDefinitions>
+                           
+                            <ContentControl Content="{StaticResource Benchmark_Step_icon}" Grid.Row="0" Grid.RowSpan="2" Margin="6,20,0,0" VerticalAlignment="Top"/>
+                            <StackPanel Grid.Column="1" Margin="60,60,0,0" VerticalAlignment="Top">
+                                <TextBlock FontSize="23" FontWeight="Bold" Margin="0,0,0,40" Grid.Column="1">It seems that you do not have sufficient GPU</TextBlock>
+                                <TextBlock Foreground="#aaa">You may still try to compute tasks on Golem Network using your</TextBlock>
+                                <TextBlock FontSize="23" FontWeight="Bold" Margin="0,10" Grid.Column="1">CPU</TextBlock>
+
+                            </StackPanel>
+                            <Button Grid.Column="1" Margin="60,0,40,200" x:Name="BtnNoGpuContinue" Content="CONTINUE" Click ="BtnNoGpuContinue_Click" VerticalAlignment="Bottom" Style="{StaticResource GradientButtonStyle}" />
+                        </Grid>
+                    </TabItem>
                 </TabControl>
             </Grid>
             <Border x:Name="RectBlack" Style="{StaticResource SemiTransparentBorder}" Grid.RowSpan="2" Grid.ColumnSpan="2" />

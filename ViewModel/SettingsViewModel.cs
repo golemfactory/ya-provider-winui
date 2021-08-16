@@ -152,6 +152,10 @@ namespace GolemUI.ViewModel
                 }
 
             }
+            else
+            {
+                niceness = ((int)PerformanceThrottlingEnumConverter.Default).ToString();
+            }
             if (allEnabled)
             {
                 //If all cards are enabled benchmark prerun is not needed and no need to select cards
@@ -165,6 +169,7 @@ namespace GolemUI.ViewModel
         {
             BenchmarkService.StopBenchmark();
         }
+
         public void LoadData()
         {
             AdvancedSettingsButtonEnabled = true;
@@ -194,6 +199,7 @@ namespace GolemUI.ViewModel
             NotifyChange(nameof(IsCpuEnabled));
             NotifyChange(nameof(IsGpuEnabled));
             NotifyChange(nameof(BenchmarkReadyToRun));
+            NotifyChange(nameof(ShouldGpuCheckBoxesBeEnabled));
             NotifyChange("HashRate");
             NotifyChange("ExpectedProfit");
         }
@@ -248,6 +254,7 @@ namespace GolemUI.ViewModel
                 {
                     KeyValuePair<int, Claymore.ClaymoreGpuStatus> keyVal = res.Value;
                     keyVal.Value.IsEnabledByUser = gpu.IsEnabledByUser;
+                    keyVal.Value.BenchmarkSpeed = gpu.BenchmarkSpeed;
                     keyVal.Value.ClaymorePerformanceThrottling = gpu.ClaymorePerformanceThrottling;
                 }
             });
@@ -326,13 +333,14 @@ namespace GolemUI.ViewModel
                     NotifyChange("BenchmarkReadyToRun");
                     NotifyChange("BenchmarkError");
                     NotifyChange(nameof(IsBenchmarkNotRunning));
+                    NotifyChange(nameof(ShouldGpuCheckBoxesBeEnabled));
                 }
             }
         }
         public bool BenchmarkIsRunning => _benchmarkService.IsRunning;
-        public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning) && IsGpuEnabled;
+        public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning);
         public bool IsBenchmarkNotRunning => !(_benchmarkService.IsRunning);
-
+        public bool ShouldGpuCheckBoxesBeEnabled => IsBenchmarkNotRunning && ((this._benchmarkService.Status?.GPUs?.Count ?? 0) > 1);
         public bool IsGpuEnabled
         {
             get => _providerConfig?.IsMiningActive ?? false;
@@ -341,8 +349,15 @@ namespace GolemUI.ViewModel
                 _providerConfig.IsMiningActive = value;
                 if (value == false)
                 {
-                    _processController.Stop();
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "gpu disabled - stopping mining", expirationTimeInMs: 3000, group: false));
+                    if (_processController.IsProviderRunning)
+                    {
+                        _processController.Stop();
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Stopping GPU mining", expirationTimeInMs: 3000, group: false));
+                    }
+                    else
+                    {
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "GPU mining deactivated", expirationTimeInMs: 3000, group: false));
+                    }
                 }
                 NotifyChange(nameof(IsGpuEnabled));
                 NotifyChange(nameof(IsBenchmarkNotRunning));

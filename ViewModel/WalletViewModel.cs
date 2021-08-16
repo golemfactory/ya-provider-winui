@@ -30,7 +30,6 @@ namespace GolemUI.ViewModel
         private string? _walletAddress;
         private decimal _amount;
         private decimal _pendingAmount;
-        private decimal _glmPerDay;
 
         public WalletViewModel(IPriceProvider priceProvider, IPaymentService paymentService, Command.Provider provider, IProviderConfig providerConfig,
             ITaskProfitEstimator taskProfitEstimator)
@@ -46,7 +45,6 @@ namespace GolemUI.ViewModel
             this._walletAddress = wallet;
             this._amount = 0;
             this._pendingAmount = 0;
-            this._glmPerDay = 0;
             this.Tickler = "GLM";
             var state = _paymentService.State;
             if (state != null)

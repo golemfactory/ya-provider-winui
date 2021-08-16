@@ -231,6 +231,7 @@ namespace GolemUI.Command
             {
                 startInfo.RedirectStandardOutput = false;
                 startInfo.RedirectStandardError = false;
+                startInfo.UseShellExecute = false;
             }
             else
             {

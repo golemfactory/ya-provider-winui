@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -13,8 +14,6 @@ namespace GolemUI.Src
 {
     class TaskProfitEstimator : ITaskProfitEstimator
     {
-
-
         private double? _estimatedEarningsPerSecond;
         public double? EstimatedEarningsPerSecond
         {
@@ -35,9 +34,10 @@ namespace GolemUI.Src
         private readonly IPriceProvider _priceProvider;
         private readonly IEstimatedProfitProvider _estimatedProfitProvider;
         private readonly IStatusProvider _statusProvider;
+        private readonly IProcessControler _processControler;
 
         public TaskProfitEstimator(ILogger<TaskProfitEstimator> logger, IHistoryDataProvider historyDataProvider, IPriceProvider priceProvider,
-            IEstimatedProfitProvider estimatedProfitProvider, IStatusProvider statusProvider)
+            IEstimatedProfitProvider estimatedProfitProvider, IStatusProvider statusProvider, IProcessControler processControler)
         {
             _logger = logger;
             _historyDataProvider = historyDataProvider;
@@ -46,8 +46,19 @@ namespace GolemUI.Src
             _statusProvider = statusProvider;
             _historyDataProvider.PropertyChanged += OnHistoryDataProviderChanged;
             _statusProvider.PropertyChanged += OnHistoryDataProviderChanged;
+            _processControler = processControler;
 
+            _processControler.PropertyChanged += OnProcessControllerChanged;
         }
+
+        private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsProviderRunning")
+            {
+                Refresh();
+            }
+        }
+
 
         private void OnHistoryDataProviderChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -72,6 +83,12 @@ namespace GolemUI.Src
 
         private void Refresh()
         {
+            if (!_processControler.IsProviderRunning)
+            {
+                EstimatedEarningsPerSecond = null;
+                EstimatedEarningsMessage = $"Start mining to get estimates";
+                return;
+            }
             if (_historyDataProvider.EarningsStats is IHistoryDataProvider.EarningsStatsType stats)
             {
                 EstimatedEarningsPerSecond = _priceProvider.CoinValue(stats.AvgGlmPerSecond, Model.Coin.GLM);
@@ -93,12 +110,18 @@ namespace GolemUI.Src
                 var hashRate = _statusProvider.Activities
                     .Where(a => a.ExeUnit == "gminer" && (a.Usage?.ContainsKey(HASH_RATE) ?? false))
                     .FirstOrDefault()?.Usage?[HASH_RATE];
+
+                Debug.WriteLine(_statusProvider.Activities);
                 if (hashRate is float hr && hr > 0.0)
                 {
                     EstimatedEarningsPerSecond = _estimatedProfitProvider.HashRateToUSDPerDay(Convert.ToDouble(hr)) / 3600.0 / 24.0;
                     EstimatedEarningsMessage = $"Estimation based on current hashrate and requestor payout.";
                 }
-
+                else
+                {
+                    EstimatedEarningsPerSecond = null;
+                    EstimatedEarningsMessage = $"Estimation in progress...";
+                }
             }
         }
 
