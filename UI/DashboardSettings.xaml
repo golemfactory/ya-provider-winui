@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Scrollbars/SettingsScrollView.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/CheckBox/SliderCheckBox.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/AdvancedSettingsButton.xaml"/>
@@ -103,7 +104,7 @@
 
 
 
-                <Border MinHeight="320" Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="0" >
+                <Border Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="0" >
 
                     <Grid Margin="0, 0, 0, 0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                         <Grid.RowDefinitions>
@@ -138,7 +139,7 @@
                     </Grid>
 
                 </Border>
-                <Border MinHeight="260"  Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">
+                <Border Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.4*"/>
@@ -171,7 +172,7 @@
                             <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorStyle}" TextWrapping="Wrap" Text="{Binding BenchmarkError}" Margin="5, 0, 10, 0" VerticalAlignment="Center"></TextBox>
                         </StackPanel>
 
-                        <ScrollViewer Grid.Column="1" Grid.Row="2" Margin="25,4,0,0" Padding="0" Grid.RowSpan="2" VerticalScrollBarVisibility="Hidden">
+                        <ScrollViewer Grid.Column="1" Grid.Row="2" Margin="25,4,0,0" Padding="0" Grid.RowSpan="2" VerticalScrollBarVisibility="Auto" Style="{DynamicResource SettingsScrollViewer}">
                             <ItemsControl Grid.Column="1" ItemsSource="{Binding GpuList}" Margin="0,0,0,0" >
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
