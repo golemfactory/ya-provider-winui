@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using GolemUI.Utils;
 
 namespace GolemUI.ViewModel
 {
@@ -29,7 +30,7 @@ namespace GolemUI.ViewModel
         private readonly IUserSettingsProvider _userSettingsProvider;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
         public BenchmarkService BenchmarkService => _benchmarkService;
-        public ObservableCollection<ClaymoreGpuStatus>? GpuList { get; set; }
+        public ObservableCollection<ClaymoreGpuStatus> GpuList { get; set; }
         public string BenchmarkError { get; set; }
 
         //It's needed to prevent blinking button when transition to advanced window
@@ -151,6 +152,10 @@ namespace GolemUI.ViewModel
                 }
 
             }
+            else
+            {
+                niceness = ((int)PerformanceThrottlingEnumConverter.Default).ToString();
+            }
             if (allEnabled)
             {
                 //If all cards are enabled benchmark prerun is not needed and no need to select cards
@@ -164,19 +169,25 @@ namespace GolemUI.ViewModel
         {
             BenchmarkService.StopBenchmark();
         }
+
         public void LoadData()
         {
             AdvancedSettingsButtonEnabled = true;
-            GpuList?.Clear();
+            GpuList.Clear();
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
-            if (IsBenchmarkSettingsCorrupted()) return;
+
+            if (_benchmarkSettings == null || _benchmarkSettings.liveStatus == null || _benchmarkSettings.liveStatus.GPUs == null)
+            {
+                return;
+            }
+
             _benchmarkSettings.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null).ToList().ForEach(gpu =>
             {
                 var val = gpu.Value;
                 val.PropertyChanged += Val_PropertyChanged;
-                GpuList?.Add(val);
+                GpuList.Add(val);
             });
-            NodeName = _providerConfig?.Config?.NodeName;
+
             var activeCpuCount = _providerConfig?.ActiveCpuCount ?? 0;
             if (activeCpuCount <= TotalCpusCount)
                 ActiveCpusCount = activeCpuCount;
@@ -184,9 +195,13 @@ namespace GolemUI.ViewModel
                 ActiveCpusCount = TotalCpusCount;
 
             NotifyChange("TotalCpusCountAsString");
+
             NotifyChange(nameof(IsCpuEnabled));
             NotifyChange(nameof(IsGpuEnabled));
             NotifyChange(nameof(BenchmarkReadyToRun));
+            NotifyChange(nameof(ShouldGpuCheckBoxesBeEnabled));
+            NotifyChange("HashRate");
+            NotifyChange("ExpectedProfit");
         }
 
         void ChangeSettingsWithMiningRestart(string msg)
@@ -226,27 +241,23 @@ namespace GolemUI.ViewModel
 
                 }
             }
+            NotifyChange("HashRate");
+            NotifyChange("ExpectedProfit");
         }
 
-        private bool IsBenchmarkSettingsCorrupted()
-        {
-            return (_benchmarkSettings == null || _benchmarkSettings.liveStatus == null || _benchmarkSettings.liveStatus.GPUs == null);
-        }
         public void SaveData()
         {
-
             GpuList?.ToList().ForEach(gpu =>
             {
-                if (IsBenchmarkSettingsCorrupted()) return;
                 var res = _benchmarkSettings.liveStatus?.GPUs.ToList().Find(x => x.Value.GpuNo == gpu.GpuNo);
                 if (res != null && res.HasValue && !res.Equals(default(KeyValuePair<int, Claymore.ClaymoreGpuStatus>)))
                 {
                     KeyValuePair<int, Claymore.ClaymoreGpuStatus> keyVal = res.Value;
                     keyVal.Value.IsEnabledByUser = gpu.IsEnabledByUser;
+                    keyVal.Value.BenchmarkSpeed = gpu.BenchmarkSpeed;
                     keyVal.Value.ClaymorePerformanceThrottling = gpu.ClaymorePerformanceThrottling;
                 }
             });
-
 
             _providerConfig?.UpdateActiveCpuThreadsCount(ActiveCpusCount);
             var _ls = _benchmarkSettings.liveStatus;
@@ -257,37 +268,24 @@ namespace GolemUI.ViewModel
             _benchmarkResultsProvider.SaveBenchmarkResults(_benchmarkSettings);
         }
 
+
         private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Status")
             {
-                var _newGpus = _benchmarkService.Status?.GPUs.Values?.ToArray();
-                //  if (_newGpus.Length == 0) return;
                 if (_benchmarkService.Status?.GPUInfosParsed == true)
-                    if (_newGpus != null && GpuList != null)
+                {
+                    var newGpus = _benchmarkService.Status?.GPUs.Values;
+                    GpuList.CopyFromStandardCollection(newGpus);
+                    foreach (var gpu in GpuList)
                     {
-                        for (var i = 0; i < _newGpus.Length; ++i)
-                        {
-                            if (i < GpuList.Count)
-                            {
-                                _newGpus[i].IsEnabledByUser = GpuList[i].IsEnabledByUser;
-                                _newGpus[i].ClaymorePerformanceThrottling = GpuList[i].ClaymorePerformanceThrottling;
-                                GpuList[i] = _newGpus[i];
-                            }
-                            else
-                            {
-                                GpuList.Add(_newGpus[i]);
-                            }
-                        }
-                        while (_newGpus.Length < GpuList.Count)
-                        {
-                            GpuList.RemoveAt(GpuList.Count - 1);
-                        }
+                        gpu.PropertyChanged += Val_PropertyChanged;
                     }
+                }
 
                 BenchmarkError = _benchmarkService?.Status?.ErrorMsg ?? "";
 
-                NotifyChange("GpuList"); // ok 
+                NotifyChange("GpuList");
                 NotifyChange("HashRate");
                 NotifyChange("ExpectedProfit");
                 NotifyChange("BenchmarkIsRunning");
@@ -311,64 +309,69 @@ namespace GolemUI.ViewModel
                     _benchmarkService.Save();
                     _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
 
-                    var _newGpus = _benchmarkService.Status?.GPUs.Values?.ToArray();
-                    GpuList!.Clear();
-                    if (_benchmarkService.Status?.GPUInfosParsed == true)
+                    var benchmarkStatus = _benchmarkService.Status;
+                    if (benchmarkStatus != null)
                     {
-                        if (_newGpus != null)
+                        var _newGpus = benchmarkStatus.GPUs.Values?.ToArray();
+
+                        if (benchmarkStatus.GPUInfosParsed)
                         {
-                            for (var i = 0; i < _newGpus.Length; ++i)
-                            {
-                                if (i < GpuList!.Count)
-                                {
-                                    _newGpus[i].IsEnabledByUser = GpuList[i].IsEnabledByUser;
-                                    _newGpus[i].ClaymorePerformanceThrottling = GpuList[i].ClaymorePerformanceThrottling;
-                                    GpuList[i] = _newGpus[i];
-                                }
-                                else
-                                {
-                                    GpuList!.Add(_newGpus[i]);
-                                }
-                            }
-                            while (_newGpus.Length < GpuList.Count)
-                            {
-                                GpuList!.RemoveAt(GpuList.Count - 1);
-                            }
+                            var newGpus = benchmarkStatus.GPUs.Values;
+                            GpuList.CopyFromStandardCollection(newGpus);
                         }
+
+                        BenchmarkError = benchmarkStatus.ErrorMsg ?? "";
                     }
-                    if (_benchmarkService.Status != null)
-                    {
-                        BenchmarkError = _benchmarkService?.Status?.ErrorMsg ?? "";
-                    }
-                    NotifyChange("GpuList"); // ok 
+
+                    NotifyChange("BenchmarkReadyToRun");
+                    NotifyChange("BenchmarkIsRunning");
+                    NotifyChange("ExpectedProfit");
+                    NotifyChange("GpuList");
                     NotifyChange("HashRate");
                     NotifyChange("ExpectedProfit");
                     NotifyChange("BenchmarkIsRunning");
                     NotifyChange("BenchmarkReadyToRun");
                     NotifyChange("BenchmarkError");
                     NotifyChange(nameof(IsBenchmarkNotRunning));
-
+                    NotifyChange(nameof(ShouldGpuCheckBoxesBeEnabled));
+                    SaveData();
                 }
             }
         }
         public bool BenchmarkIsRunning => _benchmarkService.IsRunning;
-        public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning) && IsGpuEnabled;
+        public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning);
         public bool IsBenchmarkNotRunning => !(_benchmarkService.IsRunning);
-
+        public bool ShouldGpuCheckBoxesBeEnabled => IsBenchmarkNotRunning && ((this._benchmarkService.Status?.GPUs?.Count ?? 0) > 1);
         public bool IsGpuEnabled
         {
             get => _providerConfig?.IsMiningActive ?? false;
             set
             {
-                _providerConfig.IsMiningActive = value;
-                if (value == false)
+                if (_benchmarkService.IsMiningPossibleWithCurrentSettings || value == false)
                 {
-                    _processController.Stop();
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "gpu disabled - stopping mining", expirationTimeInMs: 3000, group: false));
+                    _providerConfig.IsMiningActive = value;
+                    if (value == false)
+                    {
+                        if (_processController.IsProviderRunning)
+                        {
+                            _processController.Stop();
+                            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Stopping GPU mining", expirationTimeInMs: 3000, group: false));
+                        }
+                        else
+                        {
+                            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "GPU mining deactivated", expirationTimeInMs: 3000, group: false));
+                        }
+                    }
+                    NotifyChange(nameof(IsGpuEnabled));
+                    NotifyChange(nameof(IsBenchmarkNotRunning));
+                    NotifyChange(nameof(BenchmarkReadyToRun));
                 }
-                NotifyChange(nameof(IsGpuEnabled));
-                NotifyChange(nameof(IsBenchmarkNotRunning));
-                NotifyChange(nameof(BenchmarkReadyToRun));
+                else
+                {
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "cannot turn on mining support - please enable at least one GPU with mining ability or re-run benchmark to check your hardware again", expirationTimeInMs: 6000, group: false));
+                }
+
+
             }
         }
         public bool IsCpuEnabled
@@ -390,11 +393,17 @@ namespace GolemUI.ViewModel
                 _activeCpusCount = value;
                 NotifyChange("ActiveCpusCount");
                 NotifyChange("ActiveCpusCountAsString");
-
             }
         }
         public int TotalCpusCount => _totalCpusCount;
-        public float? Hashrate => _benchmarkService.TotalMhs;
+        public double? HashRate
+        {
+            get
+            {
+                var enabledAndCapableGpus = GpuList.Where(gpu => gpu.IsEnabledByUser && gpu.IsReadyForMining);
+                return enabledAndCapableGpus?.Sum(gpu => gpu.BenchmarkSpeed);
+            }
+        }
         public string? NodeName
         {
             get => _providerConfig?.Config?.NodeName;
@@ -408,10 +417,10 @@ namespace GolemUI.ViewModel
         {
             get
             {
-                var totalHr = Hashrate;
+                var totalHr = HashRate;
                 if (totalHr != null)
                 {
-                    return (double)_priceProvider.CoinValue((decimal)_profitEstimator.HashRateToCoinPerDay((double)totalHr), IPriceProvider.Coin.ETH);
+                    return (double)_profitEstimator.HashRateToUSDPerDay(totalHr.Value, Coin.ETH);
                 }
                 return null;
             }
@@ -422,10 +431,11 @@ namespace GolemUI.ViewModel
             {
                 NotifyChange("NodeName");
             }
-            if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
-            {
-                NotifyChange(e.PropertyName);
-            }
+            if (e.PropertyName == "IsMiningActive")
+                NotifyChange(nameof(IsGpuEnabled));
+            if (e.PropertyName == "IsCpuActive")
+                NotifyChange(nameof(IsCpuEnabled));
+
         }
         private void NotifyChange([CallerMemberName] string? propertyName = null)
         {

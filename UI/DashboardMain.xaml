@@ -73,7 +73,7 @@
                 <local:DashboardStatusControl Status="{Binding Path=Status}" Margin="0,0,0,4" Grid.ColumnSpan="2" />
                 <Button Click="btnStop_Click" Margin="0,15,0,0" Style="{StaticResource GradientButtonStyle}" VerticalAlignment="Bottom" Height="45" Grid.Column="4" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToVisibleConverter}}">Stop Mining</Button>
                 <Button Style="{StaticResource GradientButtonStyle}" Click="btnStart_Click"  Margin="0,15,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="45" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsMiningReadyToRun, Mode=OneWay}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToHiddenConverter}}">Start Mining</Button>
-                <Label Grid.ColumnSpan="3" Content="{Binding StartButtonExplanation}" Grid.Column="4" Grid.Row="1"></Label>
+                <TextBlock  Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow" Text="{Binding StartButtonExplanation}" Grid.Column="4" Grid.Row="1"></TextBlock>
 
                 <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="0" Padding="8" Grid.Row="2">
                     <Grid>
@@ -111,12 +111,12 @@
                         <StackPanel Margin="0,22" Grid.Row="2">
                             <Label HorizontalAlignment="Center" FontFamily="Segoe UI" FontSize="14" Margin="0, 2">Estimated Profit</Label>
                             <TextBlock HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" Margin="0, 12" ToolTip="{Binding Path=EstimationMessage}">
-                                <Run Text="{Binding Path=UsdPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay}"/> / day
+                                <Run Text="{Binding Path=UsdPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay, ConverterParameter=usdmonth}"/>
                             </TextBlock>
                         </StackPanel>
                     </Grid>
                 </Border>
-                <Border Style="{DynamicResource BorderStyleBlueBox}" Margin="0" HorizontalAlignment="Stretch" Grid.Column="4" Grid.Row="2">
+                <Border Style="{DynamicResource BorderStyleBlueBox}" Margin="0" HorizontalAlignment="Stretch" Grid.Column="4" Grid.Row="2" Opacity="{Binding Path=GpuOpacity}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -148,9 +148,6 @@
                                                 <BeginStoryboard
                                                     Storyboard="{StaticResource GlowLoop}"/>
                                             </DataTrigger.EnterActions>
-                                            <DataTrigger.ExitActions>
-                                                <StopStoryboard BeginStoryboardName="GlowLoop" />
-                                            </DataTrigger.ExitActions>
                                             <Setter Property="Effect">
                                                 <Setter.Value>
                                                     <DropShadowEffect ShadowDepth="0" Color="#0FB2AB" Opacity="0.6" />
@@ -164,16 +161,26 @@
                         <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24,0,8">
                             <Label Padding="0" Content="GPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18"  HorizontalAlignment="Center"></Label>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0,6">
-                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsGpuEnabled}" IsEnabled="{Binding IsBenchmarkNotRunning, Mode=OneWay}">
+                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsGpuEnabled}" IsEnabled="{Binding ShouldGpuSwitchBeEnabled, Mode=OneWay}">
                                     <Label Content="{Binding GpuStatus}"/>
                                 </CheckBox>
                                 <Label Padding="2,5" Content="{Binding Path=GpuStatusAnnotation, TargetNullValue=' '}"/>
                             </StackPanel>
 
-                            <Button Style="{StaticResource GoToSettingsButtonStyle}" 
-                                    Cursor="Hand" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Click="BtnSettings_Click" Margin="0"
-                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=IsMouseOver, Converter={StaticResource BoolToVisibleConverter}}"
-                                    HorizontalAlignment="Left"/>
+                            <Button  Cursor="Hand" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Click="BtnSettings_Click" Margin="0"  HorizontalAlignment="Left">
+                                <Button.Style >
+                                    <Style TargetType="Button" BasedOn="{StaticResource GoToSettingsButtonStyle}">
+                                        <Setter Property="Visibility">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{StaticResource MultiBoolToVisibleConverter}">
+                                                    <Binding Path="IsMouseOver" RelativeSource="{RelativeSource AncestorType=Border}"/>
+                                                    <Binding Path="IsAnyGpuEnabled" />
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
 
                         </StackPanel>
                     </Grid>

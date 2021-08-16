@@ -177,7 +177,7 @@ namespace GolemUI.UI
         private void OnWTLStep4Next(object sender, RoutedEventArgs e)
         {
             Model!.NoobStep = 4;
-            int defaultBenchmarkStep = (int)PerformanceThrottlingEnum.High;
+            int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
             Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "", null);
         }
 
@@ -211,7 +211,7 @@ namespace GolemUI.UI
         {
 
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
-            int defaultBenchmarkStep = (int)PerformanceThrottlingEnum.High;
+            int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
             Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "", null);
         }
 
@@ -250,6 +250,14 @@ namespace GolemUI.UI
         private void NavBar_ButtonClick(int selection)
         {
             MessageBox.Show(selection.ToString());
+        }
+
+        private void BtnNoGpuContinue_Click(object sender, RoutedEventArgs e)
+        {
+            Model!.Save();
+            var wnd = _serviceProvider.GetService(typeof(GolemUI.Dashboard)) as GolemUI.Dashboard;
+            wnd?.Show();
+            Close();
         }
     }
 }

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
 <?define Win64 = "yes" ?>
-<?define Version="0.1.8"?>
+<?define Version="0.2.1"?>
 <?define BuildOutputDir="..\bin\Release"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:fw="http://schemas.microsoft.com/wix/FirewallExtension">
   <Product
@@ -41,7 +41,11 @@
                   Target="[APPLICATIONFOLDER]GolemUI.Exe"
                   WorkingDirectory="APPLICATIONFOLDER"/>
         <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
-        <RegistryValue Root="HKCU" Key="Software\GolemFactory\GolemProviderUI" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+           <RegistryKey Root="HKCU"
+                     Key="Software\GolemFactory\ThorgMiner" Action="createAndRemoveOnUninstall">
+             <RegistryValue  Name="sendReports" Type="integer" Value="0"/>
+        <RegistryValue  Name="installed" Type="integer" Value="1" KeyPath="yes"/>        
+      </RegistryKey>
       </Component>
     </DirectoryRef>
     
@@ -84,6 +88,8 @@
         </Directory>
       </Directory>
     </Directory>
+    
+
 
     <Feature
         Id='MainProgram'
@@ -128,12 +134,16 @@
 
 
     <SetProperty Id='ARPINSTALLLOCATION' Value='[APPLICATIONFOLDER]' After='CostFinalize'/>
+    <Property Id="SENTRY_ACCEPTED" Value="0"/>
     <SetProperty Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" After='CostFinalize' />
     <UI>
       <UIRef Id='WixUI_FeatureTree'/>
       <!--UIRef Id='WixUI_Minimal'/-->
       <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction"
       Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+	   <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="TermsAgreementDlg">LicenseAccepted = "1"</Publish>
+	   <Publish Dialog="TermsAgreementDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg">1</Publish>
+     <Publish Dialog="TermsAgreementDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
     </UI>
     <WixVariable Id='WixUILicenseRtf' Value='LICENSE.rtf'/>
     <WixVariable Id="WixUIBannerBmp" Value="WixUIBannerBmp.bmp" />
@@ -150,4 +160,34 @@
       <File Id="filE191C2D49C12AE32405B1455AA8C7D41" KeyPath="yes" Source="$(var.GolemUI.TargetDir)\GolemUI.exe" Assembly=".net" />
     </Component>
   </Fragment>
+
+  <Fragment>
+        <UI>
+            <Dialog Id="TermsAgreementDlg" Width="370" Height="270" Title="Terms of service">
+                <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.LicenseAgreementDlgBannerBitmap)" />
+                <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                <Control Id="Description" Type="Text" X="25" Y="23" Width="340" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.LicenseAgreementDlgDescription)" />
+                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.LicenseAgreementDlgTitle)" />
+				        <Control Id="TermsAcceptedCheckBox" Type="CheckBox" X="20" Y="182" Width="330" Height="18" CheckBoxValue="1" Property="TermsAccepted" Text="Accept Golem Platform Terms of Use" />
+                <Control Id="MonitoringAcceptedCheckBox" Type="CheckBox" X="20" Y="200" Width="330" Height="18" CheckBoxValue="1" 
+                         Property="SENTRY_ACCEPTED" Text="Automatically send application crash reports" />
+                <Control Id="Print" Type="PushButton" X="112" Y="243" Width="56" Height="17" Text="!(loc.WixUIPrint)">
+                    <Publish Event="DoAction" Value="WixUIPrintEula">1</Publish>
+                </Control>
+                <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
+                <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
+                    <Publish Event="SpawnWaitDialog" Value="WaitForCostingDlg">!(wix.WixUICostingPopupOptOut) OR CostingComplete = 1</Publish>
+                    <Condition Action="disable"><![CDATA[TermsAccepted <> "1"]]></Condition>
+                    <Condition Action="enable">TermsAccepted = "1"</Condition>
+                </Control>
+                <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+                    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+                </Control>
+                <Control Id="LicenseText" Type="ScrollableText" X="20" Y="60" Width="330" Height="115" Sunken="yes" TabSkip="no">
+                    <Text SourceFile="TERMS.rtf" />
+                </Control>
+            </Dialog>
+        </UI>
+    </Fragment>
 </Wix>

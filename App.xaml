@@ -8,6 +8,7 @@
         <converters:CounterConverter x:Key="CounterConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BoolToHiddenConverter" TrueValue="Collapsed" FalseValue="Visible"/>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+        <converters:MultiBoolToVisibilityConverter x:Key="MultiBoolToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed"/>
         <converters:ErrorToVisibilityConverter x:Key="ErrorToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed"/>
         <converters:HashRateConverter x:Key="HashRateConverter"/>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>

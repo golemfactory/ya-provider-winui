@@ -46,6 +46,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>9.0</LangVersion>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -263,9 +264,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\ValueToVisibilityConverter.cs" />
+    <Compile Include="Converters\MultiBoolToVisibilityConverter.cs" />
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgWithdrawViewModel.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
+    <Compile Include="Interfaces\ITaskProfitEstimator.cs" />
+    <Compile Include="Model\Coin.cs" />
+    <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\RemoteSettings.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />
@@ -276,6 +281,7 @@
     <Compile Include="UI\Dialogs\DlgWithdraw.xaml.cs">
       <DependentUpon>DlgWithdraw.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Src\TaskProfitEstimator.cs" />
     <Compile Include="UI\Dialogs\DlgShouldStopMiningBeforeBenchmark.xaml.cs">
       <DependentUpon>DlgShouldStopMiningBeforeBenchmark.xaml</DependentUpon>
     </Compile>
@@ -326,7 +332,7 @@
     <Compile Include="Interfaces\IStatusProvider.cs" />
     <Compile Include="Interfaces\IUserSettingsProvider.cs" />
     <Compile Include="Model\BenchmarkResults.cs" />
-    <Compile Include="Model\claymorePerformanceThrottlingEnum.cs" />
+    <Compile Include="Model\PerformanceThrottlingEnum.cs" />
     <Compile Include="Model\ActivityState.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
@@ -413,7 +419,11 @@
     <Compile Include="UI\UsageDescription.xaml.cs">
       <DependentUpon>UsageDescription.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\LookupCache.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
+    <Compile Include="Utils\ObservableListExtensions.cs" />
     <Compile Include="Utils\PathUtil.cs" />
+    <Compile Include="Utils\PriceProviderExtension.cs" />
     <Compile Include="Utils\ProcessExtension.cs" />
     <Compile Include="Validators\TransferAmountValidator.cs" />
     <Compile Include="Validators\NodeNameValidator.cs" />

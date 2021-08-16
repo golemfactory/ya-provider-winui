@@ -102,7 +102,7 @@ namespace GolemUI.Command
         private string _exeUnitsPath;
         private readonly ILogger? _logger;
 
-        public Provider(ILogger logger = null)
+        public Provider(ILogger? logger = null)
         {
             _logger = logger;
             var appBaseDir = AppContext.BaseDirectory;

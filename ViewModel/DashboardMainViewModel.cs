@@ -1,7 +1,8 @@
 ﻿using GolemUI.Interfaces;
-
+using GolemUI.Model;
 using GolemUI.Src;
 using GolemUI.Src.AppNotificationService;
+using GolemUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,8 @@ namespace GolemUI.ViewModel
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
-            IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, IRemoteSettingsProvider remoteSettingsProvider, INotificationService notificationService)
+            IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, IRemoteSettingsProvider remoteSettingsProvider, INotificationService notificationService,
+            ITaskProfitEstimator taskProfitEstimator)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
@@ -26,17 +28,17 @@ namespace GolemUI.ViewModel
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
             _statusProvider = statusProvider;
-            _historyDataProvider = historyDataProvider;
             _remoteSettingsProvider = remoteSettingsProvider;
             _notificationService = notificationService;
+            _taskProfitEstimator = taskProfitEstimator;
 
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
             _statusProvider.PropertyChanged += OnActivityStatusChanged;
             _processController.PropertyChanged += OnProcessControllerChanged;
 
-            _historyDataProvider.PropertyChanged += _historyDataProvider_PropertyChanged;
             _benchmarkService.PropertyChanged += _benchmarkService_PropertyChanged;
+            _taskProfitEstimator.PropertyChanged += _taskProfitEstimator_PropertyChanged;
         }
 
         private void _benchmarkService_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -46,12 +48,18 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged(nameof(IsMiningReadyToRun));
                 OnPropertyChanged(nameof(StartButtonExplanation));
                 OnPropertyChanged(nameof(IsBenchmarkNotRunning));
-
+                OnPropertyChanged(nameof(IsAnyGpuEnabled));
+                OnPropertyChanged(nameof(GpuOpacity));
+                OnPropertyChanged(nameof(ShouldGpuSwitchBeEnabled));
             }
         }
 
-        public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning && IsGpuEnabled;
+        public bool IsAnyGpuEnabled => _benchmarkService.IsMiningPossibleWithCurrentSettings;
+        public double GpuOpacity => _benchmarkService.IsMiningPossibleWithCurrentSettings ? 1.0 : 0.2f;
+
+        public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning && IsGpuEnabled && IsAnyGpuEnabled;
         public bool IsBenchmarkNotRunning => !_benchmarkService.IsRunning;
+        public bool ShouldGpuSwitchBeEnabled => IsBenchmarkNotRunning && IsAnyGpuEnabled;
         public string StartButtonExplanation
         {
             get
@@ -62,8 +70,12 @@ namespace GolemUI.ViewModel
                     return "Can't start mining while benchmark is running";
                 if (!_providerConfig.IsMiningActive)
                     return "Can't start mining with GPU support disabled";
+                if (!IsAnyGpuEnabled)
+                    return "At least one GPU card with mining capability must be enabled by user " +
+                           "(Settings). You can rerun benchmark to determine gpu capabilities again.";
 
                 return "";
+
             }
         }
 
@@ -75,12 +87,16 @@ namespace GolemUI.ViewModel
             {
                 OnPropertyChanged("ActiveAgreementID");
             }
+        }
+
+        private void _taskProfitEstimator_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
             if (e.PropertyName == "EstimatedEarningsPerSecond")
             {
-                if (_historyDataProvider.EstimatedEarningsPerSecond != null)
+                if (_taskProfitEstimator.EstimatedEarningsPerSecond != null)
                 {
-                    var glmPerDay = (decimal)(_historyDataProvider.EstimatedEarningsPerSecond * 3600 * 24);
-                    UsdPerDay = _priceProvider.CoinValue(glmPerDay, IPriceProvider.Coin.GLM);
+                    var glmPerDay = (decimal)(_taskProfitEstimator.EstimatedEarningsPerSecond * 3600 * 24);
+                    UsdPerDay = _priceProvider.CoinValue(glmPerDay, Coin.GLM);
                 }
                 else
                 {
@@ -89,9 +105,10 @@ namespace GolemUI.ViewModel
             }
             if (e.PropertyName == "EstimatedEarningsMessage")
             {
-                EstimationMessage = _historyDataProvider.EstimatedEarningsMessage;
+                EstimationMessage = _taskProfitEstimator.EstimatedEarningsMessage;
             }
         }
+
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -106,14 +123,6 @@ namespace GolemUI.ViewModel
             }
         }
 
-
-        public string? ActiveAgreementID
-        {
-            get
-            {
-                return _historyDataProvider.ActiveAgreementID;
-            }
-        }
         private string _gpuStatus = "Ready";
 
         public string GpuStatus
@@ -172,6 +181,10 @@ namespace GolemUI.ViewModel
 
         private void RefreshStatus()
         {
+            OnPropertyChanged(nameof(IsMiningReadyToRun));
+            OnPropertyChanged(nameof(IsGpuEnabled));
+            OnPropertyChanged(nameof(GpuStatus));
+            OnPropertyChanged(nameof(StartButtonExplanation));
             var isMining = _statusProvider.Activities?.Any(a => a.State == Model.ActivityState.StateType.Ready) ?? false;
             var newStatus = DashboardStatusEnum.Hidden;
             if (isMining)
@@ -196,11 +209,13 @@ namespace GolemUI.ViewModel
 
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == "IsMiningActive")
+                OnPropertyChanged(nameof(IsGpuEnabled));
+            if (e.PropertyName == "IsCpuActive")
+                OnPropertyChanged(nameof(IsCpuEnabled));
+
             if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
-            {
-                OnPropertyChanged(e.PropertyName);
                 RefreshStatus();
-            }
         }
 
         private void OnPaymentServiceChanged(object? sender, PropertyChangedEventArgs e)
@@ -232,10 +247,17 @@ namespace GolemUI.ViewModel
             OnPropertyChanged("EnabledGpuCount");
             OnPropertyChanged("GpuCardsInfo");
             OnPropertyChanged("CpuCardsInfo");
+            OnPropertyChanged(nameof(ShouldGpuSwitchBeEnabled));
+            OnPropertyChanged(nameof(IsAnyGpuEnabled));
+            OnPropertyChanged(nameof(GpuOpacity));
+            OnPropertyChanged(nameof(EnabledCpuCount));
+            OnPropertyChanged(nameof(EnabledGpuCount));
             OnPropertyChanged(nameof(IsMiningReadyToRun));
             OnPropertyChanged(nameof(IsGpuEnabled));
+            OnPropertyChanged(nameof(IsCpuEnabled));
             OnPropertyChanged(nameof(GpuStatus));
             OnPropertyChanged(nameof(StartButtonExplanation));
+
         }
 
 
@@ -271,17 +293,17 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public decimal? AmountUSD => _priceProvider.CoinValue(Amount ?? 0, IPriceProvider.Coin.GLM);
+        public decimal? AmountUSD => _priceProvider.GLM2USD(Amount);
 
         public decimal? PendingAmount => _paymentService.State?.PendingBalance;
 
-        public decimal? PendingAmountUSD => _priceProvider.CoinValue(PendingAmount ?? 0m, IPriceProvider.Coin.GLM);
+        public decimal? PendingAmountUSD => _priceProvider.GLM2USD(PendingAmount);
         public int _totalCpuCount;
         public int _totalGpuCount;
         public int _enabledGpuCount;
         public int _enabledCpuCount;
 
-        public DashboardStatusEnum _status = DashboardStatusEnum.Ready;
+        public DashboardStatusEnum _status = DashboardStatusEnum.Hidden;
         public DashboardStatusEnum Status
         {
             get => _status;
@@ -297,17 +319,31 @@ namespace GolemUI.ViewModel
             get => _providerConfig.IsMiningActive;
             set
             {
-                _providerConfig.IsMiningActive = value;
-                if (value == false)
+                if (_benchmarkService.IsMiningPossibleWithCurrentSettings || value == false)
                 {
-                    _processController.Stop();
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "gpu disabled - stopping mining", expirationTimeInMs: 3000, group: false));
-                }
+                    _providerConfig.IsMiningActive = value;
+                    if (value == false)
+                    {
+                        if (_processController.IsProviderRunning)
+                        {
+                            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Stopping GPU mining", expirationTimeInMs: 3000, group: false));
+                            _processController.Stop();
+                        }
+                        else
+                        {
+                            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "GPU mining deactivated", expirationTimeInMs: 3000, group: false));
+                        }
+                    }
 
-                OnPropertyChanged(nameof(IsMiningReadyToRun));
-                OnPropertyChanged(nameof(IsGpuEnabled));
-                OnPropertyChanged(nameof(GpuStatus));
-                OnPropertyChanged(nameof(StartButtonExplanation));
+                    OnPropertyChanged(nameof(IsMiningReadyToRun));
+                    OnPropertyChanged(nameof(IsGpuEnabled));
+                    OnPropertyChanged(nameof(GpuStatus));
+                    OnPropertyChanged(nameof(StartButtonExplanation));
+                }
+                else
+                {
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "cannot turn on mining support - please enable at least one GPU with mining ability or re-run benchmark to check your hardware again", expirationTimeInMs: 6000, group: false));
+                }
 
             }
         }
@@ -333,8 +369,6 @@ namespace GolemUI.ViewModel
         {
             _processController.Stop();
             //insta kill provider and gracefully shutdown yagna
-
-
         }
 
         public async void Start()
@@ -360,8 +394,8 @@ namespace GolemUI.ViewModel
         private readonly IStatusProvider _statusProvider;
         private readonly IProcessControler _processController;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
-        private readonly IHistoryDataProvider _historyDataProvider;
         private readonly IRemoteSettingsProvider _remoteSettingsProvider;
         private readonly INotificationService _notificationService;
+        private readonly ITaskProfitEstimator _taskProfitEstimator;
     }
 }

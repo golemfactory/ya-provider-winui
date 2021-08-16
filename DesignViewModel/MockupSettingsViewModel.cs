@@ -46,7 +46,7 @@ namespace GolemUI.DesignViewModel
 
         public string TotalCpusCountAsString => 7.ToString();
 
-        public bool BenchmarkIsRunning => false;
+        public bool BenchmarkIsRunning => true;
 
         public string BenchmarkError { get; set; } = "Bechmark failed with error";
 
