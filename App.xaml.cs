@@ -100,17 +100,19 @@ namespace GolemUI
             services.AddTransient(typeof(ViewModel.DashboardMainViewModel));
             services.AddTransient(typeof(ViewModel.SetupViewModel));
             services.AddTransient(typeof(ViewModel.CustomControls.NotificationBarViewModel));
-#if STATISTICS_ENABLED
-            services.AddTransient(typeof(ViewModel.StatisticsViewModel));
-#endif
+            if (GolemUI.Properties.Settings.Default.StatisticsPageEnabled)
+            {
+                services.AddTransient(typeof(ViewModel.StatisticsViewModel));
+            }
 
             services.AddTransient(typeof(DashboardMain));
             services.AddTransient(typeof(NotificationBar));
             services.AddTransient(typeof(DashboardSettings));
             services.AddTransient(typeof(DashboardSettingsAdv));
-#if STATISTICS_ENABLED
-            services.AddTransient(typeof(DashboardStatistics));
-#endif
+            if (GolemUI.Properties.Settings.Default.StatisticsPageEnabled)
+            {
+                services.AddTransient(typeof(DashboardStatistics));
+            }
             services.AddTransient(typeof(SettingsViewModel));
             services.AddTransient(typeof(SettingsAdvViewModel));
 

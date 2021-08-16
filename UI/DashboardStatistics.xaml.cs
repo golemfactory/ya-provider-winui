@@ -21,7 +21,6 @@ namespace GolemUI.UI
     /// </summary>
     public partial class DashboardStatistics : UserControl
     {
-#if STATISTICS_ENABLED
         public StatisticsViewModel ViewModel;
         public DashboardStatistics(StatisticsViewModel viewModel)
         {
@@ -29,19 +28,14 @@ namespace GolemUI.UI
             ViewModel = viewModel;
             this.DataContext = this.ViewModel;
         }
-#endif
 
         private void btnReload_Click(object sender, RoutedEventArgs e)
         {
-#if STATISTICS_ENABLED
             ViewModel.LoadData();
-#endif
         }
         private void btnMoveRight_Click(object sender, RoutedEventArgs e)
         {
-#if STATISTICS_ENABLED
             ViewModel.MoveDataRight();
-#endif
         }
 
     }

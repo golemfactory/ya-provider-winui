@@ -12,7 +12,6 @@ using static GolemUI.Model.PrettyChartData;
 
 namespace GolemUI.ViewModel
 {
-#if STATISTICS_ENABLED
     public class StatisticsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
         private readonly DispatcherTimer _timer;
@@ -33,7 +32,7 @@ namespace GolemUI.ViewModel
 
         private void HistoryDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            ChartData1 = _historyDataProvider.GetMegaHashHistory();
+            ChartData1 = _historyDataProvider.HashrateChartData;
             NotifyChange("ChartData1");
         }
 
@@ -128,5 +127,4 @@ namespace GolemUI.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-#endif
 }

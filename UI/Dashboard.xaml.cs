@@ -245,11 +245,18 @@ namespace GolemUI
 
         private void btnAppInformation_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig));
-            dlg.Owner = Window.GetWindow(this);
-            ViewModel.DarkBackgroundVisible = true;
-            dlg?.ShowDialog();
-            ViewModel.DarkBackgroundVisible = false;
+            if (GolemUI.Properties.Settings.Default.StatisticsPageEnabled)
+            {
+                ViewModel.SwitchPage(DashboardViewModel.DashboardPages.PageDashboardStatistics);
+            }
+            else
+            {
+                var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig));
+                dlg.Owner = Window.GetWindow(this);
+                ViewModel.DarkBackgroundVisible = true;
+                dlg?.ShowDialog();
+                ViewModel.DarkBackgroundVisible = false;
+            }
         }
     }
 }

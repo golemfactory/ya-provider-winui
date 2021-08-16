@@ -103,5 +103,14 @@ namespace GolemUI.Properties {
                 return ((string)(this["GolemWebPage"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool StatisticsPageEnabled {
+            get {
+                return ((bool)(this["StatisticsPageEnabled"]));
+            }
+        }
     }
 }

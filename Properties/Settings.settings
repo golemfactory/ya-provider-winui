@@ -29,5 +29,8 @@
     <Setting Name="GolemWebPage" Type="System.String" Scope="Application">
       <Value Profile="(Default)">www.golem.network</Value>
     </Setting>
+    <Setting Name="StatisticsPageEnabled" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
