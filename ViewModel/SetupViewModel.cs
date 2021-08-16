@@ -297,7 +297,16 @@ namespace GolemUI.ViewModel
 
         public string? NodeName
         {
-            get => _providerConfig.Config?.NodeName;
+            get
+            {
+                string? result = _providerConfig.Config?.NodeName;
+                if (string.IsNullOrEmpty(result))
+                {
+                    NameGen gen = new NameGen();
+                    result = gen.GenerateElvenName() + "-" + gen.GenerateElvenName();
+                }
+                return result;
+            }
             set
             {
                 _providerConfig.UpdateNodeName(value);
