@@ -165,7 +165,7 @@ namespace GolemUI.UI
             IDocumentPaginatorSource idpSource = doc;
             // Call PrintDocument method to send document to printer  
             bool? result = printDlg.ShowDialog();
-            if(result==true)
+            if (result == true)
                 printDlg.PrintDocument(idpSource.DocumentPaginator, "Wallet Recovery Sheet");
         }
 
