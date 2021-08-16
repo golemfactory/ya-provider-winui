@@ -104,7 +104,7 @@
 
 
 
-                <Border MinHeight="320" Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="0" >
+                <Border Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="0" >
 
                     <Grid Margin="0, 0, 0, 0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                         <Grid.RowDefinitions>
@@ -139,7 +139,7 @@
                     </Grid>
 
                 </Border>
-                <Border MinHeight="260"  Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">
+                <Border Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.4*"/>
