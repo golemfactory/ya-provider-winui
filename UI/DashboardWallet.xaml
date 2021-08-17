@@ -113,7 +113,9 @@
                         <Image Source="Icons/DefaultStyle/png/Dashboard/Profit.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
                         <StackPanel Margin="5" Grid.Column="0" Grid.Row="2">
                             <Label HorizontalAlignment="Center" FontSize="12" Margin="0, 10" Content="Estimated Profit"/>
-                            <TextBlock HorizontalAlignment="Center"  FontWeight="Black" FontSize="16" Margin="0, 10"><Run Text="{Binding UsdPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay}"/><Run Text=" / day"/></TextBlock>
+                            <TextBlock HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" Margin="0, 12" ToolTip="{Binding Path=EstimationMessage}">
+                                <Run Text="{Binding Path=UsdPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay, ConverterParameter=usdmonth}"/>
+                            </TextBlock>
                         </StackPanel>
                     </Grid>
                 </Border>
