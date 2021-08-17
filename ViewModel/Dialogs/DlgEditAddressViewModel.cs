@@ -20,7 +20,16 @@ namespace GolemUI.ViewModel.Dialogs
                 OnPropertyChanged("ShouldTransferFunds");
             }
         }
-
+        private bool _nodeNameHasChanged = false;
+        public bool NodeNameHasChanged
+        {
+            get => _nodeNameHasChanged;
+            set
+            {
+                _nodeNameHasChanged = value;
+                OnPropertyChanged(nameof(NodeNameHasChanged));
+            }
+        }
         public string InternalAddress { get; }
 
         public bool HaveInternalBalance { get; }
@@ -35,6 +44,7 @@ namespace GolemUI.ViewModel.Dialogs
             set
             {
                 _newAddress = value;
+                NodeNameHasChanged = true;
                 OnPropertyChanged("NewAddress");
                 OnPropertyChanged("IsInternal");
                 OnPropertyChanged("CanTransferOut");
