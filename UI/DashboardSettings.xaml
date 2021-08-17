@@ -87,13 +87,13 @@
                     <ColumnDefinition Width="2*" />
 
                 </Grid.ColumnDefinitions>
-                <UniformGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,7,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.RowSpan="2" Columns="2" Rows="1">
+                <UniformGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,7,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.RowSpan="2" Columns="2" Rows="1" Visibility="{Binding IsMiningProcessRunning, Converter={StaticResource BoolToHiddenConverter }}">
                     <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0">
                         <Label VerticalAlignment="Bottom" Content="Estimated profit: " FontSize="15" FontWeight="Light" Margin="0" Padding="0,0,0,2"/>
                         <TextBlock VerticalAlignment="Bottom" FontFamily="Segoe UI Black" FontSize="24" Margin="1, 0, 0, 0" Padding="0" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdmonth}"/>
                     </WrapPanel>
                     <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5,0">
-                        <Label VerticalAlignment="Bottom" Content="Current Hash rate: "  FontSize="15" FontWeight="Light"  Padding="0,0,0,2"/>
+                        <Label VerticalAlignment="Bottom" Content="Current Hashrate: "  FontSize="15" FontWeight="Light"  Padding="0,0,0,2"/>
                         <TextBlock VerticalAlignment="Bottom"   FontFamily="Segoe UI Black" FontSize="24" Foreground="#fff" Text="{Binding Path=HashRate, Converter={StaticResource HashRateConverter}, FallbackValue=Test}" />
                     </WrapPanel>
                 </UniformGrid>
