@@ -35,8 +35,27 @@ namespace GolemUI.UI
         }
         private void btnMoveRight_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.MoveDataRight();
+            chartData.MoveRight(1, true);
         }
 
+        private void btnMoveLeft_Click(object sender, RoutedEventArgs e)
+        {
+            chartData.MoveLeft(1, true);
+        }
+
+        private void btnZoomIn_Click(object sender, RoutedEventArgs e)
+        {
+            chartData.ZoomIn(1, true);
+        }
+        private void btnZoomOut_Click(object sender, RoutedEventArgs e)
+        {
+            chartData.ZoomOut(1, true);
+        }
+
+        private void btnAddEntry_Click(object sender, RoutedEventArgs e)
+        {
+            this.ViewModel.ChartData4.BinData.BinEntries.Add(new Model.PrettyChartData.PrettyChartBinEntry() { Label = "new label", Value = 34 });
+            chartData.MoveRight(1, true);
+        }
     }
 }

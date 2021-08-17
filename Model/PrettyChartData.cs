@@ -34,6 +34,7 @@ namespace GolemUI.Model
         {
             public List<PrettyChartBinEntry> BinEntries { get; set; } = new List<PrettyChartBinEntry>();
 
+
             public object Clone()
             {
                 return new PrettyChartBinData() { BinEntries = BinEntries.Clone() };
@@ -52,7 +53,6 @@ namespace GolemUI.Model
                 }
                 return maxValue;
             }
-
         }
 
         public PrettyChartBinData BinData { get; set; } = new PrettyChartBinData();

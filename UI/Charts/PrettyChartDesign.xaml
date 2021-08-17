@@ -10,7 +10,7 @@
              d:DataContext ="{d:DesignInstance {x:Type local:PrettyChartDesignViewModel}, IsDesignTimeCreatable=True}"             
              >
     <Grid>
-        <local:PrettyChart Width="500" Height="300" ChartData="{Binding Path=ChartData}"></local:PrettyChart>
+        <local:PrettyChart Width="500" Height="500" ChartData="{Binding Path=ChartData}"></local:PrettyChart>
             
     </Grid>
 </UserControl>

@@ -10,9 +10,6 @@
              >
     <Grid>
         <Canvas Name="cv">
-            <Canvas.LayoutTransform>
-                <ScaleTransform ScaleX="1" ScaleY="-1" CenterX=".5" CenterY=".5" />
-            </Canvas.LayoutTransform>
         </Canvas>
     </Grid>
 </UserControl>

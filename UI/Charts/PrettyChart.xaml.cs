@@ -30,11 +30,6 @@ namespace GolemUI.UI.Charts
             Recreate,
         }
 
-        public PrettyChart()
-        {
-            InitializeComponent();
-            this.SizeChanged += OnSizeChanged;
-        }
 
         public PrettyChartData ChartData
         {
@@ -46,13 +41,53 @@ namespace GolemUI.UI.Charts
             DependencyProperty.Register("ChartData", typeof(PrettyChartData), typeof(PrettyChart), new UIPropertyMetadata(new PrettyChartData(), StaticPropertyChangedCallback));
 
 
+        public double AnimationProgress
+        {
+            get { return (double)GetValue(_animationProgress); }
+            set { SetValue(_animationProgress, value); }
+        }
+
+        public static readonly DependencyProperty _animationProgress =
+            DependencyProperty.Register("AnimationProgress", typeof(double), typeof(PrettyChart), new UIPropertyMetadata(0.0, StaticPropertyChangedCallback));
+
+
         public double BinMargin { get; set; } = 5.0;
         public double BottomMargin { get; set; } = 5.0;
         public double LeftMargin { get; set; } = 5.0;
         public double RightMargin { get; set; } = 5.0;
         public double TopMargin { get; set; } = 5.0;
 
+        Storyboard? MainStoryboard { get; set; } = null;
 
+
+        List<PrettyChartBin> BinControlsList { get; set; } = new List<PrettyChartBin>();
+        int CurrentMaxBins { get; set; } = 100;
+
+
+
+        public PrettyChart()
+        {
+            InitializeComponent();
+            this.SizeChanged += OnSizeChanged;
+
+            for (int i = 0; i < CurrentMaxBins; i++)
+            {
+                var newBinControl = new PrettyChartBin();
+                cv.Children.Add(newBinControl);
+
+                string binControlName = IndexToBinName(i);
+                newBinControl.Name = binControlName;
+                newBinControl.Visibility = Visibility.Hidden;
+                NameScope.GetNameScope(this).RegisterName(binControlName, newBinControl);
+                BinControlsList.Add(newBinControl);
+            }
+        }
+
+        private string IndexToBinName(int idx)
+        {
+            string binControlName = "Bin_" + idx.ToString();
+            return binControlName;
+        }
 
 
         public static void StaticPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
@@ -67,6 +102,19 @@ namespace GolemUI.UI.Charts
             if (e.Property == _chartData)
             {
                 UpdateBinChart((PrettyChartData?)e.NewValue, (PrettyChartData?)e.OldValue, animate: true);
+            }
+            if (e.Property == _animationProgress)
+            {
+                double animationValue = (double)e.NewValue;
+                CurrentIdx = (TargetIdx - StartIdx) * animationValue + StartIdx;
+                CurrentNoBins = (TargetNoBins - StartNoBins) * animationValue + StartNoBins;
+                if (animationValue >= 1.0)
+                {
+                    StartIdx = TargetIdx;
+                    StartNoBins = CurrentNoBins;
+                }
+
+                UpdateBinChart(ChartData, null, animate: false);
             }
         }
 
@@ -146,11 +194,16 @@ namespace GolemUI.UI.Charts
                     if (entryNo < numBins)
                     {
 
+                        var bin = new PrettyChartBin();
+
+
                         PointCollection myPointCollection = new PointCollection();
                         myPointCollection.Add(new Point(0, 0));
                         myPointCollection.Add(new Point(0, 1));
                         myPointCollection.Add(new Point(1, 1));
                         myPointCollection.Add(new Point(1, 0));
+
+
 
                         pol = new Polygon();
                         pol.Points = myPointCollection;
@@ -267,12 +320,183 @@ namespace GolemUI.UI.Charts
         }
 
 
+        public double StartIdx { get; set; } = 2;
+        public double StartNoBins { get; set; } = 5;
+        public double CurrentIdx { get; set; } = 2;
+        public double CurrentNoBins { get; set; } = 5;
+        public double TargetNoBins { get; set; } = 5;
+        public double TargetIdx { get; set; } = 2;
 
-        void UpdateBinChart(PrettyChartData? newData, PrettyChartData? oldData, bool animate)
+
+        public void MoveChart(int steps, int zoomSteps, bool animate)
+        {
+            StartIdx = CurrentIdx;
+            TargetIdx = TargetIdx + steps;
+            StartNoBins = CurrentNoBins;
+            TargetNoBins = TargetNoBins + zoomSteps;
+
+            if (MainStoryboard != null)
+            {
+                //cancel storyboard
+                MainStoryboard.Completed -= MainStoryBoardFinished;
+                MainStoryboard.Stop();
+                MainStoryboard.Remove();
+            }
+
+            Storyboard? myStoryboard = null;
+            if (animate)
+            {
+                myStoryboard = new Storyboard();
+                MainStoryboard = myStoryboard;
+                {
+                    DoubleAnimation anim = new DoubleAnimation();
+                    anim.From = 0.0f;
+                    anim.To = 1.0f;
+                    anim.Duration = new Duration(TimeSpan.FromSeconds(MaxAnimSpeed));
+                    Storyboard.SetTarget(anim, this);
+                    Storyboard.SetTargetProperty(anim, new PropertyPath("AnimationProgress"));
+                    MainStoryboard.Children.Add(anim);
+                }
+                MainStoryboard.Begin();
+            }
+            else
+            {
+                UpdateBinChart(ChartData, null, animate: true, steps);
+            }
+
+        }
+
+        public void MoveRight(int steps, bool animate)
+        {
+            MoveChart(steps, 0, animate);
+        }
+        public void MoveLeft(int steps, bool animate)
+        {
+            MoveChart(-steps, 0, animate);
+        }
+        public void ZoomIn(int steps, bool animate)
+        {
+            MoveChart(0, steps, animate);
+        }
+        public void ZoomOut(int steps, bool animate)
+        {
+            MoveChart(0, -steps, animate);
+        }
+
+
+        void UpdateBinChart(PrettyChartData? newData, PrettyChartData? oldData, bool animate, int movement = 0, int zoom = 0)
         {
             if (newData != null && newData.NoAnimate)
             {
                 animate = false;
+            }
+
+
+
+
+            if (newData != null)
+            {
+                int entryCount = newData.BinData.BinEntries.Count;
+
+                double maxVal = newData.BinData.GetMaxValue(0.001);
+
+                double newNumBins = CurrentNoBins;
+                double newStartIdx = CurrentIdx;
+                double newFullWidth = (DrawWidth - LeftMargin - RightMargin) / newNumBins;
+                double newWidthWithoutMargins = newFullWidth - BinMargin;
+
+                if (newWidthWithoutMargins <= 1)
+                {
+                    newWidthWithoutMargins = 1;
+                }
+
+
+
+                for (int entryNo = 0; entryNo < entryCount; entryNo++)
+                {
+                    double val = newData.BinData.BinEntries[entryNo].Value;
+                    string lbl = newData.BinData.BinEntries[entryNo].Label;
+
+                    double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
+
+                    string binName = IndexToBinName(entryNo);
+                    PrettyChartBin binControl = (PrettyChartBin)cv.FindName(binName);
+
+                    binControl.Height = heightWithoutMargins;
+                    binControl.AnimateEffectiveHeight(val / maxVal * (heightWithoutMargins - binControl.GetMinHeight()), MaxAnimSpeed);
+                    binControl.SetBottomLabelText(lbl);
+                    binControl.SetValueLabelText(val.ToString("F2"));
+                    binControl.Width = newWidthWithoutMargins;
+
+
+                    SetPosition(binControl, LeftMargin + (entryNo - newStartIdx) * newFullWidth + BinMargin / 2.0, TopMargin + heightWithoutMargins - binControl.GetTotalHeight());
+                    /*else
+                    {
+                        {
+                            DoubleAnimation anim = new DoubleAnimation();
+
+                            double idealWidthCandidate = oldWidthWithoutMargins;
+                            double existingWidth = (double)binControl.GetValue(Canvas.WidthProperty);
+                            if (!double.IsNaN(existingWidth))
+                            {
+                                idealWidthCandidate = existingWidth;
+                            }
+
+                            anim.From = idealWidthCandidate;
+                            anim.To = newWidthWithoutMargins;
+                            anim.Duration = new Duration(TimeSpan.FromSeconds(MaxAnimSpeed));
+                            Storyboard.SetTarget(anim, binControl);
+                            Storyboard.SetTargetProperty(anim, new PropertyPath(Polygon.WidthProperty));
+                            myStoryboard.Children.Add(anim);
+                        }
+
+                        {
+                            DoubleAnimation anim = new DoubleAnimation();
+
+                            double idealLeftCandidate = LeftMargin + (entryNo - oldStartIdx) * oldFullWidth + BinMargin / 2.0;
+                            double existingLeft = (double)binControl.GetValue(Canvas.LeftProperty); 
+
+                            if (!double.IsNaN(existingLeft))
+                            {
+                                idealLeftCandidate = existingLeft;
+                            }
+
+                            anim.From = idealLeftCandidate;
+                            anim.To = LeftMargin + (entryNo - newStartIdx) * newFullWidth + BinMargin / 2.0;
+                            anim.Duration = new Duration(TimeSpan.FromSeconds(MaxAnimSpeed));
+                            Storyboard.SetTarget(anim, binControl);
+                            Storyboard.SetTargetProperty(anim, new PropertyPath(Canvas.LeftProperty));
+                            myStoryboard.Children.Add(anim);
+                        }
+
+                        binControl.SetEffectiveHeight(val / maxVal * heightWithoutMargins);
+                        binControl.SetBottomLabelText(lbl);
+                        binControl.SetValueLabelText(val.ToString("F2"));
+                        SetPosition(binControl, null, heightWithoutMargins - binControl.GetTotalHeight());
+                    }*/
+
+                    binControl.Visibility = Visibility.Visible;
+                    if (entryNo < CurrentIdx && entryNo > CurrentIdx + CurrentNoBins)
+                    {
+                        break;
+                    }
+                }
+            }
+           /* if (myStoryboard != null)
+            {
+                myStoryboard.Completed += MainStoryBoardFinished;
+            }
+
+            myStoryboard?.Begin(this); */
+            /*
+            if (newData != null && newData.NoAnimate)
+            {
+                animate = false;
+            }
+
+            if (MainStoryboard != null)
+            {
+                MainStoryboard.Stop();
             }
 
             Storyboard? myStoryboard = null;
@@ -280,6 +504,7 @@ namespace GolemUI.UI.Charts
             {
                 myStoryboard = new Storyboard();
             }
+            MainStoryboard = myStoryboard;
 
             var res = CheckBinCompatibility(newData, oldData);
             if (res == BinCompatibilityResult.Recreate)
@@ -359,7 +584,12 @@ namespace GolemUI.UI.Charts
                     p.Height = val / maxVal * heightWithoutMargins;
                 }
             }
-            myStoryboard?.Begin(this);
+            myStoryboard?.Begin(this);*/
+        }
+
+        public void MainStoryBoardFinished(object sender, EventArgs e)
+        {
+            Debug.WriteLine("storyboard completed");
         }
 
         private static void SetPosition(DependencyObject obj, double? x, double? y)

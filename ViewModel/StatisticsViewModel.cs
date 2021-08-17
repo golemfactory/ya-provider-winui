@@ -110,7 +110,7 @@ namespace GolemUI.ViewModel
 
         public void MoveDataRight()
         {
-            ChartData1 = MoveDataRight(ChartData1);
+            //ChartData1 = MoveDataRight(ChartData1);
             ChartData2 = MoveDataRight(ChartData2);
             ChartData3 = MoveDataRight(ChartData3);
             ChartData4 = MoveDataRight(ChartData4);
