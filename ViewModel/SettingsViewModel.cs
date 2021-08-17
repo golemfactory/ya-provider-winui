@@ -58,6 +58,7 @@ namespace GolemUI.ViewModel
             _userSettingsProvider = userSettingsProvider;
             _statusProvider = statusProvider;
             _processController = processControler;
+            _processController.PropertyChanged += _processController_PropertyChanged;
             GpuList = new ObservableCollection<ClaymoreGpuStatus>();
             _notificationService = notificationService;
             _benchmarkResultsProvider = benchmarkResultsProvider;
@@ -73,6 +74,15 @@ namespace GolemUI.ViewModel
             ActiveCpusCount = 3;
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
         }
+
+        private void _processController_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsProviderRunning")
+            {
+                NotifyChange(nameof(IsMiningProcessRunning));
+            }
+        }
+
         internal UserSettings UserSettings => _userSettingsProvider.LoadUserSettings();
         internal void UpdateBenchmarkDialogSettings(bool shouldAutoRestartMining, bool rememberMyPreference)
         {
@@ -110,17 +120,21 @@ namespace GolemUI.ViewModel
             _processController.Start(_providerConfig.Network, extraClaymoreParams);
             _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "starting mining...", expirationTimeInMs: 3000, group: false));
         }
-        public bool IsMiningProcessRunning()
+
+        public bool IsMiningProcessRunning
         {
-            bool mining = false;
-            //var act = _statusProvider.Activities;
-            //if (act != null)
-            //{
-            //    Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer"/* && a.State == Model.ActivityState.StateType.Ready*/).SingleOrDefault();
-            //    mining = gminerState != null;
-            //}
-            mining = _processController.IsProviderRunning;
-            return mining;
+            get
+            {
+                bool mining = false;
+                //var act = _statusProvider.Activities;
+                //if (act != null)
+                //{
+                //    Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer"/* && a.State == Model.ActivityState.StateType.Ready*/).SingleOrDefault();
+                //    mining = gminerState != null;
+                //}
+                mining = _processController.IsProviderRunning;
+                return mining;
+            }
         }
         public void StartBenchmark()
         {
@@ -218,7 +232,7 @@ namespace GolemUI.ViewModel
 
         void ChangeSettingsWithMiningRestart(string msg)
         {
-            if (IsMiningProcessRunning())
+            if (IsMiningProcessRunning)
             {
                 _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, msg, expirationTimeInMs: 2000));
                 SaveData();

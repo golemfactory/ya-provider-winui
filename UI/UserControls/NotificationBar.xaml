@@ -10,7 +10,7 @@
              x:Name="uc"
              xmlns:lc="clr-namespace:GolemUI.Converters"                
              d:DesignHeight="20" d:DesignWidth="1000" Loaded="OnReady"
-             Height="20" MinHeight="20"
+             Height="24" MinHeight="24"
              xmlns:dvm="clr-namespace:GolemUI.DesignViewModel.CustomControls"
              d:DataContext ="{d:DesignInstance {x:Type dvm:NotificationBarViewModel}, IsDesignTimeCreatable=True}"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
