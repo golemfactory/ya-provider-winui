@@ -427,7 +427,7 @@
                                 </Border.Style>
 
                             </Border>
-                            <Label Margin="0,-4,0,0" Padding="0" Grid.Row="2" Foreground="#0FB2AB" >
+                            <Label Margin="2,-4,0,0" Padding="0" Grid.Row="2" Foreground="#0FB2AB" >
                                 <Label.Style>
                                     <Style TargetType="{x:Type Label}">
                                         <Setter Property="Visibility" Value="Collapsed" />
@@ -449,7 +449,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Label.Style>
-                                Saved
+                                ✓ Saved
                             </Label>
                         </Grid>
                     </Border>
