@@ -8,9 +8,9 @@
                 <Setter Property="ToolTip"
               Value="{Binding RelativeSource={x:Static RelativeSource.Self},
                               Path=(Validation.Errors)/ErrorContent}"/>
-                <Setter Property="Background" Value="#faa"/>
-                <Setter Property="BorderBrush" Value="#faa"/>
-                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Background" Value="#FC476E"/>
+                <Setter Property="BorderBrush" Value="#FC476E"/>
+                <Setter Property="BorderThickness" Value="2"/>
             </Trigger>
         </Style.Triggers>
     </Style>

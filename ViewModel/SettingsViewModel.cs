@@ -170,8 +170,20 @@ namespace GolemUI.ViewModel
             BenchmarkService.StopBenchmark();
         }
 
+        private bool _nodeNameHasChanged = false;
+        public bool NodeNameHasChanged
+        {
+            get => _nodeNameHasChanged;
+            set
+            {
+                _nodeNameHasChanged = value;
+                NotifyChange(nameof(NodeNameHasChanged));
+            }
+        }
+
         public void LoadData()
         {
+            NodeNameHasChanged = false;
             AdvancedSettingsButtonEnabled = true;
             GpuList.Clear();
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
@@ -409,6 +421,7 @@ namespace GolemUI.ViewModel
             get => _providerConfig?.Config?.NodeName;
             set
             {
+                NodeNameHasChanged = true;
                 _providerConfig?.UpdateNodeName(value);
                 NotifyChange("NodeName");
             }
