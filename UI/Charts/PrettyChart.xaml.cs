@@ -15,6 +15,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace GolemUI.UI.Charts
 {
@@ -30,6 +31,18 @@ namespace GolemUI.UI.Charts
             Recreate,
         }
 
+        class BinAnimationState
+        {
+            public double DelayT { get; set; }
+            public double AnimationT { get; set; }
+            public double StartHeight { get; set; }
+            public double EndHeight { get; set; }
+        }
+
+        Dictionary<int, BinAnimationState> _animationStates = new Dictionary<int, BinAnimationState>(); 
+            
+
+
 
         public PrettyChartData ChartData
         {
@@ -40,16 +53,33 @@ namespace GolemUI.UI.Charts
         public static readonly DependencyProperty _chartData =
             DependencyProperty.Register("ChartData", typeof(PrettyChartData), typeof(PrettyChart), new UIPropertyMetadata(new PrettyChartData(), StaticPropertyChangedCallback));
 
+        public double CurrentFPS = 0.0;
 
+        Stopwatch sw = Stopwatch.StartNew();
+
+        public double AnimationProgress = 1.0;
+        public double AnimationSpeed = 2.0;
+
+        /*
         public double AnimationProgress
         {
             get { return (double)GetValue(_animationProgress); }
             set { SetValue(_animationProgress, value); }
         }
 
+        
         public static readonly DependencyProperty _animationProgress =
             DependencyProperty.Register("AnimationProgress", typeof(double), typeof(PrettyChart), new UIPropertyMetadata(0.0, StaticPropertyChangedCallback));
+        */
 
+        public double AnimationValueProgress
+        {
+            get { return (double)GetValue(_animationValueProgress); }
+            set { SetValue(_animationValueProgress, value); }
+        }
+
+        public static readonly DependencyProperty _animationValueProgress =
+            DependencyProperty.Register("AnimationValueProgress", typeof(double), typeof(PrettyChart), new UIPropertyMetadata(0.0, StaticPropertyChangedCallback));
 
         public double BinMargin { get; set; } = 5.0;
         public double BottomMargin { get; set; } = 5.0;
@@ -64,7 +94,10 @@ namespace GolemUI.UI.Charts
         int CurrentMaxBins { get; set; } = 100;
 
 
+        DispatcherTimer _timer = new DispatcherTimer(DispatcherPriority.Render);
 
+        int currentTick = 0;
+        long lastTime = 0;
         public PrettyChart()
         {
             InitializeComponent();
@@ -78,10 +111,49 @@ namespace GolemUI.UI.Charts
                 string binControlName = IndexToBinName(i);
                 newBinControl.Name = binControlName;
                 newBinControl.Visibility = Visibility.Hidden;
+                newBinControl.Height = newBinControl.GetMinHeight();
                 NameScope.GetNameScope(this).RegisterName(binControlName, newBinControl);
                 BinControlsList.Add(newBinControl);
             }
+            _timer.Interval = TimeSpan.FromSeconds(0.01);
+            _timer.Tick += _timer_Tick;
+            _timer.Start();
         }
+
+        private void _timer_Tick(object sender, EventArgs e)
+        {
+            if (AnimationProgress < 1.0)
+            {
+                AnimationProgress += 1.0 / CurrentFPS * AnimationSpeed;
+                double animationValue = AnimationProgress;
+                CurrentIdx = (TargetIdx - StartIdx) * animationValue + StartIdx;
+                CurrentNoBins = (TargetNoBins - StartNoBins) * animationValue + StartNoBins;
+                if (animationValue >= 1.0)
+                {
+                    StartIdx = TargetIdx;
+                    StartNoBins = CurrentNoBins;
+                }
+            }
+            else
+            {
+                AnimationProgress = 1.0;
+            }
+            const int GetFPSEveryTick = 14;
+            if (currentTick % GetFPSEveryTick == 0)
+            {
+                long currentMs = sw.ElapsedMilliseconds;
+                if (currentMs - lastTime > 0)
+                {
+                    CurrentFPS = 1.0 / (currentMs - lastTime) * 1000.0 * GetFPSEveryTick;
+                }
+                FPS.Text = CurrentFPS.ToString("F2");
+                lastTime = sw.ElapsedMilliseconds;
+            }
+
+            UpdateBinChart(ChartData, AnimationProgress);
+            currentTick += 1;
+        }
+
 
         private string IndexToBinName(int idx)
         {
@@ -109,22 +181,11 @@ namespace GolemUI.UI.Charts
                     newChartData.OnBinEntryAdded += OnBinEntryAdded;
                     newChartData.OnBinEntryUpdated += OnBinEntryUpdated;
 
+                    ResetChartSettings(newChartData);
                     UpdateBinChart(newChartData);
                 }
             }
-            if (e.Property == _animationProgress)
-            {
-                double animationValue = (double)e.NewValue;
-                CurrentIdx = (TargetIdx - StartIdx) * animationValue + StartIdx;
-                CurrentNoBins = (TargetNoBins - StartNoBins) * animationValue + StartNoBins;
-                if (animationValue >= 1.0)
-                {
-                    StartIdx = TargetIdx;
-                    StartNoBins = CurrentNoBins;
-                }
 
-                UpdateBinChart(ChartData);
-            }
         }
 
         public void OnBinEntryUpdated(object sender, int binIdx, double oldValue, double newValue)
@@ -188,27 +249,14 @@ namespace GolemUI.UI.Charts
                 MainStoryboard.Remove();
             }
 
-            Storyboard? myStoryboard = null;
             if (animate)
             {
-                myStoryboard = new Storyboard();
-                MainStoryboard = myStoryboard;
-                {
-                    DoubleAnimation anim = new DoubleAnimation();
-                    anim.From = 0.0f;
-                    anim.To = 1.0f;
-                    anim.Duration = new Duration(TimeSpan.FromSeconds(MaxAnimSpeed));
-                    Storyboard.SetTarget(anim, this);
-                    Storyboard.SetTargetProperty(anim, new PropertyPath("AnimationProgress"));
-                    MainStoryboard.Children.Add(anim);
-                }
-                MainStoryboard.Begin();
+                AnimationProgress = 0.0f;
             }
             else
             {
                 UpdateBinChart(ChartData);
             }
-
         }
 
         public void MoveRight(int steps, bool animate)
@@ -226,6 +274,27 @@ namespace GolemUI.UI.Charts
         public void ZoomOut(int steps, bool animate)
         {
             MoveChart(0, -steps, animate);
+        }
+
+        
+        void ResetChartSettings(PrettyChartData? newData)
+        {
+            if (newData != null)
+            {
+                int entryCount = newData.BinData.BinEntries.Count;
+                CurrentNoBins = StartNoBins = TargetNoBins = 10;
+                if (entryCount > 10)
+                {
+                    StartIdx = TargetIdx = CurrentIdx = 0;
+                }
+                else
+                {
+                    StartIdx = TargetIdx = CurrentIdx = CurrentNoBins - StartIdx;
+                }
+
+
+            }
+
         }
 
 
@@ -257,14 +326,49 @@ namespace GolemUI.UI.Charts
                     string binName = IndexToBinName(entryNo);
                     PrettyChartBin binControl = (PrettyChartBin)cv.FindName(binName);
 
-                    binControl.AnimateEffectiveHeight(val / maxVal * (heightWithoutMargins - binControl.GetMinHeight()), MaxAnimSpeed);
-                    binControl.Height = binControl.GetTotalHeight();
+                    //binControl.AnimateEffectiveHeight(), MaxAnimSpeed);
+                    
+                    double targetHeight = (val / maxVal * (heightWithoutMargins - binControl.GetMinHeight())) + binControl.GetMinHeight();
+                    double currentHeight = binControl.Height;
+                    double animstep = 10;
+                    double nextStepHeight;
+                    if (targetHeight > currentHeight + animstep)
+                    {
+                        nextStepHeight = currentHeight + animstep;
+                    }
+                    else if (targetHeight < currentHeight - animstep)
+                    {
+                        nextStepHeight = currentHeight - animstep;
+                    }
+                    else
+                    {
+                        nextStepHeight = targetHeight;
+                    }
                     binControl.SetBottomLabelText(lbl);
                     binControl.SetValueLabelText(val.ToString("F2"));
                     binControl.Width = newWidthWithoutMargins;
+                    //binControl.Height = nextStepHeight;
+
+                    if (!_animationStates.ContainsKey(entryNo))
+                    {
+                        _animationStates[entryNo] = new BinAnimationState() { AnimationT = 0.0, StartHeight = binControl.GetMinHeight(), EndHeight = binControl.GetMinHeight() };
+                    }
+                    _animationStates[entryNo].AnimationT += 0.05;
+
+                    if (_animationStates[entryNo].AnimationT > 1.0)
+                    {
+                        _animationStates[entryNo].AnimationT = 1.0;
+                    }
+                    if (targetHeight != _animationStates[entryNo].EndHeight)
+                    {
+                        _animationStates[entryNo].EndHeight = targetHeight;
+                        _animationStates[entryNo].StartHeight = binControl.Height;
+                        _animationStates[entryNo].AnimationT = 0.0;
+                    }
+                    binControl.Height = _animationStates[entryNo].StartHeight + _animationStates[entryNo].AnimationT * (_animationStates[entryNo].EndHeight - _animationStates[entryNo].StartHeight);
 
 
-                    SetPosition(binControl, LeftMargin + (entryNo - newStartIdx) * newFullWidth + BinMargin / 2.0, TopMargin + heightWithoutMargins - binControl.GetTotalHeight());
+                    SetPosition(binControl, LeftMargin + (entryNo - newStartIdx) * newFullWidth + BinMargin / 2.0, TopMargin + heightWithoutMargins - binControl.Height);
                     /*else
                     {
                         {

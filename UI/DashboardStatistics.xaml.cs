@@ -55,7 +55,7 @@ namespace GolemUI.UI
         private void btnAddEntry_Click(object sender, RoutedEventArgs e)
         {
             this.ViewModel.ChartData4.BinData.BinEntries.Add(new Model.PrettyChartData.PrettyChartBinEntry() { Label = "new label", Value = 34 });
-            chartData.MoveRight(1, true);
+            chartData.MoveLeft(1, true);
         }
     }
 }

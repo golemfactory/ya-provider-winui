@@ -9,7 +9,7 @@
     <Grid Background="Blue" Name="grdMain" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="100px"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="100px"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="tbValueLabel" Foreground="White" Text="34Mh/s" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0, 0, 0, 5">

@@ -25,40 +25,16 @@ namespace GolemUI.UI.Charts
         private double ValuesOffset { get; set; } = 60;
         private double BinHeight { get; set; } = 200;
 
-        private double StartHeight { get; set; } = 300;
-        private double CurrentHeight { get; set; } = 300;
-        private double TargetHeight { get; set; } = 300;
+        public double StartHeight { get; set; } = 300;
+        public double CurrentHeight { get; set; } = 300;
+        public double TargetHeight { get; set; } = 300;
 
-        public double AnimationProgress
-        {
-            get { return (double)GetValue(_animationProgress); }
-            set { SetValue(_animationProgress, value); }
-        }
-
-        public static readonly DependencyProperty _animationProgress =
-            DependencyProperty.Register("AnimationProgress", typeof(double), typeof(PrettyChartBin), new UIPropertyMetadata(0.0, StaticPropertyChangedCallback));
-
-        public static void StaticPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-        {
-            if (dependencyObject is PrettyChartBin prettyChartBin)
-            {
-                prettyChartBin.PropertyChangedCallback(e);
-            }
-        }
-        public void PropertyChangedCallback(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.Property == _animationProgress)
-            {
-                double animationValue = (double)e.NewValue;
-                this.SetEffectiveHeight(BinHeight * animationValue);
-            }
-        }
 
         public PrettyChartBin()
         {
             InitializeComponent();
             grdMain.RowDefinitions[0].Height = new GridLength(ValuesOffset);
-            grdMain.RowDefinitions[1].Height = new GridLength(BinHeight);
+           // grdMain.RowDefinitions[1].Height = new GridLength(BinHeight);
             grdMain.RowDefinitions[2].Height = new GridLength(LabelOffset);
         }
 
@@ -72,30 +48,7 @@ namespace GolemUI.UI.Charts
             tbBottomLabel.Text = text;
         }
 
-        public void AnimateEffectiveHeight(double height, double MaxAnimSpeed)
-        {
-            BinHeight = height;
-            if (height >= 1)
-            {
-                grdMain.RowDefinitions[1].Height = new GridLength(height);
-            }
-            else
-            {
-                grdMain.RowDefinitions[1].Height = new GridLength(1);
-            }
-        }
 
-
-        public void SetEffectiveHeight(double height)
-        {
-            BinHeight = height;
-            grdMain.RowDefinitions[1].Height = new GridLength(height);
-        }
-
-        public double GetEffectiveHeight()
-        {
-            return BinHeight;
-        }
 
         public double GetTotalHeight()
         {

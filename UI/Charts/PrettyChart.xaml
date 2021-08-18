@@ -10,6 +10,7 @@
              >
     <Grid>
         <Canvas Name="cv">
+            <TextBlock x:Name="FPS"></TextBlock>
         </Canvas>
     </Grid>
 </UserControl>

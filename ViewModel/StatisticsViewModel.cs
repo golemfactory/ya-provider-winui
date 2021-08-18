@@ -61,8 +61,8 @@ namespace GolemUI.ViewModel
         public void LoadData()
         {
             //ChartData2 = RandomData();
-            //ChartData3 = RandomData();
-            //ChartData4 = RandomData();
+            ChartData3 = RandomData();
+            ChartData4 = RandomData();
 
             NotifyChange("ChartData1");
             NotifyChange("ChartData2");
