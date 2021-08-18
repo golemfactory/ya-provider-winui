@@ -39,7 +39,8 @@ namespace GolemUI.UI.Charts
             public double EndHeight { get; set; }
         }
 
-        Dictionary<int, BinAnimationState> _animationStates = new Dictionary<int, BinAnimationState>(); 
+        Dictionary<int, BinAnimationState> _animationStates = new Dictionary<int, BinAnimationState>();
+        Dictionary<int, PrettyChartBin> _cachedControls = new Dictionary<int, PrettyChartBin>();
             
 
 
@@ -90,10 +91,6 @@ namespace GolemUI.UI.Charts
         Storyboard? MainStoryboard { get; set; } = null;
 
 
-        List<PrettyChartBin> BinControlsList { get; set; } = new List<PrettyChartBin>();
-        int CurrentMaxBins { get; set; } = 100;
-
-
         DispatcherTimer _timer = new DispatcherTimer(DispatcherPriority.Render);
 
         int currentTick = 0;
@@ -103,22 +100,28 @@ namespace GolemUI.UI.Charts
             InitializeComponent();
             this.SizeChanged += OnSizeChanged;
 
-            for (int i = 0; i < CurrentMaxBins; i++)
-            {
-                var newBinControl = new PrettyChartBin();
-                cv.Children.Add(newBinControl);
-
-                string binControlName = IndexToBinName(i);
-                newBinControl.Name = binControlName;
-                newBinControl.Visibility = Visibility.Hidden;
-                newBinControl.Height = newBinControl.GetMinHeight();
-                NameScope.GetNameScope(this).RegisterName(binControlName, newBinControl);
-                BinControlsList.Add(newBinControl);
-            }
             _timer.Interval = TimeSpan.FromSeconds(0.01);
             _timer.Tick += _timer_Tick;
             _timer.Start();
         }
+
+        public PrettyChartBin GetCachedControl(int idx)
+        {
+            if (_cachedControls.ContainsKey(idx))
+            {
+                return _cachedControls[idx];
+            }
+            else
+            {
+                var newBinControl = new PrettyChartBin();
+                cv.Children.Add(newBinControl);
+                newBinControl.Visibility = Visibility.Hidden;
+                newBinControl.Height = newBinControl.GetMinHeight();
+                _cachedControls.Add(idx, newBinControl);
+                return newBinControl;
+            }
+        }
+
 
         private void _timer_Tick(object sender, EventArgs e)
         {
@@ -222,8 +225,7 @@ namespace GolemUI.UI.Charts
             UpdateBinChart(ChartData);
         }
 
-        double MaxAnimSpeed = 0.4;
-
+        
 
         public double StartIdx { get; set; } = -10.0;
         public double CurrentIdx { get; set; } = -10.0;
@@ -291,8 +293,6 @@ namespace GolemUI.UI.Charts
                 {
                     StartIdx = TargetIdx = CurrentIdx = CurrentNoBins - StartIdx;
                 }
-
-
             }
 
         }
@@ -323,8 +323,7 @@ namespace GolemUI.UI.Charts
 
                     double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
 
-                    string binName = IndexToBinName(entryNo);
-                    PrettyChartBin binControl = (PrettyChartBin)cv.FindName(binName);
+                    PrettyChartBin binControl = GetCachedControl(entryNo);
 
                     //binControl.AnimateEffectiveHeight(), MaxAnimSpeed);
                     
@@ -369,50 +368,6 @@ namespace GolemUI.UI.Charts
 
 
                     SetPosition(binControl, LeftMargin + (entryNo - newStartIdx) * newFullWidth + BinMargin / 2.0, TopMargin + heightWithoutMargins - binControl.Height);
-                    /*else
-                    {
-                        {
-                            DoubleAnimation anim = new DoubleAnimation();
-
-                            double idealWidthCandidate = oldWidthWithoutMargins;
-                            double existingWidth = (double)binControl.GetValue(Canvas.WidthProperty);
-                            if (!double.IsNaN(existingWidth))
-                            {
-                                idealWidthCandidate = existingWidth;
-                            }
-
-                            anim.From = idealWidthCandidate;
-                            anim.To = newWidthWithoutMargins;
-                            anim.Duration = new Duration(TimeSpan.FromSeconds(MaxAnimSpeed));
-                            Storyboard.SetTarget(anim, binControl);
-                            Storyboard.SetTargetProperty(anim, new PropertyPath(Polygon.WidthProperty));
-                            myStoryboard.Children.Add(anim);
-                        }
-
-                        {
-                            DoubleAnimation anim = new DoubleAnimation();
-
-                            double idealLeftCandidate = LeftMargin + (entryNo - oldStartIdx) * oldFullWidth + BinMargin / 2.0;
-                            double existingLeft = (double)binControl.GetValue(Canvas.LeftProperty); 
-
-                            if (!double.IsNaN(existingLeft))
-                            {
-                                idealLeftCandidate = existingLeft;
-                            }
-
-                            anim.From = idealLeftCandidate;
-                            anim.To = LeftMargin + (entryNo - newStartIdx) * newFullWidth + BinMargin / 2.0;
-                            anim.Duration = new Duration(TimeSpan.FromSeconds(MaxAnimSpeed));
-                            Storyboard.SetTarget(anim, binControl);
-                            Storyboard.SetTargetProperty(anim, new PropertyPath(Canvas.LeftProperty));
-                            myStoryboard.Children.Add(anim);
-                        }
-
-                        binControl.SetEffectiveHeight(val / maxVal * heightWithoutMargins);
-                        binControl.SetBottomLabelText(lbl);
-                        binControl.SetValueLabelText(val.ToString("F2"));
-                        SetPosition(binControl, null, heightWithoutMargins - binControl.GetTotalHeight());
-                    }*/
 
                     binControl.Visibility = Visibility.Visible;
                     if (entryNo < CurrentIdx && entryNo > CurrentIdx + CurrentNoBins)
@@ -421,109 +376,6 @@ namespace GolemUI.UI.Charts
                     }
                 }
             }
-            /* if (myStoryboard != null)
-             {
-                 myStoryboard.Completed += MainStoryBoardFinished;
-             }
-
-             myStoryboard?.Begin(this); */
-            /*
-            if (newData != null && newData.NoAnimate)
-            {
-                animate = false;
-            }
-
-            if (MainStoryboard != null)
-            {
-                MainStoryboard.Stop();
-            }
-
-            Storyboard? myStoryboard = null;
-            if (animate)
-            {
-                myStoryboard = new Storyboard();
-            }
-            MainStoryboard = myStoryboard;
-
-            var res = CheckBinCompatibility(newData, oldData);
-            if (res == BinCompatibilityResult.Recreate)
-            {
-                RecreateBins(newData, oldData, myStoryboard);
-            }
-
-            if (newData == null)
-            {
-                return;
-            }
-
-            double maxVal = newData.BinData.GetMaxValue(0.001);
-            double? oldMaxVal = oldData?.BinData.GetMaxValue(0.001);
-
-            double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
-
-
-
-            int entryCount = newData.BinData.BinEntries.Count;
-            for (int entryNo = 0; entryNo < entryCount; entryNo++)
-            {
-                double val = newData.BinData.BinEntries[entryNo].Value;
-                double? valOld = null;
-                if (oldData != null && entryNo < oldData.BinData.BinEntries.Count)
-                {
-                    valOld = oldData.BinData.BinEntries[entryNo].Value;
-                }
-
-
-                string polyName = $"poly_no_{entryNo}";
-                string textName = $"text_no_{entryNo}";
-                string text2Name = $"text2_no_{entryNo}";
-
-
-                Polygon p = (Polygon)cv.FindName(polyName);
-                TextBlock lbl = (TextBlock)cv.FindName(textName);
-                TextBlock tbVal = (TextBlock)cv.FindName(text2Name);
-
-                lbl.Text = newData.BinData.BinEntries[entryNo].Label;
-                tbVal.Text = val.ToString("F2");
-                if (animate)
-                {
-                    {
-                        DoubleAnimation anim = new DoubleAnimation();
-                        anim.From = 0;
-                        if (valOld != null && oldMaxVal != null && oldMaxVal > 0.0)
-                        {
-                            anim.From = valOld / oldMaxVal * heightWithoutMargins;
-                        }
-                        anim.To = val / maxVal * heightWithoutMargins;
-                        anim.BeginTime = TimeSpan.FromSeconds((double)entryNo / (double)entryCount * MaxAnimSpeed);
-                        anim.Duration = new Duration(TimeSpan.FromSeconds(val / maxVal * MaxAnimSpeed));
-                        Storyboard.SetTarget(anim, p);
-                        Storyboard.SetTargetProperty(anim, new PropertyPath(Polygon.HeightProperty));
-                        myStoryboard?.Children.Add(anim);
-                    }
-                    {
-                        DoubleAnimation anim = new DoubleAnimation();
-                        anim.From = 0;
-                        if (valOld != null && oldMaxVal != null && oldMaxVal > 0.0)
-                        {
-                            anim.From = valOld / oldMaxVal * heightWithoutMargins + 6;
-                        }
-                        anim.To = val / maxVal * heightWithoutMargins + 6;
-                        anim.BeginTime = TimeSpan.FromSeconds((double)entryNo / (double)entryCount * MaxAnimSpeed);
-                        anim.Duration = new Duration(TimeSpan.FromSeconds(val / maxVal * MaxAnimSpeed));
-                        Storyboard.SetTarget(anim, tbVal);
-                        Storyboard.SetTargetProperty(anim, new PropertyPath(Canvas.TopProperty));
-                        myStoryboard?.Children.Add(anim);
-                    }
-
-                }
-                else
-                {
-                    SetPosition(tbVal, null, val / maxVal * heightWithoutMargins + 6);
-                    p.Height = val / maxVal * heightWithoutMargins;
-                }
-            }
-            myStoryboard?.Begin(this);*/
         }
 
         public void MainStoryBoardFinished(object sender, EventArgs e)
