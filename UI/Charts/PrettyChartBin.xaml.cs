@@ -47,7 +47,10 @@ namespace GolemUI.UI.Charts
         {
             tbBottomLabel.Text = text;
         }
-
+        public void Reset()
+        {
+            this.Height = GetMinHeight();
+        }
 
 
         public double GetTotalHeight()

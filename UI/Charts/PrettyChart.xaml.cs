@@ -40,7 +40,9 @@ namespace GolemUI.UI.Charts
         }
 
         Dictionary<int, BinAnimationState> _animationStates = new Dictionary<int, BinAnimationState>();
-        Dictionary<int, PrettyChartBin> _cachedControls = new Dictionary<int, PrettyChartBin>();
+
+        SortedDictionary<int, PrettyChartBin> _freePool = new SortedDictionary<int, PrettyChartBin>();
+        SortedDictionary<int, PrettyChartBin> _cachedControls = new SortedDictionary<int, PrettyChartBin>();
             
 
 
@@ -95,6 +97,8 @@ namespace GolemUI.UI.Charts
 
         int currentTick = 0;
         long lastTime = 0;
+        private bool isDragStarted;
+
         public PrettyChart()
         {
             InitializeComponent();
@@ -113,6 +117,20 @@ namespace GolemUI.UI.Charts
             }
             else
             {
+                if (_freePool.ContainsKey(idx))
+                {
+                    _cachedControls[idx] = _freePool[idx];
+                    _freePool.Remove(idx);
+                    return _cachedControls[idx];
+                }
+                if (_freePool.Count > 10)
+                {
+                    int firstIdx = _freePool.First().Key;
+                    _cachedControls[idx] = _freePool[firstIdx];
+                    _cachedControls[idx].Reset();
+                    _freePool.Remove(firstIdx);
+                    return _cachedControls[idx];
+                }
                 var newBinControl = new PrettyChartBin();
                 cv.Children.Add(newBinControl);
                 newBinControl.Visibility = Visibility.Hidden;
@@ -128,18 +146,16 @@ namespace GolemUI.UI.Charts
             if (AnimationProgress < 1.0)
             {
                 AnimationProgress += 1.0 / CurrentFPS * AnimationSpeed;
-                double animationValue = AnimationProgress;
-                CurrentIdx = (TargetIdx - StartIdx) * animationValue + StartIdx;
-                CurrentNoBins = (TargetNoBins - StartNoBins) * animationValue + StartNoBins;
-                if (animationValue >= 1.0)
-                {
-                    StartIdx = TargetIdx;
-                    StartNoBins = CurrentNoBins;
-                }
+                CurrentIdx = (TargetIdx - StartIdx) * AnimationProgress + StartIdx;
+                CurrentNoBins = (TargetNoBins - StartNoBins) * AnimationProgress + StartNoBins;
             }
             else
             {
                 AnimationProgress = 1.0;
+                CurrentIdx = TargetIdx;
+                StartIdx = TargetIdx;
+                CurrentNoBins = TargetNoBins;
+                StartNoBins = TargetNoBins;
             }
             const int GetFPSEveryTick = 14;
             if (currentTick % GetFPSEveryTick == 0)
@@ -153,7 +169,7 @@ namespace GolemUI.UI.Charts
                 lastTime = sw.ElapsedMilliseconds;
             }
 
-            UpdateBinChart(ChartData, AnimationProgress);
+            UpdateBinChart(ChartData);
             currentTick += 1;
         }
 
@@ -189,6 +205,20 @@ namespace GolemUI.UI.Charts
                 }
             }
 
+        }
+
+        public void MoveToFreePool(int binIdx)
+        {
+            if (_cachedControls.ContainsKey(binIdx))
+            {
+                if (_freePool.ContainsKey(binIdx))
+                {
+                    throw new Exception("Free pool cannot contain this indes");
+                }
+                _cachedControls[binIdx].Visibility = Visibility.Hidden;
+                _freePool[binIdx] = _cachedControls[binIdx];
+                _cachedControls.Remove(binIdx);
+            }
         }
 
         public void OnBinEntryUpdated(object sender, int binIdx, double oldValue, double newValue)
@@ -236,7 +266,7 @@ namespace GolemUI.UI.Charts
         public double TargetNoBins { get; set; } = 11.0;
 
 
-        public void MoveChart(int steps, int zoomSteps, bool animate)
+        public void MoveChart(double steps, double zoomSteps, bool animate)
         {
             StartIdx = CurrentIdx;
             TargetIdx = TargetIdx - steps;
@@ -297,8 +327,21 @@ namespace GolemUI.UI.Charts
 
         }
 
+        void GotoBeginning()
+        {
+            TargetIdx = 0;
+            AnimationProgress = 0;
+            UpdateBinChart(ChartData);
+        }
+        void GotoEnd()
+        {
+            TargetIdx = ChartData.BinData.BinEntries.Count - TargetNoBins;
+            AnimationProgress = 0;
+            UpdateBinChart(ChartData);
+        }
 
-        void UpdateBinChart(PrettyChartData? newData, double animationHeightT = 1.0)
+
+        void UpdateBinChart(PrettyChartData? newData)
         {
             if (newData != null)
             {
@@ -323,10 +366,17 @@ namespace GolemUI.UI.Charts
 
                     double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
 
+                    double positionX = LeftMargin + (entryNo - newStartIdx) * newFullWidth + BinMargin / 2.0;
+                    if (positionX + newFullWidth < -10 || positionX > DrawWidth)
+                    {
+                        MoveToFreePool(entryNo);
+                        continue;
+                    }
+
                     PrettyChartBin binControl = GetCachedControl(entryNo);
 
                     //binControl.AnimateEffectiveHeight(), MaxAnimSpeed);
-                    
+
                     double targetHeight = (val / maxVal * (heightWithoutMargins - binControl.GetMinHeight())) + binControl.GetMinHeight();
                     double currentHeight = binControl.Height;
                     double animstep = 10;
@@ -366,10 +416,10 @@ namespace GolemUI.UI.Charts
                     }
                     binControl.Height = _animationStates[entryNo].StartHeight + _animationStates[entryNo].AnimationT * (_animationStates[entryNo].EndHeight - _animationStates[entryNo].StartHeight);
 
-
-                    SetPosition(binControl, LeftMargin + (entryNo - newStartIdx) * newFullWidth + BinMargin / 2.0, TopMargin + heightWithoutMargins - binControl.Height);
-
                     binControl.Visibility = Visibility.Visible;
+
+                    SetPosition(binControl, positionX, TopMargin + heightWithoutMargins - binControl.Height);
+
                     if (entryNo < CurrentIdx && entryNo > CurrentIdx + CurrentNoBins)
                     {
                         break;
@@ -393,6 +443,61 @@ namespace GolemUI.UI.Charts
             {
                 obj.SetValue(Canvas.TopProperty, y);
             }
+        }
+
+        double startMouseX = 0;
+        double currentMouseX = 0;
+        private void cv_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                isDragStarted = true;
+
+                if (isDragStarted)
+                {
+                    startMouseX = e.GetPosition(this.Parent as Canvas).X;
+                }
+            }
+            e.Handled = true;
+        }
+
+        private void cv_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragStarted)
+            {
+                isDragStarted = true;
+
+                if (isDragStarted)
+                {
+                    currentMouseX = e.GetPosition(this.Parent as Canvas).X;
+                    MoveChart((currentMouseX - startMouseX) / 10.0, 0, true);
+                    startMouseX = currentMouseX;
+                }
+            }
+            e.Handled = true;
+        }
+        private void cv_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            isDragStarted = false;
+
+            e.Handled = true;
+        }
+
+        private void cv_MouseLeave(object sender, MouseEventArgs e)
+        {
+            isDragStarted = false;
+
+            e.Handled = true;
+        }
+
+        private void btnGoToBegin_Click(object sender, RoutedEventArgs e)
+        {
+            GotoBeginning();
+        }
+
+        private void btnGoToRight_Click(object sender, RoutedEventArgs e)
+        {
+            GotoEnd();
         }
     }
 }

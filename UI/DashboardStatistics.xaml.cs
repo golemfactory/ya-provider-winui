@@ -21,6 +21,8 @@ namespace GolemUI.UI
     /// </summary>
     public partial class DashboardStatistics : UserControl
     {
+        static Random r = new Random();
+
         public StatisticsViewModel ViewModel;
         public DashboardStatistics(StatisticsViewModel viewModel)
         {
@@ -52,10 +54,15 @@ namespace GolemUI.UI
             chartData.ZoomOut(1, true);
         }
 
-        private void btnAddEntry_Click(object sender, RoutedEventArgs e)
+        private async void btnAddEntry_Click(object sender, RoutedEventArgs e)
         {
-            this.ViewModel.ChartData4.BinData.BinEntries.Add(new Model.PrettyChartData.PrettyChartBinEntry() { Label = "new label", Value = 34 });
-            chartData.MoveLeft(1, true);
+
+            for (int i = 0; i < 400; i++)
+            {
+                this.ViewModel.ChartData4.AddOrUpdateBinEntry(-1, DateTime.Now.ToString("HH-mm-ss"), r.NextDouble() * 100.0);
+                await Task.Delay(10);
+            };
+
         }
     }
 }

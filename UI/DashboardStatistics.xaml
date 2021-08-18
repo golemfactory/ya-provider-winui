@@ -83,7 +83,7 @@
                 </Grid>
             </Border>
             <Border Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="DarkBlue">
-                <Grid Margin="30, 50, 30, 30">
+                <Grid Margin="-130, -150, 180, 130">
                     <charts:PrettyChart x:Name="chartData" ChartData="{Binding ChartData4}"></charts:PrettyChart>
                 </Grid>
             </Border>            
