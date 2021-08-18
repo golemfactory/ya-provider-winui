@@ -29,7 +29,6 @@ namespace GolemUI.UI.Charts
         public double CurrentHeight { get; set; } = 300;
         public double TargetHeight { get; set; } = 300;
 
-
         public PrettyChartBin()
         {
             InitializeComponent();

@@ -402,20 +402,7 @@ namespace GolemUI.UI.Charts
 
                     double targetHeight = (val / maxVal * (heightWithoutMargins - binControl.GetMinHeight() + binControl.ValuesOffset)) + binControl.GetMinHeight();
                     double currentHeight = binControl.Height;
-                    double animstep = 10;
-                    double nextStepHeight;
-                    if (targetHeight > currentHeight + animstep)
-                    {
-                        nextStepHeight = currentHeight + animstep;
-                    }
-                    else if (targetHeight < currentHeight - animstep)
-                    {
-                        nextStepHeight = currentHeight - animstep;
-                    }
-                    else
-                    {
-                        nextStepHeight = targetHeight;
-                    }
+
                     binControl.SetBottomLabelText(lbl);
                     binControl.SetValueLabelText(val.ToString("F2") + newData.Suffix);
                     binControl.Width = newWidthWithoutMargins;
@@ -437,6 +424,7 @@ namespace GolemUI.UI.Charts
                         _animationStates[entryNo].StartHeight = binControl.Height;
                         _animationStates[entryNo].AnimationT = 0.0;
                     }
+   
                     binControl.SetHeight(_animationStates[entryNo].StartHeight + _animationStates[entryNo].AnimationT * (_animationStates[entryNo].EndHeight - _animationStates[entryNo].StartHeight));
 
                     binControl.Visibility = Visibility.Visible;
