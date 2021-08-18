@@ -28,10 +28,12 @@ namespace GolemUI.ViewModel
 
             }
             _timer = new DispatcherTimer();
-            ChartData1 = new PrettyChartData();
+            ChartData1 = _historyDataProvider.HashrateChartData;
             ChartData2 = new PrettyChartData();
             ChartData3 = new PrettyChartData();
             ChartData4 = new PrettyChartData();
+
+
             PropertyChanged += StatisticsViewModel_PropertyChanged;
         }
 
@@ -42,7 +44,6 @@ namespace GolemUI.ViewModel
 
         private void HistoryDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            ChartData1 = _historyDataProvider.HashrateChartData;
             NotifyChange("ChartData1");
         }
 

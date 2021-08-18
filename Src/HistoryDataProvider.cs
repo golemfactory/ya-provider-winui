@@ -223,17 +223,12 @@ namespace GolemUI.Src
 
         private void UpdateChartData()
         {
-            PrettyChartData chartData = new PrettyChartData() { BinData = new PrettyChartData.PrettyChartBinData() };
-
-            int idx_f = 0;
+            int entry_no = 0;
             foreach (var entry in MiningHistoryGpuSinceStart)
             {
-
-                chartData.BinData.BinEntries.Add(new PrettyChartData.PrettyChartBinEntry() { Label = entry.Key.ToString("HH-mm-ss"), Value = entry.Value.HashRate });
-                idx_f += 1;
+                HashrateChartData.AddOrUpdateBinEntry(entry_no, entry.Key.ToString("HH-mm-ss"), entry.Value.HashRate);
+                entry_no += 1;
             }
-
-            HashrateChartData = chartData;
 
             NotifyChanged("HashrateChartData");
         }

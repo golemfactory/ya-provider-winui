@@ -17,6 +17,11 @@ namespace GolemUI.Model
 
     public class PrettyChartData : ICloneable
     {
+        public delegate void BinEntryUpdatedHandler(object sender, int binIdx, double oldValue, double newValue);
+        public delegate void BinEntryAddedHandler(object sender, double newValue);
+
+        public BinEntryUpdatedHandler? OnBinEntryUpdated = null;
+        public BinEntryAddedHandler? OnBinEntryAdded = null;
 
 
         public class PrettyChartBinEntry : ICloneable
@@ -53,6 +58,32 @@ namespace GolemUI.Model
                 }
                 return maxValue;
             }
+        }
+
+
+        public void AddOrUpdateBinEntry(int binEntryIndex, string label, double newValue)
+        {
+            if (!UpdateBinEntry(binEntryIndex, newValue))
+            {
+                AddBinEntry(label, newValue);
+            }
+        }
+
+        private bool UpdateBinEntry(int binEntryIndex, double newValue)
+        {
+            if (binEntryIndex >= 0 && binEntryIndex < BinData.BinEntries.Count )
+            {
+                double oldValue = BinData.BinEntries[binEntryIndex].Value;
+                BinData.BinEntries[binEntryIndex].Value = newValue;
+                OnBinEntryUpdated?.Invoke(this, binEntryIndex, oldValue, newValue);
+                return true;
+            }
+            return false;
+        }
+        private void AddBinEntry(string label, double newValue)
+        {
+            BinData.BinEntries.Add(new PrettyChartBinEntry() { Label = label, Value = newValue });
+            OnBinEntryAdded?.Invoke(this, newValue);
         }
 
         public PrettyChartBinData BinData { get; set; } = new PrettyChartBinData();

@@ -97,11 +97,20 @@ namespace GolemUI.UI.Charts
                 prettyChart.PropertyChangedCallback(e);
             }
         }
+
+
         public void PropertyChangedCallback(DependencyPropertyChangedEventArgs e)
         {
             if (e.Property == _chartData)
             {
-                UpdateBinChart((PrettyChartData?)e.NewValue);
+                if (e.NewValue != e.OldValue)
+                {
+                    PrettyChartData newChartData = (PrettyChartData)e.NewValue;
+                    newChartData.OnBinEntryAdded += OnBinEntryAdded;
+                    newChartData.OnBinEntryUpdated += OnBinEntryUpdated;
+
+                    UpdateBinChart(newChartData);
+                }
             }
             if (e.Property == _animationProgress)
             {
@@ -117,6 +126,16 @@ namespace GolemUI.UI.Charts
                 UpdateBinChart(ChartData);
             }
         }
+
+        public void OnBinEntryUpdated(object sender, int binIdx, double oldValue, double newValue)
+        {
+
+        }
+        public void OnBinEntryAdded(object sender, double newValue)
+        {
+            this.MoveChart(-1, 0, true);
+        }
+
 
 
         BinCompatibilityResult CheckBinCompatibility(PrettyChartData? newData, PrettyChartData? oldData)
@@ -145,20 +164,21 @@ namespace GolemUI.UI.Charts
         double MaxAnimSpeed = 0.4;
 
 
-        public double StartIdx { get; set; } = 2.0;
-        public double StartNoBins { get; set; } = 5.0;
-        public double CurrentIdx { get; set; } = 2.0;
-        public double CurrentNoBins { get; set; } = 5.0;
-        public double TargetNoBins { get; set; } = 5.0;
-        public double TargetIdx { get; set; } = 2.0;
+        public double StartIdx { get; set; } = -10.0;
+        public double CurrentIdx { get; set; } = -10.0;
+        public double TargetIdx { get; set; } = -10.0;
+
+        public double StartNoBins { get; set; } = 11.0;
+        public double CurrentNoBins { get; set; } = 11.0;
+        public double TargetNoBins { get; set; } = 11.0;
 
 
         public void MoveChart(int steps, int zoomSteps, bool animate)
         {
             StartIdx = CurrentIdx;
-            TargetIdx = TargetIdx + steps;
+            TargetIdx = TargetIdx - steps;
             StartNoBins = CurrentNoBins;
-            TargetNoBins = TargetNoBins + zoomSteps;
+            TargetNoBins = TargetNoBins - zoomSteps;
 
             if (MainStoryboard != null)
             {
