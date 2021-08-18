@@ -28,6 +28,16 @@ namespace GolemUI.ViewModel
 
             }
             _timer = new DispatcherTimer();
+            ChartData1 = new PrettyChartData();
+            ChartData2 = new PrettyChartData();
+            ChartData3 = new PrettyChartData();
+            ChartData4 = new PrettyChartData();
+            PropertyChanged += StatisticsViewModel_PropertyChanged;
+        }
+
+        private void StatisticsViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         private void HistoryDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -49,9 +59,9 @@ namespace GolemUI.ViewModel
 
         public void LoadData()
         {
-            ChartData2 = RandomData();
-            ChartData3 = RandomData();
-            ChartData4 = RandomData();
+            //ChartData2 = RandomData();
+            //ChartData3 = RandomData();
+            //ChartData4 = RandomData();
 
             NotifyChange("ChartData1");
             NotifyChange("ChartData2");

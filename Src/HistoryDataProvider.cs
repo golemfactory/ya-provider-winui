@@ -123,6 +123,11 @@ namespace GolemUI.Src
             {
                 foreach (var entry in previousActivity.Usage)
                 {
+                    if (entry.Key == "golem.usage.mining.hash-rate")
+                    {
+                        //skip hash-rate - it is not summable
+                        continue;
+                    }
                     usageVectorDiff[entry.Key] = -entry.Value;
                 }
             }
@@ -221,9 +226,10 @@ namespace GolemUI.Src
             PrettyChartData chartData = new PrettyChartData() { BinData = new PrettyChartData.PrettyChartBinData() };
 
             int idx_f = 0;
-            for (int i = Math.Max(HashrateHistory.Count - 14, 0); i < HashrateHistory.Count; i++)
+            foreach (var entry in MiningHistoryGpuSinceStart)
             {
-                chartData.BinData.BinEntries.Add(new PrettyChartData.PrettyChartBinEntry() { Label = i.ToString(), Value = HashrateHistory[i] });
+                
+                chartData.BinData.BinEntries.Add(new PrettyChartData.PrettyChartBinEntry() { Label = entry.Key.ToString("HH-mm-ss"), Value = entry.Value.HashRate });
                 idx_f += 1;
             }
 
@@ -243,8 +249,6 @@ namespace GolemUI.Src
                 UpdateChartData();
             }
         }
-
-
 
         private void _computeEstimatedEarnings()
         {

@@ -21,13 +21,13 @@ namespace GolemUI.UI.Charts
     /// </summary>
     public partial class PrettyChartBin : UserControl
     {
-        private double LabelOffset { get; set; } = 50;
-        private double ValuesOffset { get; set; } = 50;
+        private double LabelOffset { get; set; } = 80;
+        private double ValuesOffset { get; set; } = 60;
         private double BinHeight { get; set; } = 200;
-        private string LabelText { get; set; }
 
-        Storyboard MainStoryboard { get; set; }
-
+        private double StartHeight { get; set; } = 300;
+        private double CurrentHeight { get; set; } = 300;
+        private double TargetHeight { get; set; } = 300;
 
         public double AnimationProgress
         {
@@ -75,7 +75,14 @@ namespace GolemUI.UI.Charts
         public void AnimateEffectiveHeight(double height, double MaxAnimSpeed)
         {
             BinHeight = height;
-            grdMain.RowDefinitions[1].Height = new GridLength(height);
+            if (height >= 1)
+            {
+                grdMain.RowDefinitions[1].Height = new GridLength(height);
+            }
+            else
+            {
+                grdMain.RowDefinitions[1].Height = new GridLength(1);
+            }
         }
 
 

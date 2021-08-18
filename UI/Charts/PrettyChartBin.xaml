@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:GolemUI.UI.Charts"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="30">
-    <Grid Name="grdMain" VerticalAlignment="Stretch">
+    <Grid Background="Blue" Name="grdMain" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="100px"/>
             <RowDefinition/>

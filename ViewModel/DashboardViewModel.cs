@@ -13,26 +13,6 @@ namespace GolemUI.ViewModel
 {
     public partial class DashboardViewModel : INotifyPropertyChanged
     {
-        public DashboardViewModel(DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet)
-        {
-
-            PropertyChanged += OnPropertyChanged;
-
-            DashboardMain = dashboardMain;
-            DashboardSettings = dashboardSettings;
-            DashboardSettingsAdv = dashboardSettingsAdv;
-            DashboardWallet = dashboardWallet;
-
-            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
-            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
-            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet, DashboardWallet.Model));
-            _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
-
-            _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
-
-            _pages.Values.ToList().ForEach(page =>
-                page.DarkBackgroundRequested += Page_DarkBackgroundRequested);
-        }
         public enum DashboardPages
         {
             PageDashboardNone,
@@ -51,7 +31,7 @@ namespace GolemUI.ViewModel
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardSettingsAdv DashboardSettingsAdv { get; set; }
         public DashboardWallet DashboardWallet { get; set; }
-        public DashboardStatistics DashboardStatistics { get; set; }
+        public DashboardStatistics? DashboardStatistics { get; set; }
 
         private DashboardPages _selectedPage;
 
@@ -109,16 +89,13 @@ namespace GolemUI.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
 
         public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet,
-                DashboardStatistics dashboardStatistics
+                DashboardStatistics? dashboardStatistics = null
             )
         {
             PropertyChanged += OnPropertyChanged;
 
             DashboardMain = dashboardMain;
-            if (GolemUI.Properties.Settings.Default.StatisticsPageEnabled)
-            {
-                DashboardStatistics = dashboardStatistics;
-            }
+            DashboardStatistics = dashboardStatistics;
             DashboardSettingsAdv = dashboardSettingsAdv;
             DashboardWallet = dashboardWallet;
             DashboardSettings = dashboardSettings;
@@ -128,7 +105,7 @@ namespace GolemUI.ViewModel
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet, DashboardWallet.Model));
             _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
 
-            if (GolemUI.Properties.Settings.Default.StatisticsPageEnabled)
+            if (DashboardStatistics != null)
             {
                 _pages.Add(DashboardPages.PageDashboardStatistics, new DashboardPage(DashboardStatistics, DashboardStatistics.ViewModel));
             }
