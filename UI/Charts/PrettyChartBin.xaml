@@ -6,18 +6,23 @@
              xmlns:local="clr-namespace:GolemUI.UI.Charts"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="30">
-    <Grid Background="Blue" Name="grdMain" VerticalAlignment="Stretch">
+    <Grid Name="grdMain" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="100px"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="100px"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="tbValueLabel" Foreground="White" Text="34Mh/s" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0, 0, 0, 5">
+        <TextBlock x:Name="tbValueLabelOutside" Foreground="White" Text="34Mh/s" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0, 0, 0, 5">
             <TextBlock.LayoutTransform>
-                <RotateTransform Angle="290" />
+                <RotateTransform Angle="270" />
             </TextBlock.LayoutTransform>            
         </TextBlock>
         <Rectangle x:Name="BinRect" Grid.Row="1" Fill="Aqua"></Rectangle>
+        <TextBlock Grid.Row="1" x:Name="tbValueLabelInside" Foreground="Black" Text="34Mh/s" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 5, 0, 0">
+            <TextBlock.LayoutTransform>
+                <RotateTransform Angle="270" />
+            </TextBlock.LayoutTransform>
+        </TextBlock>
 
         <TextBlock Grid.Row="2" x:Name="tbBottomLabel" Foreground="White"  Text="25:34:23" HorizontalAlignment="Center" VerticalAlignment="top" Margin="0, 10, 0, 0">
             <TextBlock.LayoutTransform>

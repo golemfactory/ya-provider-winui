@@ -88,7 +88,7 @@ namespace GolemUI.UI.Charts
         public double BottomMargin { get; set; } = 5.0;
         public double LeftMargin { get; set; } = 5.0;
         public double RightMargin { get; set; } = 5.0;
-        public double TopMargin { get; set; } = 5.0;
+        public double TopMargin { get; set; } = 25.0;
 
         Storyboard? MainStoryboard { get; set; } = null;
 
@@ -134,7 +134,7 @@ namespace GolemUI.UI.Charts
                 var newBinControl = new PrettyChartBin();
                 cv.Children.Add(newBinControl);
                 newBinControl.Visibility = Visibility.Hidden;
-                newBinControl.Height = newBinControl.GetMinHeight();
+                newBinControl.SetHeight(newBinControl.GetMinHeight());
                 _cachedControls.Add(idx, newBinControl);
                 return newBinControl;
             }
@@ -261,9 +261,9 @@ namespace GolemUI.UI.Charts
         public double CurrentIdx { get; set; } = -10.0;
         public double TargetIdx { get; set; } = -10.0;
 
-        public double StartNoBins { get; set; } = 11.0;
-        public double CurrentNoBins { get; set; } = 11.0;
-        public double TargetNoBins { get; set; } = 11.0;
+        public double StartNoBins { get; set; } = 21.0;
+        public double CurrentNoBins { get; set; } = 21.0;
+        public double TargetNoBins { get; set; } = 21.0;
 
 
         public void MoveChart(double steps, double zoomSteps, bool animate)
@@ -313,6 +313,10 @@ namespace GolemUI.UI.Charts
         {
             if (newData != null)
             {
+                foreach(var binIdx in _cachedControls.Keys.ToList())
+                {
+                    MoveToFreePool(binIdx);
+                }
                 int entryCount = newData.BinData.BinEntries.Count;
                 CurrentNoBins = StartNoBins = TargetNoBins = 10;
                 if (entryCount > 10)
@@ -323,6 +327,7 @@ namespace GolemUI.UI.Charts
                 {
                     StartIdx = TargetIdx = CurrentIdx = CurrentNoBins - StartIdx;
                 }
+                UpdateBinChart(ChartData);
             }
 
         }
@@ -347,7 +352,7 @@ namespace GolemUI.UI.Charts
             {
                 int entryCount = newData.BinData.BinEntries.Count;
 
-                double maxVal = newData.BinData.GetMaxValue(0.001);
+                double maxVal = 0.001;
 
                 double newNumBins = CurrentNoBins;
                 double newStartIdx = CurrentIdx;
@@ -369,6 +374,24 @@ namespace GolemUI.UI.Charts
                     double positionX = LeftMargin + (entryNo - newStartIdx) * newFullWidth + BinMargin / 2.0;
                     if (positionX + newFullWidth < -10 || positionX > DrawWidth)
                     {
+                        continue;
+                    }
+                    if (val > maxVal)
+                    {
+                        maxVal = val;
+                    }
+                }
+
+                for (int entryNo = 0; entryNo < entryCount; entryNo++)
+                {
+                    double val = newData.BinData.BinEntries[entryNo].Value;
+                    string lbl = newData.BinData.BinEntries[entryNo].Label ?? "empty";
+
+                    double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
+
+                    double positionX = LeftMargin + (entryNo - newStartIdx) * newFullWidth + BinMargin / 2.0;
+                    if (positionX + newFullWidth < -10 || positionX > DrawWidth)
+                    {
                         MoveToFreePool(entryNo);
                         continue;
                     }
@@ -377,7 +400,7 @@ namespace GolemUI.UI.Charts
 
                     //binControl.AnimateEffectiveHeight(), MaxAnimSpeed);
 
-                    double targetHeight = (val / maxVal * (heightWithoutMargins - binControl.GetMinHeight())) + binControl.GetMinHeight();
+                    double targetHeight = (val / maxVal * (heightWithoutMargins - binControl.GetMinHeight() + binControl.ValuesOffset)) + binControl.GetMinHeight();
                     double currentHeight = binControl.Height;
                     double animstep = 10;
                     double nextStepHeight;
@@ -394,7 +417,7 @@ namespace GolemUI.UI.Charts
                         nextStepHeight = targetHeight;
                     }
                     binControl.SetBottomLabelText(lbl);
-                    binControl.SetValueLabelText(val.ToString("F2"));
+                    binControl.SetValueLabelText(val.ToString("F2") + newData.Suffix);
                     binControl.Width = newWidthWithoutMargins;
                     //binControl.Height = nextStepHeight;
 
@@ -414,7 +437,7 @@ namespace GolemUI.UI.Charts
                         _animationStates[entryNo].StartHeight = binControl.Height;
                         _animationStates[entryNo].AnimationT = 0.0;
                     }
-                    binControl.Height = _animationStates[entryNo].StartHeight + _animationStates[entryNo].AnimationT * (_animationStates[entryNo].EndHeight - _animationStates[entryNo].StartHeight);
+                    binControl.SetHeight(_animationStates[entryNo].StartHeight + _animationStates[entryNo].AnimationT * (_animationStates[entryNo].EndHeight - _animationStates[entryNo].StartHeight));
 
                     binControl.Visibility = Visibility.Visible;
 

@@ -22,7 +22,7 @@ namespace GolemUI.UI.Charts
     public partial class PrettyChartBin : UserControl
     {
         private double LabelOffset { get; set; } = 80;
-        private double ValuesOffset { get; set; } = 60;
+        public double ValuesOffset { get; set; } = 100;
         private double BinHeight { get; set; } = 200;
 
         public double StartHeight { get; set; } = 300;
@@ -38,9 +38,25 @@ namespace GolemUI.UI.Charts
             grdMain.RowDefinitions[2].Height = new GridLength(LabelOffset);
         }
 
+        public void SetHeight(double height)
+        {
+            if (height > GetMinHeight() + 70)
+            {
+                tbValueLabelInside.Visibility = Visibility.Visible;
+                tbValueLabelOutside.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                tbValueLabelOutside.Visibility = Visibility.Visible;
+                tbValueLabelInside.Visibility = Visibility.Hidden;
+            }
+            this.Height = height;
+        }
         public void SetValueLabelText(string text)
         {
-            tbValueLabel.Text = text;
+            tbValueLabelInside.Text = text;
+            tbValueLabelOutside.Text = text;
+
         }
 
         public void SetBottomLabelText(string text)
