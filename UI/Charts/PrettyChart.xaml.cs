@@ -297,12 +297,12 @@ namespace GolemUI.UI.Charts
                     }
                 }
             }
-           /* if (myStoryboard != null)
-            {
-                myStoryboard.Completed += MainStoryBoardFinished;
-            }
+            /* if (myStoryboard != null)
+             {
+                 myStoryboard.Completed += MainStoryBoardFinished;
+             }
 
-            myStoryboard?.Begin(this); */
+             myStoryboard?.Begin(this); */
             /*
             if (newData != null && newData.NoAnimate)
             {

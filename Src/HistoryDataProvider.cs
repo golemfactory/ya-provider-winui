@@ -228,7 +228,7 @@ namespace GolemUI.Src
             int idx_f = 0;
             foreach (var entry in MiningHistoryGpuSinceStart)
             {
-                
+
                 chartData.BinData.BinEntries.Add(new PrettyChartData.PrettyChartBinEntry() { Label = entry.Key.ToString("HH-mm-ss"), Value = entry.Value.HashRate });
                 idx_f += 1;
             }
