@@ -137,7 +137,7 @@ namespace GolemUI
 
             if (_dashboard == null)
             {
-                throw new Exception("FATAL EXCEPTION, Dashboard object creation failed.");
+                throw new Exception("FATAL ERROR, Dashboard object creation failed.");
             }
             return _dashboard;
         }
