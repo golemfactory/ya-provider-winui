@@ -10,10 +10,10 @@
              >
     <Border BorderThickness="1" BorderBrush="White">
         <Grid>
-            <Canvas Name="cv" MouseDown="cv_MouseDown" MouseMove="cv_MouseMove" MouseUp="cv_MouseUp" MouseLeave="cv_MouseLeave" ClipToBounds="True">
+            <Canvas Name="cv" MouseDown="cv_MouseDown" ClipToBounds="True">
                 <TextBlock x:Name="FPS"></TextBlock>
             </Canvas>
-            <Rectangle Fill="White" Opacity="0.01" MouseDown="cv_MouseDown" MouseMove="cv_MouseMove" MouseUp="cv_MouseUp" MouseLeave="cv_MouseLeave"></Rectangle>
+            <Rectangle x:Name="rectMouseEvents" Fill="White" Opacity="0.01" MouseDown="cv_MouseDown" MouseMove="cv_MouseMove" MouseUp="cv_MouseUp"></Rectangle>
             <Canvas>
                 <Button x:Name="btnGoToBegin" Click="btnGoToBegin_Click">Go to beginning</Button>
                 <Button x:Name="btnGoToRight" Canvas.Right="0" Click="btnGoToRight_Click">Go to end</Button>

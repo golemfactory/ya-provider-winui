@@ -97,8 +97,8 @@ namespace GolemUI.UI.Charts
 
         int currentTick = 0;
         long lastTime = 0;
-        private bool isDragStarted;
-
+        private bool _isDragStarted = false;
+        
         public PrettyChart()
         {
             InitializeComponent();
@@ -462,42 +462,28 @@ namespace GolemUI.UI.Charts
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                isDragStarted = true;
+                _isDragStarted = true;
 
-                if (isDragStarted)
-                {
-                    startMouseX = e.GetPosition(this.Parent as Canvas).X;
-                }
+                startMouseX = e.GetPosition(this.Parent as Canvas).X;
+                Mouse.Capture(rectMouseEvents);
             }
             e.Handled = true;
         }
 
         private void cv_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isDragStarted)
+            if (_isDragStarted)
             {
-                isDragStarted = true;
-
-                if (isDragStarted)
-                {
-                    currentMouseX = e.GetPosition(this.Parent as Canvas).X;
-                    MoveChart((currentMouseX - startMouseX) / 10.0, 0, true);
-                    startMouseX = currentMouseX;
-                }
+                currentMouseX = e.GetPosition(this.Parent as Canvas).X;
+                MoveChart((currentMouseX - startMouseX) / 10.0, 0, true);
+                startMouseX = currentMouseX;
             }
             e.Handled = true;
         }
         private void cv_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            isDragStarted = false;
-
-            e.Handled = true;
-        }
-
-        private void cv_MouseLeave(object sender, MouseEventArgs e)
-        {
-            isDragStarted = false;
-
+            _isDragStarted = false;
+            Mouse.Capture(null);
             e.Handled = true;
         }
 
