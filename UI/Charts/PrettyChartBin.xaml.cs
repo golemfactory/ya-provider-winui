@@ -32,7 +32,7 @@ namespace GolemUI.UI.Charts
             grdMain.RowDefinitions[2].Height = new GridLength(LabelOffset);
         }
 
-        public void SetHeight(double height)
+        public void SetTargetHeight(double height)
         {
             if (height > GetMinHeight() + 70)
             {
@@ -44,6 +44,10 @@ namespace GolemUI.UI.Charts
                 tbValueLabelOutside.Visibility = Visibility.Visible;
                 tbValueLabelInside.Visibility = Visibility.Hidden;
             }
+        }
+
+        public void SetHeight(double height)
+        {
             this.Height = height;
         }
         public void SetValueLabelText(string text)

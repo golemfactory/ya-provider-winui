@@ -491,7 +491,8 @@ namespace GolemUI.UI.Charts
                 }
                 MaxValAnimState.ChangeTargetAndResetIfNeeded(maxVal);
 
-                maxVal = MaxValAnimState.CurrentValue;
+                double currentMaxVal = MaxValAnimState.CurrentValue;
+                //double targetMaxVal = MaxValAnimState.TargetVal;
 
                 for (int entryNo = 0; entryNo < entryCount; entryNo++)
                 {
@@ -527,14 +528,15 @@ namespace GolemUI.UI.Charts
                         allAnimationFinished = false;
                     }
 
-                    double binHeight = (animState.CurrentValue / maxVal * (heightWithoutMargins - binControl.GetMinHeight() + binControl.ValuesOffset)) + binControl.GetMinHeight();
+                    double binHeight = (animState.CurrentValue / currentMaxVal * (heightWithoutMargins - binControl.GetMinHeight() + binControl.ValuesOffset)) + binControl.GetMinHeight();
+                    double binTargetHeight = (animState.TargetVal / currentMaxVal * (heightWithoutMargins - binControl.GetMinHeight() + binControl.ValuesOffset)) + binControl.GetMinHeight();
 
                     binControl.SetBottomLabelText(lbl);
                     binControl.SetValueLabelText(val.ToString("F2") + newData.Suffix);
                     binControl.Width = newWidthWithoutMargins;
-                    //binControl.Height = nextStepHeight;
 
                     binControl.SetHeight(binHeight);
+                    binControl.SetTargetHeight(binTargetHeight);
 
                     binControl.Visibility = Visibility.Visible;
 
