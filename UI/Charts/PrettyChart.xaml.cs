@@ -31,15 +31,76 @@ namespace GolemUI.UI.Charts
             Recreate,
         }
 
-        class BinAnimationState
+        class AnimationState
         {
-            public double DelayT { get; set; }
-            public double AnimationT { get; set; }
-            public double StartHeight { get; set; }
-            public double EndHeight { get; set; }
+            private double Delay { get; set; }
+            private double AnimationT { get; set; } = 1.0;
+            private double StartVal { get; set; } = 0.0;
+            public double TargetVal { get; private set; } = 0.0;
+            public double AnimationSpeed { get; set; } = 1.0;
+
+            public bool IsAnimationFinished { get => AnimationT >= 1.0; }
+
+            public void Reset(double delay = 0.0)
+            {
+                Delay = delay;
+                AnimationT = -delay;
+            }
+
+            public void Finish()
+            {
+                AnimationT = 1.0;
+                StartVal = TargetVal;
+            }
+
+            public void Tick(double elapsedSeconds)
+            {
+                double step = elapsedSeconds * AnimationSpeed;
+                double animT = AnimationT;
+                if (animT < 1.0)
+                {
+                    animT += step;
+                }
+                if (animT >= 1.0)
+                {
+                    animT = 1.0;
+                }
+                AnimationT = animT;
+            }
+
+            public double CurrentValue
+            {
+                get
+                {
+                    if (AnimationT <= 0.0)
+                    {
+                        return StartVal;
+                    }
+                    return StartVal + AnimationT * (TargetVal - StartVal);
+                }
+            }
+
+            public void ChangeTargetAndResetIfNeeded(double targetVal)
+            {
+                if (targetVal != TargetVal)
+                {
+                    StartVal = CurrentValue;
+                    TargetVal = targetVal;
+                    AnimationT = -Delay;
+                }
+            }
+
+            public AnimationState(double startVal, double targetVal, double animationSpeed, double delay)
+            {
+                Delay = delay;
+                StartVal = startVal;
+                TargetVal = targetVal;
+                AnimationSpeed = animationSpeed;
+                AnimationT = -delay;
+            }
         }
 
-        Dictionary<int, BinAnimationState> _animationStates = new Dictionary<int, BinAnimationState>();
+        Dictionary<int, AnimationState> _animationStates = new Dictionary<int, AnimationState>();
 
         SortedDictionary<int, PrettyChartBin> _freePool = new SortedDictionary<int, PrettyChartBin>();
         SortedDictionary<int, PrettyChartBin> _cachedControls = new SortedDictionary<int, PrettyChartBin>();
@@ -58,10 +119,22 @@ namespace GolemUI.UI.Charts
 
         public double CurrentFPS = 0.0;
 
-        Stopwatch sw = Stopwatch.StartNew();
+        
+        public double AnimationProgressMovement = 1.0;
+        public double AnimationSpeedMovement = 2.0;
 
-        public double AnimationProgress = 1.0;
-        public double AnimationSpeed = 2.0;
+        public double AnimationProgressMaxVal = 1.0;
+        public double AnimationSpeedMaxVal = 0.4;
+
+
+        const double BIN_ANIMATION_SPEED = 0.5;
+        const double BIN_ANIMATION_DELAY = 0.5;
+        const double START_IDX_ANIMATION_SPEED = 1.2;
+        const double ZOOM_IN_IDX_ANIMATION_SPEED = 1.8;
+        const double MAX_VAL_ANIMATION_SPEED = 1.8;
+        const double MAX_VAL_ANIMATION_DELAY = 0.5;
+
+
 
         /*
         public double AnimationProgress
@@ -90,12 +163,9 @@ namespace GolemUI.UI.Charts
         public double RightMargin { get; set; } = 5.0;
         public double TopMargin { get; set; } = 25.0;
 
-
-
+        Stopwatch _sw = Stopwatch.StartNew();
         DispatcherTimer _timer = new DispatcherTimer(DispatcherPriority.Render);
 
-        int currentTick = 0;
-        long lastTime = 0;
         private bool _isDragStarted = false;
         
         public PrettyChart()
@@ -105,8 +175,36 @@ namespace GolemUI.UI.Charts
 
             _timer.Interval = TimeSpan.FromSeconds(0.01);
             _timer.Tick += _timer_Tick;
-            _timer.Start();
         }
+
+        private bool TimerActivated
+        {
+            get
+            {
+                return _timer.IsEnabled;
+            }
+            set
+            {
+                if (value == true)
+                {
+                    if (!_timer.IsEnabled)
+                    {
+                        _lastTick = _sw.ElapsedTicks;
+                        _timer.Start();
+                        txTimerStatus.Text = "Timer activated";
+                    }
+                }
+                else
+                {
+                    if (_timer.IsEnabled)
+                    {
+                        _timer.Stop();
+                        txTimerStatus.Text = "Timer stopped";
+                    }
+                }
+            }
+        }
+
 
         public PrettyChartBin GetCachedControl(int idx)
         {
@@ -139,37 +237,48 @@ namespace GolemUI.UI.Charts
             }
         }
 
+        
 
-        private void _timer_Tick(object sender, EventArgs e)
+
+        private void ComputeCurrentFPS(double elapsedSec)
         {
-            if (AnimationProgress < 1.0)
-            {
-                AnimationProgress += 1.0 / CurrentFPS * AnimationSpeed;
-                CurrentIdx = (TargetIdx - StartIdx) * AnimationProgress + StartIdx;
-                CurrentNoBins = (TargetNoBins - StartNoBins) * AnimationProgress + StartNoBins;
-            }
-            else
-            {
-                AnimationProgress = 1.0;
-                CurrentIdx = TargetIdx;
-                StartIdx = TargetIdx;
-                CurrentNoBins = TargetNoBins;
-                StartNoBins = TargetNoBins;
-            }
             const int GetFPSEveryTick = 14;
-            if (currentTick % GetFPSEveryTick == 0)
+            if (_currentTick % GetFPSEveryTick == 0)
             {
-                long currentMs = sw.ElapsedMilliseconds;
-                if (currentMs - lastTime > 0)
+                long currentMs = _sw.ElapsedMilliseconds;
+                if (elapsedSec > 0)
                 {
-                    CurrentFPS = 1.0 / (currentMs - lastTime) * 1000.0 * GetFPSEveryTick;
+                    CurrentFPS = 1.0 / elapsedSec;
                 }
                 FPS.Text = CurrentFPS.ToString("F2");
-                lastTime = sw.ElapsedMilliseconds;
             }
+        }
 
-            UpdateBinChart(ChartData);
-            currentTick += 1;
+
+        int _currentTick = 0;
+        long _lastTick = 0;
+        private void _timer_Tick(object sender, EventArgs e)
+        {
+            long newTick = _sw.ElapsedTicks;
+            double elapsedSec = (newTick - _lastTick) / (double)Stopwatch.Frequency;
+            _lastTick = newTick;
+            _currentTick += 1;
+
+            //AnimationProgressTick();
+            //AnimateChartPosition(out bool chartPositionAnimationFinished);
+            StartIdxAnimState.Tick(elapsedSec);
+            NoBinsAnimState.Tick(elapsedSec);
+            MaxValAnimState.Tick(elapsedSec);
+            
+            ComputeCurrentFPS(elapsedSec);
+
+            UpdateBinChart(ChartData, elapsedSec, out bool binChartAnimationsFinished);
+            bool allAnimationsFinished = binChartAnimationsFinished && StartIdxAnimState.IsAnimationFinished && NoBinsAnimState.IsAnimationFinished && MaxValAnimState.IsAnimationFinished;
+
+            if (allAnimationsFinished)
+            {
+                TimerActivated = false;
+            }
         }
 
 
@@ -200,7 +309,7 @@ namespace GolemUI.UI.Charts
                     newChartData.OnBinEntryUpdated += OnBinEntryUpdated;
 
                     ResetChartSettings(newChartData);
-                    UpdateBinChart(newChartData);
+                    TimerActivated = true;
                 }
             }
 
@@ -251,35 +360,31 @@ namespace GolemUI.UI.Charts
 
         public void OnSizeChanged(object sender, System.EventArgs e)
         {
-            UpdateBinChart(ChartData);
+            TimerActivated = true;
         }
 
+        AnimationState StartIdxAnimState = new AnimationState(startVal: -10.0, targetVal: -10.0, animationSpeed: START_IDX_ANIMATION_SPEED, delay: 0.0);
+        AnimationState NoBinsAnimState = new AnimationState(startVal: 21.0, targetVal: 21.0, animationSpeed: ZOOM_IN_IDX_ANIMATION_SPEED, delay: 0.0);
+        AnimationState MaxValAnimState = new AnimationState(startVal: 1.0, targetVal: 1.0, animationSpeed: MAX_VAL_ANIMATION_SPEED, delay: MAX_VAL_ANIMATION_DELAY);
         
-
-        public double StartIdx { get; set; } = -10.0;
-        public double CurrentIdx { get; set; } = -10.0;
-        public double TargetIdx { get; set; } = -10.0;
-
-        public double StartNoBins { get; set; } = 21.0;
-        public double CurrentNoBins { get; set; } = 21.0;
-        public double TargetNoBins { get; set; } = 21.0;
-
-
+        
         public void MoveChart(double steps, double zoomSteps, bool animate)
         {
-            StartIdx = CurrentIdx;
-            TargetIdx = TargetIdx - steps;
-            StartNoBins = CurrentNoBins;
-            TargetNoBins = TargetNoBins - zoomSteps;
+            if (steps != 0.0)
+            {
+                StartIdxAnimState.ChangeTargetAndResetIfNeeded(StartIdxAnimState.TargetVal - steps);
+            }
+            if (zoomSteps != 0.0)
+            {
+                NoBinsAnimState.ChangeTargetAndResetIfNeeded(NoBinsAnimState.TargetVal + zoomSteps);
+            }
 
-            if (animate)
+            if (!animate)
             {
-                AnimationProgress = 0.0f;
+                StartIdxAnimState.Finish();
+                NoBinsAnimState.Finish();
             }
-            else
-            {
-                UpdateBinChart(ChartData);
-            }
+            TimerActivated = true;
         }
 
         public void MoveRight(int steps, bool animate)
@@ -309,44 +414,43 @@ namespace GolemUI.UI.Charts
                     MoveToFreePool(binIdx);
                 }
                 int entryCount = newData.BinData.BinEntries.Count;
-                CurrentNoBins = StartNoBins = TargetNoBins = 10;
-                if (entryCount > 10)
-                {
-                    StartIdx = TargetIdx = CurrentIdx = 0;
-                }
-                else
-                {
-                    StartIdx = TargetIdx = CurrentIdx = CurrentNoBins - StartIdx;
-                }
-                UpdateBinChart(ChartData);
+                
+                NoBinsAnimState.ChangeTargetAndResetIfNeeded(21);
+                NoBinsAnimState.Finish();
+
+                StartIdxAnimState.ChangeTargetAndResetIfNeeded(0);
+                StartIdxAnimState.Finish();
+
+                TimerActivated = true;
             }
 
         }
 
         void GotoBeginning()
         {
-            TargetIdx = 0;
-            AnimationProgress = 0;
-            UpdateBinChart(ChartData);
+            StartIdxAnimState.ChangeTargetAndResetIfNeeded(0.0);
+            AnimationProgressMovement = 0;
+            TimerActivated = true;
         }
         void GotoEnd()
         {
-            TargetIdx = ChartData.BinData.BinEntries.Count - TargetNoBins;
-            AnimationProgress = 0;
-            UpdateBinChart(ChartData);
+            double targetNoBins = NoBinsAnimState.TargetVal;
+            StartIdxAnimState.ChangeTargetAndResetIfNeeded(ChartData.BinData.BinEntries.Count - targetNoBins);
+            TimerActivated = true;
         }
 
 
-        void UpdateBinChart(PrettyChartData? newData)
+
+        void UpdateBinChart(PrettyChartData? newData, double elapsedSeconds, out bool allAnimationFinished)
         {
+            allAnimationFinished = true;
             if (newData != null)
             {
                 int entryCount = newData.BinData.BinEntries.Count;
 
-                double maxVal = 0.001;
+                double newNumBins = NoBinsAnimState.CurrentValue;
+                double newStartIdx = StartIdxAnimState.CurrentValue;
 
-                double newNumBins = CurrentNoBins;
-                double newStartIdx = CurrentIdx;
                 double newFullWidth = (DrawWidth - LeftMargin - RightMargin) / newNumBins;
                 double newWidthWithoutMargins = newFullWidth - BinMargin;
 
@@ -355,6 +459,7 @@ namespace GolemUI.UI.Charts
                     newWidthWithoutMargins = 1;
                 }
 
+                double maxVal = 0.001;
                 for (int entryNo = 0; entryNo < entryCount; entryNo++)
                 {
                     double val = newData.BinData.BinEntries[entryNo].Value;
@@ -372,6 +477,9 @@ namespace GolemUI.UI.Charts
                         maxVal = val;
                     }
                 }
+                MaxValAnimState.ChangeTargetAndResetIfNeeded(maxVal);
+
+                maxVal = MaxValAnimState.CurrentValue;
 
                 for (int entryNo = 0; entryNo < entryCount; entryNo++)
                 {
@@ -379,6 +487,17 @@ namespace GolemUI.UI.Charts
                     string lbl = newData.BinData.BinEntries[entryNo].Label ?? "empty";
 
                     double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
+
+                    if (!_animationStates.ContainsKey(entryNo))
+                    {
+                        _animationStates[entryNo] = new AnimationState(startVal: 0.0, targetVal: val, animationSpeed: BIN_ANIMATION_SPEED, delay: BIN_ANIMATION_DELAY);
+                        _animationStates[entryNo].Reset(delay: 1.0);
+                    }
+                    AnimationState animState = _animationStates[entryNo];
+                    animState.ChangeTargetAndResetIfNeeded(val);
+
+                    animState.Tick(elapsedSeconds);
+
 
                     double positionX = LeftMargin + (entryNo - newStartIdx) * newFullWidth + BinMargin / 2.0;
                     if (positionX + newFullWidth < -10 || positionX > DrawWidth)
@@ -391,41 +510,23 @@ namespace GolemUI.UI.Charts
 
                     //binControl.AnimateEffectiveHeight(), MaxAnimSpeed);
 
-                    double targetHeight = (val / maxVal * (heightWithoutMargins - binControl.GetMinHeight() + binControl.ValuesOffset)) + binControl.GetMinHeight();
-                    double currentHeight = binControl.Height;
+                    if (!animState.IsAnimationFinished)
+                    {
+                        allAnimationFinished = false;
+                    }
+
+                    double binHeight = (animState.CurrentValue / maxVal * (heightWithoutMargins - binControl.GetMinHeight() + binControl.ValuesOffset)) + binControl.GetMinHeight();
 
                     binControl.SetBottomLabelText(lbl);
                     binControl.SetValueLabelText(val.ToString("F2") + newData.Suffix);
                     binControl.Width = newWidthWithoutMargins;
                     //binControl.Height = nextStepHeight;
 
-                    if (!_animationStates.ContainsKey(entryNo))
-                    {
-                        _animationStates[entryNo] = new BinAnimationState() { AnimationT = 0.0, StartHeight = binControl.GetMinHeight(), EndHeight = binControl.GetMinHeight() };
-                    }
-                    _animationStates[entryNo].AnimationT += 0.05;
-
-                    if (_animationStates[entryNo].AnimationT > 1.0)
-                    {
-                        _animationStates[entryNo].AnimationT = 1.0;
-                    }
-                    if (targetHeight != _animationStates[entryNo].EndHeight)
-                    {
-                        _animationStates[entryNo].EndHeight = targetHeight;
-                        _animationStates[entryNo].StartHeight = binControl.Height;
-                        _animationStates[entryNo].AnimationT = 0.0;
-                    }
-   
-                    binControl.SetHeight(_animationStates[entryNo].StartHeight + _animationStates[entryNo].AnimationT * (_animationStates[entryNo].EndHeight - _animationStates[entryNo].StartHeight));
+                    binControl.SetHeight(binHeight);
 
                     binControl.Visibility = Visibility.Visible;
 
                     SetPosition(binControl, positionX, TopMargin + heightWithoutMargins - binControl.Height);
-
-                    if (entryNo < CurrentIdx && entryNo > CurrentIdx + CurrentNoBins)
-                    {
-                        break;
-                    }
                 }
             }
         }
