@@ -133,6 +133,9 @@ namespace GolemUI.UI.Charts
         public double RightMargin { get; set; } = 5.0;
         public double TopMargin { get; set; } = 25.0;
 
+        public string Title { get; set; } = "Default title";
+
+
         Stopwatch _sw = Stopwatch.StartNew();
         DispatcherTimer _timer = new DispatcherTimer(DispatcherPriority.Render);
 
@@ -229,6 +232,8 @@ namespace GolemUI.UI.Charts
         long _lastTick = 0;
         private void _timer_Tick(object sender, EventArgs? e)
         {
+            tbTitle.Text = Title;
+
             long newTick = _sw.ElapsedTicks;
             double elapsedSec = (newTick - _lastTick) / (double)Stopwatch.Frequency;
             _lastTick = newTick;
