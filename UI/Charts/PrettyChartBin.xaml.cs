@@ -21,14 +21,9 @@ namespace GolemUI.UI.Charts
     /// </summary>
     public partial class PrettyChartBin : UserControl
     {
-        private double LabelOffset { get; set; } = 80;
+        private double LabelOffset { get; set; } = 60;
         public double ValuesOffset { get; set; } = 100;
-        private double BinHeight { get; set; } = 200;
-
-        public double StartHeight { get; set; } = 300;
-        public double CurrentHeight { get; set; } = 300;
-        public double TargetHeight { get; set; } = 300;
-
+        
         public PrettyChartBin()
         {
             InitializeComponent();
@@ -55,22 +50,16 @@ namespace GolemUI.UI.Charts
         {
             tbValueLabelInside.Text = text;
             tbValueLabelOutside.Text = text;
-
         }
 
         public void SetBottomLabelText(string text)
         {
             tbBottomLabel.Text = text;
         }
+
         public void Reset()
         {
             this.Height = GetMinHeight();
-        }
-
-
-        public double GetTotalHeight()
-        {
-            return LabelOffset + ValuesOffset + BinHeight;
         }
 
         public double GetMinHeight()

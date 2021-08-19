@@ -127,29 +127,6 @@ namespace GolemUI.UI.Charts
         const double MAX_VAL_ANIMATION_SPEED = 1.8;
         const double MAX_VAL_ANIMATION_DELAY = 0.5;
 
-
-
-        /*
-        public double AnimationProgress
-        {
-            get { return (double)GetValue(_animationProgress); }
-            set { SetValue(_animationProgress, value); }
-        }
-
-        
-        public static readonly DependencyProperty _animationProgress =
-            DependencyProperty.Register("AnimationProgress", typeof(double), typeof(PrettyChart), new UIPropertyMetadata(0.0, StaticPropertyChangedCallback));
-        */
-
-        public double AnimationValueProgress
-        {
-            get { return (double)GetValue(_animationValueProgress); }
-            set { SetValue(_animationValueProgress, value); }
-        }
-
-        public static readonly DependencyProperty _animationValueProgress =
-            DependencyProperty.Register("AnimationValueProgress", typeof(double), typeof(PrettyChart), new UIPropertyMetadata(0.0, StaticPropertyChangedCallback));
-
         public double BinMargin { get; set; } = 5.0;
         public double BottomMargin { get; set; } = 5.0;
         public double LeftMargin { get; set; } = 5.0;
@@ -250,7 +227,7 @@ namespace GolemUI.UI.Charts
 
         int _currentTick = 0;
         long _lastTick = 0;
-        private void _timer_Tick(object sender, EventArgs e)
+        private void _timer_Tick(object sender, EventArgs? e)
         {
             long newTick = _sw.ElapsedTicks;
             double elapsedSec = (newTick - _lastTick) / (double)Stopwatch.Frequency;
@@ -302,6 +279,7 @@ namespace GolemUI.UI.Charts
                     newChartData.OnBinEntryUpdated += OnBinEntryUpdated;
 
                     ResetChartSettings(newChartData);
+                    GotoEnd();
                     TimerActivated = true;
                 }
             }
@@ -322,15 +300,32 @@ namespace GolemUI.UI.Charts
             }
         }
 
+        public bool WasAlignedToRightBeforeAdded()
+        {
+            double targetNoBins = NoBinsAnimState.TargetVal;
+            if (Math.Abs(StartIdxAnimState.TargetVal - ChartData.BinData.BinEntries.Count + targetNoBins + 1) < 1.1)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void OnBinEntryUpdated(object sender, int binIdx, double oldValue, double newValue)
         {
-
+            TimerActivated = true;
         }
+
         public void OnBinEntryAdded(object sender, double newValue)
         {
-            this.MoveChart(-1, 0, true);
+            if (WasAlignedToRightBeforeAdded())
+            {
+                this.MoveChart(-1, 0, true);
+            }
+            else
+            {
+                TimerActivated = true;
+            }
         }
-
 
 
         BinCompatibilityResult CheckBinCompatibility(PrettyChartData? newData, PrettyChartData? oldData)
@@ -411,10 +406,10 @@ namespace GolemUI.UI.Charts
                 NoBinsAnimState.ChangeTargetAndResetIfNeeded(21);
                 NoBinsAnimState.Finish();
 
-                StartIdxAnimState.ChangeTargetAndResetIfNeeded(0);
-                StartIdxAnimState.Finish();
-
+                //StartIdxAnimState.ChangeTargetAndResetIfNeeded(-20);
+                //StartIdxAnimState.Finish();
                 TimerActivated = true;
+                _timer_Tick(this, null);
             }
 
         }
