@@ -119,13 +119,6 @@ namespace GolemUI.UI.Charts
 
         public double CurrentFPS = 0.0;
 
-        
-        public double AnimationProgressMovement = 1.0;
-        public double AnimationSpeedMovement = 2.0;
-
-        public double AnimationProgressMaxVal = 1.0;
-        public double AnimationSpeedMaxVal = 0.4;
-
 
         const double BIN_ANIMATION_SPEED = 1.2;
         const double BIN_ANIMATION_DELAY = 0.5;
@@ -426,12 +419,36 @@ namespace GolemUI.UI.Charts
 
         }
 
+        void JumpPage(double direction)
+        {
+            double targetNoBins = NoBinsAnimState.TargetVal;
+            double targetStartPosX = StartIdxAnimState.TargetVal - targetNoBins * direction;
+
+            if (direction > 0.0)
+            {
+                if (targetStartPosX < 0)
+                {
+                    targetStartPosX = 0;
+                }
+            }
+            else
+            {
+                if (ChartData.BinData.BinEntries.Count - targetNoBins < targetStartPosX)
+                {
+                    targetStartPosX = ChartData.BinData.BinEntries.Count - targetNoBins;
+                }
+            }
+
+            StartIdxAnimState.ChangeTargetAndResetIfNeeded(targetStartPosX);
+            TimerActivated = true;
+        }
+
         void GotoBeginning()
         {
             StartIdxAnimState.ChangeTargetAndResetIfNeeded(0.0);
-            AnimationProgressMovement = 0;
             TimerActivated = true;
         }
+
         void GotoEnd()
         {
             double targetNoBins = NoBinsAnimState.TargetVal;
@@ -587,6 +604,16 @@ namespace GolemUI.UI.Charts
         private void btnGoToRight_Click(object sender, RoutedEventArgs e)
         {
             GotoEnd();
+        }
+
+        private void btnPageNext_Click(object sender, RoutedEventArgs e)
+        {
+            JumpPage(direction: -1.0);
+        }
+
+        private void btnPageBack_Click(object sender, RoutedEventArgs e)
+        {
+            JumpPage(direction:1.0);
         }
     }
 }

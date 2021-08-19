@@ -16,11 +16,13 @@
             <Canvas>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="btnGoToBegin" Click="btnGoToBegin_Click">Go to beginning</Button>
+                    <Button x:Name="btnPageBack" Click="btnPageBack_Click" Margin="2 0 0 0">Previous Page</Button>
                     <TextBlock x:Name="txTimerStatus"></TextBlock>
                     <TextBlock x:Name="FPS"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Canvas.Right="0">
-                    <Button x:Name="btnGoToRight" Click="btnGoToRight_Click">Go to end</Button>
+                    <Button x:Name="btnPageNext" Click="btnPageNext_Click">Next page</Button>
+                    <Button x:Name="btnGoToRight" Click="btnGoToRight_Click" Margin="2 0 0 0">Go to end</Button>
                 </StackPanel>
             </Canvas>
         </Grid>
