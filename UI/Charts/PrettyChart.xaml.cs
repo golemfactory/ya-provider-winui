@@ -127,7 +127,7 @@ namespace GolemUI.UI.Charts
         public double AnimationSpeedMaxVal = 0.4;
 
 
-        const double BIN_ANIMATION_SPEED = 0.5;
+        const double BIN_ANIMATION_SPEED = 1.2;
         const double BIN_ANIMATION_DELAY = 0.5;
         const double START_IDX_ANIMATION_SPEED = 1.2;
         const double ZOOM_IN_IDX_ANIMATION_SPEED = 1.8;
