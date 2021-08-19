@@ -23,12 +23,12 @@ namespace GolemUI.UI.Charts
     {
         private double LabelOffset { get; set; } = 60;
         public double ValuesOffset { get; set; } = 100;
-        
+
         public PrettyChartBin()
         {
             InitializeComponent();
             grdMain.RowDefinitions[0].Height = new GridLength(ValuesOffset);
-           // grdMain.RowDefinitions[1].Height = new GridLength(BinHeight);
+            // grdMain.RowDefinitions[1].Height = new GridLength(BinHeight);
             grdMain.RowDefinitions[2].Height = new GridLength(LabelOffset);
         }
 

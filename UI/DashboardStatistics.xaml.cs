@@ -57,10 +57,13 @@ namespace GolemUI.UI
         private async void btnAddEntry_Click(object sender, RoutedEventArgs e)
         {
 
-            for (int i = 0; i < 400; i++)
+            //this.ViewModel.ChartData4.AddOrUpdateBinEntry(-1, DateTime.Now.ToString("88-88-88"), r.NextDouble() * 100.0);
+            //            await Task.Delay(10);
+
+            for (int i = 0; i < 1000000; i++)
             {
                 this.ViewModel.ChartData4.AddOrUpdateBinEntry(-1, DateTime.Now.ToString("HH-mm-ss"), r.NextDouble() * 100.0);
-                await Task.Delay(10);
+                await Task.Delay(100);
             };
 
         }

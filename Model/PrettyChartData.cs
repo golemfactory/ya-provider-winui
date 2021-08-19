@@ -72,7 +72,7 @@ namespace GolemUI.Model
 
         private bool UpdateBinEntry(int binEntryIndex, double newValue)
         {
-            if (binEntryIndex >= 0 && binEntryIndex < BinData.BinEntries.Count )
+            if (binEntryIndex >= 0 && binEntryIndex < BinData.BinEntries.Count)
             {
                 double oldValue = BinData.BinEntries[binEntryIndex].Value;
                 BinData.BinEntries[binEntryIndex].Value = newValue;

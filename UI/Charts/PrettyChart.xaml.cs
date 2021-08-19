@@ -104,7 +104,7 @@ namespace GolemUI.UI.Charts
 
         SortedDictionary<int, PrettyChartBin> _freePool = new SortedDictionary<int, PrettyChartBin>();
         SortedDictionary<int, PrettyChartBin> _cachedControls = new SortedDictionary<int, PrettyChartBin>();
-            
+
 
 
 
@@ -137,7 +137,7 @@ namespace GolemUI.UI.Charts
         DispatcherTimer _timer = new DispatcherTimer(DispatcherPriority.Render);
 
         private bool _isDragStarted = false;
-        
+
         public PrettyChart()
         {
             InitializeComponent();
@@ -207,7 +207,7 @@ namespace GolemUI.UI.Charts
             }
         }
 
-        
+
 
 
         private void ComputeCurrentFPS(double elapsedSec)
@@ -239,7 +239,7 @@ namespace GolemUI.UI.Charts
             StartIdxAnimState.Tick(elapsedSec);
             NoBinsAnimState.Tick(elapsedSec);
             MaxValAnimState.Tick(elapsedSec);
-            
+
             ComputeCurrentFPS(elapsedSec);
 
             UpdateBinChart(ChartData, elapsedSec, out bool binChartAnimationsFinished);
@@ -354,8 +354,8 @@ namespace GolemUI.UI.Charts
         AnimationState StartIdxAnimState = new AnimationState(startVal: -10.0, targetVal: -10.0, animationSpeed: START_IDX_ANIMATION_SPEED, delay: 0.0);
         AnimationState NoBinsAnimState = new AnimationState(startVal: 21.0, targetVal: 21.0, animationSpeed: ZOOM_IN_IDX_ANIMATION_SPEED, delay: 0.0);
         AnimationState MaxValAnimState = new AnimationState(startVal: 1.0, targetVal: 1.0, animationSpeed: MAX_VAL_ANIMATION_SPEED, delay: MAX_VAL_ANIMATION_DELAY);
-        
-        
+
+
         public void MoveChart(double steps, double zoomSteps, bool animate)
         {
             if (steps != 0.0)
@@ -392,17 +392,17 @@ namespace GolemUI.UI.Charts
             MoveChart(0, -steps, animate);
         }
 
-        
+
         void ResetChartSettings(PrettyChartData? newData)
         {
             if (newData != null)
             {
-                foreach(var binIdx in _cachedControls.Keys.ToList())
+                foreach (var binIdx in _cachedControls.Keys.ToList())
                 {
                     MoveToFreePool(binIdx);
                 }
                 int entryCount = newData.BinData.BinEntries.Count;
-                
+
                 NoBinsAnimState.ChangeTargetAndResetIfNeeded(21);
                 NoBinsAnimState.Finish();
 
@@ -608,7 +608,7 @@ namespace GolemUI.UI.Charts
 
         private void btnPageBack_Click(object sender, RoutedEventArgs e)
         {
-            JumpPage(direction:1.0);
+            JumpPage(direction: 1.0);
         }
     }
 }
