@@ -29,7 +29,7 @@ namespace GolemUI
         private void btnRunBenchmark_Click(object sender, RoutedEventArgs e)
         {
             bool shouldStartBenchmark = true;
-            if (ViewModel.IsMiningProcessRunning())
+            if (ViewModel.IsMiningProcessRunning)
             {
 
 
@@ -69,7 +69,7 @@ namespace GolemUI
 
             if (shouldStartBenchmark)
             {
-                if (ViewModel.IsMiningProcessRunning())
+                if (ViewModel.IsMiningProcessRunning)
                     ViewModel.StopMiningProcess();
                 ViewModel!.StartBenchmark();
             }

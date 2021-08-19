@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Scrollbars/SettingsScrollView.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/CheckBox/SliderCheckBox.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/AdvancedSettingsButton.xaml"/>
@@ -74,9 +75,9 @@
                     <RowDefinition Height="45" />
                     <RowDefinition Height="55"/>
                     <RowDefinition Height="*" MinHeight="320" />
-                    
-                    
-                    
+
+
+
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.92*" />
@@ -86,13 +87,13 @@
                     <ColumnDefinition Width="2*" />
 
                 </Grid.ColumnDefinitions>
-                <UniformGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,7,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.RowSpan="2" Columns="2" Rows="1">
+                <UniformGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,7,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.RowSpan="2" Columns="2" Rows="1" Visibility="{Binding IsMiningProcessRunning, Converter={StaticResource BoolToHiddenConverter }}">
                     <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0">
                         <Label VerticalAlignment="Bottom" Content="Estimated profit: " FontSize="15" FontWeight="Light" Margin="0" Padding="0,0,0,2"/>
                         <TextBlock VerticalAlignment="Bottom" FontFamily="Segoe UI Black" FontSize="24" Margin="1, 0, 0, 0" Padding="0" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdmonth}"/>
                     </WrapPanel>
                     <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5,0">
-                        <Label VerticalAlignment="Bottom" Content="Current Hash rate: "  FontSize="15" FontWeight="Light"  Padding="0,0,0,2"/>
+                        <Label VerticalAlignment="Bottom" Content="Current Hashrate: "  FontSize="15" FontWeight="Light"  Padding="0,0,0,2"/>
                         <TextBlock VerticalAlignment="Bottom"   FontFamily="Segoe UI Black" FontSize="24" Foreground="#fff" Text="{Binding Path=HashRate, Converter={StaticResource HashRateConverter}, FallbackValue=Test}" />
                     </WrapPanel>
                 </UniformGrid>
@@ -103,7 +104,7 @@
 
 
 
-                <Border MinHeight="320" Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="0" >
+                <Border Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="0" >
 
                     <Grid Margin="0, 0, 0, 0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                         <Grid.RowDefinitions>
@@ -119,26 +120,26 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Margin="14,25,0,0" Grid.Row="0" Content="Task type" Foreground="#FFFFFF" FontFamily="SegoeUI" FontSize="20" HorizontalAlignment="Left" FontWeight="Bold"></Label>
-                        
+
                         <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="/UI/Icons/DefaultStyle/png/Settings/TaskType.png" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="25,20,25,25" Stretch="Uniform" />
                         <StackPanel Grid.Row="2" Margin="0,28,0,0" HorizontalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox  Margin="0" Grid.Column="0" Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsGpuEnabled}" IsEnabled="{Binding IsBenchmarkNotRunning}" >
                                     <TextBlock FontSize="10"   Margin="8, 5, 5, 5"  Text="Mining (GPU)" Foreground="#FFFFFF" />
                                 </CheckBox>
-                               
+
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,13">
                                 <CheckBox Margin="0" Style="{DynamicResource CheckBoxSlider}"  IsChecked="{Binding IsCpuEnabled}" >
                                     <TextBlock  FontSize="10" Margin="10, 1,0,0" TextWrapping="Wrap" Text="Golem Network (CPU)" Foreground="#FFFFFF" />
                                 </CheckBox>
-                               
+
                             </StackPanel>
                         </StackPanel>
                     </Grid>
 
                 </Border>
-                <Border MinHeight="260"  Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">
+                <Border Grid.Row="2" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.4*"/>
@@ -171,7 +172,7 @@
                             <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorStyle}" TextWrapping="Wrap" Text="{Binding BenchmarkError}" Margin="5, 0, 10, 0" VerticalAlignment="Center"></TextBox>
                         </StackPanel>
 
-                        <ScrollViewer Grid.Column="1" Grid.Row="2" Margin="25,4,0,0" Padding="0" Grid.RowSpan="2" VerticalScrollBarVisibility="Hidden">
+                        <ScrollViewer Grid.Column="1" Grid.Row="2" Margin="25,4,0,0" Padding="0" Grid.RowSpan="2" VerticalScrollBarVisibility="Auto" Style="{DynamicResource SettingsScrollViewer}">
                             <ItemsControl Grid.Column="1" ItemsSource="{Binding GpuList}" Margin="0,0,0,0" >
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -355,9 +356,9 @@
                             <Image Grid.Row="1" RenderOptions.BitmapScalingMode="HighQuality"  Source="/UI/Icons/DefaultStyle/png/Dashboard/Cpu.png"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="32, 13, 0, 10" Stretch="Uniform" />
 
 
-                            <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="1" Margin="0,0,10,10">
+                            <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="1" Margin="0,0,40,10">
                                 <Slider  Height="30" Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Top" Margin="42,9,0,0" Minimum="0" Maximum="{Binding TotalCpusCount, Mode=OneWay}"/>
-                                
+
                                 <StackPanel  Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,2,0,0">
                                     <Label Content="Cpu Threads:" FontWeight="Light" Margin="0" Padding="0,0,5,0" FontSize="18"/>
                                     <Label Content="{Binding ActiveCpusCountAsString, Mode=OneWay}" FontFamily="Segoe UI" FontWeight="Bold" Margin="0" Padding="0" FontSize="18" />
@@ -375,21 +376,81 @@
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="35"/>
-                                <RowDefinition Height="70"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Horizontal" Height="25">
                                 <Label Padding="0" Margin="0" Content="Node name" FontFamily="Segoe UI" FontWeight="Bold" FontSize="19" VerticalAlignment="Bottom"/>
                                 <Label Margin="5,0,0,3" Padding="0"  Content="(Click name to edit)" FontWeight="Light" FontSize="10" VerticalAlignment="Bottom"/>
                             </StackPanel>
-                            <TextBox Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" BorderThickness="0,0,0,2" Grid.Row="1" VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Margin="0, 12,40,0"  Padding="0,0,0,5">
-                                <TextBox.Text>
-                                    <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
-                                        <Binding.ValidationRules>
-                                            <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
+                            <Border BorderThickness="0,0,0,2"   Margin="0, 0,40,0"  Grid.Row="1" Height="20">
+                                <StackPanel>
+                                    <TextBox Name="txtNodeName" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" BorderThickness="0"  VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff"  Padding="0,0,0,0" Margin="0">
+                                        <TextBox.Style>
+                                            <Style TargetType="{x:Type TextBox}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="Validation.HasError" Value="true">
+                                                        <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                        <TextBox.Text>
+                                            <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
+                                                <Binding.ValidationRules>
+                                                    <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+
+                                </StackPanel>
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="BorderBrush" Value="#45405D" />
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding ElementName=txtNodeName, Path=(Validation.HasError)}" Value="true" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="BorderBrush" Value="#FC476E" />
+                                            </MultiDataTrigger>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding ElementName=txtNodeName, Path=(Validation.HasError)}" Value="false" />
+                                                    <Condition Binding="{Binding NodeNameHasChanged}" Value="true" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="BorderBrush" Value="#0FB2AB" />
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                            </Border>
+                            <Label Margin="2,-4,0,0" Padding="0" Grid.Row="2" Foreground="#0FB2AB" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding ElementName=txtNodeName, Path=(Validation.HasError)}" Value="true" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </MultiDataTrigger>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding ElementName=txtNodeName, Path=(Validation.HasError)}" Value="false" />
+                                                    <Condition Binding="{Binding NodeNameHasChanged}" Value="true" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                                ✓ Saved
+                            </Label>
                         </Grid>
                     </Border>
                 </Grid>

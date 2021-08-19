@@ -58,10 +58,36 @@ namespace GolemUI.ViewModel
             _taskProfitEstimator.PropertyChanged += OnProfitEstimatorChanged;
         }
 
+        public string _estimationMessage = "";
+        public string EstimationMessage
+        {
+            get => _estimationMessage;
+            set
+            {
+                _estimationMessage = value;
+                OnPropertyChanged(nameof(EstimationMessage));
+            }
+        }
+
         private void OnProfitEstimatorChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == "EstimatedEarningsPerSecond")
+            {
+                if (_taskProfitEstimator.EstimatedEarningsPerSecond != null)
+                {
+                    var glmPerDay = (decimal)(_taskProfitEstimator.EstimatedEarningsPerSecond * 3600 * 24);
+                    UsdPerDay = _priceProvider.CoinValue(glmPerDay, Coin.GLM);
+                }
+                else
+                {
+                    UsdPerDay = null;
+                }
+            }
+            if (e.PropertyName == "EstimatedEarningsMessage")
+            {
+                EstimationMessage = _taskProfitEstimator.EstimatedEarningsMessage;
+            }
             OnPropertyChanged("GlmPerDay");
-            OnPropertyChanged("UsdPerDay");
         }
 
         public void RequestDarkBackgroundVisibilityChange(bool shouldBackgroundBeVisible)
@@ -126,7 +152,17 @@ namespace GolemUI.ViewModel
 
         public decimal GlmPerDay => (decimal)((_taskProfitEstimator.EstimatedEarningsPerSecond ?? 0) * 3600 * 24);
 
-        public decimal UsdPerDay => _priceProvider.CoinValue(GlmPerDay, Coin.GLM);
+        // public decimal UsdPerDay => _priceProvider.CoinValue(GlmPerDay, Coin.GLM);
+        public decimal? _usdPerDay = null;
+        public decimal? UsdPerDay
+        {
+            get => _usdPerDay;
+            set
+            {
+                _usdPerDay = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string Tickler { get; private set; }
 

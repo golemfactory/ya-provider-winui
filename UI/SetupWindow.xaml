@@ -18,7 +18,7 @@
     AllowsTransparency="True"    
     MinHeight="720"
     MinWidth="1280"
-        Title="SetupWindow" Height="720" Width="1280" Icon="/GolemUI;component/Media/tray.ico" Loaded="Window_Loaded">
+        Title="SetupWindow" Height="720" Width="1280" Icon="/Media/Thorg.ico" Loaded="Window_Loaded">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -383,17 +383,62 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
                                         <StackPanel  Margin="50,50,0,0" Grid.Column="1">
+                                            
                                             <TextBlock FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Margin="20, 0, 0, 0">Name your node</TextBlock>
-                                            <TextBox Name="WantToLearnNodeName"  Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="20, 40" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff" >
-                                                <TextBox.Text>
-                                                    <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
-                                                        <Binding.ValidationRules>
-                                                            <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
-                                            <Label Margin="20,-20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character))" >
+                                            <Border BorderThickness="0,0,0,2"   Margin="20, 40,20,0" Height="26">
+                                                <TextBox Name="WantToLearnNodeName"  Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="0, 0" BorderThickness="0" Background="Transparent" Foreground="#eee" CaretBrush="#fff" >
+                                                    <TextBox.Text>
+                                                        <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
+                                                            <Binding.ValidationRules>
+                                                                <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBox.Text>
+                                                </TextBox>
+                                                <Border.Style>
+                                                    <Style TargetType="{x:Type Border}">
+                                                        <Setter Property="BorderBrush" Value="white"/>
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=WantToLearnNodeName, Path=(Validation.HasError)}" Value="true" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="BorderBrush" Value="#FC476E" />
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=WantToLearnNodeName, Path=(Validation.HasError)}" Value="false" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="BorderBrush" Value="#0FB2AB" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                            </Border>
+                                            <Label Margin="22,6,0,0" Padding="0" Foreground="#0FB2AB" >
+                                                <Label.Style>
+                                                    <Style TargetType="{x:Type Label}">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=WantToLearnNodeName, Path=(Validation.HasError)}" Value="true" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=WantToLearnNodeName, Path=(Validation.HasError)}" Value="false" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Label.Style>
+                                                ✓ Node name is valid
+                                            </Label>
+                                            <Label Margin="20,20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character))" >
                                                 <Label.Style>
                                                     <Style TargetType="{x:Type Label}">
                                                         <Setter Property="Visibility" Value="Visible" />
@@ -402,12 +447,13 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding ElementName=WantToLearnNodeName, Path=(Validation.HasError)}" Value="false" />
                                                                 </MultiDataTrigger.Conditions>
-                                                                <Setter Property="Visibility" Value="Hidden" />
+                                                                <Setter Property="Visibility" Value="Collapsed" />
                                                             </MultiDataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Label.Style>
                                             </Label>
+                                           
                                         </StackPanel>
                                         <Button Content="Next" Grid.Row="1" Grid.Column="1" Height="44"  MinHeight="32" IsDefault="True" Click="OnWTLStep4Next" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                                            Margin="70,0,0,0" >
@@ -589,17 +635,62 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <ContentControl Content="{StaticResource Use_my_wallet_icon}" Grid.Row="0" Grid.RowSpan="2" Margin="6,20,0,0" VerticalAlignment="Top"/>
                                         <StackPanel Grid.Column="1" Margin="40,80,0,60" VerticalAlignment="Top">
                                             <TextBlock Foreground="#aaa">Paste your Ethereum address</TextBlock>
-                                            <TextBox Name="TxtAddress" Grid.Column="1" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
-                                 Margin="0,10,0,0" Padding="2" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff"
-                                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource TextBoxInError}">
-                                                <TextBox.Text>
-                                                    <Binding Path="Address" UpdateSourceTrigger="PropertyChanged" >
-                                                        <Binding.ValidationRules>
-                                                            <lc:EthAddrValidator xmlns:lc="clr-namespace:GolemUI.Validators" ShouldCheckForChecksum="False" ValidatesOnTargetUpdated="True"/>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
+                                            <Border BorderThickness="0,0,0,2"   Margin="0, 0,40,0" Height="26">
+
+                                                <TextBox x:Name="TxtAddress" FontSize="16" Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" BorderThickness="0" BorderBrush="Transparent" VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Margin="0, 0,0,0"  Padding="0,0,0,5">
+                                                    <TextBox.Text>
+                                                        <Binding Path="Address" UpdateSourceTrigger="PropertyChanged" Delay="100">
+                                                            <Binding.ValidationRules>
+                                                                <lc:EthAddrValidator ShouldCheckForChecksum="False" xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBox.Text>
+                                                </TextBox>
+
+                                                <Border.Style>
+                                                    <Style TargetType="{x:Type Border}">
+                                                        <Setter Property="BorderBrush" Value="#45405D" />
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=TxtAddress, Path=(Validation.HasError)}" Value="true" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="BorderBrush" Value="#FC476E" />
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=TxtAddress, Path=(Validation.HasError)}" Value="false" />
+ 
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="BorderBrush" Value="#0FB2AB" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                            </Border>
+                                            <Label Margin="2,6,0,0" Padding="0" Grid.Row="2" Foreground="#0FB2AB" >
+                                                <Label.Style>
+                                                    <Style TargetType="{x:Type Label}">
+                                                        <Setter Property="Visibility" Value="Hidden" />
+
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=TxtAddress, Path=(Validation.HasError)}" Value="true" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="Visibility" Value="Hidden" />
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=TxtAddress, Path=(Validation.HasError)}" Value="false" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Label.Style>
+                                                ✓ Address is valid
+                                            </Label>
 
                                         </StackPanel>
                                         <Button Grid.Column="1" VerticalAlignment="Bottom" Margin="50, 30,0,0" MinHeight="44" Click="ConfirmAddress_Click" Content="Next">
@@ -633,19 +724,64 @@ They are a backup for your wallet and in case your disk fails or any other unexp
 
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="6,20,0,0"/>
-                                        <TextBlock  FontSize="22" FontWeight="Bold" Margin="50, 40" Grid.Column="1">Name your node</TextBlock>
+                                        
+                                        <StackPanel  Margin="30,30,0,0" Grid.Column="1">
 
-                                        <StackPanel  Margin="50,70,00,7" Grid.Column="1">
-                                            <TextBox Name="ExpertModeNodeName" Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="0, 40,0,0" BorderThickness="0,0,0,2" Background="Transparent" Foreground="#eee" CaretBrush="#fff">
-                                                <TextBox.Text>
-                                                    <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
-                                                        <Binding.ValidationRules>
-                                                            <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
-                                            <Label FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character)">
+                                            <TextBlock FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Margin="20, 0, 0, 0">Name your node</TextBlock>
+                                            <Border BorderThickness="0,0,0,2"   Margin="20, 40,20,0" Height="26">
+                                                <TextBox Name="ExpertModeNodeName"  Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="0, 0" BorderThickness="0" Background="Transparent" Foreground="#eee" CaretBrush="#fff" >
+                                                    <TextBox.Text>
+                                                        <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
+                                                            <Binding.ValidationRules>
+                                                                <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBox.Text>
+                                                </TextBox>
+                                                <Border.Style>
+                                                    <Style TargetType="{x:Type Border}">
+                                                        <Setter Property="BorderBrush" Value="white"/>
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=ExpertModeNodeName, Path=(Validation.HasError)}" Value="true" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="BorderBrush" Value="#FC476E" />
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=ExpertModeNodeName, Path=(Validation.HasError)}" Value="false" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="BorderBrush" Value="#0FB2AB" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                            </Border>
+                                            <Label Margin="22,6,0,0" Padding="0" Foreground="#0FB2AB" >
+                                                <Label.Style>
+                                                    <Style TargetType="{x:Type Label}">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=ExpertModeNodeName, Path=(Validation.HasError)}" Value="true" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=ExpertModeNodeName, Path=(Validation.HasError)}" Value="false" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Label.Style>
+                                                ✓ Node name is valid
+                                            </Label>
+                                            <Label Margin="20,20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character))" >
                                                 <Label.Style>
                                                     <Style TargetType="{x:Type Label}">
                                                         <Setter Property="Visibility" Value="Visible" />
@@ -654,7 +790,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding ElementName=ExpertModeNodeName, Path=(Validation.HasError)}" Value="false" />
                                                                 </MultiDataTrigger.Conditions>
-                                                                <Setter Property="Visibility" Value="Hidden" />
+                                                                <Setter Property="Visibility" Value="Collapsed" />
                                                             </MultiDataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -662,6 +798,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             </Label>
 
                                         </StackPanel>
+
                                         <Button Content="Next" VerticalAlignment="Bottom" Grid.Column="1" Margin="50, 30,0,0" Height="44" IsDefault="True" Click="OnEMNameStepDone">
                                             <Button.Style>
                                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource GradientButtonStyle}">
@@ -676,9 +813,8 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     </Style.Triggers>
                                                 </Style>
                                             </Button.Style>
-
                                         </Button>
-
+                                        
                                     </Grid>
                                 </TabItem>
                                 <TabItem Header="Benchmark">

@@ -164,7 +164,9 @@ namespace GolemUI.UI
             // Create IDocumentPaginatorSource from FlowDocument  
             IDocumentPaginatorSource idpSource = doc;
             // Call PrintDocument method to send document to printer  
-            printDlg.PrintDocument(idpSource.DocumentPaginator, "Wallet Recovery Sheet");
+            bool? result = printDlg.ShowDialog();
+            if (result == true)
+                printDlg.PrintDocument(idpSource.DocumentPaginator, "Wallet Recovery Sheet");
         }
 
         private async void OnWTLStep3Next(object sender, RoutedEventArgs e)
@@ -189,8 +191,8 @@ namespace GolemUI.UI
         private void OnNoobFinish(object sender, RoutedEventArgs e)
         {
             Model!.Save();
-            var wnd = _serviceProvider.GetService(typeof(GolemUI.Dashboard)) as GolemUI.Dashboard;
-            wnd?.Show();
+            if (App.Current is App app)
+                app.GetOrCreateDashboardWindow().Show();
             Close();
         }
 
@@ -255,8 +257,8 @@ namespace GolemUI.UI
         private void BtnNoGpuContinue_Click(object sender, RoutedEventArgs e)
         {
             Model!.Save();
-            var wnd = _serviceProvider.GetService(typeof(GolemUI.Dashboard)) as GolemUI.Dashboard;
-            wnd?.Show();
+            if (App.Current is App app)
+                app.GetOrCreateDashboardWindow().Show();
             Close();
         }
     }

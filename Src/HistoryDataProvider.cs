@@ -146,7 +146,7 @@ namespace GolemUI.Src
 
             foreach (var entry in usageVectorDiff)
             {
-                if (entry.Value < 0)
+                if (entry.Key != "golem.usage.mining.hash-rate" && entry.Value < 0)
                 {
                     logger.LogError("usageVectorDiff entry cannot be lower than 0: " + entry.Key);
                 }

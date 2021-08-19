@@ -31,7 +31,7 @@ namespace GolemUI
         private readonly GolemUI.ChildProcessManager _childProcessManager;
         private readonly IDisposable _sentrySdk;
 
-        private Dashboard? _dashboard;
+        private Dashboard? _dashboard = null;
         public App()
         {
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
@@ -130,6 +130,18 @@ namespace GolemUI
                 logBuilder.AddSentry(GolemUI.Properties.Settings.Default.SentryDsn);
             });
 
+        }
+
+        public Dashboard? GetOrCreateDashboardWindow()
+        {
+            if (_dashboard == null)
+                _dashboard = _serviceProvider!.GetRequiredService<Dashboard>();
+
+            if (_dashboard == null)
+            {
+                throw new Exception("FATAL ERROR, Dashboard object creation failed.");
+            }
+            return _dashboard;
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
