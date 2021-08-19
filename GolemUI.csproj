@@ -353,9 +353,6 @@
     <Compile Include="UI\Charts\PrettyChart.xaml.cs">
       <DependentUpon>PrettyChart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Charts\PrettyChartDesign.xaml.cs">
-      <DependentUpon>PrettyChartDesign.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\DashboardStatistics.xaml.cs">
       <DependentUpon>DashboardStatistics.xaml</DependentUpon>
     </Compile>
@@ -465,10 +462,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Charts\PrettyChartBin.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Charts\PrettyChartDesign.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

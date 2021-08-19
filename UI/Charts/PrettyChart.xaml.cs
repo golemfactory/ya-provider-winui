@@ -202,6 +202,8 @@ namespace GolemUI.UI.Charts
                     return _cachedControls[idx];
                 }
                 var newBinControl = new PrettyChartBin();
+                //newBinControl.SetLabelCollapsed(true);
+                //newBinControl.SetValueLabelVisibility(false);
                 cv.Children.Add(newBinControl);
                 newBinControl.Visibility = Visibility.Hidden;
                 newBinControl.SetHeight(newBinControl.GetMinHeight());
@@ -588,9 +590,10 @@ namespace GolemUI.UI.Charts
                 currentMouseX = e.GetPosition(this.Parent as Canvas).X;
                 MoveChart((currentMouseX - startMouseX) / 10.0, 0, true);
                 startMouseX = currentMouseX;
+                e.Handled = true;
             }
-            e.Handled = true;
         }
+
         private void cv_MouseUp(object sender, MouseButtonEventArgs e)
         {
             _isDragStarted = false;

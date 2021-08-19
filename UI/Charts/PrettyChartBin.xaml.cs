@@ -24,6 +24,8 @@ namespace GolemUI.UI.Charts
         private double LabelOffset { get; set; } = 60;
         public double ValuesOffset { get; set; } = 100;
 
+        private bool ValueLabelVisible { get; set; } = true;
+
         public PrettyChartBin()
         {
             InitializeComponent();
@@ -32,16 +34,42 @@ namespace GolemUI.UI.Charts
             grdMain.RowDefinitions[2].Height = new GridLength(LabelOffset);
         }
 
+        public void SetLabelVisibility(bool visible)
+        {
+            tbBottomLabel.Visibility = Visibility.Hidden;
+        }
+
+        public void SetLabelCollapsed(bool collapsed)
+        {
+            LabelOffset = 0;
+            tbBottomLabel.Visibility = Visibility.Collapsed;
+            grdMain.RowDefinitions[2].Height = new GridLength(0);
+        }
+
+        public void SetValueLabelVisibility(bool visible)
+        {
+            ValueLabelVisible = visible;
+        }
+
+
         public void SetTargetHeight(double height)
         {
-            if (height > GetMinHeight() + 70)
+            if (ValueLabelVisible)
             {
-                tbValueLabelInside.Visibility = Visibility.Visible;
-                tbValueLabelOutside.Visibility = Visibility.Hidden;
+                if (height > GetMinHeight() + 70)
+                {
+                    tbValueLabelInside.Visibility = Visibility.Visible;
+                    tbValueLabelOutside.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    tbValueLabelOutside.Visibility = Visibility.Visible;
+                    tbValueLabelInside.Visibility = Visibility.Hidden;
+                }
             }
             else
             {
-                tbValueLabelOutside.Visibility = Visibility.Visible;
+                tbValueLabelOutside.Visibility = Visibility.Hidden;
                 tbValueLabelInside.Visibility = Visibility.Hidden;
             }
         }
@@ -54,6 +82,7 @@ namespace GolemUI.UI.Charts
         {
             tbValueLabelInside.Text = text;
             tbValueLabelOutside.Text = text;
+            BinRect.ToolTip = text;
         }
 
         public void SetBottomLabelText(string text)
