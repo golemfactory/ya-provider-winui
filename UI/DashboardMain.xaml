@@ -17,18 +17,19 @@
                 <ResourceDictionary Source="Icons/Profit_icon.xaml"/>
                 <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
                 <!-- end icons -->
-                <ResourceDictionary Source="Themes/Defaults.xaml"/>
-                <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
-                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/GolemLogo.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/PinkButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/GoToSettingsButton.xaml"/>
-                <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
-                <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
-                <ResourceDictionary Source="Themes/CheckBox/SliderCheckBox.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/BlueButton.xaml"/>
-                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
-                <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GoToSettingsButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/CheckBox/SliderCheckBox.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/BlueButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/TrackBar/Slider.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/HistoryTabButton.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
 
@@ -220,8 +221,9 @@
                 </Border>
             </Grid>
             <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,22,0" />
+            <Button Grid.Row="3" Cursor="Hand" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnStatistics" Click="BtnStatistics_Click" Margin="50,0,0,35" Style="{StaticResource HistoryTabButtonStyle}"/>
 
-       
+
         </Grid>
     </Border>
 </UserControl>

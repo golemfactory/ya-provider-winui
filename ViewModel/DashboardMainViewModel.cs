@@ -206,6 +206,10 @@ namespace GolemUI.ViewModel
         {
             PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettings);
         }
+        public void SwitchToStatistics()
+        {
+            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardStatistics);
+        }
 
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
         {
