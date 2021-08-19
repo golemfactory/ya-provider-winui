@@ -90,7 +90,6 @@ namespace GolemUI.UI.Charts
         public double RightMargin { get; set; } = 5.0;
         public double TopMargin { get; set; } = 25.0;
 
-        Storyboard? MainStoryboard { get; set; } = null;
 
 
         DispatcherTimer _timer = new DispatcherTimer(DispatcherPriority.Render);
@@ -272,14 +271,6 @@ namespace GolemUI.UI.Charts
             TargetIdx = TargetIdx - steps;
             StartNoBins = CurrentNoBins;
             TargetNoBins = TargetNoBins - zoomSteps;
-
-            if (MainStoryboard != null)
-            {
-                //cancel storyboard
-                MainStoryboard.Completed -= MainStoryBoardFinished;
-                MainStoryboard.Stop();
-                MainStoryboard.Remove();
-            }
 
             if (animate)
             {
