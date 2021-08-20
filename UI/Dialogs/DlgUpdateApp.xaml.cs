@@ -23,7 +23,7 @@ namespace GolemUI.UI.Dialogs
     public partial class DlgUpdateApp : Window
     {
 
-        public DlgUpdateApp(DlgEditAddressViewModel model)
+        public DlgUpdateApp(DlgUpdateAppViewModel model)
         {
             InitializeComponent();
             DataContext = model;
@@ -34,29 +34,31 @@ namespace GolemUI.UI.Dialogs
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-           /* if (Model != null)
-                Model.ChangeAction = DlgEditAddressViewModel.Action.None;*/
+
             this.DialogResult = false;
             this.Close();
         }
 
-        private void BtnOK_Click(object sender, RoutedEventArgs e)
-        {
-            if (Model != null)
-            {
-               /* Model.ChangeAction = Model.ShouldTransferFunds ? DlgEditAddressViewModel.Action.TransferOut : DlgEditAddressViewModel.Action.Change;*/
-            }
-            this.DialogResult = true;
-            this.Close();
-        }
+
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-          /*  if (Model != null)
-                Model.ChangeAction = DlgEditAddressViewModel.Action.None;*/
             this.DialogResult = false;
-            this.Close();
+            if (Model.ShouldForceUpdate)
+                System.Windows.Application.Current.Shutdown();
+            else
+                this.Close();
         }
 
+        private void BtnCloseApp_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
+
+        private void BtnGoToDownloadPage_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(Model.UpdateLink);
+        }
     }
 }

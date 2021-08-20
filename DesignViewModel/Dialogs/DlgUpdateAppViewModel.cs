@@ -15,10 +15,29 @@ namespace GolemUI.DesignViewModel.Dialogs
     {
         public string UpdateLink => "http://google.com";
         public string CurrentVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        public String NewVersion => "2.0.0";
-        public String AppName => "Miner App";
-        public String AppCodeName => "[CandyFlip]";
-        public String ChangeLog => "-change 1 \nchange 2\n change 3\n change 4";
-        public bool ForceUpdate => true;
+        string NewVersion => "2.0.0";
+
+        string AppCodeName => "CandyFlip";
+        public string ChangeLog
+        {
+            get
+            {
+                if (Changes == null || Changes.Count == 0)
+                    return "";
+                return "New changes:\n" + String.Join("\n", Changes.Take(5).Select(x => "- " + x).ToArray());
+            }
+        }
+        List<string> Changes = new List<string>() { "change1", "change2", "change3", "change4*" };
+        public bool ShouldForceUpdate => false;
+
+        public string NewVersionDisplayString
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(AppCodeName))
+                    return NewVersion;
+                return $"{NewVersion} [{AppCodeName}]";
+            }
+        }
     }
 }

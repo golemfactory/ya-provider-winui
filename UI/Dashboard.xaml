@@ -85,6 +85,8 @@
                 </StackPanel>
             </Border>
             <Button x:Name="btnAppInformation" Style="{StaticResource NavSidepanelButtonInformation}" Click="btnAppInformation_Click" VerticalAlignment="Bottom" Margin="10,0,0,43" Grid.Row="1"/>
+            <Button x:Name="BtnShowTestDialog" Style="{StaticResource NavSidepanelButtonInformation}" Click="BtnShowTestDialog_Click" VerticalAlignment="Bottom" Margin="10,0,0,83" Grid.Row="1"/>
+            
             <Border x:Name="RectBlack" Style="{StaticResource SemiTransparentBorder}" Visibility="{Binding DarkBackgroundVisible, Converter={StaticResource BoolToVisibleConverter}}" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         </Grid>
     </Border>

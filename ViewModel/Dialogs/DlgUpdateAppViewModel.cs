@@ -11,14 +11,44 @@ using System.Windows;
 
 namespace GolemUI.ViewModel.Dialogs
 {
+
     public class DlgUpdateAppViewModel
     {
-        public string UpdateLink => "http://google.com";
-        public string CurrentVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        public String NewVersion => "2.0.0";
-        public String AppName => "Miner App";
-        public String AppCodeName => "[CandyFlip]";
-        public String ChangeLog => "-change 1 \nchange 2\n change 3\n change 4";
-        public bool ForceUpdate => true;
+        public string UpdateLink { private set; get; }
+        public string CurrentVersion { private set; get; }
+        string NewVersion { set; get; }
+        private string AppCodeName { set; get; }
+        public string ChangeLog
+        {
+            get
+            {
+                if (Changes == null || Changes.Count == 0)
+                    return "";
+                return "New changes:\n" + String.Join("\n", Changes.Take(5).Select(x => "- " + x).ToArray());
+            }
+        }
+        List<string> Changes = new List<string>() { "change1", "change2", "change3", "change4*" };
+        public bool ShouldForceUpdate { private set; get; }
+
+        public string NewVersionDisplayString
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(AppCodeName))
+                    return NewVersion;
+                return $"{NewVersion} [{AppCodeName}]";
+            }
+        }
+
+        public DlgUpdateAppViewModel(string updateLink, string currentVersion, string newVersion, string appCodeName, List<string> changes, bool shouldForceUpdate)
+        {
+            UpdateLink = updateLink;
+            CurrentVersion = currentVersion;
+            NewVersion = newVersion;
+            AppCodeName = appCodeName;
+            Changes = changes;
+            ShouldForceUpdate = shouldForceUpdate;
+        }
     }
+
 }
