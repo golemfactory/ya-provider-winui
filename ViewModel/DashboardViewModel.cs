@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GolemUI.Model;
 using GolemUI.Utils;
+using System.Windows;
 
 namespace GolemUI.ViewModel
 {
@@ -265,5 +266,11 @@ namespace GolemUI.ViewModel
             OnPropertyChanged("VersionInfo");
         }
 
+        public void ShowVersionDialog(Window owner)
+        {
+            var dlg = new UI.Dialogs.DlgUpdateApp(new ViewModel.Dialogs.DlgUpdateAppViewModel("https://github.com/golemfactory/ya-provider-winui/releases", VersionInfo, _latestVersion, "White Rainbow", new List<string>() { "change1", "change2", "change3", "change4*" }, !_canRun));
+            dlg.Owner = owner;
+            dlg?.ShowDialog();
+        }
     }
 }
