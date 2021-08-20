@@ -29,7 +29,19 @@ namespace GolemUI.UI.Dialogs
             DataContext = model;
         }
 
-        public DlgUpdateAppViewModel? Model => DataContext as DlgUpdateAppViewModel;
+        public DlgUpdateAppViewModel Model
+        {
+            get
+            {
+                DlgUpdateAppViewModel? result = DataContext as DlgUpdateAppViewModel;
+                if (result == null)
+                {
+                    throw new Exception("DataContext as DlgUpdateAppViewModel cast failed");
+                }
+                return result;
+            }
+        }
+
 
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)

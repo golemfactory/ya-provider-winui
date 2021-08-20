@@ -218,7 +218,7 @@ namespace GolemUI.ViewModel
 
         private bool? _upToDate = null;
         private bool _canRun = true;
-        public string _latestVersion = "";
+        public string _latestVersion = "unknown";
 
         public void RemoteSettingsUpdatedEventHandler(RemoteSettings rs)
         {
@@ -261,7 +261,7 @@ namespace GolemUI.ViewModel
                 _upToDate = true;
                 _canRun = true;
             }
-            _latestVersion = rs.LatestVersion;
+            _latestVersion = rs.LatestVersion ?? "unknown";
 
             OnPropertyChanged("VersionInfo");
         }
