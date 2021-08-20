@@ -24,12 +24,12 @@ namespace GolemUI.ViewModel.Dialogs
         {
             get
             {
-                if (Changes == null || Changes.Count == 0)
+                if (_changes.Count == 0)
                     return "";
-                return "New changes:\n" + String.Join("\n", Changes.Take(5).Select(x => "- " + x).ToArray());
+                return "New changes:\n" + String.Join("\n", _changes.Take(5).Select(x => "- " + x).ToArray());
             }
         }
-        List<string> Changes = null;
+        private List<string> _changes = new List<string>();
         public bool ShouldForceUpdate { private set; get; }
         public bool IsUpToDate => VersionUtil.AreVersionsEqual(CurrentVersion, NewVersion);
         public string NewVersionDisplayString
@@ -48,7 +48,7 @@ namespace GolemUI.ViewModel.Dialogs
             CurrentVersion = currentVersion;
             NewVersion = newVersion;
             AppCodeName = appCodeName;
-            Changes = changes;
+            _changes = changes;
             ShouldForceUpdate = shouldForceUpdate;
         }
     }
