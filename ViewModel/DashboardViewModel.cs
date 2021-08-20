@@ -14,28 +14,7 @@ namespace GolemUI.ViewModel
 {
     public partial class DashboardViewModel : INotifyPropertyChanged
     {
-        IRemoteSettingsProvider _remoteSettingsProvider;
-        public DashboardViewModel(DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, IRemoteSettingsProvider remoteSettingsProvider)
-        {
-            _remoteSettingsProvider = remoteSettingsProvider;
 
-            PropertyChanged += OnPropertyChanged;
-
-            DashboardMain = dashboardMain;
-            DashboardSettings = dashboardSettings;
-            DashboardSettingsAdv = dashboardSettingsAdv;
-            DashboardWallet = dashboardWallet;
-
-            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
-            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
-            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet, DashboardWallet.Model));
-            _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
-
-            _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
-
-            _pages.Values.ToList().ForEach(page =>
-                page.DarkBackgroundRequested += Page_DarkBackgroundRequested);
-        }
         public enum DashboardPages
         {
             PageDashboardNone,
@@ -113,12 +92,16 @@ namespace GolemUI.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet
+        private readonly IRemoteSettingsProvider _remoteSettingsProvider;
+
+        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, IRemoteSettingsProvider remoteSettingsProvider
 #if STATISTICS_ENABLED
                 ,DashboardStatistics dashboardStatistics
 #endif
             )
         {
+            _remoteSettingsProvider = remoteSettingsProvider;
+
             PropertyChanged += OnPropertyChanged;
 
             DashboardMain = dashboardMain;
