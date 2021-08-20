@@ -34,10 +34,6 @@ namespace GolemUI.Model
         public DateTime? Timestamp { get; set; }
         public string? AppSessionID { get; set; }
 
-
-
-
-
     }
 
     /*

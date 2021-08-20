@@ -72,7 +72,7 @@ namespace GolemUI.Src
             OnPropertyChanged("Address");
         }
 
-        private async void UpdateState()
+        public async Task Refresh()
         {
             if (!_processControler.IsServerRunning)
             {
@@ -101,7 +101,7 @@ namespace GolemUI.Src
             var statusOnL2 = output[0];
             var statusOnL1 = output[1];
 
-            var pending = (statusOnL2?.Incoming?.Accepted?.TotalAmount ?? 0m) + (statusOnL2?.Incoming?.Confirmed?.TotalAmount ?? 0m);
+            var pending = (statusOnL2?.Incoming?.Accepted?.TotalAmount ?? 0m) - (statusOnL2?.Incoming?.Confirmed?.TotalAmount ?? 0m);
             var amountOnL2 = statusOnL2?.Amount ?? 0;
             var amountOnL1 = statusOnL1?.Amount ?? 0;
 
@@ -137,6 +137,16 @@ namespace GolemUI.Src
             var result = await _srv.Payment.ExitTo(_network, "zksync", _buildInAdress, address);
             // TODO: Implement transfer out in yagna
             return true;
+        }
+
+        private async void UpdateState()
+        {
+            await Refresh();
+        }
+
+        public Task<decimal> ExitFee()
+        {
+            throw new NotImplementedException();
         }
     }
 }

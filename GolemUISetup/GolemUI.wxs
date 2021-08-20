@@ -70,7 +70,6 @@
                   KeyPath='yes'>              
             </File>
             <fw:FirewallException Id='GolemNodeFw' File='yagnaExe' Name='Golem Node REST API' Port='7465' Protocol='tcp' Scope='localSubnet'/>
-
           </Component>
           <Component Id='GolemProvider' Guid='8ffef653-0847-4789-8b37-8c0f90f6a43f' Win64='$(var.Win64)'>
             <File Id='yaproviderExe'
@@ -80,6 +79,10 @@
                   KeyPath='yes'>
             </File>
           </Component>
+		  <Component Id='cacert' Guid='*' Win64='$(var.Win64)'>
+			<File Id="cacert.pem" Name="cacert.pem" Source='ExternalBinaries\cacert.pem'
+				KeyPath="yes"/>
+		  </Component>
           <Directory Id="Plugins" Name="plugins">
             <Component Id="CoreExeUnit" Guid="*" Win64="$(var.Win64)">
               <File Name="exe-unit.exe" DiskId="1" Source="ExternalBinaries\exe-unit.exe" KeyPath="yes"/>
@@ -103,6 +106,7 @@
       <ComponentRef Id='License'/>
 
       <ComponentRef Id='GolemNode'/>
+	  <ComponentRef Id='cacert'/>
       <ComponentRef Id='GolemProvider'/>
       <ComponentGroupRef Id='ProductFilesComponentGroup'/>
       <ComponentRef Id="ApplicationShortcut" />

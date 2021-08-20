@@ -263,23 +263,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\ValueToVisibilityConverter.cs" />
     <Compile Include="Command\GSB\Common.cs" />
     <Compile Include="Command\GSB\IGsbEndpointFactory.cs" />
     <Compile Include="Command\GSB\Payment.cs" />
     <Compile Include="Converters\MultiBoolToVisibilityConverter.cs" />
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgWithdrawViewModel.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
     <Compile Include="Interfaces\ITaskProfitEstimator.cs" />
     <Compile Include="Model\Coin.cs" />
     <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\RemoteSettings.cs" />
-    <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel - Copy.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />
     <Compile Include="Src\AppNotificationService\SimpleNotificationObject.cs" />
     <Compile Include="Src\EstimatedEarningsProvider.cs" />
     <Compile Include="Src\GsbEndpointFactory.cs" />
     <Compile Include="Src\HistoryDataProvider.cs" />
     <Compile Include="Src\RemoteSettingsProvider.cs" />
+    <Compile Include="UI\Dialogs\DlgWithdraw.xaml.cs">
+      <DependentUpon>DlgWithdraw.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Src\TaskProfitEstimator.cs" />
     <Compile Include="UI\Dialogs\DlgShouldStopMiningBeforeBenchmark.xaml.cs">
       <DependentUpon>DlgShouldStopMiningBeforeBenchmark.xaml</DependentUpon>
@@ -310,7 +315,7 @@
     <Compile Include="DesignViewModel\DashboardMainViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgAppInfoViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgEditAddressViewModel.cs" />
-    <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgShouldStopMiningBeforeBenchmarkViewModel.cs" />
     <Compile Include="DesignViewModel\MockupDashboardStatusViewModel.cs" />
     <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
@@ -424,6 +429,7 @@
     <Compile Include="Utils\PathUtil.cs" />
     <Compile Include="Utils\PriceProviderExtension.cs" />
     <Compile Include="Utils\ProcessExtension.cs" />
+    <Compile Include="Validators\TransferAmountValidator.cs" />
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
     <Compile Include="ViewModel\CustomControls\NotificationBar\NotificationBarNotification.cs" />
@@ -432,6 +438,7 @@
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
     <Compile Include="ViewModel\DashboardPage.cs" />
     <Compile Include="ViewModel\DashboardViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgWithdrawViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgShouldStopMiningBeforeBenchmarkViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
@@ -494,6 +501,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\DebugWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Dialogs\DlgWithdraw.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -582,6 +593,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Themes\Buttons\GolemLogo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\UnderlineButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,0 +1,62 @@
+﻿using GolemUI.Interfaces;
+using GolemUI.ViewModel.Dialogs;
+using Nethereum.Util;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+
+namespace GolemUI.DesignViewModel.Dialogs
+{
+    public class DlgWithdrawViewModel
+    {
+        public DlgWithdrawStatus TransactionStatus => DlgWithdrawStatus.Ok;
+        public string WithdrawTextStatus => "Withdraw success";
+        string? _withdrawAddress;
+        public string WithdrawAddress
+        {
+            get => _withdrawAddress ?? "";
+            set
+            {
+                _withdrawAddress = value;
+            }
+        }
+
+        decimal _amount = 66;
+        public decimal Amount
+        {
+            get => _amount;
+            set
+            {
+                _amount = value;
+            }
+        }
+
+        decimal _availableGLM = 73;
+        public decimal AvailableGLM => _availableGLM;
+        public decimal AvailableUSD => 16m;
+
+        public decimal MinAmount => 0;
+        public decimal MaxAmount => _availableGLM;
+
+        public string TxFeeGLM => 1.2345f.ToString("f4");
+        public string TxFeeUSD => "$" + 2.46f.ToString("f2");
+        public string AmountGLMasString => Amount.ToString("f4");
+        public string AmountUSDasString => "$" + 99f.ToString("f4");
+
+
+        bool _shouldTransferAllTokensToL1 = true;
+        public bool ShouldTransferAllTokensToL1
+        {
+            get => _shouldTransferAllTokensToL1;
+            set
+            {
+                _shouldTransferAllTokensToL1 = value;
+            }
+        }
+    }
+}

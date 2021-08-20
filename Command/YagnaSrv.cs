@@ -227,6 +227,12 @@ namespace GolemUI.Command
                 startInfo.EnvironmentVariables.Add("YAGNA_AUTOCONF_APPKEY", options.ForceAppKey);
             }
 
+            var certs = Path.Combine(Path.GetDirectoryName(_yaExePath), "cacert.pem");
+            if (File.Exists(certs))
+            {
+                startInfo.EnvironmentVariables.Add("SSL_CERT_FILE", certs);
+            }
+
             if (options.OpenConsole)
             {
                 startInfo.RedirectStandardOutput = false;

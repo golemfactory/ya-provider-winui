@@ -18,5 +18,8 @@ namespace GolemUI.Interfaces
 
         Task<bool> TransferOutTo(string address);
 
+        Task<decimal> ExitFee();
+
+        Task Refresh();
     }
 }
