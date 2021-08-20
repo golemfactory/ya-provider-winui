@@ -8,13 +8,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GolemUI.Model;
 
 namespace GolemUI.ViewModel
 {
     public partial class DashboardViewModel : INotifyPropertyChanged
     {
-        public DashboardViewModel(DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet)
+        IRemoteSettingsProvider _remoteSettingsProvider;
+        public DashboardViewModel(DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, IRemoteSettingsProvider remoteSettingsProvider)
         {
+            _remoteSettingsProvider = remoteSettingsProvider;
 
             PropertyChanged += OnPropertyChanged;
 
@@ -197,5 +200,15 @@ namespace GolemUI.ViewModel
             SwitchPage(page);
         }
 
+        public string VersionInfo
+        {
+            get
+            {
+                System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+                string version = fvi.FileVersion;
+                return $"Version: {version}";
+            }
+        }
     }
 }
