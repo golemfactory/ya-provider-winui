@@ -44,19 +44,40 @@ namespace GolemUI.Command.GSB
 
                 public decimal Reserved { get; set; }
 
-                public StatusNotes Outgoing { get; set; } = default!;
-                public StatusNotes Incoming { get; set; } = default!;
-                public string Driver { get; set; } = default!;
-                public string Network { get; set; } = default!;
+                public StatusNotes Outgoing { get; set; }
+                public StatusNotes Incoming { get; set; }
+                public string Driver { get; set; }
+                public string Network { get; set; }
 
-                public string Token { get; set; } = default!;
+                public string Token { get; set; }
+
+                public StatusResult(decimal amount, decimal reserved, StatusNotes outgoing, StatusNotes incoming, string driver, string network, string token)
+                {
+                    Amount = amount;
+                    Reserved = reserved;
+                    Outgoing = outgoing;
+                    Incoming = incoming;
+                    Driver = driver;
+                    Network = network;
+                    Token = token;
+                }
             }
 
             public class StatusNotes
             {
-                public StatValue Requested { get; set; } = default!;
-                public StatValue Accepted { get; set; } = default!;
-                public StatValue Confirmed { get; set; } = default!;
+                public StatValue Requested { get; set; }
+                public StatValue Accepted { get; set; }
+                public StatValue Confirmed { get; set; }
+
+                public StatValue? Overdue { get; set; }
+
+                public StatusNotes(StatValue requested, StatValue accepted, StatValue confirmed, StatValue? overdue = null)
+                {
+                    Requested = requested;
+                    Accepted = accepted;
+                    Confirmed = confirmed;
+                    Overdue = overdue;
+                }
             }
 
         }
