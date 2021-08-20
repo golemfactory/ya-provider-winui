@@ -75,7 +75,7 @@ namespace GolemUI
             }
 
             SolidColorBrush b = (SolidColorBrush)this.Resources["SetupWindow.Background"];
-            { 
+            {
                 int op = (int)us.Opacity;
                 if (op >= 100)
                 {
