@@ -69,13 +69,12 @@ namespace GolemUI
         public void UpdateAppearance()
         {
             var us = _userSettingsProvider.LoadUserSettings();
-            if (us.Opacity == null || us.Opacity < 100)
+            if (us.Opacity < 100)
             {
                 EnableBlur();
             }
 
             SolidColorBrush b = (SolidColorBrush)this.Resources["SetupWindow.Background"];
-            if (us.Opacity != null)
             {
                 int op = (int)us.Opacity;
                 if (op >= 100)
@@ -93,6 +92,7 @@ namespace GolemUI
             }
             this.Resources["SetupWindow.Background"] = b;
         }
+
 
 
         public void OnAppReactivate(object sender)
@@ -251,5 +251,21 @@ namespace GolemUI
             dlg?.ShowDialog();
             ViewModel.DarkBackgroundVisible = false;
         }
+
+
+        public void ShowUpdateDialog()
+        {
+            ViewModel.DarkBackgroundVisible = true;
+            ViewModel.ShowVersionDialog(Window.GetWindow(this));
+            ViewModel.DarkBackgroundVisible = false;
+        }
+
+        private void TxtVersion_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.DarkBackgroundVisible = true;
+            ViewModel.ShowVersionDialog(Window.GetWindow(this));
+            ViewModel.DarkBackgroundVisible = false;
+        }
+
     }
 }

@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GolemUI.Model;
+using GolemUI.Utils;
+using System.Windows;
 
 namespace GolemUI.ViewModel
 {
@@ -95,6 +97,7 @@ namespace GolemUI.ViewModel
             )
         {
             _remoteSettingsProvider = remoteSettingsProvider;
+            _remoteSettingsProvider.OnRemoteSettingsUpdated += RemoteSettingsUpdatedEventHandler;
 
             PropertyChanged += OnPropertyChanged;
 
@@ -132,6 +135,8 @@ namespace GolemUI.ViewModel
         {
 
         }
+
+
 
 
         public void SwitchPage(DashboardPages page)
@@ -176,15 +181,119 @@ namespace GolemUI.ViewModel
             SwitchPage(page);
         }
 
+        public static FileVersionInfo GetCurrentVersionInfo()
+        {
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+            return fvi;
+        }
+
+        public string CurrentVersionString
+        {
+            get => GetCurrentVersionInfo().FileVersion;
+        }
+
         public string VersionInfo
         {
             get
             {
-                System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
-                string version = fvi.FileVersion;
+                string version = CurrentVersionString;
+                if (!_canRun)
+                {
+                    return $"Version not supported: {version} Download latest: {_latestVersion}";
+                }
+                if (_upToDate == true)
+                {
+                    return $"Up to date: {version}";
+                }
+                if (_upToDate == false)
+                {
+                    return $"Needs update: {version} Download latest: {_latestVersion}";
+                }
                 return $"Version: {version}";
             }
+        }
+
+        private bool? _upToDate = null;
+        private bool _canRun = true;
+        public string _latestVersion = "unknown";
+        public string _changelog = "No changes found";
+        public string _latestVersionCodename = "";
+        public string _latestVersionDownloadLink = "";
+        private bool _firstUpdate = true;
+
+
+        public void RemoteSettingsUpdatedEventHandler(RemoteSettings rs)
+        {
+            bool forceUpdate = false;
+            bool suggestUpdate = false;
+
+            string currentVersionString = GetCurrentVersionInfo().FileVersion;
+            if (VersionUtil.CompareVersions(rs.LastSupportedVersion, currentVersionString, out int cr1))
+            {
+                //Last supported version greater than current version:
+                if (cr1 > 0)
+                {
+                    forceUpdate = true;
+                }
+            }
+            if (VersionUtil.CompareVersions(rs.LatestVersion, currentVersionString, out int cr2))
+            {
+                //Latest version greater than current version:
+                if (cr2 > 0)
+                {
+                    suggestUpdate = true;
+                }
+            }
+
+            if (forceUpdate && suggestUpdate)
+            {
+                //force update user    
+                _upToDate = false;
+                _canRun = false;
+            }
+            else if (suggestUpdate)
+            {
+                //suggest update user
+                _upToDate = false;
+                _canRun = true;
+            }
+            else
+            {
+                //Version check failed or the version the same
+                _upToDate = true;
+                _canRun = true;
+            }
+            _latestVersion = rs.LatestVersion ?? "unknown";
+            _changelog = rs.ChangeLog ?? "No changes found";
+            _latestVersionCodename = rs.LatestVersionCodename ?? "";
+            _latestVersionDownloadLink = rs.LatestVersionDownloadLink ?? "";
+
+            if (_firstUpdate && _upToDate == false)
+            {
+                _firstUpdate = false;
+                App app = (App)Application.Current;
+                app.ShowUpdateDialog();
+            }
+            _firstUpdate = false;
+
+            OnPropertyChanged("VersionInfo");
+        }
+
+        public void ShowVersionDialog(Window owner)
+        {
+            List<string> changelog = new List<string>();
+            foreach (string change in _changelog.Split('|'))
+            {
+                string changeNew = change.Trim();
+                if (!String.IsNullOrEmpty(changeNew))
+                {
+                    changelog.Add(changeNew);
+                }
+            }
+            var dlg = new UI.Dialogs.DlgUpdateApp(new ViewModel.Dialogs.DlgUpdateAppViewModel(_latestVersionDownloadLink, CurrentVersionString, _latestVersion, _latestVersionCodename, changelog, !_canRun));
+            dlg.Owner = owner;
+            dlg?.ShowDialog();
         }
     }
 }
