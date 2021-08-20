@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
 <?define Win64 = "yes" ?>
-<?define Version="0.2.4"?>
+<?define Version="0.2.7"?>
 <?define BuildOutputDir="..\bin\Release"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:fw="http://schemas.microsoft.com/wix/FirewallExtension">
   <Product
         Id='*'
-        Name='Thorg Miner'
+        Name='Test Beta Miner'
         UpgradeCode='{96497EC7-11EA-4257-A0E4-37688d0C7EC0}'
         Manufacturer='golemfactory'
         Language='1033'
@@ -28,7 +28,7 @@
     <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1'/>
     <!-- Allow upgrades and prevent downgrades -->
     <!--MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." /-->
-    <Property Id='DiskPrompt' Value='Thorg Miner Installation'/>
+    <Property Id='DiskPrompt' Value='Test Beta Miner Installation'/>
 
     <!--Condition Message="Required vc++ runtime version 14.22.27812.0 or newer">
     		<![CDATA[Installed OR VCRUNTIMEVERSION]]>
@@ -42,7 +42,7 @@
                   WorkingDirectory="APPLICATIONFOLDER"/>
         <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
            <RegistryKey Root="HKCU"
-                     Key="Software\GolemFactory\ThorgMiner" Action="createAndRemoveOnUninstall">
+                     Key="Software\GolemFactory\TestBetaMiner" Action="createAndRemoveOnUninstall">
              <RegistryValue  Name="sendReports" Type="integer" Value="0"/>
         <RegistryValue  Name="installed" Type="integer" Value="1" KeyPath="yes"/>        
       </RegistryKey>
@@ -54,7 +54,7 @@
         <Directory Id="ApplicationProgramsFolder" Name="Golem"/>
       </Directory>
       <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
-        <Directory Id='APPLICATIONFOLDER' Name='ThorgMiner'>
+        <Directory Id='APPLICATIONFOLDER' Name='TestBetaMiner'>
           <Component Id='License' Guid='8aa900e0-cca3-49e0-9e1f-0692d8a3ab29' Win64='$(var.Win64)'>
             <File Id='LicenseFile'
                 Name='License'
