@@ -82,7 +82,8 @@ namespace GolemUI
                         });
                     }
                 }
-            }catch(OperationCanceledException)
+            }
+            catch (OperationCanceledException)
             {
                 return;
             }
