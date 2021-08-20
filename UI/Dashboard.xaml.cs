@@ -252,7 +252,7 @@ namespace GolemUI
             ViewModel.DarkBackgroundVisible = false;
         }
 
-     
+
         public void ShowUpdateDialog()
         {
             ViewModel.DarkBackgroundVisible = true;
