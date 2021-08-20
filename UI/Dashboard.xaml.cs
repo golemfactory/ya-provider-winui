@@ -256,10 +256,6 @@ namespace GolemUI
             System.Diagnostics.Process.Start("explorer.exe", "https://github.com/golemfactory/ya-provider-winui/releases");
         }
 
-        private void BtnShowTestDialog_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ViewModel.DarkBackgroundVisible = true;
