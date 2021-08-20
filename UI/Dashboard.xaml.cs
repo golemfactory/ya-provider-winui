@@ -258,11 +258,16 @@ namespace GolemUI
 
         private void BtnShowTestDialog_Click(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
             var dlg = new UI.Dialogs.DlgUpdateApp(new ViewModel.Dialogs.DlgUpdateAppViewModel("http://google.com", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(), "2.0.0.0", "White Rainbow", new List<string>() { "change1", "change2", "change3", "change4*" }, true));
             dlg.Owner = Window.GetWindow(this);
             ViewModel.DarkBackgroundVisible = true;
             dlg?.ShowDialog();
             ViewModel.DarkBackgroundVisible = false;
+
         }
     }
 }
