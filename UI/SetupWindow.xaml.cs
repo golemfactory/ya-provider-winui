@@ -192,7 +192,7 @@ namespace GolemUI.UI
         {
             Model!.Save();
             if (App.Current is App app)
-                app.GetOrCreateDashboardWindow().Show();
+                app.GetOrCreateDashboardWindow()?.Show();
             Close();
         }
 
@@ -258,7 +258,7 @@ namespace GolemUI.UI
         {
             Model!.Save();
             if (App.Current is App app)
-                app.GetOrCreateDashboardWindow().Show();
+                app.GetOrCreateDashboardWindow()?.Show();
             Close();
         }
     }
