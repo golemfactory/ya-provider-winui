@@ -26,12 +26,15 @@ namespace GolemUI.Command.GSB
 
                 public string? Token { get; set; }
 
-                public GetStatus(string address, string driver, string? network = null, string? token = null)
+                public DateTime? Since { get; set; }
+
+                public GetStatus(string address, string driver, string? network = null, string? token = null, DateTime? since = null)
                 {
                     Address = address ?? throw new ArgumentNullException(nameof(address));
                     Driver = driver ?? throw new ArgumentNullException(nameof(driver));
                     Network = network;
                     Token = token;
+                    Since = since;
                 }
             }
 
@@ -64,9 +67,9 @@ namespace GolemUI.Command.GSB
             _gsbEndpointFactory = gsbEndpointFactory;
         }
 
-        public async Task<Model.StatusResult> GetStatus(string address, string driver, string? network = null, string? token = null)
+        public async Task<Model.StatusResult> GetStatus(string address, string driver, string? network = null, string? token = null, DateTime? since = null)
         {
-            var result = await _doPost<Common.Result<Model.StatusResult, object>, Model.GetStatus>("local/payment/GetStatus", new Model.GetStatus(address, driver, network, token));
+            var result = await _doPost<Common.Result<Model.StatusResult, object>, Model.GetStatus>("local/payment/GetStatus", new Model.GetStatus(address, driver, network, token, since));
             return result.Ok ?? throw new HttpRequestException($"Invalid output: {result.Err}");
         }
 
