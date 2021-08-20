@@ -37,19 +37,12 @@ namespace GolemUI
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
             _sentrySdk = (SentrySdk.Init(o =>
               {
-
                   o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
                   o.Debug = true; //todo: change to false for production release
                   o.TracesSampleRate = 1.0; //todo: probably should change in future ?
               }));
 
-            SentrySdk.ConfigureScope(scope =>
-            {
-                scope.Contexts["user_data"] = new
-                {
-                    Environment.UserName
-                };
-            });
+           
 
             _childProcessManager = new GolemUI.ChildProcessManager();
             _childProcessManager.AddProcess(Process.GetCurrentProcess());
@@ -156,7 +149,13 @@ namespace GolemUI
             var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
             var notificationMonitor = _serviceProvider!.GetRequiredService<Src.AppNotificationService.NotificationsMonitor>();
 
-
+            SentrySdk.ConfigureScope(scope =>
+            {
+                scope.Contexts["user_info_system"] = new
+                {
+                    Environment.UserName
+                };
+            });
 
 
 
