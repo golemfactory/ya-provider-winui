@@ -89,8 +89,9 @@ namespace GolemUI.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, IRemoteSettingsProvider remoteSettingsProvider
-                DashboardStatistics? dashboardStatistics = null
+        private readonly IRemoteSettingsProvider _remoteSettingsProvider;
+
+        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, IRemoteSettingsProvider remoteSettingsProvider, DashboardStatistics? dashboardStatistics
             )
         {
             _remoteSettingsProvider = remoteSettingsProvider;
