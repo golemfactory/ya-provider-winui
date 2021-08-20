@@ -51,7 +51,7 @@ namespace GolemUI
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
-            SentrySdk.CaptureMessage("> App constructor", SentryLevel.Info);
+            //SentrySdk.CaptureMessage("> App constructor", SentryLevel.Info);
 
         }
         public bool IsShuttingDown { get; private set; }
@@ -126,7 +126,8 @@ namespace GolemUI
             {
                 logBuilder.AddDebug();
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
-                logBuilder.AddSentry(GolemUI.Properties.Settings.Default.SentryDsn);
+                //GolemUI.Properties.Settings.Default.SentryDsn
+                logBuilder.AddSentry(o=>o.InitializeSdk=false);
             });
 
         }
@@ -157,14 +158,7 @@ namespace GolemUI
             var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
             var notificationMonitor = _serviceProvider!.GetRequiredService<Src.AppNotificationService.NotificationsMonitor>();
 
-            SentrySdk.ConfigureScope(scope =>
-            {
-                scope.Contexts["user_info_system"] = new
-                {
-                    Environment.UserName
-                };
-            });
-
+          
 
 
 
