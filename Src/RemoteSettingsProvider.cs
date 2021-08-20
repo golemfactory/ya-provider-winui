@@ -24,6 +24,7 @@ namespace GolemUI.Src
 
         private readonly INotificationService _notificationService;
 
+        public IRemoteSettingsProvider.RemoteSettingsUpdatedEventHandler? OnRemoteSettingsUpdated { get; set; }
 
         public RemoteSettingsProvider(ILogger<RemoteSettingsProvider> logger, INotificationService notificationService)
         {
@@ -41,8 +42,13 @@ namespace GolemUI.Src
             bool res = await RequestRemoteSettingsUpdate();
             if (res)
             {
+#if DEBUG
+                //update everty one minute in debug version to enable tests
+                _timer.Interval = TimeSpan.FromMinutes(1);
+#else
                 //wait one hour if completed successfully
                 _timer.Interval = TimeSpan.FromHours(1);
+#endif
             }
             else
             {
@@ -82,7 +88,7 @@ namespace GolemUI.Src
                         return false;
                     }
                     RemoteSettings? rs = JsonConvert.DeserializeObject<RemoteSettings>(File.ReadAllText(remoteTmpPath));
-                    if (String.IsNullOrEmpty(rs.Version))
+                    if (String.IsNullOrEmpty(rs.LatestVersion))
                     {
                         throw new Exception("Version field cannot be empty");
                     }
@@ -91,7 +97,11 @@ namespace GolemUI.Src
                     rs.DownloadedDateTime = DateTime.Now;
                     File.WriteAllText(remotePath, JsonConvert.SerializeObject(rs, Formatting.Indented));
 
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Config downloaded: " + rs.Version, expirationTimeInMs: 5000));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Config downloaded: " + rs.LatestVersion, expirationTimeInMs: 5000));
+                    if (OnRemoteSettingsUpdated != null)
+                    {
+                        OnRemoteSettingsUpdated(rs);
+                    }
                     return true;
                 }
             }

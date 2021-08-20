@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GolemUI.Model;
+using GolemUI.Utils;
 
 namespace GolemUI.ViewModel
 {
@@ -101,6 +102,7 @@ namespace GolemUI.ViewModel
             )
         {
             _remoteSettingsProvider = remoteSettingsProvider;
+            _remoteSettingsProvider.OnRemoteSettingsUpdated += RemoteSettingsUpdatedEventHandler;
 
             PropertyChanged += OnPropertyChanged;
 
@@ -139,6 +141,8 @@ namespace GolemUI.ViewModel
         {
 
         }
+
+
 
 
         public void SwitchPage(DashboardPages page)
@@ -183,15 +187,92 @@ namespace GolemUI.ViewModel
             SwitchPage(page);
         }
 
+        public static FileVersionInfo GetCurrentVersionInfo()
+        {
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+            return fvi;
+        }
+
         public string VersionInfo
         {
             get
             {
-                System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
-                string version = fvi.FileVersion;
+                string version = GetCurrentVersionInfo().FileVersion;
+                if (_upToDate == true)
+                {
+                    return $"Up to date: {version}";
+                }
+                if (_upToDate == false)
+                {
+                    return $"Needs update: {version}";
+                }
+                if (!_canRun)
+                {
+                    return $"Version not supported: {version}";
+                }
                 return $"Version: {version}";
             }
         }
+
+        private bool? _upToDate = null;
+        private bool _canRun = true;
+
+        public void RemoteSettingsUpdatedEventHandler(RemoteSettings rs)
+        {
+            bool forceUpdate = false;
+            bool suggestUpdate = false;
+
+            string currentVersionString = GetCurrentVersionInfo().FileVersion;
+            if (VersionUtil.CompareVersions(rs.LastSupportedVersion, currentVersionString, out int cr1))
+            {
+                if (cr1 > 0)
+                {
+                    forceUpdate = true;
+                }
+            }
+            if (VersionUtil.CompareVersions(rs.LatestVersion, currentVersionString, out int cr2))
+            {
+                if (cr2 > 0)
+                {
+                    suggestUpdate = true;
+                }
+            }
+
+            if (forceUpdate && suggestUpdate)
+            {
+                //force update user    
+                _upToDate = false;
+                _canRun = false;
+            }
+            else if (suggestUpdate)
+            {
+                //suggest update user
+                _upToDate = false;
+                _canRun = true;
+            }
+            else
+            {
+                //everything fine
+                _upToDate = true;
+                _canRun = true;
+            }
+
+            OnPropertyChanged("VersionInfo");
+
+
+
+
+
+
+            /*
+
+            if (rs.Version != VersionInfo)
+            {
+
+            }
+            Debug.WriteLine("Notified about new version: " + rs.Version);*/
+        }
+
     }
 }
