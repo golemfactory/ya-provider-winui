@@ -36,13 +36,13 @@ namespace GolemUI
         {
             IsShuttingDown = false;
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
-            _sentrySdk = (SentrySdk.Init(o =>
+           /* _sentrySdk = (SentrySdk.Init(o =>
               {
                   o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
                   o.Debug = true; //todo: change to false for production release
                   o.TracesSampleRate = 1.0; //todo: probably should change in future ?
               }));
-
+           */
            
 
             _childProcessManager = new GolemUI.ChildProcessManager();
@@ -51,7 +51,7 @@ namespace GolemUI
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
-            //SentrySdk.CaptureMessage("> App constructor", SentryLevel.Info);
+            
 
         }
         public bool IsShuttingDown { get; private set; }
@@ -121,13 +121,26 @@ namespace GolemUI
             services.AddTransient(typeof(Dashboard));
             services.AddTransient(typeof(UI.SetupWindow));
             services.AddTransient(typeof(GolemUI.DebugWindow));
-
+            
             services.AddLogging(logBuilder =>
             {
                 logBuilder.AddDebug();
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
                 //GolemUI.Properties.Settings.Default.SentryDsn
-                logBuilder.AddSentry(o=>o.InitializeSdk=false);
+                logBuilder.AddSentry(o=> { 
+                    o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn; 
+                    o.Debug = true;
+                    o.AttachStacktrace = true;
+                    o.AutoSessionTracking = true;
+                    //o.BeforeSend = @event =>
+                    //{
+
+                    //    return @event;
+                    //};
+                    o.IsGlobalModeEnabled = true;
+                    
+                    o.TracesSampleRate = 1.0; }/* o.InitializeSdk=false*/);
+                
             });
 
         }
@@ -158,8 +171,10 @@ namespace GolemUI
             var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
             var notificationMonitor = _serviceProvider!.GetRequiredService<Src.AppNotificationService.NotificationsMonitor>();
 
-          
 
+            sentryAdditionalData.InitContextItems();
+            SentrySdk.CaptureMessage("> OnStartup", SentryLevel.Info);
+            //Task.Delay(10000).ContinueWith(x => sentryAdditionalData.InitContextItems());
 
 
             var args = e.Args;

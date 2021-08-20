@@ -16,8 +16,9 @@ namespace GolemUI.Src
 {
     public class BenchmarkService : INotifyPropertyChanged
     {
-        public BenchmarkService(IProviderConfig providerConfig, ILogger<BenchmarkService> logger, IBenchmarkResultsProvider benchmarkResultsProvider)
+        public BenchmarkService(IProviderConfig providerConfig,  ILogger<BenchmarkService> logger, IBenchmarkResultsProvider benchmarkResultsProvider)
         {
+            
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _providerConfig = providerConfig;
             _logger = logger;

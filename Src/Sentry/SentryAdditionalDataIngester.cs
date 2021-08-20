@@ -35,26 +35,25 @@ namespace GolemUI
     public class SentryAdditionalDataIngester
     {
         private readonly IProcessControler _processControler;
-        private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.IProviderConfig _providerConfig;
         private SentryContext Context = new SentryContext();
 
 
 
-        public SentryAdditionalDataIngester(Interfaces.IProcessControler processControler, Src.BenchmarkService benchmarkService, Interfaces.IProviderConfig providerConfig)
+        public SentryAdditionalDataIngester(Interfaces.IProcessControler processControler,  Interfaces.IProviderConfig providerConfig)
         {
             _processControler = processControler;
-            _benchmarkService = benchmarkService;
             _providerConfig = providerConfig;
             _providerConfig.PropertyChanged += ProviderConfig_PropertyChanged;
             _processControler.PropertyChanged += _processControler_PropertyChanged;
             Context.MemberChanged += Context_MemberChanged;
            
         }
-        void InitContextItems()
+        public void InitContextItems()
         {
             UpdateNodeName(_providerConfig.Config?.NodeName ?? "");
             Context.AddItem("UserName", Environment.UserName);
+            Context_MemberChanged();
         }
         private void SetScope(Scope scope, String key, String value)
         {
@@ -64,6 +63,7 @@ namespace GolemUI
         private void Context_MemberChanged()
         {
             SentrySdk.ConfigureScope(scope => Context.Items.ToList().ForEach(x => SetScope(scope, x.Key, x.Value)));
+
         }
 
         void UpdateNodeName(string nodeName)
