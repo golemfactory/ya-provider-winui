@@ -11,8 +11,9 @@ using System.Windows;
 
 namespace GolemUI.DesignViewModel.Dialogs
 {
-    public class DlgConfirmAddressViewModel
+    public class DlgShouldStopMiningBeforeBenchmarkViewModel
     {
-        public string Address => "0x605Af04a3cF9a9162bcBaED33f3AfBf671064eE4";
+        public bool ShouldAutoRestartMining => true;
+        public bool RememberMyPreference => true;
     }
 }

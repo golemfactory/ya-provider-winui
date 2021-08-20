@@ -53,26 +53,39 @@ namespace GolemUI
 
         void LogLine(string logger, string line)
         {
-            if (EnableLoggingToDebugWindow)
+            if (Application.Current is App app)
             {
-                if (logger == "provider")
+                if (app == null || app.IsShuttingDown) return;
+            }
+            try
+            {
+                if (EnableLoggingToDebugWindow)
                 {
-                    this.Dispatcher.Invoke(() =>
+                    if (logger == "provider")
                     {
-                        TrimControlTextSize(txtProvider);
-                        txtProvider.Text += $"{line}\n";
-                        svProvider.ScrollToBottom();
-                    });
-                }
-                if (logger == "yagna")
-                {
-                    this.Dispatcher.Invoke(() =>
+                        this.Dispatcher.Invoke(() =>
+                        {
+
+                            TrimControlTextSize(txtProvider);
+                            txtProvider.Text += $"{line}\n";
+                            svProvider.ScrollToBottom();
+                        });
+                    }
+                    if (logger == "yagna")
                     {
-                        TrimControlTextSize(txtYagna);
-                        txtYagna.Text += $"{line}\n";
-                        svYagna.ScrollToBottom();
-                    });
+                        this.Dispatcher.Invoke(() =>
+                        {
+
+                            TrimControlTextSize(txtYagna);
+                            txtYagna.Text += $"{line}\n";
+                            svYagna.ScrollToBottom();
+                        });
+                    }
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                return;
             }
         }
         private void Button_Click(object sender, RoutedEventArgs e)
