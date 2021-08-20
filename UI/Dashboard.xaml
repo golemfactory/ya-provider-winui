@@ -14,7 +14,7 @@
         x:Name="DashboardWindow"
         Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/Thorg.ico" MinHeight="600" MinWidth="1024"
         xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
-        d:DataContext ="{d:DesignInstance {x:Type dvm:DashboardViewModel}, IsDesignTimeCreatable=True}"
+        d:DataContext ="{d:DesignInstance {x:Type dvm:DashboardViewModel}, IsDesignTimeCreatable=True}"     
         >
     <Window.Resources>
         <ResourceDictionary>
@@ -60,7 +60,12 @@
 
 
             <Border Grid.Column="0" Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0.5 0" Margin="0,0,0,0">
-                <TextBlock Foreground="#BBBBBB" VerticalAlignment="Top" Margin="15" Text="{Binding Path=VersionInfo}"></TextBlock>
+                <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="auto" MinHeight="45" Margin="5">
+                    <Grid>
+                        <Rectangle Fill="Black" Opacity="0.01" MouseDown="TxtVersion_MouseDown" />
+                        <TextBlock Foreground="#BBBBBB" VerticalAlignment="Top" Margin="5, 5, 5, 5" Text="{Binding Path=VersionInfo}" Cursor="Hand"  Name="TxtVersion"  MouseDown="TxtVersion_MouseDown"></TextBlock>
+                    </Grid>
+                </Border>
             </Border>
             <Border Grid.Column="1" Grid.Row="0" VerticalAlignment="Top">
                 <DockPanel>

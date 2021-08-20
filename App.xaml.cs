@@ -34,6 +34,7 @@ namespace GolemUI
         private Dashboard? _dashboard = null;
         public App()
         {
+            IsShuttingDown = false;
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
             _sentrySdk = (SentrySdk.Init(o =>
               {
@@ -52,6 +53,13 @@ namespace GolemUI
             _serviceProvider = serviceCollection.BuildServiceProvider();
             SentrySdk.CaptureMessage("> App constructor", SentryLevel.Info);
 
+        }
+        public bool IsShuttingDown { get; private set; }
+
+        public new void Shutdown(int exitCode = 0)
+        {
+            this.IsShuttingDown = true;
+            base.Shutdown(exitCode);
         }
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
@@ -213,6 +221,15 @@ namespace GolemUI
                 _dashboard.UpdateAppearance();
             }
         }
+
+        public void ShowUpdateDialog()
+        {
+            if (_dashboard != null)
+            {
+                _dashboard.ShowUpdateDialog();
+            }
+        }
+
 
         private void StopApp()
         {

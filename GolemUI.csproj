@@ -265,12 +265,13 @@
     </ApplicationDefinition>
     <Compile Include="Converters\MultiBoolToVisibilityConverter.cs" />
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
     <Compile Include="Interfaces\ITaskProfitEstimator.cs" />
     <Compile Include="Model\Coin.cs" />
     <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\RemoteSettings.cs" />
-    <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel - Copy.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />
     <Compile Include="Src\AppNotificationService\SimpleNotificationObject.cs" />
     <Compile Include="Src\EstimatedEarningsProvider.cs" />
@@ -279,6 +280,9 @@
     <Compile Include="Src\TaskProfitEstimator.cs" />
     <Compile Include="UI\Dialogs\DlgShouldStopMiningBeforeBenchmark.xaml.cs">
       <DependentUpon>DlgShouldStopMiningBeforeBenchmark.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\DlgUpdateApp.xaml.cs">
+      <DependentUpon>DlgUpdateApp.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\UserControls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
@@ -306,7 +310,7 @@
     <Compile Include="DesignViewModel\DashboardMainViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgAppInfoViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgEditAddressViewModel.cs" />
-    <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgShouldStopMiningBeforeBenchmarkViewModel.cs" />
     <Compile Include="DesignViewModel\MockupDashboardStatusViewModel.cs" />
     <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
@@ -420,6 +424,7 @@
     <Compile Include="Utils\PathUtil.cs" />
     <Compile Include="Utils\PriceProviderExtension.cs" />
     <Compile Include="Utils\ProcessExtension.cs" />
+    <Compile Include="Utils\VersionUtil.cs" />
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
     <Compile Include="ViewModel\CustomControls\NotificationBar\NotificationBarNotification.cs" />
@@ -432,6 +437,7 @@
     <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgEditAddressViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
     <Compile Include="ViewModel\SettingsAdvViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
@@ -508,6 +514,10 @@
     <Page Include="UI\Dialogs\DlgEditAddress.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Dialogs\DlgUpdateApp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="UI\ExistingProcessesWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
