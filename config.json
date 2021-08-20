@@ -1,6 +1,6 @@
 {
   "LatestVersion": "0.2.6.0",
-  "LastSupportedVersion": "0.2.5",
+  "LastSupportedVersion": "0.2.3",
   "DayEthPerGH": 0.023,
   "DayEtcPerGH": 0.81,
   "RequestorCoeff": 0.38
