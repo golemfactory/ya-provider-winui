@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
 <?define Win64 = "yes" ?>
-<?define Version="0.2.4"?>
+<?define Version="0.2.7"?>
 <?define BuildOutputDir="..\bin\Release"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:fw="http://schemas.microsoft.com/wix/FirewallExtension">
   <Product
         Id='*'
-        Name='Thorg Miner'
+        Name='Test Beta Miner'
         UpgradeCode='{96497EC7-11EA-4257-A0E4-37688d0C7EC0}'
         Manufacturer='golemfactory'
         Language='1033'
@@ -28,7 +28,7 @@
     <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1'/>
     <!-- Allow upgrades and prevent downgrades -->
     <!--MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." /-->
-    <Property Id='DiskPrompt' Value='Thorg Miner Installation'/>
+    <Property Id='DiskPrompt' Value='Test Beta Miner Installation'/>
 
     <!--Condition Message="Required vc++ runtime version 14.22.27812.0 or newer">
     		<![CDATA[Installed OR VCRUNTIMEVERSION]]>
