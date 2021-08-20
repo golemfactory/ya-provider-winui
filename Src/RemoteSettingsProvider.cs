@@ -81,7 +81,8 @@ namespace GolemUI.Src
                         _logger.LogInformation("Removing old download tmp file: " + remoteTmpPath);
                         File.Delete(remoteTmpPath);
                     }
-                    await client.DownloadFileTaskAsync(new Uri("https://golemfactory.github.io/ya-provider-winui/config.json"), remoteTmpPath);
+                    long timestamp = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
+                    await client.DownloadFileTaskAsync(new Uri($"https://golemfactory.github.io/ya-provider-winui/config.json?timestamp={timestamp}"), remoteTmpPath);
                     if (!File.Exists(remoteTmpPath))
                     {
                         _logger.LogError("Failed to download new config");

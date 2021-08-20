@@ -69,14 +69,13 @@ namespace GolemUI
         public void UpdateAppearance()
         {
             var us = _userSettingsProvider.LoadUserSettings();
-            if (us.Opacity == null || us.Opacity < 100)
+            if (us.Opacity < 100)
             {
                 EnableBlur();
             }
 
             SolidColorBrush b = (SolidColorBrush)this.Resources["SetupWindow.Background"];
-            if (us.Opacity != null)
-            {
+            { 
                 int op = (int)us.Opacity;
                 if (op >= 100)
                 {
