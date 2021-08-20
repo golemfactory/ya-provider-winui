@@ -252,11 +252,7 @@ namespace GolemUI
             ViewModel.DarkBackgroundVisible = false;
         }
 
-        private void btnNavigateToNewestVersion_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/golemfactory/ya-provider-winui/releases");
-        }
-
+     
         public void ShowUpdateDialog()
         {
             ViewModel.DarkBackgroundVisible = true;
