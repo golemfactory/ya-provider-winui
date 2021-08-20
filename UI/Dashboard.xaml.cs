@@ -264,11 +264,12 @@ namespace GolemUI
             ViewModel.DarkBackgroundVisible = false;
         }
 
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        private void TxtVersion_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ViewModel.DarkBackgroundVisible = true;
             ViewModel.ShowVersionDialog(Window.GetWindow(this));
             ViewModel.DarkBackgroundVisible = false;
         }
+
     }
 }
