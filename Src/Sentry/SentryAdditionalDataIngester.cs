@@ -24,6 +24,7 @@ namespace GolemUI
             _providerConfig = providerConfig;
             providerConfig.PropertyChanged += ProviderConfig_PropertyChanged;
             _processControler.PropertyChanged += _processControler_PropertyChanged;
+            UpdateNodeName(_providerConfig.Config?.NodeName ?? "");
 
         }
 
