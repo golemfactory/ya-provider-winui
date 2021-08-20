@@ -62,8 +62,8 @@
             <Border Grid.Column="0" Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0.5 0" Margin="0,0,0,0">
                 <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="auto" MinHeight="45" Margin="5">
                     <Grid>
-                        <Rectangle Fill="Black" Opacity="0.01" MouseDown="Border_MouseDown" />
-                        <TextBlock Foreground="#BBBBBB" VerticalAlignment="Top" Margin="5, 5, 5, 5" Text="{Binding Path=VersionInfo}" MouseDown="Border_MouseDown"></TextBlock>
+                        <Rectangle Fill="Black" Opacity="0.01" MouseDown="TxtVersion_MouseDown" />
+                        <TextBlock Foreground="#BBBBBB" VerticalAlignment="Top" Margin="5, 5, 5, 5" Text="{Binding Path=VersionInfo}" Cursor="Hand"  Name="TxtVersion"  MouseDown="TxtVersion_MouseDown"></TextBlock>
                     </Grid>
                 </Border>
             </Border>
