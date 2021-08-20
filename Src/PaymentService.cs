@@ -94,7 +94,7 @@ namespace GolemUI.Src
                 throw new Exception("Wallet address is null");
             }
 
-            
+
             var output = await Task.WhenAll(_gsbPayment.GetStatus(walletAddress, "zksync"), _gsbPayment.GetStatus(walletAddress, "erc20"));
 
 

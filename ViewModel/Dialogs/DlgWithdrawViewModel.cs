@@ -23,7 +23,7 @@ namespace GolemUI.ViewModel.Dialogs
         }
 
         public DlgWithdrawStatus TransactionStatus => DlgWithdrawStatus.None;
-        string? _withdrawAddress ;
+        string? _withdrawAddress;
         public string WithdrawAddress
         {
             get => _withdrawAddress;
@@ -34,7 +34,7 @@ namespace GolemUI.ViewModel.Dialogs
         }
 
         decimal? _amount;
-        
+
 
         public decimal? Amount
         {

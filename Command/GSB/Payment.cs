@@ -57,7 +57,7 @@ namespace GolemUI.Command.GSB
             }
 
         }
-              
+
 
         public Payment(IGsbEndpointFactory gsbEndpointFactory)
         {
