@@ -42,7 +42,7 @@
                   WorkingDirectory="APPLICATIONFOLDER"/>
         <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
            <RegistryKey Root="HKCU"
-                     Key="Software\GolemFactory\ThorgMiner" Action="createAndRemoveOnUninstall">
+                     Key="Software\GolemFactory\TestBetaMiner" Action="createAndRemoveOnUninstall">
              <RegistryValue  Name="sendReports" Type="integer" Value="0"/>
         <RegistryValue  Name="installed" Type="integer" Value="1" KeyPath="yes"/>        
       </RegistryKey>
@@ -54,7 +54,7 @@
         <Directory Id="ApplicationProgramsFolder" Name="Golem"/>
       </Directory>
       <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
-        <Directory Id='APPLICATIONFOLDER' Name='ThorgMiner'>
+        <Directory Id='APPLICATIONFOLDER' Name='TestBetaMiner'>
           <Component Id='License' Guid='8aa900e0-cca3-49e0-9e1f-0692d8a3ab29' Win64='$(var.Win64)'>
             <File Id='LicenseFile'
                 Name='License'
