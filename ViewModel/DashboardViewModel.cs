@@ -8,31 +8,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GolemUI.Model;
 
 namespace GolemUI.ViewModel
 {
     public partial class DashboardViewModel : INotifyPropertyChanged
     {
-        public DashboardViewModel(DashboardMain dashboardMain, DashboardSettings dashboardSettings, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet)
-        {
 
-            PropertyChanged += OnPropertyChanged;
-
-            DashboardMain = dashboardMain;
-            DashboardSettings = dashboardSettings;
-            DashboardSettingsAdv = dashboardSettingsAdv;
-            DashboardWallet = dashboardWallet;
-
-            _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
-            _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
-            _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet, DashboardWallet.Model));
-            _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
-
-            _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
-
-            _pages.Values.ToList().ForEach(page =>
-                page.DarkBackgroundRequested += Page_DarkBackgroundRequested);
-        }
         public enum DashboardPages
         {
             PageDashboardNone,
@@ -110,12 +92,16 @@ namespace GolemUI.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet
+        private readonly IRemoteSettingsProvider _remoteSettingsProvider;
+
+        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, IRemoteSettingsProvider remoteSettingsProvider
 #if STATISTICS_ENABLED
                 ,DashboardStatistics dashboardStatistics
 #endif
             )
         {
+            _remoteSettingsProvider = remoteSettingsProvider;
+
             PropertyChanged += OnPropertyChanged;
 
             DashboardMain = dashboardMain;
@@ -197,5 +183,15 @@ namespace GolemUI.ViewModel
             SwitchPage(page);
         }
 
+        public string VersionInfo
+        {
+            get
+            {
+                System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+                string version = fvi.FileVersion;
+                return $"Version: {version}";
+            }
+        }
     }
 }

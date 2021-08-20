@@ -191,8 +191,8 @@ namespace GolemUI.UI
         private void OnNoobFinish(object sender, RoutedEventArgs e)
         {
             Model!.Save();
-            var wnd = _serviceProvider.GetService(typeof(GolemUI.Dashboard)) as GolemUI.Dashboard;
-            wnd?.Show();
+            if (App.Current is App app)
+                app.GetOrCreateDashboardWindow()?.Show();
             Close();
         }
 
@@ -257,8 +257,8 @@ namespace GolemUI.UI
         private void BtnNoGpuContinue_Click(object sender, RoutedEventArgs e)
         {
             Model!.Save();
-            var wnd = _serviceProvider.GetService(typeof(GolemUI.Dashboard)) as GolemUI.Dashboard;
-            wnd?.Show();
+            if (App.Current is App app)
+                app.GetOrCreateDashboardWindow()?.Show();
             Close();
         }
     }
