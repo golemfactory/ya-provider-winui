@@ -12,7 +12,7 @@ namespace GolemUI
     public class SentryContext
     {
         public delegate void MemberChangedEventHandler();
-        public event MemberChangedEventHandler MemberChanged;
+        public event MemberChangedEventHandler? MemberChanged;
 
         public readonly Dictionary<string, string> Items = new Dictionary<string, string>();
 
@@ -40,14 +40,14 @@ namespace GolemUI
 
 
 
-        public SentryAdditionalDataIngester(Interfaces.IProcessControler processControler,  Interfaces.IProviderConfig providerConfig)
+        public SentryAdditionalDataIngester(Interfaces.IProcessControler processControler, Interfaces.IProviderConfig providerConfig)
         {
             _processControler = processControler;
             _providerConfig = providerConfig;
             _providerConfig.PropertyChanged += ProviderConfig_PropertyChanged;
             _processControler.PropertyChanged += _processControler_PropertyChanged;
             Context.MemberChanged += Context_MemberChanged;
-           
+
         }
         public void InitContextItems()
         {
@@ -80,7 +80,7 @@ namespace GolemUI
         private async void _processControler_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsServerRunning")
-                Context.AddItem("YagnaId", (await _processControler.Me()).Id); 
+                Context.AddItem("YagnaId", (await _processControler.Me()).Id);
         }
 
     }
