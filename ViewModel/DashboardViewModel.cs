@@ -226,6 +226,7 @@ namespace GolemUI.ViewModel
         public string _latestVersion = "unknown";
         public string _changelog = "No changes found";
         public string _latestVersionCodename = "";
+        public string _latestVersionDownloadLink = "";
         private bool _firstUpdate = true;
 
 
@@ -273,6 +274,7 @@ namespace GolemUI.ViewModel
             _latestVersion = rs.LatestVersion ?? "unknown";
             _changelog = rs.ChangeLog ?? "No changes found";
             _latestVersionCodename = rs.LatestVersionCodename ?? "";
+            _latestVersionDownloadLink = rs.LatestVersionDownloadLink ?? "";
 
             if (_firstUpdate && _upToDate == false)
             {
@@ -296,7 +298,7 @@ namespace GolemUI.ViewModel
                     changelog.Add(changeNew);
                 }
             }
-            var dlg = new UI.Dialogs.DlgUpdateApp(new ViewModel.Dialogs.DlgUpdateAppViewModel("https://github.com/golemfactory/ya-provider-winui/releases", CurrentVersionString, _latestVersion, _latestVersionCodename, changelog, !_canRun));
+            var dlg = new UI.Dialogs.DlgUpdateApp(new ViewModel.Dialogs.DlgUpdateAppViewModel(_latestVersionDownloadLink, CurrentVersionString, _latestVersion, _latestVersionCodename, changelog, !_canRun));
             dlg.Owner = owner;
             dlg?.ShowDialog();
         }

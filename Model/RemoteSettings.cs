@@ -12,6 +12,7 @@ namespace GolemUI.Model
         public string? LatestVersion { get; set; }
         public string? LastSupportedVersion { get; set; }
         public string? LatestVersionCodename { get; set; }
+        public string? LatestVersionDownloadLink { get; set; }
         public string? ChangeLog { get; set; }
         public double? DayEthPerGH { get; set; } = 0.02;
         public double? DayEtcPerGH { get; set; } = 0.9;
