@@ -1,4 +1,5 @@
 ﻿using GolemUI.Interfaces;
+using GolemUI.Utils;
 using Nethereum.Util;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace GolemUI.ViewModel.Dialogs
 
     public class DlgUpdateAppViewModel
     {
+        public string Title => IsUpToDate ? "Your application is up to date" : "New version of application is available";
         public string UpdateLink { private set; get; }
         public string CurrentVersion { private set; get; }
         string NewVersion { set; get; }
@@ -27,9 +29,9 @@ namespace GolemUI.ViewModel.Dialogs
                 return "New changes:\n" + String.Join("\n", Changes.Take(5).Select(x => "- " + x).ToArray());
             }
         }
-        List<string> Changes = new List<string>() { "change1", "change2", "change3", "change4*" };
+        List<string> Changes = null;
         public bool ShouldForceUpdate { private set; get; }
-
+        public bool IsUpToDate => VersionUtil.AreVersionsEqual(CurrentVersion, NewVersion);
         public string NewVersionDisplayString
         {
             get

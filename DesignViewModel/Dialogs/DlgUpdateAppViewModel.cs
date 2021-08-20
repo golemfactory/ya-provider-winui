@@ -1,4 +1,5 @@
 ﻿using GolemUI.Interfaces;
+using GolemUI.Utils;
 using Nethereum.Util;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,10 @@ namespace GolemUI.DesignViewModel.Dialogs
 {
     public class DlgUpdateAppViewModel
     {
+        public string Title => IsUpToDate ? "Your application is up to date" : "New version of application is available";
         public string UpdateLink => "http://google.com";
         public string CurrentVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        string NewVersion => "2.0.0";
+        string NewVersion => "0.2.4.0";
 
         string AppCodeName => "CandyFlip";
         public string ChangeLog
@@ -29,7 +31,7 @@ namespace GolemUI.DesignViewModel.Dialogs
         }
         List<string> Changes = new List<string>() { "change1", "change2", "change3", "change4*" };
         public bool ShouldForceUpdate => false;
-
+        public bool IsUpToDate => VersionUtil.AreVersionsEqual(CurrentVersion, NewVersion);
         public string NewVersionDisplayString
         {
             get

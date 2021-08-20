@@ -14,7 +14,7 @@
         x:Name="DashboardWindow"
         Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/Thorg.ico" MinHeight="600" MinWidth="1024"
         xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
-        d:DataContext ="{d:DesignInstance {x:Type dvm:DashboardViewModel}, IsDesignTimeCreatable=True}"
+        d:DataContext ="{d:DesignInstance {x:Type dvm:DashboardViewModel}, IsDesignTimeCreatable=True}"     
         >
     <Window.Resources>
         <ResourceDictionary>

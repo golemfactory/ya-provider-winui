@@ -72,5 +72,11 @@ namespace GolemUI.UI.Dialogs
         {
             System.Diagnostics.Process.Start(Model.UpdateLink);
         }
+
+        private void BtnContinueUsingApp_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+            this.Close();
+        }
     }
 }

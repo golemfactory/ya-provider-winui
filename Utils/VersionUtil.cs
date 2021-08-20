@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GolemUI.Utils
 {
-    class VersionUtil
+    public static class VersionUtil
     {
         /*
          *  Returns true if comparison possible
@@ -40,6 +40,12 @@ namespace GolemUI.Utils
             }
             result = version1.CompareTo(version2);
             return true;
+        }
+        public static bool AreVersionsEqual(string? v1, string? v2)
+        {
+            int result = -1;
+            CompareVersions(v1, v2, out result);
+            return result == 0;
         }
     }
 }
