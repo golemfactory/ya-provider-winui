@@ -195,11 +195,16 @@ namespace GolemUI.ViewModel
             return fvi;
         }
 
+        public string CurrentVersionString
+        {
+            get => GetCurrentVersionInfo().FileVersion;
+        }
+
         public string VersionInfo
         {
             get
             {
-                string version = GetCurrentVersionInfo().FileVersion;
+                string version = CurrentVersionString;
                 if (!_canRun)
                 {
                     return $"Version not supported: {version} Download latest: {_latestVersion}";
@@ -219,6 +224,8 @@ namespace GolemUI.ViewModel
         private bool? _upToDate = null;
         private bool _canRun = true;
         public string _latestVersion = "unknown";
+        public string _changelog = "No changes found";
+        public string _latestVersionCodename = "";
         private bool _firstUpdate = true;
 
 
@@ -264,6 +271,8 @@ namespace GolemUI.ViewModel
                 _canRun = true;
             }
             _latestVersion = rs.LatestVersion ?? "unknown";
+            _changelog = rs.ChangeLog ?? "No changes found";
+            _latestVersionCodename = rs.LatestVersionCodename ?? "";
 
             if (_firstUpdate && _upToDate == false)
             {
@@ -278,7 +287,16 @@ namespace GolemUI.ViewModel
 
         public void ShowVersionDialog(Window owner)
         {
-            var dlg = new UI.Dialogs.DlgUpdateApp(new ViewModel.Dialogs.DlgUpdateAppViewModel("https://github.com/golemfactory/ya-provider-winui/releases", VersionInfo, _latestVersion, "White Rainbow", new List<string>() { "change1", "change2", "change3", "change4*" }, !_canRun));
+            List<string> changelog = new List<string>();
+            foreach (string change in _changelog.Split('|'))
+            {
+                string changeNew = change.Trim();
+                if (!String.IsNullOrEmpty(changeNew))
+                {
+                    changelog.Add(changeNew);
+                }
+            }
+            var dlg = new UI.Dialogs.DlgUpdateApp(new ViewModel.Dialogs.DlgUpdateAppViewModel("https://github.com/golemfactory/ya-provider-winui/releases", CurrentVersionString, _latestVersion, _latestVersionCodename, changelog, !_canRun));
             dlg.Owner = owner;
             dlg?.ShowDialog();
         }
