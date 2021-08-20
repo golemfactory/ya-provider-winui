@@ -199,17 +199,17 @@ namespace GolemUI.ViewModel
             get
             {
                 string version = GetCurrentVersionInfo().FileVersion;
+                if (!_canRun)
+                {
+                    return $"Version not supported: {version} Download latest: {_latestVersion}";
+                }
                 if (_upToDate == true)
                 {
                     return $"Up to date: {version}";
                 }
                 if (_upToDate == false)
                 {
-                    return $"Needs update: {version}";
-                }
-                if (!_canRun)
-                {
-                    return $"Version not supported: {version}";
+                    return $"Needs update: {version} Download latest: {_latestVersion}";
                 }
                 return $"Version: {version}";
             }
@@ -217,6 +217,7 @@ namespace GolemUI.ViewModel
 
         private bool? _upToDate = null;
         private bool _canRun = true;
+        public string _latestVersion = "";
 
         public void RemoteSettingsUpdatedEventHandler(RemoteSettings rs)
         {
@@ -226,6 +227,7 @@ namespace GolemUI.ViewModel
             string currentVersionString = GetCurrentVersionInfo().FileVersion;
             if (VersionUtil.CompareVersions(rs.LastSupportedVersion, currentVersionString, out int cr1))
             {
+                //Last supported version greater than current version:
                 if (cr1 > 0)
                 {
                     forceUpdate = true;
@@ -233,6 +235,7 @@ namespace GolemUI.ViewModel
             }
             if (VersionUtil.CompareVersions(rs.LatestVersion, currentVersionString, out int cr2))
             {
+                //Latest version greater than current version:
                 if (cr2 > 0)
                 {
                     suggestUpdate = true;
@@ -253,25 +256,13 @@ namespace GolemUI.ViewModel
             }
             else
             {
-                //everything fine
+                //Version check failed or the version the same
                 _upToDate = true;
                 _canRun = true;
             }
+            _latestVersion = rs.LatestVersion;
 
             OnPropertyChanged("VersionInfo");
-
-
-
-
-
-
-            /*
-
-            if (rs.Version != VersionInfo)
-            {
-
-            }
-            Debug.WriteLine("Notified about new version: " + rs.Version);*/
         }
 
     }
