@@ -223,6 +223,15 @@ namespace GolemUI
             }
         }
 
+        public void ShowUpdateDialog()
+        {
+            if (_dashboard != null)
+            {
+                _dashboard.ShowUpdateDialog();
+            }
+        }
+
+
         private void StopApp()
         {
             _serviceProvider.Dispose();
