@@ -69,13 +69,12 @@ namespace GolemUI
         public void UpdateAppearance()
         {
             var us = _userSettingsProvider.LoadUserSettings();
-            if (us.Opacity == null || us.Opacity < 100)
+            if (us.Opacity < 100)
             {
                 EnableBlur();
             }
 
             SolidColorBrush b = (SolidColorBrush)this.Resources["SetupWindow.Background"];
-            if (us.Opacity != null)
             {
                 int op = (int)us.Opacity;
                 if (op >= 100)
@@ -250,6 +249,11 @@ namespace GolemUI
             ViewModel.DarkBackgroundVisible = true;
             dlg?.ShowDialog();
             ViewModel.DarkBackgroundVisible = false;
+        }
+
+        private void btnNavigateToNewestVersion_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/golemfactory/ya-provider-winui/releases");
         }
 
         private void BtnShowTestDialog_Click(object sender, RoutedEventArgs e)

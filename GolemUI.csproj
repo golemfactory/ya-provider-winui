@@ -424,6 +424,7 @@
     <Compile Include="Utils\PathUtil.cs" />
     <Compile Include="Utils\PriceProviderExtension.cs" />
     <Compile Include="Utils\ProcessExtension.cs" />
+    <Compile Include="Utils\VersionUtil.cs" />
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
     <Compile Include="ViewModel\CustomControls\NotificationBar\NotificationBarNotification.cs" />
