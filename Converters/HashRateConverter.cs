@@ -11,7 +11,7 @@ namespace GolemUI.Converters
     [ValueConversion(typeof(float?), typeof(string))]
     public class HashRateConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object? parameter, CultureInfo culture)
         {
             double? baseValue = value as double?;
             float? baseValue2 = value as float?;
