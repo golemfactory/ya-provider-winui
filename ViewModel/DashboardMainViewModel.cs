@@ -1,4 +1,5 @@
-﻿using GolemUI.Interfaces;
+﻿using GolemUI.Converters;
+using GolemUI.Interfaces;
 using GolemUI.Model;
 using GolemUI.Src;
 using GolemUI.Src.AppNotificationService;
@@ -167,7 +168,9 @@ namespace GolemUI.ViewModel
                 gpuStatus = "Mining";
                 if (usage.TryGetValue("golem.usage.mining.hash-rate", out var hashRate) && hashRate > 0.0)
                 {
-                    gpuStatusAnnotation = $"{hashRate:#.00} MH/s";
+                    HashRateConverter hashRateConverter = new HashRateConverter();
+                    string hashrate = (string)hashRateConverter.Convert(hashRate, typeof(string), null, System.Globalization.CultureInfo.InvariantCulture);
+                    gpuStatusAnnotation = $"Speed: {hashrate}";
                 }
             }
             GpuStatus = gpuStatus;
