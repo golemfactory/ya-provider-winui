@@ -11,7 +11,7 @@ namespace GolemUI.Converters
     [ValueConversion(typeof(float?), typeof(string))]
     public class HashRateConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object? parameter, CultureInfo culture)
         {
             double? baseValue = value as double?;
             float? baseValue2 = value as float?;
@@ -25,10 +25,17 @@ namespace GolemUI.Converters
             {
                 return "-- MH/s";
             }
-
-            if (baseValue < 100.0f)
+            if (baseValue < 10.0f)
             {
                 return $"{baseValue:0.00} MH/s";
+            }
+            if (baseValue < 100.0f)
+            {
+                return $"{baseValue:0.0} MH/s";
+            }
+            if (baseValue < 1000.0f)
+            {
+                return $"{baseValue:0} MH/s";
             }
             return $"{baseValue * .001:0.00} GH/s";
         }

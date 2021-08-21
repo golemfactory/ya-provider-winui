@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
 <?define Win64 = "yes" ?>
-<?define Version="0.2.7"?>
+<?define Version="0.2.8"?>
 <?define BuildOutputDir="..\bin\Release"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:fw="http://schemas.microsoft.com/wix/FirewallExtension">
   <Product
         Id='*'
-        Name='Test Beta Miner'
+        Name='Beta Miner'
         UpgradeCode='{96497EC7-11EA-4257-A0E4-37688d0C7EC0}'
         Manufacturer='golemfactory'
         Language='1033'
@@ -37,8 +37,8 @@
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="fa2a64b9-19f8-4830-a931-18de65ed4e26">
         <Shortcut Id="ApplicationStartMenuShortcut"
-                  Name="Thorg Miner"
-                  Target="[APPLICATIONFOLDER]GolemUI.Exe"
+                  Name="Test Beta Miner"
+                  Target="[APPLICATIONFOLDER]BetaMiner.Exe"
                   WorkingDirectory="APPLICATIONFOLDER"/>
         <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
            <RegistryKey Root="HKCU"
@@ -150,14 +150,14 @@
     <WixVariable Id="WixUIDialogBmp" Value="WixUIDialogBmp.bmp" />
     <WixVariable Id="WixUIExclamationIco" Value="WixUIExclamationIco.ico"/>
 
-    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Start Thorg Miner" />
-    <CustomAction Id='LaunchApplication' ExeCommand='[APPLICATIONFOLDER]GolemUI.Exe' Return="asyncNoWait" Directory="APPLICATIONFOLDER"/>
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Start Beta Miner" />
+    <CustomAction Id='LaunchApplication' ExeCommand='[APPLICATIONFOLDER]BetaMiner.Exe' Return="asyncNoWait" Directory="APPLICATIONFOLDER"/>
     <Icon Id="icon.ico" SourceFile="WixUIExclamationIco.ico"/>
     <Property Id="ARPPRODUCTICON" Value="icon.ico" />
   </Product>  
   <Fragment>
     <Component Id="cmp2064A296D7784C7B9E0A88832769F2B7" Directory="APPLICATIONFOLDER" Guid="*">
-      <File Id="filE191C2D49C12AE32405B1455AA8C7D41" KeyPath="yes" Source="$(var.GolemUI.TargetDir)\GolemUI.exe" Assembly=".net" />
+      <File Id="filE191C2D49C12AE32405B1455AA8C7D41" KeyPath="yes" Source="$(var.GolemUI.TargetDir)\BetaMiner.exe" Assembly=".net" />
     </Component>
   </Fragment>
 

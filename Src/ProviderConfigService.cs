@@ -83,6 +83,8 @@ namespace GolemUI.Src
                 _provider.Config = Config;
             }
             OnPropertyChanged("Config");
+            OnPropertyChanged("NodeName");
+
         }
 
         public void UpdateWalletAddress(string? walletAddress = null)

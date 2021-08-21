@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                        <Image  Source="/UI/Icons/DefaultStyle/png/Branding/SupportedByGolem.png" />
+                        <Image  Source="/UI/Icons/DefaultStyle/png/Branding/logo_bottom.png" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter  Property="Cursor" Value="Hand" />

@@ -12,7 +12,7 @@
         Background="Transparent"
         AllowsTransparency="True"
         x:Name="DashboardWindow"
-        Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/Thorg.ico" MinHeight="600" MinWidth="1024"
+        Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/icon2.ico" MinHeight="600" MinWidth="1024"
         xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
         d:DataContext ="{d:DesignInstance {x:Type dvm:DashboardViewModel}, IsDesignTimeCreatable=True}"     
         >
@@ -52,7 +52,7 @@
 
 
 
-            <tb:TaskbarIcon x:Name="tbNotificationIcon" IconSource="/Media/Thorg.ico" DoubleClickCommand="{commands:ShowWindowCommand}" ToolTipText="GolemUI" ContextMenu="{StaticResource TrayMenu}"/>
+            <tb:TaskbarIcon x:Name="tbNotificationIcon" IconSource="/Media/icon2.ico" DoubleClickCommand="{commands:ShowWindowCommand}" ToolTipText="GolemUI" ContextMenu="{StaticResource TrayMenu}"/>
             <!-- todo:// following code generates binding errors -->
             <!--DoubleClickCommand="{Binding ElementName=DashboardWindow, Path=ShowCommand, Mode=OneWay}"-->
 
