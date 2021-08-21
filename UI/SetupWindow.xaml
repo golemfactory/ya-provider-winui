@@ -18,7 +18,7 @@
     AllowsTransparency="True"    
     MinHeight="720"
     MinWidth="1280"
-        Title="SetupWindow" Height="720" Width="1280" Icon="/Media/Thorg.ico" Loaded="Window_Loaded">
+        Title="SetupWindow" Height="720" Width="1280" Icon="/Media/icon2.ico" Loaded="Window_Loaded">
 
     <Window.Resources>
         <ResourceDictionary>
