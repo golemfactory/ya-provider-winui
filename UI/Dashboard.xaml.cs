@@ -160,7 +160,7 @@ namespace GolemUI
             {
                 tbNotificationIcon.Visibility = Visibility.Visible;
                 if (_userSettingsProvider.LoadUserSettings().NotificationsEnabled)
-                    tbNotificationIcon.ShowBalloonTip("Torg Miner is still running in tray", "To close application use Thorg's tray's context menu.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+                    tbNotificationIcon.ShowBalloonTip("Beta Miner is still running in tray", "To close application use Beta Miner's tray's context menu.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
                 this.WindowState = WindowState.Minimized;
                 this.ShowInTaskbar = false;
             }
@@ -212,7 +212,7 @@ namespace GolemUI
             {
                 tbNotificationIcon.Visibility = Visibility.Visible;
                 if (_userSettingsProvider.LoadUserSettings().NotificationsEnabled)
-                    tbNotificationIcon.ShowBalloonTip("Torg Miner is still running in tray", "To close application use Thorg's tray's context menu.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+                    tbNotificationIcon.ShowBalloonTip("Beta Miner is still running in tray", "To close application use Beta Miner's tray's context menu.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
                 this.WindowState = WindowState.Minimized;
                 this.ShowInTaskbar = false;
             }

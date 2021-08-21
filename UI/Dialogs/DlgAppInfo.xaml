@@ -48,7 +48,7 @@
                     </StackPanel>
                        
                     </StackPanel>
-                    <Image Margin="130,0" Source="/UI/Icons/DefaultStyle/png/Branding/Thorg.png"  Width="200"/>
+                    <Image Margin="130,0" Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png"  Width="200"/>
                 </StackPanel>
             </StackPanel>
             <Button Margin="0,0,0,20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="300"  Height="45" Grid.Row="0" Grid.Column="4" Click="BtnClose_Click" Name="BtnClose" Style="{StaticResource GradientButtonStyle}" Content="Close" />
