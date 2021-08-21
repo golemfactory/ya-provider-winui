@@ -51,7 +51,7 @@ namespace GolemUI.Src.AppNotificationService
                 {
                     if (_benchmarkService.TotalMhs != 0)
                     {
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, $"benchmark is running ({_benchmarkService.TotalMhs} MH/s)", expirationTimeInMs: 0));
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, $"benchmark is running ({String.Format("{0:0.0#}", _benchmarkService.TotalMhs)} MH/s)", expirationTimeInMs: 0));
                     }
                     else
                     {
