@@ -25,10 +25,17 @@ namespace GolemUI.Converters
             {
                 return "-- MH/s";
             }
-
-            if (baseValue < 100.0f)
+            if (baseValue < 10.0f)
             {
                 return $"{baseValue:0.00} MH/s";
+            }
+            if (baseValue < 100.0f)
+            {
+                return $"{baseValue:0.0} MH/s";
+            }
+            if (baseValue < 1000.0f)
+            {
+                return $"{baseValue:0} MH/s";
             }
             return $"{baseValue * .001:0.00} GH/s";
         }

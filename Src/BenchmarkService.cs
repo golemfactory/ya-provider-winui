@@ -18,6 +18,7 @@ namespace GolemUI.Src
     {
         public BenchmarkService(IProviderConfig providerConfig, ILogger<BenchmarkService> logger, IBenchmarkResultsProvider benchmarkResultsProvider)
         {
+
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _providerConfig = providerConfig;
             _logger = logger;
