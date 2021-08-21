@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace GolemUI.Model
+namespace BetaMiner.Model
 {
     public class NavBarItems : ObservableCollection<NavBarItem>
     {

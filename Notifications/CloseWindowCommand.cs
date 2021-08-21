@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace GolemUI.Notifications
+namespace BetaMiner.Notifications
 {
     /// <summary>
     /// Closes the current window.

@@ -6,11 +6,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using GolemUI.Interfaces;
-using GolemUI.Utils;
+using BetaMiner.Interfaces;
+using BetaMiner.Utils;
 using Microsoft.Extensions.Logging;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     class TaskProfitEstimator : ITaskProfitEstimator
     {

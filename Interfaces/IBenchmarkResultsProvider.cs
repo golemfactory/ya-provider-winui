@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GolemUI.Model;
+using BetaMiner.Model;
 
-namespace GolemUI.Interfaces
+namespace BetaMiner.Interfaces
 {
     public interface IBenchmarkResultsProvider
     {

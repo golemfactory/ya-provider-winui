@@ -1,4 +1,4 @@
-﻿namespace GolemUI.ViewModel.CustomControls
+﻿namespace BetaMiner.ViewModel.CustomControls
 {
     public enum NotificationState { Visible, Hidden };
 }

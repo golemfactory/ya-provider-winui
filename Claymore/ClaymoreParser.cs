@@ -1,4 +1,4 @@
-﻿using GolemUI.Utils;
+﻿using BetaMiner.Utils;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -12,7 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.Claymore
+namespace BetaMiner.Claymore
 {
 
     public class ClaymoreGpuStatus : ICloneable, INotifyPropertyChanged

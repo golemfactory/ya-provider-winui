@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace GolemUI.Notifications
+namespace BetaMiner.Notifications
 {
     /// <summary>
     /// Shows the main window.

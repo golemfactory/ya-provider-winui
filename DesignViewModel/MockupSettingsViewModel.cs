@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GolemUI.Claymore;
+using BetaMiner.Claymore;
 
-namespace GolemUI.DesignViewModel
+namespace BetaMiner.DesignViewModel
 {
     public class MockupSettingsViewModel
     {

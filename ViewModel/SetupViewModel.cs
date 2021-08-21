@@ -1,6 +1,6 @@
-﻿using GolemUI.Claymore;
-using GolemUI.Interfaces;
-using GolemUI.Validators;
+﻿using BetaMiner.Claymore;
+using BetaMiner.Interfaces;
+using BetaMiner.Validators;
 using Microsoft.Extensions.Logging;
 using NBitcoin;
 using Nethereum.Util;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace GolemUI.ViewModel
+namespace BetaMiner.ViewModel
 {
     public class SetupViewModel : INotifyPropertyChanged
     {

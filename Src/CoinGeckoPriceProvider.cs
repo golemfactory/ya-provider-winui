@@ -1,4 +1,4 @@
-﻿using GolemUI.Interfaces;
+﻿using BetaMiner.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using CoinGecko.Interfaces;
 using System.Windows.Threading;
 using Microsoft.Extensions.Logging;
-using GolemUI.Model;
+using BetaMiner.Model;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     public class CoinGeckoPriceProvider : IPriceProvider, IDisposable
     {

@@ -11,9 +11,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Threading;
-using GolemUI.Utils;
+using BetaMiner.Utils;
 
-namespace GolemUI
+namespace BetaMiner
 {
     /// <summary>
     /// Interaction logic for ExistingProcessesWindow.xaml

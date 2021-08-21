@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GolemUI
+namespace BetaMiner
 {
     public class NameGen
     {

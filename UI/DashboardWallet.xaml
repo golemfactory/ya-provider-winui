@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="GolemUI.DashboardWallet"
+﻿<UserControl x:Class="BetaMiner.DashboardWallet"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GolemUI"
-             xmlns:lv="clr-namespace:GolemUI.DesignViewModel"             
+             xmlns:local="clr-namespace:BetaMiner"
+             xmlns:lv="clr-namespace:BetaMiner.DesignViewModel"             
              d:DataContext="{d:DesignInstance Type=lv:WalletView, IsDesignTimeCreatable=True}"
              mc:Ignorable="d" 
              d:DesignHeight="690" d:DesignWidth="1112">

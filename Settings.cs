@@ -1,4 +1,4 @@
-﻿namespace GolemUI.Properties
+﻿namespace BetaMiner.Properties
 {
 
 

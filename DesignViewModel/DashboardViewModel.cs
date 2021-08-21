@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.DesignViewModel
+namespace BetaMiner.DesignViewModel
 {
     public class DashboardViewModel
     {

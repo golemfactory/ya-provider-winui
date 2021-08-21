@@ -1,11 +1,11 @@
-<Window x:Class="GolemUI.Dashboard"
+<Window x:Class="BetaMiner.Dashboard"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:cc="clr-namespace:GolemUI.UI.CustomControls"
+        xmlns:cc="clr-namespace:BetaMiner.UI.CustomControls"
         xmlns:tb="http://www.hardcodet.net/taskbar"
-        xmlns:commands="clr-namespace:GolemUI.Notifications"
+        xmlns:commands="clr-namespace:BetaMiner.Notifications"
         mc:Ignorable="d"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
@@ -13,7 +13,7 @@
         AllowsTransparency="True"
         x:Name="DashboardWindow"
         Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/icon2.ico" MinHeight="600" MinWidth="1024"
-        xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
+        xmlns:dvm="clr-namespace:BetaMiner.DesignViewModel"
         d:DataContext ="{d:DesignInstance {x:Type dvm:DashboardViewModel}, IsDesignTimeCreatable=True}"     
         >
     <Window.Resources>
@@ -52,7 +52,7 @@
 
 
 
-            <tb:TaskbarIcon x:Name="tbNotificationIcon" IconSource="/Media/icon2.ico" DoubleClickCommand="{commands:ShowWindowCommand}" ToolTipText="GolemUI" ContextMenu="{StaticResource TrayMenu}"/>
+            <tb:TaskbarIcon x:Name="tbNotificationIcon" IconSource="/Media/icon2.ico" DoubleClickCommand="{commands:ShowWindowCommand}" ToolTipText="Beta Miner" ContextMenu="{StaticResource TrayMenu}"/>
             <!-- todo:// following code generates binding errors -->
             <!--DoubleClickCommand="{Binding ElementName=DashboardWindow, Path=ShowCommand, Mode=OneWay}"-->
 

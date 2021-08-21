@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Serialization;
 using System;
 
-namespace GolemUI.Command
+namespace BetaMiner.Command
 {
     public class Result<T> where T : class
     {

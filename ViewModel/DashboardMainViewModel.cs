@@ -1,8 +1,8 @@
-﻿using GolemUI.Interfaces;
-using GolemUI.Model;
-using GolemUI.Src;
-using GolemUI.Src.AppNotificationService;
-using GolemUI.Utils;
+﻿using BetaMiner.Interfaces;
+using BetaMiner.Model;
+using BetaMiner.Src;
+using BetaMiner.Src.AppNotificationService;
+using BetaMiner.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.ViewModel
+namespace BetaMiner.ViewModel
 {
 
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage

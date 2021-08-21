@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace GolemUI.Validators
+namespace BetaMiner.Validators
 {
     public class NodeNameValidator : ValidationRule
     {

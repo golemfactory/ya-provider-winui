@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace GolemUI.UI.AnimatedIcons
+namespace BetaMiner.UI.AnimatedIcons
 {
     /// <summary>
     /// Interaction logic for WorkingAnimIcon.xaml

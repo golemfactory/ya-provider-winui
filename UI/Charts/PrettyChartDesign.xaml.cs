@@ -1,4 +1,4 @@
-﻿using GolemUI.Model;
+﻿using BetaMiner.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static GolemUI.Model.PrettyChartData;
+using static BetaMiner.Model.PrettyChartData;
 
-namespace GolemUI.UI.Charts
+namespace BetaMiner.UI.Charts
 {
     /// <summary>
     /// Interaction logic for PrettyChartDesign.xaml

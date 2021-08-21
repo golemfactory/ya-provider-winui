@@ -1,6 +1,6 @@
-﻿using GolemUI.ViewModel;
+﻿using BetaMiner.ViewModel;
 
-namespace GolemUI
+namespace BetaMiner
 {
     public delegate void PageChangeRequestedEvent(DashboardViewModel.DashboardPages page);
     public interface ISavableLoadableDashboardPage

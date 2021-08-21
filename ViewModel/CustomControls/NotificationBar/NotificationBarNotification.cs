@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace GolemUI.ViewModel.CustomControls
+namespace BetaMiner.ViewModel.CustomControls
 {
     public class NotificationBarNotification : INotifyPropertyChanged
     {

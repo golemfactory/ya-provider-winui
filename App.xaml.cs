@@ -10,15 +10,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using GolemUI.Command;
-using GolemUI.UI;
-using GolemUI.UI.CustomControls;
-using GolemUI.ViewModel;
+using BetaMiner.Command;
+using BetaMiner.UI;
+using BetaMiner.UI.CustomControls;
+using BetaMiner.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sentry;
 
-namespace GolemUI
+namespace BetaMiner
 {
 
     /// <summary>
@@ -28,7 +28,7 @@ namespace GolemUI
     {
 
         private readonly ServiceProvider _serviceProvider;
-        private readonly GolemUI.ChildProcessManager _childProcessManager;
+        private readonly BetaMiner.ChildProcessManager _childProcessManager;
         private readonly IDisposable _sentrySdk;
 
         private Dashboard? _dashboard = null;
@@ -39,7 +39,7 @@ namespace GolemUI
             _sentrySdk = (SentrySdk.Init(o =>
               {
 
-                  o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
+                  o.Dsn = BetaMiner.Properties.Settings.Default.SentryDsn;
                   o.Debug = true; //todo: change to false for production release
                   o.TracesSampleRate = 1.0; //todo: probably should change in future ?
               }));
@@ -52,7 +52,7 @@ namespace GolemUI
                 };
             });
 
-            _childProcessManager = new GolemUI.ChildProcessManager();
+            _childProcessManager = new BetaMiner.ChildProcessManager();
             _childProcessManager.AddProcess(Process.GetCurrentProcess());
 
             var serviceCollection = new ServiceCollection();
@@ -84,12 +84,12 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IEstimatedProfitProvider, Src.EstimatedEarningsProvider>();
             services.AddSingleton<Interfaces.ITaskProfitEstimator, Src.TaskProfitEstimator>();
 
-            services.AddSingleton(typeof(Interfaces.IProcessControler), typeof(GolemUI.ProcessController));
+            services.AddSingleton(typeof(Interfaces.IProcessControler), typeof(BetaMiner.ProcessController));
             services.AddSingleton(typeof(Command.YagnaSrv));
             services.AddSingleton(typeof(Command.Provider));
             services.AddSingleton(cfg => new Src.SingleInstanceLock());
 
-            services.AddSingleton(GolemUI.Properties.Settings.Default.TestNet ? Network.Rinkeby : Network.Mainnet);
+            services.AddSingleton(BetaMiner.Properties.Settings.Default.TestNet ? Network.Rinkeby : Network.Mainnet);
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
             services.AddSingleton<Interfaces.IStatusProvider, Src.YaSSEStatusProvider>();
@@ -127,13 +127,13 @@ namespace GolemUI
             // Top-Level Windows
             services.AddTransient(typeof(Dashboard));
             services.AddTransient(typeof(UI.SetupWindow));
-            services.AddTransient(typeof(GolemUI.DebugWindow));
+            services.AddTransient(typeof(BetaMiner.DebugWindow));
 
             services.AddLogging(logBuilder =>
             {
                 logBuilder.AddDebug();
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
-                logBuilder.AddSentry(GolemUI.Properties.Settings.Default.SentryDsn);
+                logBuilder.AddSentry(BetaMiner.Properties.Settings.Default.SentryDsn);
             });
 
         }

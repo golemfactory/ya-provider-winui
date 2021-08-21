@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GolemUI.Model;
-using GolemUI.Interfaces;
-using GolemUI.Utils;
+using BetaMiner.Model;
+using BetaMiner.Interfaces;
+using BetaMiner.Utils;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     class BenchmarkResultsProvider : IBenchmarkResultsProvider
     {
@@ -31,7 +31,7 @@ namespace GolemUI.Src
                 settings = null;
             }
 
-            if (settings == null || settings.BenchmarkResultVersion != GolemUI.Properties.Settings.Default.BenchmarkResultsVersion)
+            if (settings == null || settings.BenchmarkResultVersion != BetaMiner.Properties.Settings.Default.BenchmarkResultsVersion)
             {
                 settings = null;
             }
@@ -50,7 +50,7 @@ namespace GolemUI.Src
             {
                 return;
             }
-            benchmarkResults.BenchmarkResultVersion = GolemUI.Properties.Settings.Default.BenchmarkResultsVersion;
+            benchmarkResults.BenchmarkResultVersion = BetaMiner.Properties.Settings.Default.BenchmarkResultsVersion;
 
             string fp = PathUtil.GetLocalBenchmarkPath();
 

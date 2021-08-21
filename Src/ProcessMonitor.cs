@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Management;
 
-namespace GolemUI
+namespace BetaMiner
 {
     public class ProcessMonitor
     {

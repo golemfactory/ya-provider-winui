@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace GolemUI.Model
+namespace BetaMiner.Model
 {
     public class UserSettings : INotifyPropertyChanged
     {

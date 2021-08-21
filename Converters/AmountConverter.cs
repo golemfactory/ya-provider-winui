@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace GolemUI.Converters
+namespace BetaMiner.Converters
 {
     public class AmountConverter : IValueConverter
     {

@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using Sentry;
 
-namespace GolemUI.UI
+namespace BetaMiner.UI
 {
 
 

@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using GolemUI;
-namespace GolemUI.Converters
+namespace BetaMiner.Converters
 {
     [ValueConversion(typeof(bool?), typeof(int))]
     public class BoolToHeightConverter : IValueConverter

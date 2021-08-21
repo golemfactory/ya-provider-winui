@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GolemUI.Model;
-using GolemUI.Interfaces;
-using GolemUI.Utils;
+using BetaMiner.Model;
+using BetaMiner.Interfaces;
+using BetaMiner.Utils;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     class UserSettingsProvider : IUserSettingsProvider
     {
@@ -27,7 +27,7 @@ namespace GolemUI.Src
                 settings = null;
             }
 
-            if (settings == null || settings.SettingsVersion != GolemUI.Properties.Settings.Default.UserSettingsVersion)
+            if (settings == null || settings.SettingsVersion != BetaMiner.Properties.Settings.Default.UserSettingsVersion)
             {
                 settings = null;
             }
@@ -42,7 +42,7 @@ namespace GolemUI.Src
 
         public void SaveUserSettings(UserSettings userSettings)
         {
-            userSettings.SettingsVersion = GolemUI.Properties.Settings.Default.UserSettingsVersion;
+            userSettings.SettingsVersion = BetaMiner.Properties.Settings.Default.UserSettingsVersion;
 
             string settingsFilePath = PathUtil.GetLocalSettingsPath();
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace GolemUI.Converters
+namespace BetaMiner.Converters
 {
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public sealed class MultiBoolToVisibilityConverter : IMultiValueConverter

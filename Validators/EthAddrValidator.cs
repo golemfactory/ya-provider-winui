@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using Nethereum.Util;
 
-namespace GolemUI.Validators
+namespace BetaMiner.Validators
 {
     public class EthAddrValidator : ValidationRule
     {

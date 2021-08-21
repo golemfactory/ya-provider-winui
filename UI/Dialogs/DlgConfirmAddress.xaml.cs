@@ -1,5 +1,5 @@
-﻿using GolemUI.ViewModel;
-using GolemUI.ViewModel.Dialogs;
+﻿using BetaMiner.ViewModel;
+using BetaMiner.ViewModel.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace GolemUI.UI.Dialogs
+namespace BetaMiner.UI.Dialogs
 {
     /// <summary>
     /// Interaction logic for DlgEditAddress.xaml

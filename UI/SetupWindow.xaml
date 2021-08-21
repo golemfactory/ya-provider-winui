@@ -3,13 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:lm="clr-namespace:GolemUI.Model"
-        xmlns:animated="clr-namespace:GolemUI.UI.AnimatedIcons" 
-        xmlns:lui="clr-namespace:GolemUI.UI"
+        xmlns:lm="clr-namespace:BetaMiner.Model"
+        xmlns:animated="clr-namespace:BetaMiner.UI.AnimatedIcons" 
+        xmlns:lui="clr-namespace:BetaMiner.UI"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:local="clr-namespace:GolemUI.UI"
-         x:Class="GolemUI.UI.SetupWindow"
-        xmlns:lv="clr-namespace:GolemUI.DesignViewModel"             
+        xmlns:local="clr-namespace:BetaMiner.UI"
+         x:Class="BetaMiner.UI.SetupWindow"
+        xmlns:lv="clr-namespace:BetaMiner.DesignViewModel"             
         d:DataContext="{d:DesignInstance Type=lv:SetupViewModel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
         WindowStyle="None"  
@@ -390,7 +390,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     <TextBox.Text>
                                                         <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
                                                             <Binding.ValidationRules>
-                                                                <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
+                                                                <lc:NodeNameValidator xmlns:lc="clr-namespace:BetaMiner.Validators"  ValidatesOnTargetUpdated="True"/>
                                                             </Binding.ValidationRules>
                                                         </Binding>
                                                     </TextBox.Text>
@@ -645,7 +645,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     <TextBox.Text>
                                                         <Binding Path="Address" UpdateSourceTrigger="PropertyChanged" Delay="100">
                                                             <Binding.ValidationRules>
-                                                                <lc:EthAddrValidator ShouldCheckForChecksum="False" xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
+                                                                <lc:EthAddrValidator ShouldCheckForChecksum="False" xmlns:lc="clr-namespace:BetaMiner.Validators"  ValidatesOnTargetUpdated="True"/>
                                                             </Binding.ValidationRules>
                                                         </Binding>
                                                     </TextBox.Text>
@@ -742,7 +742,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     <TextBox.Text>
                                                         <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
                                                             <Binding.ValidationRules>
-                                                                <lc:NodeNameValidator xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
+                                                                <lc:NodeNameValidator xmlns:lc="clr-namespace:BetaMiner.Validators"  ValidatesOnTargetUpdated="True"/>
                                                             </Binding.ValidationRules>
                                                         </Binding>
                                                     </TextBox.Text>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GolemUI.Utils
+namespace BetaMiner.Utils
 {
     public abstract class LookupCache<TKey, TValue>
     {

@@ -24,7 +24,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F03FF034-8A27-457B-A8EA-A36B33689EBD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>GolemUI</RootNamespace>
+    <RootNamespace>BetaMiner</RootNamespace>
     <AssemblyName>BetaMiner</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -62,7 +62,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>GolemUI.App</StartupObject>
+    <StartupObject>BetaMiner.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Media\icon1.ico</ApplicationIcon>

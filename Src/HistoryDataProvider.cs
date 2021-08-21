@@ -1,6 +1,6 @@
-﻿using GolemUI.Interfaces;
-using GolemUI.Model;
-using GolemUI.Utils;
+﻿using BetaMiner.Interfaces;
+using BetaMiner.Model;
+using BetaMiner.Utils;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     public class HistoryDataProvider : IHistoryDataProvider
     {

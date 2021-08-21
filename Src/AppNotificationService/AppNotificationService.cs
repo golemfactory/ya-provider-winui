@@ -1,4 +1,4 @@
-﻿using GolemUI.Interfaces;
+﻿using BetaMiner.Interfaces;
 using NBitcoin;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GolemUI.Src.AppNotificationService
+namespace BetaMiner.Src.AppNotificationService
 {
 
     public class AppNotificationService : INotificationService

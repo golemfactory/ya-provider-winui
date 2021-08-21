@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     public enum CpuCountMode { Cores, Threads };
     public static class CpuInfo

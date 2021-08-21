@@ -1,6 +1,6 @@
-﻿using GolemUI.Interfaces;
-using GolemUI.UI.CustomControls;
-using GolemUI.UI;
+﻿using BetaMiner.Interfaces;
+using BetaMiner.UI.CustomControls;
+using BetaMiner.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,11 +8,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GolemUI.Model;
-using GolemUI.Utils;
+using BetaMiner.Model;
+using BetaMiner.Utils;
 using System.Windows;
 
-namespace GolemUI.ViewModel
+namespace BetaMiner.ViewModel
 {
     public partial class DashboardViewModel : INotifyPropertyChanged
     {

@@ -1,13 +1,13 @@
-﻿using GolemUI.Interfaces;
-using GolemUI.Model;
-using GolemUI.Utils;
+﻿using BetaMiner.Interfaces;
+using BetaMiner.Model;
+using BetaMiner.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
 
     class EstimatedEarningsProvider : IEstimatedProfitProvider

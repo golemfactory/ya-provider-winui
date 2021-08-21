@@ -1,5 +1,5 @@
-﻿using GolemUI.Interfaces;
-using GolemUI.Model;
+﻿using BetaMiner.Interfaces;
+using BetaMiner.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,9 +8,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using static GolemUI.Model.PrettyChartData;
+using static BetaMiner.Model.PrettyChartData;
 
-namespace GolemUI.ViewModel
+namespace BetaMiner.ViewModel
 {
 #if STATISTICS_ENABLED
     public class StatisticsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage

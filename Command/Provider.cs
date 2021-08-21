@@ -10,7 +10,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using Microsoft.Extensions.Logging;
 
-namespace GolemUI.Command
+namespace BetaMiner.Command
 {
 
     [JsonObject(MemberSerialization.OptIn)]

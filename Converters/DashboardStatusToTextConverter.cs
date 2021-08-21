@@ -5,8 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using GolemUI;
-namespace GolemUI.Converters
+namespace BetaMiner.Converters
 {
     [ValueConversion(typeof(DashboardStatusEnum?), typeof(string))]
     public class DashboardStatusToTextConverter : IValueConverter

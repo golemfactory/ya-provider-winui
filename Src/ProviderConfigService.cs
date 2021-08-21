@@ -1,5 +1,5 @@
-﻿using GolemUI.Command;
-using GolemUI.Interfaces;
+﻿using BetaMiner.Command;
+using BetaMiner.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     public class ProviderConfigService : IProviderConfig
     {
@@ -112,7 +112,7 @@ namespace GolemUI.Src
                 var config = Config ?? _provider.Config;
                 if (config!.Subnet == null)
                 {
-                    config.Subnet = GolemUI.Properties.Settings.Default.Subnet;
+                    config.Subnet = BetaMiner.Properties.Settings.Default.Subnet;
                     _provider.Config = Config;
                 }
 
@@ -122,7 +122,7 @@ namespace GolemUI.Src
                 if (!presets.Contains("gminer"))
                 {
 
-                    _provider.AddPreset(new GolemUI.Command.Preset("gminer", "gminer", new Dictionary<string, decimal>()
+                    _provider.AddPreset(new BetaMiner.Command.Preset("gminer", "gminer", new Dictionary<string, decimal>()
                     {
                         { "share", 0.001m },
                         { "duration", 0m },
@@ -148,7 +148,7 @@ namespace GolemUI.Src
 
                 if (!presets.Contains("wasmtime"))
                 {
-                    _provider.AddPreset(new GolemUI.Command.Preset("wasmtime", "wasmtime", new Dictionary<string, decimal>()
+                    _provider.AddPreset(new BetaMiner.Command.Preset("wasmtime", "wasmtime", new Dictionary<string, decimal>()
                     {
                         { "cpu", 0.001m },
                         { "duration", 0m }

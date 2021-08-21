@@ -1,18 +1,18 @@
-﻿<Window x:Class="GolemUI.UI.Dialogs.DlgEditAddress"
+﻿<Window x:Class="BetaMiner.UI.Dialogs.DlgEditAddress"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GolemUI.UI"
-        xmlns:lm="clr-namespace:GolemUI.Model"
-        xmlns:lc="clr-namespace:GolemUI.Validators"        
+        xmlns:local="clr-namespace:BetaMiner.UI"
+        xmlns:lm="clr-namespace:BetaMiner.Model"
+        xmlns:lc="clr-namespace:BetaMiner.Validators"        
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         Title="Edit Wallet Address" Width="666" Height="416" VerticalAlignment="Center" ResizeMode="NoResize"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
-        xmlns:dvm="clr-namespace:GolemUI.DesignViewModel.Dialogs"
+        xmlns:dvm="clr-namespace:BetaMiner.DesignViewModel.Dialogs"
         d:DataContext ="{d:DesignInstance {x:Type dvm:DlgEditAddressViewModel}, IsDesignTimeCreatable=True}"
         >
     <Window.Resources>
@@ -48,7 +48,7 @@
                             <TextBox.Text>
                                 <Binding Path="NewAddress" UpdateSourceTrigger="PropertyChanged" Delay="100">
                                     <Binding.ValidationRules>
-                                        <lc:EthAddrValidator ShouldCheckForChecksum="False" xmlns:lc="clr-namespace:GolemUI.Validators"  ValidatesOnTargetUpdated="True"/>
+                                        <lc:EthAddrValidator ShouldCheckForChecksum="False" xmlns:lc="clr-namespace:BetaMiner.Validators"  ValidatesOnTargetUpdated="True"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>

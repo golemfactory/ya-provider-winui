@@ -15,17 +15,17 @@ using System.Diagnostics;
 
 using System.Windows.Media.Animation;
 
-using GolemUI.Notifications;
-using GolemUI.Interfaces;
-using GolemUI.Src;
-using GolemUI.UI;
+using BetaMiner.Notifications;
+using BetaMiner.Interfaces;
+using BetaMiner.Src;
+using BetaMiner.UI;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
-using GolemUI.Model;
-using GolemUI.ViewModel;
-using GolemUI.ViewModel.CustomControls;
+using BetaMiner.Model;
+using BetaMiner.ViewModel;
+using BetaMiner.ViewModel.CustomControls;
 
-namespace GolemUI
+namespace BetaMiner
 {
     /// <summary>
     /// Interaction logic for Dashboard.xaml

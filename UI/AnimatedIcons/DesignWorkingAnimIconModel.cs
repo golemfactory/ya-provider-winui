@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.UI.AnimatedIcons
+namespace BetaMiner.UI.AnimatedIcons
 {
     public class EllipseData
     {

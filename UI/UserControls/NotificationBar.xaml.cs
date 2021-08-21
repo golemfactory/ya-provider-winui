@@ -1,5 +1,5 @@
-﻿using GolemUI.Model;
-using GolemUI.ViewModel.CustomControls;
+﻿using BetaMiner.Model;
+using BetaMiner.ViewModel.CustomControls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GolemUI.UI.CustomControls
+namespace BetaMiner.UI.CustomControls
 {
     /// <summary>
     /// Interaction logic for NavBar.xaml

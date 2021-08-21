@@ -1,7 +1,7 @@
-﻿using GolemUI.Claymore;
-using GolemUI.Command;
-using GolemUI.Interfaces;
-using GolemUI.Model;
+﻿using BetaMiner.Claymore;
+using BetaMiner.Command;
+using BetaMiner.Interfaces;
+using BetaMiner.Model;
 
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     public class BenchmarkService : INotifyPropertyChanged
     {
@@ -64,7 +64,7 @@ namespace GolemUI.Src
 
             DateTime benchmarkStartTime = DateTime.Now;
             var walletAddress = _providerConfig.Config?.Account ?? "0xD593411F3E6e79995E787b5f81D10e12fA6eCF04";
-            var poolAddr = GolemUI.Properties.Settings.Default.DefaultProxy;
+            var poolAddr = BetaMiner.Properties.Settings.Default.DefaultProxy;
             var totalClaymoreReportsNeeded = 5;
 
             IsRunning = true;
@@ -329,7 +329,7 @@ namespace GolemUI.Src
         {
             var results = new BenchmarkResults()
             {
-                BenchmarkResultVersion = GolemUI.Properties.Settings.Default.BenchmarkResultsVersion,
+                BenchmarkResultVersion = BetaMiner.Properties.Settings.Default.BenchmarkResultsVersion,
                 liveStatus = _claymoreLiveStatus
             };
             _benchmarkResultsProvider.SaveBenchmarkResults(results);

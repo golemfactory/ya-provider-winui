@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="LoadingPanelSample.Controls.LoadingPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:ctr="clr-namespace:GolemUI.UI.AnimatedIcons" 
+             xmlns:ctr="clr-namespace:BetaMiner.UI.AnimatedIcons" 
              >
 
     <UserControl.Resources>

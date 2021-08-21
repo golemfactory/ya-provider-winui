@@ -1,4 +1,4 @@
-﻿using GolemUI.ViewModel.CustomControls;
+﻿using BetaMiner.ViewModel.CustomControls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.DesignViewModel.CustomControls
+namespace BetaMiner.DesignViewModel.CustomControls
 {
 
     public class NotificationBarViewModel : INotifyPropertyChanged

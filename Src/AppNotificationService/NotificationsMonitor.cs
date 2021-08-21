@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using GolemUI.Interfaces;
+using BetaMiner.Interfaces;
 using Sentry;
 
-namespace GolemUI.Src.AppNotificationService
+namespace BetaMiner.Src.AppNotificationService
 {
     public class NotificationsMonitor
     {

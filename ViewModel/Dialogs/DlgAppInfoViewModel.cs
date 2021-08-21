@@ -1,4 +1,4 @@
-﻿using GolemUI.Interfaces;
+﻿using BetaMiner.Interfaces;
 using Nethereum.Util;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace GolemUI.ViewModel.Dialogs
+namespace BetaMiner.ViewModel.Dialogs
 {
     public class DlgAppInfoViewModel : INotifyPropertyChanged
     {

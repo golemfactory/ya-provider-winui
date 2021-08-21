@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace GolemUI.Converters
+namespace BetaMiner.Converters
 {
     [ValueConversion(typeof(string), typeof(Visibility))]
     public sealed class ErrorToVisibilityConverter : IValueConverter

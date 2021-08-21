@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace GolemUI.Converters
+namespace BetaMiner.Converters
 {
     [ValueConversion(typeof(float?), typeof(string))]
     public class HashRateConverter : IValueConverter

@@ -1,9 +1,9 @@
-﻿using GolemUI.Claymore;
-using GolemUI.Interfaces;
-using GolemUI.Model;
+﻿using BetaMiner.Claymore;
+using BetaMiner.Interfaces;
+using BetaMiner.Model;
 
-using GolemUI.Src;
-using GolemUI.Src.AppNotificationService;
+using BetaMiner.Src;
+using BetaMiner.Src.AppNotificationService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,9 +11,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using GolemUI.Utils;
+using BetaMiner.Utils;
 
-namespace GolemUI.ViewModel
+namespace BetaMiner.ViewModel
 {
     public class SettingsViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage, IDialogInvoker
     {

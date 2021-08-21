@@ -1,12 +1,12 @@
-﻿using GolemUI.Command;
-using GolemUI.Model;
+﻿using BetaMiner.Command;
+using BetaMiner.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.Interfaces
+namespace BetaMiner.Interfaces
 {
     public delegate void LogLineHandler(string logger, string line);
 

@@ -1,6 +1,6 @@
-﻿using GolemUI.Command;
-using GolemUI.Model;
-using GolemUI.Interfaces;
+﻿using BetaMiner.Command;
+using BetaMiner.Model;
+using BetaMiner.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     public class PaymentService : Interfaces.IPaymentService
     {

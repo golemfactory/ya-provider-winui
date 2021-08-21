@@ -1,7 +1,7 @@
-﻿using GolemUI.Command;
-using GolemUI.Interfaces;
-using GolemUI.Model;
-using GolemUI.ViewModel.Dialogs;
+﻿using BetaMiner.Command;
+using BetaMiner.Interfaces;
+using BetaMiner.Model;
+using BetaMiner.ViewModel.Dialogs;
 using Nethereum.Util;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.ViewModel
+namespace BetaMiner.ViewModel
 {
 
 

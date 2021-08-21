@@ -1,5 +1,5 @@
-﻿using GolemUI.Interfaces;
-using GolemUI.Src.AppNotificationService;
+﻿using BetaMiner.Interfaces;
+using BetaMiner.Src.AppNotificationService;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,7 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace GolemUI
+namespace BetaMiner
 {
     /// <summary>
     /// Interaction logic for DashboardSettings.xaml
@@ -68,7 +68,7 @@ namespace GolemUI
 
         private void BtnGolemLogo_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(GolemUI.Properties.Settings.Default.GolemWebPage);
+            System.Diagnostics.Process.Start(BetaMiner.Properties.Settings.Default.GolemWebPage);
         }
     }
 }

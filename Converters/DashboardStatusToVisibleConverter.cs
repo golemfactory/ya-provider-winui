@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows;
-using GolemUI;
-namespace GolemUI.Converters
+namespace BetaMiner.Converters
 {
     [ValueConversion(typeof(DashboardStatusEnum?), typeof(Visibility))]
     public class DashboardStatusToVisibleConverter : IValueConverter

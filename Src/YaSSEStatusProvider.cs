@@ -1,5 +1,5 @@
-﻿using GolemUI.Interfaces;
-using GolemUI.Model;
+﻿using BetaMiner.Interfaces;
+using BetaMiner.Model;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     class YaSSEStatusProvider : Interfaces.IStatusProvider, IDisposable
     {

@@ -1,6 +1,6 @@
-﻿using GolemUI.Interfaces;
+﻿using BetaMiner.Interfaces;
 
-namespace GolemUI.Src.AppNotificationService
+namespace BetaMiner.Src.AppNotificationService
 {
     public enum Tag { YagnaStatus, Benchmark, YagnaStarting, ProviderStatus, SettingsChanged, MiningStatus, AppStatus, Info, Clipboard };
     public class SimpleNotificationObject : INotificationObject

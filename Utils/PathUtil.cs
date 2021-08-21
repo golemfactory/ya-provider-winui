@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.Utils
+namespace BetaMiner.Utils
 {
     class PathUtil
     {
@@ -14,7 +14,7 @@ namespace GolemUI.Utils
         {
             string settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-            string localFolder = Path.Combine(settingPath, GolemUI.Properties.Settings.Default.GolemFactoryPath, GolemUI.Properties.Settings.Default.SettingsSubfolder);
+            string localFolder = Path.Combine(settingPath, BetaMiner.Properties.Settings.Default.GolemFactoryPath, BetaMiner.Properties.Settings.Default.SettingsSubfolder);
 
             if (!Directory.Exists(localFolder))
             {

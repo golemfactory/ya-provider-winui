@@ -1,6 +1,6 @@
-﻿using GolemUI.ViewModel;
+﻿using BetaMiner.ViewModel;
 
-namespace GolemUI
+namespace BetaMiner
 {
     public delegate void RequestDarkBackgroundEventHandler(bool shouldBackgroundBeVisible);
     public interface IDialogInvoker

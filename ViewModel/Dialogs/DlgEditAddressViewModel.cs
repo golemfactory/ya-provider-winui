@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.ViewModel.Dialogs
+namespace BetaMiner.ViewModel.Dialogs
 {
     public class DlgEditAddressViewModel : INotifyPropertyChanged
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     public class SingleInstanceLock : IDisposable
     {

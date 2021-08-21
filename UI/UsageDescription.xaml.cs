@@ -1,4 +1,4 @@
-﻿using GolemUI.ViewModel;
+﻿using BetaMiner.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GolemUI
+namespace BetaMiner
 {
 
     public partial class UsageDescription : UserControl

@@ -1,4 +1,4 @@
-﻿using GolemUI.Model;
+﻿using BetaMiner.Model;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace GolemUI.Converters
+namespace BetaMiner.Converters
 {
     [ValueConversion(typeof(NavBarItem.ItemStatus), typeof(Brush))]
     class EnumToBrush : IValueConverter

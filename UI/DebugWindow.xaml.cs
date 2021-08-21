@@ -1,5 +1,5 @@
-﻿using GolemUI.Interfaces;
-using GolemUI.Utils;
+﻿using BetaMiner.Interfaces;
+using BetaMiner.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace GolemUI
+namespace BetaMiner
 {
     /// <summary>
     /// Interaction logic for DebugWindow.xaml

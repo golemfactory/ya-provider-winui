@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace GolemUI.Command
+namespace BetaMiner.Command
 {
 
     public class YagnaStartupOptions

@@ -1,4 +1,4 @@
-﻿using GolemUI.ViewModel;
+﻿using BetaMiner.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GolemUI.UI
+namespace BetaMiner.UI
 {
     /// <summary>
     /// Interaction logic for DasboardStatistics.xaml

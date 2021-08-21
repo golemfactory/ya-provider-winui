@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 using System.Threading;
 
 using System.Diagnostics;
-using GolemUI.Interfaces;
-using GolemUI.Command;
+using BetaMiner.Interfaces;
+using BetaMiner.Command;
 
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
-using GolemUI.Utils;
+using BetaMiner.Utils;
 using System.Windows;
-using GolemUI.Model;
+using BetaMiner.Model;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
 
-namespace GolemUI
+namespace BetaMiner
 {
     public class ProcessController : IDisposable, IProcessControler
     {

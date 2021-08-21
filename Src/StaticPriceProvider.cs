@@ -1,8 +1,8 @@
-﻿using GolemUI.Interfaces;
-using GolemUI.Model;
+﻿using BetaMiner.Interfaces;
+using BetaMiner.Model;
 using System;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     public class StaticPriceProvider : IPriceProvider
     {

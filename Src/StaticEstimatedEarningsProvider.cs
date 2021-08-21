@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GolemUI.Interfaces;
-using GolemUI.Model;
+using BetaMiner.Interfaces;
+using BetaMiner.Model;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     class StaticEstimatedEarningsProvider : IEstimatedProfitProvider
     {

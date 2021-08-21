@@ -1,4 +1,4 @@
-﻿<Window x:Class="GolemUI.UI.Dialogs.DlgConfirmAddress"
+﻿<Window x:Class="BetaMiner.UI.Dialogs.DlgConfirmAddress"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,7 +9,7 @@
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
-        xmlns:dvm="clr-namespace:GolemUI.DesignViewModel.Dialogs"
+        xmlns:dvm="clr-namespace:BetaMiner.DesignViewModel.Dialogs"
         d:DataContext ="{d:DesignInstance {x:Type dvm:DlgConfirmAddressViewModel}, IsDesignTimeCreatable=True}"
      >
 

@@ -1,7 +1,7 @@
-﻿using GolemUI.Command;
-using GolemUI.Interfaces;
+﻿using BetaMiner.Command;
+using BetaMiner.Interfaces;
 
-using GolemUI.ViewModel;
+using BetaMiner.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GolemUI
+namespace BetaMiner
 {
     /// <summary>
     /// Interaction logic for DashboardMain.xaml
@@ -55,7 +55,7 @@ namespace GolemUI
 
         private void BtnGolemLogo_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(GolemUI.Properties.Settings.Default.GolemWebPage);
+            System.Diagnostics.Process.Start(BetaMiner.Properties.Settings.Default.GolemWebPage);
         }
     }
 }

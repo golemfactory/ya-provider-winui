@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.Utils
+namespace BetaMiner.Utils
 {
     public static class ObservableCollectionExtensions
     {

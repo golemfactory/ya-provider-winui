@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI.Interfaces
+namespace BetaMiner.Interfaces
 {
     public interface ITaskProfitEstimator : INotifyPropertyChanged
     {

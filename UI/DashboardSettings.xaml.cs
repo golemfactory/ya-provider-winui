@@ -1,5 +1,5 @@
 ﻿
-using GolemUI.ViewModel;
+using BetaMiner.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GolemUI
+namespace BetaMiner
 {
     public partial class DashboardSettings : UserControl
     {
@@ -38,7 +38,7 @@ namespace GolemUI
                 {
 
                     ViewModel.ShouldRestartMiningAfterBenchmark = false;
-                    var dlg = new UI.Dialogs.DlgShouldStopMiningBeforeBenchmark(new GolemUI.ViewModel.Dialogs.DlgShouldStopMiningBeforeBenchmarkViewModel(shouldAutoRestartMining: userSettings.ShouldAutoRestartMiningAfterBenchmark, rememberMyPreference: !userSettings.ShouldDisplayNotificationsIfMiningIsActive));
+                    var dlg = new UI.Dialogs.DlgShouldStopMiningBeforeBenchmark(new BetaMiner.ViewModel.Dialogs.DlgShouldStopMiningBeforeBenchmarkViewModel(shouldAutoRestartMining: userSettings.ShouldAutoRestartMiningAfterBenchmark, rememberMyPreference: !userSettings.ShouldDisplayNotificationsIfMiningIsActive));
                     dlg.Owner = Window.GetWindow(this);
                     ViewModel.RequestDarkBackgroundVisibilityChange(true);
                     if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
@@ -88,7 +88,7 @@ namespace GolemUI
 
         private void BtnGolemLogo_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(GolemUI.Properties.Settings.Default.GolemWebPage);
+            System.Diagnostics.Process.Start(BetaMiner.Properties.Settings.Default.GolemWebPage);
         }
     }
 }

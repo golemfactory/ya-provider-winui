@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using GolemUI;
-namespace GolemUI.Converters
+namespace BetaMiner.Converters
 {
     [ValueConversion(typeof(DashboardStatusEnum?), typeof(BitmapImage))]
     public class DashboardStatusToIconConverter : IValueConverter
@@ -30,7 +29,7 @@ namespace GolemUI.Converters
             };
             string path = basePath + file + ".png";
 
-            return new BitmapImage(new Uri("pack://application:,,,/GolemUI;component" + path));
+            return new BitmapImage(new Uri("pack://application:,,,/BetaMiner;component" + path));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

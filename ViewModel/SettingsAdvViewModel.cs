@@ -1,5 +1,5 @@
-﻿using GolemUI.Interfaces;
-using GolemUI.Model;
+﻿using BetaMiner.Interfaces;
+using BetaMiner.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace GolemUI.ViewModel
+namespace BetaMiner.ViewModel
 {
     public class SettingsAdvViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {

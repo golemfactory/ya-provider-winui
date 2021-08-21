@@ -1,6 +1,6 @@
-﻿using GolemUI.ViewModel;
+﻿using BetaMiner.ViewModel;
 
-namespace GolemUI.Interfaces
+namespace BetaMiner.Interfaces
 {
 
     public delegate void NewNotificationEventHandler(INotificationObject notification);

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GolemUI
+namespace BetaMiner
 {
     internal sealed class ChildProcessManager : IDisposable
     {

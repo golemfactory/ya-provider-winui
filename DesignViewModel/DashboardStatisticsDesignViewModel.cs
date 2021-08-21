@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GolemUI.Model;
-using static GolemUI.Model.PrettyChartData;
+using BetaMiner.Model;
+using static BetaMiner.Model.PrettyChartData;
 
-namespace GolemUI.DesignViewModel
+namespace BetaMiner.DesignViewModel
 {
     class DashboardStatisticsDesignViewModel
     {

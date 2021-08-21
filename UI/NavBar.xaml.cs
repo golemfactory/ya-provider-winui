@@ -1,4 +1,4 @@
-﻿using GolemUI.Model;
+﻿using BetaMiner.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GolemUI.UI
+namespace BetaMiner.UI
 {
     /// <summary>
     /// Interaction logic for NavBar.xaml

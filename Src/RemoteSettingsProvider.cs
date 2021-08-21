@@ -1,7 +1,7 @@
-﻿using GolemUI.Interfaces;
-using GolemUI.Model;
-using GolemUI.Src.AppNotificationService;
-using GolemUI.Utils;
+﻿using BetaMiner.Interfaces;
+using BetaMiner.Model;
+using BetaMiner.Src.AppNotificationService;
+using BetaMiner.Utils;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace GolemUI.Src
+namespace BetaMiner.Src
 {
     class RemoteSettingsProvider : IRemoteSettingsProvider
     {
