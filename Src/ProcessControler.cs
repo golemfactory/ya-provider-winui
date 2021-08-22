@@ -21,6 +21,7 @@ using System.Windows;
 using GolemUI.Model;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
+using GolemUI.Src;
 
 namespace GolemUI
 {
@@ -48,6 +49,9 @@ namespace GolemUI
         private Process? _yagnaDaemon;
         private Process? _providerDaemon;
         private IDisposable? _providerJob;
+
+        private StringBuilder _yagnaDaemonErrorData = new StringBuilder();
+        private StringBuilder _yagnaDaemonOutputData = new StringBuilder();
 
         public LogLineHandler? LineHandler { get; set; }
 
@@ -297,12 +301,16 @@ namespace GolemUI
 
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _generatedAppKey.Value);
 
+            Thread.Sleep(700);
+
             //yagna is starting and /me won't work until all services are running
             for (int tries = 0; tries < 300; ++tries)
             {
-                if (_yagnaDaemon.HasExited)
+                Thread.Sleep(300);
+
+                if (_yagnaDaemon.HasExited) // yagna has stopped
                 {
-                    break;
+                    throw new GolemUIException("Failed to start yagna daemon...", this._yagnaDaemonErrorData.ToString());
                 }
 
                 try
@@ -310,7 +318,7 @@ namespace GolemUI
                     var response = _client.GetAsync($"{_baseUrl}/me").Result;
                     if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                     {
-                        break;
+                        throw new GolemUIException("Unauthorized call to yagna daemon - is another instance of yagna running?");
                     }
                     var txt = response.Content.ReadAsStringAsync().Result;
                     KeyInfo? keyMe = JsonConvert.DeserializeObject<Command.KeyInfo>(txt) ?? null;
@@ -319,18 +327,15 @@ namespace GolemUI
                     {
                         return keyMe;
                     }
-                    throw new Exception("Failed to get key");
-
-
+                    throw new GolemUIException("Failed to get key");
 
                 }
                 catch (Exception)
                 {
-                    Thread.Sleep(300);
+                    // consciously swallow the exception... presumably REST call error...
                 }
-                tries += 1;
             }
-            throw new Exception("Failed to get key");
+            throw new GolemUIException("Failed to get key...");
         }
 
         private void StartupProvider(Network network, string? claymoreExtraParams)
@@ -384,6 +389,8 @@ namespace GolemUI
 
         void OnYagnaErrorDataRecv(object sender, DataReceivedEventArgs e)
         {
+            this._yagnaDaemonErrorData.Append(e.Data);
+
             if (LineHandler != null && e.Data != null)
             {
                 LineHandler("yagna", e.Data);
@@ -391,6 +398,8 @@ namespace GolemUI
         }
         void OnYagnaOutputDataRecv(object sender, DataReceivedEventArgs e)
         {
+            this._yagnaDaemonOutputData.Append(e.Data);
+
             if (LineHandler != null && e.Data != null)
             {
                 LineHandler("yagna", e.Data);
