@@ -8,7 +8,7 @@ namespace GolemUI.Src
 {
     public class GolemUIException : Exception
     {
-        public string ContextDetail { get; protected set; }
+        public string? ContextDetail { get; protected set; }
 
         public GolemUIException(string message) : base(message)
         { }
