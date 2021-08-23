@@ -58,5 +58,6 @@ namespace GolemUI.DesignViewModel.Dialogs
                 _shouldTransferAllTokensToL1 = value;
             }
         }
+
     }
 }

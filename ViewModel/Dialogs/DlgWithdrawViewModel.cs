@@ -10,6 +10,20 @@ using System.Threading.Tasks;
 namespace GolemUI.ViewModel.Dialogs
 {
     public enum DlgWithdrawStatus { Pending, Ok, Error, None };
+
+    public class OutputNetwork
+    {
+        public string Name { get; }
+
+        public string Description { get; }
+
+        public OutputNetwork(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
+    }
+
     public class DlgWithdrawViewModel : INotifyPropertyChanged
     {
 
@@ -79,6 +93,23 @@ namespace GolemUI.ViewModel.Dialogs
             }
         }
 
+        private OutputNetwork[] _networks = new OutputNetwork[]
+        {
+        new("L1 - Eth", "Make sure that you have this selected when withrdawing to the Crypto Exchange wallet address!"),
+        new("L2 - Zksync", "Transfer of funds to the provided zksync address")
+        };
+
+        public OutputNetwork[] Networks => _networks;
+
+        private OutputNetwork? _transferTo = null;
+        public OutputNetwork? TransferTo
+        {
+            get => _transferTo; set
+            {
+                _transferTo = value;
+                OnPropertyChanged("TransferTo");
+            }
+        }
 
         private readonly IPriceProvider _priceProvider;
         private readonly IPaymentService _paymentService;
