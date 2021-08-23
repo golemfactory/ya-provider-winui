@@ -21,14 +21,15 @@ namespace GolemUI.Src
         {
         }
 
-        public void SendUserFeedback(string tag, string name, string email, string comments)
+        public void SendUserFeedback(string tag, string name, string email, string comments, bool shouldAttachLogs)
         {
-            SentrySdk.ConfigureScope(scope =>
-            {
-                scope.AddAttachment(PathUtil.GetLocalBenchmarkPath());
-                scope.AddAttachment(PathUtil.GetRemoteSettingsPath());
-                scope.AddAttachment(PathUtil.GetLocalSettingsPath());
-            });
+            if (shouldAttachLogs)
+                SentrySdk.ConfigureScope(scope =>
+                {
+                    scope.AddAttachment(PathUtil.GetLocalBenchmarkPath());
+                    scope.AddAttachment(PathUtil.GetRemoteSettingsPath());
+                    scope.AddAttachment(PathUtil.GetLocalSettingsPath());
+                });
             var eventID = Sentry.SentrySdk.CaptureMessage(tag);
             Sentry.SentrySdk.CaptureUserFeedback(new Sentry.UserFeedback(eventID, name, email, comments));
             SentrySdk.ConfigureScope(scope =>

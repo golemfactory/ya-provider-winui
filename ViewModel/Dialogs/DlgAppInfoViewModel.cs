@@ -16,6 +16,17 @@ namespace GolemUI.ViewModel.Dialogs
         string _userName = "";
         string _userEmail = "";
         string _userComment = "";
+        bool _shouldAttachLogs = true;
+        public bool ShouldAttachLogs
+        {
+            get => _shouldAttachLogs;
+            set
+            {
+                _shouldAttachLogs = value;
+                OnPropertyChanged(nameof(ShouldAttachLogs));
+            }
+        }
+
         public string UserName
         {
             get => _userName;
@@ -45,7 +56,7 @@ namespace GolemUI.ViewModel.Dialogs
         }
         public void SendFeedback()
         {
-            _userFeedback.SendUserFeedback("User Feedback > Manual entry", UserName, UserEmail, UserComment);
+            _userFeedback.SendUserFeedback("User Feedback > Manual entry", UserName, UserEmail, UserComment,ShouldAttachLogs);
         }
 
         public string AppVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();

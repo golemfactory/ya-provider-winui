@@ -13,6 +13,14 @@ namespace GolemUI.DesignViewModel.Dialogs
             get => "Paawełek";
             set { }
         }
+        public bool ShouldAttachLogs
+        {
+            get => true;
+            set
+            {
+
+            }
+        }
         public string UserEmail
         {
             get => "pawelek@mail.??";
