@@ -267,7 +267,8 @@ namespace GolemUI.Src
                 }
                 if (updateChartsNeeded)
                 {
-                    UpdateEarningsChartData();
+                    var entry = MiningHistoryGpuTotal.Last();
+                    EarningsChartData.AddNewEntry(entry.Dt, entry.Earnings, true);
                 }
             }
 

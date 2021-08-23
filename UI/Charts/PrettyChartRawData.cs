@@ -31,10 +31,10 @@ namespace GolemUI.UI.Charts
         {
         }
 
-        public void AddNewEntry(DateTime dt, double value)
+        public void AddNewEntry(DateTime dt, double value, bool notify = false)
         {
             RawElements.Add(new RawEntry(dt, value));
-            if (OnRawEntryAdded != null)
+            if (notify && OnRawEntryAdded != null)
             {
                 OnRawEntryAdded(dt, value);
             }

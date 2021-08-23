@@ -284,6 +284,7 @@ namespace GolemUI.UI.Charts
                     PrettyChartDataHistogram newChartData = (PrettyChartDataHistogram)e.NewValue;
                     newChartData.HistData.OnBinEntryAdded += OnBinEntryAdded;
                     newChartData.HistData.OnBinEntryUpdated += OnBinEntryUpdated;
+                    newChartData.OnBinTimeSizeChanged += OnBinTimeSizeChanged;
 
                     ResetChartSettings(newChartData);
                     GotoEnd();
@@ -291,6 +292,11 @@ namespace GolemUI.UI.Charts
                 }
             }
 
+        }
+
+        public void OnBinTimeSizeChanged()
+        {
+//            ResetChartSettings(ChartData);
         }
 
         public void MoveToFreePool(int binIdx)

@@ -13,6 +13,18 @@ namespace GolemUI.UI.Charts
 
         public PrettyChartData HistData { get; private set; }
 
+        private TimeSpan _binTimeSize = TimeSpan.FromSeconds(10);
+        public TimeSpan BinTimeSize 
+        {
+            get => _binTimeSize;
+            set
+            {
+                _binTimeSize = value;
+                OnBinTimeSizeChanged?.Invoke();
+                RawDataToBinData();
+            }
+        }
+
         AggregateTypeEnum AggregateTypeEnum;
 
         public PrettyChartDataHistogram(AggregateTypeEnum aggregateTypeEnum = AggregateTypeEnum.Aggregate)
@@ -20,6 +32,12 @@ namespace GolemUI.UI.Charts
             HistData = new PrettyChartData();
             AggregateTypeEnum = aggregateTypeEnum;
         }
+
+        public delegate void BinTimeSizeChangedHandler();
+
+
+        public BinTimeSizeChangedHandler? OnBinTimeSizeChanged { get; set; }
+
 
         public void SetRawData(PrettyChartRawData rawData)
         {
@@ -30,18 +48,24 @@ namespace GolemUI.UI.Charts
 
         public void OnRawEntryAdded(DateTime dt, double newValue)
         {
-
+            RawDataToBinData();
         }
 
+        void ResetBinData()
+        {
+            HistData.Clear();
+        }
 
         void RawDataToBinData()
         {
-            var timespan = TimeSpan.FromSeconds(10);
+            var timespan = BinTimeSize;
 
-            DateTime startTime = DateTimeUtils.RoundDown(RawData.RawElements.First().Dt, timespan);
-            DateTime endTime = DateTimeUtils.RoundUp(DateTime.Now, timespan);
 
-            { 
+            if (RawData != null && RawData.RawElements.Count > 0)
+            {
+                DateTime startTime = DateTimeUtils.RoundDown(RawData.RawElements.First().Dt, timespan);
+                DateTime endTime = DateTimeUtils.RoundUp(DateTime.Now, timespan);
+
                 PrettyChartRawData.RawEntry? firstInBin = null;
                 PrettyChartRawData.RawEntry? lastInBin = null;
 
@@ -73,20 +97,20 @@ namespace GolemUI.UI.Charts
                         }
                         idx += 1;
                     }
-                    double earnings = val.Value;
-                    if (firstInBin == null)
-                    {
-                        earnings = 0.0;
-                    }
-                    if (previousLast != null)
-                    {
-                        earnings = val.Value - previousLast.Value.Value;
-                    }
-                    HistData.AddOrUpdateBinEntry(entry_no, binDate.ToString("HH-mm-ss"), earnings * 1000.0);
+                    double earnings = 0.0;
                     if (lastInBin != null)
                     {
+                        if (previousLast != null)
+                        {
+                            earnings = lastInBin.Value.Value - previousLast.Value.Value;
+                        }
+                        else
+                        {
+                            earnings = lastInBin.Value.Value;
+                        }
                         previousLast = lastInBin;
                     }
+                    HistData.AddOrUpdateBinEntry(entry_no, binDate.ToString("HH-mm-ss"), earnings * 1000.0);
                     lastInBin = null;
                     firstInBin = null;
                     entry_no += 1;
