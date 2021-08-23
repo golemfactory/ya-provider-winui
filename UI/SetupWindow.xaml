@@ -343,7 +343,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Print_Step_icon}" Margin="6,20,0,10" VerticalAlignment="Top" HorizontalContentAlignment="Stretch"/>
                                         <StackPanel Width="500" Margin="70,23,79,0" Grid.Column="1">
-                                            <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">Write down this words</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">Write down these words</TextBlock>
                                             <ItemsControl ItemsSource="{Binding MnemonicWords}" AlternationCount="12">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
