@@ -28,7 +28,7 @@ namespace GolemUI.ViewModel
 
             }
             _timer = new DispatcherTimer();
-            ChartData1 = _historyDataProvider.HashrateChartData;
+            ChartData1 = _historyDataProvider.EarningsChartData;
             ChartData2 = new PrettyChartData();
             ChartData3 = new PrettyChartData();
             ChartData4 = new PrettyChartData();

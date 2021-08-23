@@ -2,30 +2,37 @@
 using GolemUI.Model;
 using GolemUI.Utils;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace GolemUI.Src
 {
     public class HistoryDataProvider : IHistoryDataProvider
     {
+        DispatcherTimer _dispatcherTimer = new DispatcherTimer();
+
         public struct GPUHistoryUsage
         {
+            public DateTime Dt;
             public int Shares;
             public double Earnings;
             public double Duration;
             public double SharesTimesDifficulty;
             public double HashRate;
 
-            public GPUHistoryUsage(int shares, double earnings, double duration, double sharesTimesDifficulty, double hashRate)
+            public GPUHistoryUsage(DateTime dt, int shares, double earnings, double duration, double sharesTimesDifficulty, double hashRate)
             {
+                Dt = dt;
                 Shares = shares;
                 Earnings = earnings;
                 Duration = duration;
@@ -39,9 +46,12 @@ namespace GolemUI.Src
         public List<double> HashrateHistory { get; set; } = new List<double>();
 
 
-        public SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpuTotal { get; set; } = new SortedDictionary<DateTime, GPUHistoryUsage>();
+        public List<GPUHistoryUsage> MiningHistoryGpuTotal { get; set; } = new List<GPUHistoryUsage>();
 
-        public SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpuSinceStart { get; set; } = new SortedDictionary<DateTime, GPUHistoryUsage>();
+        public List<GPUHistoryUsage> MiningHistoryGpuSinceStart { get; set; } = new List<GPUHistoryUsage>();
+
+
+        public PrettyChartData EarningsChartData { get; set; } = new PrettyChartData();
 
         public PrettyChartData HashrateChartData { get; set; } = new PrettyChartData();
 
@@ -92,8 +102,61 @@ namespace GolemUI.Src
 
             _agreementLookup = LookupCache<string, Dictionary<string, double>?>.FromFunc(agreementID => _processControler.GetUsageVectors(agreementID));
             _processControler.PropertyChanged += OnProcessControllerChanged;
+
+            _dispatcherTimer.Tick += _dispatcherTimer_Tick;
+            _dispatcherTimer.Interval = TimeSpan.FromMinutes(1);
+            _dispatcherTimer.Start();
+
+            LoadAllHistory();
         }
 
+        public void MergeIntoTotalHistory(List<GPUHistoryUsage> historyPart)
+        {
+            foreach (var entry in historyPart)
+            {
+                GPUHistoryUsage val = entry;
+
+                MiningHistoryGpuTotal.Add(val);
+
+            }
+        }
+
+        public void LoadAllHistory()
+        {
+
+            string datePart = DateTime.Now.ToString("yyyy-MM-dd");
+            var historyPath = PathUtil.GetRemoteHistoryPath();
+            string historyFilePath = Path.Combine(historyPath, $"history_{datePart}.json");
+            var historyData = File.ReadAllText(historyFilePath);
+
+            List<GPUHistoryUsage>? oldHistory = JsonConvert.DeserializeObject<List<GPUHistoryUsage>>(historyData);
+            if (oldHistory == null)
+            {
+                _logger.LogWarning("Failed to download old history");
+                return;
+            }
+
+            MergeIntoTotalHistory(oldHistory);
+
+            UpdateEarningsChartData();
+
+        }
+
+        private void _dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            var history = JsonConvert.SerializeObject(MiningHistoryGpuTotal, Formatting.Indented);
+            var historyPath = PathUtil.GetRemoteHistoryPath();
+            if (!Directory.Exists(historyPath))
+            {
+                Directory.CreateDirectory(historyPath);
+            }
+            string datePart = DateTime.Now.ToString("yyyy-MM-dd");
+            string historyFilePath = Path.Combine(historyPath, $"history_{datePart}.json");
+
+            File.WriteAllText(historyFilePath, history);
+
+
+        }
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -184,21 +247,26 @@ namespace GolemUI.Src
                 }
                 DateTime key = DateTime.Now;
 
-
-                foreach (SortedDictionary<DateTime, GPUHistoryUsage> MiningHistoryGpu in new SortedDictionary<DateTime, GPUHistoryUsage>[] { MiningHistoryGpuSinceStart, MiningHistoryGpuTotal })
+                bool updateChartsNeeded = false;
+                foreach (List<GPUHistoryUsage> MiningHistoryGpu in new List<GPUHistoryUsage>[] { MiningHistoryGpuSinceStart, MiningHistoryGpuTotal })
                 {
                     if (MiningHistoryGpu.Count == 0)
                     {
-                        MiningHistoryGpu[key] = new GPUHistoryUsage(shares, sumMoney, duration, sharesTimesDiff, hashRate);
+                        MiningHistoryGpu.Add(new GPUHistoryUsage(key, shares, sumMoney, duration, sharesTimesDiff, hashRate));
                     }
                     else
                     {
                         if (shares > 0)
                         {
-                            var lastEntry = MiningHistoryGpu.Last().Value;
-                            MiningHistoryGpu[key] = new GPUHistoryUsage(lastEntry.Shares + shares, lastEntry.Earnings + sumMoney, lastEntry.Duration + duration, sharesTimesDiff, hashRate);
+                            var lastEntry = MiningHistoryGpu.Last();
+                            MiningHistoryGpu.Add(new GPUHistoryUsage(key, lastEntry.Shares + shares, lastEntry.Earnings + sumMoney, lastEntry.Duration + duration, sharesTimesDiff, hashRate));
+                            updateChartsNeeded = true;
                         }
                     }
+                }
+                if (updateChartsNeeded)
+                {
+                    UpdateEarningsChartData();
                 }
             }
 
@@ -226,12 +294,120 @@ namespace GolemUI.Src
             int entry_no = 0;
             foreach (var entry in MiningHistoryGpuSinceStart)
             {
-                HashrateChartData.AddOrUpdateBinEntry(entry_no, entry.Key.ToString("HH-mm-ss"), entry.Value.HashRate);
+                HashrateChartData.AddOrUpdateBinEntry(entry_no, entry.Dt.ToString("HH-mm-ss"), entry.HashRate);
                 entry_no += 1;
             }
 
             NotifyChanged("HashrateChartData");
         }
+
+
+
+        private void UpdateEarningsChartData()
+        {
+            bool rawData = true;
+            bool minutesBinData = true;
+
+            var timespan = TimeSpan.FromSeconds(10);
+            if (MiningHistoryGpuTotal.Count > 0)
+            {
+                DateTime startTime = DateTimeUtils.RoundDown(MiningHistoryGpuTotal.First().Dt, timespan);
+                DateTime endTime = DateTimeUtils.RoundUp(DateTime.Now, timespan);
+                if (minutesBinData)
+                {
+
+                    GPUHistoryUsage? firstInBin = null;
+                    GPUHistoryUsage? lastInBin = null;
+
+                    GPUHistoryUsage? previousLast = null;
+
+
+
+                    EarningsChartData.Suffix = "mUSD";
+
+                    List<GPUHistoryUsage> entries = MiningHistoryGpuTotal;
+
+
+                    int idx = 0;
+                    int entry_no = 0;
+                    GPUHistoryUsage val = entries[0];
+                    for (DateTime binDate = startTime; binDate < endTime; binDate += timespan)
+                    {
+                        DateTime endBinDate = binDate + timespan;
+
+                        while (idx < entries.Count)
+                        {
+                            val = entries[idx];
+                            if (val.Dt < endBinDate)
+                            {
+                                if (firstInBin == null)
+                                {
+                                    firstInBin = val;
+                                }
+                                lastInBin = val;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            idx += 1;
+                        }
+                        double earnings = val.Earnings;
+                        if (firstInBin == null)
+                        {
+                            earnings = 0.0;
+                        }
+                        if (previousLast != null)
+                        {
+                            earnings = val.Earnings - previousLast.Value.Earnings;
+                        }
+                        EarningsChartData.AddOrUpdateBinEntry(entry_no, binDate.ToString("HH-mm-ss"), earnings * 1000.0);
+                        if (lastInBin != null)
+                        {
+                            previousLast = lastInBin;
+                        }
+                        lastInBin = null;
+                        firstInBin = null;
+                        entry_no += 1;
+                    }
+                    /*
+                    for (int idx = 0; idx < entries.Count; idx++)
+                    {
+
+                        while (val.Dt >= binDate + timespan)
+                        {
+                            double earnings = val.Earnings;
+                            if (previousLast != null)
+                            {
+                                earnings = val.Earnings - previousLast.Value.Earnings;
+                            }
+                            EarningsChartData.AddOrUpdateBinEntry(entry_no, binDate.ToString("HH-mm-ss"), earnings * 1000.0);
+                            binDate += timespan;
+                            previousLast = lastInBin;
+                            lastInBin = null;
+                            entry_no += 1;
+                        }
+                        if (firstInBin == null)
+                        {
+                            firstInBin = val;
+                        }
+                        lastInBin = val;
+                    }*/
+                }
+                else if (rawData)
+                {
+                    int entry_no = 0;
+                    foreach (var entry in MiningHistoryGpuTotal)
+                    {
+                        EarningsChartData.AddOrUpdateBinEntry(entry_no, entry.Dt.ToString("HH-mm-ss"), entry.Earnings);
+                        entry_no += 1;
+                    }
+                }
+            }
+
+            NotifyChanged("EarningsChartData");
+        }
+
 
         private void CheckForActivityHashrateChange(Model.ActivityState gminerState)
         {
@@ -249,16 +425,16 @@ namespace GolemUI.Src
         {
             if (MiningHistoryGpuSinceStart.Count > 1)
             {
-                DateTime timeStart = MiningHistoryGpuSinceStart.First().Key;
-                DateTime timeEnd = MiningHistoryGpuSinceStart.Last().Key;
-                GPUHistoryUsage earningsStart = MiningHistoryGpuSinceStart.First().Value;
-                GPUHistoryUsage earningsEnd = MiningHistoryGpuSinceStart.Last().Value;
+                DateTime timeStart = MiningHistoryGpuSinceStart.First().Dt;
+                DateTime timeEnd = MiningHistoryGpuSinceStart.Last().Dt;
+                GPUHistoryUsage earningsStart = MiningHistoryGpuSinceStart.First();
+                GPUHistoryUsage earningsEnd = MiningHistoryGpuSinceStart.Last();
 
                 double diffEarnings = earningsEnd.Earnings - earningsStart.Earnings;
                 TimeSpan diffTime = timeEnd - timeStart;
                 int shares = earningsEnd.Shares - earningsStart.Shares;
 
-                double currentHashrate = MiningHistoryGpuSinceStart.Last().Value.HashRate;
+                double currentHashrate = MiningHistoryGpuSinceStart.Last().HashRate;
                 if (shares > 0 && diffEarnings > 0 && diffTime.TotalSeconds > 0)
                 {
                     var glmValue = diffEarnings / diffTime.TotalSeconds;

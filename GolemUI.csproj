@@ -418,6 +418,7 @@
     <Compile Include="UI\UsageDescription.xaml.cs">
       <DependentUpon>UsageDescription.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\DateTimeUtils.cs" />
     <Compile Include="Utils\LookupCache.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\ObservableListExtensions.cs" />

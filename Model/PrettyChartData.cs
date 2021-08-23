@@ -14,7 +14,6 @@ namespace GolemUI.Model
         }
     }
 
-
     public class PrettyChartData : ICloneable
     {
         public delegate void BinEntryUpdatedHandler(object sender, int binIdx, double oldValue, double newValue);
