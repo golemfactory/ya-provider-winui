@@ -23,19 +23,16 @@
                 <ResourceDictionary Source="/UI/Themes/WindowControls.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/CancelButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/UnderlineButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/TextBox/TextBoxInput.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <Border BorderBrush="#999" BorderThickness="1" CornerRadius="12" Background="{DynamicResource SetupWindow.Background}" >
         <Grid>
-            <DockPanel VerticalAlignment="Top">
-                <DockPanel x:Name="TitleBar" DockPanel.Dock="Top">
-                    <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="BtnClose_Click" Style="{DynamicResource CloseWindowButton}"/>
+            <Button VerticalAlignment="Top" HorizontalAlignment="Right" x:Name="CloseButton" Content="Close" Cursor="Hand" Click="BtnClose_Click" Style="{DynamicResource CloseWindowButton}"/>
 
-                    <TextBlock HorizontalAlignment="Center"></TextBlock>
-                </DockPanel>
-            </DockPanel>
-            <TabControl BorderThickness="0"  x:Name="tabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Margin="0,0,0,0" >
+            <TabControl BorderThickness="0"  x:Name="tabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Margin="0,30,0,0" >
                 <TabControl.ItemContainerStyle>
                     <Style TargetType="{x:Type TabItem}">
                         <Setter Property="Visibility" Value="Hidden"></Setter>
@@ -48,7 +45,7 @@
                         <StackPanel Orientation="Vertical" Margin="0">
 
                             <StackPanel Orientation="Horizontal">
-                                <StackPanel Margin="30">
+                                <StackPanel Margin="30,0">
                                     <Label Content="App info" Margin="0,0,0,20"/>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="App version: " />
@@ -58,9 +55,8 @@
                                         <Label Content="Node name: " />
                                         <Label Content="{Binding Path=NodeName, Mode=OneWay}" />
                                     </StackPanel>
-                                    <Button Background="Transparent" Name="BtGoToSendFeedback" Cursor="Hand"  BorderBrush="Transparent" Margin="0">
-                                        <TextBlock Text="SEND FEEDBACK" Cursor="Hand" TextDecorations="Underline" />
-                                    </Button>
+                                    <Button Content="SEND FEEDBACK" Style="{StaticResource UnderlineButtonStyle}"  Name="BtGoToSendFeedback" Click="BtGoToSendFeedback_Click" Cursor="Hand"  Margin="5" Padding="0" HorizontalContentAlignment="Left" />
+
                                 </StackPanel>
 
                                 <Image Margin="130,0" Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png"  Width="200"/>
@@ -71,29 +67,35 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="TabItem" Background="Transparent">
-                    <Grid>
-                        <StackPanel Orientation="Vertical" Margin="0">
+                    <Grid VerticalAlignment="Stretch" Margin="30,0,30,10" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40"  />
+                            <RowDefinition Height="100" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                            <StackPanel Orientation="Horizontal">
-                                <StackPanel Margin="30">
-                                    <Label Content="App info" Margin="0,0,0,20"/>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label Content="App version: " />
-                                        <Label Content="{Binding Path=AppVersion, Mode=OneWay}" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label Content="Node name: " />
-                                        <Label Content="{Binding Path=NodeName, Mode=OneWay}" />
-                                    </StackPanel>
-                                    <TextBlock Text="SEND FEEDBACK" Cursor="Hand" TextDecorations="Underline" Margin="5,10,0,20"/>
-                                </StackPanel>
 
-                                <Image Margin="130,0" Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png"  Width="200"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <UniformGrid Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="79,0,79,10" >
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="Your Name"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="Your Email"/>
+                        <Label Grid.Row="2" Grid.Column="0" Content="Your Comments"/>
+
+                        <TextBox Grid.Column="1" Grid.Row="0"  Text="{Binding UserName}"  Style="{StaticResource TextBoxInputStyle}" VerticalAlignment="Top"/>
+                        <TextBox Grid.Column="1" Grid.Row="1"  Text="{Binding UserEmail}"  Style="{StaticResource TextBoxInputStyle}" VerticalAlignment="Top"/>
+                        <TextBox Grid.Column="1" Grid.Row="2"  Text="{Binding UserComment}"  Style="{StaticResource TextBoxInputStyle}" VerticalAlignment="Top" 
+                                 TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="100" BorderThickness="2,2,2,2"/>
+
+
+
+
+                        <UniformGrid Grid.Row="3" Grid.ColumnSpan="2" Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch"  >
                             <Button FontSize="18" IsCancel="True" Margin="0,0,0,0" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCancel_Click" Name="BtnCancel" Style="{StaticResource CancelButtonStyle}" Content="Cancel" />
-                            <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" Margin="0,0,0,0" HorizontalAlignment="Stretch"  Height="45"  Click="BtnSendFeedBack_Click" Name="BtnSendFeedBack" Content="Confirm" >
+                            <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" Margin="0,0,0,0" HorizontalAlignment="Stretch"  Height="45"  Click="BtnSendFeedBack_Click" Name="BtnSendFeedBack" Content="SEND FEEDBACK" >
                               
                             </Button>
                         </UniformGrid>

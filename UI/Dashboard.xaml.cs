@@ -38,8 +38,9 @@ namespace GolemUI
         public ViewModel.DashboardViewModel ViewModel { get; set; }
 
 
-        public Dashboard(DashboardSettingsAdv _dashboardSettingsAdv, Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel, NotificationBarViewModel notificationViewModel)
+        public Dashboard(DashboardSettingsAdv _dashboardSettingsAdv, IUserFeedbackService userFeedback, Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel, NotificationBarViewModel notificationViewModel)
         {
+            _userFeedback = userFeedback;
             _processControler = processControler;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
@@ -242,10 +243,10 @@ namespace GolemUI
         private readonly IProviderConfig _providerConfig;
         private readonly BenchmarkService _benchmarkService;
         private readonly IUserSettingsProvider _userSettingsProvider;
-
+        private readonly IUserFeedbackService _userFeedback;
         private void btnAppInformation_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig));
+            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig,_userFeedback));
             dlg.Owner = Window.GetWindow(this);
             ViewModel.DarkBackgroundVisible = true;
             dlg?.ShowDialog();
