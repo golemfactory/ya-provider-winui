@@ -25,13 +25,10 @@ namespace GolemUI.UI.Charts
 
         public RawEntryAddedHandler? OnRawEntryAdded;
 
-        public AggregateTypeEnum AggregateType { get; private set; }
-
         public List<RawEntry> RawElements { get; private set; } = new List<RawEntry>();
 
-        public PrettyChartRawData(AggregateTypeEnum aggregateType)
+        public PrettyChartRawData()
         {
-            AggregateType = aggregateType;
         }
 
         public void AddNewEntry(DateTime dt, double value)

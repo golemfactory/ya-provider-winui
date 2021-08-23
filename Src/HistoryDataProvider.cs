@@ -52,9 +52,9 @@ namespace GolemUI.Src
         public List<GPUHistoryUsage> MiningHistoryGpuSinceStart { get; set; } = new List<GPUHistoryUsage>();
 
 
-        public PrettyChartData EarningsChartData { get; set; } = new PrettyChartData(AggregateTypeEnum.Aggregate);
+        public PrettyChartRawData EarningsChartData { get; set; } = new PrettyChartRawData();
 
-        public PrettyChartData HashrateChartData { get; set; } = new PrettyChartData(AggregateTypeEnum.Aggregate);
+        public PrettyChartRawData HashrateChartData { get; set; } = new PrettyChartRawData();
 
 
         IStatusProvider _statusProvider;
@@ -292,11 +292,9 @@ namespace GolemUI.Src
 
         private void UpdateChartData()
         {
-            int entry_no = 0;
             foreach (var entry in MiningHistoryGpuSinceStart)
             {
-                HashrateChartData.AddOrUpdateBinEntry(entry_no, entry.Dt.ToString("HH-mm-ss"), entry.HashRate);
-                entry_no += 1;
+                HashrateChartData.AddNewEntry(entry.Dt, entry.HashRate);
             }
 
             NotifyChanged("HashrateChartData");
@@ -306,103 +304,13 @@ namespace GolemUI.Src
 
         private void UpdateEarningsChartData()
         {
-            bool rawData = true;
-            bool minutesBinData = true;
-
-            var timespan = TimeSpan.FromSeconds(10);
             if (MiningHistoryGpuTotal.Count > 0)
             {
-                DateTime startTime = DateTimeUtils.RoundDown(MiningHistoryGpuTotal.First().Dt, timespan);
-                DateTime endTime = DateTimeUtils.RoundUp(DateTime.Now, timespan);
-                if (minutesBinData)
+                int entry_no = 0;
+                foreach (var entry in MiningHistoryGpuTotal)
                 {
-
-                    GPUHistoryUsage? firstInBin = null;
-                    GPUHistoryUsage? lastInBin = null;
-
-                    GPUHistoryUsage? previousLast = null;
-
-
-
-                    EarningsChartData.Suffix = "mUSD";
-
-                    List<GPUHistoryUsage> entries = MiningHistoryGpuTotal;
-
-
-                    int idx = 0;
-                    int entry_no = 0;
-                    GPUHistoryUsage val = entries[0];
-                    for (DateTime binDate = startTime; binDate < endTime; binDate += timespan)
-                    {
-                        DateTime endBinDate = binDate + timespan;
-
-                        while (idx < entries.Count)
-                        {
-                            val = entries[idx];
-                            if (val.Dt < endBinDate)
-                            {
-                                if (firstInBin == null)
-                                {
-                                    firstInBin = val;
-                                }
-                                lastInBin = val;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                            idx += 1;
-                        }
-                        double earnings = val.Earnings;
-                        if (firstInBin == null)
-                        {
-                            earnings = 0.0;
-                        }
-                        if (previousLast != null)
-                        {
-                            earnings = val.Earnings - previousLast.Value.Earnings;
-                        }
-                        EarningsChartData.AddOrUpdateBinEntry(entry_no, binDate.ToString("HH-mm-ss"), earnings * 1000.0);
-                        if (lastInBin != null)
-                        {
-                            previousLast = lastInBin;
-                        }
-                        lastInBin = null;
-                        firstInBin = null;
-                        entry_no += 1;
-                    }
-                    /*
-                    for (int idx = 0; idx < entries.Count; idx++)
-                    {
-
-                        while (val.Dt >= binDate + timespan)
-                        {
-                            double earnings = val.Earnings;
-                            if (previousLast != null)
-                            {
-                                earnings = val.Earnings - previousLast.Value.Earnings;
-                            }
-                            EarningsChartData.AddOrUpdateBinEntry(entry_no, binDate.ToString("HH-mm-ss"), earnings * 1000.0);
-                            binDate += timespan;
-                            previousLast = lastInBin;
-                            lastInBin = null;
-                            entry_no += 1;
-                        }
-                        if (firstInBin == null)
-                        {
-                            firstInBin = val;
-                        }
-                        lastInBin = val;
-                    }*/
-                }
-                else if (rawData)
-                {
-                    int entry_no = 0;
-                    foreach (var entry in MiningHistoryGpuTotal)
-                    {
-                        EarningsChartData.AddOrUpdateBinEntry(entry_no, entry.Dt.ToString("HH-mm-ss"), entry.Earnings);
-                        entry_no += 1;
-                    }
+                    EarningsChartData.AddNewEntry(entry.Dt, entry.Earnings);
+                    entry_no += 1;
                 }
             }
 

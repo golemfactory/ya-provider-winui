@@ -60,11 +60,11 @@ namespace GolemUI.UI
             //this.ViewModel.ChartData4.AddOrUpdateBinEntry(-1, DateTime.Now.ToString("88-88-88"), r.NextDouble() * 100.0);
             //            await Task.Delay(10);
 
-            for (int i = 0; i < 1000000; i++)
+           /* for (int i = 0; i < 1000000; i++)
             {
                 this.ViewModel.ChartData4.AddOrUpdateBinEntry(-1, DateTime.Now.ToString("HH-mm-ss"), r.NextDouble() * 100.0);
                 await Task.Delay(100);
-            };
+            };*/
 
         }
     }

@@ -108,14 +108,14 @@ namespace GolemUI.UI.Charts
 
 
 
-        public PrettyChartData ChartData
+        public PrettyChartDataHistogram ChartData
         {
-            get { return (PrettyChartData)GetValue(_chartData); }
+            get { return (PrettyChartDataHistogram)GetValue(_chartData); }
             set { SetValue(_chartData, value); }
         }
 
         public static readonly DependencyProperty _chartData =
-            DependencyProperty.Register("ChartData", typeof(PrettyChartData), typeof(PrettyChart), new UIPropertyMetadata(new PrettyChartData(AggregateTypeEnum.Aggregate), StaticPropertyChangedCallback));
+            DependencyProperty.Register("ChartData", typeof(PrettyChartDataHistogram), typeof(PrettyChart), new UIPropertyMetadata(new PrettyChartDataHistogram(), StaticPropertyChangedCallback));
 
         public double CurrentFPS = 0.0;
 
@@ -249,7 +249,7 @@ namespace GolemUI.UI.Charts
 
             ComputeCurrentFPS(elapsedSec);
 
-            UpdateBinChart(ChartData, elapsedSec, out bool binChartAnimationsFinished);
+            UpdateBinChart(ChartData.HistData, elapsedSec, out bool binChartAnimationsFinished);
             bool allAnimationsFinished = binChartAnimationsFinished && StartIdxAnimState.IsAnimationFinished && NoBinsAnimState.IsAnimationFinished && MaxValAnimState.IsAnimationFinished;
 
             if (allAnimationsFinished)
@@ -281,9 +281,9 @@ namespace GolemUI.UI.Charts
             {
                 if (e.NewValue != e.OldValue)
                 {
-                    PrettyChartData newChartData = (PrettyChartData)e.NewValue;
-                    newChartData.OnBinEntryAdded += OnBinEntryAdded;
-                    newChartData.OnBinEntryUpdated += OnBinEntryUpdated;
+                    PrettyChartDataHistogram newChartData = (PrettyChartDataHistogram)e.NewValue;
+                    newChartData.HistData.OnBinEntryAdded += OnBinEntryAdded;
+                    newChartData.HistData.OnBinEntryUpdated += OnBinEntryUpdated;
 
                     ResetChartSettings(newChartData);
                     GotoEnd();
@@ -310,7 +310,7 @@ namespace GolemUI.UI.Charts
         public bool WasAlignedToRightBeforeAdded()
         {
             double targetNoBins = NoBinsAnimState.TargetVal;
-            if (Math.Abs(StartIdxAnimState.TargetVal - ChartData.BinData.BinEntries.Count + targetNoBins + 1) < 1.1)
+            if (Math.Abs(StartIdxAnimState.TargetVal - ChartData.HistData.BinData.BinEntries.Count + targetNoBins + 1) < 1.1)
             {
                 return true;
             }
@@ -400,7 +400,7 @@ namespace GolemUI.UI.Charts
         }
 
 
-        void ResetChartSettings(PrettyChartData? newData)
+        void ResetChartSettings(PrettyChartDataHistogram? newData)
         {
             if (newData != null)
             {
@@ -408,7 +408,7 @@ namespace GolemUI.UI.Charts
                 {
                     MoveToFreePool(binIdx);
                 }
-                int entryCount = newData.BinData.BinEntries.Count;
+                int entryCount = newData.HistData.BinData.BinEntries.Count;
 
                 NoBinsAnimState.ChangeTargetAndResetIfNeeded(21);
                 NoBinsAnimState.Finish();
@@ -435,9 +435,9 @@ namespace GolemUI.UI.Charts
             }
             else
             {
-                if (ChartData.BinData.BinEntries.Count - targetNoBins < targetStartPosX)
+                if (ChartData.HistData.BinData.BinEntries.Count - targetNoBins < targetStartPosX)
                 {
-                    targetStartPosX = ChartData.BinData.BinEntries.Count - targetNoBins;
+                    targetStartPosX = ChartData.HistData.BinData.BinEntries.Count - targetNoBins;
                 }
             }
 
@@ -454,7 +454,7 @@ namespace GolemUI.UI.Charts
         void GotoEnd()
         {
             double targetNoBins = NoBinsAnimState.TargetVal;
-            StartIdxAnimState.ChangeTargetAndResetIfNeeded(ChartData.BinData.BinEntries.Count - targetNoBins);
+            StartIdxAnimState.ChangeTargetAndResetIfNeeded(ChartData.HistData.BinData.BinEntries.Count - targetNoBins);
             TimerActivated = true;
         }
 

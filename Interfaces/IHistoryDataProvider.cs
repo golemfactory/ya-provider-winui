@@ -20,9 +20,9 @@ namespace GolemUI.Interfaces
 
         }
 
-        PrettyChartData HashrateChartData { get; set; }
+        PrettyChartRawData HashrateChartData { get; set; }
 
-        PrettyChartData EarningsChartData { get; set; }
+        PrettyChartRawData EarningsChartData { get; set; }
 
         public string? ActiveAgreementID { get; set; }
 

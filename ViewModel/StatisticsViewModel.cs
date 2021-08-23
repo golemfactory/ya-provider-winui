@@ -9,7 +9,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using static GolemUI.UI.Charts.PrettyChartData;
 
 namespace GolemUI.ViewModel
 {
@@ -29,10 +28,10 @@ namespace GolemUI.ViewModel
 
             }
             _timer = new DispatcherTimer();
-            ChartData1 = _historyDataProvider.EarningsChartData;
-            ChartData2 = new PrettyChartData(AggregateTypeEnum.Aggregate);
-            ChartData3 = new PrettyChartData(AggregateTypeEnum.Aggregate);
-            ChartData4 = new PrettyChartData(AggregateTypeEnum.Aggregate);
+
+            var histogram = new PrettyChartDataHistogram();
+            histogram.SetRawData(_historyDataProvider.EarningsChartData);
+            ChartData1 = histogram;
 
 
             PropertyChanged += StatisticsViewModel_PropertyChanged;
@@ -48,10 +47,7 @@ namespace GolemUI.ViewModel
             NotifyChange("ChartData1");
         }
 
-        public PrettyChartData ChartData1 { get; set; }
-        public PrettyChartData ChartData2 { get; set; }
-        public PrettyChartData ChartData3 { get; set; }
-        public PrettyChartData ChartData4 { get; set; }
+        public PrettyChartDataHistogram ChartData1 { get; set; }
 
 
         public event PageChangeRequestedEvent? PageChangeRequested;
@@ -62,13 +58,13 @@ namespace GolemUI.ViewModel
         public void LoadData()
         {
             //ChartData2 = RandomData();
-            ChartData3 = RandomData();
+/*            ChartData3 = RandomData();
             ChartData4 = RandomData();
 
             NotifyChange("ChartData1");
             NotifyChange("ChartData2");
             NotifyChange("ChartData3");
-            NotifyChange("ChartData4");
+            NotifyChange("ChartData4");*/
             //throw new NotImplementedException();
         }
 
@@ -77,9 +73,10 @@ namespace GolemUI.ViewModel
             //throw new NotImplementedException();
         }
 
-        public PrettyChartData RandomData()
-        {
-            var chartData = new PrettyChartData(AggregateTypeEnum.Aggregate);
+        //public PrettyChartData RandomData()
+       // {
+            /*
+            var chartData = new PrettyChartData();
             chartData.NoAnimate = false;
 
             var binData = chartData.BinData;
@@ -94,9 +91,9 @@ namespace GolemUI.ViewModel
 
 
             return chartData;
+            */
 
-
-        }
+       // }
         
 
 
