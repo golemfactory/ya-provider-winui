@@ -1,11 +1,10 @@
 ﻿#nullable enable
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
 using GolemUI.Interfaces;
+using GolemUI.Src;
 using Sentry;
+using System;
+using System.ComponentModel;
+using System.Linq;
 
 namespace GolemUI
 {
@@ -13,12 +12,16 @@ namespace GolemUI
     {
         private readonly IProcessControler _processControler;
         private readonly Interfaces.IProviderConfig _providerConfig;
+        private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
+        private readonly BenchmarkService _benchmarkService;
         private SentryContext Context = new SentryContext();
 
 
 
-        public SentryAdditionalDataIngester(Interfaces.IProcessControler processControler, Interfaces.IProviderConfig providerConfig)
+        public SentryAdditionalDataIngester(BenchmarkService benchmarkService, Interfaces.IProcessControler processControler, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.IProviderConfig providerConfig)
         {
+            _benchmarkService = benchmarkService;
+            _benchmarkResultsProvider = benchmarkResultsProvider;
             _processControler = processControler;
             _providerConfig = providerConfig;
             _providerConfig.PropertyChanged += ProviderConfig_PropertyChanged;
@@ -28,6 +31,13 @@ namespace GolemUI
         }
         public void InitContextItems()
         {
+            var benchmarkSetting = _benchmarkResultsProvider.LoadBenchmarkResults();
+            int gpusCount = benchmarkSetting?.liveStatus?.GPUs?.Count ?? 0;
+            Context.AddItem("GpuCount", gpusCount.ToString());
+            if (gpusCount > 0)
+                Context.AddItem("MainGpu", benchmarkSetting?.liveStatus?.GPUs?[0]?.GpuName??"");
+
+
             UpdateNodeName(_providerConfig.Config?.NodeName ?? "");
             Context.AddItem("UserName", Environment.UserName);
             Context_MemberChanged();
