@@ -22,6 +22,11 @@ namespace GolemUI.Src
         bool _isDownloadingSettings = false;
         private readonly DispatcherTimer _timer;
 
+        const double MIN_RETRY_TIME_MINUTES = 1.0;
+        const double MAX_RETRY_TIME_MINUTES = 20.0;
+
+        private double _retryMinutesError = MIN_RETRY_TIME_MINUTES;
+
         private readonly INotificationService _notificationService;
 
         public IRemoteSettingsProvider.RemoteSettingsUpdatedEventHandler? OnRemoteSettingsUpdated { get; set; }
@@ -42,6 +47,7 @@ namespace GolemUI.Src
             bool res = await RequestRemoteSettingsUpdate();
             if (res)
             {
+                _retryMinutesError = MIN_RETRY_TIME_MINUTES;
 #if DEBUG
                 //update everty one minute in debug version to enable tests
                 _timer.Interval = TimeSpan.FromMinutes(1);
@@ -53,7 +59,12 @@ namespace GolemUI.Src
             else
             {
                 //wait one minute if failed
-                _timer.Interval = TimeSpan.FromMinutes(1);
+                _timer.Interval = TimeSpan.FromMinutes(_retryMinutesError);
+                _retryMinutesError *= 2.0;
+                if (_retryMinutesError > MAX_RETRY_TIME_MINUTES)
+                {
+                    _retryMinutesError = MAX_RETRY_TIME_MINUTES;
+                }
             }
         }
 
@@ -85,7 +96,7 @@ namespace GolemUI.Src
                     await client.DownloadFileTaskAsync(new Uri($"https://golemfactory.github.io/ya-provider-winui/config.json?timestamp={timestamp}"), remoteTmpPath);
                     if (!File.Exists(remoteTmpPath))
                     {
-                        _logger.LogError("Failed to download new config");
+                        _logger.LogWarning("Failed to download new config");
                         return false;
                     }
                     RemoteSettings? rs = JsonConvert.DeserializeObject<RemoteSettings>(File.ReadAllText(remoteTmpPath));
