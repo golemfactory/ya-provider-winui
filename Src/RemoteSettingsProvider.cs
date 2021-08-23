@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -20,8 +21,7 @@ namespace GolemUI.Src
     {
         ILogger<RemoteSettingsProvider> _logger;
         bool _isDownloadingSettings = false;
-        private readonly DispatcherTimer _timer;
-
+        private DispatcherTimer? _timer = null;
 
 #if DEBUG
         private TimeSpan RefreshInterval => TimeSpan.FromSeconds(120.0);
@@ -38,22 +38,34 @@ namespace GolemUI.Src
         {
             _notificationService = notificationService;
             _logger = logger;
-            //create async timer and run almost instantly
-            _timer = new DispatcherTimer();
-            _timer.Interval = RefreshInterval;
-            _timer.Tick += OnRefreshTick;
-            _timer.Start();
 
-            Task.Run(() => _timer.Dispatcher.Invoke(() => OnRefreshTick(this, null)));
+            //spawn non blocking thread to get first update in background
+            Task.Run(() => Application.Current.Dispatcher.Invoke(async () => await FirstTick()));
+        }
+
+        private async Task<bool> FirstTick()
+        {
+            try
+            {
+                await RemoteSettingsUpdateAsync();
+            }
+            finally
+            {
+                _timer = new DispatcherTimer();
+                _timer.Interval = RefreshInterval;
+                _timer.Tick += OnRefreshTick;
+                _timer.Start();
+            }
+            return true;
         }
 
         private async void OnRefreshTick(object sender, EventArgs? e)
         {
-            bool res = await RequestRemoteSettingsUpdate();
+            bool res = await RemoteSettingsUpdateAsync();
         }
 
 
-        public async Task<bool> RequestRemoteSettingsUpdate()
+        public async Task<bool> RemoteSettingsUpdateAsync()
         {
             if (_isDownloadingSettings)
             {
