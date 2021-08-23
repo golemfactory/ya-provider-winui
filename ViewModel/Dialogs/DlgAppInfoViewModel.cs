@@ -56,7 +56,7 @@ namespace GolemUI.ViewModel.Dialogs
         }
         public void SendFeedback()
         {
-            _userFeedback.SendUserFeedback("User Feedback > Manual entry", UserName, UserEmail, UserComment,ShouldAttachLogs);
+            _userFeedback.SendUserFeedback("User Feedback > Manual entry", UserName, UserEmail, UserComment, ShouldAttachLogs);
         }
 
         public string AppVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
