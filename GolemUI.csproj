@@ -266,6 +266,7 @@
     <Compile Include="Converters\MultiBoolToVisibilityConverter.cs" />
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
+    <Compile Include="Interfaces\IUserFeedbackService.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
     <Compile Include="Interfaces\ITaskProfitEstimator.cs" />
     <Compile Include="Model\Coin.cs" />
@@ -277,6 +278,8 @@
     <Compile Include="Src\EstimatedEarningsProvider.cs" />
     <Compile Include="Src\HistoryDataProvider.cs" />
     <Compile Include="Src\RemoteSettingsProvider.cs" />
+    <Compile Include="Src\Sentry\SentryContext.cs" />
+    <Compile Include="Src\Sentry\SentryUserFeedback.cs" />
     <Compile Include="Src\TaskProfitEstimator.cs" />
     <Compile Include="UI\Dialogs\DlgShouldStopMiningBeforeBenchmark.xaml.cs">
       <DependentUpon>DlgShouldStopMiningBeforeBenchmark.xaml</DependentUpon>
@@ -284,6 +287,10 @@
     <Compile Include="UI\Dialogs\DlgUpdateApp.xaml.cs">
       <DependentUpon>DlgUpdateApp.xaml</DependentUpon>
     </Compile>
+    <Page Include="UI\Themes\Buttons\UnderlineButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Compile Include="UI\UserControls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>
@@ -596,6 +603,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Themes\Scrollbars\SettingsScrollView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\TextBox\TextBoxInput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
