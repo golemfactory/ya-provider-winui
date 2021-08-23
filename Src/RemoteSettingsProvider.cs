@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -20,7 +21,14 @@ namespace GolemUI.Src
     {
         ILogger<RemoteSettingsProvider> _logger;
         bool _isDownloadingSettings = false;
-        private readonly DispatcherTimer _timer;
+        private DispatcherTimer? _timer = null;
+
+#if DEBUG
+        private TimeSpan RefreshInterval => TimeSpan.FromSeconds(120.0);
+#else
+        private TimeSpan RefreshInterval => TimeSpan.FromMinutes(60.0);
+#endif
+
 
         private readonly INotificationService _notificationService;
 
@@ -30,35 +38,23 @@ namespace GolemUI.Src
         {
             _notificationService = notificationService;
             _logger = logger;
-            //create async timer and run almost instantly
+
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(1);
+            _timer.Interval = RefreshInterval;
             _timer.Tick += OnRefreshTick;
             _timer.Start();
+
+            //I have to get tak variable, otherwise there is warning
+            var firstTickTaskUnused = RemoteSettingsUpdateAsync();
         }
 
-        private async void OnRefreshTick(object sender, EventArgs e)
+        private async void OnRefreshTick(object sender, EventArgs? e)
         {
-            bool res = await RequestRemoteSettingsUpdate();
-            if (res)
-            {
-#if DEBUG
-                //update everty one minute in debug version to enable tests
-                _timer.Interval = TimeSpan.FromMinutes(1);
-#else
-                //wait one hour if completed successfully
-                _timer.Interval = TimeSpan.FromHours(1);
-#endif
-            }
-            else
-            {
-                //wait one minute if failed
-                _timer.Interval = TimeSpan.FromMinutes(1);
-            }
+            await RemoteSettingsUpdateAsync();
         }
 
 
-        public async Task<bool> RequestRemoteSettingsUpdate()
+        public async Task<bool> RemoteSettingsUpdateAsync()
         {
             if (_isDownloadingSettings)
             {
@@ -106,9 +102,13 @@ namespace GolemUI.Src
                     return true;
                 }
             }
+            catch (WebException ex)
+            {
+                _logger.LogWarning("Web exception when downloading remote config: " + ex.Message);
+            }
             catch (Exception ex)
             {
-                _logger.LogError("Failed to download new config: " + ex.Message);
+                _logger.LogError("Error when downloading remote config: " + ex.Message);
             }
             finally
             {
