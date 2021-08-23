@@ -45,7 +45,7 @@ namespace GolemUI
                             int gpusCount = benchmarkStatus?.GPUs?.Count ?? 0;
                             Context.AddItem("GpuCount", gpusCount.ToString());
                             if (gpusCount > 0)
-                                Context.AddItem("MainGpu", benchmarkStatus?.GPUs?[0]?.GpuName ?? "");
+                                Context.AddItem("MainGpu", benchmarkStatus?.GPUs?.Values?.ToList()[0]?.GpuName ?? "");
                         }
                     }
                 }
@@ -58,7 +58,7 @@ namespace GolemUI
             int gpusCount = benchmarkSetting?.liveStatus?.GPUs?.Count ?? 0;
             Context.AddItem("GpuCount", gpusCount.ToString());
             if (gpusCount > 0)
-                Context.AddItem("MainGpu", benchmarkSetting?.liveStatus?.GPUs?[0]?.GpuName ?? "");
+                Context.AddItem("MainGpu", benchmarkSetting?.liveStatus?.GPUs?.Values?.ToList()[0]?.GpuName ?? "");
 
 
             UpdateNodeName(_providerConfig.Config?.NodeName ?? "");

@@ -42,7 +42,7 @@ namespace GolemUI.UI.Dialogs
 
         private void BtnSendFeedBack_Click(object sender, RoutedEventArgs e)
         {
-            _model.SendFeedback();
+            _model?.SendFeedback();
             this.DialogResult = true;
             this.Close();
         }
