@@ -22,7 +22,6 @@ namespace GolemUI.Src
         bool _isDownloadingSettings = false;
         private readonly DispatcherTimer _timer;
 
-        const double STARTUP_RETRY_DELAY_MS = 1.0;
 
 #if DEBUG
         private TimeSpan RefreshInterval => TimeSpan.FromSeconds(120.0);
@@ -41,17 +40,16 @@ namespace GolemUI.Src
             _logger = logger;
             //create async timer and run almost instantly
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(STARTUP_RETRY_DELAY_MS);
+            _timer.Interval = RefreshInterval;
             _timer.Tick += OnRefreshTick;
             _timer.Start();
+
+            Task.Run(() => _timer.Dispatcher.Invoke(() => OnRefreshTick(this, null)));
         }
 
-        private async void OnRefreshTick(object sender, EventArgs e)
+        private async void OnRefreshTick(object sender, EventArgs? e)
         {
-            _timer.Stop(); //prevent possible exception spamming
             bool res = await RequestRemoteSettingsUpdate();
-            _timer.Interval = RefreshInterval;
-            _timer.Start();
         }
 
 
