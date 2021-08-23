@@ -14,7 +14,7 @@ namespace GolemUI.Src
 
     public class SentryUserFeedbackService : IUserFeedbackService
     {
-      
+
         private SentryContext Context = new SentryContext();
 
         public SentryUserFeedbackService()
@@ -36,6 +36,6 @@ namespace GolemUI.Src
                 scope.ClearAttachments();
             });
         }
-            
+
     }
 }

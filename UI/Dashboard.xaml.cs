@@ -253,7 +253,7 @@ namespace GolemUI
             dlg.Owner = Window.GetWindow(this);
             ViewModel.DarkBackgroundVisible = true;
             bool? result = dlg?.ShowDialog();
-            if(result == true)
+            if (result == true)
             {
                 _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "Thank you for your feedback.", expirationTimeInMs: 7000, group: false));
             }
