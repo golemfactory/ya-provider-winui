@@ -44,7 +44,8 @@ namespace GolemUI.Src
             _timer.Tick += OnRefreshTick;
             _timer.Start();
 
-            var notUsedTask = RemoteSettingsUpdateAsync();
+            //I have to get tak variable, otherwise there is warning
+            var firstTickTaskUnused = RemoteSettingsUpdateAsync();
         }
 
         private async void OnRefreshTick(object sender, EventArgs? e)
