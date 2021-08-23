@@ -296,7 +296,7 @@ namespace GolemUI.UI.Charts
 
         public void OnBinTimeSizeChanged()
         {
-//            ResetChartSettings(ChartData);
+            //            ResetChartSettings(ChartData);
         }
 
         public void MoveToFreePool(int binIdx)

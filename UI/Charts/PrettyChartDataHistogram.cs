@@ -14,7 +14,7 @@ namespace GolemUI.UI.Charts
         public PrettyChartData HistData { get; private set; }
 
         private TimeSpan _binTimeSize = TimeSpan.FromSeconds(10);
-        public TimeSpan BinTimeSize 
+        public TimeSpan BinTimeSize
         {
             get => _binTimeSize;
             set

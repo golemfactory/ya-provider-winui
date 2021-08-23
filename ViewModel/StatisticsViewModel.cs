@@ -58,13 +58,13 @@ namespace GolemUI.ViewModel
         public void LoadData()
         {
             //ChartData2 = RandomData();
-/*            ChartData3 = RandomData();
-            ChartData4 = RandomData();
+            /*            ChartData3 = RandomData();
+                        ChartData4 = RandomData();
 
-            NotifyChange("ChartData1");
-            NotifyChange("ChartData2");
-            NotifyChange("ChartData3");
-            NotifyChange("ChartData4");*/
+                        NotifyChange("ChartData1");
+                        NotifyChange("ChartData2");
+                        NotifyChange("ChartData3");
+                        NotifyChange("ChartData4");*/
             //throw new NotImplementedException();
         }
 
@@ -74,27 +74,27 @@ namespace GolemUI.ViewModel
         }
 
         //public PrettyChartData RandomData()
-       // {
-            /*
-            var chartData = new PrettyChartData();
-            chartData.NoAnimate = false;
+        // {
+        /*
+        var chartData = new PrettyChartData();
+        chartData.NoAnimate = false;
 
-            var binData = chartData.BinData;
-            for (int i = 0; i < 10 + _rand.Next(10); i++)
-            {
-                var bin = new PrettyChartBinEntry();
-                bin.Value = _rand.NextDouble() * 30;
-                bin.Label = $"{i}";
+        var binData = chartData.BinData;
+        for (int i = 0; i < 10 + _rand.Next(10); i++)
+        {
+            var bin = new PrettyChartBinEntry();
+            bin.Value = _rand.NextDouble() * 30;
+            bin.Label = $"{i}";
 
-                chartData.BinData.BinEntries.Add(bin);
-            }
+            chartData.BinData.BinEntries.Add(bin);
+        }
 
 
-            return chartData;
-            */
+        return chartData;
+        */
 
-       // }
-        
+        // }
+
 
 
         private void NotifyChange([CallerMemberName] string? propertyName = null)
