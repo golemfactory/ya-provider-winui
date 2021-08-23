@@ -39,29 +39,17 @@ namespace GolemUI.Src
             _notificationService = notificationService;
             _logger = logger;
 
-            //spawn non blocking thread to get first update in background
-            Task.Run(() => Application.Current.Dispatcher.Invoke(async () => await FirstTick()));
-        }
+            _timer = new DispatcherTimer();
+            _timer.Interval = RefreshInterval;
+            _timer.Tick += OnRefreshTick;
+            _timer.Start();
 
-        private async Task<bool> FirstTick()
-        {
-            try
-            {
-                await RemoteSettingsUpdateAsync();
-            }
-            finally
-            {
-                _timer = new DispatcherTimer();
-                _timer.Interval = RefreshInterval;
-                _timer.Tick += OnRefreshTick;
-                _timer.Start();
-            }
-            return true;
+            var notUsedTask = RemoteSettingsUpdateAsync();
         }
 
         private async void OnRefreshTick(object sender, EventArgs? e)
         {
-            bool res = await RemoteSettingsUpdateAsync();
+            await RemoteSettingsUpdateAsync();
         }
 
 
