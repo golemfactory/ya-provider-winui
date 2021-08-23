@@ -3,8 +3,8 @@
 namespace GolemUI.Interfaces
 {
 
-    
-   
+
+
 
     public interface IUserFeedbackService
     {

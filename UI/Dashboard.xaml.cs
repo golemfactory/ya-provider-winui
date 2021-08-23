@@ -246,7 +246,7 @@ namespace GolemUI
         private readonly IUserFeedbackService _userFeedback;
         private void btnAppInformation_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig,_userFeedback));
+            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig, _userFeedback));
             dlg.Owner = Window.GetWindow(this);
             ViewModel.DarkBackgroundVisible = true;
             dlg?.ShowDialog();

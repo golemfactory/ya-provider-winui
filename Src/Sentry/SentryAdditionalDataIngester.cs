@@ -27,15 +27,38 @@ namespace GolemUI
             _providerConfig.PropertyChanged += ProviderConfig_PropertyChanged;
             _processControler.PropertyChanged += _processControler_PropertyChanged;
             Context.MemberChanged += Context_MemberChanged;
+            _benchmarkService.PropertyChanged += _benchmarkService_PropertyChanged;
 
         }
+
+        private void _benchmarkService_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsRunning")
+            {
+                if (!_benchmarkService.IsRunning && _benchmarkService != null)
+                {
+                    var benchmarkStatus = _benchmarkService.Status;
+                    if (benchmarkStatus != null)
+                    {
+                        if (benchmarkStatus.GPUInfosParsed)
+                        {
+                            int gpusCount = benchmarkStatus?.GPUs?.Count ?? 0;
+                            Context.AddItem("GpuCount", gpusCount.ToString());
+                            if (gpusCount > 0)
+                                Context.AddItem("MainGpu", benchmarkStatus?.GPUs?[0]?.GpuName ?? "");
+                        }
+                    }
+                }
+            }
+        }
+
         public void InitContextItems()
         {
             var benchmarkSetting = _benchmarkResultsProvider.LoadBenchmarkResults();
             int gpusCount = benchmarkSetting?.liveStatus?.GPUs?.Count ?? 0;
             Context.AddItem("GpuCount", gpusCount.ToString());
             if (gpusCount > 0)
-                Context.AddItem("MainGpu", benchmarkSetting?.liveStatus?.GPUs?[0]?.GpuName??"");
+                Context.AddItem("MainGpu", benchmarkSetting?.liveStatus?.GPUs?[0]?.GpuName ?? "");
 
 
             UpdateNodeName(_providerConfig.Config?.NodeName ?? "");

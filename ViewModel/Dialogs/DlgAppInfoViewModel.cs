@@ -19,7 +19,8 @@ namespace GolemUI.ViewModel.Dialogs
         public string UserName
         {
             get => _userName;
-            set {
+            set
+            {
                 _userName = value;
                 OnPropertyChanged(nameof(UserName));
             }
@@ -27,7 +28,8 @@ namespace GolemUI.ViewModel.Dialogs
         public string UserEmail
         {
             get => _userEmail;
-            set {
+            set
+            {
                 _userEmail = value;
                 OnPropertyChanged(nameof(UserEmail));
             }
@@ -35,7 +37,8 @@ namespace GolemUI.ViewModel.Dialogs
         public string UserComment
         {
             get => _userComment;
-            set {
+            set
+            {
                 _userComment = value;
                 OnPropertyChanged(nameof(UserComment));
             }

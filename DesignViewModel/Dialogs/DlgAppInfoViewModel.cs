@@ -8,17 +8,20 @@ namespace GolemUI.DesignViewModel.Dialogs
 {
     public class DlgAppInfoViewModel
     {
-        public string UserName { get => "Paawełek"; 
-            set { } }
+        public string UserName
+        {
+            get => "Paawełek";
+            set { }
+        }
         public string UserEmail
         {
-            get => "pawelek@mail.??"; 
+            get => "pawelek@mail.??";
             set { }
         }
         public string UserComment
         {
-            get => "FirstLine\nSecondLine"; 
-            set{ }
+            get => "FirstLine\nSecondLine";
+            set { }
         }
         public string AppVersion => "0.1.2";
         public string NodeName => "Magical Node";

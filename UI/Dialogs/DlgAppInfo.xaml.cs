@@ -44,7 +44,7 @@ namespace GolemUI.UI.Dialogs
             _model.SendFeedback();
         }
 
-    
+
 
         private void BtGoToSendFeedback_Click(object sender, RoutedEventArgs e)
         {
