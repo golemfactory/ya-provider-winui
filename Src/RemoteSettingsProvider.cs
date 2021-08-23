@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -20,39 +21,40 @@ namespace GolemUI.Src
     {
         ILogger<RemoteSettingsProvider> _logger;
         bool _isDownloadingSettings = false;
-        private readonly DispatcherTimer _timer;
+        private DispatcherTimer? _timer = null;
+
+#if DEBUG
+        private TimeSpan RefreshInterval => TimeSpan.FromSeconds(120.0);
+#else
+        private TimeSpan RefreshInterval => TimeSpan.FromMinutes(60.0);
+#endif
+
 
         private readonly INotificationService _notificationService;
 
+        public IRemoteSettingsProvider.RemoteSettingsUpdatedEventHandler? OnRemoteSettingsUpdated { get; set; }
 
         public RemoteSettingsProvider(ILogger<RemoteSettingsProvider> logger, INotificationService notificationService)
         {
             _notificationService = notificationService;
             _logger = logger;
-            //create async timer and run almost instantly
+
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(1);
+            _timer.Interval = RefreshInterval;
             _timer.Tick += OnRefreshTick;
             _timer.Start();
+
+            //I have to get tak variable, otherwise there is warning
+            var firstTickTaskUnused = RemoteSettingsUpdateAsync();
         }
 
-        private async void OnRefreshTick(object sender, EventArgs e)
+        private async void OnRefreshTick(object sender, EventArgs? e)
         {
-            bool res = await RequestRemoteSettingsUpdate();
-            if (res)
-            {
-                //wait one hour if completed successfully
-                _timer.Interval = TimeSpan.FromHours(1);
-            }
-            else
-            {
-                //wait one minute if failed
-                _timer.Interval = TimeSpan.FromMinutes(1);
-            }
+            await RemoteSettingsUpdateAsync();
         }
 
 
-        public async Task<bool> RequestRemoteSettingsUpdate()
+        public async Task<bool> RemoteSettingsUpdateAsync()
         {
             if (_isDownloadingSettings)
             {
@@ -75,14 +77,15 @@ namespace GolemUI.Src
                         _logger.LogInformation("Removing old download tmp file: " + remoteTmpPath);
                         File.Delete(remoteTmpPath);
                     }
-                    await client.DownloadFileTaskAsync(new Uri("https://golemfactory.github.io/ya-provider-winui/config.json"), remoteTmpPath);
+                    long timestamp = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
+                    await client.DownloadFileTaskAsync(new Uri($"https://golemfactory.github.io/ya-provider-winui/config.json?timestamp={timestamp}"), remoteTmpPath);
                     if (!File.Exists(remoteTmpPath))
                     {
                         _logger.LogError("Failed to download new config");
                         return false;
                     }
                     RemoteSettings? rs = JsonConvert.DeserializeObject<RemoteSettings>(File.ReadAllText(remoteTmpPath));
-                    if (String.IsNullOrEmpty(rs.Version))
+                    if (String.IsNullOrEmpty(rs.LatestVersion))
                     {
                         throw new Exception("Version field cannot be empty");
                     }
@@ -91,13 +94,21 @@ namespace GolemUI.Src
                     rs.DownloadedDateTime = DateTime.Now;
                     File.WriteAllText(remotePath, JsonConvert.SerializeObject(rs, Formatting.Indented));
 
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Config downloaded: " + rs.Version, expirationTimeInMs: 5000));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Config downloaded: " + rs.LatestVersion, expirationTimeInMs: 5000));
+                    if (OnRemoteSettingsUpdated != null)
+                    {
+                        OnRemoteSettingsUpdated(rs);
+                    }
                     return true;
                 }
             }
+            catch (WebException ex)
+            {
+                _logger.LogWarning("Web exception when downloading remote config: " + ex.Message);
+            }
             catch (Exception ex)
             {
-                _logger.LogError("Failed to download new config: " + ex.Message);
+                _logger.LogError("Error when downloading remote config: " + ex.Message);
             }
             finally
             {

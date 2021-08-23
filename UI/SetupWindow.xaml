@@ -18,7 +18,7 @@
     AllowsTransparency="True"    
     MinHeight="720"
     MinWidth="1280"
-        Title="SetupWindow" Height="720" Width="1280" Icon="/Media/Thorg.ico" Loaded="Window_Loaded">
+        Title="SetupWindow" Height="720" Width="1280" Icon="/Media/icon2.ico" Loaded="Window_Loaded">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -631,10 +631,14 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             <RowDefinition />
 
                                         </Grid.RowDefinitions>
-                                        <TextBlock FontSize="18" FontWeight="Bold" Margin="40,40,40,20" Grid.Column="1">Use only Ethereum address</TextBlock>
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="40,40,0,0">
+                                            <TextBlock FontSize="18" FontWeight="Bold" >Use only Ethereum address</TextBlock>
+                                           
+                                        </StackPanel>
                                         <ContentControl Content="{StaticResource Use_my_wallet_icon}" Grid.Row="0" Grid.RowSpan="2" Margin="6,20,0,0" VerticalAlignment="Top"/>
                                         <StackPanel Grid.Column="1" Margin="40,80,0,60" VerticalAlignment="Top">
                                             <TextBlock Foreground="#aaa">Paste your Ethereum address</TextBlock>
+                                          
                                             <Border BorderThickness="0,0,0,2"   Margin="0, 0,40,0" Height="26">
 
                                                 <TextBox x:Name="TxtAddress" FontSize="16" Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" BorderThickness="0" BorderBrush="Transparent" VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Margin="0, 0,0,0"  Padding="0,0,0,5">
@@ -693,7 +697,12 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             </Label>
 
                                         </StackPanel>
-                                        <Button Grid.Column="1" VerticalAlignment="Bottom" Margin="50, 30,0,0" MinHeight="44" Click="ConfirmAddress_Click" Content="Next">
+                                        <StackPanel HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Bottom" Margin="40, 30,0,50">
+                                            <TextBlock FontSize="8" Foreground="#aaa" TextWrapping="Wrap">This application is using Layer 2 transfers. Please make sure you provided valid eth address and you have control over it.</TextBlock>
+                                            <TextBlock FontSize="8" Foreground="#aaa" TextWrapping="Wrap"></TextBlock>
+                                            <TextBlock FontSize="8"  Foreground="#aaa">(For example you probably  don't want to provide an exchange address since it will possibly assume incoming transfers are Layer 1)</TextBlock>
+                                        </StackPanel>
+                                        <Button Grid.Column="1" VerticalAlignment="Bottom" Margin="40, 30,0,0" MinHeight="44" Click="ConfirmAddress_Click" Content="Next">
                                             <Button.Style>
                                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource GradientButtonStyle}">
                                                     <Setter Property="IsEnabled" Value="false" />

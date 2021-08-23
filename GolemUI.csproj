@@ -1,24 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F03FF034-8A27-457B-A8EA-A36B33689EBD}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>GolemUI</RootNamespace>
-    <AssemblyName>GolemUI</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <LangVersion>9.0</LangVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -31,9 +15,25 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F03FF034-8A27-457B-A8EA-A36B33689EBD}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>GolemUI</RootNamespace>
+    <AssemblyName>BetaMiner</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <LangVersion>9.0</LangVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -65,7 +65,7 @@
     <StartupObject>GolemUI.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Media/Thorg.ico</ApplicationIcon>
+    <ApplicationIcon>Media\icon1.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -269,6 +269,7 @@
     <Compile Include="Command\GSB\Payment.cs" />
     <Compile Include="Converters\MultiBoolToVisibilityConverter.cs" />
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgWithdrawViewModel.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
     <Compile Include="Interfaces\ITaskProfitEstimator.cs" />
@@ -288,6 +289,9 @@
     <Compile Include="Src\TaskProfitEstimator.cs" />
     <Compile Include="UI\Dialogs\DlgShouldStopMiningBeforeBenchmark.xaml.cs">
       <DependentUpon>DlgShouldStopMiningBeforeBenchmark.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\DlgUpdateApp.xaml.cs">
+      <DependentUpon>DlgUpdateApp.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\UserControls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
@@ -430,6 +434,7 @@
     <Compile Include="Utils\PriceProviderExtension.cs" />
     <Compile Include="Utils\ProcessExtension.cs" />
     <Compile Include="Validators\TransferAmountValidator.cs" />
+    <Compile Include="Utils\VersionUtil.cs" />
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
     <Compile Include="ViewModel\CustomControls\NotificationBar\NotificationBarNotification.cs" />
@@ -443,6 +448,7 @@
     <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgEditAddressViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
     <Compile Include="ViewModel\SettingsAdvViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
@@ -523,6 +529,10 @@
     <Page Include="UI\Dialogs\DlgEditAddress.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Dialogs\DlgUpdateApp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="UI\ExistingProcessesWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -759,7 +769,6 @@
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Enjoy.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\UseMyWallet.png" />
-    <Resource Include="Media\golem.ico" />
     <Resource Include="Media\tray.ico" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Benchmark.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\NodeName.png" />
@@ -807,12 +816,6 @@
     <Resource Include="UI\Icons\DefaultStyle\png\Branding\Logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UI\Icons\DefaultStyle\png\Branding\Thorg.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="UI\Icons\DefaultStyle\png\Branding\SupportedByGolem.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Settings\TaskType.png" />
   </ItemGroup>
   <ItemGroup>
@@ -825,8 +828,12 @@
     <Resource Include="UI\Icons\DefaultStyle\png\SetupWindow\Seed.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Media\Thorg.ico" />
+    <Resource Include="Media\icon1.ico" />
+    <Resource Include="Media\icon2.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Branding\app_logo.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Branding\logo_bottom.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -109,8 +109,8 @@ namespace GolemUI.Model
             }
         }
 
-        public int? _opacity = 80;
-        public int? Opacity
+        public int _opacity = 80;
+        public int Opacity
         {
             get
             {

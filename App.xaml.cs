@@ -29,27 +29,12 @@ namespace GolemUI
 
         private readonly ServiceProvider _serviceProvider;
         private readonly GolemUI.ChildProcessManager _childProcessManager;
-        private readonly IDisposable _sentrySdk;
 
         private Dashboard? _dashboard = null;
         public App()
         {
+            IsShuttingDown = false;
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
-            _sentrySdk = (SentrySdk.Init(o =>
-              {
-
-                  o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
-                  o.Debug = true; //todo: change to false for production release
-                  o.TracesSampleRate = 1.0; //todo: probably should change in future ?
-              }));
-
-            SentrySdk.ConfigureScope(scope =>
-            {
-                scope.Contexts["user_data"] = new
-                {
-                    Environment.UserName
-                };
-            });
 
             _childProcessManager = new GolemUI.ChildProcessManager();
             _childProcessManager.AddProcess(Process.GetCurrentProcess());
@@ -57,8 +42,15 @@ namespace GolemUI
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
-            SentrySdk.CaptureMessage("> App constructor", SentryLevel.Info);
 
+
+        }
+        public bool IsShuttingDown { get; private set; }
+
+        public new void Shutdown(int exitCode = 0)
+        {
+            this.IsShuttingDown = true;
+            base.Shutdown(exitCode);
         }
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
@@ -128,7 +120,23 @@ namespace GolemUI
             {
                 logBuilder.AddDebug();
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
-                logBuilder.AddSentry(GolemUI.Properties.Settings.Default.SentryDsn);
+                //GolemUI.Properties.Settings.Default.SentryDsn
+                logBuilder.AddSentry(o =>
+                {
+                    o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
+                    o.Debug = true;
+                    o.AttachStacktrace = true;
+                    o.AutoSessionTracking = true;
+                    //o.BeforeSend = @event =>
+                    //{
+
+                    //    return @event;
+                    //};
+                    o.IsGlobalModeEnabled = true;
+
+                    o.TracesSampleRate = 1.0;
+                }/* o.InitializeSdk=false*/);
+
             });
 
         }
@@ -160,8 +168,9 @@ namespace GolemUI
             var notificationMonitor = _serviceProvider!.GetRequiredService<Src.AppNotificationService.NotificationsMonitor>();
 
 
-
-
+            sentryAdditionalData.InitContextItems();
+            SentrySdk.CaptureMessage("> OnStartup", SentryLevel.Info);
+            //Task.Delay(10000).ContinueWith(x => sentryAdditionalData.InitContextItems());
 
 
             var args = e.Args;
@@ -218,10 +227,19 @@ namespace GolemUI
             }
         }
 
+        public void ShowUpdateDialog()
+        {
+            if (_dashboard != null)
+            {
+                _dashboard.ShowUpdateDialog();
+            }
+        }
+
+
         private void StopApp()
         {
             _serviceProvider.Dispose();
-            _sentrySdk.Dispose();
+
         }
 
         private void OnExit(object sender, ExitEventArgs e)
