@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using GolemUI.Interfaces;
 using GolemUI.Utils;
@@ -21,14 +22,23 @@ namespace GolemUI.Src
         {
         }
 
+
+        void AddAttachment(Scope scope, String path)
+        {
+            if (System.IO.File.Exists(path))
+                scope.AddAttachment(PathUtil.GetLocalBenchmarkPath());
+            else
+                scope.SetExtra(Path.GetFileName(path), "does not exist");
+        }
+
         public void SendUserFeedback(string tag, string name, string email, string comments, bool shouldAttachLogs)
         {
             if (shouldAttachLogs)
                 SentrySdk.ConfigureScope(scope =>
                 {
-                    scope.AddAttachment(PathUtil.GetLocalBenchmarkPath());
-                    scope.AddAttachment(PathUtil.GetRemoteSettingsPath());
-                    scope.AddAttachment(PathUtil.GetLocalSettingsPath());
+                    this.AddAttachment(scope, PathUtil.GetLocalBenchmarkPath());
+                    this.AddAttachment(scope, PathUtil.GetRemoteSettingsPath());
+                    this.AddAttachment(scope, PathUtil.GetLocalSettingsPath());
                 });
             var eventID = Sentry.SentrySdk.CaptureMessage(tag);
             Sentry.SentrySdk.CaptureUserFeedback(new Sentry.UserFeedback(eventID, name, email, comments));
