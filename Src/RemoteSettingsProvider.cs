@@ -24,14 +24,12 @@ namespace GolemUI.Src
 
         const double STARTUP_RETRY_DELAY_MS = 1.0;
 
-        const double MIN_RETRY_TIME_MINUTES = 1.0;
-        const double MAX_RETRY_TIME_MINUTES = 20.0;
-        const double NORMAL_RETRY_TIME_MINUTES = 60.0;
 #if DEBUG
-        const double DEBUG_RETRY_TIME_MINUTES = 1.0;
+        private TimeSpan RefreshInterval => TimeSpan.FromSeconds(120.0);
+#else
+        private TimeSpan RefreshInterval => TimeSpan.FromMinutes(60.0);
 #endif
 
-        private double _retryMinutesError = MIN_RETRY_TIME_MINUTES;
 
         private readonly INotificationService _notificationService;
 
@@ -50,24 +48,10 @@ namespace GolemUI.Src
 
         private async void OnRefreshTick(object sender, EventArgs e)
         {
+            _timer.Stop(); //prevent possible exception spamming
             bool res = await RequestRemoteSettingsUpdate();
-            if (res)
-            {
-                _retryMinutesError = MIN_RETRY_TIME_MINUTES;
-#if DEBUG
-                //update everty one minute in debug version to enable tests
-                _timer.Interval = TimeSpan.FromMinutes(DEBUG_RETRY_TIME_MINUTES);
-#else
-                //wait one hour if completed successfully
-                _timer.Interval = TimeSpan.FromMinutes(NORMAL_RETRY_TIME_MINUTES);
-#endif
-            }
-            else
-            {
-                //wait one minute if failed
-                _timer.Interval = TimeSpan.FromMinutes(_retryMinutesError);
-                _retryMinutesError = Math.Min(_retryMinutesError * 2.0, MAX_RETRY_TIME_MINUTES);
-            }
+            _timer.Interval = RefreshInterval;
+            _timer.Start();
         }
 
 
@@ -98,7 +82,7 @@ namespace GolemUI.Src
                     await client.DownloadFileTaskAsync(new Uri($"https://golemfactory.github.io/ya-provider-winui/config.json?timestamp={timestamp}"), remoteTmpPath);
                     if (!File.Exists(remoteTmpPath))
                     {
-                        _logger.LogWarning("Failed to download new config");
+                        _logger.LogError("Failed to download new config");
                         return false;
                     }
                     RemoteSettings? rs = JsonConvert.DeserializeObject<RemoteSettings>(File.ReadAllText(remoteTmpPath));
@@ -119,9 +103,13 @@ namespace GolemUI.Src
                     return true;
                 }
             }
+            catch (WebException ex)
+            {
+                _logger.LogWarning("Web exception when downloading remote config: " + ex.Message);
+            }
             catch (Exception ex)
             {
-                _logger.LogError("Failed to download new config: " + ex.Message);
+                _logger.LogError("Error when downloading remote config: " + ex.Message);
             }
             finally
             {
