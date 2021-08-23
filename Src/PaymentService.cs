@@ -148,9 +148,28 @@ namespace GolemUI.Src
             await Refresh();
         }
 
-        public Task<decimal> ExitFee()
+        public async Task<decimal> ExitFee(decimal? amount, string? to)
+        {
+            if (_buildInAdress == null)
+            {
+                throw new InvalidOperationException("intenal wallet not configured");
+            }
+
+            var output = await _gsbPayment.ExitFee(_buildInAdress, "zksync", amount, _network.Id);
+            return output.Amount;
+        }
+
+        public async Task<string> ExitTo(string driver, decimal amount, string destinationAddress, decimal? txFee)
+        {
+            string txUrl = await _gsbPayment.Exit("zksync", _buildInAdress, destinationAddress, amount, txFee, _network.Id);
+            return txUrl;
+        }
+
+        public Task<string> TransferTo(string driver, decimal amount, string destinationAddress, decimal? txFee)
         {
             throw new NotImplementedException();
         }
+
+
     }
 }

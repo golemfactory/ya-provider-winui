@@ -14,6 +14,7 @@ namespace GolemUI.DesignViewModel.Dialogs
 {
     public class DlgWithdrawViewModel
     {
+        public bool IsValid => true;
         public DlgWithdrawStatus TransactionStatus => DlgWithdrawStatus.Ok;
         public string WithdrawTextStatus => "Withdraw success";
         string? _withdrawAddress;
@@ -36,6 +37,8 @@ namespace GolemUI.DesignViewModel.Dialogs
             }
         }
 
+        public decimal AmountUSD => 15.15m;
+
         decimal _availableGLM = 73;
         public decimal AvailableGLM => _availableGLM;
         public decimal AvailableUSD => 16m;
@@ -43,21 +46,10 @@ namespace GolemUI.DesignViewModel.Dialogs
         public decimal MinAmount => 0;
         public decimal MaxAmount => _availableGLM;
 
-        public string TxFeeGLM => 1.2345f.ToString("f4");
-        public string TxFeeUSD => "$" + 2.46f.ToString("f2");
-        public string AmountGLMasString => Amount.ToString("f4");
-        public string AmountUSDasString => "$" + 99f.ToString("f4");
+        public decimal TxFee => 0.0345m;
+        public decimal TxFeeUSD => TxFee * 0.55m;
 
 
-        bool _shouldTransferAllTokensToL1 = true;
-        public bool ShouldTransferAllTokensToL1
-        {
-            get => _shouldTransferAllTokensToL1;
-            set
-            {
-                _shouldTransferAllTokensToL1 = value;
-            }
-        }
-
+        public string? ZksyncUrl => null;
     }
 }

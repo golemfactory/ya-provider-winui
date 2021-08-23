@@ -29,7 +29,7 @@ namespace GolemUI.UI.Dialogs
             DataContext = model;
         }
 
-        public DlgWithdrawViewModel? Model => DataContext as DlgWithdrawViewModel;
+        public DlgWithdrawViewModel Model => (DataContext as DlgWithdrawViewModel)!;
 
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
@@ -70,13 +70,15 @@ namespace GolemUI.UI.Dialogs
             Model.Amount = Model.MaxAmount;
         }
 
-        private void BtnConfirmStep1_Click(object sender, RoutedEventArgs e)
+        private async void BtnConfirmStep1_Click(object sender, RoutedEventArgs e)
         {
+            await Model.UpdateTxFee();
             tabControl.SelectedIndex = 1;
         }
 
-        private void BtnConfirmStep2_Click(object sender, RoutedEventArgs e)
+        private async void BtnConfirmStep2_Click(object sender, RoutedEventArgs e)
         {
+            await Model.SendTx();
             tabControl.SelectedIndex = 2;
         }
 
@@ -98,7 +100,7 @@ namespace GolemUI.UI.Dialogs
 
         private void BtnCheckOnZKsyncExplorer_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://zkscan.io/");
+            Model.OpenZkSyncExplorer();
         }
     }
 }

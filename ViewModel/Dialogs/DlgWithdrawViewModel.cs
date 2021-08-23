@@ -13,12 +13,14 @@ namespace GolemUI.ViewModel.Dialogs
 
     public class OutputNetwork
     {
+        public string Driver { get; }
         public string Name { get; }
 
         public string Description { get; }
 
-        public OutputNetwork(string name, string description)
+        public OutputNetwork(string driver, string name, string description)
         {
+            Driver = driver;
             Name = name;
             Description = description;
         }
@@ -29,8 +31,8 @@ namespace GolemUI.ViewModel.Dialogs
 
         public DlgWithdrawViewModel(Interfaces.IPaymentService paymentService, Interfaces.IPriceProvider priceProvider)
         {
-            _withdrawAddress = paymentService.Address;
-            _amount = paymentService.State.BalanceOnL2;
+            _withdrawAddress = "";
+            _amount = paymentService.State?.BalanceOnL2;
 
             _paymentService = paymentService;
             _priceProvider = priceProvider;
@@ -40,10 +42,12 @@ namespace GolemUI.ViewModel.Dialogs
         string? _withdrawAddress;
         public string WithdrawAddress
         {
-            get => _withdrawAddress;
+            get => _withdrawAddress ?? "";
             set
             {
                 _withdrawAddress = value;
+                OnPropertyChanged("WithdrawAddress");
+                OnPropertyChanged("IsValid");
             }
         }
 
@@ -57,8 +61,12 @@ namespace GolemUI.ViewModel.Dialogs
             {
                 _amount = value;
                 OnPropertyChanged(nameof(Amount));
+                OnPropertyChanged("IsValid");
+                OnPropertyChanged("AmountUSD");
             }
         }
+
+        public decimal AmountUSD => _priceProvider.CoinValue(Amount ?? 0m, Model.Coin.GLM);
 
         public decimal? AvailableGLM => _paymentService.State.BalanceOnL2;
         public decimal AvailableUSD => _priceProvider.CoinValue(AvailableGLM ?? 0m, Model.Coin.GLM);
@@ -76,14 +84,102 @@ namespace GolemUI.ViewModel.Dialogs
                 _shouldTransferAllTokensToL1 = value;
             }
         }
+
+        int _processing = 0;
+        public bool IsProcessing => _processing > 0;
+
+        private void _lock()
+        {
+            _processing += 1;
+            if (_processing == 1)
+            {
+                OnPropertyChanged("IsProcessing");
+            }
+        }
+
+        private void _unlock()
+        {
+            _processing -= 1;
+            if (_processing == 0)
+            {
+                OnPropertyChanged("IsProcessing");
+            }
+        }
+
+        public async Task UpdateTxFee()
+        {
+            _lock();
+            try
+            {
+                if (_withdrawAddress != null)
+                {
+                    TxFee = await _paymentService.ExitFee(Amount, _withdrawAddress) * 1.1m;
+                }
+            }
+            finally
+            {
+                _unlock();
+            }
+        }
+
+        public void OpenZkSyncExplorer()
+        {
+            System.Diagnostics.Process.Start(ZksyncUrl);
+        }
+
+        public async Task<bool> SendTx()
+        {
+            if (_amount is decimal amount)
+            {
+
+                _lock();
+                try
+                {
+                    if (TransferTo.Driver == "erc20")
+                    {
+                        ZksyncUrl = await _paymentService.ExitTo("zksync", amount, _withdrawAddress, TxFee);
+                        OnPropertyChanged("ZksyncUrl");
+                    }
+                    else
+                    {
+                        await _paymentService.TransferTo("zksync", amount, _withdrawAddress, TxFee);
+                    }
+                    return true;
+
+                }
+                finally
+                {
+                    _unlock();
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public string? ZksyncUrl { get; private set; } = null;
+
+
         public string WithdrawTextStatus => "Withdraw success";
 
         public decimal MinAmount => 0;
         public decimal MaxAmount => AvailableGLM ?? 0m;
 
-        public decimal TxFeeGLM => 1.2345m;
-        public string TxFeeUSD => "$" + 2.46f.ToString("f2");
-        public string AmountUSDasString => "$" + 99f.ToString("f4");
+        public decimal _txFee = 0m;
+        public decimal TxFee
+        {
+            get => _txFee;
+
+            set
+            {
+                _txFee = value;
+                OnPropertyChanged("TxFee");
+                OnPropertyChanged("TxFeeUSD");
+            }
+        }
+        public decimal TxFeeUSD => _priceProvider.CoinValue(TxFee, Model.Coin.GLM);
+
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged(string? propertyName = null)
         {
@@ -95,8 +191,8 @@ namespace GolemUI.ViewModel.Dialogs
 
         private OutputNetwork[] _networks = new OutputNetwork[]
         {
-        new("L1 - Eth", "Make sure that you have this selected when withrdawing to the Crypto Exchange wallet address!"),
-        new("L2 - Zksync", "Transfer of funds to the provided zksync address")
+        new("erc20", "L1 - Eth", "Make sure that you have this selected when withrdawing to the Crypto Exchange wallet address!"),
+        new("zksync", "L2 - Zksync", "Transfer of funds to the provided zksync address")
         };
 
         public OutputNetwork[] Networks => _networks;
@@ -108,8 +204,11 @@ namespace GolemUI.ViewModel.Dialogs
             {
                 _transferTo = value;
                 OnPropertyChanged("TransferTo");
+                OnPropertyChanged("IsValid");
             }
         }
+
+        public bool IsValid => _transferTo != null && Amount != null && (Amount > 0m) && Amount <= MaxAmount && _withdrawAddress != "";
 
         private readonly IPriceProvider _priceProvider;
         private readonly IPaymentService _paymentService;

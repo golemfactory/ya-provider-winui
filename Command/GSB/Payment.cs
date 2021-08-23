@@ -80,7 +80,63 @@ namespace GolemUI.Command.GSB
                 }
             }
 
+
+            // `/local/driver/zksync/ExitFee
+            public class ExitFee
+            {
+                public string Sender { get; set; }
+
+                public decimal? Amount { get; set; }
+
+                public string Network { get; set; }
+
+                public ExitFee(string sender, string network, decimal? amount = null)
+                {
+                    Sender = sender;
+                    Network = network;
+                    Amount = amount;
+                }
+            }
+
+            public class ExitFeeResult
+            {
+                public decimal Amount { get; set; }
+
+                public string Token { get; set; }
+
+                public ExitFeeResult(decimal amount, string token)
+                {
+                    Amount = amount;
+                    Token = token;
+                }
+            }
+
+
+            public class Exit
+            {
+
+                public string Sender { get; set; }
+
+                public string? To { get; set; }
+
+                public decimal? Amount { get; set; }
+
+                public string Network { get; set; }
+
+                public decimal? FeeLimit { get; set; }
+
+                public Exit(string sender, string to, decimal? amount, string network, decimal? feeLimit)
+                {
+                    Sender = sender ?? throw new ArgumentNullException(nameof(sender));
+                    To = to;
+                    Amount = amount;
+                    Network = network ?? throw new ArgumentNullException(nameof(network));
+                    FeeLimit = feeLimit;
+                }
+            }
         }
+
+
 
 
         public Payment(IGsbEndpointFactory gsbEndpointFactory)
@@ -93,6 +149,24 @@ namespace GolemUI.Command.GSB
             var result = await _doPost<Common.Result<Model.StatusResult, object>, Model.GetStatus>("local/payment/GetStatus", new Model.GetStatus(address, driver, network, token, since));
             return result.Ok ?? throw new HttpRequestException($"Invalid output: {result.Err}");
         }
+
+        public async Task<Model.ExitFeeResult> ExitFee(string address, string driver, decimal? amount = null, string? network = null)
+        {
+            var result = await _doPost<Common.Result<Model.ExitFeeResult, object>, Model.ExitFee>($"local/driver/{driver}/ExitFee", new Model.ExitFee(address, network, amount));
+            return result.Ok ?? throw new HttpRequestException($"Invalid output: {result.Err}");
+        }
+
+        public async Task<string> Exit(string driver, string from, string? to, decimal? amount = null, decimal? feeLimit = null, string? network = null)
+        {
+            var result = await _doPost<Common.Result<string, object>, Model.Exit>($"local/driver/{driver}/Exit", new Model.Exit(from, to, amount, network, feeLimit));
+            var cap = System.Text.RegularExpressions.Regex.Match(result.Ok ?? "", @"https:[^\s]*$").Captures;
+            if (cap.Count == 1)
+            {
+                return cap[0].Value;
+            }
+            return result.Ok ?? throw new HttpRequestException($"Invalid output: {result.Err}");
+        }
+
 
         private async Task<TOut> _doPost<TOut, TIn>(string serviceUri, TIn input)
         {
