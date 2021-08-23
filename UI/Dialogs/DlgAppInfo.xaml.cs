@@ -31,6 +31,7 @@ namespace GolemUI.UI.Dialogs
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
+            this.DialogResult = false;
             this.Close();
         }
 
@@ -42,6 +43,8 @@ namespace GolemUI.UI.Dialogs
         private void BtnSendFeedBack_Click(object sender, RoutedEventArgs e)
         {
             _model.SendFeedback();
+            this.DialogResult = true;
+            this.Close();
         }
 
 
