@@ -22,8 +22,14 @@ namespace GolemUI.Src
         bool _isDownloadingSettings = false;
         private readonly DispatcherTimer _timer;
 
+        const double STARTUP_RETRY_DELAY_MS = 1.0;
+
         const double MIN_RETRY_TIME_MINUTES = 1.0;
         const double MAX_RETRY_TIME_MINUTES = 20.0;
+        const double NORMAL_RETRY_TIME_MINUTES = 60.0;
+#if DEBUG
+        const double DEBUG_RETRY_TIME_MINUTES = 1.0;
+#endif
 
         private double _retryMinutesError = MIN_RETRY_TIME_MINUTES;
 
@@ -37,7 +43,7 @@ namespace GolemUI.Src
             _logger = logger;
             //create async timer and run almost instantly
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(1);
+            _timer.Interval = TimeSpan.FromMilliseconds(STARTUP_RETRY_DELAY_MS);
             _timer.Tick += OnRefreshTick;
             _timer.Start();
         }
@@ -50,10 +56,10 @@ namespace GolemUI.Src
                 _retryMinutesError = MIN_RETRY_TIME_MINUTES;
 #if DEBUG
                 //update everty one minute in debug version to enable tests
-                _timer.Interval = TimeSpan.FromMinutes(1);
+                _timer.Interval = TimeSpan.FromMinutes(DEBUG_RETRY_TIME_MINUTES);
 #else
                 //wait one hour if completed successfully
-                _timer.Interval = TimeSpan.FromHours(1);
+                _timer.Interval = TimeSpan.FromMinutes(NORMAL_RETRY_TIME_MINUTES);
 #endif
             }
             else
