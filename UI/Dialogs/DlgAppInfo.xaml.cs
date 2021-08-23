@@ -33,5 +33,20 @@ namespace GolemUI.UI.Dialogs
         {
             this.Close();
         }
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnSendFeedBack_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

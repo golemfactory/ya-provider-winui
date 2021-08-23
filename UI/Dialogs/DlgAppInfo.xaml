@@ -22,6 +22,7 @@
                 <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/WindowControls.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/CancelButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -45,7 +46,34 @@
                 <TabItem Header="TabItem" Background="Transparent">
                     <Grid>
                         <StackPanel Orientation="Vertical" Margin="0">
-                            
+
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Margin="30">
+                                    <Label Content="App info" Margin="0,0,0,20"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="App version: " />
+                                        <Label Content="{Binding Path=AppVersion, Mode=OneWay}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Node name: " />
+                                        <Label Content="{Binding Path=NodeName, Mode=OneWay}" />
+                                    </StackPanel>
+                                    <Button Background="Transparent" Name="BtGoToSendFeedback" Cursor="Hand"  BorderBrush="Transparent" Margin="0">
+                                        <TextBlock Text="SEND FEEDBACK" Cursor="Hand" TextDecorations="Underline" />
+                                    </Button>
+                                </StackPanel>
+
+                                <Image Margin="130,0" Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png"  Width="200"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Button Margin="0,0,0,20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="300"  Height="45" Grid.Row="0" Grid.Column="4" Click="BtnClose_Click" Name="BtnClose" Style="{StaticResource GradientButtonStyle}" Content="Close" />
+                    </Grid>
+                </TabItem>
+                <TabItem Header="TabItem" Background="Transparent">
+                    <Grid>
+                        <StackPanel Orientation="Vertical" Margin="0">
+
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel Margin="30">
                                     <Label Content="App info" Margin="0,0,0,20"/>
@@ -63,13 +91,15 @@
                                 <Image Margin="130,0" Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png"  Width="200"/>
                             </StackPanel>
                         </StackPanel>
-
-                        <Button Margin="0,0,0,20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="300"  Height="45" Grid.Row="0" Grid.Column="4" Click="BtnClose_Click" Name="BtnClose" Style="{StaticResource GradientButtonStyle}" Content="Close" />
+                        <UniformGrid Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="79,0,79,10" >
+                            <Button FontSize="18" IsCancel="True" Margin="0,0,0,0" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCancel_Click" Name="BtnCancel" Style="{StaticResource CancelButtonStyle}" Content="Cancel" />
+                            <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" Margin="0,0,0,0" HorizontalAlignment="Stretch"  Height="45"  Click="BtnSendFeedBack_Click" Name="BtnSendFeedBack" Content="Confirm" >
+                              
+                            </Button>
+                        </UniformGrid>
                     </Grid>
-                    <TabItem Header="TabItem" Background="Transparent">
-                        <Grid>
-                        </Grid>>
-                    </TabItem>
+                </TabItem>
+
             </TabControl>
         </Grid>
     </Border>
