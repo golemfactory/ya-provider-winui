@@ -281,6 +281,7 @@
     <Compile Include="UI\Charts\PrettyChartBin.xaml.cs">
       <DependentUpon>PrettyChartBin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Charts\PrettyChartRawData.cs" />
     <Compile Include="UI\Dialogs\DlgShouldStopMiningBeforeBenchmark.xaml.cs">
       <DependentUpon>DlgShouldStopMiningBeforeBenchmark.xaml</DependentUpon>
     </Compile>
@@ -318,7 +319,6 @@
     <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
-    <Compile Include="DesignViewModel\DashboardStatisticsDesignViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
@@ -338,7 +338,7 @@
     <Compile Include="Model\ActivityState.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
-    <Compile Include="Model\PrettyChartData.cs" />
+    <Compile Include="UI\Charts\PrettyChartData.cs" />
     <Compile Include="Model\UserSettings.cs" />
     <Compile Include="Model\WalletState.cs" />
     <Compile Include="Model\YagnaAgreement.cs" />
@@ -439,6 +439,7 @@
     <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgEditAddressViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
+    <Compile Include="UI\Charts\PrettyChartDataHistogram.cs" />
     <Compile Include="ViewModel\SettingsAdvViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />

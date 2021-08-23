@@ -1,5 +1,6 @@
 ﻿using GolemUI.Interfaces;
 using GolemUI.Model;
+using GolemUI.UI.Charts;
 using GolemUI.Utils;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -51,9 +52,9 @@ namespace GolemUI.Src
         public List<GPUHistoryUsage> MiningHistoryGpuSinceStart { get; set; } = new List<GPUHistoryUsage>();
 
 
-        public PrettyChartData EarningsChartData { get; set; } = new PrettyChartData();
+        public PrettyChartData EarningsChartData { get; set; } = new PrettyChartData(AggregateTypeEnum.Aggregate);
 
-        public PrettyChartData HashrateChartData { get; set; } = new PrettyChartData();
+        public PrettyChartData HashrateChartData { get; set; } = new PrettyChartData(AggregateTypeEnum.Aggregate);
 
 
         IStatusProvider _statusProvider;

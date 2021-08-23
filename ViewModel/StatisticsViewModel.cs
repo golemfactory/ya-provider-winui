@@ -1,5 +1,6 @@
 ﻿using GolemUI.Interfaces;
 using GolemUI.Model;
+using GolemUI.UI.Charts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using static GolemUI.Model.PrettyChartData;
+using static GolemUI.UI.Charts.PrettyChartData;
 
 namespace GolemUI.ViewModel
 {
@@ -29,9 +30,9 @@ namespace GolemUI.ViewModel
             }
             _timer = new DispatcherTimer();
             ChartData1 = _historyDataProvider.EarningsChartData;
-            ChartData2 = new PrettyChartData();
-            ChartData3 = new PrettyChartData();
-            ChartData4 = new PrettyChartData();
+            ChartData2 = new PrettyChartData(AggregateTypeEnum.Aggregate);
+            ChartData3 = new PrettyChartData(AggregateTypeEnum.Aggregate);
+            ChartData4 = new PrettyChartData(AggregateTypeEnum.Aggregate);
 
 
             PropertyChanged += StatisticsViewModel_PropertyChanged;
@@ -78,7 +79,7 @@ namespace GolemUI.ViewModel
 
         public PrettyChartData RandomData()
         {
-            var chartData = new PrettyChartData();
+            var chartData = new PrettyChartData(AggregateTypeEnum.Aggregate);
             chartData.NoAnimate = false;
 
             var binData = chartData.BinData;
@@ -96,41 +97,8 @@ namespace GolemUI.ViewModel
 
 
         }
-        public PrettyChartData MoveDataRight(PrettyChartData cd)
-        {
-            var chartData = (PrettyChartData)cd.Clone();
-            var binEntries = chartData.BinData.BinEntries;
+        
 
-            var firstElem = binEntries[0];
-            for (int i = 0; i < binEntries.Count; i++)
-            {
-                if (i == binEntries.Count - 1)
-                {
-                    binEntries[i] = firstElem;
-                }
-                else
-                {
-                    binEntries[i] = binEntries[i + 1];
-                }
-            }
-
-            return new PrettyChartData() { BinData = new PrettyChartBinData() { BinEntries = binEntries } };
-
-
-        }
-
-        public void MoveDataRight()
-        {
-            //ChartData1 = MoveDataRight(ChartData1);
-            ChartData2 = MoveDataRight(ChartData2);
-            ChartData3 = MoveDataRight(ChartData3);
-            ChartData4 = MoveDataRight(ChartData4);
-
-            NotifyChange("ChartData1");
-            NotifyChange("ChartData2");
-            NotifyChange("ChartData3");
-            NotifyChange("ChartData4");
-        }
 
         private void NotifyChange([CallerMemberName] string? propertyName = null)
         {

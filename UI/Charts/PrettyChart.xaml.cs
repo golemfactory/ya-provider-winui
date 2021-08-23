@@ -115,7 +115,7 @@ namespace GolemUI.UI.Charts
         }
 
         public static readonly DependencyProperty _chartData =
-            DependencyProperty.Register("ChartData", typeof(PrettyChartData), typeof(PrettyChart), new UIPropertyMetadata(new PrettyChartData(), StaticPropertyChangedCallback));
+            DependencyProperty.Register("ChartData", typeof(PrettyChartData), typeof(PrettyChart), new UIPropertyMetadata(new PrettyChartData(AggregateTypeEnum.Aggregate), StaticPropertyChangedCallback));
 
         public double CurrentFPS = 0.0;
 

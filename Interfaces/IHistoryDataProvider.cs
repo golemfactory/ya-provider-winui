@@ -1,4 +1,5 @@
 ﻿using GolemUI.Model;
+using GolemUI.UI.Charts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
