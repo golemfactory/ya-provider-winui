@@ -66,11 +66,7 @@ namespace GolemUI.Src
             {
                 //wait one minute if failed
                 _timer.Interval = TimeSpan.FromMinutes(_retryMinutesError);
-                _retryMinutesError *= 2.0;
-                if (_retryMinutesError > MAX_RETRY_TIME_MINUTES)
-                {
-                    _retryMinutesError = MAX_RETRY_TIME_MINUTES;
-                }
+                _retryMinutesError = Math.Min(_retryMinutesError * 2.0, MAX_RETRY_TIME_MINUTES);
             }
         }
 
