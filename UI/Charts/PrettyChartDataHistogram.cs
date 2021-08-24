@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace GolemUI.UI.Charts
 {
@@ -14,15 +15,24 @@ namespace GolemUI.UI.Charts
         public PrettyChartData HistData { get; private set; }
 
         private TimeSpan _binTimeSize = TimeSpan.FromSeconds(10);
-        public TimeSpan BinTimeSize
+        DispatcherTimer _timeSpanUpdate = new DispatcherTimer();
+
+        public void SetBinTimeSize(TimeSpan binTimeSize)
         {
-            get => _binTimeSize;
-            set
-            {
-                _binTimeSize = value;
-                OnBinTimeSizeChanged?.Invoke();
-                RawDataToBinData();
-            }
+            _binTimeSize = binTimeSize;
+            HistData.Clear();
+            RawDataToBinData();
+
+            _timeSpanUpdate.Interval = binTimeSize;
+            _timeSpanUpdate.Start();
+            _timeSpanUpdate.Tick += _timeSpanUpdate_Tick;
+
+            OnBinTimeSizeChanged?.Invoke();
+        }
+
+        private void _timeSpanUpdate_Tick(object sender, EventArgs e)
+        {
+            RawDataToBinData();
         }
 
         AggregateTypeEnum AggregateTypeEnum;
@@ -31,6 +41,7 @@ namespace GolemUI.UI.Charts
         {
             HistData = new PrettyChartData();
             AggregateTypeEnum = aggregateTypeEnum;
+
         }
 
         public delegate void BinTimeSizeChangedHandler();
@@ -54,12 +65,12 @@ namespace GolemUI.UI.Charts
         void ResetBinData()
         {
             HistData.Clear();
+            RawDataToBinData();
         }
 
         void RawDataToBinData()
         {
-            var timespan = BinTimeSize;
-
+            var timespan = _binTimeSize;
 
             if (RawData != null && RawData.RawElements.Count > 0)
             {
@@ -110,13 +121,27 @@ namespace GolemUI.UI.Charts
                         }
                         previousLast = lastInBin;
                     }
-                    HistData.AddOrUpdateBinEntry(entry_no, binDate.ToString("HH-mm-ss"), earnings * 1000.0);
+                    string dateFormat = "yyyy-MM-dd";
+                    if (timespan < TimeSpan.FromDays(1))
+                    {
+                        dateFormat = "dd_HH-mm";
+                    }
+                    if (timespan < TimeSpan.FromHours(1))
+                    {
+                        dateFormat = "HH-mm";
+                    }
+                    if (timespan < TimeSpan.FromMinutes(1))
+                    {
+                        dateFormat = "HH-mm-ss";
+                    }
+
+
+                    HistData.AddOrUpdateBinEntry(entry_no, binDate.ToString(dateFormat), earnings * 1000.0);
                     lastInBin = null;
                     firstInBin = null;
                     entry_no += 1;
                 }
             }
         }
-
     }
 }

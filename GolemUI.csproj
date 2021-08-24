@@ -829,5 +829,6 @@
     <Resource Include="UI\Icons\DefaultStyle\png\Branding\app_logo.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\Branding\logo_bottom.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

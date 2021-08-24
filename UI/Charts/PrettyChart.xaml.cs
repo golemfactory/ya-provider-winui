@@ -146,8 +146,41 @@ namespace GolemUI.UI.Charts
             InitializeComponent();
             this.SizeChanged += OnSizeChanged;
 
-            _timer.Interval = TimeSpan.FromSeconds(0.01);
+            _timer.Interval = TimeSpan.FromSeconds(1.0 / 30.0);
             _timer.Tick += _timer_Tick;
+
+            foreach (var i in new int[] { 10, 20, 30 })
+            {
+                var cbItem = new ComboBoxItem();
+                cbItem.Content = $"{i} seconds";
+                cbItem.Tag = TimeSpan.FromSeconds(i);
+                cbTickSize.Items.Add(cbItem);
+            }
+            foreach (var i in new int[]{1, 2, 5, 10, 15, 20, 30})
+            {
+                var cbItem = new ComboBoxItem();
+                cbItem.Content = $"{i} minutes";
+                cbItem.Tag = TimeSpan.FromMinutes(i);
+                cbTickSize.Items.Add(cbItem);
+            }
+            foreach (var i in new int[] { 1, 2, 4, 8 })
+            {
+                var cbItem = new ComboBoxItem();
+                cbItem.Content = $"{i} hours";
+                cbItem.Tag = TimeSpan.FromHours(i);
+                cbTickSize.Items.Add(cbItem);
+            }
+            foreach (var i in new int[] { 1 })
+            {
+                var cbItem = new ComboBoxItem();
+                cbItem.Content = $"{i} day";
+                cbItem.Tag = TimeSpan.FromHours(24);
+                cbTickSize.Items.Add(cbItem);
+            }
+
+            cbTickSize.SelectedIndex = 10;
+
+            cbTickSize_SelectionChanged(this, null);
         }
 
         private bool TimerActivated
@@ -294,8 +327,13 @@ namespace GolemUI.UI.Charts
 
         }
 
+
         public void OnBinTimeSizeChanged()
         {
+            ResetChartSettings(ChartData);
+            GotoEnd();
+
+            TimerActivated = true;
             //            ResetChartSettings(ChartData);
         }
 
@@ -418,6 +456,10 @@ namespace GolemUI.UI.Charts
 
                 NoBinsAnimState.ChangeTargetAndResetIfNeeded(21);
                 NoBinsAnimState.Finish();
+
+                StartIdxAnimState.ChangeTargetAndResetIfNeeded(0);
+                NoBinsAnimState.Finish();
+
 
                 //StartIdxAnimState.ChangeTargetAndResetIfNeeded(-20);
                 //StartIdxAnimState.Finish();
@@ -625,6 +667,28 @@ namespace GolemUI.UI.Charts
         private void btnPageBack_Click(object sender, RoutedEventArgs e)
         {
             JumpPage(direction: 1.0);
+        }
+
+        private void ChangeCurrentBinTimeSpan(TimeSpan ts)
+        {
+            ChartData.SetBinTimeSize(ts);
+        }
+
+        private void cbTickSize_SelectionChanged(object sender, SelectionChangedEventArgs? e)
+        {
+            Debug.WriteLine("cbTickSize_SelectionChanged");
+            ComboBoxItem? item = (ComboBoxItem)cbTickSize.SelectedItem;
+
+            if (item != null)
+            {
+                TimeSpan? ts = (TimeSpan)item.Tag;
+
+                if (ts != null)
+                {
+                    ChangeCurrentBinTimeSpan(ts.Value);
+                }
+            }
+
         }
     }
 }

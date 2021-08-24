@@ -127,17 +127,52 @@ namespace GolemUI.Src
 
             string datePart = DateTime.Now.ToString("yyyy-MM-dd");
             var historyPath = PathUtil.GetRemoteHistoryPath();
-            string historyFilePath = Path.Combine(historyPath, $"history_{datePart}.json");
-            var historyData = File.ReadAllText(historyFilePath);
-
-            List<GPUHistoryUsage>? oldHistory = JsonConvert.DeserializeObject<List<GPUHistoryUsage>>(historyData);
-            if (oldHistory == null)
+            
+            
+            if (Directory.Exists(historyPath))
             {
-                _logger.LogWarning("Failed to download old history");
-                return;
+                string[] files = Directory.GetFiles(historyPath, "history_*.json", SearchOption.AllDirectories);
+
+                foreach (var file in files)
+                {
+                    string historyFilePath = Path.Combine(historyPath, file);
+                    //string historyFilePath = Path.Combine(historyPath, $"history_{datePart}.json");
+                    if (File.Exists(historyFilePath))
+                    {
+                        var historyData = File.ReadAllText(historyFilePath);
+
+                        List<GPUHistoryUsage>? oldHistory = JsonConvert.DeserializeObject<List<GPUHistoryUsage>>(historyData);
+                        if (oldHistory == null)
+                        {
+                            _logger.LogWarning("Failed to download old history");
+                            return;
+                        }
+
+                        MergeIntoTotalHistory(oldHistory);
+                    }
+                }
             }
 
-            MergeIntoTotalHistory(oldHistory);
+
+
+
+            /*
+
+            if (File.Exists(historyFilePath))
+            {
+                var historyData = File.ReadAllText(historyFilePath);
+
+                List<GPUHistoryUsage>? oldHistory = JsonConvert.DeserializeObject<List<GPUHistoryUsage>>(historyData);
+                if (oldHistory == null)
+                {
+                    _logger.LogWarning("Failed to download old history");
+                    return;
+                }
+
+                MergeIntoTotalHistory(oldHistory);
+            }*/
+
+
 
             UpdateEarningsChartData();
 

@@ -56,7 +56,7 @@ namespace GolemUI.UI
 
         private /*async*/ void btnAddEntry_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.ChartData1.BinTimeSize = TimeSpan.FromMinutes(1);
+            ViewModel.ChartData1.SetBinTimeSize(TimeSpan.FromMinutes(1));
 
             //this.ViewModel.ChartData4.AddOrUpdateBinEntry(-1, DateTime.Now.ToString("88-88-88"), r.NextDouble() * 100.0);
             //            await Task.Delay(10);
