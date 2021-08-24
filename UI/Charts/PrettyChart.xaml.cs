@@ -146,7 +146,7 @@ namespace GolemUI.UI.Charts
             InitializeComponent();
             this.SizeChanged += OnSizeChanged;
 
-            _timer.Interval = TimeSpan.FromSeconds(1.0 / 30.0);
+            _timer.Interval = TimeSpan.FromSeconds(1.0 / 60.0);
             _timer.Tick += _timer_Tick;
 
             foreach (var i in new int[] { 10, 20, 30 })
@@ -587,7 +587,14 @@ namespace GolemUI.UI.Charts
                     double binTargetHeight = (animState.TargetVal / currentMaxVal * (heightWithoutMargins - binControl.GetMinHeight() + binControl.ValuesOffset)) + binControl.GetMinHeight();
 
                     binControl.SetBottomLabelText(lbl);
-                    binControl.SetValueLabelText(val.ToString("F2") + newData.Suffix);
+                    if (val == 0)
+                    {
+                        binControl.SetValueLabelText("");
+                    }
+                    else
+                    {
+                        binControl.SetValueLabelText(val.ToString("F2") + newData.Suffix);
+                    }
                     binControl.Width = newWidthWithoutMargins;
 
                     binControl.SetHeight(binHeight);

@@ -124,15 +124,15 @@ namespace GolemUI.UI.Charts
                     string dateFormat = "yyyy-MM-dd";
                     if (timespan < TimeSpan.FromDays(1))
                     {
-                        dateFormat = "dd_HH-mm";
+                        dateFormat = "dd HH:mm";
                     }
                     if (timespan < TimeSpan.FromHours(1))
                     {
-                        dateFormat = "HH-mm";
+                        dateFormat = "HH:mm";
                     }
                     if (timespan < TimeSpan.FromMinutes(1))
                     {
-                        dateFormat = "HH-mm-ss";
+                        dateFormat = "HH:mm:ss";
                     }
 
 

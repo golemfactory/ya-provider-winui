@@ -26,6 +26,8 @@ namespace GolemUI.UI.Charts
 
         private bool ValueLabelVisible { get; set; } = true;
 
+        private const double ZERO_VALUE_MARGIN = 2.0;
+
         public PrettyChartBin()
         {
             InitializeComponent();
@@ -97,7 +99,7 @@ namespace GolemUI.UI.Charts
 
         public double GetMinHeight()
         {
-            return LabelOffset + ValuesOffset;
+            return LabelOffset + ValuesOffset + ZERO_VALUE_MARGIN;
         }
 
     }
