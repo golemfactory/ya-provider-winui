@@ -8,9 +8,7 @@
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
-            
             <Setter.Value>
-                
                 <ControlTemplate TargetType="Button">
                     <Border Name="border" 
                         BorderThickness="0"
@@ -28,6 +26,6 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
-        </Setter>   
+        </Setter>
     </Style>
 </ResourceDictionary>
