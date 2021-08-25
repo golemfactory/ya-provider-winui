@@ -89,8 +89,8 @@ namespace GolemUI.UI.Dialogs
 
         private void BtnConfirmStep3_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
-            this.Close();
+            DialogResult = true;
+            Close();
         }
 
         private void BtnCheckOnEtherScan_Click(object sender, RoutedEventArgs e)
