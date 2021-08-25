@@ -1,56 +1,66 @@
 ﻿#nullable enable
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
 using GolemUI.Interfaces;
+using GolemUI.Src;
 using Sentry;
+using System;
+using System.ComponentModel;
+using System.Linq;
 
 namespace GolemUI
 {
-    public class SentryContext
-    {
-        public delegate void MemberChangedEventHandler();
-        public event MemberChangedEventHandler? MemberChanged;
-
-        public readonly Dictionary<string, string> Items = new Dictionary<string, string>();
-
-        public void AddItem(string key, string value)
-        {
-            if (Items.ContainsKey(key))
-            {
-                if (Items[key] == value)
-                    return;
-                Items[key] = value;
-            }
-            else
-            {
-                Items.Add(key, value);
-            }
-            MemberChanged?.Invoke();
-        }
-
-    }
     public class SentryAdditionalDataIngester
     {
         private readonly IProcessControler _processControler;
         private readonly Interfaces.IProviderConfig _providerConfig;
+        private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
+        private readonly BenchmarkService _benchmarkService;
         private SentryContext Context = new SentryContext();
 
 
 
-        public SentryAdditionalDataIngester(Interfaces.IProcessControler processControler, Interfaces.IProviderConfig providerConfig)
+        public SentryAdditionalDataIngester(BenchmarkService benchmarkService, Interfaces.IProcessControler processControler, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.IProviderConfig providerConfig)
         {
+            _benchmarkService = benchmarkService;
+            _benchmarkResultsProvider = benchmarkResultsProvider;
             _processControler = processControler;
             _providerConfig = providerConfig;
             _providerConfig.PropertyChanged += ProviderConfig_PropertyChanged;
             _processControler.PropertyChanged += _processControler_PropertyChanged;
             Context.MemberChanged += Context_MemberChanged;
+            _benchmarkService.PropertyChanged += _benchmarkService_PropertyChanged;
 
         }
+
+        private void _benchmarkService_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsRunning")
+            {
+                if (!_benchmarkService.IsRunning && _benchmarkService != null)
+                {
+                    var benchmarkStatus = _benchmarkService.Status;
+                    if (benchmarkStatus != null)
+                    {
+                        if (benchmarkStatus.GPUInfosParsed)
+                        {
+                            int gpusCount = benchmarkStatus?.GPUs?.Count ?? 0;
+                            Context.AddItem("GpuCount", gpusCount.ToString());
+                            if (gpusCount > 0)
+                                Context.AddItem("MainGpu", benchmarkStatus?.GPUs?.Values?.ToList()[0]?.GpuName ?? "");
+                        }
+                    }
+                }
+            }
+        }
+
         public void InitContextItems()
         {
+            var benchmarkSetting = _benchmarkResultsProvider.LoadBenchmarkResults();
+            int gpusCount = benchmarkSetting?.liveStatus?.GPUs?.Count ?? 0;
+            Context.AddItem("GpuCount", gpusCount.ToString());
+            if (gpusCount > 0)
+                Context.AddItem("MainGpu", benchmarkSetting?.liveStatus?.GPUs?.Values?.ToList()[0]?.GpuName ?? "");
+
+
             UpdateNodeName(_providerConfig.Config?.NodeName ?? "");
             Context.AddItem("UserName", Environment.UserName);
             Context_MemberChanged();

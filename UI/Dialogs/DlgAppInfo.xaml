@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="App Information" Width="600" VerticalAlignment="Center" Height="300" MinHeight="300" ResizeMode="NoResize" SizeToContent="Height"
+        Title="App Information" Width="600" VerticalAlignment="Center" Height="350" MinHeight="300" ResizeMode="NoResize" SizeToContent="Height"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -22,36 +22,93 @@
                 <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/WindowControls.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/CancelButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/UnderlineButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/TextBox/TextBoxInput.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>        
+        </ResourceDictionary>
     </Window.Resources>
     <Border BorderBrush="#999" BorderThickness="1" CornerRadius="12" Background="{DynamicResource SetupWindow.Background}" >
         <Grid>
-        <StackPanel Orientation="Vertical" Margin="0">
-            <DockPanel>
-                <DockPanel x:Name="TitleBar" DockPanel.Dock="Top">
-                        <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="BtnClose_Click" Style="{DynamicResource CloseWindowButton}"/>
-                    
-                    <TextBlock HorizontalAlignment="Center"></TextBlock>
-                </DockPanel>
-            </DockPanel>
-                <StackPanel Orientation="Horizontal">
-            <StackPanel Margin="30">
-                <Label Content="App info" Margin="0,0,0,20"/>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="App version: " />
-                        <Label Content="{Binding Path=AppVersion, Mode=OneWay}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Node name: " />
-                        <Label Content="{Binding Path=NodeName, Mode=OneWay}" />
-                    </StackPanel>
-                       
-                    </StackPanel>
-                    <Image Margin="130,0" Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png"  Width="200"/>
-                </StackPanel>
-            </StackPanel>
-            <Button Margin="0,0,0,20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="300"  Height="45" Grid.Row="0" Grid.Column="4" Click="BtnClose_Click" Name="BtnClose" Style="{StaticResource GradientButtonStyle}" Content="Close" />
+            <Button VerticalAlignment="Top" HorizontalAlignment="Right" x:Name="CloseButton" Content="Close" Cursor="Hand" Click="BtnClose_Click" Style="{DynamicResource CloseWindowButton}"/>
+
+            <TabControl BorderThickness="0"  x:Name="tabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Margin="0,30,0,0" >
+                <TabControl.ItemContainerStyle>
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Visibility" Value="Hidden"></Setter>
+
+                    </Style>
+
+                </TabControl.ItemContainerStyle>
+                <TabItem Header="TabItem" Background="Transparent">
+                    <Grid>
+                        <StackPanel Orientation="Vertical" Margin="0">
+
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Margin="30,0">
+                                    <Label Content="App info" Margin="0,0,0,20"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="App version: " />
+                                        <Label Content="{Binding Path=AppVersion, Mode=OneWay}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Node name: " />
+                                        <Label Content="{Binding Path=NodeName, Mode=OneWay}" />
+                                    </StackPanel>
+                                    <Button Content="SEND FEEDBACK" Style="{StaticResource UnderlineButtonStyle}"  Name="BtGoToSendFeedback" Click="BtGoToSendFeedback_Click" Cursor="Hand"  Margin="5,30" Padding="0" HorizontalContentAlignment="Left" />
+
+                                </StackPanel>
+
+                                <Image Margin="130,0" Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png"  Width="200"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Button Margin="0,0,0,20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="300"  Height="45" Grid.Row="0" Grid.Column="4" Click="BtnClose_Click" Name="BtnClose" Style="{StaticResource GradientButtonStyle}" Content="Close" />
+                    </Grid>
+                </TabItem>
+                <TabItem Header="TabItem" Background="Transparent">
+                    <Grid VerticalAlignment="Stretch" Margin="30,0,30,10" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40"  />
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="Your Name"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="Your Email"/>
+                        <Label Grid.Row="2" Grid.Column="0" Content="Your Comments"/>
+                        
+                        
+                        <TextBox Grid.Column="1" Grid.Row="0"  Text="{Binding UserName}"  Style="{StaticResource TextBoxInputStyle}" VerticalAlignment="Top"/>
+                        <TextBox Grid.Column="1" Grid.Row="1"  Text="{Binding UserEmail}"  Style="{StaticResource TextBoxInputStyle}" VerticalAlignment="Top"/>
+                        <TextBox Grid.Column="1" Grid.Row="2"  Text="{Binding UserComment}"  Style="{StaticResource TextBoxInputStyle}" VerticalAlignment="Top" 
+                                 TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="100" BorderThickness="2,2,2,2"/>
+
+                        <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding Path=ShouldAttachLogs}" Style="{DynamicResource CheckBoxGpu}" Margin="0,10" >
+                            <TextBlock Margin="10,5" VerticalAlignment="Center" Text="send additional data from logs (this will help us fix problems)"></TextBlock>
+                        </CheckBox>
+
+
+
+                        <UniformGrid Grid.Row="4" Grid.ColumnSpan="2" Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch"  >
+                            <Button FontSize="18" IsCancel="True" Margin="0,0,0,0" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCancel_Click" Name="BtnCancel" Style="{StaticResource CancelButtonStyle}" Content="Cancel" />
+                            <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" Margin="0,0,0,0" HorizontalAlignment="Stretch"  Height="45"  Click="BtnSendFeedBack_Click" Name="BtnSendFeedBack" Content="SEND FEEDBACK" >
+                              
+                            </Button>
+                        </UniformGrid>
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
         </Grid>
     </Border>
 </Window>
