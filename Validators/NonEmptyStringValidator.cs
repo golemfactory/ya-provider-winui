@@ -16,8 +16,8 @@ namespace GolemUI.Validators
             ValidationResult validationResult = new ValidationResult(false, ErrorMessage);
             if (value != null)
             {
-                string valueAsString = value as string;
-                if (valueAsString.Length > 0)
+                string? valueAsString = value as string;
+                if (!String.IsNullOrEmpty(valueAsString))
                     validationResult = ValidationResult.ValidResult;
             }
             return validationResult;

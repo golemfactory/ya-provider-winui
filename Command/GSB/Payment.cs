@@ -125,7 +125,7 @@ namespace GolemUI.Command.GSB
 
                 public decimal? FeeLimit { get; set; }
 
-                public Exit(string sender, string to, decimal? amount, string network, decimal? feeLimit)
+                public Exit(string sender, string? to, decimal? amount, string network, decimal? feeLimit)
                 {
                     Sender = sender ?? throw new ArgumentNullException(nameof(sender));
                     To = to;
@@ -150,13 +150,13 @@ namespace GolemUI.Command.GSB
             return result.Ok ?? throw new HttpRequestException($"Invalid output: {result.Err}");
         }
 
-        public async Task<Model.ExitFeeResult> ExitFee(string address, string driver, decimal? amount = null, string? network = null)
+        public async Task<Model.ExitFeeResult> ExitFee(string address, string driver, string network, decimal? amount = null)
         {
             var result = await _doPost<Common.Result<Model.ExitFeeResult, object>, Model.ExitFee>($"local/driver/{driver}/ExitFee", new Model.ExitFee(address, network, amount));
             return result.Ok ?? throw new HttpRequestException($"Invalid output: {result.Err}");
         }
 
-        public async Task<string> Exit(string driver, string from, string? to, decimal? amount = null, decimal? feeLimit = null, string? network = null)
+        public async Task<string> Exit(string driver, string from, string network, string? to, decimal? amount = null, decimal? feeLimit = null)
         {
             var result = await _doPost<Common.Result<string, object>, Model.Exit>($"local/driver/{driver}/Exit", new Model.Exit(from, to, amount, network, feeLimit));
             var cap = System.Text.RegularExpressions.Regex.Match(result.Ok ?? "", @"https:[^\s]*$").Captures;

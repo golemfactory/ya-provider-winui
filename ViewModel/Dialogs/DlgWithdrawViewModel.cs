@@ -68,7 +68,7 @@ namespace GolemUI.ViewModel.Dialogs
 
         public decimal AmountUSD => _priceProvider.CoinValue(Amount ?? 0m, Model.Coin.GLM);
 
-        public decimal? AvailableGLM => _paymentService.State.BalanceOnL2;
+        public decimal? AvailableGLM => _paymentService.State?.BalanceOnL2;
         public decimal AvailableUSD => _priceProvider.CoinValue(AvailableGLM ?? 0m, Model.Coin.GLM);
 
 
@@ -129,20 +129,19 @@ namespace GolemUI.ViewModel.Dialogs
 
         public async Task<bool> SendTx()
         {
-            if (_amount is decimal amount)
+            if (_amount is decimal amount && _withdrawAddress is string withdrawAddress && TransferTo is OutputNetwork transferTo)
             {
-
                 _lock();
                 try
                 {
-                    if (TransferTo.Driver == "erc20")
+                    if (transferTo.Driver == "erc20")
                     {
-                        ZksyncUrl = await _paymentService.ExitTo("zksync", amount, _withdrawAddress, TxFee);
+                        ZksyncUrl = await _paymentService.ExitTo("zksync", amount, withdrawAddress, TxFee);
                         OnPropertyChanged("ZksyncUrl");
                     }
                     else
                     {
-                        await _paymentService.TransferTo("zksync", amount, _withdrawAddress, TxFee);
+                        await _paymentService.TransferTo("zksync", amount, withdrawAddress, TxFee);
                     }
                     return true;
 
