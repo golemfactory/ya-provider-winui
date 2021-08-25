@@ -296,10 +296,6 @@
     <Compile Include="UI\Dialogs\DlgUpdateApp.xaml.cs">
       <DependentUpon>DlgUpdateApp.xaml</DependentUpon>
     </Compile>
-    <Page Include="UI\Themes\Buttons\UnderlineButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Compile Include="UI\UserControls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>
