@@ -1,7 +1,7 @@
 {
   "LatestVersion": "0.3.0.1",
   "Version": "0.3.0.1",
-  "LatestVersionCodename": "pre-beta-1",
+  "LatestVersionCodename": "beta-1",
   "LatestVersionDownloadLink": "https://github.com/golemfactory/ya-provider-winui/releases/download/v0.3.0.1/GolemUISetup.msi",
   "ChangeLog": "Added update app dialog",
   "LastSupportedVersion": "0.3.0.1",
