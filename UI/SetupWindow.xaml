@@ -322,7 +322,7 @@
                                             <TextBlock FontFamily="Segoe UI" FontSize="24" FontWeight="Bold" Margin="0, 0, 0 15">Your wallet is being created…</TextBlock>
                                             <TextBlock FontFamily="Segoe UI" FontSize="15" Margin="0, 14, 0 15">In a seccond you will be presented with 12 words.</TextBlock>
                                             <TextBlock FontFamily="Segoe UI" FontSize="15" Margin="0, 10" Width="440">
-They are a backup for your wallet and in case your disk fails or any other unexpected situation - you will be able to recreate your wallet with your earnings in any external wallet!</TextBlock>
+They are a backup for your wallet and in case your disk fails or any other unexpected situations - you will be able to recreate your wallet with your earnings in any external wallet!</TextBlock>
 
                                         </StackPanel>
                                         <Button Height="44" Margin="72,0,0,0" Content="Got It!" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep2"
@@ -436,7 +436,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Label.Style>
-                                                ✓ Node name is valid
+                                                ✓ Valid node name
                                             </Label>
                                             <Label Margin="20,20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character))" >
                                                 <Label.Style>
@@ -632,7 +632,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
 
                                         </Grid.RowDefinitions>
                                         <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="40,40,0,0">
-                                            <TextBlock FontSize="18" FontWeight="Bold" >Use only Ethereum address</TextBlock>
+                                            <TextBlock FontSize="18" FontWeight="Bold" >Use only an Ethereum address</TextBlock>
                                            
                                         </StackPanel>
                                         <ContentControl Content="{StaticResource Use_my_wallet_icon}" Grid.Row="0" Grid.RowSpan="2" Margin="6,20,0,0" VerticalAlignment="Top"/>
@@ -788,7 +788,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Label.Style>
-                                                ✓ Node name is valid
+                                                ✓ Valid node name
                                             </Label>
                                             <Label Margin="20,20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character))" >
                                                 <Label.Style>
