@@ -17,7 +17,7 @@
                 <RotateTransform Angle="270" />
             </TextBlock.LayoutTransform>            
         </TextBlock>
-        <Border x:Name="BinRect" Grid.Row="1" Background="Aqua" BorderBrush="White" BorderThickness="1">
+        <Border x:Name="BinRect" Grid.Row="1" Background="#B975DD" BorderBrush="#BF97D8" BorderThickness="1">
             <TextBlock MinWidth="100" TextAlignment="Right" Grid.Row="1" x:Name="tbValueLabelInside" Foreground="Black" Text="34Mh/s" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 5, 0, 0">
                 <TextBlock.LayoutTransform>
                     <RotateTransform Angle="270" />

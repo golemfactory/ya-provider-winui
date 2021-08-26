@@ -403,7 +403,7 @@ namespace GolemUI.UI.Charts
         }
 
         AnimationState StartIdxAnimState = new AnimationState(startVal: -10.0, targetVal: -10.0, animationSpeed: START_IDX_ANIMATION_SPEED, delay: 0.0);
-        AnimationState NoBinsAnimState = new AnimationState(startVal: 21.0, targetVal: 21.0, animationSpeed: ZOOM_IN_IDX_ANIMATION_SPEED, delay: 0.0);
+        AnimationState NoBinsAnimState = new AnimationState(startVal: 11.0, targetVal: 11.0, animationSpeed: ZOOM_IN_IDX_ANIMATION_SPEED, delay: 0.0);
         AnimationState MaxValAnimState = new AnimationState(startVal: 1.0, targetVal: 1.0, animationSpeed: MAX_VAL_ANIMATION_SPEED, delay: MAX_VAL_ANIMATION_DELAY);
 
 
