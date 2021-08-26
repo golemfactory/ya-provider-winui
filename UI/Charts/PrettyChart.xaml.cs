@@ -80,13 +80,20 @@ namespace GolemUI.UI.Charts
                 }
             }
 
-            public void ChangeTargetAndResetIfNeeded(double targetVal)
+            public void ChangeTargetAndResetIfNeeded(double targetVal, bool noDelay)
             {
                 if (targetVal != TargetVal)
                 {
                     StartVal = CurrentValue;
                     TargetVal = targetVal;
-                    AnimationT = -Delay;
+                    if (noDelay)
+                    {
+                        AnimationT = 0.0;
+                    }
+                    else
+                    {
+                        AnimationT = -Delay;
+                    }
                 }
             }
 
@@ -127,13 +134,15 @@ namespace GolemUI.UI.Charts
         const double MAX_VAL_ANIMATION_SPEED = 1.8;
         const double MAX_VAL_ANIMATION_DELAY = 0.5;
 
+        const double DEFAULT_NUMBER_OF_BINS = 11;
+
+
         public double BinMargin { get; set; } = 5.0;
         public double BottomMargin { get; set; } = 5.0;
         public double LeftMargin { get; set; } = 5.0;
         public double RightMargin { get; set; } = 5.0;
         public double TopMargin { get; set; } = 25.0;
 
-        public string Title { get; set; } = "Default title";
 
 
         Stopwatch _sw = Stopwatch.StartNew();
@@ -267,8 +276,6 @@ namespace GolemUI.UI.Charts
         long _lastTick = 0;
         private void _timer_Tick(object sender, EventArgs? e)
         {
-            tbTitle.Text = Title;
-
             long newTick = _sw.ElapsedTicks;
             double elapsedSec = (newTick - _lastTick) / (double)Stopwatch.Frequency;
             _lastTick = newTick;
@@ -402,8 +409,8 @@ namespace GolemUI.UI.Charts
             TimerActivated = true;
         }
 
-        AnimationState StartIdxAnimState = new AnimationState(startVal: -10.0, targetVal: -10.0, animationSpeed: START_IDX_ANIMATION_SPEED, delay: 0.0);
-        AnimationState NoBinsAnimState = new AnimationState(startVal: 11.0, targetVal: 11.0, animationSpeed: ZOOM_IN_IDX_ANIMATION_SPEED, delay: 0.0);
+        AnimationState StartIdxAnimState = new AnimationState(startVal: 0.0, targetVal: 0.0, animationSpeed: START_IDX_ANIMATION_SPEED, delay: 0.0);
+        AnimationState NoBinsAnimState = new AnimationState(startVal: DEFAULT_NUMBER_OF_BINS, targetVal: DEFAULT_NUMBER_OF_BINS, animationSpeed: ZOOM_IN_IDX_ANIMATION_SPEED, delay: 0.0);
         AnimationState MaxValAnimState = new AnimationState(startVal: 1.0, targetVal: 1.0, animationSpeed: MAX_VAL_ANIMATION_SPEED, delay: MAX_VAL_ANIMATION_DELAY);
 
 
@@ -411,11 +418,11 @@ namespace GolemUI.UI.Charts
         {
             if (steps != 0.0)
             {
-                StartIdxAnimState.ChangeTargetAndResetIfNeeded(StartIdxAnimState.TargetVal - steps);
+                StartIdxAnimState.ChangeTargetAndResetIfNeeded(StartIdxAnimState.TargetVal - steps, noDelay: true);
             }
             if (zoomSteps != 0.0)
             {
-                NoBinsAnimState.ChangeTargetAndResetIfNeeded(NoBinsAnimState.TargetVal + zoomSteps);
+                NoBinsAnimState.ChangeTargetAndResetIfNeeded(NoBinsAnimState.TargetVal + zoomSteps, noDelay: true);
             }
 
             if (!animate)
@@ -454,10 +461,10 @@ namespace GolemUI.UI.Charts
                 }
                 int entryCount = newData.HistData.BinData.BinEntries.Count;
 
-                NoBinsAnimState.ChangeTargetAndResetIfNeeded(21);
+                NoBinsAnimState.ChangeTargetAndResetIfNeeded(DEFAULT_NUMBER_OF_BINS, noDelay: true);
                 NoBinsAnimState.Finish();
 
-                StartIdxAnimState.ChangeTargetAndResetIfNeeded(0);
+                StartIdxAnimState.ChangeTargetAndResetIfNeeded(0, noDelay: true);
                 NoBinsAnimState.Finish();
 
 
@@ -489,20 +496,20 @@ namespace GolemUI.UI.Charts
                 }
             }
 
-            StartIdxAnimState.ChangeTargetAndResetIfNeeded(targetStartPosX);
+            StartIdxAnimState.ChangeTargetAndResetIfNeeded(targetStartPosX, noDelay: true);
             TimerActivated = true;
         }
 
         void GotoBeginning()
         {
-            StartIdxAnimState.ChangeTargetAndResetIfNeeded(0.0);
+            StartIdxAnimState.ChangeTargetAndResetIfNeeded(0.0, noDelay: true);
             TimerActivated = true;
         }
 
         void GotoEnd()
         {
             double targetNoBins = NoBinsAnimState.TargetVal;
-            StartIdxAnimState.ChangeTargetAndResetIfNeeded(ChartData.HistData.BinData.BinEntries.Count - targetNoBins);
+            StartIdxAnimState.ChangeTargetAndResetIfNeeded(ChartData.HistData.BinData.BinEntries.Count - targetNoBins, noDelay: true);
             TimerActivated = true;
         }
 
@@ -527,6 +534,7 @@ namespace GolemUI.UI.Charts
                 }
 
                 double maxVal = 0.001;
+                int numberOfMaxValCandidates = 0;
                 for (int entryNo = 0; entryNo < entryCount; entryNo++)
                 {
                     double val = newData.BinData.BinEntries[entryNo].Value;
@@ -539,12 +547,22 @@ namespace GolemUI.UI.Charts
                     {
                         continue;
                     }
+                    if (val > 0.001)
+                    {
+                        numberOfMaxValCandidates += 1;
+                    }
                     if (val > maxVal)
                     {
                         maxVal = val;
                     }
                 }
-                MaxValAnimState.ChangeTargetAndResetIfNeeded(maxVal);
+                MaxValAnimState.ChangeTargetAndResetIfNeeded(maxVal, noDelay: false);
+
+                if (numberOfMaxValCandidates < 2)
+                {
+                    //if not so many blocks finish instantly, edge cases when not many blocks are visible
+                    MaxValAnimState.Finish();
+                }
 
                 double currentMaxVal = MaxValAnimState.CurrentValue;
                 //double targetMaxVal = MaxValAnimState.TargetVal;
@@ -562,10 +580,14 @@ namespace GolemUI.UI.Charts
                         _animationStates[entryNo].Reset(delay: 1.0);
                     }
                     AnimationState animState = _animationStates[entryNo];
-                    animState.ChangeTargetAndResetIfNeeded(val);
+                    animState.ChangeTargetAndResetIfNeeded(val, noDelay: true);
 
                     animState.Tick(elapsedSeconds);
 
+                    if (numberOfMaxValCandidates < 2)
+                    {
+                        animState.Finish();
+                    }
 
                     double positionX = LeftMargin + (entryNo - newStartIdx) * newFullWidth + BinMargin / 2.0;
                     if (positionX + newFullWidth < -10 || positionX > DrawWidth)

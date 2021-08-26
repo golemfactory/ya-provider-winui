@@ -21,7 +21,7 @@ namespace GolemUI.UI.Charts
         public BinEntryUpdatedHandler? OnBinEntryUpdated = null;
         public BinEntryAddedHandler? OnBinEntryAdded = null;
 
-        public string Suffix { get; set; } = "MH/s";
+        public string Suffix { get; set; } = "mGLM";
 
         public class PrettyChartBinEntry : ICloneable
         {

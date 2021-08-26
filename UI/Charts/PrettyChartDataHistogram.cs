@@ -80,8 +80,6 @@ namespace GolemUI.UI.Charts
                 PrettyChartRawData.RawEntry? firstInBin = null;
                 PrettyChartRawData.RawEntry? lastInBin = null;
 
-                PrettyChartRawData.RawEntry? previousLast = null;
-
                 List<PrettyChartRawData.RawEntry> entries = RawData.RawElements;
 
                 int idx = 0;
@@ -111,18 +109,7 @@ namespace GolemUI.UI.Charts
                         idx += 1;
                     }
                     double earnings = sumValues;
-                    /*if (lastInBin != null)
-                    {
-                        if (previousLast != null)
-                        {
-                            earnings = lastInBin.Value.Value - previousLast.Value.Value;
-                        }
-                        else
-                        {
-                            earnings = lastInBin.Value.Value;
-                        }
-                        previousLast = lastInBin;
-                    }*/
+
                     string dateFormat = "yyyy-MM-dd";
                     if (timespan < TimeSpan.FromDays(1))
                     {

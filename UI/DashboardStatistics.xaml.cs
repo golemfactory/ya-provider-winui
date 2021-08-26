@@ -37,12 +37,12 @@ namespace GolemUI.UI
         }
         private void btnMoveRight_Click(object sender, RoutedEventArgs e)
         {
-            chartData.MoveRight(1, true);
+            //chartData.MoveRight(1, true);
         }
 
         private void btnMoveLeft_Click(object sender, RoutedEventArgs e)
         {
-            chartData.MoveLeft(1, true);
+            //chartData.MoveLeft(1, true);
         }
 
         private void btnZoomIn_Click(object sender, RoutedEventArgs e)
@@ -60,8 +60,8 @@ namespace GolemUI.UI
 
             for (int i = 0; i < 1000000; i++)
             {
-                ViewModel.ChartData1.RawData.AddNewEntry(DateTime.Now, r.NextDouble() * 100.0, true);
-                await Task.Delay(100);
+                ViewModel.ChartData1.RawData?.AddNewEntry(DateTime.Now, r.NextDouble() * 1.0, true);
+                await Task.Delay(1000);
             };
 
 
