@@ -34,7 +34,7 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool TestNet {
             get {
                 return ((bool)(this["TestNet"]));
@@ -101,6 +101,14 @@ namespace GolemUI.Properties {
         public string GolemWebPage {
             get {
                 return ((string)(this["GolemWebPage"]));
+            }
+        }
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OpenConsole {
+            get {
+                return ((bool)(this["OpenConsole"]));
             }
         }
         

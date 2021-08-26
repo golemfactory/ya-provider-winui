@@ -219,18 +219,25 @@ namespace GolemUI.Command
 
             if (options.PrivateKey != null)
             {
-                startInfo.EnvironmentVariables.Add("YAGNA_AC_IDENTITY_PK", options.PrivateKey);
+                startInfo.EnvironmentVariables.Add("YAGNA_AUTOCONF_ID_SECRET", options.PrivateKey);
             }
 
             if (options.ForceAppKey != null)
             {
-                startInfo.EnvironmentVariables.Add("YAGNA_AC_APPKEY", options.ForceAppKey);
+                startInfo.EnvironmentVariables.Add("YAGNA_AUTOCONF_APPKEY", options.ForceAppKey);
+            }
+
+            var certs = Path.Combine(Path.GetDirectoryName(_yaExePath), "cacert.pem");
+            if (File.Exists(certs))
+            {
+                startInfo.EnvironmentVariables.Add("SSL_CERT_FILE", certs);
             }
 
             if (options.OpenConsole)
             {
                 startInfo.RedirectStandardOutput = false;
                 startInfo.RedirectStandardError = false;
+                startInfo.UseShellExecute = false;
             }
             else
             {

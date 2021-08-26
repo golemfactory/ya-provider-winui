@@ -116,6 +116,9 @@ namespace GolemUI
             services.AddTransient(typeof(UI.SetupWindow));
             services.AddTransient(typeof(GolemUI.DebugWindow));
 
+            services.AddSingleton<Command.GSB.IGsbEndpointFactory, Src.GsbEndpointFactory>();
+            services.AddTransient(typeof(Command.GSB.Payment));
+
             services.AddLogging(logBuilder =>
             {
                 logBuilder.AddDebug();
