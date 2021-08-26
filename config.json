@@ -3,7 +3,7 @@
   "Version": "0.3.0.1",
   "LatestVersionCodename": "beta-1",
   "LatestVersionDownloadLink": "https://github.com/golemfactory/ya-provider-winui/releases/download/v0.3.0.1/GolemUISetup.msi",
-  "ChangeLog": "Added update app dialog",
+  "ChangeLog": "Initial version for beta testing",
   "LastSupportedVersion": "0.3.0.1",
   "DayEthPerGH": 0.023,
   "DayEtcPerGH": 0.81,
