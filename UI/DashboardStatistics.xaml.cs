@@ -54,9 +54,16 @@ namespace GolemUI.UI
             chartData.ZoomOut(1, true);
         }
 
-        private /*async*/ void btnAddEntry_Click(object sender, RoutedEventArgs e)
+        private async void btnAddEntry_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.ChartData1.SetBinTimeSize(TimeSpan.FromMinutes(1));
+            //ViewModel.ChartData1.SetBinTimeSize(TimeSpan.FromMinutes(1));
+
+            for (int i = 0; i < 1000000; i++)
+            {
+                ViewModel.ChartData1.RawData.AddNewEntry(DateTime.Now, r.NextDouble() * 100.0, true);
+                await Task.Delay(100);
+            };
+
 
             //this.ViewModel.ChartData4.AddOrUpdateBinEntry(-1, DateTime.Now.ToString("88-88-88"), r.NextDouble() * 100.0);
             //            await Task.Delay(10);

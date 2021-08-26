@@ -91,11 +91,13 @@ namespace GolemUI.UI.Charts
                 {
                     DateTime endBinDate = binDate + timespan;
 
+                    double sumValues = 0.0;
                     while (idx < entries.Count)
                     {
                         val = entries[idx];
                         if (val.Dt < endBinDate)
                         {
+                            sumValues += val.Value;
                             if (firstInBin == null)
                             {
                                 firstInBin = val;
@@ -108,8 +110,8 @@ namespace GolemUI.UI.Charts
                         }
                         idx += 1;
                     }
-                    double earnings = 0.0;
-                    if (lastInBin != null)
+                    double earnings = sumValues;
+                    /*if (lastInBin != null)
                     {
                         if (previousLast != null)
                         {
@@ -120,7 +122,7 @@ namespace GolemUI.UI.Charts
                             earnings = lastInBin.Value.Value;
                         }
                         previousLast = lastInBin;
-                    }
+                    }*/
                     string dateFormat = "yyyy-MM-dd";
                     if (timespan < TimeSpan.FromDays(1))
                     {
