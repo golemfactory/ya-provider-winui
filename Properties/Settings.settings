@@ -6,7 +6,7 @@
       <Value Profile="(Default)">LazySubnet</Value>
     </Setting>
     <Setting Name="TestNet" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="SentryDsn" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://3210d81dbe2042d0a1adce29072b26d7@o921571.ingest.sentry.io/5881077</Value>
@@ -28,6 +28,9 @@
     </Setting>
     <Setting Name="GolemWebPage" Type="System.String" Scope="Application">
       <Value Profile="(Default)">www.golem.network</Value>
+    </Setting>
+    <Setting Name="OpenConsole" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

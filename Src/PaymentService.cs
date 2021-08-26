@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
+using GolemUI.Command.GSB;
 
 namespace GolemUI.Src
 {
@@ -19,17 +20,19 @@ namespace GolemUI.Src
         private string? _buildInAdress;
         private Command.YagnaSrv _srv;
         private readonly IProviderConfig _providerConfig;
+        private readonly Payment _gsbPayment;
         private IProcessControler _processControler;
         private DispatcherTimer _timer;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public PaymentService(Network network, Command.YagnaSrv srv, IProcessControler processControler, IProviderConfig providerConfig)
+        public PaymentService(Network network, Command.YagnaSrv srv, IProcessControler processControler, IProviderConfig providerConfig, Command.GSB.Payment gsbPayment)
         {
             _network = network;
             _srv = srv;
             _processControler = processControler;
             _providerConfig = providerConfig;
+            _gsbPayment = gsbPayment;
 
             _walletAddress = _providerConfig.Config?.Account;
             _providerConfig.PropertyChanged += this.OnProviderConfigChange;
@@ -69,7 +72,7 @@ namespace GolemUI.Src
             OnPropertyChanged("Address");
         }
 
-        private async void UpdateState()
+        public async Task Refresh()
         {
             if (!_processControler.IsServerRunning)
             {
@@ -91,10 +94,18 @@ namespace GolemUI.Src
                 throw new Exception("Wallet address is null");
             }
 
-            var statusOnL2 = await _srv.Payment.Status(_network, "zksync", walletAddress);
-            var statusOnL1 = await _srv.Payment.Status(_network, "erc20", walletAddress);
+            var since = DateTime.UtcNow - TimeSpan.FromDays(2);
 
-            var pending = (statusOnL2?.Incoming?.Accepted?.TotalAmount ?? 0m) + (statusOnL2?.Incoming?.Confirmed?.TotalAmount ?? 0m);
+            var output = await Task.WhenAll(
+                _gsbPayment.GetStatus(walletAddress, "zksync", since: since, network: _network.Id),
+                _gsbPayment.GetStatus(walletAddress, "erc20", since: since, network: _network.Id)
+            );
+
+
+            var statusOnL2 = output[0];
+            var statusOnL1 = output[1];
+
+            var pending = (statusOnL2?.Incoming?.Accepted?.TotalAmount ?? 0m) - (statusOnL2?.Incoming?.Confirmed?.TotalAmount ?? 0m);
             var amountOnL2 = statusOnL2?.Amount ?? 0;
             var amountOnL1 = statusOnL1?.Amount ?? 0;
 
@@ -131,5 +142,39 @@ namespace GolemUI.Src
             // TODO: Implement transfer out in yagna
             return true;
         }
+
+        private async void UpdateState()
+        {
+            await Refresh();
+        }
+
+        public async Task<decimal> ExitFee(decimal? amount, string? to)
+        {
+            if (_buildInAdress == null)
+            {
+                throw new InvalidOperationException("intenal wallet not configured");
+            }
+
+            var output = await _gsbPayment.ExitFee(_buildInAdress, "zksync", _network.Id, amount);
+            return output.Amount;
+        }
+
+        public async Task<string> ExitTo(string driver, decimal amount, string destinationAddress, decimal? txFee)
+        {
+            if (_buildInAdress == null)
+            {
+                throw new InvalidOperationException("intenal wallet not configured");
+            }
+
+            string txUrl = await _gsbPayment.Exit("zksync", _buildInAdress, destinationAddress, _network.Id, amount, txFee);
+            return txUrl;
+        }
+
+        public Task<string> TransferTo(string driver, decimal amount, string destinationAddress, decimal? txFee)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

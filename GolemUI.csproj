@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -263,9 +263,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\ValueToVisibilityConverter.cs" />
+    <Compile Include="Command\GSB\Common.cs" />
+    <Compile Include="Command\GSB\IGsbEndpointFactory.cs" />
+    <Compile Include="Command\GSB\Payment.cs" />
     <Compile Include="Converters\MultiBoolToVisibilityConverter.cs" />
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgWithdrawViewModel.cs" />
     <Compile Include="Interfaces\IUserFeedbackService.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
     <Compile Include="Interfaces\ITaskProfitEstimator.cs" />
@@ -276,10 +281,14 @@
     <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />
     <Compile Include="Src\AppNotificationService\SimpleNotificationObject.cs" />
     <Compile Include="Src\EstimatedEarningsProvider.cs" />
+    <Compile Include="Src\GsbEndpointFactory.cs" />
     <Compile Include="Src\HistoryDataProvider.cs" />
     <Compile Include="Src\RemoteSettingsProvider.cs" />
     <Compile Include="Src\Sentry\SentryContext.cs" />
     <Compile Include="Src\Sentry\SentryUserFeedback.cs" />
+    <Compile Include="UI\Dialogs\DlgWithdraw.xaml.cs">
+      <DependentUpon>DlgWithdraw.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Src\TaskProfitEstimator.cs" />
     <Compile Include="UI\Dialogs\DlgShouldStopMiningBeforeBenchmark.xaml.cs">
       <DependentUpon>DlgShouldStopMiningBeforeBenchmark.xaml</DependentUpon>
@@ -287,10 +296,6 @@
     <Compile Include="UI\Dialogs\DlgUpdateApp.xaml.cs">
       <DependentUpon>DlgUpdateApp.xaml</DependentUpon>
     </Compile>
-    <Page Include="UI\Themes\Buttons\UnderlineButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Compile Include="UI\UserControls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>
@@ -431,6 +436,8 @@
     <Compile Include="Utils\PathUtil.cs" />
     <Compile Include="Utils\PriceProviderExtension.cs" />
     <Compile Include="Utils\ProcessExtension.cs" />
+    <Compile Include="Validators\NonEmptyStringValidator.cs" />
+    <Compile Include="Validators\TransferAmountValidator.cs" />
     <Compile Include="Utils\VersionUtil.cs" />
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
@@ -440,6 +447,7 @@
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
     <Compile Include="ViewModel\DashboardPage.cs" />
     <Compile Include="ViewModel\DashboardViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgWithdrawViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgShouldStopMiningBeforeBenchmarkViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
@@ -503,6 +511,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\DebugWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Dialogs\DlgWithdraw.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -598,6 +610,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\Themes\Buttons\UnderlineButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Themes\Buttons\GoToSettingsButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -609,6 +625,10 @@
     <Page Include="UI\Themes\TextBox\TextBoxInput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\TextBox\ValidationTb.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\UserControls\DashboardStatusControl.xaml">
       <SubType>Designer</SubType>
