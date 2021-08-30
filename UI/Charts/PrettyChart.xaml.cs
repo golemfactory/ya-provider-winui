@@ -130,7 +130,7 @@ namespace GolemUI.UI.Charts
         const double BIN_ANIMATION_SPEED = 1.2;
         const double BIN_ANIMATION_DELAY = 0.5;
         const double START_IDX_ANIMATION_SPEED = 1.2;
-        const double ZOOM_IN_IDX_ANIMATION_SPEED = 1.8;
+        const double ZOOM_IN_IDX_ANIMATION_SPEED = 1.2;
         const double MAX_VAL_ANIMATION_SPEED = 1.8;
         const double MAX_VAL_ANIMATION_DELAY = 0.5;
 
@@ -187,9 +187,9 @@ namespace GolemUI.UI.Charts
                 cbTickSize.Items.Add(cbItem);
             }
 
-            cbTickSize.SelectedIndex = 10;
+            /*cbTickSize.SelectedIndex = 10;
 
-            cbTickSize_SelectionChanged(this, null);
+            cbTickSize_SelectionChanged(this, null);*/
         }
 
         private bool TimerActivated
@@ -423,6 +423,7 @@ namespace GolemUI.UI.Charts
             if (zoomSteps != 0.0)
             {
                 NoBinsAnimState.ChangeTargetAndResetIfNeeded(NoBinsAnimState.TargetVal + zoomSteps, noDelay: true);
+                StartIdxAnimState.ChangeTargetAndResetIfNeeded(StartIdxAnimState.TargetVal - zoomSteps, noDelay: true);
             }
 
             if (!animate)
@@ -441,11 +442,11 @@ namespace GolemUI.UI.Charts
         {
             MoveChart(-steps, 0, animate);
         }
-        public void ZoomIn(int steps, bool animate)
+        public void ZoomIn(double steps, bool animate)
         {
             MoveChart(0, steps, animate);
         }
-        public void ZoomOut(int steps, bool animate)
+        public void ZoomOut(double steps, bool animate)
         {
             MoveChart(0, -steps, animate);
         }
@@ -720,24 +721,35 @@ namespace GolemUI.UI.Charts
 
         }
 
-        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        private void BackToStart_MouseDown(object sender, MouseButtonEventArgs e)
         {
             GotoBeginning();
         }
 
-        private void Image2_MouseDown(object sender, MouseButtonEventArgs e)
+        private void PrevPage_MouseDown(object sender, MouseButtonEventArgs e)
         {
             JumpPage(direction: 1.0);
         }
 
-        private void Image3_MouseDown(object sender, MouseButtonEventArgs e)
+        private void NextPage_MouseDown(object sender, MouseButtonEventArgs e)
         {
             JumpPage(direction: -1.0);
         }
 
-        private void Image4_MouseDown(object sender, MouseButtonEventArgs e)
+        private void GoToEnd_MouseDown(object sender, MouseButtonEventArgs e)
         {
             GotoEnd();
         }
+
+        private void ZoomIn_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ZoomIn(steps: -1.0, true);
+        }
+
+        private void ZoomOut_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ZoomIn(steps: 1.0, true);
+        }
+
     }
 }

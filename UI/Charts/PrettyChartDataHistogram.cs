@@ -54,7 +54,7 @@ namespace GolemUI.UI.Charts
         {
             rawData.OnRawEntryAdded += OnRawEntryAdded;
             RawData = rawData;
-            RawDataToBinData();
+            //RawDataToBinData();
         }
 
         public void OnRawEntryAdded(DateTime dt, double newValue)

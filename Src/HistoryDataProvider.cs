@@ -295,7 +295,7 @@ namespace GolemUI.Src
                         if (shares > 0)
                         {
                             var lastEntry = MiningHistoryGpu.Last();
-                            MiningHistoryGpu.Add(new GPUHistoryUsage(key, lastEntry.Shares + shares, lastEntry.Earnings + sumMoney, lastEntry.Duration + duration, sharesTimesDiff, hashRate));
+                            MiningHistoryGpu.Add(new GPUHistoryUsage(key, shares, sumMoney, duration, sharesTimesDiff, hashRate));
                             updateChartsNeeded = true;
                         }
                     }

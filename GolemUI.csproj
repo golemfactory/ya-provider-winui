@@ -855,5 +855,9 @@
     <Resource Include="UI\Charts\ChartIcons\IconGoToEnd.png" />
     <Resource Include="UI\Charts\ChartIcons\IconNextPage.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Charts\ChartIcons\IconZoomIn.png" />
+    <Resource Include="UI\Charts\ChartIcons\IconZoomOut.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
