@@ -53,7 +53,6 @@ namespace GolemUI.UI.Charts
             ValueLabelVisible = visible;
         }
 
-
         public void SetTargetHeight(double height)
         {
             if (ValueLabelVisible)
@@ -80,6 +79,12 @@ namespace GolemUI.UI.Charts
         {
             this.Height = height;
         }
+
+        public void SetWidth(double width)
+        {
+            this.Width = width;
+        }
+
         public void SetValueLabelText(string text)
         {
             tbValueLabelInside.Text = text;
@@ -101,6 +106,5 @@ namespace GolemUI.UI.Charts
         {
             return LabelOffset + ValuesOffset + ZERO_VALUE_MARGIN;
         }
-
     }
 }

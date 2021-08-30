@@ -719,5 +719,25 @@ namespace GolemUI.UI.Charts
             }
 
         }
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            GotoBeginning();
+        }
+
+        private void Image2_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            JumpPage(direction: 1.0);
+        }
+
+        private void Image3_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            JumpPage(direction: -1.0);
+        }
+
+        private void Image4_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            GotoEnd();
+        }
     }
 }
