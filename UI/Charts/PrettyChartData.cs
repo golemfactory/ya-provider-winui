@@ -16,10 +16,12 @@ namespace GolemUI.UI.Charts
     {
         public delegate void BinEntryUpdatedHandler(object sender, int binIdx, double oldValue, double newValue);
         public delegate void BinEntryAddedHandler(object sender, double newValue);
+        public delegate void RedrawDataHandler(object sender);
 
 
         public BinEntryUpdatedHandler? OnBinEntryUpdated = null;
         public BinEntryAddedHandler? OnBinEntryAdded = null;
+        public RedrawDataHandler? OnRedrawData = null;
 
         public string Suffix { get; set; } = "mGLM";
 
@@ -53,30 +55,43 @@ namespace GolemUI.UI.Charts
             }
         }
 
-
-        public void AddOrUpdateBinEntry(int binEntryIndex, string label, double newValue)
+        public void RedrawData()
         {
-            if (!UpdateBinEntry(binEntryIndex, newValue))
+            OnRedrawData?.Invoke(this);
+
+        }
+
+        public void AddOrUpdateBinEntry(int binEntryIndex, string label, double newValue, bool update)
+        {
+            if (!UpdateBinEntry(binEntryIndex, newValue, update))
             {
-                AddBinEntry(label, newValue);
+                AddBinEntry(label, newValue, update);
             }
         }
 
-        private bool UpdateBinEntry(int binEntryIndex, double newValue)
+
+        private bool UpdateBinEntry(int binEntryIndex, double newValue, bool update)
         {
             if (binEntryIndex >= 0 && binEntryIndex < BinData.BinEntries.Count)
             {
                 double oldValue = BinData.BinEntries[binEntryIndex].Value;
                 BinData.BinEntries[binEntryIndex].Value = newValue;
-                OnBinEntryUpdated?.Invoke(this, binEntryIndex, oldValue, newValue);
+                if (update)
+                {
+                    OnBinEntryUpdated?.Invoke(this, binEntryIndex, oldValue, newValue);
+                }
                 return true;
             }
             return false;
         }
-        private void AddBinEntry(string label, double newValue)
+
+        private void AddBinEntry(string label, double newValue, bool update)
         {
             BinData.BinEntries.Add(new PrettyChartBinEntry() { Label = label, Value = newValue });
-            OnBinEntryAdded?.Invoke(this, newValue);
+            if (update)
+            {
+                OnBinEntryAdded?.Invoke(this, newValue);
+            }
         }
 
         public PrettyChartBinData BinData { get; set; } = new PrettyChartBinData();

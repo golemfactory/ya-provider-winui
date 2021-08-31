@@ -14,25 +14,40 @@ namespace GolemUI.UI.Charts
 
         public PrettyChartData HistData { get; private set; }
 
-        private TimeSpan _binTimeSize = TimeSpan.FromSeconds(10);
+        public TimeSpan BinTimeSpan 
+        { 
+            get
+            {
+                return _binTimeSize;
+            }
+        }
+        private TimeSpan _binTimeSize = TimeSpan.FromMinutes(10);
         DispatcherTimer _timeSpanUpdate = new DispatcherTimer();
 
-        public void SetBinTimeSize(TimeSpan binTimeSize)
+        bool _active;
+
+        public void SetBinTimeSize(TimeSpan binTimeSize, bool update)
         {
             _binTimeSize = binTimeSize;
-            HistData.Clear();
-            RawDataToBinData();
+            if (_active)
+            {
+                HistData.Clear();
+                RawDataToBinData(false);
 
-            _timeSpanUpdate.Interval = binTimeSize;
-            _timeSpanUpdate.Start();
-            _timeSpanUpdate.Tick += _timeSpanUpdate_Tick;
+                _timeSpanUpdate.Interval = binTimeSize;
+                _timeSpanUpdate.Start();
+                _timeSpanUpdate.Tick += _timeSpanUpdate_Tick;
 
-            OnBinTimeSizeChanged?.Invoke();
+                OnBinTimeSizeChanged?.Invoke();
+            }
         }
 
         private void _timeSpanUpdate_Tick(object sender, EventArgs e)
         {
-            RawDataToBinData();
+            if (_active)
+            {
+                RawDataToBinData(true);
+            }
         }
 
         AggregateTypeEnum AggregateTypeEnum;
@@ -56,19 +71,31 @@ namespace GolemUI.UI.Charts
             RawData = rawData;
             //RawDataToBinData();
         }
+        public void Activate()
+        {
+            _active = true;
+            RawDataToBinData(false);
+            HistData.RedrawData();
+        }
 
         public void OnRawEntryAdded(DateTime dt, double newValue)
         {
-            RawDataToBinData();
+            if (_active)
+            {
+                RawDataToBinData(true);
+            }
         }
 
         void ResetBinData()
         {
-            HistData.Clear();
-            RawDataToBinData();
+            if (_active)
+            {
+                HistData.Clear();
+                RawDataToBinData(true);
+            }
         }
 
-        void RawDataToBinData()
+        void RawDataToBinData(bool update)
         {
             var timespan = _binTimeSize;
 
@@ -124,8 +151,7 @@ namespace GolemUI.UI.Charts
                         dateFormat = "HH:mm:ss";
                     }
 
-
-                    HistData.AddOrUpdateBinEntry(entry_no, binDate.ToString(dateFormat), earnings * 1000.0);
+                    HistData.AddOrUpdateBinEntry(entry_no, binDate.ToString(dateFormat), earnings * 1000.0, update);
                     lastInBin = null;
                     firstInBin = null;
                     entry_no += 1;

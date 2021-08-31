@@ -187,9 +187,12 @@ namespace GolemUI.UI.Charts
                 cbTickSize.Items.Add(cbItem);
             }
 
-            /*cbTickSize.SelectedIndex = 10;
+            cbTickSize.SelectedIndex = 6;
+        }
 
-            cbTickSize_SelectionChanged(this, null);*/
+        public void Run()
+        {
+            TimerActivated = true;
         }
 
         private bool TimerActivated
@@ -321,19 +324,30 @@ namespace GolemUI.UI.Charts
             {
                 if (e.NewValue != e.OldValue)
                 {
-                    PrettyChartDataHistogram newChartData = (PrettyChartDataHistogram)e.NewValue;
-                    newChartData.HistData.OnBinEntryAdded += OnBinEntryAdded;
-                    newChartData.HistData.OnBinEntryUpdated += OnBinEntryUpdated;
-                    newChartData.OnBinTimeSizeChanged += OnBinTimeSizeChanged;
-
-                    ResetChartSettings(newChartData);
-                    GotoEnd();
-                    TimerActivated = true;
+                    PrettyChartDataHistogram? newChartData = (PrettyChartDataHistogram?)e.NewValue;
+                    if (newChartData != null)
+                    {
+                        newChartData.HistData.OnBinEntryAdded += OnBinEntryAdded;
+                        newChartData.HistData.OnBinEntryUpdated += OnBinEntryUpdated;
+                        newChartData.OnBinTimeSizeChanged += OnBinTimeSizeChanged;
+                        newChartData.HistData.OnRedrawData += OnRedrawData;
+                        
+                        ResetChartSettings(newChartData);
+                        GotoEnd();
+                        TimerActivated = true;
+                    }
                 }
             }
 
         }
 
+        public void OnRedrawData(object sender)
+        {
+            ResetChartSettings(ChartData);
+            GotoEnd();
+
+            TimerActivated = true;
+        }
 
         public void OnBinTimeSizeChanged()
         {
@@ -701,7 +715,7 @@ namespace GolemUI.UI.Charts
 
         private void ChangeCurrentBinTimeSpan(TimeSpan ts)
         {
-            ChartData.SetBinTimeSize(ts);
+            ChartData.SetBinTimeSize(ts, true);
         }
 
         private void cbTickSize_SelectionChanged(object sender, SelectionChangedEventArgs? e)

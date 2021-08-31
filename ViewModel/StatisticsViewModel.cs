@@ -66,6 +66,7 @@ namespace GolemUI.ViewModel
                         NotifyChange("ChartData3");
                         NotifyChange("ChartData4");*/
             //throw new NotImplementedException();
+            ChartData1.Activate();
         }
 
         public void SaveData()
