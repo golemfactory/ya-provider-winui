@@ -197,6 +197,13 @@ namespace GolemUI.Src
                 }
             }
 
+            //Finish all activities if not finished
+            foreach (var old in Activities.Values.Where(a => a.Id != newActivity.Id && a.ExeUnit == newActivity.ExeUnit && a.State == Model.ActivityState.StateType.Ready).ToList())
+            {
+                _logger.LogWarning(String.Format("Previous ready activity exists, changing to terminated: oldID: {} newID: {}", old.Id, newActivity.Id));
+                old.State = ActivityState.StateType.Terminated;
+            }
+
             Activities[newActivity.Id] = newActivity;
 
 
