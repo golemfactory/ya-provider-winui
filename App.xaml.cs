@@ -13,6 +13,7 @@ using System.Windows.Threading;
 using GolemUI.Command;
 using GolemUI.UI;
 using GolemUI.UI.CustomControls;
+using GolemUI.Utils;
 using GolemUI.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -119,24 +120,26 @@ namespace GolemUI
 
             services.AddLogging(logBuilder =>
             {
-                logBuilder.AddDebug();
+
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
-                //GolemUI.Properties.Settings.Default.SentryDsn
+                logBuilder.AddFile(PathUtil.GetLocalLogPath(), opts =>
+                {
+                    opts.Append = false;
+                    opts.MinLevel = LogLevel.Debug;
+
+
+                });
+                logBuilder.AddDebug();
+
                 logBuilder.AddSentry(o =>
                 {
                     o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
                     o.Debug = true;
                     o.AttachStacktrace = true;
                     o.AutoSessionTracking = true;
-                    //o.BeforeSend = @event =>
-                    //{
-
-                    //    return @event;
-                    //};
                     o.IsGlobalModeEnabled = true;
-
                     o.TracesSampleRate = 1.0;
-                }/* o.InitializeSdk=false*/);
+                });
 
             });
 
