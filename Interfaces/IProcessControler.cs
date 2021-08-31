@@ -22,7 +22,7 @@ namespace GolemUI.Interfaces
         public Task<YagnaAgreement?> GetAgreement(string agreementID);
 
         // TODO: Remove this.
-        public Task<Dictionary<string, double>?> GetUsageVectors(string? agreementID);
+        public Task<SortedDictionary<string, double>?> GetUsageVectors(string? agreementID);
 
         /// <summary>
         /// Starts daemon with given private key.
