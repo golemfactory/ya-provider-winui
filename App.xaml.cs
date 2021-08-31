@@ -197,17 +197,17 @@ namespace GolemUI
             }
 
 
-           
 
-                var dashboardWindow = _serviceProvider!.GetRequiredService<Dashboard>();
 
-                dashboardWindow.Show();
+            var dashboardWindow = _serviceProvider!.GetRequiredService<Dashboard>();
+
+            dashboardWindow.Show();
 #if DEBUG
-                StartDebugWindow(dashboardWindow);
+            StartDebugWindow(dashboardWindow);
 #endif
 
-                _dashboard = dashboardWindow;
-          
+            _dashboard = dashboardWindow;
+
         }
         public void RequestClose()
         {
