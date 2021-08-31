@@ -36,7 +36,6 @@ namespace GolemUI
             DataContext = viewModel;
             InitializeComponent();
             _processControler = processControler;
-            throw new Exception("haha");
         }
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
