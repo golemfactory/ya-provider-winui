@@ -37,7 +37,7 @@ namespace GolemUI.Utils
         }
         public static string GetLocalLogPath()
         {
-            string result = Path.Combine(GetLocalPath(), "Log.txt");
+            string result = Path.Combine(GetLocalPath(), "BetaMiner.log");
             return result;
         }
 

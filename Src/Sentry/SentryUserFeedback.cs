@@ -24,7 +24,7 @@ namespace GolemUI.Src
             {
                 if (readAsStream)
                 {
-                    scope.AddAttachment(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), "log.txt");
+                    scope.AddAttachment(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Path.GetFileName(path));
                 }
                 else
                 {

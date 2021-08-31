@@ -125,7 +125,7 @@ namespace GolemUI
                 logBuilder.AddFile(PathUtil.GetLocalLogPath(), opts =>
                 {
                     opts.Append = false;
-                    opts.MinLevel = LogLevel.Trace;
+                    opts.MinLevel = LogLevel.Debug;
 
 
                 });
