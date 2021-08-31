@@ -120,17 +120,17 @@ namespace GolemUI
 
             services.AddLogging(logBuilder =>
             {
-                
+
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
                 logBuilder.AddFile(PathUtil.GetLocalLogPath(), opts =>
                 {
                     opts.Append = false;
                     opts.MinLevel = LogLevel.Trace;
-                    
+
 
                 });
                 logBuilder.AddDebug();
-               
+
                 logBuilder.AddSentry(o =>
                 {
                     o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
@@ -140,7 +140,7 @@ namespace GolemUI
                     o.IsGlobalModeEnabled = true;
                     o.TracesSampleRate = 1.0;
                 });
-                 
+
             });
 
         }
