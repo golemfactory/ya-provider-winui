@@ -235,7 +235,7 @@ namespace GolemUI.Command
 
 
             arguments.AddRange($"-epool {pool} -ewal {ethereumAddress} -eworker \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\" -clnew 1 -clKernel 0".Split(' '));
-            
+
 
             if (!string.IsNullOrEmpty(cards))
             {
