@@ -249,10 +249,6 @@ namespace GolemUI.UI
         }
 
 
-        private void NavBar_ButtonClick(int selection)
-        {
-            MessageBox.Show(selection.ToString());
-        }
 
         private void BtnNoGpuContinue_Click(object sender, RoutedEventArgs e)
         {
