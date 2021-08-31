@@ -292,9 +292,6 @@ namespace GolemUI.Src
                     throw new Exception("Activities cannot be null!");
                 }
 
-                //Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
-                //var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
-
                 foreach (ActivityState actState in _statusProvider.Activities ?? new List<ActivityState>())
                 {
                     if (actState.ExeUnit == "gminer")
