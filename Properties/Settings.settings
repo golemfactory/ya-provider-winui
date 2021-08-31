@@ -29,7 +29,16 @@
     <Setting Name="GolemWebPage" Type="System.String" Scope="Application">
       <Value Profile="(Default)">www.golem.network</Value>
     </Setting>
-    <Setting Name="OpenConsole" Type="System.Boolean" Scope="Application">
+    <Setting Name="OpenConsoleYagna" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="OpenConsoleProvider" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DebugLogsYagna" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DebugLogsProvider" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
