@@ -141,7 +141,7 @@ namespace GolemUI.Src
                 }
             }
 
-           
+
 
             foreach (var entry in usageVectorDiff)
             {
