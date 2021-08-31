@@ -221,14 +221,14 @@ namespace GolemUI
             }
         }
 
-        public async Task<Dictionary<string, double>?> GetUsageVectors(string? agreementID)
+        public async Task<SortedDictionary<string, double>?> GetUsageVectors(string? agreementID)
         {
             if (String.IsNullOrEmpty(agreementID) || agreementID == null) //second check to get rid of warnings
             {
                 return null;
             }
 
-            Dictionary<string, double> usageDict = new Dictionary<string, double>();
+            SortedDictionary<string, double> usageDict = new SortedDictionary<string, double>();
             YagnaAgreement? aggr = await GetAgreement(agreementID);
 
             if (aggr == null)
