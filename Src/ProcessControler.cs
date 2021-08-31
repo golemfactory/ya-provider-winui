@@ -286,7 +286,7 @@ namespace GolemUI
         {
             bool openConsole = Properties.Settings.Default.OpenConsoleYagna;
             bool debugLogs = openConsole && Properties.Settings.Default.DebugLogsYagna;
-            
+
             _yagnaDaemon = _yagna.Run(new YagnaStartupOptions()
             {
                 ForceAppKey = _generatedAppKey.Value,
@@ -361,7 +361,7 @@ namespace GolemUI
             bool startInConsole = Properties.Settings.Default.OpenConsoleProvider;
             bool enableDebugLogs = startInConsole && Properties.Settings.Default.DebugLogsProvider;
 
-            _providerDaemon = _provider.Run(_generatedAppKey.Value, network, claymoreExtraParams: claymoreExtraParams, openConsole:startInConsole, enableDebugLogs:enableDebugLogs);
+            _providerDaemon = _provider.Run(_generatedAppKey.Value, network, claymoreExtraParams: claymoreExtraParams, openConsole: startInConsole, enableDebugLogs: enableDebugLogs);
             _providerDaemon.Exited += OnProviderExit;
 
             if (!startInConsole)
