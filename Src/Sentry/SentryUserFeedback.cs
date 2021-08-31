@@ -1,14 +1,9 @@
 ﻿#nullable enable
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using GolemUI.Interfaces;
 using GolemUI.Utils;
 using Sentry;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System;
+using System.IO;
 
 namespace GolemUI.Src
 {
@@ -16,30 +11,47 @@ namespace GolemUI.Src
     public class SentryUserFeedbackService : IUserFeedbackService
     {
 
-        private SentryContext Context = new SentryContext();
+        private readonly SentryContext Context = new SentryContext();
 
         public SentryUserFeedbackService()
         {
         }
 
 
-        void AddAttachment(Scope scope, String path)
+        void AddAttachment(Scope scope, String path, bool readAsStream = false)
         {
             if (System.IO.File.Exists(path))
-                scope.AddAttachment(PathUtil.GetLocalBenchmarkPath());
+            {
+                if (readAsStream)
+                {
+                    scope.AddAttachment(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), "log.txt");
+                }
+                else
+                {
+                    scope.AddAttachment(path);
+                }
+            }
             else
+            {
                 scope.SetExtra(Path.GetFileName(path), "does not exist");
+            }
         }
 
         public void SendUserFeedback(string tag, string name, string email, string comments, bool shouldAttachLogs)
         {
+
             if (shouldAttachLogs)
+            {
                 SentrySdk.ConfigureScope(scope =>
                 {
+                    scope.ClearAttachments();
                     this.AddAttachment(scope, PathUtil.GetLocalBenchmarkPath());
                     this.AddAttachment(scope, PathUtil.GetRemoteSettingsPath());
                     this.AddAttachment(scope, PathUtil.GetLocalSettingsPath());
+                    this.AddAttachment(scope, PathUtil.GetLocalLogPath(), readAsStream: true);
                 });
+            }
+
             var eventID = Sentry.SentrySdk.CaptureMessage(tag);
             Sentry.SentrySdk.CaptureUserFeedback(new Sentry.UserFeedback(eventID, name, email, comments));
             SentrySdk.ConfigureScope(scope =>
