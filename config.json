@@ -1,8 +1,8 @@
 {
-  "LatestVersion": "0.3.0.1",
-  "Version": "0.3.0.1",
-  "LatestVersionCodename": "beta-1",
-  "LatestVersionDownloadLink": "https://github.com/golemfactory/ya-provider-winui/releases/download/v0.3.0.1/GolemUISetup.msi",
+  "LatestVersion": "0.3.0.5",
+  "Version": "0.3.0.5",
+  "LatestVersionCodename": "beta-2",
+  "LatestVersionDownloadLink": "https://golem-releases.cdn.golem.network/gminer/BetaMiner-v0.3.0.5.msi",
   "ChangeLog": "Initial version for beta testing",
   "LastSupportedVersion": "0.3.0.1",
   "DayEthPerGH": 0.023,
