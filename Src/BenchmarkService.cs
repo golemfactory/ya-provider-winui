@@ -319,6 +319,8 @@ namespace GolemUI.Src
             args.Add("1");
             args.Add("-clKernel");
             args.Add("0");
+            args.Add("-wd");
+            args.Add("0");
             return String.Join(" ", args);
         }
 

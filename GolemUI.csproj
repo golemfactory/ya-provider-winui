@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -178,6 +178,9 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NReco.Logging.File, Version=0.0.0.0, Culture=neutral, PublicKeyToken=d6cccee409799e87, processorArchitecture=MSIL">
+      <HintPath>packages\NReco.Logging.File.1.1.2\lib\netstandard2.0\NReco.Logging.File.dll</HintPath>
     </Reference>
     <Reference Include="Sentry, Version=3.8.3.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0, processorArchitecture=MSIL">
       <HintPath>packages\Sentry.3.8.3\lib\net461\Sentry.dll</HintPath>

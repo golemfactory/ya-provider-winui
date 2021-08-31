@@ -126,12 +126,6 @@ namespace GolemUI.ViewModel
             get
             {
                 bool mining = false;
-                //var act = _statusProvider.Activities;
-                //if (act != null)
-                //{
-                //    Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer"/* && a.State == Model.ActivityState.StateType.Ready*/).SingleOrDefault();
-                //    mining = gminerState != null;
-                //}
                 mining = _processController.IsProviderRunning;
                 return mining;
             }

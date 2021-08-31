@@ -156,7 +156,7 @@ namespace GolemUI.ViewModel
                 return;
             }
             Debug.WriteLine(act.ToString());
-            Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
+            Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).FirstOrDefault();
             var isGpuMining = gminerState != null;
             var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
 
