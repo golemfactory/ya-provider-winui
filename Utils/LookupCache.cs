@@ -11,13 +11,13 @@ namespace GolemUI.Utils
     {
         private int _maxCap;
         private SemaphoreSlim _semaphore;
-        private SortedDictionary<TKey, TValue> _data;
+        private Dictionary<TKey, TValue> _data;
 
         protected LookupCache(int maxCap = 10)
         {
             _maxCap = maxCap;
             _semaphore = new SemaphoreSlim(1);
-            _data = new SortedDictionary<TKey, TValue>();
+            _data = new Dictionary<TKey, TValue>();
         }
 
         public abstract Task<TValue> Fetch(TKey key);
