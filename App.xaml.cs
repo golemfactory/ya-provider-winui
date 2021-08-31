@@ -57,6 +57,11 @@ namespace GolemUI
         {
             SentrySdk.CaptureException(e.Exception);
 
+            var logger = _serviceProvider.GetRequiredService<ILogger<App>>();
+            logger.LogError(e.Exception, "App_DispatcherUnhandledException");
+
+            MessageBox.Show(e.Exception.Message, "unexpected error");
+
             //TODO: to discuss if we should allow the app to crash or not
             //e.Handled = true;
         }
@@ -164,6 +169,8 @@ namespace GolemUI
                 this.Shutdown();
                 return;
             }
+
+
             var remoteSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IRemoteSettingsProvider>();
 
             var userSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IUserSettingsProvider>();
@@ -190,22 +197,17 @@ namespace GolemUI
             }
 
 
-            try
-            {
 
-                var dashboardWindow = _serviceProvider!.GetRequiredService<Dashboard>();
 
-                dashboardWindow.Show();
+            var dashboardWindow = _serviceProvider!.GetRequiredService<Dashboard>();
+
+            dashboardWindow.Show();
 #if DEBUG
-                StartDebugWindow(dashboardWindow);
+            StartDebugWindow(dashboardWindow);
 #endif
 
-                _dashboard = dashboardWindow;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            _dashboard = dashboardWindow;
+
         }
         public void RequestClose()
         {
