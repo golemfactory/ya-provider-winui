@@ -209,7 +209,7 @@ namespace GolemUI.Command
         }
 
 
-        public bool RunBenchmark(string cards, string niceness, string pool, string ethereumAddress)
+        public bool RunBenchmark(string cards, string niceness, string pool, string ethereumAddress, string nodeName)
         {
             BenchmarkError = "";
             BenchmarkFinished = false;
@@ -234,7 +234,8 @@ namespace GolemUI.Command
 
 
 
-            arguments.AddRange($"-epool {pool} -ewal {ethereumAddress} -eworker benchmark -clnew 1 -clKernel 0".Split(' '));
+            arguments.AddRange($"-epool {pool} -ewal {ethereumAddress} -eworker \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\" -clnew 1 -clKernel 0".Split(' '));
+            
 
             if (!string.IsNullOrEmpty(cards))
             {
