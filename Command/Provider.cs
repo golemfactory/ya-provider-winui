@@ -260,12 +260,17 @@ namespace GolemUI.Command
             info = this.ExecToText(cmd.ToString());
         }
 
-        public Process Run(string appKey, Network network, string? claymoreExtraParams = null, bool openConsole = false)
+        public Process Run(string appKey, Network network, string? claymoreExtraParams = null, bool openConsole = false, bool enableDebugLogs = false)
         {
+            string debugSwitch = "";
+            if (enableDebugLogs)
+            {
+                debugSwitch = "--debug ";
+            }
             var startInfo = new ProcessStartInfo
             {
                 FileName = _yaProviderPath,
-                Arguments = $"run --payment-network {network.Id}",
+                Arguments = $"run {debugSwitch}--payment-network {network.Id}",
                 UseShellExecute = false
             };
             if (openConsole)
