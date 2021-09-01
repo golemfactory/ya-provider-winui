@@ -10,6 +10,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 using GolemUI.Command.GSB;
+using Microsoft.Extensions.Logging;
+using System.Net.Http;
 
 namespace GolemUI.Src
 {
@@ -23,11 +25,13 @@ namespace GolemUI.Src
         private readonly Payment _gsbPayment;
         private IProcessController _processController;
         private DispatcherTimer _timer;
+        private ILogger<PaymentService> _logger;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public PaymentService(Network network, Command.YagnaSrv srv, IProcessController processController, IProviderConfig providerConfig, Command.GSB.Payment gsbPayment)
+        public PaymentService(Network network, Command.YagnaSrv srv, IProcessController processController, IProviderConfig providerConfig, Command.GSB.Payment gsbPayment, ILogger<PaymentService> logger)
         {
+            _logger = logger;
             _network = network;
             _srv = srv;
             _processController = processController;
@@ -53,6 +57,8 @@ namespace GolemUI.Src
 
         public WalletState? State { get; private set; }
 
+        public string? LastError { get; private set; }
+
         public string? Address => _walletAddress ?? _buildInAdress;
 
         public string InternalAddress => _buildInAdress ?? "";
@@ -74,52 +80,71 @@ namespace GolemUI.Src
 
         public async Task Refresh()
         {
-            if (!_processController.IsServerRunning)
+            try
             {
-                return;
-            }
-            if (_buildInAdress == null)
-            {
-                _buildInAdress = _srv.Id?.Address;
-                if (_walletAddress == null)
+                if (!_processController.IsServerRunning)
                 {
-                    OnPropertyChanged("Address");
+                    return;
                 }
-                OnPropertyChanged("InternalAddress");
+                if (_buildInAdress == null)
+                {
+                    _buildInAdress = _srv.Id?.Address;
+                    if (_walletAddress == null)
+                    {
+                        OnPropertyChanged("Address");
+                    }
+                    OnPropertyChanged("InternalAddress");
+                }
+                var walletAddress = _walletAddress ?? _buildInAdress;
+
+                if (walletAddress == null)
+                {
+                    throw new Exception("Wallet address is null");
+                }
+
+                var since = DateTime.UtcNow - TimeSpan.FromDays(2);
+
+                var output = await Task.WhenAll(
+                    _gsbPayment.GetStatus(walletAddress, "zksync", since: since, network: _network.Id),
+                    _gsbPayment.GetStatus(walletAddress, "erc20", since: since, network: _network.Id)
+                );
+
+                var statusOnL2 = output[0];
+                var statusOnL1 = output[1];
+
+                var pending = (statusOnL2?.Incoming?.Accepted?.TotalAmount ?? 0m) - (statusOnL2?.Incoming?.Confirmed?.TotalAmount ?? 0m);
+                var amountOnL2 = statusOnL2?.Amount ?? 0;
+                var amountOnL1 = statusOnL1?.Amount ?? 0;
+
+                var state = new WalletState(statusOnL2?.Token ?? "GLM")
+                {
+                    Balance = amountOnL1 + amountOnL2,
+                    PendingBalance = pending,
+                    BalanceOnL2 = amountOnL2
+                };
+
+                var oldState = State;
+                LastError = null;
+                if (state != oldState)
+                {
+                    State = state;
+                    OnPropertyChanged("State");
+                }
             }
-            var walletAddress = _walletAddress ?? _buildInAdress;
-
-            if (walletAddress == null)
+            catch (HttpRequestException ex)
             {
-                throw new Exception("Wallet address is null");
+                string errorMsg = $"HttpRequestException when updating payment status: {ex.Message}";
+                _logger.LogError(errorMsg);
+                LastError = "No connection to payment service";
+                State = null;
+                OnPropertyChanged("State");
             }
-
-            var since = DateTime.UtcNow - TimeSpan.FromDays(2);
-
-            var output = await Task.WhenAll(
-                _gsbPayment.GetStatus(walletAddress, "zksync", since: since, network: _network.Id),
-                _gsbPayment.GetStatus(walletAddress, "erc20", since: since, network: _network.Id)
-            );
-
-
-            var statusOnL2 = output[0];
-            var statusOnL1 = output[1];
-
-            var pending = (statusOnL2?.Incoming?.Accepted?.TotalAmount ?? 0m) - (statusOnL2?.Incoming?.Confirmed?.TotalAmount ?? 0m);
-            var amountOnL2 = statusOnL2?.Amount ?? 0;
-            var amountOnL1 = statusOnL1?.Amount ?? 0;
-
-            var state = new WalletState(statusOnL2?.Token ?? "GLM")
+            catch (Exception ex)
             {
-                Balance = amountOnL1 + amountOnL2,
-                PendingBalance = pending,
-                BalanceOnL2 = amountOnL2
-            };
-
-            var oldState = State;
-            if (state != oldState)
-            {
-                State = state;
+                string errorMsg = $"Exception when updating payment status: {ex.Message}";
+                _logger.LogError(errorMsg);
+                LastError = "Unknown problem with payment service";
+                State = null;
                 OnPropertyChanged("State");
             }
         }
