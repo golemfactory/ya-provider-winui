@@ -147,7 +147,7 @@ namespace GolemUI.Command.GSB
         public async Task<Model.StatusResult> GetStatus(string address, string driver, string? network = null, string? token = null, DateTime? since = null)
         {
             var result = await _doPost<Common.Result<Model.StatusResult, object>, Model.GetStatus>("local/payment/GetStatus", new Model.GetStatus(address, driver, network, token, since));
-            throw new HttpRequestException($"Invalid output: {result.Err}");
+            return result.Ok ?? throw new HttpRequestException($"Invalid output: {result.Err}");
         }
 
         public async Task<Model.ExitFeeResult> ExitFee(string address, string driver, string network, decimal? amount = null)
