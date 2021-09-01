@@ -179,6 +179,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NReco.Logging.File, Version=0.0.0.0, Culture=neutral, PublicKeyToken=d6cccee409799e87, processorArchitecture=MSIL">
+      <HintPath>packages\NReco.Logging.File.1.1.2\lib\netstandard2.0\NReco.Logging.File.dll</HintPath>
+    </Reference>
     <Reference Include="Sentry, Version=3.8.3.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0, processorArchitecture=MSIL">
       <HintPath>packages\Sentry.3.8.3\lib\net461\Sentry.dll</HintPath>
       <Private>True</Private>
@@ -271,6 +274,7 @@
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgWithdrawViewModel.cs" />
+    <Compile Include="Interfaces\IStartWithWindows.cs" />
     <Compile Include="Interfaces\IUserFeedbackService.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
     <Compile Include="Interfaces\ITaskProfitEstimator.cs" />
@@ -286,6 +290,7 @@
     <Compile Include="Src\RemoteSettingsProvider.cs" />
     <Compile Include="Src\Sentry\SentryContext.cs" />
     <Compile Include="Src\Sentry\SentryUserFeedback.cs" />
+    <Compile Include="Src\StartWithWindows.cs" />
     <Compile Include="UI\Dialogs\DlgWithdraw.xaml.cs">
       <DependentUpon>DlgWithdraw.xaml</DependentUpon>
     </Compile>
@@ -621,6 +626,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Themes\Buttons\GoToSettingsButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\ErrorMsg\BenchmarkErrorMsg.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\ErrorMsg\PaymentStatusErrorMsg.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -12,6 +12,8 @@ namespace GolemUI.Interfaces
     {
         WalletState? State { get; }
 
+        string? LastError { get; }
+
         string? Address { get; }
 
         string InternalAddress { get; }

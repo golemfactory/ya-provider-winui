@@ -35,7 +35,7 @@ namespace GolemUI
         // ES_USER_PRESENT = 0x00000004
     }
 
-    public class ProcessController : IDisposable, IProcessControler
+    public class ProcessController : IDisposable, IProcessController
     {
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
@@ -221,14 +221,14 @@ namespace GolemUI
             }
         }
 
-        public async Task<Dictionary<string, double>?> GetUsageVectors(string? agreementID)
+        public async Task<SortedDictionary<string, double>?> GetUsageVectors(string? agreementID)
         {
             if (String.IsNullOrEmpty(agreementID) || agreementID == null) //second check to get rid of warnings
             {
                 return null;
             }
 
-            Dictionary<string, double> usageDict = new Dictionary<string, double>();
+            SortedDictionary<string, double> usageDict = new SortedDictionary<string, double>();
             YagnaAgreement? aggr = await GetAgreement(agreementID);
 
             if (aggr == null)
@@ -301,12 +301,15 @@ namespace GolemUI
 
         private KeyInfo StartupYagna(string? privateKey = null)
         {
-            bool openConsole = Properties.Settings.Default.OpenConsole;
+            bool openConsole = Properties.Settings.Default.OpenConsoleYagna;
+            bool debugLogs = openConsole && Properties.Settings.Default.DebugLogsYagna;
+
             _yagnaDaemon = _yagna.Run(new YagnaStartupOptions()
             {
                 ForceAppKey = _generatedAppKey.Value,
                 OpenConsole = openConsole,
-                PrivateKey = privateKey
+                PrivateKey = privateKey,
+                Debug = debugLogs
             });
             if (!openConsole)
             {
@@ -372,16 +375,26 @@ namespace GolemUI
             _yagna?.Payment.Init(network, "erc20", paymentAccount);
             _yagna?.Payment.Init(network, "zksync", paymentAccount);
 
-            _providerDaemon = _provider.Run(_generatedAppKey.Value, network, claymoreExtraParams: claymoreExtraParams);
+            bool startInConsole = Properties.Settings.Default.OpenConsoleProvider;
+            bool enableDebugLogs = startInConsole && Properties.Settings.Default.DebugLogsProvider;
+
+            _providerDaemon = _provider.Run(_generatedAppKey.Value, network, claymoreExtraParams: claymoreExtraParams, openConsole: startInConsole, enableDebugLogs: enableDebugLogs);
             _providerDaemon.Exited += OnProviderExit;
-            _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
-            _providerDaemon.OutputDataReceived += OnProviderOutputDataRecv;
+
+            if (!startInConsole)
+            {
+                _providerDaemon.ErrorDataReceived += OnProviderErrorDataRecv;
+                _providerDaemon.OutputDataReceived += OnProviderOutputDataRecv;
+            }
             _providerDaemon.Start();
             _providerJob = _providerDaemon.WithJob("miner provider");
             _providerDaemon.EnableRaisingEvents = true;
 
-            _providerDaemon.BeginErrorReadLine();
-            _providerDaemon.BeginOutputReadLine();
+            if (!startInConsole)
+            {
+                _providerDaemon.BeginErrorReadLine();
+                _providerDaemon.BeginOutputReadLine();
+            }
 
             OnPropertyChanged("IsProviderRunning");
         }

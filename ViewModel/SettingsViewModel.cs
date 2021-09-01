@@ -22,7 +22,7 @@ namespace GolemUI.ViewModel
         private readonly Command.Provider _provider;
         private readonly IProviderConfig _providerConfig;
         private readonly IPriceProvider _priceProvider;
-        private readonly IProcessControler _processController;
+        private readonly IProcessController _processController;
         private readonly IEstimatedProfitProvider _profitEstimator;
         private readonly IStatusProvider _statusProvider;
         private readonly BenchmarkService _benchmarkService;
@@ -53,11 +53,11 @@ namespace GolemUI.ViewModel
 
         private readonly Interfaces.INotificationService _notificationService;
         public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
-        public SettingsViewModel(IUserSettingsProvider userSettingsProvider, IPriceProvider priceProvider, IProcessControler processControler, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService)
+        public SettingsViewModel(IUserSettingsProvider userSettingsProvider, IPriceProvider priceProvider, IProcessController processController, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService)
         {
             _userSettingsProvider = userSettingsProvider;
             _statusProvider = statusProvider;
-            _processController = processControler;
+            _processController = processController;
             _processController.PropertyChanged += _processController_PropertyChanged;
             GpuList = new ObservableCollection<ClaymoreGpuStatus>();
             _notificationService = notificationService;
@@ -126,12 +126,6 @@ namespace GolemUI.ViewModel
             get
             {
                 bool mining = false;
-                //var act = _statusProvider.Activities;
-                //if (act != null)
-                //{
-                //    Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer"/* && a.State == Model.ActivityState.StateType.Ready*/).SingleOrDefault();
-                //    mining = gminerState != null;
-                //}
                 mining = _processController.IsProviderRunning;
                 return mining;
             }

@@ -18,14 +18,14 @@ namespace GolemUI.ViewModel
 
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
     {
-        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessControler processControler, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
+        public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessController processController, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
             IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, IRemoteSettingsProvider remoteSettingsProvider, INotificationService notificationService,
             ITaskProfitEstimator taskProfitEstimator)
         {
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
             _paymentService = paymentService;
-            _processController = processControler;
+            _processController = processController;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
             _statusProvider = statusProvider;
@@ -156,7 +156,7 @@ namespace GolemUI.ViewModel
                 return;
             }
             Debug.WriteLine(act.ToString());
-            Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
+            Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).FirstOrDefault();
             var isGpuMining = gminerState != null;
             var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
 
@@ -231,6 +231,7 @@ namespace GolemUI.ViewModel
             OnPropertyChanged("AmountUSD");
             OnPropertyChanged("PendingAmount");
             OnPropertyChanged("PendingAmountUSD");
+            OnPropertyChanged("PaymentStateError");
         }
 
         public void LoadData()
@@ -275,8 +276,9 @@ namespace GolemUI.ViewModel
         public event PropertyChangedEventHandler? PropertyChanged;
         public event PageChangeRequestedEvent? PageChangeRequested;
 
-        public IProcessControler Process => _processController;
+        public IProcessController Process => _processController;
         public decimal? Amount => _paymentService.State?.Balance;
+        public string? PaymentStateError => _paymentService.LastError;
 
         public decimal? _usdPerDay = null;
         public decimal? UsdPerDay
@@ -399,7 +401,7 @@ namespace GolemUI.ViewModel
         private readonly IProviderConfig _providerConfig;
         private readonly BenchmarkService _benchmarkService;
         private readonly IStatusProvider _statusProvider;
-        private readonly IProcessControler _processController;
+        private readonly IProcessController _processController;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
         private readonly IRemoteSettingsProvider _remoteSettingsProvider;
         private readonly INotificationService _notificationService;
