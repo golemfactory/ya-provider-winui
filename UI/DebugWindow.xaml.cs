@@ -24,11 +24,11 @@ namespace GolemUI
 
         public static bool EnableLoggingToDebugWindow = true;
 
-        public DebugWindow(IProcessControler processControler, IUserSettingsProvider userSettingsProvider)
+        public DebugWindow(IProcessController processController, IUserSettingsProvider userSettingsProvider)
         {
             _userSettingsProvider = userSettingsProvider;
             InitializeComponent();
-            processControler.LineHandler += LogLine;
+            processController.LineHandler += LogLine;
 
 #if DEBUG
             NameGen g = new NameGen();

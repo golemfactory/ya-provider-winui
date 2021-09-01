@@ -11,19 +11,19 @@ namespace GolemUI.Src
 {
     class GsbEndpointFactory : Command.GSB.IGsbEndpointFactory
     {
-        private readonly IProcessControler _processControler;
+        private readonly IProcessController _processController;
 
-        public GsbEndpointFactory(IProcessControler processControler)
+        public GsbEndpointFactory(IProcessController processController)
         {
-            _processControler = processControler;
+            _processController = processController;
         }
         public async Task<HttpClient> NewClient()
         {
-            var appKey = await _processControler.GetAppKey();
+            var appKey = await _processController.GetAppKey();
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", appKey);
-            client.BaseAddress = new Uri(new Uri(_processControler.ServerUri), "_gsb/");
+            client.BaseAddress = new Uri(new Uri(_processController.ServerUri), "_gsb/");
             return client;
         }
     }
