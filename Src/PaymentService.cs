@@ -135,7 +135,7 @@ namespace GolemUI.Src
             {
                 string errorMsg = $"HttpRequestException when updating payment status: {ex.Message}";
                 _logger.LogError(errorMsg);
-                LastError = "Problem with payment service connection";
+                LastError = "No connection to payment service";
                 State = null;
                 OnPropertyChanged("State");
             }
