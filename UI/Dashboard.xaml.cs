@@ -205,7 +205,8 @@ namespace GolemUI
                 _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible),
                 _processController.Prepare()
             );
-            {
+
+            if (_providerConfig.IsMiningActive && _userSettingsProvider.LoadUserSettings().StartWithWindows) {
                 var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
                 await _processController.Start(_providerConfig.Network, extraClaymoreParams);
             }
