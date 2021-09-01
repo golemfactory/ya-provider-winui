@@ -274,6 +274,7 @@
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgWithdrawViewModel.cs" />
+    <Compile Include="Interfaces\IStartWithWindows.cs" />
     <Compile Include="Interfaces\IUserFeedbackService.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
     <Compile Include="Interfaces\ITaskProfitEstimator.cs" />
@@ -289,6 +290,7 @@
     <Compile Include="Src\RemoteSettingsProvider.cs" />
     <Compile Include="Src\Sentry\SentryContext.cs" />
     <Compile Include="Src\Sentry\SentryUserFeedback.cs" />
+    <Compile Include="Src\StartWithSystemProvider.cs" />
     <Compile Include="UI\Dialogs\DlgWithdraw.xaml.cs">
       <DependentUpon>DlgWithdraw.xaml</DependentUpon>
     </Compile>

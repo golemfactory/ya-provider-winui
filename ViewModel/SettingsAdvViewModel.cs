@@ -15,6 +15,7 @@ namespace GolemUI.ViewModel
     {
         private readonly IUserSettingsProvider _userSettingsProvider;
         public event PageChangeRequestedEvent? PageChangeRequested;
+        IStartWithWindows _startWithWindowsProvider;
 
         private UserSettings _userSettings;
         public UserSettings UserSettings
@@ -30,8 +31,9 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public SettingsAdvViewModel(IUserSettingsProvider userSettingsProvider)
+        public SettingsAdvViewModel(IUserSettingsProvider userSettingsProvider, IStartWithWindows startWithWindowsProvider)
         {
+            _startWithWindowsProvider = startWithWindowsProvider;
             _userSettingsProvider = userSettingsProvider;
             _userSettings = _userSettingsProvider.LoadUserSettings();
             _userSettings.PropertyChanged += OnUserSettingsPropertyChanged;
@@ -51,6 +53,7 @@ namespace GolemUI.ViewModel
 
         public void SaveData()
         {
+            _startWithWindowsProvider.SetStartWithSystemEnabled(UserSettings.StartWithWindows);
             _userSettingsProvider.SaveUserSettings(UserSettings);
         }
 
