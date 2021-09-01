@@ -14,6 +14,7 @@
         AllowsTransparency="True"
         xmlns:dvm="clr-namespace:GolemUI.DesignViewModel.Dialogs"
         d:DataContext ="{d:DesignInstance {x:Type dvm:DlgUpdateAppViewModel}, IsDesignTimeCreatable=True}"
+        KeyDown="Window_KeyDown"
         >
     <Window.Resources>
         <ResourceDictionary>
