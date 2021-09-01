@@ -77,22 +77,22 @@ namespace GolemUI.Src
             }
         }
 
-        private readonly IProcessControler _processControler;
+        private readonly IProcessController _processController;
         private readonly ILogger<HistoryDataProvider> _logger;
         private readonly IPriceProvider _priceProvider;
 
         private LookupCache<string, SortedDictionary<string, double>?> _agreementLookup;
 
-        public HistoryDataProvider(IStatusProvider statusProvider, IProcessControler processControler, ILogger<HistoryDataProvider> logger, IPriceProvider priceProvider)
+        public HistoryDataProvider(IStatusProvider statusProvider, IProcessController processController, ILogger<HistoryDataProvider> logger, IPriceProvider priceProvider)
         {
             _priceProvider = priceProvider;
             _statusProvider = statusProvider;
             statusProvider.PropertyChanged += StatusProvider_PropertyChanged;
-            _processControler = processControler;
+            _processController = processController;
             _logger = logger;
 
-            _agreementLookup = LookupCache<string, SortedDictionary<string, double>?>.FromFunc(agreementID => _processControler.GetUsageVectors(agreementID));
-            _processControler.PropertyChanged += OnProcessControllerChanged;
+            _agreementLookup = LookupCache<string, SortedDictionary<string, double>?>.FromFunc(agreementID => _processController.GetUsageVectors(agreementID));
+            _processController.PropertyChanged += OnProcessControllerChanged;
         }
 
 
@@ -100,7 +100,7 @@ namespace GolemUI.Src
         {
             if (e.PropertyName == "IsProviderRunning")
             {
-                if (!_processControler.IsProviderRunning)
+                if (!_processController.IsProviderRunning)
                 {
                     MiningHistoryGpuSinceStart.Clear();
                     _computeEstimatedEarnings();
@@ -298,7 +298,7 @@ namespace GolemUI.Src
             {
                 EarningsStats = null;
             }
-            if (!_processControler.IsProviderRunning)
+            if (!_processController.IsProviderRunning)
             {
                 EarningsStats = null;
             }

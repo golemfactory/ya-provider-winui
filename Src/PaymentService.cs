@@ -21,16 +21,16 @@ namespace GolemUI.Src
         private Command.YagnaSrv _srv;
         private readonly IProviderConfig _providerConfig;
         private readonly Payment _gsbPayment;
-        private IProcessControler _processControler;
+        private IProcessController _processController;
         private DispatcherTimer _timer;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public PaymentService(Network network, Command.YagnaSrv srv, IProcessControler processControler, IProviderConfig providerConfig, Command.GSB.Payment gsbPayment)
+        public PaymentService(Network network, Command.YagnaSrv srv, IProcessController processController, IProviderConfig providerConfig, Command.GSB.Payment gsbPayment)
         {
             _network = network;
             _srv = srv;
-            _processControler = processControler;
+            _processController = processController;
             _providerConfig = providerConfig;
             _gsbPayment = gsbPayment;
 
@@ -41,13 +41,13 @@ namespace GolemUI.Src
             _timer.Interval = TimeSpan.FromSeconds(20);
             _timer.Tick += (object? s, EventArgs a) => this.UpdateState();
             _timer.Start();
-            if (processControler.IsServerRunning)
+            if (processController.IsServerRunning)
             {
                 UpdateState();
             }
             else
             {
-                _processControler.PropertyChanged += this.OnProcessControllerStateChange;
+                _processController.PropertyChanged += this.OnProcessControllerStateChange;
             }
         }
 
@@ -59,7 +59,7 @@ namespace GolemUI.Src
 
         private void OnProcessControllerStateChange(object? sender, PropertyChangedEventArgs ev)
         {
-            if (ev.PropertyName == "IsServerRunning" && this._processControler.IsServerRunning)
+            if (ev.PropertyName == "IsServerRunning" && this._processController.IsServerRunning)
             {
                 UpdateState();
             }
@@ -74,7 +74,7 @@ namespace GolemUI.Src
 
         public async Task Refresh()
         {
-            if (!_processControler.IsServerRunning)
+            if (!_processController.IsServerRunning)
             {
                 return;
             }

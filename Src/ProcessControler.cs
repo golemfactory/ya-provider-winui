@@ -35,7 +35,7 @@ namespace GolemUI
         // ES_USER_PRESENT = 0x00000004
     }
 
-    public class ProcessController : IDisposable, IProcessControler
+    public class ProcessController : IDisposable, IProcessController
     {
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);

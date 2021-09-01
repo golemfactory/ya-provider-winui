@@ -10,7 +10,7 @@ namespace GolemUI
 {
     public class SentryAdditionalDataIngester
     {
-        private readonly IProcessControler _processControler;
+        private readonly IProcessController _processController;
         private readonly Interfaces.IProviderConfig _providerConfig;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
         private readonly BenchmarkService _benchmarkService;
@@ -18,14 +18,14 @@ namespace GolemUI
 
 
 
-        public SentryAdditionalDataIngester(BenchmarkService benchmarkService, Interfaces.IProcessControler processControler, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.IProviderConfig providerConfig)
+        public SentryAdditionalDataIngester(BenchmarkService benchmarkService, Interfaces.IProcessController processController, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.IProviderConfig providerConfig)
         {
             _benchmarkService = benchmarkService;
             _benchmarkResultsProvider = benchmarkResultsProvider;
-            _processControler = processControler;
+            _processController = processController;
             _providerConfig = providerConfig;
             _providerConfig.PropertyChanged += ProviderConfig_PropertyChanged;
-            _processControler.PropertyChanged += _processControler_PropertyChanged;
+            _processController.PropertyChanged += _processController_PropertyChanged;
             Context.MemberChanged += Context_MemberChanged;
             _benchmarkService.PropertyChanged += _benchmarkService_PropertyChanged;
 
@@ -87,10 +87,10 @@ namespace GolemUI
                 UpdateNodeName(_providerConfig.Config?.NodeName ?? "");
         }
 
-        private async void _processControler_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private async void _processController_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsServerRunning")
-                Context.AddItem("YagnaId", (await _processControler.Me()).Id);
+                Context.AddItem("YagnaId", (await _processController.Me()).Id);
         }
 
     }
