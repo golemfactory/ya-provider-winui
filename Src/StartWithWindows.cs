@@ -13,9 +13,9 @@ namespace GolemUI.Src
     {
         public void SetStartWithWindows(bool startWithWindows)
         {
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             if (startWithWindows)
             {
-                RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 object? keyValue = rk.GetValue("TestBetaMiner");
                 string targetVal = System.Reflection.Assembly.GetEntryAssembly().Location;
                 if (keyValue != null && keyValue is string && keyValue.ToString() == targetVal)
@@ -29,11 +29,9 @@ namespace GolemUI.Src
             }
             else
             {
-                RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 rk.DeleteValue("TestBetaMiner", false);
             }
-
-
+            rk.Close();
         }
 
     }
