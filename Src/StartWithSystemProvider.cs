@@ -13,32 +13,42 @@ namespace GolemUI.Src
     {
         public bool IsStartWithSystemEnabled()
         {
-/*            
             RegistryKey rk = Registry.CurrentUser.OpenSubKey("C:\\Program Files\\TestBetaMiner\\BetaMiner.exe", true);
 
             object? keyValue = rk.GetValue("TestBetaMiner");
             if (keyValue != null && keyValue is string)
             {
-                
-                if (keyValue == "")
+                if (keyValue.ToString() == System.Reflection.Assembly.GetEntryAssembly().Location)
                 {
-
+                    return true;
                 }
-                
-
-            }*/
+            }
             return false;
 
         }
         public void SetStartWithSystemEnabled(bool enable)
         {
-        
-            RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-
             if (enable)
-                rk.SetValue("TestBetaMiner", @"C:\Program Files\TestBetaMiner\BetaMiner.exe");
-            else
+            {
+                RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                object? keyValue = rk.GetValue("TestBetaMiner");
+                string targetVal = System.Reflection.Assembly.GetEntryAssembly().Location;
+                if (keyValue != null && keyValue is string && keyValue.ToString() == targetVal)
+                {
+                    //already set
+                }
+                else
+                {
+                    rk.SetValue("TestBetaMiner", targetVal);
+                }
+            }
+            if (!enable)
+            {
+                RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 rk.DeleteValue("TestBetaMiner", false);
+            }
+
+
         }
 
     }
