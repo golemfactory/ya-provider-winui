@@ -18,7 +18,7 @@ namespace GolemUI.Src
             {
                 object? keyValue = rk.GetValue("TestBetaMiner");
                 string targetVal = System.Reflection.Assembly.GetEntryAssembly().Location;
-                if (keyValue != null && keyValue is string && keyValue.ToString() == targetVal)
+                if (keyValue?.ToString() == targetVal)
                 {
                     //already set
                 }
