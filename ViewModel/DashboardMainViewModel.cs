@@ -227,6 +227,7 @@ namespace GolemUI.ViewModel
             OnPropertyChanged("AmountUSD");
             OnPropertyChanged("PendingAmount");
             OnPropertyChanged("PendingAmountUSD");
+            OnPropertyChanged("PaymentStateError");
         }
 
         public void LoadData()
@@ -273,6 +274,7 @@ namespace GolemUI.ViewModel
 
         public IProcessControler Process => _processController;
         public decimal? Amount => _paymentService.State?.Balance;
+        public string? PaymentStateError => _paymentService.LastError;
 
         public decimal? _usdPerDay = null;
         public decimal? UsdPerDay

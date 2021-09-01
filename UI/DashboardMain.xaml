@@ -29,6 +29,7 @@
                 <ResourceDictionary Source="Themes/Buttons/BlueButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
+                <ResourceDictionary Source="Themes/ErrorMsg/PaymentStatusErrorMsg.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
 
@@ -87,6 +88,7 @@
                         </Grid.RowDefinitions>
                         <Label Content="My Balance" FontSize="14" Margin="17,22,0,0" Grid.ColumnSpan="2"/>
                         <Image Source="Icons/DefaultStyle/png/Dashboard/Balance.png" Grid.Column="0" Grid.Row="1" Margin="23, 23" Stretch="Uniform" VerticalAlignment="Top"  RenderOptions.BitmapScalingMode="HighQuality" />
+                        <TextBox Text="{Binding Path=PaymentStateError, Mode=OneWay}" Grid.Column="1" Grid.RowSpan="2" Style="{DynamicResource PaymentStatusErrorMsg}" Margin="5, 0, 10, 0" VerticalAlignment="Top"></TextBox>
                         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="0,13,0,0">
                             <Label Content="Earned" Foreground="#99b" FontFamily="Segoe UI" FontSize="14"></Label>
                             <Label Content="{Binding Path=AmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Segoe UI Black" FontSize="42" Margin="0, -12"></Label>

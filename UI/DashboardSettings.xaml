@@ -35,6 +35,7 @@
                 <ResourceDictionary Source="/UI/Themes/TextBox/TextBoxInError.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Validation/ValidationTemplate.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Labels/InfoLabel.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/ErrorMsg/BenchmarkErrorMsg.xaml"/>
                 <ResourceDictionary>
                     <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
                         <ObjectDataProvider.MethodParameters>
@@ -169,7 +170,7 @@
 
                         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 15, 10, 10">
                             <ContentPresenter Content="{StaticResource Status_Card_error}" Margin="0, 0, 0, 0"/>
-                            <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorStyle}" TextWrapping="Wrap" Text="{Binding BenchmarkError}" Margin="5, 0, 10, 0" VerticalAlignment="Center"></TextBox>
+                            <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorMsg}" TextWrapping="Wrap" Text="{Binding BenchmarkError}" Margin="5, 0, 10, 0" VerticalAlignment="Center"></TextBox>
                         </StackPanel>
 
                         <ScrollViewer Grid.Column="1" Grid.Row="2" Margin="25,4,0,0" Padding="0" Grid.RowSpan="2" VerticalScrollBarVisibility="Auto" Style="{DynamicResource SettingsScrollViewer}">
