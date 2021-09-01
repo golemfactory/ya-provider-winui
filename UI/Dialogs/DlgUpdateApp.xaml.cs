@@ -78,5 +78,13 @@ namespace GolemUI.UI.Dialogs
             this.DialogResult = false;
             this.Close();
         }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.System && e.SystemKey == Key.F4)
+            {
+                e.Handled = true;
+            }
+        }
     }
 }
