@@ -135,7 +135,7 @@ namespace GolemUI.Src
             {
                 string errorMsg = $"HttpRequestException when updating payment status: {ex.Message}";
                 _logger.LogError(errorMsg);
-                LastError = errorMsg;
+                LastError = "Problem with payment service connection";
                 State = null;
                 OnPropertyChanged("State");
             }
@@ -143,7 +143,7 @@ namespace GolemUI.Src
             {
                 string errorMsg = $"Exception when updating payment status: {ex.Message}";
                 _logger.LogError(errorMsg);
-                LastError = errorMsg;
+                LastError = "Unknown problem with payment service";
                 State = null;
                 OnPropertyChanged("State");
             }
