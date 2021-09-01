@@ -53,7 +53,7 @@ namespace GolemUI.ViewModel
 
         public void SaveData()
         {
-            _startWithWindowsProvider.SetStartWithSystemEnabled(UserSettings.StartWithWindows);
+            _startWithWindowsProvider.SetStartWithWindows(UserSettings.StartWithWindows);
             _userSettingsProvider.SaveUserSettings(UserSettings);
         }
 

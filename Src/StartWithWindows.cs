@@ -11,9 +11,9 @@ namespace GolemUI.Src
 {
     class StartWithWindows : IStartWithWindows
     {
-        public void SetStartWithSystemEnabled(bool enable)
+        public void SetStartWithWindows(bool startWithWindows)
         {
-            if (enable)
+            if (startWithWindows)
             {
                 RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 object? keyValue = rk.GetValue("TestBetaMiner");
@@ -27,7 +27,7 @@ namespace GolemUI.Src
                     rk.SetValue("TestBetaMiner", targetVal);
                 }
             }
-            if (!enable)
+            else
             {
                 RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 rk.DeleteValue("TestBetaMiner", false);
