@@ -102,8 +102,8 @@ namespace GolemUI.Src
             _processController = processController;
             _logger = logger;
 
-            _agreementLookup = LookupCache<string, Dictionary<string, double>?>.FromFunc(agreementID => _processControler.GetUsageVectors(agreementID));
-            _processControler.PropertyChanged += OnProcessControllerChanged;
+            _agreementLookup = LookupCache<string, SortedDictionary<string, double>?>.FromFunc(agreementID => _processController.GetUsageVectors(agreementID));
+            _processController.PropertyChanged += OnProcessControllerChanged;
 
             _dispatcherTimer.Tick += _dispatcherTimer_Tick;
             _dispatcherTimer.Interval = TimeSpan.FromMinutes(1);

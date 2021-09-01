@@ -30,7 +30,7 @@
                 <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/TrackBar/Slider.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/HistoryTabButton.xaml"/>
-
+                <ResourceDictionary Source="/UI/Themes/ErrorMsg/PaymentStatusErrorMsg.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
 
