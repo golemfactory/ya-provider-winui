@@ -290,7 +290,7 @@
     <Compile Include="Src\RemoteSettingsProvider.cs" />
     <Compile Include="Src\Sentry\SentryContext.cs" />
     <Compile Include="Src\Sentry\SentryUserFeedback.cs" />
-    <Compile Include="Src\StartWithSystemProvider.cs" />
+    <Compile Include="Src\StartWithWindows.cs" />
     <Compile Include="UI\Dialogs\DlgWithdraw.xaml.cs">
       <DependentUpon>DlgWithdraw.xaml</DependentUpon>
     </Compile>

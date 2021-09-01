@@ -67,7 +67,7 @@ namespace GolemUI
         }
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<Interfaces.IStartWithWindows, Src.StartWithSystemProvider>();
+            services.AddSingleton<Interfaces.IStartWithWindows, Src.StartWithWindows>();
             services.AddSingleton<Interfaces.IBenchmarkResultsProvider, Src.BenchmarkResultsProvider>();
             services.AddSingleton<Interfaces.IUserSettingsProvider, Src.UserSettingsProvider>();
             services.AddSingleton<Interfaces.IRemoteSettingsProvider, Src.RemoteSettingsProvider>();

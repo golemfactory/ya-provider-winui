@@ -9,23 +9,8 @@ using System.Windows;
 
 namespace GolemUI.Src
 {
-    class StartWithSystemProvider : IStartWithWindows
+    class StartWithWindows : IStartWithWindows
     {
-        public bool IsStartWithSystemEnabled()
-        {
-            RegistryKey rk = Registry.CurrentUser.OpenSubKey("C:\\Program Files\\TestBetaMiner\\BetaMiner.exe", true);
-
-            object? keyValue = rk.GetValue("TestBetaMiner");
-            if (keyValue != null && keyValue is string)
-            {
-                if (keyValue.ToString() == System.Reflection.Assembly.GetEntryAssembly().Location)
-                {
-                    return true;
-                }
-            }
-            return false;
-
-        }
         public void SetStartWithSystemEnabled(bool enable)
         {
             if (enable)

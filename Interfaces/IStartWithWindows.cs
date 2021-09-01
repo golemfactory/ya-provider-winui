@@ -8,7 +8,6 @@ namespace GolemUI.Interfaces
 {
     public interface IStartWithWindows
     {
-        public bool IsStartWithSystemEnabled();
         public void SetStartWithSystemEnabled(bool enable);
     }
 }
