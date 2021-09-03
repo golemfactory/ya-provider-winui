@@ -1,8 +1,8 @@
 {
-  "LatestVersion": "0.3.0.5",
-  "Version": "0.3.0.5",
+  "LatestVersion": "0.3.1.0",
+  "Version": "0.3.1.0",
   "LatestVersionCodename": "beta-2",
-  "LatestVersionDownloadLink": "https://www.dropbox.com/s/f45gsk266gaqrss/BetaMiner-v0.3.0.5.msi?dl=0",
+  "LatestVersionDownloadLink": "https://s3.console.aws.amazon.com/s3/object/golem-releases?region=eu-central-1&prefix=gminer/BetaMiner-v0.3.1.msi",
   "ChangeLog": "- provider reconnect bug fixed|- logging to files enabled|- log files can be now uploaded via 'send feedback' feature|- usage vector bug fix",
   "LastSupportedVersion": "0.3.0.1",
   "DayEthPerGH": 0.023,
