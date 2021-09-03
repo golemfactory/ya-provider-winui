@@ -17,7 +17,7 @@ namespace GolemUI.DesignViewModel.Dialogs
         public string Title => IsUpToDate ? "Your application is up to date" : "New version of application is available";
         public string UpdateLink => "http://google.com";
         public string CurrentVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        string NewVersion => "0.3.0.4";
+        string NewVersion => "0.3.0.6";
 
         string AppCodeName => "CandyFlip";
         public string ChangeLog

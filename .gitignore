@@ -355,3 +355,6 @@ MigrationBackup/
 /GolemUISetup/ExternalBinaries/plugins/claymore/log*.txt
 /GolemUISetup/ProductInstallFiles.wxs
 /GolemUISetup/bundling/
+/GolemUISetup/YaRuntimeGMiner.wxs
+/GolemUISetup/YaRuntimeWasi.wxs
+

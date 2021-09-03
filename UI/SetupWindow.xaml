@@ -39,6 +39,7 @@
                 <ResourceDictionary Source="/UI/Themes/Buttons/CancelButton.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Labels/InfoLabel.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/ErrorMsg/BenchmarkErrorMsg.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/TextBox/TextBoxInError.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Validation/ValidationTemplate.xaml"/>
                 <ResourceDictionary>
@@ -541,7 +542,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 10">Enjoy!</TextBlock>
                                             <StackPanel Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 0, 0, 10">
                                                 <ContentPresenter Content="{StaticResource Status_Card_error}" Margin="0, 0, 0, 0"/>
-                                                <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorStyle}" TextWrapping="Wrap" Width="300" Text="{Binding BenchmarkError}" Margin="5, 0, 0, 0" VerticalAlignment="Center"></TextBox>
+                                                <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorMsg}" TextWrapping="Wrap" Width="300" Text="{Binding BenchmarkError}" Margin="5, 0, 0, 0" VerticalAlignment="Center"></TextBox>
                                             </StackPanel>
 
                                             <UniformGrid Rows="1" Columns="2">

@@ -28,31 +28,33 @@ namespace GolemUI.Src
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public YaSSEStatusProvider(Interfaces.IProcessControler processControler, ILogger<YaSSEStatusProvider> logger)
+        public YaSSEStatusProvider(Interfaces.IProcessController processController, ILogger<YaSSEStatusProvider> logger)
         {
-            _processControler = processControler;
+            _processController = processController;
             _logger = logger;
             _tokenSource = new CancellationTokenSource();
-            _processControler.PropertyChanged += OnProcessControlerChanged;
+            _processController.PropertyChanged += OnProcessControllerChanged;
             _hc = new DispatcherTimer()
             {
                 Interval = TimeSpan.FromMinutes(2)
             };
             _hc.Tick += this._checkHealth;
             _hc.Start();
-
-            _processControler.PropertyChanged += OnProcessControllerChanged;
         }
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsProviderRunning")
             {
-                if (!_processControler.IsProviderRunning)
+                if (!_processController.IsProviderRunning)
                 {
                     _activities = new List<ActivityState>();
                     OnPropertyChanged("");
                 }
+            }
+            if (_processController.IsServerRunning && _loop == null)
+            {
+                _loop = _refreshLoop();
             }
         }
 
@@ -60,9 +62,9 @@ namespace GolemUI.Src
         {
             if (_loop != null && _loop.IsFaulted)
             {
-                _logger.LogError(_loop.Exception, "Restarting status event receiver, IsServerRunning={0}", _processControler.IsServerRunning);
+                _logger.LogError(_loop.Exception, "Restarting status event receiver, IsServerRunning={0}", _processController.IsServerRunning);
 
-                if (_processControler.IsServerRunning && !_processControler.IsStarting)
+                if (_processController.IsServerRunning && !_processController.IsStarting)
                 {
                     _loop = _refreshLoop();
                 }
@@ -72,16 +74,8 @@ namespace GolemUI.Src
         public void Dispose()
         {
             _hc.Stop();
-            _processControler.PropertyChanged -= OnProcessControlerChanged;
+            _processController.PropertyChanged -= OnProcessControllerChanged;
             _tokenSource.Cancel();
-        }
-
-        private void OnProcessControlerChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (_processControler.IsServerRunning && _loop == null)
-            {
-                _loop = _refreshLoop();
-            }
         }
 
         private async Task _refreshLoop()
@@ -99,9 +93,9 @@ namespace GolemUI.Src
             using WebClient webClient = new WebClient();
             token.Register(webClient.CancelAsync);
 
-            var appKey = await _processControler.GetAppKey();
+            var appKey = await _processController.GetAppKey();
             webClient.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {appKey}");
-            webClient.BaseAddress = _processControler.ServerUri;
+            webClient.BaseAddress = _processController.ServerUri;
 
             DateTime newReconnect = DateTime.Now;
             while (!token.IsCancellationRequested)
@@ -187,7 +181,7 @@ namespace GolemUI.Src
         }
 
 
-        private readonly IProcessControler _processControler;
+        private readonly IProcessController _processController;
         private readonly ILogger<YaSSEStatusProvider> _logger;
         private Task? _loop;
         private readonly CancellationTokenSource _tokenSource;

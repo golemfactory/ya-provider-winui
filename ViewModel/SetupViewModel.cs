@@ -20,7 +20,7 @@ namespace GolemUI.ViewModel
         private readonly Interfaces.IProviderConfig _providerConfig;
         private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;
-        private readonly IProcessControler _processControler;
+        private readonly IProcessController _processController;
         private readonly IPriceProvider _priceProvider;
         private readonly IUserSettingsProvider _userSettingsProvider;
 
@@ -78,7 +78,7 @@ namespace GolemUI.ViewModel
         private readonly IRemoteSettingsProvider _remoteSettingsProvider;
 
         public SetupViewModel(Interfaces.IProviderConfig providerConfig,
-            Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessControler processControler, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider, ILogger<SetupViewModel> logger,
+            Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessController processController, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider, ILogger<SetupViewModel> logger,
             IRemoteSettingsProvider remoteSettingsProvider)
         {
             _flow = 0;
@@ -86,7 +86,7 @@ namespace GolemUI.ViewModel
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
             _profitEstimator = profitEstimator;
-            _processControler = processControler;
+            _processController = processController;
             _priceProvider = priceProvider;
             _userSettingsProvider = userSettingsProvider;
             _logger = logger;
@@ -244,14 +244,14 @@ namespace GolemUI.ViewModel
                 return true;
             }
 
-            if (_processControler.IsServerRunning)
+            if (_processController.IsServerRunning)
             {
                 _logger.LogError("Wallet is null and server is running and it shouldn't be possible");
                 throw new Exception("Wallet is null and server is running and it shouldn't be possible");
             }
 
             _wallet = new Nethereum.HdWallet.Wallet(seed, "");
-            var address = await _processControler.PrepareForKey(_wallet.GetPrivateKey(0));
+            var address = await _processController.PrepareForKey(_wallet.GetPrivateKey(0));
             if (address == _wallet.GetAccount(0).Address.ToLower())
             {
                 _providerConfig.UpdateWalletAddress(address);

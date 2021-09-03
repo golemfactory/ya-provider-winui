@@ -67,6 +67,7 @@ namespace GolemUI
         }
         private void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<Interfaces.IStartWithWindows, Src.StartWithWindows>();
             services.AddSingleton<Interfaces.IBenchmarkResultsProvider, Src.BenchmarkResultsProvider>();
             services.AddSingleton<Interfaces.IUserSettingsProvider, Src.UserSettingsProvider>();
             services.AddSingleton<Interfaces.IRemoteSettingsProvider, Src.RemoteSettingsProvider>();
@@ -75,7 +76,7 @@ namespace GolemUI
             services.AddSingleton<Interfaces.ITaskProfitEstimator, Src.TaskProfitEstimator>();
             services.AddSingleton<Interfaces.IUserFeedbackService, Src.SentryUserFeedbackService>();
 
-            services.AddSingleton(typeof(Interfaces.IProcessControler), typeof(GolemUI.ProcessController));
+            services.AddSingleton(typeof(Interfaces.IProcessController), typeof(GolemUI.ProcessController));
             services.AddSingleton(typeof(Command.YagnaSrv));
             services.AddSingleton(typeof(Command.Provider));
             services.AddSingleton(cfg => new Src.SingleInstanceLock());
