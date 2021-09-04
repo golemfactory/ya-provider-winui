@@ -10,7 +10,7 @@ namespace GolemUI.Interfaces
 {
     public delegate void LogLineHandler(string logger, string line);
 
-    public interface IProcessControler : INotifyPropertyChanged
+    public interface IProcessController : INotifyPropertyChanged
     {
         string ServerUri { get; }
         Task<string> GetAppKey();
@@ -22,7 +22,7 @@ namespace GolemUI.Interfaces
         public Task<YagnaAgreement?> GetAgreement(string agreementID);
 
         // TODO: Remove this.
-        public Task<Dictionary<string, double>?> GetUsageVectors(string? agreementID);
+        public Task<SortedDictionary<string, double>?> GetUsageVectors(string? agreementID);
 
         /// <summary>
         /// Starts daemon with given private key.

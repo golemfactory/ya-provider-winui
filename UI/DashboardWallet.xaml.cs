@@ -40,9 +40,17 @@ namespace GolemUI
             System.Diagnostics.Process.Start("explorer.exe", "https://wallet.zksync.io/");
         }
 
-        private void BtnWithdraw_Click(object sender, RoutedEventArgs e)
+        private async void BtnWithdraw_Click(object sender, RoutedEventArgs e)
         {
-
+            var dlg = new UI.Dialogs.DlgWithdraw(Model.WithDrawModel);
+            dlg.Owner = Window.GetWindow(this);
+            Model.RequestDarkBackgroundVisibilityChange(true);
+            await _paymentService.Refresh();
+            if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
+            {
+                //Model.UpdateAddress(dlg.Model.ChangeAction, dlg.Model.NewAddress);
+            }
+            Model.RequestDarkBackgroundVisibilityChange(false);
         }
 
         private void BtnEditWalletAddress_Click(object sender, RoutedEventArgs e)

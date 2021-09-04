@@ -17,7 +17,7 @@ namespace GolemUI.Utils
         {
             _maxCap = maxCap;
             _semaphore = new SemaphoreSlim(1);
-            _data = new Dictionary<TKey, TValue>(maxCap);
+            _data = new Dictionary<TKey, TValue>();
         }
 
         public abstract Task<TValue> Fetch(TKey key);
