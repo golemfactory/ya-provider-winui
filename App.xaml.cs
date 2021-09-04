@@ -13,6 +13,7 @@ using System.Windows.Threading;
 using GolemUI.Command;
 using GolemUI.UI;
 using GolemUI.UI.CustomControls;
+using GolemUI.Utils;
 using GolemUI.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -56,19 +57,26 @@ namespace GolemUI
         {
             SentrySdk.CaptureException(e.Exception);
 
+            var logger = _serviceProvider.GetRequiredService<ILogger<App>>();
+            logger.LogError(e.Exception, "App_DispatcherUnhandledException");
+
+            MessageBox.Show(e.Exception.Message, "unexpected error");
+
             //TODO: to discuss if we should allow the app to crash or not
             //e.Handled = true;
         }
         private void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<Interfaces.IStartWithWindows, Src.StartWithWindows>();
             services.AddSingleton<Interfaces.IBenchmarkResultsProvider, Src.BenchmarkResultsProvider>();
             services.AddSingleton<Interfaces.IUserSettingsProvider, Src.UserSettingsProvider>();
             services.AddSingleton<Interfaces.IRemoteSettingsProvider, Src.RemoteSettingsProvider>();
             services.AddSingleton<Interfaces.IPriceProvider, Src.CoinGeckoPriceProvider>();
             services.AddSingleton<Interfaces.IEstimatedProfitProvider, Src.EstimatedEarningsProvider>();
             services.AddSingleton<Interfaces.ITaskProfitEstimator, Src.TaskProfitEstimator>();
+            services.AddSingleton<Interfaces.IUserFeedbackService, Src.SentryUserFeedbackService>();
 
-            services.AddSingleton(typeof(Interfaces.IProcessControler), typeof(GolemUI.ProcessController));
+            services.AddSingleton(typeof(Interfaces.IProcessController), typeof(GolemUI.ProcessController));
             services.AddSingleton(typeof(Command.YagnaSrv));
             services.AddSingleton(typeof(Command.Provider));
             services.AddSingleton(cfg => new Src.SingleInstanceLock());
@@ -113,26 +121,31 @@ namespace GolemUI
             services.AddTransient(typeof(UI.SetupWindow));
             services.AddTransient(typeof(GolemUI.DebugWindow));
 
+            services.AddSingleton<Command.GSB.IGsbEndpointFactory, Src.GsbEndpointFactory>();
+            services.AddTransient(typeof(Command.GSB.Payment));
+
             services.AddLogging(logBuilder =>
             {
-                logBuilder.AddDebug();
+
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
-                //GolemUI.Properties.Settings.Default.SentryDsn
+                logBuilder.AddFile(PathUtil.GetLocalLogPath(), opts =>
+                {
+                    opts.Append = false;
+                    opts.MinLevel = LogLevel.Debug;
+
+
+                });
+                logBuilder.AddDebug();
+
                 logBuilder.AddSentry(o =>
                 {
                     o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
                     o.Debug = true;
                     o.AttachStacktrace = true;
                     o.AutoSessionTracking = true;
-                    //o.BeforeSend = @event =>
-                    //{
-
-                    //    return @event;
-                    //};
                     o.IsGlobalModeEnabled = true;
-
                     o.TracesSampleRate = 1.0;
-                }/* o.InitializeSdk=false*/);
+                });
 
             });
 
@@ -157,6 +170,8 @@ namespace GolemUI
                 this.Shutdown();
                 return;
             }
+
+
             var remoteSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IRemoteSettingsProvider>();
 
             var userSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IUserSettingsProvider>();
@@ -183,22 +198,17 @@ namespace GolemUI
             }
 
 
-            try
-            {
 
-                var dashboardWindow = _serviceProvider!.GetRequiredService<Dashboard>();
 
-                dashboardWindow.Show();
+            var dashboardWindow = _serviceProvider!.GetRequiredService<Dashboard>();
+
+            dashboardWindow.Show();
 #if DEBUG
-                StartDebugWindow(dashboardWindow);
+            StartDebugWindow(dashboardWindow);
 #endif
 
-                _dashboard = dashboardWindow;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            _dashboard = dashboardWindow;
+
         }
         public void RequestClose()
         {

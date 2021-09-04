@@ -64,7 +64,8 @@ namespace GolemUI.Src
 
 
             DateTime benchmarkStartTime = DateTime.Now;
-            var walletAddress = _providerConfig.Config?.Account ?? "0xD593411F3E6e79995E787b5f81D10e12fA6eCF04";
+            var walletAddress = _providerConfig.Config?.Account ?? "0x0000000000000000000000000000000000000001";
+            var nodeName = _providerConfig.Config?.NodeName ?? "DefaultBenchmark";
             var poolAddr = GolemUI.Properties.Settings.Default.DefaultProxy;
             var totalClaymoreReportsNeeded = 5;
 
@@ -158,7 +159,7 @@ namespace GolemUI.Src
                     bool result = cc.RunBenchmarkRecording(@"test.recording", isPreBenchmark: false);
                     if (!result)
                     {
-                        result = cc.RunBenchmark(cards, niceness, poolAddr, walletAddress);
+                        result = cc.RunBenchmark(cards, niceness, poolAddr, walletAddress, nodeName);
                     }
                     if (!result)
                     {
@@ -317,6 +318,8 @@ namespace GolemUI.Src
             args.Add("-clnew");
             args.Add("1");
             args.Add("-clKernel");
+            args.Add("0");
+            args.Add("-wd");
             args.Add("0");
             return String.Join(" ", args);
         }

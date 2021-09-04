@@ -10,6 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GolemUI.Src
@@ -76,22 +77,22 @@ namespace GolemUI.Src
             }
         }
 
-        private readonly IProcessControler _processControler;
+        private readonly IProcessController _processController;
         private readonly ILogger<HistoryDataProvider> _logger;
         private readonly IPriceProvider _priceProvider;
 
-        private LookupCache<string, Dictionary<string, double>?> _agreementLookup;
+        private LookupCache<string, SortedDictionary<string, double>?> _agreementLookup;
 
-        public HistoryDataProvider(IStatusProvider statusProvider, IProcessControler processControler, ILogger<HistoryDataProvider> logger, IPriceProvider priceProvider)
+        public HistoryDataProvider(IStatusProvider statusProvider, IProcessController processController, ILogger<HistoryDataProvider> logger, IPriceProvider priceProvider)
         {
             _priceProvider = priceProvider;
             _statusProvider = statusProvider;
             statusProvider.PropertyChanged += StatusProvider_PropertyChanged;
-            _processControler = processControler;
+            _processController = processController;
             _logger = logger;
 
-            _agreementLookup = LookupCache<string, Dictionary<string, double>?>.FromFunc(agreementID => _processControler.GetUsageVectors(agreementID));
-            _processControler.PropertyChanged += OnProcessControllerChanged;
+            _agreementLookup = LookupCache<string, SortedDictionary<string, double>?>.FromFunc(agreementID => _processController.GetUsageVectors(agreementID));
+            _processController.PropertyChanged += OnProcessControllerChanged;
         }
 
 
@@ -99,7 +100,7 @@ namespace GolemUI.Src
         {
             if (e.PropertyName == "IsProviderRunning")
             {
-                if (!_processControler.IsProviderRunning)
+                if (!_processController.IsProviderRunning)
                 {
                     MiningHistoryGpuSinceStart.Clear();
                     _computeEstimatedEarnings();
@@ -109,7 +110,8 @@ namespace GolemUI.Src
 
 
 
-        public void AddGMinerActivityEntry(ActivityState newActivity, Dictionary<string, double> usageVector, ILogger? logger = null)
+        Random r = new Random();
+        public void AddGMinerActivityEntry(ActivityState newActivity, SortedDictionary<string, double> usageVector, ILogger? logger = null)
         {
             ActivityState? previousActivity = null;
             if (newActivity.Id == null || newActivity.Usage == null)
@@ -118,7 +120,7 @@ namespace GolemUI.Src
             }
             Activities.TryGetValue(newActivity.Id, out previousActivity);
 
-            Dictionary<string, float> usageVectorDiff = new Dictionary<string, float>();
+            SortedDictionary<string, float> usageVectorDiff = new SortedDictionary<string, float>();
             if (previousActivity != null && previousActivity.Usage != null)
             {
                 foreach (var entry in previousActivity.Usage)
@@ -139,10 +141,31 @@ namespace GolemUI.Src
                 }
             }
 
+
+
             foreach (var entry in usageVectorDiff)
             {
                 if (entry.Key != "golem.usage.mining.hash-rate" && entry.Value < 0)
                 {
+                    if (previousActivity?.Usage != null)
+                    {
+                        _logger.LogInformation("Old usage vector: {" + string.Join(",", previousActivity.Usage.Select(kv => kv.Key + "=" + ((double)kv.Value).ToString(CultureInfo.InvariantCulture)).ToArray()) + "}");
+                    }
+                    else
+                    {
+                        _logger.LogInformation("Old usage vector is null");
+                    }
+                    _logger.LogInformation("New usage vector: {" + string.Join(",", newActivity.Usage.Select(kv => kv.Key + "=" + ((double)kv.Value).ToString(CultureInfo.InvariantCulture)).ToArray()) + "}");
+                    if (previousActivity != null)
+                    {
+                        _logger.LogInformation(String.Format("Previous activity state: {0}", previousActivity.State.ToString()));
+                    }
+                    else
+                    {
+                        _logger.LogInformation(String.Format("Previous activity null"));
+                    }
+                    _logger.LogInformation(String.Format("New activity state: {0}", newActivity.State.ToString()));
+
                     logger.LogError("usageVectorDiff entry cannot be lower than 0: " + entry.Key);
                 }
             }
@@ -205,7 +228,7 @@ namespace GolemUI.Src
 
         private async void CheckForActivityEarningChange(Model.ActivityState gminerState)
         {
-            Dictionary<string, double>? usageVector = null;
+            SortedDictionary<string, double>? usageVector = null;
             if (gminerState.AgreementId != null)
             {
                 usageVector = await _agreementLookup.Get(gminerState.AgreementId);
@@ -275,7 +298,7 @@ namespace GolemUI.Src
             {
                 EarningsStats = null;
             }
-            if (!_processControler.IsProviderRunning)
+            if (!_processController.IsProviderRunning)
             {
                 EarningsStats = null;
             }
@@ -291,9 +314,6 @@ namespace GolemUI.Src
                 {
                     throw new Exception("Activities cannot be null!");
                 }
-
-                //Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).SingleOrDefault();
-                //var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
 
                 foreach (ActivityState actState in _statusProvider.Activities ?? new List<ActivityState>())
                 {

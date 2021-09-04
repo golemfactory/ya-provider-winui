@@ -24,6 +24,7 @@ using System.Runtime.InteropServices;
 using GolemUI.Model;
 using GolemUI.ViewModel;
 using GolemUI.ViewModel.CustomControls;
+using GolemUI.Src.AppNotificationService;
 
 namespace GolemUI
 {
@@ -38,9 +39,11 @@ namespace GolemUI
         public ViewModel.DashboardViewModel ViewModel { get; set; }
 
 
-        public Dashboard(DashboardSettingsAdv _dashboardSettingsAdv, Interfaces.IProcessControler processControler, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel, NotificationBarViewModel notificationViewModel)
+        public Dashboard(DashboardSettingsAdv _dashboardSettingsAdv, INotificationService notificationService, IUserFeedbackService userFeedback, Interfaces.IProcessController processController, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel, NotificationBarViewModel notificationViewModel)
         {
-            _processControler = processControler;
+            _notificationService = notificationService;
+            _userFeedback = userFeedback;
+            _processController = processController;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
             _userSettingsProvider = userSettingsProvider;
@@ -130,7 +133,7 @@ namespace GolemUI
             DebugWindow.EnableLoggingToDebugWindow = false;
 
             //Stop provider
-            await _processControler.Stop();
+            await _processController.Stop();
 
             //force exit know after trying to gently stop yagna (which may succeeded or failed)
             this._forceExit = true;
@@ -200,8 +203,14 @@ namespace GolemUI
 
             await Task.WhenAll(
                 _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible),
-                _processControler.Prepare()
+                _processController.Prepare()
             );
+
+            if (_providerConfig.IsMiningActive && _userSettingsProvider.LoadUserSettings().StartWithWindows)
+            {
+                var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
+                await _processController.Start(_providerConfig.Network, extraClaymoreParams);
+            }
         }
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
@@ -238,17 +247,22 @@ namespace GolemUI
         //apply blur only once
         private bool _blurEffectApplied = false;
 
-        private readonly Interfaces.IProcessControler _processControler;
+        private readonly Interfaces.IProcessController _processController;
         private readonly IProviderConfig _providerConfig;
         private readonly BenchmarkService _benchmarkService;
         private readonly IUserSettingsProvider _userSettingsProvider;
-
+        private readonly IUserFeedbackService _userFeedback;
+        private readonly INotificationService _notificationService;
         private void btnAppInformation_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig));
+            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig, _userFeedback));
             dlg.Owner = Window.GetWindow(this);
             ViewModel.DarkBackgroundVisible = true;
-            dlg?.ShowDialog();
+            bool? result = dlg?.ShowDialog();
+            if (result == true)
+            {
+                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "Thank you for your feedback.", expirationTimeInMs: 7000, group: false));
+            }
             ViewModel.DarkBackgroundVisible = false;
         }
 

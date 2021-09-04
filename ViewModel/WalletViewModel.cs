@@ -178,6 +178,7 @@ namespace GolemUI.ViewModel
         }
 
         public DlgEditAddressViewModel EditModel => new DlgEditAddressViewModel(_paymentService);
+        public DlgWithdrawViewModel WithDrawModel => new DlgWithdrawViewModel(_paymentService, _priceProvider);
 
         public void Dispose()
         {

@@ -12,11 +12,20 @@ namespace GolemUI.Interfaces
     {
         WalletState? State { get; }
 
+        string? LastError { get; }
+
         string? Address { get; }
 
         string InternalAddress { get; }
 
         Task<bool> TransferOutTo(string address);
 
+        Task<decimal> ExitFee(decimal? amount = null, string? to = null);
+
+        Task Refresh();
+
+        Task<string> ExitTo(string driver, decimal amount, string destinationAddress, decimal? txFee);
+
+        Task<string> TransferTo(string driver, decimal amount, string destinationAddress, decimal? txFee);
     }
 }

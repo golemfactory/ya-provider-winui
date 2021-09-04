@@ -11,7 +11,7 @@ namespace GolemUI.Src.AppNotificationService
 {
     public class NotificationsMonitor
     {
-        private readonly IProcessControler _processControler;
+        private readonly IProcessController _processController;
         private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.INotificationService _notificationService;
 
@@ -21,12 +21,12 @@ namespace GolemUI.Src.AppNotificationService
 
         public const int NOTIFICATION_TIMEOUT = 5000;
 
-        public NotificationsMonitor(Interfaces.INotificationService notificationService, Interfaces.IProcessControler processControler, Src.BenchmarkService benchmarkService)
+        public NotificationsMonitor(Interfaces.INotificationService notificationService, Interfaces.IProcessController processController, Src.BenchmarkService benchmarkService)
         {
             _notificationService = notificationService;
-            _processControler = processControler;
+            _processController = processController;
             _benchmarkService = benchmarkService;
-            _processControler.PropertyChanged += _processControler_PropertyChanged;
+            _processController.PropertyChanged += _processController_PropertyChanged;
             _benchmarkService.PropertyChanged += _benchmarkService_PropertyChanged;
         }
 
@@ -61,17 +61,17 @@ namespace GolemUI.Src.AppNotificationService
             }
         }
 
-        private void _processControler_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void _processController_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsServerRunning")
             {
                 string? notificationText = null;
-                if (!_lastIsServerRunning && _processControler.IsServerRunning)
+                if (!_lastIsServerRunning && _processController.IsServerRunning)
                 {
                     notificationText = "Backend service is ready";
                     _lastIsServerRunning = true;
                 }
-                else if (_lastIsServerRunning && !_processControler.IsServerRunning)
+                else if (_lastIsServerRunning && !_processController.IsServerRunning)
                 {
                     notificationText = "Backend service stopped";
                     _lastIsServerRunning = false;
@@ -84,12 +84,12 @@ namespace GolemUI.Src.AppNotificationService
             if (e.PropertyName == "IsProviderRunning")
             {
                 string? notificationText = null;
-                if (!_lastIsProviderRunning && _processControler.IsProviderRunning)
+                if (!_lastIsProviderRunning && _processController.IsProviderRunning)
                 {
                     notificationText = "Provider service started";
                     _lastIsProviderRunning = true;
                 }
-                else if (_lastIsProviderRunning && !_processControler.IsProviderRunning)
+                else if (_lastIsProviderRunning && !_processController.IsProviderRunning)
                 {
                     notificationText = "Provider service stopped";
                     _lastIsProviderRunning = false;
@@ -101,7 +101,7 @@ namespace GolemUI.Src.AppNotificationService
             }
             /*if (e.PropertyName == "IsStarting")
             {
-                //   _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStarting, (_processControler.IsStarting ? "starting" : "stopping") + " subsystems...",4000));
+                //   _notificationService.PushNotification(new SimpleNotificationObject(Tag.YagnaStarting, (_processController.IsStarting ? "starting" : "stopping") + " subsystems...",4000));
             }*/
         }
     }

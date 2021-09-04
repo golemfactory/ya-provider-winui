@@ -179,6 +179,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NReco.Logging.File, Version=0.0.0.0, Culture=neutral, PublicKeyToken=d6cccee409799e87, processorArchitecture=MSIL">
+      <HintPath>packages\NReco.Logging.File.1.1.2\lib\netstandard2.0\NReco.Logging.File.dll</HintPath>
+    </Reference>
     <Reference Include="Sentry, Version=3.8.3.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0, processorArchitecture=MSIL">
       <HintPath>packages\Sentry.3.8.3\lib\net461\Sentry.dll</HintPath>
       <Private>True</Private>
@@ -263,9 +266,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\ValueToVisibilityConverter.cs" />
+    <Compile Include="Command\GSB\Common.cs" />
+    <Compile Include="Command\GSB\IGsbEndpointFactory.cs" />
+    <Compile Include="Command\GSB\Payment.cs" />
     <Compile Include="Converters\MultiBoolToVisibilityConverter.cs" />
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgWithdrawViewModel.cs" />
+    <Compile Include="Interfaces\IStartWithWindows.cs" />
+    <Compile Include="Interfaces\IUserFeedbackService.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
     <Compile Include="Interfaces\ITaskProfitEstimator.cs" />
     <Compile Include="Model\Coin.cs" />
@@ -275,8 +285,15 @@
     <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />
     <Compile Include="Src\AppNotificationService\SimpleNotificationObject.cs" />
     <Compile Include="Src\EstimatedEarningsProvider.cs" />
+    <Compile Include="Src\GsbEndpointFactory.cs" />
     <Compile Include="Src\HistoryDataProvider.cs" />
     <Compile Include="Src\RemoteSettingsProvider.cs" />
+    <Compile Include="Src\Sentry\SentryContext.cs" />
+    <Compile Include="Src\Sentry\SentryUserFeedback.cs" />
+    <Compile Include="Src\StartWithWindows.cs" />
+    <Compile Include="UI\Dialogs\DlgWithdraw.xaml.cs">
+      <DependentUpon>DlgWithdraw.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Src\TaskProfitEstimator.cs" />
     <Compile Include="UI\Dialogs\DlgShouldStopMiningBeforeBenchmark.xaml.cs">
       <DependentUpon>DlgShouldStopMiningBeforeBenchmark.xaml</DependentUpon>
@@ -424,6 +441,8 @@
     <Compile Include="Utils\PathUtil.cs" />
     <Compile Include="Utils\PriceProviderExtension.cs" />
     <Compile Include="Utils\ProcessExtension.cs" />
+    <Compile Include="Validators\NonEmptyStringValidator.cs" />
+    <Compile Include="Validators\TransferAmountValidator.cs" />
     <Compile Include="Utils\VersionUtil.cs" />
     <Compile Include="Validators\NodeNameValidator.cs" />
     <Compile Include="Validators\EthAddrValidator.cs" />
@@ -433,6 +452,7 @@
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
     <Compile Include="ViewModel\DashboardPage.cs" />
     <Compile Include="ViewModel\DashboardViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgWithdrawViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgShouldStopMiningBeforeBenchmarkViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
@@ -496,6 +516,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\DebugWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Dialogs\DlgWithdraw.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -591,13 +615,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\Themes\Buttons\UnderlineButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Themes\Buttons\GoToSettingsButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\ErrorMsg\BenchmarkErrorMsg.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\ErrorMsg\PaymentStatusErrorMsg.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Themes\Scrollbars\SettingsScrollView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\TextBox\TextBoxInput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\TextBox\ValidationTb.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\UserControls\DashboardStatusControl.xaml">
       <SubType>Designer</SubType>

@@ -34,10 +34,10 @@ namespace GolemUI.Src
         private readonly IPriceProvider _priceProvider;
         private readonly IEstimatedProfitProvider _estimatedProfitProvider;
         private readonly IStatusProvider _statusProvider;
-        private readonly IProcessControler _processControler;
+        private readonly IProcessController _processController;
 
         public TaskProfitEstimator(ILogger<TaskProfitEstimator> logger, IHistoryDataProvider historyDataProvider, IPriceProvider priceProvider,
-            IEstimatedProfitProvider estimatedProfitProvider, IStatusProvider statusProvider, IProcessControler processControler)
+            IEstimatedProfitProvider estimatedProfitProvider, IStatusProvider statusProvider, IProcessController processController)
         {
             _logger = logger;
             _historyDataProvider = historyDataProvider;
@@ -46,9 +46,9 @@ namespace GolemUI.Src
             _statusProvider = statusProvider;
             _historyDataProvider.PropertyChanged += OnHistoryDataProviderChanged;
             _statusProvider.PropertyChanged += OnHistoryDataProviderChanged;
-            _processControler = processControler;
+            _processController = processController;
 
-            _processControler.PropertyChanged += OnProcessControllerChanged;
+            _processController.PropertyChanged += OnProcessControllerChanged;
         }
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
@@ -83,7 +83,7 @@ namespace GolemUI.Src
 
         private void Refresh()
         {
-            if (!_processControler.IsProviderRunning)
+            if (!_processController.IsProviderRunning)
             {
                 EstimatedEarningsPerSecond = null;
                 EstimatedEarningsMessage = $"Start mining to get estimates";

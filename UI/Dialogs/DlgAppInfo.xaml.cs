@@ -31,7 +31,27 @@ namespace GolemUI.UI.Dialogs
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
+            this.DialogResult = false;
             this.Close();
+        }
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 0;
+        }
+
+        private void BtnSendFeedBack_Click(object sender, RoutedEventArgs e)
+        {
+            _model?.SendFeedback();
+            this.DialogResult = true;
+            this.Close();
+        }
+
+
+
+        private void BtGoToSendFeedback_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 1;
         }
     }
 }
