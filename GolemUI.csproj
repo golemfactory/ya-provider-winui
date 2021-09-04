@@ -286,6 +286,7 @@
     <Compile Include="Src\AppNotificationService\SimpleNotificationObject.cs" />
     <Compile Include="Src\EstimatedEarningsProvider.cs" />
     <Compile Include="Src\GsbEndpointFactory.cs" />
+    <Compile Include="Src\GolemUIException.cs" />
     <Compile Include="Src\HistoryDataProvider.cs" />
     <Compile Include="Src\RemoteSettingsProvider.cs" />
     <Compile Include="Src\Sentry\SentryContext.cs" />
@@ -441,6 +442,7 @@
     <Compile Include="Utils\PathUtil.cs" />
     <Compile Include="Utils\PriceProviderExtension.cs" />
     <Compile Include="Utils\ProcessExtension.cs" />
+    <Compile Include="Utils\StringRollingBuilder.cs" />
     <Compile Include="Validators\NonEmptyStringValidator.cs" />
     <Compile Include="Validators\TransferAmountValidator.cs" />
     <Compile Include="Utils\VersionUtil.cs" />
