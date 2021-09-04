@@ -6,27 +6,27 @@ using System.Collections.Generic;
 /// </summary>
 public class StringRollingBuilder
 {
-	private Queue<string> content = new Queue<string>();
+    private Queue<string> content = new Queue<string>();
 
-	private int maxLines;
+    private int maxLines;
 
-	public StringRollingBuilder(int maxLines)
-	{
-		this.maxLines = maxLines;
-	}
-
-	public StringRollingBuilder Append(string line)
+    public StringRollingBuilder(int maxLines)
     {
-		if (this.content.Count == maxLines)
-			this.content.Dequeue();
+        this.maxLines = maxLines;
+    }
 
-		this.content.Enqueue(line);
+    public StringRollingBuilder Append(string line)
+    {
+        if (this.content.Count == maxLines)
+            this.content.Dequeue();
 
-		return this;
+        this.content.Enqueue(line);
+
+        return this;
     }
 
     public override string ToString()
     {
-		return string.Join(Environment.NewLine, this.content);
+        return string.Join(Environment.NewLine, this.content);
     }
 }
