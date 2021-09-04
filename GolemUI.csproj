@@ -442,6 +442,7 @@
     <Compile Include="Utils\PathUtil.cs" />
     <Compile Include="Utils\PriceProviderExtension.cs" />
     <Compile Include="Utils\ProcessExtension.cs" />
+    <Compile Include="Utils\StringRollingBuilder.cs" />
     <Compile Include="Validators\NonEmptyStringValidator.cs" />
     <Compile Include="Validators\TransferAmountValidator.cs" />
     <Compile Include="Utils\VersionUtil.cs" />

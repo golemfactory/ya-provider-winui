@@ -63,8 +63,8 @@ namespace GolemUI
         private Process? _providerDaemon;
         private IDisposable? _providerJob;
 
-        private StringBuilder _yagnaDaemonErrorData = new StringBuilder();
-        private StringBuilder _yagnaDaemonOutputData = new StringBuilder();
+        private StringRollingBuilder _yagnaDaemonErrorData = new StringRollingBuilder(256);
+        private StringRollingBuilder _yagnaDaemonOutputData = new StringRollingBuilder(256);
 
         public LogLineHandler? LineHandler { get; set; }
 
