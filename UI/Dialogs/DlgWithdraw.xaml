@@ -8,7 +8,7 @@
         xmlns:lc="clr-namespace:GolemUI.Validators"        
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="Edit Wallet Address" Width="666" Height="450" VerticalAlignment="Center" ResizeMode="NoResize"
+        Title="Withdraw" Width="666" Height="450" VerticalAlignment="Center" ResizeMode="NoResize"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"

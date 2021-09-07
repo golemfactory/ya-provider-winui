@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="App Information" Width="666" VerticalAlignment="Center" Height="416" MinHeight="416" ResizeMode="NoResize" SizeToContent="Height"
+        Title="Mining in progress" Width="666" VerticalAlignment="Center" Height="416" MinHeight="416" ResizeMode="NoResize" SizeToContent="Height"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
