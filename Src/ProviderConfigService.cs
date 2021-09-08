@@ -126,7 +126,7 @@ namespace GolemUI.Src
 
                     _provider.AddPreset(new GolemUI.Command.Preset("gminer", "gminer", new Dictionary<string, decimal>()
                     {
-                        { "share", 0.001m },
+                        { "share", 0.003m },
                         { "duration", 0m },
                         { "raw-share", 0m },
                         { "hash-rate", 0m }
@@ -140,7 +140,7 @@ namespace GolemUI.Src
                 else
                 {
                     _provider.Preset["gminer"].UpdatePrices(new Dictionary<string, decimal>() {
-                            { "share", 0.001m },
+                            { "share", 0.003m },
                             { "duration", 0m },
                             { "raw-share", 0m },
                             { "hash-rate", 0m }
