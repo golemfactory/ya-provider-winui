@@ -60,7 +60,7 @@ namespace GolemUI
             var logger = _serviceProvider.GetRequiredService<ILogger<App>>();
             logger.LogError(e.Exception, "App_DispatcherUnhandledException");
 
-            MessageBox.Show(e.Exception.Message, "unexpected error");
+            //MessageBox.Show(e.Exception.Message, "unexpected error");
 
             //TODO: to discuss if we should allow the app to crash or not
             //e.Handled = true;
