@@ -377,8 +377,7 @@ namespace GolemUI
                 throw new Exception("Failed to retrieve payment Account");
             }
 
-            _yagna?.Payment.Init(network, "erc20", paymentAccount);
-            _yagna?.Payment.Init(network, "zksync", paymentAccount);
+            _yagna?.Payment.Init(network, "polygon", paymentAccount);
 
             bool startInConsole = Properties.Settings.Default.OpenConsoleProvider;
             bool enableDebugLogs = startInConsole && Properties.Settings.Default.DebugLogsProvider;
