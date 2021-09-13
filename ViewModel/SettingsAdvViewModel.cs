@@ -43,6 +43,11 @@ namespace GolemUI.ViewModel
             PageChangeRequested = null;
         }
 
+        public void GoBackToSettings()
+        {
+            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettings);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void LoadData()

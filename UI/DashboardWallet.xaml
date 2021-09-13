@@ -86,7 +86,7 @@
                             <Image Source="Icons/DefaultStyle/png/Dashboard/Balance.png" Grid.Column="0" Grid.Row="1" Margin="15, 5" Stretch="Uniform" VerticalAlignment="Top"  RenderOptions.BitmapScalingMode="HighQuality" />
 
                             <StackPanel Grid.Column="1" Grid.Row="1">
-                                <Label Content="Earned" Foreground="#99b" FontFamily="Segoe UI"/>
+                                
                                 <Label Foreground="#FFFFFF" FontWeight="Black" FontSize="25" RenderTransformOrigin="0.374,0.428" Content="{Binding AmountUSD, Converter={StaticResource AmountConverter}}"/>
 
                                 <Label Foreground="#99b" Content="{Binding Amount, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}"  FontSize="12"/>
