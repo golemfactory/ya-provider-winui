@@ -67,7 +67,7 @@
 
                 <StackPanel Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" VerticalAlignment="Center">
                     <Button x:Name="BtnWithdraw" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToVisibleConverter}}" Click="BtnWithdraw_Click" Content="Withdraw"/>
-                    <Button x:Name="BtnOpenZkSync" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenZkSync_Click" Content="Open ZkSync"/>
+                    <Button x:Name="BtnOpenL2" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenL2_Click" Content="Open Plygon"/>
                 </StackPanel>
                 <Border Grid.Column="0" Grid.Row="2"  Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" >
                     <StackPanel Margin="20">
