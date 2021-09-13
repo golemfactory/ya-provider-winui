@@ -16,6 +16,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GolemLogo.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/PinkButton.xaml"/>
@@ -121,6 +122,8 @@
                 </StackPanel>
 
             </Border>
+            <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click"  Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="250" Margin="0,0,30,38" />
         </Grid>
+      
     </Border>
 </UserControl>
