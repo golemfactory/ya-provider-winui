@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/PinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/BackButton.xaml"/>
                 <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBox/SliderCheckBox.xaml"/>
@@ -59,6 +60,7 @@
                 <RowDefinition Height="88"/>
 
             </Grid.RowDefinitions>
+            <Button Style="{StaticResource BackButtonStyle}" VerticalAlignment="Top" Margin="16,10,0,0"  x:Name="BtnBackToMainScreen" Click="BtnBackToMainScreen_Click"  Content="Back to settings"  HorizontalAlignment="Left" Visibility="{Binding BackButtonVisibilty}" />
             <Image  Grid.Column="2"  Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png" HorizontalAlignment="Right" VerticalAlignment="Top" Width="160" Margin="0,20,30,0"  Grid.RowSpan="2"/>
             <StackPanel Orientation="Horizontal"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 39, 0, 0" >
                 <Border Height="25" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 20, 0, 0">
