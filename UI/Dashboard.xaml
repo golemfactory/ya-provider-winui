@@ -75,7 +75,7 @@
                 </Grid>
             </Border>
             <Border x:Name="brdNavigation" BorderBrush="White" Grid.Column="0" Grid.Row="0" BorderThickness="0 0 0.5 0" Grid.RowSpan="2">
-                <StackPanel Margin="0,90,0,0">
+                <StackPanel Margin="0,93,0,0">
 
                     <RadioButton  ToolTip="Dashboard" IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=1}" GroupName="nav" Style="{StaticResource NavSidepanelButtonDashboard}"/>
                     <RadioButton  ToolTip="Wallet"    IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=3}" GroupName="nav" Style="{StaticResource NavSidepanelButtonWallet}"/>
