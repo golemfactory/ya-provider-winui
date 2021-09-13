@@ -207,15 +207,15 @@ namespace GolemUI.ViewModel
                 string version = CurrentVersionString;
                 if (!_canRun)
                 {
-                    return $"Version not supported: {version} Download latest: {_latestVersion}";
+                    return $"Critical update: {_latestVersion}";
                 }
                 if (_upToDate == true)
                 {
-                    return $"Up to date: {version}";
+                    return $"Version: {version}";
                 }
                 if (_upToDate == false)
                 {
-                    return $"Needs update: {version} Download latest: {_latestVersion}";
+                    return $"Update available: {_latestVersion}";
                 }
                 return $"Version: {version}";
             }
@@ -276,7 +276,7 @@ namespace GolemUI.ViewModel
             _latestVersionCodename = rs.LatestVersionCodename ?? "";
             _latestVersionDownloadLink = rs.LatestVersionDownloadLink ?? "";
 
-            if (_firstUpdate && _upToDate == false)
+            if (_firstUpdate && _canRun == false)
             {
                 _firstUpdate = false;
                 App app = (App)Application.Current;

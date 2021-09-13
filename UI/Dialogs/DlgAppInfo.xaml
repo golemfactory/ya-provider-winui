@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="App Information" Width="600" VerticalAlignment="Center" Height="350" MinHeight="300" ResizeMode="NoResize" SizeToContent="Height"
+        Title="App Information" Width="600" VerticalAlignment="Center" MinHeight="300" ResizeMode="NoResize" SizeToContent="Height"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -43,18 +43,18 @@
                 </TabControl.ItemContainerStyle>
                 <TabItem Header="TabItem" Background="Transparent">
                     <Grid>
-                        <StackPanel Orientation="Vertical" Margin="0">
+                        <StackPanel Orientation="Vertical" Margin="0,-20">
 
                             <StackPanel Orientation="Horizontal">
-                                <StackPanel Margin="30,0">
+                                <StackPanel Margin="25,0">
                                     <Label Content="App info" Margin="0,0,0,20"/>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="App version: " />
-                                        <Label Content="{Binding Path=AppVersion, Mode=OneWay}" />
+                                        <Label FontFamily="Segoe UI Black"  Content="{Binding Path=AppVersion, Mode=OneWay}" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="Node name: " />
-                                        <Label Content="{Binding Path=NodeName, Mode=OneWay}" />
+                                        <Label FontFamily="Segoe UI Black" Content="{Binding Path=NodeName, Mode=OneWay}" />
                                     </StackPanel>
                                     <Button Content="SEND FEEDBACK" Style="{StaticResource UnderlineButtonStyle}"  Name="BtGoToSendFeedback" Click="BtGoToSendFeedback_Click" Cursor="Hand"  Margin="5,30" Padding="0" HorizontalContentAlignment="Left" />
 
@@ -64,7 +64,7 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <Button Margin="0,0,0,20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="300"  Height="45" Grid.Row="0" Grid.Column="4" Click="BtnClose_Click" Name="BtnClose" Style="{StaticResource GradientButtonStyle}" Content="Close" />
+                        <Button Margin="200,0,200,30" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Height="45" Grid.Row="0" Grid.Column="4" Click="BtnClose_Click" Name="BtnClose" Style="{StaticResource GradientButtonStyle}" Content="Close" />
                     </Grid>
                 </TabItem>
                 <TabItem Header="TabItem" Background="Transparent">
@@ -99,7 +99,7 @@
 
 
 
-                        <UniformGrid Grid.Row="4" Grid.ColumnSpan="2" Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch"  >
+                        <UniformGrid Grid.Row="4" Grid.ColumnSpan="2" Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="0,20,0,20" >
                             <Button FontSize="18" IsCancel="True" Margin="0,0,0,0" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCancel_Click" Name="BtnCancel" Style="{StaticResource CancelButtonStyle}" Content="Cancel" />
                             <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" Margin="0,0,0,0" HorizontalAlignment="Stretch"  Height="45"  Click="BtnSendFeedBack_Click" Name="BtnSendFeedBack" Content="SEND FEEDBACK" >
                               

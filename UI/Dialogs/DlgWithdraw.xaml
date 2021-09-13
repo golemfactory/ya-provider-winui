@@ -8,7 +8,7 @@
         xmlns:lc="clr-namespace:GolemUI.Validators"        
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="Withdraw" Width="666" Height="450" VerticalAlignment="Center" ResizeMode="NoResize"
+        Title="Withdraw" Width="666" Height="490" VerticalAlignment="Center" ResizeMode="NoResize"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -107,7 +107,7 @@
                             <TextBlock FontSize="12" Text="{Binding TransferTo.Description}"  Margin="0,8,0,0" Padding="0" TextWrapping="Wrap" MinHeight="40"/>
                             <ProgressBar IsIndeterminate="True" Height="15" Visibility="{Binding Path=IsProcessing, Converter={StaticResource BoolToVisibleConverter}}"/>
                         </StackPanel>
-                        <UniformGrid Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="79,15" Grid.Row="1">
+                        <UniformGrid Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="79,30" Grid.Row="1">
                             <Button FontSize="18" IsCancel="True" Margin="0,0,0,0" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCancelStep1_Click" Style="{StaticResource CancelButtonStyle}" Content="Cancel" />                            
                             <Button FontSize="18" Margin="0,0,0,0" HorizontalAlignment="Stretch"  Height="45" Click="BtnConfirmStep1_Click" Content="Confirm"
                                     Visibility="{Binding Path=IsProcessing, Converter={StaticResource BoolToHiddenConverter}}">
@@ -201,7 +201,7 @@
                                 </Button.Style>
                             </Button>
                         </StackPanel>
-                        <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" Margin="0,0,0,22" VerticalAlignment="Bottom" Width="250" Height="45"  Click="BtnConfirmStep3_Click" Name="BtnConfirmStep3" Content="Confirm" />
+                        <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" Margin="0,0,0,30" VerticalAlignment="Bottom" Width="250" Height="45"  Click="BtnConfirmStep3_Click" Name="BtnConfirmStep3" Content="Confirm" />
                     </Grid>
                 </TabItem>
             </TabControl>

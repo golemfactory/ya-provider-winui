@@ -27,5 +27,10 @@ namespace GolemUI
             ViewModel = viewModel;
             this.DataContext = this.ViewModel;
         }
+
+        private void BtnBackToMainScreen_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.GoBackToSettings();
+        }
     }
 }

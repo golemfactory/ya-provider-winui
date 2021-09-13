@@ -8,7 +8,7 @@
         xmlns:lc="clr-namespace:GolemUI.Validators"        
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="App version" Width="666" Height="416" VerticalAlignment="Center" ResizeMode="NoResize"
+        Title="App version" Width="666" Height="360" VerticalAlignment="Center" ResizeMode="NoResize"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -40,17 +40,18 @@
                         <TextBlock HorizontalAlignment="Center"></TextBlock>
                     </DockPanel>
                 </DockPanel>
-                <StackPanel Margin="79,10">
+                <StackPanel Margin="30,00">
                     <Label Content="{Binding Title}" FontSize="14" Margin="0"/>
-                    <StackPanel Margin="20">
-                        <Label Visibility="{Binding ShouldForceUpdate, Converter={StaticResource BoolToVisibleConverter}}" Margin="0" Content="This update is critical. You must install new version in order to continue using app." Foreground="Yellow" />
+                    <Label VerticalAlignment="Bottom" Margin="0" FontSize="10" HorizontalAlignment="Left" Content="Close the app before installing new one" Visibility="{Binding IsUpToDate, Converter={StaticResource BoolToHiddenConverter}}"/>
+                    <StackPanel Margin="0,20">
+                        <Label Visibility="{Binding ShouldForceUpdate, Converter={StaticResource BoolToVisibleConverter}}" Margin="0" Content="This update is critical. Close the app before installing new version." Foreground="Yellow" />
                         <StackPanel Orientation="Horizontal">
                             <Label Margin="0" Content="Your app version:" />
-                            <Label Content="{Binding CurrentVersion}" />
+                            <Label FontFamily="Segoe UI Black" Content="{Binding CurrentVersion}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Latest version:" />
-                            <Label Content="{Binding NewVersionDisplayString}" />
+                            <Label FontFamily="Segoe UI Black" Content="{Binding NewVersionDisplayString}" />
                         </StackPanel>
                         <TextBlock Margin="0,20" Padding="5" Text="{Binding ChangeLog}" />
                     </StackPanel>
@@ -60,15 +61,15 @@
                 </StackPanel>
             </StackPanel>
 
-            <Button FontSize="18" IsCancel="True" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="100,0,100,61" Height="45"  Click="BtnContinueUsingApp_Click" Name="BtnContinueUsingApp" Style="{StaticResource GradientButtonStyle}" Content="Continue using app" Visibility="{Binding IsUpToDate, Converter={StaticResource BoolToVisibleConverter}}" />
-            <UniformGrid Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="79,0,79,61" Visibility="{Binding IsUpToDate, Converter={StaticResource BoolToHiddenConverter}}">
+            <Button FontSize="18" IsCancel="True" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="30,0,30,30" Height="45"  Click="BtnContinueUsingApp_Click" Name="BtnContinueUsingApp" Style="{StaticResource GradientButtonStyle}" Content="Continue using app" Visibility="{Binding IsUpToDate, Converter={StaticResource BoolToVisibleConverter}}" />
+            <UniformGrid Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="30,0,30,30"  Visibility="{Binding IsUpToDate, Converter={StaticResource BoolToHiddenConverter}}" >
                 <Button FontSize="18" IsCancel="True" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCloseApp_Click" Name="BtnCloseApp" Style="{StaticResource CancelButtonStyle}" Content="Close app" Visibility="{Binding ShouldForceUpdate, Converter={StaticResource BoolToVisibleConverter}}" />
-                <Button FontSize="18" IsCancel="True" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCancel_Click" Name="BtnCancel" Style="{StaticResource CancelButtonStyle}" Content="Continue using old version" Visibility="{Binding ShouldForceUpdate, Converter={StaticResource BoolToHiddenConverter}}" />
-                <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" ToolTip="{Binding UpdateLink}" HorizontalAlignment="Stretch"  Height="45"  Click="BtnGoToDownloadPage_Click" Name="BtnGoToDownloadPage" Content="Go to download page" >
+                <Button FontSize="18" IsCancel="True" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCancel_Click" Name="BtnCancel" Style="{StaticResource CancelButtonStyle}" Content="Skip" Visibility="{Binding ShouldForceUpdate, Converter={StaticResource BoolToHiddenConverter}}" />
+                <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" ToolTip="{Binding UpdateLink}" HorizontalAlignment="Stretch"  Height="45"  Click="BtnGoToDownloadPage_Click" Name="BtnGoToDownloadPage" Content="Download" >
                
                 </Button>
             </UniformGrid>
-            <Label VerticalAlignment="Bottom" Margin="0,0,0,20" HorizontalAlignment="Center" Content="Before installing new version of application please close current one" Visibility="{Binding IsUpToDate, Converter={StaticResource BoolToHiddenConverter}}"/>
+            
         </Grid>
     </Border>
 </Window>

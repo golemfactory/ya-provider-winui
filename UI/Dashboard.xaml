@@ -50,7 +50,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-
+           
 
             <tb:TaskbarIcon x:Name="tbNotificationIcon" IconSource="/Media/icon2.ico" DoubleClickCommand="{commands:ShowWindowCommand}" ToolTipText="GolemUI" ContextMenu="{StaticResource TrayMenu}"/>
             <!-- todo:// following code generates binding errors -->
@@ -59,14 +59,7 @@
             <cc:NotificationBar x:Name="NB" Grid.Column="1" VerticalAlignment="Top" Margin="0,10" />
 
 
-            <Border Grid.Column="0" Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0.5 0" Margin="0,0,0,0">
-                <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="auto" MinHeight="45" Margin="5">
-                    <Grid>
-                        <Rectangle Fill="Black" Opacity="0.01" MouseDown="TxtVersion_MouseDown" />
-                        <TextBlock Foreground="#BBBBBB" VerticalAlignment="Top" Margin="5, 5, 5, 5" Text="{Binding Path=VersionInfo}" Cursor="Hand"  Name="TxtVersion"  MouseDown="TxtVersion_MouseDown"></TextBlock>
-                    </Grid>
-                </Border>
-            </Border>
+            
             <Border Grid.Column="1" Grid.Row="0" VerticalAlignment="Top">
                 <DockPanel>
                     <DockPanel x:Name="TitleBar" DockPanel.Dock="Top" Margin="0,0,8,0">
@@ -81,15 +74,23 @@
                 <Grid x:Name="grdPagesContainer" >
                 </Grid>
             </Border>
-            <Border x:Name="brdNavigation" BorderBrush="White" Grid.Column="0" Grid.Row="1" BorderThickness="0 0 0.5 0">
-                <StackPanel>
+            <Border x:Name="brdNavigation" BorderBrush="White" Grid.Column="0" Grid.Row="0" BorderThickness="0 0 0.5 0" Grid.RowSpan="2">
+                <StackPanel Margin="0,90,0,0">
 
                     <RadioButton  ToolTip="Dashboard" IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=1}" GroupName="nav" Style="{StaticResource NavSidepanelButtonDashboard}"/>
                     <RadioButton  ToolTip="Wallet"    IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=3}" GroupName="nav" Style="{StaticResource NavSidepanelButtonWallet}"/>
                     <RadioButton  ToolTip="Settings"  IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=2}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}"/>
                 </StackPanel>
             </Border>
-            <Button x:Name="btnAppInformation" Style="{StaticResource NavSidepanelButtonInformation}" Click="btnAppInformation_Click" VerticalAlignment="Bottom" Margin="10,0,0,43" Grid.Row="1"/>
+          
+                <Border HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" Height="auto" MinHeight="25" Margin="0,35">
+                    <Grid>
+                        <!--<Rectangle Fill="Black" Opacity="0.01" MouseDown="TxtVersion_MouseDown" Width="200" />-->
+                        <Label Foreground="#BBBBBB" VerticalAlignment="Top" Margin="5, 5, 5, 5" Content="{Binding Path=VersionInfo}" HorizontalContentAlignment="Center" Cursor="Hand"  Name="TxtVersion"  MouseDown="TxtVersion_MouseDown" />
+                    </Grid>
+               
+            </Border>
+            <Button x:Name="btnAppInformation" Style="{StaticResource NavSidepanelButtonInformation}" Click="btnAppInformation_Click" VerticalAlignment="Bottom" Margin="10,0,0,42" Grid.Row="1"/>
             <Border x:Name="RectBlack" Style="{StaticResource SemiTransparentBorder}" Visibility="{Binding DarkBackgroundVisible, Converter={StaticResource BoolToVisibleConverter}}" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         </Grid>
     </Border>
