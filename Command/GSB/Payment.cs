@@ -134,6 +134,29 @@ namespace GolemUI.Command.GSB
                     FeeLimit = feeLimit;
                 }
             }
+
+            public class Transfer
+            {
+                public string Sender { get; set; }
+
+                public string? To { get; set; }
+
+                public decimal? Amount { get; set; }
+
+                public string Network { get; set; }
+
+                public decimal? FeeLimit { get; set; }
+
+                public Transfer(string sender, string? to, decimal? amount, string network, decimal? feeLimit)
+                {
+                    Sender = sender ?? throw new ArgumentNullException(nameof(sender));
+                    To = to;
+                    Amount = amount;
+                    Network = network ?? throw new ArgumentNullException(nameof(network));
+                    FeeLimit = feeLimit;
+                }
+
+            }
         }
 
 
@@ -166,6 +189,18 @@ namespace GolemUI.Command.GSB
             }
             return result.Ok ?? throw new HttpRequestException($"Invalid output: {result.Err}");
         }
+
+        public async Task<string> TransferTo(string driver, string from, string network, string? to, decimal? amount = null, decimal? feeLimit = null)
+        {
+            var result = await _doPost<Common.Result<string, object>, Model.Transfer>($"local/driver/{driver}/Transfer", new Model.Transfer(from, to, amount, network, feeLimit: null));
+            var cap = System.Text.RegularExpressions.Regex.Match(result.Ok ?? "", @"https:[^\s]*$").Captures;
+            if (cap.Count == 1)
+            {
+                return cap[0].Value;
+            }
+            return result.Ok ?? throw new HttpRequestException($"Invalid output: {result.Err}");
+        }
+
 
 
         private async Task<TOut> _doPost<TOut, TIn>(string serviceUri, TIn input)

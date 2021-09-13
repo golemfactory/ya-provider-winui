@@ -99,11 +99,6 @@
                                     </Binding>
                                 </TextBox.Text>
                             </TextBox>                            
-                            <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
-                                <Label FontSize="12" FontWeight="Bold">Transfer To: </Label>
-                                <ComboBox MinWidth="150" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" 
-                                          ItemsSource="{Binding Networks}" SelectedItem="{Binding TransferTo}"/>
-                            </StackPanel>
                             <TextBlock FontSize="12" Text="{Binding TransferTo.Description}"  Margin="0,8,0,0" Padding="0" TextWrapping="Wrap" MinHeight="40"/>
                             <ProgressBar IsIndeterminate="True" Height="15" Visibility="{Binding Path=IsProcessing, Converter={StaticResource BoolToVisibleConverter}}"/>
                         </StackPanel>

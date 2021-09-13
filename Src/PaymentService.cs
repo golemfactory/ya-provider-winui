@@ -183,6 +183,17 @@ namespace GolemUI.Src
             return output.Amount;
         }
 
+        public Task<decimal> TransferFee(decimal? amount, string? to)
+        {
+            if (_buildInAdress == null)
+            {
+                throw new InvalidOperationException("intenal wallet not configured");
+            }
+
+            return Task.FromResult(0.00004022m);
+        }
+
+
         public async Task<string> ExitTo(string driver, decimal amount, string destinationAddress, decimal? txFee)
         {
             if (_buildInAdress == null)
@@ -190,13 +201,18 @@ namespace GolemUI.Src
                 throw new InvalidOperationException("intenal wallet not configured");
             }
 
-            string txUrl = await _gsbPayment.Exit("zksync", _buildInAdress, destinationAddress, _network.Id, amount, txFee);
+            string txUrl = await _gsbPayment.Exit(driver, _buildInAdress, destinationAddress, _network.Id, amount, txFee);
             return txUrl;
         }
 
-        public Task<string> TransferTo(string driver, decimal amount, string destinationAddress, decimal? txFee)
+        public async Task<string> TransferTo(string driver, decimal amount, string destinationAddress, decimal? txFee)
         {
-            throw new NotImplementedException();
+            if (_buildInAdress == null)
+            {
+                throw new InvalidOperationException("intenal wallet not configured");
+            }
+            string txUrl = await _gsbPayment.TransferTo(driver, _buildInAdress, _network.Id, destinationAddress, amount, txFee);
+            return txUrl;
         }
 
 

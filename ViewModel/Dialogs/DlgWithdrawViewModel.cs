@@ -113,7 +113,7 @@ namespace GolemUI.ViewModel.Dialogs
             {
                 if (_withdrawAddress != null)
                 {
-                    TxFee = await _paymentService.ExitFee(Amount, _withdrawAddress) * 1.1m;
+                    TxFee = await _paymentService.TransferFee(Amount, _withdrawAddress) * 1.1m;
                 }
             }
             finally
@@ -129,20 +129,12 @@ namespace GolemUI.ViewModel.Dialogs
 
         public async Task<bool> SendTx()
         {
-            if (_amount is decimal amount && _withdrawAddress is string withdrawAddress && TransferTo is OutputNetwork transferTo)
+            if (_amount is decimal amount && _withdrawAddress is string withdrawAddress)
             {
                 _lock();
                 try
                 {
-                    if (transferTo.Driver == "erc20")
-                    {
-                        ZksyncUrl = await _paymentService.ExitTo("zksync", amount, withdrawAddress, TxFee);
-                        OnPropertyChanged("ZksyncUrl");
-                    }
-                    else
-                    {
-                        await _paymentService.TransferTo("zksync", amount, withdrawAddress, TxFee);
-                    }
+                    var url = await _paymentService.TransferTo("polygon", amount, withdrawAddress, null);
                     return true;
 
                 }
@@ -196,18 +188,7 @@ namespace GolemUI.ViewModel.Dialogs
 
         public OutputNetwork[] Networks => _networks;
 
-        private OutputNetwork? _transferTo = null;
-        public OutputNetwork? TransferTo
-        {
-            get => _transferTo; set
-            {
-                _transferTo = value;
-                OnPropertyChanged("TransferTo");
-                OnPropertyChanged("IsValid");
-            }
-        }
-
-        public bool IsValid => _transferTo != null && Amount != null && (Amount > 0m) && Amount <= MaxAmount && _withdrawAddress != "";
+        public bool IsValid => Amount != null && (Amount > 0m) && Amount <= MaxAmount && _withdrawAddress != "";
 
         private readonly IPriceProvider _priceProvider;
         private readonly IPaymentService _paymentService;
