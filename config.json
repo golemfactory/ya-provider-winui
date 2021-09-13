@@ -3,7 +3,7 @@
   "Version": "0.4.1.0",
   "LatestVersionCodename": "beta-2",
   "LatestVersionDownloadLink": "https://golem-releases.s3.eu-central-1.amazonaws.com/gminer/BetaMiner-v0.3.2.msi",
-  "ChangeLog": "messagebox with errors removed|dialog windows titles changed|invisible button removed",
+  "ChangeLog": "Moved to Polygon payments",
   "LastSupportedVersion": "0.4.1.0",
   "DayEthPerGH": 0.023,
   "DayEtcPerGH": 0.81,
