@@ -2,7 +2,7 @@
   "LatestVersion": "0.4.1.0",
   "Version": "0.4.1.0",
   "LatestVersionCodename": "beta-2",
-  "LatestVersionDownloadLink": "https://golem-releases.s3.eu-central-1.amazonaws.com/gminer/BetaMiner-v0.3.2.msi",
+  "LatestVersionDownloadLink": "https://golem-releases.s3.eu-central-1.amazonaws.com/gminer/BetaMiner-v0.4.1.msi",
   "ChangeLog": "Moved to Polygon payments",
   "LastSupportedVersion": "0.4.1.0",
   "DayEthPerGH": 0.023,
