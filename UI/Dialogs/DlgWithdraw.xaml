@@ -8,7 +8,7 @@
         xmlns:lc="clr-namespace:GolemUI.Validators"        
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="Edit Wallet Address" Width="666" Height="450" VerticalAlignment="Center" ResizeMode="NoResize"
+        Title="Withdraw" Width="666" Height="490" VerticalAlignment="Center" ResizeMode="NoResize"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -61,9 +61,9 @@
                         <StackPanel Margin="79,15" Grid.Row="0">
                             <Label Content="Withdraw options" FontSize="14" Margin="0,0,0,20" Padding="0"/>
                             <UniformGrid Columns="2">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                     <StackPanel VerticalAlignment="Bottom">
-                                        <Label Foreground="#99b" Padding="0">Available</Label>
+                                        <Label Foreground="#99b" Padding="0" Name="LbAvl">Available</Label>
                                         <Label  Padding="0" Margin="0" 
                                                 VerticalAlignment="Bottom" 
                                                 FontWeight="Bold" FontSize="20" 
@@ -72,6 +72,7 @@
                                     <Label VerticalAlignment="Bottom" Margin="10,2" Foreground="#99b" Content="{Binding Path=AvailableUSD, Converter={StaticResource AmountConverter}, ConverterParameter=USD}" Padding="0"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
+                                    <Label Foreground="#99b" Padding="0" Height="{Binding ElementName=LbAvl, Path=ActualHeight}"></Label>
                                     <TextBox Width="200" FontSize="16" Name="TxtAmount" Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" BorderThickness="0,0,0,2" VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Margin="0,  0,0,0"  
                                              Padding="0,0,0,5">
                                         <TextBox.Text>
@@ -83,6 +84,7 @@
                                     <Button Style="{StaticResource UnderlineButtonStyle}" VerticalAlignment="Center" x:Name="BtnSetMax" Content="SET MAX" Click="BtnSetMax_Click" Margin="0" HorizontalAlignment="Right"/>
                                 </StackPanel>
                             </UniformGrid>
+                            <Label Foreground="#99b" Padding="0">Destination:</Label>
                             <TextBox  FontSize="16" Style="{StaticResource ValidationTb}" 
                                       Name="TxtWithdrawAddress"
                                       Validation.ErrorTemplate="{StaticResource ValidationTbInError}"
@@ -105,7 +107,7 @@
                             <TextBlock FontSize="12" Text="{Binding TransferTo.Description}"  Margin="0,8,0,0" Padding="0" TextWrapping="Wrap" MinHeight="40"/>
                             <ProgressBar IsIndeterminate="True" Height="15" Visibility="{Binding Path=IsProcessing, Converter={StaticResource BoolToVisibleConverter}}"/>
                         </StackPanel>
-                        <UniformGrid Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="79,15" Grid.Row="1">
+                        <UniformGrid Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="79,30" Grid.Row="1">
                             <Button FontSize="18" IsCancel="True" Margin="0,0,0,0" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCancelStep1_Click" Style="{StaticResource CancelButtonStyle}" Content="Cancel" />                            
                             <Button FontSize="18" Margin="0,0,0,0" HorizontalAlignment="Stretch"  Height="45" Click="BtnConfirmStep1_Click" Content="Confirm"
                                     Visibility="{Binding Path=IsProcessing, Converter={StaticResource BoolToHiddenConverter}}">
@@ -199,7 +201,7 @@
                                 </Button.Style>
                             </Button>
                         </StackPanel>
-                        <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" Margin="0,0,0,22" VerticalAlignment="Bottom" Width="250" Height="45"  Click="BtnConfirmStep3_Click" Name="BtnConfirmStep3" Content="Confirm" />
+                        <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" Margin="0,0,0,30" VerticalAlignment="Bottom" Width="250" Height="45"  Click="BtnConfirmStep3_Click" Name="BtnConfirmStep3" Content="Confirm" />
                     </Grid>
                 </TabItem>
             </TabControl>

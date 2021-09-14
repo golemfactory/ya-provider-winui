@@ -60,7 +60,7 @@ namespace GolemUI
             var logger = _serviceProvider.GetRequiredService<ILogger<App>>();
             logger.LogError(e.Exception, "App_DispatcherUnhandledException");
 
-            MessageBox.Show(e.Exception.Message, "unexpected error");
+            //MessageBox.Show(e.Exception.Message, "unexpected error");
 
             //TODO: to discuss if we should allow the app to crash or not
             //e.Handled = true;
@@ -81,7 +81,7 @@ namespace GolemUI
             services.AddSingleton(typeof(Command.Provider));
             services.AddSingleton(cfg => new Src.SingleInstanceLock());
 
-            services.AddSingleton(GolemUI.Properties.Settings.Default.TestNet ? Network.Rinkeby : Network.Mainnet);
+            services.AddSingleton(GolemUI.Properties.Settings.Default.TestNet ? Network.Mumbai : Network.Polygon);
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
             services.AddSingleton<Interfaces.IStatusProvider, Src.YaSSEStatusProvider>();

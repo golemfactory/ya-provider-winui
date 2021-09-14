@@ -67,7 +67,7 @@
 
                 <StackPanel Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" VerticalAlignment="Center">
                     <Button x:Name="BtnWithdraw" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToVisibleConverter}}" Click="BtnWithdraw_Click" Content="Withdraw"/>
-                    <Button x:Name="BtnOpenZkSync" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenZkSync_Click" Content="Open ZkSync"/>
+                    <Button x:Name="BtnOpenL2" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenL2_Click" Content="Open Plygon"/>
                 </StackPanel>
                 <Border Grid.Column="0" Grid.Row="2"  Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" >
                     <StackPanel Margin="20">
@@ -86,7 +86,7 @@
                             <Image Source="Icons/DefaultStyle/png/Dashboard/Balance.png" Grid.Column="0" Grid.Row="1" Margin="15, 5" Stretch="Uniform" VerticalAlignment="Top"  RenderOptions.BitmapScalingMode="HighQuality" />
 
                             <StackPanel Grid.Column="1" Grid.Row="1">
-                                <Label Content="Earned" Foreground="#99b" FontFamily="Segoe UI"/>
+                                
                                 <Label Foreground="#FFFFFF" FontWeight="Black" FontSize="25" RenderTransformOrigin="0.374,0.428" Content="{Binding AmountUSD, Converter={StaticResource AmountConverter}}"/>
 
                                 <Label Foreground="#99b" Content="{Binding Amount, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}"  FontSize="12"/>
@@ -134,7 +134,7 @@
                     </Grid>
                 </Border>
             </Grid>
-            <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click"  Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,30,0" />
+            <Button Visibility="Hidden" x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click"  Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,30,0" />
         </Grid>
     </Border>
 </UserControl>
