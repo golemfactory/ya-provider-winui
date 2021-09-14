@@ -27,7 +27,6 @@ namespace GolemUI
     /// </summary>
     public partial class App : Application
     {
-
         private readonly ServiceProvider _serviceProvider;
         private readonly GolemUI.ChildProcessManager _childProcessManager;
 
@@ -43,8 +42,6 @@ namespace GolemUI
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
-
-
         }
         public bool IsShuttingDown { get; private set; }
 
@@ -130,10 +127,8 @@ namespace GolemUI
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
                 logBuilder.AddFile(PathUtil.GetLocalLogPath(), opts =>
                 {
-                    opts.Append = false;
+                    opts.Append = true;
                     opts.MinLevel = LogLevel.Debug;
-
-
                 });
                 logBuilder.AddDebug();
 
