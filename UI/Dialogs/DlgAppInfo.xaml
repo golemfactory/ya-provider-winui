@@ -56,7 +56,7 @@
                                         <Label Content="Node name: " />
                                         <Label FontFamily="Segoe UI Black" Content="{Binding Path=NodeName, Mode=OneWay}" />
                                     </StackPanel>
-                                    <Button Content="SEND FEEDBACK" Style="{StaticResource UnderlineButtonStyle}"  Name="BtGoToSendFeedback" Click="BtGoToSendFeedback_Click" Cursor="Hand"  Margin="5,30" Padding="0" HorizontalContentAlignment="Left" />
+                                    <Button Content="Send feedback" Style="{StaticResource UnderlineButtonStyle}"  Name="BtGoToSendFeedback" Click="BtGoToSendFeedback_Click" Cursor="Hand"  Margin="5,30" Padding="0" HorizontalContentAlignment="Left" />
 
                                 </StackPanel>
 
@@ -94,14 +94,14 @@
                                  TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="100" BorderThickness="2,2,2,2"/>
 
                         <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding Path=ShouldAttachLogs}" Style="{DynamicResource CheckBoxGpu}" Margin="0,10" >
-                            <TextBlock Margin="10,5" VerticalAlignment="Center" Text="send additional data from logs (this will help us fix problems)"></TextBlock>
+                            <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Send additional data from logs (this will help us fix problems)"></TextBlock>
                         </CheckBox>
 
 
 
                         <UniformGrid Grid.Row="4" Grid.ColumnSpan="2" Columns="2" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch" Margin="0,20,0,20" >
                             <Button FontSize="18" IsCancel="True" Margin="0,0,0,0" HorizontalAlignment="Stretch"   Height="45"  Click="BtnCancel_Click" Name="BtnCancel" Style="{StaticResource CancelButtonStyle}" Content="Cancel" />
-                            <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" Margin="0,0,0,0" HorizontalAlignment="Stretch"  Height="45"  Click="BtnSendFeedBack_Click" Name="BtnSendFeedBack" Content="SEND FEEDBACK" >
+                            <Button Style="{StaticResource GradientButtonStyle}" FontSize="18" Margin="0,0,0,0" HorizontalAlignment="Stretch"  Height="45"  Click="BtnSendFeedBack_Click" Name="BtnSendFeedBack" Content="Send feedback" >
                               
                             </Button>
                         </UniformGrid>

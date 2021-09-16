@@ -361,7 +361,7 @@
                                 <Slider  Height="30" Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Top" Margin="42,9,0,0" Minimum="0" Maximum="{Binding TotalCpusCount, Mode=OneWay}"/>
 
                                 <StackPanel  Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,2,0,0">
-                                    <Label Content="Cpu Threads:" FontWeight="Light" Margin="0" Padding="0,0,5,0" FontSize="18"/>
+                                    <Label Content="CPU Threads:" FontWeight="Light" Margin="0" Padding="0,0,5,0" FontSize="18"/>
                                     <Label Content="{Binding ActiveCpusCountAsString, Mode=OneWay}" FontFamily="Segoe UI" FontWeight="Bold" Margin="0" Padding="0" FontSize="18" />
                                     <Label Content="/" FontSize="18" FontWeight="Bold" Margin="0" Padding="0" Foreground="#FFFFFF"  />
                                     <Label Content="{Binding  TotalCpusCountAsString,  Mode=OneWay}" FontWeight="Bold" FontSize="18"  Margin="0" Padding="0"  />

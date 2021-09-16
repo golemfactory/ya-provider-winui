@@ -66,11 +66,11 @@ namespace GolemUI.ViewModel
             get
             {
                 if (Process.IsStarting)
-                    return "Please wait until all subsystems are initialized";
+                    return "Please wait until all subsystems are initialized.";
                 if (_benchmarkService.IsRunning)
-                    return "Can't start mining while benchmark is running";
+                    return "Can't start mining while benchmark is running.";
                 if (!_providerConfig.IsMiningActive)
-                    return "Can't start mining with GPU support disabled";
+                    return "Can't start mining with GPU support disabled.";
                 if (!IsAnyGpuEnabled)
                     return "At least one GPU card with mining capability must be enabled by user " +
                            "(Settings). You can rerun benchmark to determine gpu capabilities again.";
@@ -331,7 +331,7 @@ namespace GolemUI.ViewModel
                     {
                         if (_processController.IsProviderRunning)
                         {
-                            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Stopping GPU mining", expirationTimeInMs: 3000, group: false));
+                            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "stopping GPU mining", expirationTimeInMs: 3000, group: false));
                             _processController.Stop();
                         }
                         else
