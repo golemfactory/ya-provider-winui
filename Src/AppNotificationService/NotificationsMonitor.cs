@@ -36,7 +36,7 @@ namespace GolemUI.Src.AppNotificationService
             {
                 if (_benchmarkService.IsRunning)
                 {
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "Benchmark is running", expirationTimeInMs: 0));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.Benchmark, "benchmark is running", expirationTimeInMs: 0));
                 }
 
                 if (!_benchmarkService.IsRunning)
@@ -68,12 +68,12 @@ namespace GolemUI.Src.AppNotificationService
                 string? notificationText = null;
                 if (!_lastIsServerRunning && _processController.IsServerRunning)
                 {
-                    notificationText = "Backend service is ready";
+                    notificationText = "backend service is ready";
                     _lastIsServerRunning = true;
                 }
                 else if (_lastIsServerRunning && !_processController.IsServerRunning)
                 {
-                    notificationText = "Backend service stopped";
+                    notificationText = "backend service stopped";
                     _lastIsServerRunning = false;
                 }
                 if (notificationText != null)
@@ -86,12 +86,12 @@ namespace GolemUI.Src.AppNotificationService
                 string? notificationText = null;
                 if (!_lastIsProviderRunning && _processController.IsProviderRunning)
                 {
-                    notificationText = "Provider service started";
+                    notificationText = "provider service started";
                     _lastIsProviderRunning = true;
                 }
                 else if (_lastIsProviderRunning && !_processController.IsProviderRunning)
                 {
-                    notificationText = "Provider service stopped";
+                    notificationText = "provider service stopped";
                     _lastIsProviderRunning = false;
                 }
                 if (notificationText != null)

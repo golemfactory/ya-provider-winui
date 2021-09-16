@@ -94,7 +94,7 @@ namespace GolemUI.Src
                     rs.DownloadedDateTime = DateTime.Now;
                     File.WriteAllText(remotePath, JsonConvert.SerializeObject(rs, Formatting.Indented));
 
-                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Config downloaded: " + rs.LatestVersion, expirationTimeInMs: 5000));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "config downloaded: " + rs.LatestVersion, expirationTimeInMs: 5000));
                     if (OnRemoteSettingsUpdated != null)
                     {
                         OnRemoteSettingsUpdated(rs);
