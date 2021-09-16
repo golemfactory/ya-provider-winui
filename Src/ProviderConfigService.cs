@@ -112,7 +112,7 @@ namespace GolemUI.Src
             {
                 var changedProperties = new List<string>();
                 var config = Config ?? _provider.Config;
-                if (config!.Subnet == null)
+                if (config!.Subnet == null || config!.Subnet != GolemUI.Properties.Settings.Default.Subnet)
                 {
                     config.Subnet = GolemUI.Properties.Settings.Default.Subnet;
                     _provider.Config = Config;
