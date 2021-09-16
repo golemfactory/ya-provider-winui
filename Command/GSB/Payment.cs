@@ -141,10 +141,12 @@ namespace GolemUI.Command.GSB
 
                 public string? To { get; set; }
 
+                [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
                 public decimal? Amount { get; set; }
 
                 public string Network { get; set; }
 
+                [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
                 public decimal? FeeLimit { get; set; }
 
                 public Transfer(string sender, string? to, decimal? amount, string network, decimal? feeLimit)
@@ -198,7 +200,21 @@ namespace GolemUI.Command.GSB
             {
                 return cap[0].Value;
             }
-            return result.Ok ?? throw new HttpRequestException($"Invalid output: {result.Err}");
+            try
+            {
+                return result.Ok ?? throw new GsbServiceException("Invalid output", output: result.Err.ToString());
+            }
+            catch (GsbServiceException e)
+            {
+                if (e.Output.Contains("Not enough ETH balance for gas"))
+                {
+                    throw new GsbServiceException("Not enough balance for gas", e.Output, e.Input, null);
+                }
+                else
+                {
+                    throw e;
+                }
+            }
         }
 
 
@@ -218,7 +234,14 @@ namespace GolemUI.Command.GSB
             var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(serviceUri, requestBody);
             var outputData = await response.Content.ReadAsByteArrayAsync();
-            return JsonSerializer.Deserialize<TOut>(outputData, options: options) ?? throw new HttpRequestException("Invalid output");
+            try
+            {
+                return JsonSerializer.Deserialize<TOut>(outputData, options: options) ?? throw new HttpRequestException($"Invalid output: {outputData}");
+            }
+            catch (JsonException e)
+            {
+                throw new GsbServiceException($"Unable to parse output for {serviceUri}", System.Text.Encoding.UTF8.GetString(outputData), json, e);
+            }
         }
     }
 }

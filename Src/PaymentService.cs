@@ -162,8 +162,8 @@ namespace GolemUI.Src
             {
                 return false;
             }
-            var result = await _srv.Payment.ExitTo(_network, "zksync", _buildInAdress, address);
-            // TODO: Implement transfer out in yagna
+            var balance = await _gsbPayment.GetStatus(_buildInAdress, "polygon", _network.Id);
+            var result = await _gsbPayment.TransferTo("polygon", _buildInAdress, _network.Id, address, amount: balance.Amount);
             return true;
         }
 

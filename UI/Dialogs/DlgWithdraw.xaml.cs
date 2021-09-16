@@ -78,8 +78,10 @@ namespace GolemUI.UI.Dialogs
 
         private async void BtnConfirmStep2_Click(object sender, RoutedEventArgs e)
         {
-            await Model.SendTx();
-            tabControl.SelectedIndex = 2;
+            if (await Model.SendTx())
+            {
+                tabControl.SelectedIndex = 2;
+            }
         }
 
         private void BtnCancelStep2_Click(object sender, RoutedEventArgs e)

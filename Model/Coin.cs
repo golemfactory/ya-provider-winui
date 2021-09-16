@@ -10,6 +10,7 @@ namespace GolemUI.Model
     {
         GLM,
         ETH,
-        ETC
+        ETC,
+        MATIC
     }
 }

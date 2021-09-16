@@ -266,6 +266,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\GSB\GsbServiceException.cs" />
     <Compile Include="Converters\ValueToVisibilityConverter.cs" />
     <Compile Include="Command\GSB\Common.cs" />
     <Compile Include="Command\GSB\IGsbEndpointFactory.cs" />

@@ -1,4 +1,5 @@
-﻿using GolemUI.Interfaces;
+﻿using GolemUI.Command.GSB;
+using GolemUI.Interfaces;
 using Nethereum.Util;
 using System;
 using System.Collections.Generic;
@@ -124,7 +125,7 @@ namespace GolemUI.ViewModel.Dialogs
 
         public void OpenZkSyncExplorer()
         {
-            System.Diagnostics.Process.Start(ZksyncUrl);
+            System.Diagnostics.Process.Start(PolygonScanUrl);
         }
 
         public async Task<bool> SendTx()
@@ -134,8 +135,16 @@ namespace GolemUI.ViewModel.Dialogs
                 _lock();
                 try
                 {
-                    var url = await _paymentService.TransferTo("polygon", amount, withdrawAddress, null);
-                    return true;
+                    try
+                    {
+                        var url = await _paymentService.TransferTo("polygon", amount, withdrawAddress, null);
+                        return true;
+                    }
+                    catch (GsbServiceException e)
+                    {
+                        this.WithdrawTextStatus = e.Message;
+                        return false;
+                    }
 
                 }
                 finally
@@ -149,10 +158,21 @@ namespace GolemUI.ViewModel.Dialogs
             }
         }
 
-        public string? ZksyncUrl { get; private set; } = null;
+        public string? PolygonScanUrl { get; private set; } = null;
 
 
-        public string WithdrawTextStatus => "Withdraw success";
+        private string? _withdrawTextStatus = null;
+        public string? WithdrawTextStatus
+        {
+            get => _withdrawTextStatus;
+
+            set
+            {
+                _withdrawTextStatus = value;
+                OnPropertyChanged("WithdrawTextStatus");
+            }
+
+        }
 
         public decimal MinAmount => 0;
         public decimal MaxAmount => AvailableGLM ?? 0m;
@@ -169,7 +189,7 @@ namespace GolemUI.ViewModel.Dialogs
                 OnPropertyChanged("TxFeeUSD");
             }
         }
-        public decimal TxFeeUSD => _priceProvider.CoinValue(TxFee, Model.Coin.GLM);
+        public decimal TxFeeUSD => _priceProvider.CoinValue(TxFee, Model.Coin.MATIC);
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged(string? propertyName = null)

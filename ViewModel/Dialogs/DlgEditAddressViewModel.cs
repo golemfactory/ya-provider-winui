@@ -10,7 +10,7 @@ namespace GolemUI.ViewModel.Dialogs
 {
     public class DlgEditAddressViewModel : INotifyPropertyChanged
     {
-        bool _shouldTransferFunds = true;
+        bool _shouldTransferFunds = false;
         public bool ShouldTransferFunds
         {
             get => _shouldTransferFunds;
@@ -77,7 +77,7 @@ namespace GolemUI.ViewModel.Dialogs
             None, TransferOut, Change
         }
 
-        public Action ChangeAction { get; set; }
+        public Action ChangeAction { get; set; } = Action.Change;
 
     }
 }

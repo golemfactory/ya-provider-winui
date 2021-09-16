@@ -100,7 +100,7 @@
                         ✓ Address is valid
                     </Label>
 
-                    <StackPanel Orientation="Horizontal" Margin="0,20">
+                    <StackPanel Orientation="Horizontal" Margin="0,20" Visibility="Collapsed">
                         <CheckBox Style="{StaticResource CheckBoxGpu}" IsChecked="{Binding ShouldTransferFunds}" />
                         <StackPanel Margin="10,0,0,0">
                             <Label FontSize="12" FontWeight="Bold" Content="Transfer all tokens to the new address during the address change." Margin="0" Padding="0"/>
