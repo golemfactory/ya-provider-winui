@@ -261,7 +261,7 @@ namespace GolemUI
             bool? result = dlg?.ShowDialog();
             if (result == true)
             {
-                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "Thank you for your feedback.", expirationTimeInMs: 7000, group: false));
+                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "thank you for your feedback.", expirationTimeInMs: 7000, group: false));
             }
             ViewModel.DarkBackgroundVisible = false;
         }
