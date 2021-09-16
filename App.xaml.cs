@@ -86,10 +86,6 @@ namespace GolemUI
             services.AddSingleton<Interfaces.INotificationService, Src.AppNotificationService.AppNotificationService>();
             services.AddSingleton<Src.BenchmarkService>();
 
-
-
-
-
             services.AddTransient(typeof(SentryAdditionalDataIngester));
             services.AddTransient(typeof(Src.AppNotificationService.NotificationsMonitor));
             services.AddTransient(typeof(DashboardWallet));
@@ -129,6 +125,8 @@ namespace GolemUI
                 {
                     opts.Append = true;
                     opts.MinLevel = LogLevel.Debug;
+                    opts.MaxRollingFiles = 3;
+                    opts.FileSizeLimitBytes = 1_000_000;
                 });
                 logBuilder.AddDebug();
 
