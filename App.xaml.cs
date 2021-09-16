@@ -27,7 +27,6 @@ namespace GolemUI
     /// </summary>
     public partial class App : Application
     {
-
         private readonly ServiceProvider _serviceProvider;
         private readonly GolemUI.ChildProcessManager _childProcessManager;
 
@@ -43,8 +42,6 @@ namespace GolemUI
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
-
-
         }
         public bool IsShuttingDown { get; private set; }
 
@@ -89,10 +86,6 @@ namespace GolemUI
             services.AddSingleton<Interfaces.INotificationService, Src.AppNotificationService.AppNotificationService>();
             services.AddSingleton<Src.BenchmarkService>();
 
-
-
-
-
             services.AddTransient(typeof(SentryAdditionalDataIngester));
             services.AddTransient(typeof(Src.AppNotificationService.NotificationsMonitor));
             services.AddTransient(typeof(DashboardWallet));
@@ -130,10 +123,10 @@ namespace GolemUI
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
                 logBuilder.AddFile(PathUtil.GetLocalLogPath(), opts =>
                 {
-                    opts.Append = false;
+                    opts.Append = true;
                     opts.MinLevel = LogLevel.Debug;
-
-
+                    opts.MaxRollingFiles = 3;
+                    opts.FileSizeLimitBytes = 1_000_000;
                 });
                 logBuilder.AddDebug();
 
