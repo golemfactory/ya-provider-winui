@@ -106,15 +106,6 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool OpenConsoleYagna {
-            get {
-                return ((bool)(this["OpenConsoleYagna"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool OpenConsoleProvider {
             get {
@@ -137,6 +128,15 @@ namespace GolemUI.Properties {
         public bool DebugLogsProvider {
             get {
                 return ((bool)(this["DebugLogsProvider"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OpenConsoleYagna {
+            get {
+                return ((bool)(this["OpenConsoleYagna"]));
             }
         }
     }
