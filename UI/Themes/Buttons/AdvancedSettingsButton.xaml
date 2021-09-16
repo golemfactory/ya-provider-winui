@@ -27,7 +27,7 @@
                             <Rectangle>
                                 
                             </Rectangle>
-                            <Label Name="labelContent" Content="Advanced settings" FontSize="12" Margin="5,0,7,0" VerticalAlignment="Center"/>
+                            <Label Name="labelContent" Content="Advanced Settings" FontSize="12" Margin="5,0,7,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Grid>
                     <ControlTemplate.Triggers>

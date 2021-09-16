@@ -48,7 +48,7 @@
                             <TextBlock Text="{Binding GpuName}" Foreground="#aaa" TextWrapping="WrapWithOverflow"/>
                             <TextBlock Text="{Binding Path=BenchmarkSpeed, Converter={StaticResource HashRateConverter}}"></TextBlock>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="Mining ablity " Foreground="#aaa" Margin="0, 5" />
+                                <TextBlock Text="Mining ability " Foreground="#aaa" Margin="0, 5" />
                                 <Grid Visibility="{Binding Path=IsPreInitialization, Converter={StaticResource BoolToVisibleConverter}}">
                                     <ProgressBar Foreground="Gray" IsIndeterminate="True" Margin="0, 5" BorderThickness="0" Background="Transparent" />
                                     <TextBlock Foreground="#aaa"  VerticalAlignment="Center">initializing...</TextBlock>
@@ -217,7 +217,7 @@
                             <UniformGrid Columns="2" Rows="1" Grid.Row="2">
                                 <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" Margin="8" VerticalAlignment="Stretch" >
                                     <StackPanel Margin="24">
-                                        <Label FontFamily="Segoe UI Black" FontSize="14">I wish To Learn</Label>
+                                        <Label FontFamily="Segoe UI Black" FontSize="14">I wish to Learn</Label>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
@@ -225,8 +225,8 @@
                                             </Grid.ColumnDefinitions>
                                             <ContentControl Content="{DynamicResource Whish_to_learn_icon}" Margin="2, 16"/>
                                             <StackPanel Grid.Column="1" Margin="28, 8,4,0">
-                                                <TextBlock FontFamily="Segoe Ui" FontSize="13" Margin="8">Choose this option if you would like us to guide you trough the process step by step and help you learn about safety</TextBlock>
-                                                <Button FontSize="18" VerticalAlignment="Bottom" Style="{DynamicResource GradientButtonStyle}" Margin="8,30,8,0" MinHeight="45" Content="I Want to Learn" Click="WantToLearn_Click"/>
+                                                <TextBlock FontFamily="Segoe Ui" FontSize="13" Margin="8">Choose this option if you would like us to guide you through the process step by step and help you learn about safety.</TextBlock>
+                                                <Button FontSize="18" VerticalAlignment="Bottom" Style="{DynamicResource GradientButtonStyle}" Margin="8,30,8,0" MinHeight="45" Content="I want to learn" Click="WantToLearn_Click"/>
                                             </StackPanel>
                                         </Grid>
                                         <StackPanel Orientation="Horizontal">
@@ -251,7 +251,7 @@
                                             <ContentControl Content="{DynamicResource i_am_expert_icon}" VerticalAlignment="Top" Margin="10,14,0,0"/>
                                             <StackPanel Grid.Column="1" Margin="12, 14,0,0" Grid.RowSpan="2">
                                                 <TextBlock FontFamily="Segoe UI" FontSize="13" Margin="8" MinHeight="70">
-                                                You should know what you are doing and you already have crypto wallet.
+                                                You should know what you are doing and you already have a crypto wallet.
                                                 </TextBlock>
                                                 <Button FontSize="18"  VerticalAlignment="Bottom" Style="{DynamicResource GradientButtonStyle}" Margin="8,25,8,0" MinHeight="45" Content="I'm an expert" Click="ExpertMode_Click"/>
                                             </StackPanel>
@@ -292,9 +292,9 @@
 
                                         <StackPanel Margin="52,36,52,0" Grid.Column="1" HorizontalAlignment="Stretch">
                                             <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">We will create a wallet for you</TextBlock>
-                                            <TextBlock FontFamily="Segoe UI" FontSize="15">You will need</TextBlock>
-                                            <TextBlock FontFamily="Segoe UI" FontSize="21" FontWeight="Bold" Margin="0, 10">- Pen and Paper</TextBlock>
-                                            <TextBlock FontFamily="Segoe UI" FontSize="21" FontWeight="Bold" Margin="0, 10">- or active printer</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="15">You will need either</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="21" FontWeight="Bold" Margin="0, 10">- pen and paper</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="21" FontWeight="Bold" Margin="0, 10">- an active printer</TextBlock>
 
                                         </StackPanel>
                                         <UniformGrid Grid.Column="1" Grid.Row="1" Rows="1" Columns="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
@@ -321,9 +321,9 @@
                                         <ContentControl Content="{DynamicResource Seed_Step_icon}" Margin="6,20,0,0"  VerticalAlignment="top" HorizontalAlignment="Stretch"/>
                                         <StackPanel Width="440" Margin="76,20,0,0" Grid.Column="1" HorizontalAlignment="Left">
                                             <TextBlock FontFamily="Segoe UI" FontSize="24" FontWeight="Bold" Margin="0, 0, 0 15">Your wallet is being created…</TextBlock>
-                                            <TextBlock FontFamily="Segoe UI" FontSize="15" Margin="0, 14, 0 15">In a seccond you will be presented with 12 words.</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="15" Margin="0, 14, 0 15">In a moment you will be presented with 12 words.</TextBlock>
                                             <TextBlock FontFamily="Segoe UI" FontSize="15" Margin="0, 10" Width="440">
-They are a backup for your wallet and in case your disk fails or any other unexpected situations - you will be able to recreate your wallet with your earnings in any external wallet!</TextBlock>
+These 12 words are a backup for your wallet in case your disk fails or any other unexpected situations - you will be able to recreate your wallet with your earnings in any external wallet!</TextBlock>
 
                                         </StackPanel>
                                         <Button Height="44" Margin="72,0,0,0" Content="Got It!" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Style="{DynamicResource GradientButtonStyle}" MinHeight="32" IsDefault="True" Click="OnWTLStep2"
@@ -344,7 +344,8 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Print_Step_icon}" Margin="6,20,0,10" VerticalAlignment="Top" HorizontalContentAlignment="Stretch"/>
                                         <StackPanel Width="500" Margin="70,23,79,0" Grid.Column="1">
-                                            <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">Write down these words</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0, 0">Write down these words</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="14" FontWeight="Light" Margin="0, 0, 0, 20">(and keep them somewhere safe)</TextBlock>
                                             <ItemsControl ItemsSource="{Binding MnemonicWords}" AlternationCount="12">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
@@ -384,8 +385,10 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
                                         <StackPanel  Margin="50,50,0,0" Grid.Column="1">
-                                            
+
                                             <TextBlock FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Margin="20, 0, 0, 0">Name your node</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="12" FontWeight="Light" Margin="20, 0, 0, 0">Your computational resources will be visible to other users in the Golem Network under this name.
+                                                You can always change it later in app settings. </TextBlock>
                                             <Border BorderThickness="0,0,0,2"   Margin="20, 40,20,0" Height="26">
                                                 <TextBox Name="WantToLearnNodeName"  Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="0, 0" BorderThickness="0" Background="Transparent" Foreground="#eee" CaretBrush="#fff" >
                                                     <TextBox.Text>
@@ -439,7 +442,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </Label.Style>
                                                 ✓ Valid node name
                                             </Label>
-                                            <Label Margin="20,20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character))" >
+                                            <Label Margin="20,20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character)" >
                                                 <Label.Style>
                                                     <Style TargetType="{x:Type Label}">
                                                         <Setter Property="Visibility" Value="Visible" />
@@ -508,7 +511,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     </ListBox.ItemsPanel>
                                                 </ListBox>
                                                 <StackPanel Margin="10" HorizontalAlignment="Stretch">
-                                                    <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
+                                                    <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated profilt</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdmonth}"/>
                                                     <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
@@ -539,7 +542,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top" />
                                         <StackPanel MinWidth="400" Margin="20,40" Grid.Column="1" HorizontalAlignment="Stretch">
-                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0, 10">Enjoy!</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="17, 0, 0, 10">Happy mining!</TextBlock>
                                             <StackPanel Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 0, 0, 10">
                                                 <ContentPresenter Content="{StaticResource Status_Card_error}" Margin="0, 0, 0, 0"/>
                                                 <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorMsg}" TextWrapping="Wrap" Width="300" Text="{Binding BenchmarkError}" Margin="5, 0, 0, 0" VerticalAlignment="Center"></TextBox>
@@ -593,7 +596,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                             <ContentControl Content="{DynamicResource Wallet_icon}" Width="180" Canvas.Top="50" Canvas.Left="70"/>
                                         </Canvas>
                                     </Viewbox>
-                                    <Button Content="New Wallet" FontSize="18"  Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="45" Click="OnChooseNewWallet"/>
+                                    <Button Content="New wallet" FontSize="18"  Margin="20, 18" Style="{DynamicResource GradientButtonStyle}" MinHeight="45" Click="OnChooseNewWallet"/>
                                 </StackPanel>
                                 <StackPanel Margin="60, 0">
                                     <!--<ContentControl Content="{DynamicResource Use_my_wallet_icon}" Margin="20,20"/>-->
@@ -699,9 +702,9 @@ They are a backup for your wallet and in case your disk fails or any other unexp
 
                                         </StackPanel>
                                         <StackPanel HorizontalAlignment="Stretch" Grid.Column="1" VerticalAlignment="Bottom" Margin="40, 30,0,50">
-                                            <TextBlock FontSize="8" Foreground="#aaa" TextWrapping="Wrap">This application is using Layer 2 transfers. Please make sure you provided valid eth address and you have control over it.</TextBlock>
+                                            <TextBlock FontSize="8" Foreground="#aaa" TextWrapping="Wrap">This application is using Layer 2 transfers. Please make sure you provide a valid Eth address and have control over it.</TextBlock>
                                             <TextBlock FontSize="8" Foreground="#aaa" TextWrapping="Wrap"></TextBlock>
-                                            <TextBlock FontSize="8"  Foreground="#aaa">(For example you probably  don't want to provide an exchange address since it will possibly assume incoming transfers are Layer 1)</TextBlock>
+                                            <TextBlock FontSize="8"  Foreground="#aaa">For example, you probably  don't want to provide an exchange address since it will possibly assume incoming transfers are Layer 1.</TextBlock>
                                         </StackPanel>
                                         <Button Grid.Column="1" VerticalAlignment="Bottom" Margin="40, 30,0,0" MinHeight="44" Click="ConfirmAddress_Click" Content="Next">
                                             <Button.Style>
@@ -738,6 +741,8 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         <StackPanel  Margin="30,30,0,0" Grid.Column="1">
 
                                             <TextBlock FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Margin="20, 0, 0, 0">Name your node</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="12" FontWeight="Light" Margin="20, 0, 0, 0">Your computational resources will be visible to other users in the Golem Network under this name.</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="12" FontWeight="Light" Margin="20, 0, 0, 0">   You can always change it later in app settings.</TextBlock>
                                             <Border BorderThickness="0,0,0,2"   Margin="20, 40,20,0" Height="26">
                                                 <TextBox Name="ExpertModeNodeName"  Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="0, 0" BorderThickness="0" Background="Transparent" Foreground="#eee" CaretBrush="#fff" >
                                                     <TextBox.Text>
@@ -791,7 +796,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                 </Label.Style>
                                                 ✓ Valid node name
                                             </Label>
-                                            <Label Margin="20,20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character))" >
+                                            <Label Margin="20,20,0,0" FontSize="10" FontFamily="Segoe UI" Foreground="White" Content="(Use numbers, latin characters, dash '-', space '  ' and underscore '__'. Node name must have at least 3 characters and start with underscore, digit or latin alphabet character)" >
                                                 <Label.Style>
                                                     <Style TargetType="{x:Type Label}">
                                                         <Setter Property="Visibility" Value="Visible" />
@@ -860,7 +865,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                                     </ListBox.ItemsPanel>
                                                 </ListBox>
                                                 <StackPanel Margin="10" HorizontalAlignment="Stretch">
-                                                    <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated Profilt</TextBlock>
+                                                    <TextBlock Margin="0, 20, 0, 0" Foreground="#aaa">Estimated profilt</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Margin="0, 0, 0, 20" Text="{Binding Path=ExpectedProfit, Converter={StaticResource AmountConverter}, ConverterParameter=usdmonth}"/>
                                                     <TextBlock Margin="0, 0, 0, 0" Foreground="#aaa">Estimated hashrate</TextBlock>
                                                     <TextBlock FontFamily="Segoe UI Black" FontSize="28" Foreground="#fff" Text="{Binding Path=TotalHashRate, Converter={StaticResource HashRateConverter}}"/>
@@ -886,7 +891,7 @@ They are a backup for your wallet and in case your disk fails or any other unexp
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource Enjoy_Step_icon}" Margin="6,20,0,0" VerticalAlignment="Top"/>
                                         <StackPanel MinWidth="400" Margin="20,20,0,0" Grid.Column="1" HorizontalAlignment="Stretch">
-                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Enjoy!</TextBlock>
+                                            <TextBlock FontFamily="Segoe UI" FontSize="18" FontWeight="Bold" Margin="20, 0, 0 15">Happy mining!</TextBlock>
                                             <Label Grid.Column="1" Content="{Binding BenchmarkError}" Margin="20, 0, 0 15"></Label>
                                             <UniformGrid Rows="1" Columns="2" Margin="0">
                                                 <ListBox Background="Transparent" Margin="10" ItemsSource="{Binding GPUs}" Foreground="#eee" BorderThickness="0" ItemTemplate="{StaticResource DTGPU}">
