@@ -253,7 +253,7 @@ namespace GolemUI.ViewModel
                     });
                     if (!isAnyCardEnabled && IsGpuEnabled)
                     {
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "Gpu disabled since user disabled all cards, to enable mining again please activate at least one card and enable GPU support in Task type", expirationTimeInMs: 10000, group: false));
+                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "GPU disabled since user disabled all cards, to enable mining again please activate at least one card and enable GPU support in Task type", expirationTimeInMs: 10000, group: false));
                         IsGpuEnabled = false;
                     }
 
@@ -375,7 +375,7 @@ namespace GolemUI.ViewModel
                         if (_processController.IsProviderRunning)
                         {
                             _processController.Stop();
-                            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "Stopping GPU mining", expirationTimeInMs: 3000, group: false));
+                            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "stopping GPU mining", expirationTimeInMs: 3000, group: false));
                         }
                         else
                         {
