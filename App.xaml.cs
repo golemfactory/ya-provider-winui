@@ -58,7 +58,8 @@ namespace GolemUI
         }
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            SentrySdk.CaptureException(e.Exception);
+            if (_sendDebugInformation)
+                SentrySdk.CaptureException(e.Exception);
 
             var logger = _serviceProvider.GetRequiredService<ILogger<App>>();
             logger.LogError(e.Exception, "App_DispatcherUnhandledException");
@@ -91,6 +92,7 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IHistoryDataProvider, Src.HistoryDataProvider>();
             services.AddSingleton<Interfaces.INotificationService, Src.AppNotificationService.AppNotificationService>();
             services.AddSingleton<Src.BenchmarkService>();
+
 
             services.AddTransient(typeof(SentryAdditionalDataIngester));
             services.AddTransient(typeof(Src.AppNotificationService.NotificationsMonitor));
@@ -186,7 +188,8 @@ namespace GolemUI
 
 
             sentryAdditionalData.InitContextItems();
-            SentrySdk.CaptureMessage("> OnStartup", SentryLevel.Info);
+            if (_sendDebugInformation)
+                SentrySdk.CaptureMessage("> OnStartup", SentryLevel.Info);
             //Task.Delay(10000).ContinueWith(x => sentryAdditionalData.InitContextItems());
 
 
