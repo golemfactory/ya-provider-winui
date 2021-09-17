@@ -8,6 +8,7 @@ using GolemUI.Interfaces;
 using GolemUI.Utils;
 using System.IO;
 using Newtonsoft.Json;
+using Microsoft.Win32;
 
 namespace GolemUI.Src
 {
@@ -35,6 +36,10 @@ namespace GolemUI.Src
             if (settings == null)
             {
                 settings = new UserSettings();
+                RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\GolemFactory\\ThorgMiner", false);
+                object sendReports = rk?.GetValue("SendReports") ?? 0;
+                int? sr = (int)sendReports;
+                settings.SendDebugInformation = sr != 0;
             }
 
             return settings;

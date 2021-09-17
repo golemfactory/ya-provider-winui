@@ -118,6 +118,11 @@
 
                         <TextBlock Text="{Binding Path=UserSettings.Opacity}"></TextBlock>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <CheckBox IsChecked="{Binding Path=UserSettings.SendDebugInformation}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" >
+                            <TextBlock Margin="10,5" VerticalAlignment="Center" Text="Send debug information"></TextBlock>
+                        </CheckBox>
+                    </StackPanel>
 
                 </StackPanel>
 
