@@ -134,6 +134,31 @@ namespace GolemUI.Command.GSB
                     FeeLimit = feeLimit;
                 }
             }
+
+            public class Transfer
+            {
+                public string Sender { get; set; }
+
+                public string? To { get; set; }
+
+                [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+                public decimal? Amount { get; set; }
+
+                public string Network { get; set; }
+
+                [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+                public decimal? FeeLimit { get; set; }
+
+                public Transfer(string sender, string? to, decimal? amount, string network, decimal? feeLimit)
+                {
+                    Sender = sender ?? throw new ArgumentNullException(nameof(sender));
+                    To = to;
+                    Amount = amount;
+                    Network = network ?? throw new ArgumentNullException(nameof(network));
+                    FeeLimit = feeLimit;
+                }
+
+            }
         }
 
 
@@ -167,6 +192,32 @@ namespace GolemUI.Command.GSB
             return result.Ok ?? throw new HttpRequestException($"Invalid output: {result.Err}");
         }
 
+        public async Task<string> TransferTo(string driver, string from, string network, string? to, decimal? amount = null, decimal? feeLimit = null)
+        {
+            var result = await _doPost<Common.Result<string, object>, Model.Transfer>($"local/driver/{driver}/Transfer", new Model.Transfer(from, to, amount, network, feeLimit: null));
+            var cap = System.Text.RegularExpressions.Regex.Match(result.Ok ?? "", @"https:[^\s]*$").Captures;
+            if (cap.Count == 1)
+            {
+                return cap[0].Value;
+            }
+            try
+            {
+                return result.Ok ?? throw new GsbServiceException("Invalid output", output: result.Err.ToString());
+            }
+            catch (GsbServiceException e)
+            {
+                if (e.Output.Contains("Not enough ETH balance for gas"))
+                {
+                    throw new GsbServiceException("Not enough balance for gas", e.Output, e.Input, null);
+                }
+                else
+                {
+                    throw e;
+                }
+            }
+        }
+
+
 
         private async Task<TOut> _doPost<TOut, TIn>(string serviceUri, TIn input)
         {
@@ -183,7 +234,14 @@ namespace GolemUI.Command.GSB
             var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(serviceUri, requestBody);
             var outputData = await response.Content.ReadAsByteArrayAsync();
-            return JsonSerializer.Deserialize<TOut>(outputData, options: options) ?? throw new HttpRequestException("Invalid output");
+            try
+            {
+                return JsonSerializer.Deserialize<TOut>(outputData, options: options) ?? throw new HttpRequestException($"Invalid output: {outputData}");
+            }
+            catch (JsonException e)
+            {
+                throw new GsbServiceException($"Unable to parse output for {serviceUri}", System.Text.Encoding.UTF8.GetString(outputData), json, e);
+            }
         }
     }
 }

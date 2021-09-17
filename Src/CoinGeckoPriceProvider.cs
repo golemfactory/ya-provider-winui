@@ -17,7 +17,8 @@ namespace GolemUI.Src
         {
             { "golem", Coin.GLM},
             { "ethereum", Coin.ETH },
-            { "ethereum-classic", Coin.ETC }
+            { "ethereum-classic", Coin.ETC },
+            { "polygon", Coin.MATIC }
         };
 
         private readonly ICoinGeckoClient _client;
