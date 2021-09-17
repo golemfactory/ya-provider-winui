@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GolemUI.Command;
+using GolemUI.Src;
 using GolemUI.UI;
 using GolemUI.UI.CustomControls;
 using GolemUI.Utils;
@@ -29,10 +30,15 @@ namespace GolemUI
     {
         private readonly ServiceProvider _serviceProvider;
         private readonly GolemUI.ChildProcessManager _childProcessManager;
-
+        private bool _sendDebugInformation;
         private Dashboard? _dashboard = null;
         public App()
         {
+            {
+                UserSettingsProvider usp = new UserSettingsProvider();
+                _sendDebugInformation = usp.LoadUserSettings().SendDebugInformation;
+            }
+
             IsShuttingDown = false;
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
 
@@ -52,7 +58,8 @@ namespace GolemUI
         }
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            SentrySdk.CaptureException(e.Exception);
+            if (_sendDebugInformation)
+                SentrySdk.CaptureException(e.Exception);
 
             var logger = _serviceProvider.GetRequiredService<ILogger<App>>();
             logger.LogError(e.Exception, "App_DispatcherUnhandledException");
@@ -85,6 +92,7 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IHistoryDataProvider, Src.HistoryDataProvider>();
             services.AddSingleton<Interfaces.INotificationService, Src.AppNotificationService.AppNotificationService>();
             services.AddSingleton<Src.BenchmarkService>();
+
 
             services.AddTransient(typeof(SentryAdditionalDataIngester));
             services.AddTransient(typeof(Src.AppNotificationService.NotificationsMonitor));
@@ -129,17 +137,18 @@ namespace GolemUI
                     opts.FileSizeLimitBytes = 1_000_000;
                 });
                 logBuilder.AddDebug();
-
-                logBuilder.AddSentry(o =>
+                if (_sendDebugInformation)
                 {
-                    o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
-                    o.Debug = true;
-                    o.AttachStacktrace = true;
-                    o.AutoSessionTracking = true;
-                    o.IsGlobalModeEnabled = true;
-                    o.TracesSampleRate = 1.0;
-                });
-
+                    logBuilder.AddSentry(o =>
+                    {
+                        o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
+                        o.Debug = true;
+                        o.AttachStacktrace = true;
+                        o.AutoSessionTracking = true;
+                        o.IsGlobalModeEnabled = true;
+                        o.TracesSampleRate = 1.0;
+                    });
+                }
             });
 
         }
@@ -169,12 +178,18 @@ namespace GolemUI
 
             var userSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IUserSettingsProvider>();
 
+            if (!userSettingsLoader.LoadUserSettings().SendDebugInformation)
+            {
+                //TODO disable sending debug logs;
+            }
+
             var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
             var notificationMonitor = _serviceProvider!.GetRequiredService<Src.AppNotificationService.NotificationsMonitor>();
 
 
             sentryAdditionalData.InitContextItems();
-            SentrySdk.CaptureMessage("> OnStartup", SentryLevel.Info);
+            if (_sendDebugInformation)
+                SentrySdk.CaptureMessage("> OnStartup", SentryLevel.Info);
             //Task.Delay(10000).ContinueWith(x => sentryAdditionalData.InitContextItems());
 
 

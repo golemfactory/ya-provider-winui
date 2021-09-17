@@ -52,7 +52,7 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("11")]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
         public int UserSettingsVersion {
             get {
                 return ((int)(this["UserSettingsVersion"]));
@@ -61,7 +61,7 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("11")]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
         public int BenchmarkResultsVersion {
             get {
                 return ((int)(this["BenchmarkResultsVersion"]));
@@ -106,15 +106,6 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool OpenConsoleYagna {
-            get {
-                return ((bool)(this["OpenConsoleYagna"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool OpenConsoleProvider {
             get {
@@ -137,6 +128,15 @@ namespace GolemUI.Properties {
         public bool DebugLogsProvider {
             get {
                 return ((bool)(this["DebugLogsProvider"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OpenConsoleYagna {
+            get {
+                return ((bool)(this["OpenConsoleYagna"]));
             }
         }
     }
