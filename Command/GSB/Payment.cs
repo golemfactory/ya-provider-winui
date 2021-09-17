@@ -202,7 +202,7 @@ namespace GolemUI.Command.GSB
             }
             try
             {
-                return result.Ok ?? throw new GsbServiceException("Invalid output", output: result.Err.ToString());
+                return result.Ok ?? throw new GsbServiceException("Invalid output", output: result.Err?.ToString() ?? "Empty result error");
             }
             catch (GsbServiceException e)
             {
