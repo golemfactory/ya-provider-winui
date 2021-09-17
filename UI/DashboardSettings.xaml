@@ -457,7 +457,7 @@
                 </Grid>
 
             </Grid>
-            <Button Visibility="Hidden" x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click" Grid.Row="2" Grid.Column="5"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="250" Margin="0,0,30,45" />
+            <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click" Grid.Row="2" Grid.Column="5"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="250" Margin="0,0,30,38" />
             <Button Grid.Row="3" Cursor="Hand" IsEnabled="{Binding Path=AdvancedSettingsButtonEnabled}" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnAdvancedSettings" Click="BtnAdvancedSettings_Click" Margin="50,0,0,35" Style="{StaticResource AdvancedSettingsButtonStyle}"/>
         </Grid>
     </Border>
