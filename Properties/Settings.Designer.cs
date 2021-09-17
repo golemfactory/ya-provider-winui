@@ -79,7 +79,7 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("TestBetaMiner")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ThorgMiner")]
         public string SettingsSubfolder {
             get {
                 return ((string)(this["SettingsSubfolder"]));

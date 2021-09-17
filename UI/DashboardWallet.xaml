@@ -134,7 +134,7 @@
                     </Grid>
                 </Border>
             </Grid>
-            <Button Visibility="Hidden" x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click"  Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,30,0" />
+            <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click"  Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="250" Margin="0,0,30,38" />
         </Grid>
     </Border>
 </UserControl>
