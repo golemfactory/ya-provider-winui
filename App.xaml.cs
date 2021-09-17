@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GolemUI.Command;
+using GolemUI.Src;
 using GolemUI.UI;
 using GolemUI.UI.CustomControls;
 using GolemUI.Utils;
@@ -29,10 +30,15 @@ namespace GolemUI
     {
         private readonly ServiceProvider _serviceProvider;
         private readonly GolemUI.ChildProcessManager _childProcessManager;
-
+        private bool _sendDebugInformation;
         private Dashboard? _dashboard = null;
         public App()
         {
+            {
+                UserSettingsProvider usp = new UserSettingsProvider();
+                _sendDebugInformation = usp.LoadUserSettings().SendDebugInformation;
+            }
+
             IsShuttingDown = false;
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
 
@@ -129,17 +135,18 @@ namespace GolemUI
                     opts.FileSizeLimitBytes = 1_000_000;
                 });
                 logBuilder.AddDebug();
-
-                logBuilder.AddSentry(o =>
+                if (_sendDebugInformation)
                 {
-                    o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
-                    o.Debug = true;
-                    o.AttachStacktrace = true;
-                    o.AutoSessionTracking = true;
-                    o.IsGlobalModeEnabled = true;
-                    o.TracesSampleRate = 1.0;
-                });
-
+                    logBuilder.AddSentry(o =>
+                    {
+                        o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
+                        o.Debug = true;
+                        o.AttachStacktrace = true;
+                        o.AutoSessionTracking = true;
+                        o.IsGlobalModeEnabled = true;
+                        o.TracesSampleRate = 1.0;
+                    });
+                }
             });
 
         }
@@ -168,6 +175,11 @@ namespace GolemUI
             var remoteSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IRemoteSettingsProvider>();
 
             var userSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IUserSettingsProvider>();
+
+            if (!userSettingsLoader.LoadUserSettings().SendDebugInformation)
+            {
+                //TODO disable sending debug logs;
+            }
 
             var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
             var notificationMonitor = _serviceProvider!.GetRequiredService<Src.AppNotificationService.NotificationsMonitor>();
