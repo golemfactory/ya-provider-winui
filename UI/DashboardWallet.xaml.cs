@@ -35,11 +35,6 @@ namespace GolemUI
             DataContext = model;
         }
 
-        private void BtnOpenZkSync_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("explorer.exe", "https://wallet.zksync.io/");
-        }
-
         private async void BtnWithdraw_Click(object sender, RoutedEventArgs e)
         {
             var dlg = new UI.Dialogs.DlgWithdraw(Model.WithDrawModel);
@@ -69,7 +64,7 @@ namespace GolemUI
         {
             if (Model.WalletAddress != null)
             {
-                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.Clipboard, "Eth Address has been copied to clipboard", expirationTimeInMs: 5000));
+                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.Clipboard, "eth address has been copied to clipboard", expirationTimeInMs: 5000));
                 Clipboard.SetText(Model.WalletAddress);
             }
         }
@@ -77,6 +72,11 @@ namespace GolemUI
         private void BtnGolemLogo_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(GolemUI.Properties.Settings.Default.GolemWebPage);
+        }
+
+        private void BtnOpenL2_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "https://wallet.matic.network/");
         }
     }
 }

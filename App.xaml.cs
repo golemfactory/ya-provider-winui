@@ -27,7 +27,6 @@ namespace GolemUI
     /// </summary>
     public partial class App : Application
     {
-
         private readonly ServiceProvider _serviceProvider;
         private readonly GolemUI.ChildProcessManager _childProcessManager;
 
@@ -43,8 +42,6 @@ namespace GolemUI
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
-
-
         }
         public bool IsShuttingDown { get; private set; }
 
@@ -81,17 +78,13 @@ namespace GolemUI
             services.AddSingleton(typeof(Command.Provider));
             services.AddSingleton(cfg => new Src.SingleInstanceLock());
 
-            services.AddSingleton(GolemUI.Properties.Settings.Default.TestNet ? Network.Rinkeby : Network.Mainnet);
+            services.AddSingleton(GolemUI.Properties.Settings.Default.TestNet ? Network.Mumbai : Network.Polygon);
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();
             services.AddSingleton<Interfaces.IStatusProvider, Src.YaSSEStatusProvider>();
             services.AddSingleton<Interfaces.IHistoryDataProvider, Src.HistoryDataProvider>();
             services.AddSingleton<Interfaces.INotificationService, Src.AppNotificationService.AppNotificationService>();
             services.AddSingleton<Src.BenchmarkService>();
-
-
-
-
 
             services.AddTransient(typeof(SentryAdditionalDataIngester));
             services.AddTransient(typeof(Src.AppNotificationService.NotificationsMonitor));
@@ -130,10 +123,10 @@ namespace GolemUI
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
                 logBuilder.AddFile(PathUtil.GetLocalLogPath(), opts =>
                 {
-                    opts.Append = false;
+                    opts.Append = true;
                     opts.MinLevel = LogLevel.Debug;
-
-
+                    opts.MaxRollingFiles = 3;
+                    opts.FileSizeLimitBytes = 1_000_000;
                 });
                 logBuilder.AddDebug();
 

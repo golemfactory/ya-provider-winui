@@ -105,20 +105,19 @@ namespace GolemUI.Src
                 var since = DateTime.UtcNow - TimeSpan.FromDays(2);
 
                 var output = await Task.WhenAll(
-                    _gsbPayment.GetStatus(walletAddress, "zksync", since: since, network: _network.Id),
-                    _gsbPayment.GetStatus(walletAddress, "erc20", since: since, network: _network.Id)
+                    _gsbPayment.GetStatus(walletAddress, "polygon", since: since, network: _network.Id)
                 );
 
                 var statusOnL2 = output[0];
-                var statusOnL1 = output[1];
+                //var statusOnL1 = output[1];
 
                 var pending = (statusOnL2?.Incoming?.Accepted?.TotalAmount ?? 0m) - (statusOnL2?.Incoming?.Confirmed?.TotalAmount ?? 0m);
                 var amountOnL2 = statusOnL2?.Amount ?? 0;
-                var amountOnL1 = statusOnL1?.Amount ?? 0;
+                //var amountOnL1 = statusOnL1?.Amount ?? 0;
 
                 var state = new WalletState(statusOnL2?.Token ?? "GLM")
                 {
-                    Balance = amountOnL1 + amountOnL2,
+                    Balance = /*amountOnL1 + */amountOnL2,
                     PendingBalance = pending,
                     BalanceOnL2 = amountOnL2
                 };

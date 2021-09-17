@@ -9,6 +9,8 @@ namespace GolemUI.DesignViewModel
     public class DashboardMainViewModel
     {
         public string StartButtonExplanation => "Please wait until all subsystems are initialized";
+        public string SstartButtonExplanation => "At least one GPU card with mining capability must be enabled by user " +
+                           "(Settings). You can rerun benchmark to determine gpu capabilities again.";
         public string GpuStatus => "Ready";
         public string? GpuStatusAnnotation => "20.15 MH/s";
         public string? PaymentStateError => "No connection to payment service";

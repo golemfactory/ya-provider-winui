@@ -20,6 +20,8 @@ namespace GolemUI.Command
 
         public static readonly Network Mainnet = new Network("mainnet");
         public static readonly Network Rinkeby = new Network("rinkeby");
+        public static readonly Network Polygon = new Network("polygon");
+        public static readonly Network Mumbai = new Network("mumbai");
     }
 
     public class PaymentDriver
@@ -33,6 +35,7 @@ namespace GolemUI.Command
 
         public static readonly PaymentDriver ERC20 = new PaymentDriver("erc20");
         public static readonly PaymentDriver ZkSync = new PaymentDriver("zksync");
+        public static readonly PaymentDriver Polygon = new PaymentDriver("polygon");
     }
 
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
