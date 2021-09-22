@@ -187,7 +187,7 @@
                         </StackPanel>
                     </Grid>
                 </Border>
-                <Label Grid.Column="6" Grid.Row="2" VerticalAlignment="Bottom" Margin="32,15"  Visibility="{Binding Path=IsCpuMiningEnabled, Converter={StaticResource BoolToHiddenConverter}}">Coming soon!</Label>
+                <Label Grid.Column="6" Grid.Row="2" VerticalAlignment="Bottom" Margin="32,15"  Visibility="{Binding Path=IsCpuMiningEnabledByNetwork, Converter={StaticResource BoolToHiddenConverter}}">Coming soon!</Label>
                 
                 <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="6" Grid.Row="2" Opacity="{Binding CpuOpacity}">
                     <Grid>
@@ -208,7 +208,7 @@
                         <StackPanel Grid.Row="2" Margin="0,24,0,8" HorizontalAlignment="Center">
                             <Label Content="CPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18" Padding="0"></Label>
                             <StackPanel Orientation="Vertical" Margin="0,6" HorizontalAlignment="Left">
-                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuEnabled}" IsEnabled="{Binding IsCpuMiningEnabled, Mode=OneWay}">
+                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuEnabled}" IsEnabled="{Binding IsCpuMiningEnabledByNetwork, Mode=OneWay}">
                                     <Label Content="{Binding CpuStatus}"/>
                                 </CheckBox>
                                 <Label Content="{Binding CpuStatusAnnotation, FallbackValue=''}"/>
@@ -221,7 +221,7 @@
                                             <Setter.Value>
                                                 <MultiBinding Converter="{StaticResource MultiBoolToVisibleConverter}">
                                                     <Binding Path="IsMouseOver" RelativeSource="{RelativeSource AncestorType=Border}"/>
-                                                    <Binding Path="IsCpuMiningEnabled" />
+                                                    <Binding Path="IsCpuMiningEnabledByNetwork" />
                                                 </MultiBinding>
                                             </Setter.Value>
                                         </Setter>

@@ -358,7 +358,7 @@
 
 
                             <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="1" Margin="0,0,40,10">
-                                <Slider  Height="30" Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Top" Margin="42,9,0,0" Minimum="0" Maximum="{Binding TotalCpusCount, Mode=OneWay}" IsEnabled="{Binding IsCpuMiningEnabled}"/>
+                                <Slider  Height="30" Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Top" Margin="42,9,0,0" Minimum="0" Maximum="{Binding TotalCpusCount, Mode=OneWay}" IsEnabled="{Binding IsCpuMiningEnabledByNetwork}"/>
 
                                 <StackPanel  Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,2,0,0">
                                     <Label Content="CPU Threads:" FontWeight="Light" Margin="0" Padding="0,0,5,0" FontSize="18"/>

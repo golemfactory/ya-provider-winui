@@ -48,8 +48,8 @@ namespace GolemUI.ViewModel
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
 
-        public double CpuOpacity => IsCpuMiningEnabled ? 1.0 : 0.2f;
-        public bool IsCpuMiningEnabled => false;
+        public double CpuOpacity => IsCpuMiningEnabledByNetwork ? 1.0 : 0.2f;
+        public bool IsCpuMiningEnabledByNetwork => false;
 
 
         private readonly Interfaces.INotificationService _notificationService;

@@ -19,8 +19,8 @@ namespace GolemUI.DesignViewModel
         public decimal AmountUSD => 0.00m;
         public decimal Amount => 0;
         public double GpuOpacity => IsAnyGpuEnabled ? 1.0 : 0.2f;
-        public double CpuOpacity => IsCpuMiningEnabled ? 1.0 : 0.2f;
-        public bool IsCpuMiningEnabled => false;
+        public double CpuOpacity => IsCpuMiningEnabledByNetwork ? 1.0 : 0.2f;
+        public bool IsCpuMiningEnabledByNetwork => false;
         public bool IsAnyGpuEnabled => false;
         public decimal PendingAmountUSD => 0;
         public decimal PendingAmount => 0;

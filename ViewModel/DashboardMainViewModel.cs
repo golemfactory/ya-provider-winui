@@ -52,10 +52,10 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged(nameof(ShouldGpuSwitchBeEnabled));
             }
         }
-        public bool IsCpuMiningEnabled => false;
+        public bool IsCpuMiningEnabledByNetwork => false;
         public bool IsAnyGpuEnabled => _benchmarkService.IsMiningPossibleWithCurrentSettings;
         public double GpuOpacity => _benchmarkService.IsMiningPossibleWithCurrentSettings ? 1.0 : 0.2f;
-        public double CpuOpacity => IsCpuMiningEnabled ? 1.0 : 0.2f;
+        public double CpuOpacity => IsCpuMiningEnabledByNetwork ? 1.0 : 0.2f;
 
         public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning && IsGpuEnabled && IsAnyGpuEnabled;
         public bool IsBenchmarkNotRunning => !_benchmarkService.IsRunning;
@@ -168,7 +168,7 @@ namespace GolemUI.ViewModel
         {
             get
             {
-                if (IsCpuMiningEnabled)
+                if (IsCpuMiningEnabledByNetwork)
                 {
                     return "Ready";
                 }
