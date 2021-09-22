@@ -63,10 +63,12 @@ namespace GolemUI.ViewModel.Dialogs
         public string? NodeName => _provider?.Config?.NodeName;
         private readonly IProviderConfig _provider;
         private readonly IUserFeedbackService _userFeedback;
-        public DlgAppInfoViewModel(IProviderConfig provider, IUserFeedbackService userFeedback)
+        public bool CanSendFeedback { get; private set; }
+        public DlgAppInfoViewModel(IProviderConfig provider, IUserFeedbackService userFeedback, Interfaces.IUserSettingsProvider userSettingsProvider)
         {
             _userFeedback = userFeedback;
             _provider = provider;
+            CanSendFeedback = userSettingsProvider.LoadUserSettings().SendDebugInformation;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

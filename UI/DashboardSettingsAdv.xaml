@@ -120,7 +120,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="10">
                         <CheckBox IsChecked="{Binding Path=UserSettings.SendDebugInformation}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" >
-                            <TextBlock Margin="10,5" VerticalAlignment="Center" TextWrapping="Wrap" Width="250" Text="Send anonymous information about crashes and errors (requires app restart to apply)"></TextBlock>
+                            <TextBlock Margin="10,5" VerticalAlignment="Center" TextWrapping="Wrap" Width="250" Text="Send diagnostic information about crashes and errors (requires app restart to apply)"></TextBlock>
                         </CheckBox>
                     </StackPanel>
 
