@@ -188,8 +188,8 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Column="1">
-                    
-                <Label Padding="0"  FontFamily="Segoe UI" FontSize="24" Grid.Column="1" Margin="8,40,8,10">Getting Started</Label>
+
+                    <Label Padding="0"  FontFamily="Segoe UI" FontSize="24" Grid.Column="1" Margin="8,40,8,10">Getting Started</Label>
                     <Button Style="{StaticResource BackButtonStyle}" VerticalAlignment="Top" Margin="6,0,0,0"  x:Name="BtnBackToMainScreen" Click="BtnBackToMainScreen_Click"  Content="Back to main screen"  HorizontalAlignment="Left" Visibility="{Binding BackButtonVisibilty}" />
                 </StackPanel>
                 <TabControl Margin="0" Padding="0" Grid.Row="2" Grid.Column="1" Background="Transparent" BorderBrush="Transparent"  SelectedIndex="{Binding Path=Flow, Mode=OneWay}" Height="auto" >
@@ -388,9 +388,9 @@ These 12 words are a backup for your wallet in case your disk fails or any other
 
                                             <TextBlock FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Margin="20, 0, 0, 0">Name your node</TextBlock>
                                             <TextBlock FontFamily="Segoe UI" FontSize="12" FontWeight="Light" Margin="20, 0, 0, 0">Your computational resources will be visible to other users in the Golem Network under this name.
-                                                You can always change it later in app settings. </TextBlock>
+                                                You can always change it later in app settings.</TextBlock>
                                             <Border BorderThickness="0,0,0,2"   Margin="20, 40,20,0" Height="26">
-                                                <TextBox Name="WantToLearnNodeName"  Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="0, 0" BorderThickness="0" Background="Transparent" Foreground="#eee" CaretBrush="#fff" >
+                                                <TextBox MaxLength="45" Name="WantToLearnNodeName"  Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="0, 0" BorderThickness="0" Background="Transparent" Foreground="#eee" CaretBrush="#fff" >
                                                     <TextBox.Text>
                                                         <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
                                                             <Binding.ValidationRules>
@@ -457,7 +457,7 @@ These 12 words are a backup for your wallet in case your disk fails or any other
                                                     </Style>
                                                 </Label.Style>
                                             </Label>
-                                           
+
                                         </StackPanel>
                                         <Button Content="Next" Grid.Row="1" Grid.Column="1" Height="44"  MinHeight="32" IsDefault="True" Click="OnWTLStep4Next" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                                            Margin="70,0,0,0" >
@@ -637,12 +637,12 @@ These 12 words are a backup for your wallet in case your disk fails or any other
                                         </Grid.RowDefinitions>
                                         <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="40,40,0,0">
                                             <TextBlock FontSize="18" FontWeight="Bold" >Use only an Ethereum address</TextBlock>
-                                           
+
                                         </StackPanel>
                                         <ContentControl Content="{StaticResource Use_my_wallet_icon}" Grid.Row="0" Grid.RowSpan="2" Margin="6,20,0,0" VerticalAlignment="Top"/>
                                         <StackPanel Grid.Column="1" Margin="40,80,0,60" VerticalAlignment="Top">
                                             <TextBlock Foreground="#aaa">Paste your Ethereum address</TextBlock>
-                                          
+
                                             <Border BorderThickness="0,0,0,2"   Margin="0, 0,40,0" Height="26">
 
                                                 <TextBox x:Name="TxtAddress" FontSize="16" Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" BorderThickness="0" BorderBrush="Transparent" VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff" Margin="0, 0,0,0"  Padding="0,0,0,5">
@@ -668,7 +668,7 @@ These 12 words are a backup for your wallet in case your disk fails or any other
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding ElementName=TxtAddress, Path=(Validation.HasError)}" Value="false" />
- 
+
                                                                 </MultiDataTrigger.Conditions>
                                                                 <Setter Property="BorderBrush" Value="#0FB2AB" />
                                                             </MultiDataTrigger>
@@ -737,14 +737,14 @@ These 12 words are a backup for your wallet in case your disk fails or any other
 
                                         </Grid.RowDefinitions>
                                         <ContentControl Content="{DynamicResource NodeName_Step_icon}" Margin="6,20,0,0"/>
-                                        
+
                                         <StackPanel  Margin="30,30,0,0" Grid.Column="1">
 
                                             <TextBlock FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Margin="20, 0, 0, 0">Name your node</TextBlock>
                                             <TextBlock FontFamily="Segoe UI" FontSize="12" FontWeight="Light" Margin="20, 0, 0, 0">Your computational resources will be visible to other users in the Golem Network under this name.</TextBlock>
                                             <TextBlock FontFamily="Segoe UI" FontSize="12" FontWeight="Light" Margin="20, 0, 0, 0">   You can always change it later in app settings.</TextBlock>
                                             <Border BorderThickness="0,0,0,2"   Margin="20, 40,20,0" Height="26">
-                                                <TextBox Name="ExpertModeNodeName"  Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="0, 0" BorderThickness="0" Background="Transparent" Foreground="#eee" CaretBrush="#fff" >
+                                                <TextBox  MaxLength="45" Name="ExpertModeNodeName"  Style="{StaticResource TextBoxInError}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" ToolTip="Give your node a name" Margin="0, 0" BorderThickness="0" Background="Transparent" Foreground="#eee" CaretBrush="#fff" >
                                                     <TextBox.Text>
                                                         <Binding Path="NodeName" UpdateSourceTrigger="PropertyChanged" Delay="100">
                                                             <Binding.ValidationRules>
@@ -829,7 +829,7 @@ These 12 words are a backup for your wallet in case your disk fails or any other
                                                 </Style>
                                             </Button.Style>
                                         </Button>
-                                        
+
                                     </Grid>
                                 </TabItem>
                                 <TabItem Header="Benchmark">
@@ -921,29 +921,31 @@ These 12 words are a backup for your wallet in case your disk fails or any other
                     <TabItem Header="NoGpu">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" MinWidth="275"/>
-                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="166*" MinWidth="275"/>
+                                <ColumnDefinition Width="109*"/>
+                                <ColumnDefinition Width="585*"/>
 
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
 
                             </Grid.RowDefinitions>
-                           
-                            <ContentControl Content="{StaticResource Benchmark_Step_icon}" Grid.Row="0" Grid.RowSpan="2" Margin="6,20,0,0" VerticalAlignment="Top"/>
-                            <StackPanel Grid.Column="1" Margin="60,60,0,0" VerticalAlignment="Top">
-                                <TextBlock FontSize="23" FontWeight="Bold" Margin="0,0,0,40" Grid.Column="1">It seems that you do not have sufficient GPU</TextBlock>
-                                <TextBlock Foreground="#aaa">You may still try to compute tasks on Golem Network using your</TextBlock>
-                                <TextBlock FontSize="23" FontWeight="Bold" Margin="0,10" Grid.Column="1">CPU</TextBlock>
+
+                            <ContentControl Content="{StaticResource Benchmark_Step_icon}" Grid.Row="0" Margin="6,20,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                            <StackPanel Grid.Column="2" Margin="60,60,0,0" VerticalAlignment="Top">
+                                <TextBlock FontSize="23" FontWeight="Bold" Margin="0,0,0,40" Grid.Column="1">Hardware not supported</TextBlock>
+                                <TextBlock Foreground="#aaa">It looks like your hardware config is not supported by our app. Good news is that CPU mining is coming soon. Till then you can get familiarised with the app. Stay tuned!</TextBlock>
+
+                                <!--<TextBlock FontSize="23" FontWeight="Bold" Margin="0,10" Grid.Column="1">CPU</TextBlock>-->
 
                             </StackPanel>
-                            <Button Grid.Column="1" Margin="60,0,40,200" x:Name="BtnNoGpuContinue" Content="CONTINUE" Click ="BtnNoGpuContinue_Click" VerticalAlignment="Bottom" Style="{StaticResource GradientButtonStyle}" />
+                            <Button Grid.Column="2" Margin="60,0,0,200" x:Name="BtnNoGpuContinue" Content="CONTINUE" Click ="BtnNoGpuContinue_Click" VerticalAlignment="Bottom" Style="{StaticResource GradientButtonStyle}" />
                         </Grid>
                     </TabItem>
                 </TabControl>
             </Grid>
             <Border x:Name="RectBlack" Style="{StaticResource SemiTransparentBorder}" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         </Grid>
-        
+
     </Border>
 </Window>

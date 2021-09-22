@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolemUI.Src;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,10 @@ namespace GolemUI.DesignViewModel
         public string CpuStatus => "Ready";
         public decimal AmountUSD => 0.00m;
         public decimal Amount => 0;
+        public double GpuOpacity => IsAnyGpuEnabled ? 1.0 : 0.2f;
+        public double CpuOpacity => IsCpuMiningEnabled ? 1.0 : 0.2f;
+        public bool IsCpuMiningEnabled => false;
+        public bool IsAnyGpuEnabled => false;
         public decimal PendingAmountUSD => 0;
         public decimal PendingAmount => 0;
         public decimal UsdPerDay => 41.32m;

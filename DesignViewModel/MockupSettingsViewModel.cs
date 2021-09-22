@@ -13,6 +13,8 @@ namespace GolemUI.DesignViewModel
         public double? ExpectedProfit => 41.32f;
 
         public float? Hashrate => 10.19f;
+        public double CpuOpacity => IsCpuMiningEnabled ? 1.0 : 0.2f;
+        public bool IsCpuMiningEnabled => false;
 
         public ObservableCollection<ClaymoreGpuStatus> GpuList { get; } = new ObservableCollection<ClaymoreGpuStatus>(new ClaymoreGpuStatus[]
         {
