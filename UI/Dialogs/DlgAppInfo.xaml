@@ -11,8 +11,6 @@
         AllowsTransparency="True"
         xmlns:dvm="clr-namespace:GolemUI.DesignViewModel.Dialogs"
         d:DataContext ="{d:DesignInstance {x:Type dvm:DlgAppInfoViewModel}, IsDesignTimeCreatable=True}"
-       
-        
      >
 
     <Window.Resources>
@@ -43,9 +41,9 @@
                 </TabControl.ItemContainerStyle>
                 <TabItem Header="TabItem" Background="Transparent">
                     <Grid>
-                        <StackPanel Orientation="Vertical" Margin="0,-20">
+                        
 
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0,-20,0,0">
                                 <StackPanel Margin="25,0">
                                     <Label Content="App info" Margin="0,0,0,20"/>
                                     <StackPanel Orientation="Horizontal">
@@ -60,9 +58,9 @@
 
                                 </StackPanel>
 
-                                <Image Margin="130,0" Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png"  Width="200"/>
+                                
                             </StackPanel>
-                        </StackPanel>
+                        <Image Margin="0,0,30,0" Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png"  Width="200" HorizontalAlignment="Right" VerticalAlignment="Top"/>
 
                         <Button Margin="200,0,200,30" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Height="45" Grid.Row="0" Grid.Column="4" Click="BtnClose_Click" Name="BtnClose" Style="{StaticResource GradientButtonStyle}" Content="Close" />
                     </Grid>

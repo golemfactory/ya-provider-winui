@@ -329,7 +329,7 @@ namespace GolemUI.Command
 
             public void UpdatePrices(IDictionary<string, decimal> prices)
             {
-                var pargs = String.Join(" ", from e in prices select $"--price {e.Key}={e.Value}");
+                var pargs = String.Join(" ", from e in prices select $"--price {e.Key}={e.Value.ToString(CultureInfo.InvariantCulture)}");
 
                 string args = $"preset update --no-interactive {_name} {pargs}";
                 var _result = _parent.ExecToText(args);
