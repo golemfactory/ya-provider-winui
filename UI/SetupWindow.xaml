@@ -921,9 +921,8 @@ These 12 words are a backup for your wallet in case your disk fails or any other
                     <TabItem Header="NoGpu">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="166*" MinWidth="275"/>
-                                <ColumnDefinition Width="109*"/>
-                                <ColumnDefinition Width="585*"/>
+                                <ColumnDefinition Width="*" MinWidth="275"/>
+                                <ColumnDefinition Width="3*"/>
 
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -931,7 +930,7 @@ These 12 words are a backup for your wallet in case your disk fails or any other
 
                             </Grid.RowDefinitions>
 
-                            <ContentControl Content="{StaticResource Benchmark_Step_icon}" Grid.Row="0" Margin="6,20,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                            <ContentControl Content="{StaticResource Benchmark_Step_icon}" Grid.Row="0" Margin="6,20,0,0" VerticalAlignment="Top"/>
                             <StackPanel Grid.Column="2" Margin="60,60,0,0" VerticalAlignment="Top">
                                 <TextBlock FontSize="23" FontWeight="Bold" Margin="0,0,0,40" Grid.Column="1">Hardware not supported</TextBlock>
                                 <TextBlock Foreground="#aaa">It looks like your hardware config is not supported by our app. Good news is that CPU mining is coming soon. Till then you can get familiarised with the app. Stay tuned!</TextBlock>
