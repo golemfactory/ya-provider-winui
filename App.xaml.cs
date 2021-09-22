@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GolemUI.Command;
+using GolemUI.Src;
 using GolemUI.UI;
 using GolemUI.UI.CustomControls;
 using GolemUI.Utils;
@@ -27,13 +28,17 @@ namespace GolemUI
     /// </summary>
     public partial class App : Application
     {
-
         private readonly ServiceProvider _serviceProvider;
         private readonly GolemUI.ChildProcessManager _childProcessManager;
-
+        private bool _sendDebugInformation;
         private Dashboard? _dashboard = null;
         public App()
         {
+            {
+                UserSettingsProvider usp = new UserSettingsProvider();
+                _sendDebugInformation = usp.LoadUserSettings().SendDebugInformation;
+            }
+
             IsShuttingDown = false;
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
 
@@ -43,8 +48,6 @@ namespace GolemUI
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
-
-
         }
         public bool IsShuttingDown { get; private set; }
 
@@ -55,7 +58,8 @@ namespace GolemUI
         }
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            SentrySdk.CaptureException(e.Exception);
+            if (_sendDebugInformation)
+                SentrySdk.CaptureException(e.Exception);
 
             var logger = _serviceProvider.GetRequiredService<ILogger<App>>();
             logger.LogError(e.Exception, "App_DispatcherUnhandledException");
@@ -88,9 +92,6 @@ namespace GolemUI
             services.AddSingleton<Interfaces.IHistoryDataProvider, Src.HistoryDataProvider>();
             services.AddSingleton<Interfaces.INotificationService, Src.AppNotificationService.AppNotificationService>();
             services.AddSingleton<Src.BenchmarkService>();
-
-
-
 
 
             services.AddTransient(typeof(SentryAdditionalDataIngester));
@@ -127,23 +128,24 @@ namespace GolemUI
                 logBuilder.SetMinimumLevel(LogLevel.Trace);
                 logBuilder.AddFile(PathUtil.GetLocalLogPath(), opts =>
                 {
-                    opts.Append = false;
+                    opts.Append = true;
                     opts.MinLevel = LogLevel.Debug;
-
-
+                    opts.MaxRollingFiles = 3;
+                    opts.FileSizeLimitBytes = 1_000_000;
                 });
                 logBuilder.AddDebug();
-
-                logBuilder.AddSentry(o =>
+                if (_sendDebugInformation)
                 {
-                    o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
-                    o.Debug = true;
-                    o.AttachStacktrace = true;
-                    o.AutoSessionTracking = true;
-                    o.IsGlobalModeEnabled = true;
-                    o.TracesSampleRate = 1.0;
-                });
-
+                    logBuilder.AddSentry(o =>
+                    {
+                        o.Dsn = GolemUI.Properties.Settings.Default.SentryDsn;
+                        o.Debug = true;
+                        o.AttachStacktrace = true;
+                        o.AutoSessionTracking = true;
+                        o.IsGlobalModeEnabled = true;
+                        o.TracesSampleRate = 1.0;
+                    });
+                }
             });
 
         }
@@ -168,17 +170,24 @@ namespace GolemUI
                 return;
             }
 
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
             var remoteSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IRemoteSettingsProvider>();
 
             var userSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IUserSettingsProvider>();
+
+            if (!userSettingsLoader.LoadUserSettings().SendDebugInformation)
+            {
+                //TODO disable sending debug logs;
+            }
 
             var sentryAdditionalData = _serviceProvider!.GetRequiredService<SentryAdditionalDataIngester>();
             var notificationMonitor = _serviceProvider!.GetRequiredService<Src.AppNotificationService.NotificationsMonitor>();
 
 
             sentryAdditionalData.InitContextItems();
-            SentrySdk.CaptureMessage("> OnStartup", SentryLevel.Info);
+            if (_sendDebugInformation)
+                SentrySdk.CaptureMessage("> OnStartup", SentryLevel.Info);
             //Task.Delay(10000).ContinueWith(x => sentryAdditionalData.InitContextItems());
 
 

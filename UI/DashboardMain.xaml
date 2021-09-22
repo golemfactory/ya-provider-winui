@@ -74,7 +74,7 @@
                 <local:DashboardStatusControl Status="{Binding Path=Status}" Margin="0,0,0,4" Grid.ColumnSpan="2" />
                 <Button Click="btnStop_Click" Margin="0,15,0,0" Style="{StaticResource GradientButtonStyle}" VerticalAlignment="Bottom" Height="45" Grid.Column="4" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToVisibleConverter}}">Stop Mining</Button>
                 <Button Style="{StaticResource GradientButtonStyle}" Click="btnStart_Click"  Margin="0,15,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="45" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsMiningReadyToRun, Mode=OneWay}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToHiddenConverter}}">Start Mining</Button>
-                <TextBlock  Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow" Text="{Binding StartButtonExplanation}" Grid.Column="4" Grid.Row="1"></TextBlock>
+                <TextBlock  Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow"  Text="{Binding StartButtonExplanation}" Grid.Column="4" Grid.Row="1" Margin="0,5,0,0" FontSize="12"></TextBlock>
 
                 <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="0" Padding="8" Grid.Row="2">
                     <Grid>
@@ -117,6 +117,7 @@
                         </StackPanel>
                     </Grid>
                 </Border>
+                <Label Grid.Column="4" Grid.Row="2" VerticalAlignment="Bottom" Margin="32,15"  Visibility="{Binding Path=IsAnyGpuEnabled, Converter={StaticResource BoolToHiddenConverter}}">GPU not supported</Label>
                 <Border Style="{DynamicResource BorderStyleBlueBox}" Margin="0" HorizontalAlignment="Stretch" Grid.Column="4" Grid.Row="2" Opacity="{Binding Path=GpuOpacity}">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -186,7 +187,9 @@
                         </StackPanel>
                     </Grid>
                 </Border>
-                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="6" Grid.Row="2">
+                <Label Grid.Column="6" Grid.Row="2" VerticalAlignment="Bottom" Margin="32,15"  Visibility="{Binding Path=IsCpuMiningEnabledByNetwork, Converter={StaticResource BoolToHiddenConverter}}">Coming soon!</Label>
+                
+                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="6" Grid.Row="2" Opacity="{Binding CpuOpacity}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -205,16 +208,29 @@
                         <StackPanel Grid.Row="2" Margin="0,24,0,8" HorizontalAlignment="Center">
                             <Label Content="CPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18" Padding="0"></Label>
                             <StackPanel Orientation="Vertical" Margin="0,6" HorizontalAlignment="Left">
-                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuEnabled}">
+                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuEnabled}" IsEnabled="{Binding IsCpuMiningEnabledByNetwork, Mode=OneWay}">
                                     <Label Content="{Binding CpuStatus}"/>
                                 </CheckBox>
                                 <Label Content="{Binding CpuStatusAnnotation, FallbackValue=''}"/>
                             </StackPanel>
-                            <Button Style="{StaticResource GoToSettingsButtonStyle}" Cursor="Hand" 
-                                    Background="Transparent" 
-                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=IsMouseOver, Converter={StaticResource BoolToVisibleConverter}}"
-                                    BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" Click="BtnSettings_Click" 
-                                    Margin="0" />
+
+                            <Button  Cursor="Hand" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Click="BtnSettings_Click" Margin="0"  HorizontalAlignment="Left">
+                                <Button.Style >
+                                    <Style TargetType="Button" BasedOn="{StaticResource GoToSettingsButtonStyle}">
+                                        <Setter Property="Visibility">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{StaticResource MultiBoolToVisibleConverter}">
+                                                    <Binding Path="IsMouseOver" RelativeSource="{RelativeSource AncestorType=Border}"/>
+                                                    <Binding Path="IsCpuMiningEnabledByNetwork" />
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            
+                            
+                          
                         </StackPanel>
                     </Grid>
 
@@ -222,7 +238,6 @@
             </Grid>
             <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,22,0" />
             <Button Grid.Row="3" Cursor="Hand" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnStatistics" Click="BtnStatistics_Click" Margin="50,0,0,35" Style="{StaticResource HistoryTabButtonStyle}"/>
-
 
         </Grid>
     </Border>

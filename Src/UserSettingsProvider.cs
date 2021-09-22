@@ -8,6 +8,7 @@ using GolemUI.Interfaces;
 using GolemUI.Utils;
 using System.IO;
 using Newtonsoft.Json;
+using Microsoft.Win32;
 
 namespace GolemUI.Src
 {
@@ -36,6 +37,10 @@ namespace GolemUI.Src
             {
                 settings = new UserSettings();
             }
+            RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\GolemFactory\\ThorgMiner", false);
+            object sendReports = rk?.GetValue("SendReports") ?? 0;
+            int? sr = (int)sendReports;
+            settings.SendDebugInformation = sr != 0;
 
             return settings;
         }
@@ -49,6 +54,19 @@ namespace GolemUI.Src
             string s = JsonConvert.SerializeObject(userSettings, Formatting.Indented);
 
             File.WriteAllText(settingsFilePath, s);
+
+            RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\GolemFactory\\ThorgMiner", true);
+            if (rk != null)
+            {
+                if (userSettings.SendDebugInformation)
+                {
+                    rk.SetValue("SendReports", 1);
+                }
+                else
+                {
+                    rk.SetValue("SendReports", 0);
+                }
+            }
         }
     }
 }

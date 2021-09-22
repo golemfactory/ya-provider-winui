@@ -304,6 +304,7 @@ namespace GolemUI.ViewModel
                 {
                     NameGen gen = new NameGen();
                     result = gen.GenerateElvenName() + "-" + gen.GenerateElvenName();
+                    _providerConfig.UpdateNodeName(result);
                 }
                 return result;
             }

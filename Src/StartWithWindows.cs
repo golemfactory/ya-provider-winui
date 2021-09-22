@@ -16,7 +16,7 @@ namespace GolemUI.Src
             RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             if (startWithWindows)
             {
-                object? keyValue = rk.GetValue("TestBetaMiner");
+                object? keyValue = rk.GetValue("ThorgMiner");
                 string targetVal = System.Reflection.Assembly.GetEntryAssembly().Location;
                 if (keyValue?.ToString() == targetVal)
                 {
@@ -24,12 +24,12 @@ namespace GolemUI.Src
                 }
                 else
                 {
-                    rk.SetValue("TestBetaMiner", targetVal);
+                    rk.SetValue("ThorgMiner", targetVal);
                 }
             }
             else
             {
-                rk.DeleteValue("TestBetaMiner", false);
+                rk.DeleteValue("ThorgMiner", false);
             }
             rk.Close();
         }

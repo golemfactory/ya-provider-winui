@@ -48,6 +48,10 @@ namespace GolemUI.Converters
                 {
                     return $"{dv?.ToString("F4")} GLM";
                 }
+                if (parameter?.ToString() == "MATIC")
+                {
+                    return $"{dv?.ToString("F6")} MATIC";
+                }
                 if (parameter?.ToString() == "usdday")
                 {
                     return $"${(dv)?.ToString("F2")} / day";

@@ -109,7 +109,7 @@ namespace GolemUI.Model
             }
         }
 
-        public int _opacity = 80;
+        private int _opacity = 80;
         public int Opacity
         {
             get
@@ -120,6 +120,17 @@ namespace GolemUI.Model
             {
                 _opacity = value;
                 NotifyChanged("Opacity");
+            }
+        }
+
+        private bool _sendDebugInformation = true;
+        public bool SendDebugInformation
+        {
+            get => _sendDebugInformation;
+            set
+            {
+                _sendDebugInformation = value;
+                NotifyChanged();
             }
         }
     }

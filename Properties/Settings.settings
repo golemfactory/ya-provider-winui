@@ -12,25 +12,22 @@
       <Value Profile="(Default)">https://3210d81dbe2042d0a1adce29072b26d7@o921571.ingest.sentry.io/5881077</Value>
     </Setting>
     <Setting Name="UserSettingsVersion" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">11</Value>
+      <Value Profile="(Default)">12</Value>
     </Setting>
     <Setting Name="BenchmarkResultsVersion" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">11</Value>
+      <Value Profile="(Default)">12</Value>
     </Setting>
     <Setting Name="GolemFactoryPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">GolemFactory</Value>
     </Setting>
     <Setting Name="SettingsSubfolder" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">TestBetaMiner</Value>
+      <Value Profile="(Default)">ThorgMiner</Value>
     </Setting>
     <Setting Name="DefaultProxy" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">staging-backend.chessongolem.app:3334</Value>
+      <Value Profile="(Default)">n1.mining-proxy.imapp.pl:8069</Value>
     </Setting>
     <Setting Name="GolemWebPage" Type="System.String" Scope="Application">
       <Value Profile="(Default)">www.golem.network</Value>
-    </Setting>
-    <Setting Name="OpenConsoleYagna" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="OpenConsoleProvider" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
@@ -39,6 +36,9 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="DebugLogsProvider" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="OpenConsoleYagna" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

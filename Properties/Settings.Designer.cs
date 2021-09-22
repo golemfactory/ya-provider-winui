@@ -52,7 +52,7 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("11")]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
         public int UserSettingsVersion {
             get {
                 return ((int)(this["UserSettingsVersion"]));
@@ -61,7 +61,7 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("11")]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
         public int BenchmarkResultsVersion {
             get {
                 return ((int)(this["BenchmarkResultsVersion"]));
@@ -79,7 +79,7 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("TestBetaMiner")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ThorgMiner")]
         public string SettingsSubfolder {
             get {
                 return ((string)(this["SettingsSubfolder"]));
@@ -88,7 +88,7 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("staging-backend.chessongolem.app:3334")]
+        [global::System.Configuration.DefaultSettingValueAttribute("n1.mining-proxy.imapp.pl:8069")]
         public string DefaultProxy {
             get {
                 return ((string)(this["DefaultProxy"]));
@@ -101,15 +101,6 @@ namespace GolemUI.Properties {
         public string GolemWebPage {
             get {
                 return ((string)(this["GolemWebPage"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool OpenConsoleYagna {
-            get {
-                return ((bool)(this["OpenConsoleYagna"]));
             }
         }
         
@@ -137,6 +128,15 @@ namespace GolemUI.Properties {
         public bool DebugLogsProvider {
             get {
                 return ((bool)(this["DebugLogsProvider"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OpenConsoleYagna {
+            get {
+                return ((bool)(this["OpenConsoleYagna"]));
             }
         }
     }

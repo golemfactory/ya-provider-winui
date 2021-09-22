@@ -112,7 +112,7 @@ namespace GolemUI.Src
             {
                 var changedProperties = new List<string>();
                 var config = Config ?? _provider.Config;
-                if (config!.Subnet == null)
+                if (config!.Subnet == null || config!.Subnet != GolemUI.Properties.Settings.Default.Subnet)
                 {
                     config.Subnet = GolemUI.Properties.Settings.Default.Subnet;
                     _provider.Config = Config;
@@ -126,7 +126,7 @@ namespace GolemUI.Src
 
                     _provider.AddPreset(new GolemUI.Command.Preset("gminer", "gminer", new Dictionary<string, decimal>()
                     {
-                        { "share", 0.003m },
+                        { "share", 0.00001m },
                         { "duration", 0m },
                         { "raw-share", 0m },
                         { "hash-rate", 0m }
@@ -140,7 +140,7 @@ namespace GolemUI.Src
                 else
                 {
                     _provider.Preset["gminer"].UpdatePrices(new Dictionary<string, decimal>() {
-                            { "share", 0.003m },
+                            { "share", 0.00001m },
                             { "duration", 0m },
                             { "raw-share", 0m },
                             { "hash-rate", 0m }

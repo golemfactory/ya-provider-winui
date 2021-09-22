@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
 <?define Win64 = "yes" ?>
-<?define Version="0.4.1"?>
+<?define Version="0.5.0"?>
 <?define BuildOutputDir="..\bin\Release"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:fw="http://schemas.microsoft.com/wix/FirewallExtension">
   <Product
         Id='*'
-        Name='Beta Miner'
+        Name='Thorg Miner'
         UpgradeCode='{96497EC7-11EA-4257-A0E4-37688d0C7EC0}'
         Manufacturer='golemfactory'
         Language='1033'
@@ -28,7 +28,7 @@
     <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1'/>
     <!-- Allow upgrades and prevent downgrades -->
     <!--MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." /-->
-    <Property Id='DiskPrompt' Value='Test Beta Miner Installation'/>
+    <Property Id='DiskPrompt' Value='Thorg Miner Installation'/>
 
     <!--Condition Message="Required vc++ runtime version 14.22.27812.0 or newer">
     		<![CDATA[Installed OR VCRUNTIMEVERSION]]>
@@ -37,12 +37,12 @@
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="fa2a64b9-19f8-4830-a931-18de65ed4e26">
         <Shortcut Id="ApplicationStartMenuShortcut"
-                  Name="Test Beta Miner"
-                  Target="[APPLICATIONFOLDER]BetaMiner.Exe"
+                  Name="Thorg Miner"
+                  Target="[APPLICATIONFOLDER]ThorgMiner.Exe"
                   WorkingDirectory="APPLICATIONFOLDER"/>
         <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
            <RegistryKey Root="HKCU"
-                     Key="Software\GolemFactory\TestBetaMiner" Action="createAndRemoveOnUninstall">
+                     Key="Software\GolemFactory\ThorgMiner" Action="createAndRemoveOnUninstall">
              <RegistryValue  Name="sendReports" Type="integer" Value="0"/>
         <RegistryValue  Name="installed" Type="integer" Value="1" KeyPath="yes"/>        
       </RegistryKey>
@@ -54,7 +54,7 @@
         <Directory Id="ApplicationProgramsFolder" Name="Golem"/>
       </Directory>
       <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
-        <Directory Id='APPLICATIONFOLDER' Name='TestBetaMiner'>
+        <Directory Id='APPLICATIONFOLDER' Name='ThorgMiner'>
           <Component Id='License' Guid='8aa900e0-cca3-49e0-9e1f-0692d8a3ab29' Win64='$(var.Win64)'>
             <File Id='LicenseFile'
                 Name='License'
@@ -154,14 +154,14 @@
     <WixVariable Id="WixUIDialogBmp" Value="WixUIDialogBmp.bmp" />
     <WixVariable Id="WixUIExclamationIco" Value="WixUIExclamationIco.ico"/>
 
-    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Start Beta Miner" />
-    <CustomAction Id='LaunchApplication' ExeCommand='[APPLICATIONFOLDER]BetaMiner.Exe' Return="asyncNoWait" Directory="APPLICATIONFOLDER"/>
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Start Thorg Miner" />
+    <CustomAction Id='LaunchApplication' ExeCommand='[APPLICATIONFOLDER]ThorgMiner.Exe' Return="asyncNoWait" Directory="APPLICATIONFOLDER"/>
     <Icon Id="icon.ico" SourceFile="WixUIExclamationIco.ico"/>
     <Property Id="ARPPRODUCTICON" Value="icon.ico" />
   </Product>  
   <Fragment>
     <Component Id="cmp2064A296D7784C7B9E0A88832769F2B7" Directory="APPLICATIONFOLDER" Guid="*">
-      <File Id="filE191C2D49C12AE32405B1455AA8C7D41" KeyPath="yes" Source="$(var.GolemUI.TargetDir)\BetaMiner.exe" Assembly=".net" />
+      <File Id="filE191C2D49C12AE32405B1455AA8C7D41" KeyPath="yes" Source="$(var.GolemUI.TargetDir)\ThorgMiner.exe" Assembly=".net" />
     </Component>
   </Fragment>
 

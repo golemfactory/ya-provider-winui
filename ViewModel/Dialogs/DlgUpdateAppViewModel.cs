@@ -15,7 +15,7 @@ namespace GolemUI.ViewModel.Dialogs
 
     public class DlgUpdateAppViewModel
     {
-        public string Title => IsUpToDate ? "Your application is up to date" : "New version of application is available";
+        public string Title => IsUpToDate ? "Thorg Miner is up to date." : "Thorg Miner update available.";
         public string UpdateLink { private set; get; }
         public string CurrentVersion { private set; get; }
         private string _newVersion { set; get; }

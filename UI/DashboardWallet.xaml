@@ -67,7 +67,7 @@
 
                 <StackPanel Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" VerticalAlignment="Center">
                     <Button x:Name="BtnWithdraw" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToVisibleConverter}}" Click="BtnWithdraw_Click" Content="Withdraw"/>
-                    <Button x:Name="BtnOpenL2" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenL2_Click" Content="Open Plygon"/>
+                    <Button x:Name="BtnOpenL2" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenL2_Click" Content="Open Polygon"/>
                 </StackPanel>
                 <Border Grid.Column="0" Grid.Row="2"  Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" >
                     <StackPanel Margin="20">
@@ -134,7 +134,7 @@
                     </Grid>
                 </Border>
             </Grid>
-            <Button Visibility="Hidden" x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click"  Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,30,0" />
+            <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click"  Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="250" Margin="0,0,30,38" />
         </Grid>
     </Border>
 </UserControl>

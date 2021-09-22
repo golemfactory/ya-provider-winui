@@ -2,6 +2,7 @@
 using GolemUI.Interfaces;
 using GolemUI.Model;
 using GolemUI.ViewModel.Dialogs;
+using Microsoft.Extensions.Logging;
 using Nethereum.Util;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace GolemUI.ViewModel
         private readonly IProviderConfig? _providerConfig;
         private readonly ITaskProfitEstimator _taskProfitEstimator;
         private PropertyChangedEventHandler _handler;
+        private readonly ILogger<WalletViewModel> _logger;
 
         public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
 
@@ -32,8 +34,9 @@ namespace GolemUI.ViewModel
         private decimal _pendingAmount;
 
         public WalletViewModel(IPriceProvider priceProvider, IPaymentService paymentService, Command.Provider provider, IProviderConfig providerConfig,
-            ITaskProfitEstimator taskProfitEstimator)
+            ITaskProfitEstimator taskProfitEstimator, ILogger<WalletViewModel> logger)
         {
+            _logger = logger;
             _priceProvider = priceProvider;
             _paymentService = paymentService;
             _provider = provider;
@@ -103,9 +106,16 @@ namespace GolemUI.ViewModel
             }
             if (changeAction == DlgEditAddressViewModel.Action.TransferOut)
             {
-                var trnsferOut = _paymentService.TransferOutTo(address);
-                _providerConfig?.UpdateWalletAddress(address);
-                await trnsferOut;
+                try
+                {
+                    var trnsferOut = _paymentService.TransferOutTo(address);
+                    _providerConfig?.UpdateWalletAddress(address);
+                    await trnsferOut;
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError("failed to update address", e);
+                }
             }
             else
             {

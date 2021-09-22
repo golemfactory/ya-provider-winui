@@ -163,7 +163,7 @@ namespace GolemUI
             {
                 tbNotificationIcon.Visibility = Visibility.Visible;
                 if (_userSettingsProvider.LoadUserSettings().NotificationsEnabled)
-                    tbNotificationIcon.ShowBalloonTip("Beta Miner is still running in tray", "To close application use Beta Miner's tray's context menu.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+                    tbNotificationIcon.ShowBalloonTip("Thorg Miner is still running in tray", "To close application use Thorg Miner's tray's context menu.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
                 this.WindowState = WindowState.Minimized;
                 this.ShowInTaskbar = false;
             }
@@ -221,7 +221,7 @@ namespace GolemUI
             {
                 tbNotificationIcon.Visibility = Visibility.Visible;
                 if (_userSettingsProvider.LoadUserSettings().NotificationsEnabled)
-                    tbNotificationIcon.ShowBalloonTip("Beta Miner is still running in tray", "To close application use Beta Miner's tray's context menu.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+                    tbNotificationIcon.ShowBalloonTip("Thorg Miner is still running in tray", "To close application use Thorg Miner's tray's context menu.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
                 this.WindowState = WindowState.Minimized;
                 this.ShowInTaskbar = false;
             }
@@ -255,13 +255,13 @@ namespace GolemUI
         private readonly INotificationService _notificationService;
         private void btnAppInformation_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig, _userFeedback));
+            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig, _userFeedback, _userSettingsProvider));
             dlg.Owner = Window.GetWindow(this);
             ViewModel.DarkBackgroundVisible = true;
             bool? result = dlg?.ShowDialog();
             if (result == true)
             {
-                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "Thank you for your feedback.", expirationTimeInMs: 7000, group: false));
+                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "thank you for your feedback.", expirationTimeInMs: 7000, group: false));
             }
             ViewModel.DarkBackgroundVisible = false;
         }

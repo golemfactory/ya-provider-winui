@@ -20,8 +20,11 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="labelContent" Property="Foreground" Value="#0FB2AB" />
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="labelContent" Property="Foreground" Value="gray" />
+                        </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="labelContent" Property="Foreground" Value="#fff" />
+                            <Setter TargetName="labelContent" Property="Foreground" Value="#ddd" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
