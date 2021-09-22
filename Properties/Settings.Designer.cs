@@ -88,7 +88,7 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("staging-backend.chessongolem.app:3334")]
+        [global::System.Configuration.DefaultSettingValueAttribute("n1.mining-proxy.imapp.pl:8069")]
         public string DefaultProxy {
             get {
                 return ((string)(this["DefaultProxy"]));

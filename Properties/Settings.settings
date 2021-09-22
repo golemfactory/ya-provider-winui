@@ -24,7 +24,7 @@
       <Value Profile="(Default)">ThorgMiner</Value>
     </Setting>
     <Setting Name="DefaultProxy" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">staging-backend.chessongolem.app:3334</Value>
+      <Value Profile="(Default)">n1.mining-proxy.imapp.pl:8069</Value>
     </Setting>
     <Setting Name="GolemWebPage" Type="System.String" Scope="Application">
       <Value Profile="(Default)">www.golem.network</Value>
