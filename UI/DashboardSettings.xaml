@@ -170,7 +170,7 @@
 
                         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 15, 10, 10">
                             <ContentPresenter Content="{StaticResource Status_Card_error}" Margin="0, 0, 0, 0"/>
-                            <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorMsg}" TextWrapping="Wrap" Text="{Binding BenchmarkError}" Margin="5, 0, 10, 0" VerticalAlignment="Center"></TextBox>
+                            <TextBox IsReadOnly="True" Style="{DynamicResource BenchmarkErrorMsg}" ToolTip="{Binding BenchmarkError}" TextWrapping="Wrap" Text="{Binding BenchmarkError}" Margin="5, 0, 10, 0" VerticalAlignment="Center"></TextBox>
                         </StackPanel>
 
                         <ScrollViewer Grid.Column="1" Grid.Row="2" Margin="25,4,0,0" Padding="0" Grid.RowSpan="2" VerticalScrollBarVisibility="Auto" Style="{DynamicResource SettingsScrollViewer}">
@@ -341,7 +341,7 @@
                         <RowDefinition Height="0.3*" />
                         <RowDefinition Height="0.9*" />
                     </Grid.RowDefinitions>
-                    <Border MinHeight="160" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0"  Grid.Column="0">
+                    <Border MinHeight="160" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0"  Grid.Column="0" Opacity="{Binding CpuOpacity}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.45*"/>
@@ -349,7 +349,7 @@
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="60" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />    
                             </Grid.RowDefinitions>
 
                             <Label Margin="25,20,0,0" Content="CPU" FontSize="22" FontWeight="Bold" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" Foreground="#FFFFFF" />
@@ -358,7 +358,7 @@
 
 
                             <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="1" Margin="0,0,40,10">
-                                <Slider  Height="30" Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Top" Margin="42,9,0,0" Minimum="0" Maximum="{Binding TotalCpusCount, Mode=OneWay}"/>
+                                <Slider  Height="30" Style="{StaticResource Horizontal_Slider}" x:Name="slider" Value="{Binding Path=ActiveCpusCount, Mode=TwoWay}" HorizontalAlignment="Stretch"  Grid.Row="1" VerticalAlignment="Top" Margin="42,9,0,0" Minimum="0" Maximum="{Binding TotalCpusCount, Mode=OneWay}" IsEnabled="{Binding IsCpuMiningEnabledByNetwork}"/>
 
                                 <StackPanel  Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,2,0,0">
                                     <Label Content="CPU Threads:" FontWeight="Light" Margin="0" Padding="0,0,5,0" FontSize="18"/>
@@ -386,7 +386,7 @@
                             </StackPanel>
                             <Border BorderThickness="0,0,0,2"   Margin="0, 0,40,0"  Grid.Row="1" Height="20">
                                 <StackPanel>
-                                    <TextBox Name="txtNodeName" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" BorderThickness="0"  VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff"  Padding="0,0,0,0" Margin="0">
+                                    <TextBox  MaxLength="45" Name="txtNodeName" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" BorderThickness="0"  VerticalAlignment="Top" Background="Transparent" Foreground="#eee" CaretBrush="#fff"  Padding="0,0,0,0" Margin="0">
                                         <TextBox.Style>
                                             <Style TargetType="{x:Type TextBox}">
                                                 <Style.Triggers>
