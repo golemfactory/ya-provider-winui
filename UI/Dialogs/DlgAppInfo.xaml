@@ -54,9 +54,9 @@
                                         <Label Content="Node name: " />
                                         <Label FontFamily="Segoe UI Black" Content="{Binding Path=NodeName, Mode=OneWay}" />
                                     </StackPanel>
-                                    <Button Content="Send feedback" Style="{StaticResource UnderlineButtonStyle}"  Name="BtGoToSendFeedback" Click="BtGoToSendFeedback_Click" Cursor="Hand"  Margin="5,30" Padding="0" HorizontalContentAlignment="Left" />
-
-                                </StackPanel>
+                                    <Button IsEnabled="{Binding CanSendFeedback}" Content="Send feedback" Style="{StaticResource UnderlineButtonStyle}"  Name="BtGoToSendFeedback" Click="BtGoToSendFeedback_Click" Cursor="Hand"  Margin="5,30,0,0" Padding="0" HorizontalContentAlignment="Left" />
+                                <Label Visibility="{Binding CanSendFeedback, Converter={StaticResource BoolToHiddenConverter }}"  Margin="2,0,0,0" Content="* To send feedback enable sending diagnostic data in Advanced Settings and restart application" FontSize="10"/>
+                            </StackPanel>
 
                                 
                             </StackPanel>

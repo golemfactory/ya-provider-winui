@@ -62,7 +62,7 @@ namespace GolemUI
 
 
             UpdateNodeName(_providerConfig.Config?.NodeName ?? "");
-            Context.AddItem("UserName", Environment.UserName);
+            //Context.AddItem("UserName", Environment.UserName);
             Context_MemberChanged();
         }
         private void SetScope(Scope scope, String key, String value)
