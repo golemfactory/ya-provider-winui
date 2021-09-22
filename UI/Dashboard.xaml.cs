@@ -255,7 +255,7 @@ namespace GolemUI
         private readonly INotificationService _notificationService;
         private void btnAppInformation_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig, _userFeedback));
+            var dlg = new UI.Dialogs.DlgAppInfo(new ViewModel.Dialogs.DlgAppInfoViewModel(_providerConfig, _userFeedback, _userSettingsProvider));
             dlg.Owner = Window.GetWindow(this);
             ViewModel.DarkBackgroundVisible = true;
             bool? result = dlg?.ShowDialog();

@@ -11,8 +11,6 @@
         AllowsTransparency="True"
         xmlns:dvm="clr-namespace:GolemUI.DesignViewModel.Dialogs"
         d:DataContext ="{d:DesignInstance {x:Type dvm:DlgAppInfoViewModel}, IsDesignTimeCreatable=True}"
-       
-        
      >
 
     <Window.Resources>
@@ -43,9 +41,9 @@
                 </TabControl.ItemContainerStyle>
                 <TabItem Header="TabItem" Background="Transparent">
                     <Grid>
-                        <StackPanel Orientation="Vertical" Margin="0,-20">
+                        
 
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0,-20,0,0">
                                 <StackPanel Margin="25,0">
                                     <Label Content="App info" Margin="0,0,0,20"/>
                                     <StackPanel Orientation="Horizontal">
@@ -56,13 +54,13 @@
                                         <Label Content="Node name: " />
                                         <Label FontFamily="Segoe UI Black" Content="{Binding Path=NodeName, Mode=OneWay}" />
                                     </StackPanel>
-                                    <Button Content="Send feedback" Style="{StaticResource UnderlineButtonStyle}"  Name="BtGoToSendFeedback" Click="BtGoToSendFeedback_Click" Cursor="Hand"  Margin="5,30" Padding="0" HorizontalContentAlignment="Left" />
-
-                                </StackPanel>
-
-                                <Image Margin="130,0" Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png"  Width="200"/>
+                                    <Button IsEnabled="{Binding CanSendFeedback}" Content="Send feedback" Style="{StaticResource UnderlineButtonStyle}"  Name="BtGoToSendFeedback" Click="BtGoToSendFeedback_Click" Cursor="Hand"  Margin="5,30,0,0" Padding="0" HorizontalContentAlignment="Left" />
+                                <Label Visibility="{Binding CanSendFeedback, Converter={StaticResource BoolToHiddenConverter }}"  Margin="2,0,0,0" Content="* To send feedback enable sending diagnostic data in Advanced Settings and restart application" FontSize="10"/>
                             </StackPanel>
-                        </StackPanel>
+
+                                
+                            </StackPanel>
+                        <Image Margin="0,0,30,0" Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png"  Width="200" HorizontalAlignment="Right" VerticalAlignment="Top"/>
 
                         <Button Margin="200,0,200,30" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Height="45" Grid.Row="0" Grid.Column="4" Click="BtnClose_Click" Name="BtnClose" Style="{StaticResource GradientButtonStyle}" Content="Close" />
                     </Grid>

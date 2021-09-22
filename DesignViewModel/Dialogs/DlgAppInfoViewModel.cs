@@ -8,6 +8,7 @@ namespace GolemUI.DesignViewModel.Dialogs
 {
     public class DlgAppInfoViewModel
     {
+        public bool CanSendFeedback => false;
         public string UserName
         {
             get => "Paawełek";
