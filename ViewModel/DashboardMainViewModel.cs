@@ -4,14 +4,11 @@ using GolemUI.Model;
 using GolemUI.Src;
 using GolemUI.Src.AppNotificationService;
 using GolemUI.Utils;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GolemUI.ViewModel
 {
@@ -51,12 +48,14 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged(nameof(IsBenchmarkNotRunning));
                 OnPropertyChanged(nameof(IsAnyGpuEnabled));
                 OnPropertyChanged(nameof(GpuOpacity));
+
                 OnPropertyChanged(nameof(ShouldGpuSwitchBeEnabled));
             }
         }
-
+        public bool IsCpuMiningEnabledByNetwork => false;
         public bool IsAnyGpuEnabled => _benchmarkService.IsMiningPossibleWithCurrentSettings;
         public double GpuOpacity => _benchmarkService.IsMiningPossibleWithCurrentSettings ? 1.0 : 0.2f;
+        public double CpuOpacity => IsCpuMiningEnabledByNetwork ? 1.0 : 0.2f;
 
         public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning && IsGpuEnabled && IsAnyGpuEnabled;
         public bool IsBenchmarkNotRunning => !_benchmarkService.IsRunning;
@@ -66,14 +65,25 @@ namespace GolemUI.ViewModel
             get
             {
                 if (Process.IsStarting)
+                {
                     return "Please wait until all subsystems are initialized.";
+                }
+
                 if (_benchmarkService.IsRunning)
+                {
                     return "Can't start mining while benchmark is running.";
+                }
+
                 if (!_providerConfig.IsMiningActive)
+                {
                     return "Can't start mining with GPU support disabled.";
+                }
+
                 if (!IsAnyGpuEnabled)
+                {
                     return "At least one GPU card with mining capability must be enabled by user " +
                            "(Settings). You can rerun benchmark to determine gpu capabilities again.";
+                }
 
                 return "";
 
@@ -130,8 +140,16 @@ namespace GolemUI.ViewModel
         {
             get
             {
+                if (!IsAnyGpuEnabled)
+                {
+                    return "Disabled";
+                }
+
                 if (!IsGpuEnabled)
+                {
                     return "Off";
+                }
+
                 return _gpuStatus;
             }
             set
@@ -146,7 +164,20 @@ namespace GolemUI.ViewModel
 
         public string? GpuStatusAnnotation { get; private set; }
 
-        public string CpuStatus { get; private set; } = "Ready"; // or computing // or Off // or Ready
+        public string CpuStatus
+        {
+            get
+            {
+                if (IsCpuMiningEnabledByNetwork)
+                {
+                    return "Ready";
+                }
+                else
+                {
+                    return "Disabled";
+                }
+            }
+        }
 
         private void OnActivityStatusChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -213,12 +244,19 @@ namespace GolemUI.ViewModel
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsMiningActive")
+            {
                 OnPropertyChanged(nameof(IsGpuEnabled));
+            }
+
             if (e.PropertyName == "IsCpuActive")
+            {
                 OnPropertyChanged(nameof(IsCpuEnabled));
+            }
 
             if (e.PropertyName == "IsMiningActive" || e.PropertyName == "IsCpuActive")
+            {
                 RefreshStatus();
+            }
         }
 
         private void OnPaymentServiceChanged(object? sender, PropertyChangedEventArgs e)
@@ -241,9 +279,13 @@ namespace GolemUI.ViewModel
 
             var activeCpuCount = _providerConfig?.ActiveCpuCount ?? 0;
             if (activeCpuCount <= _totalCpuCount)
+            {
                 _enabledCpuCount = activeCpuCount;
+            }
             else
+            {
                 _enabledCpuCount = _totalCpuCount;
+            }
 
             OnPropertyChanged("TotalCpuCount");
             OnPropertyChanged("TotalGpuCount");
