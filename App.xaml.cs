@@ -173,6 +173,7 @@ namespace GolemUI
                 return;
             }
 
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
             var remoteSettingsLoader = _serviceProvider!.GetRequiredService<Interfaces.IRemoteSettingsProvider>();
 
