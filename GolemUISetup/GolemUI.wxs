@@ -43,7 +43,7 @@
         <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
            <RegistryKey Root="HKCU"
                      Key="Software\GolemFactory\ThorgMiner" Action="createAndRemoveOnUninstall">
-             <RegistryValue  Name="sendReports" Type="integer" Value="0"/>
+             <RegistryValue  Name="sendReports" Type="string" Value="[SENTRY_ACCEPTED]"/>
         <RegistryValue  Name="installed" Type="integer" Value="1" KeyPath="yes"/>        
       </RegistryKey>
       </Component>
@@ -138,7 +138,7 @@
 
 
     <SetProperty Id='ARPINSTALLLOCATION' Value='[APPLICATIONFOLDER]' After='CostFinalize'/>
-    <Property Id="SENTRY_ACCEPTED" Value="0"/>
+    <Property Id="SENTRY_ACCEPTED" Value="yes"/>
     <SetProperty Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" After='CostFinalize' />
     <UI>
       <UIRef Id='WixUI_FeatureTree'/>
@@ -174,7 +174,7 @@
                 <Control Id="Description" Type="Text" X="25" Y="23" Width="340" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.LicenseAgreementDlgDescription)" />
                 <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.LicenseAgreementDlgTitle)" />
 				        <Control Id="TermsAcceptedCheckBox" Type="CheckBox" X="20" Y="182" Width="330" Height="18" CheckBoxValue="1" Property="TermsAccepted" Text="Accept Golem Platform Terms of Use" />
-                <Control Id="MonitoringAcceptedCheckBox" Type="CheckBox" X="20" Y="200" Width="330" Height="18" CheckBoxValue="1" 
+                <Control Id="MonitoringAcceptedCheckBox" Type="CheckBox" X="20" Y="200" Width="330" Height="18" CheckBoxValue="yes" 
                          Property="SENTRY_ACCEPTED" Text="Automatically send application crash reports" />
                 <Control Id="Print" Type="PushButton" X="112" Y="243" Width="56" Height="17" Text="!(loc.WixUIPrint)">
                     <Publish Event="DoAction" Value="WixUIPrintEula">1</Publish>
