@@ -159,7 +159,7 @@ namespace GolemUI.ViewModel
 
         public decimal PendingAmountUSD => _priceProvider.CoinValue(_pendingAmount, Coin.GLM);
 
-       // public decimal GlmPerDay => (decimal)((_taskProfitEstimator.EstimatedEarningsPerSecondGLM ?? 0) * 3600 * 24);
+        // public decimal GlmPerDay => (decimal)((_taskProfitEstimator.EstimatedEarningsPerSecondGLM ?? 0) * 3600 * 24);
 
         // public decimal UsdPerDay => _priceProvider.CoinValue(GlmPerDay, Coin.GLM);
         public decimal? _usdPerDay = null;

@@ -283,8 +283,8 @@ namespace GolemUI.Src
                 GPUHistoryUsage earningsStart = MiningHistoryGpuSinceStart.First().Value;
                 GPUHistoryUsage earningsEnd = MiningHistoryGpuSinceStart.Last().Value;
 
-                while ((timeEnd - timeStart).TotalMinutes > MINIMUM_MINUTES_FOR_REMOVE_HISTORY 
-                       && earningsEnd.Shares - earningsStart.Shares >= MINIMUM_SHARES_FOR_REMOVE_HISTORY 
+                while ((timeEnd - timeStart).TotalMinutes > MINIMUM_MINUTES_FOR_REMOVE_HISTORY
+                       && earningsEnd.Shares - earningsStart.Shares >= MINIMUM_SHARES_FOR_REMOVE_HISTORY
                        && MiningHistoryGpuSinceStart.Count >= MINIMUM_SHARES_FOR_REMOVE_HISTORY)
                 {
                     MiningHistoryGpuSinceStart.Remove(MiningHistoryGpuSinceStart.First().Key);
