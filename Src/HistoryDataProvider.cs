@@ -271,6 +271,11 @@ namespace GolemUI.Src
 
         private void _computeEstimatedEarnings()
         {
+            const int MINIMUM_SHARES_FOR_ESTIMATION = 6;
+            const int MINIMUM_SHARES_FOR_REMOVE_HISTORY = 11;
+            const double MINIMUM_MINUTES_FOR_REMOVE_HISTORY = 125;
+
+
             if (MiningHistoryGpuSinceStart.Count > 1)
             {
                 DateTime timeStart = MiningHistoryGpuSinceStart.First().Key;
@@ -278,12 +283,21 @@ namespace GolemUI.Src
                 GPUHistoryUsage earningsStart = MiningHistoryGpuSinceStart.First().Value;
                 GPUHistoryUsage earningsEnd = MiningHistoryGpuSinceStart.Last().Value;
 
+                while ((timeEnd - timeStart).TotalMinutes > MINIMUM_MINUTES_FOR_REMOVE_HISTORY 
+                       && earningsEnd.Shares - earningsStart.Shares >= MINIMUM_SHARES_FOR_REMOVE_HISTORY 
+                       && MiningHistoryGpuSinceStart.Count >= MINIMUM_SHARES_FOR_REMOVE_HISTORY)
+                {
+                    MiningHistoryGpuSinceStart.Remove(MiningHistoryGpuSinceStart.First().Key);
+                    timeStart = MiningHistoryGpuSinceStart.First().Key;
+                    earningsStart = MiningHistoryGpuSinceStart.First().Value;
+                }
+
                 double diffEarnings = earningsEnd.Earnings - earningsStart.Earnings;
                 TimeSpan diffTime = timeEnd - timeStart;
                 int shares = earningsEnd.Shares - earningsStart.Shares;
 
                 double currentHashrate = MiningHistoryGpuSinceStart.Last().Value.HashRate;
-                if (shares > 0 && diffEarnings > 0 && diffTime.TotalSeconds > 0)
+                if (shares >= MINIMUM_SHARES_FOR_ESTIMATION && diffEarnings > 0 && diffTime.TotalSeconds > 0)
                 {
                     var glmValue = diffEarnings / diffTime.TotalSeconds;
                     EarningsStats = new IHistoryDataProvider.EarningsStatsType()
