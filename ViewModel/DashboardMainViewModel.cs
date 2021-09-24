@@ -102,12 +102,11 @@ namespace GolemUI.ViewModel
 
         private void _taskProfitEstimator_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "EstimatedEarningsPerSecond")
+            if (e.PropertyName == "EstimatedEarningsPerSecondUSD")
             {
-                if (_taskProfitEstimator.EstimatedEarningsPerSecond != null)
+                if (_taskProfitEstimator.EstimatedEarningsPerSecondUSD != null)
                 {
-                    var glmPerDay = (decimal)(_taskProfitEstimator.EstimatedEarningsPerSecond * 3600 * 24);
-                    UsdPerDay = _priceProvider.CoinValue(glmPerDay, Coin.GLM);
+                    UsdPerDay = (decimal)(_taskProfitEstimator.EstimatedEarningsPerSecondUSD * 3600 * 24);
                 }
                 else
                 {

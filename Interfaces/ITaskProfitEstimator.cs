@@ -9,7 +9,7 @@ namespace GolemUI.Interfaces
 {
     public interface ITaskProfitEstimator : INotifyPropertyChanged
     {
-        public double? EstimatedEarningsPerSecond { get; }
+        public double? EstimatedEarningsPerSecondUSD { get; }
 
         public string EstimatedEarningsMessage { get; }
     }
