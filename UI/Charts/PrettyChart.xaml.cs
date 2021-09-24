@@ -165,7 +165,7 @@ namespace GolemUI.UI.Charts
                 cbItem.Tag = TimeSpan.FromSeconds(i);
                 cbTickSize.Items.Add(cbItem);
             }
-            foreach (var i in new int[]{1, 2, 5, 10, 15, 20, 30})
+            foreach (var i in new int[] { 1, 2, 5, 10, 15, 20, 30 })
             {
                 var cbItem = new ComboBoxItem();
                 cbItem.Content = $"{i} minutes";
@@ -331,7 +331,7 @@ namespace GolemUI.UI.Charts
                         newChartData.HistData.OnBinEntryUpdated += OnBinEntryUpdated;
                         newChartData.OnBinTimeSizeChanged += OnBinTimeSizeChanged;
                         newChartData.HistData.OnRedrawData += OnRedrawData;
-                        
+
                         ResetChartSettings(newChartData);
                         GotoEnd();
                         TimerActivated = true;

@@ -128,8 +128,8 @@ namespace GolemUI.Src
 
             string datePart = DateTime.Now.ToString("yyyy-MM-dd");
             var historyPath = PathUtil.GetRemoteHistoryPath();
-            
-            
+
+
             if (Directory.Exists(historyPath))
             {
                 string[] files = Directory.GetFiles(historyPath, "history_*.json", SearchOption.AllDirectories);

@@ -14,8 +14,8 @@ namespace GolemUI.UI.Charts
 
         public PrettyChartData HistData { get; private set; }
 
-        public TimeSpan BinTimeSpan 
-        { 
+        public TimeSpan BinTimeSpan
+        {
             get
             {
                 return _binTimeSize;
