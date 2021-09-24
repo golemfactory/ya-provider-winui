@@ -38,9 +38,14 @@ namespace GolemUI.Src
                 settings = new UserSettings();
             }
             RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\GolemFactory\\ThorgMiner", false);
-            object sendReports = rk?.GetValue("SendReports") ?? 0;
-            int? sr = (int)sendReports;
-            settings.SendDebugInformation = sr != 0;
+            if (rk?.GetValue("SendReports") is string v)
+            {
+                settings.SendDebugInformation = "yes" == v;
+            }
+            else
+            {
+                settings.SendDebugInformation = false;
+            }
 
             return settings;
         }
@@ -58,14 +63,7 @@ namespace GolemUI.Src
             RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\GolemFactory\\ThorgMiner", true);
             if (rk != null)
             {
-                if (userSettings.SendDebugInformation)
-                {
-                    rk.SetValue("SendReports", 1);
-                }
-                else
-                {
-                    rk.SetValue("SendReports", 0);
-                }
+                rk.SetValue("SendReports", userSettings.SendDebugInformation ? "yes" : "no");
             }
         }
     }
