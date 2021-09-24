@@ -398,28 +398,25 @@ namespace GolemUI.Src
 
             if (MiningHistoryGpuSinceStart.Count > 1)
             {
-                DateTime timeStart = MiningHistoryGpuSinceStart.First().Dt;
                 DateTime timeEnd = MiningHistoryGpuSinceStart.Last().Dt;
-                GPUHistoryUsage earningsStart = MiningHistoryGpuSinceStart.First();
-                GPUHistoryUsage earningsEnd = MiningHistoryGpuSinceStart.Last();
-
-                while ((timeEnd - timeStart).TotalMinutes > MINIMUM_MINUTES_FOR_REMOVE_HISTORY
-                       && earningsEnd.Shares - earningsStart.Shares >= MINIMUM_SHARES_FOR_REMOVE_HISTORY
-                       && MiningHistoryGpuSinceStart.Count >= MINIMUM_SHARES_FOR_REMOVE_HISTORY)
+                double earnings = 0;
+                int shares = 0;
+                TimeSpan diffTime = new TimeSpan(0);
+                for (int idx = MiningHistoryGpuSinceStart.Count - 1; idx >= 0; idx--)
                 {
-                    MiningHistoryGpuSinceStart.Remove(MiningHistoryGpuSinceStart.First());
-                    timeStart = MiningHistoryGpuSinceStart.First().Dt;
-                    earningsStart = MiningHistoryGpuSinceStart.First();
+                    DateTime timeStart = MiningHistoryGpuSinceStart[idx].Dt;
+                    shares += MiningHistoryGpuSinceStart[idx].Shares;
+                    earnings += MiningHistoryGpuSinceStart[idx].Earnings;
+                    diffTime = timeEnd - timeStart;
+                    if (diffTime.TotalMinutes > MINIMUM_MINUTES_FOR_REMOVE_HISTORY && shares > MINIMUM_SHARES_FOR_REMOVE_HISTORY)
+                    {
+                        break;
+                    }
                 }
 
-                double diffEarnings = earningsEnd.Earnings - earningsStart.Earnings;
-                TimeSpan diffTime = timeEnd - timeStart;
-                int shares = earningsEnd.Shares - earningsStart.Shares;
-
-                double currentHashrate = MiningHistoryGpuSinceStart.Last().HashRate;
-                if (shares >= MINIMUM_SHARES_FOR_ESTIMATION && diffEarnings > 0 && diffTime.TotalSeconds > 0)
+                if (shares >= MINIMUM_SHARES_FOR_ESTIMATION && earnings > 0 && diffTime.TotalSeconds > 0)
                 {
-                    var glmValue = diffEarnings / diffTime.TotalSeconds;
+                    var glmValue = earnings / diffTime.TotalSeconds;
                     EarningsStats = new IHistoryDataProvider.EarningsStatsType()
                     {
                         Time = diffTime,
