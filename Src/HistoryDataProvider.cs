@@ -407,9 +407,9 @@ namespace GolemUI.Src
                        && earningsEnd.Shares - earningsStart.Shares >= MINIMUM_SHARES_FOR_REMOVE_HISTORY
                        && MiningHistoryGpuSinceStart.Count >= MINIMUM_SHARES_FOR_REMOVE_HISTORY)
                 {
-                    MiningHistoryGpuSinceStart.Remove(MiningHistoryGpuSinceStart.First().Key);
-                    timeStart = MiningHistoryGpuSinceStart.First().Key;
-                    earningsStart = MiningHistoryGpuSinceStart.First().Value;
+                    MiningHistoryGpuSinceStart.Remove(MiningHistoryGpuSinceStart.First());
+                    timeStart = MiningHistoryGpuSinceStart.First().Dt;
+                    earningsStart = MiningHistoryGpuSinceStart.First();
                 }
 
                 double diffEarnings = earningsEnd.Earnings - earningsStart.Earnings;
