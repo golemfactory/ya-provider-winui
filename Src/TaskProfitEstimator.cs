@@ -14,19 +14,35 @@ namespace GolemUI.Src
 {
     class TaskProfitEstimator : ITaskProfitEstimator
     {
-        private double? _estimatedEarningsPerSecond;
-        public double? EstimatedEarningsPerSecond
+        private double? _estimatedEarningsPerSecondUSD;
+        public double? EstimatedEarningsPerSecondUSD
         {
-            get => _estimatedEarningsPerSecond;
+            get => _estimatedEarningsPerSecondUSD;
             set
             {
-                if (_estimatedEarningsPerSecond != value)
+                if (_estimatedEarningsPerSecondUSD != value)
                 {
-                    _estimatedEarningsPerSecond = value;
+                    _estimatedEarningsPerSecondUSD = value;
                     NotifyChanged();
                 }
             }
         }
+
+        //Maybe in future we want to show estimated profits in GLM also.
+        private double? _estimatedEarningsPerSecondGLM;
+        private double? EstimatedEarningsPerSecondGLM
+        {
+            get => _estimatedEarningsPerSecondGLM;
+            set
+            {
+                if (_estimatedEarningsPerSecondGLM != value)
+                {
+                    _estimatedEarningsPerSecondGLM = value;
+                    NotifyChanged();
+                }
+            }
+        }
+
 
         private string _estimatedEarningsMessage = "";
         private readonly ILogger<TaskProfitEstimator> _logger;
@@ -85,13 +101,17 @@ namespace GolemUI.Src
         {
             if (!_processController.IsProviderRunning)
             {
-                EstimatedEarningsPerSecond = null;
+                EstimatedEarningsPerSecondUSD = null;
+                EstimatedEarningsPerSecondGLM = null;
+
                 EstimatedEarningsMessage = $"Start mining to get estimates";
                 return;
             }
             if (_historyDataProvider.EarningsStats is IHistoryDataProvider.EarningsStatsType stats)
             {
-                EstimatedEarningsPerSecond = _priceProvider.CoinValue(stats.AvgGlmPerSecond, Model.Coin.GLM);
+                EstimatedEarningsPerSecondUSD = _priceProvider.CoinValue(stats.AvgGlmPerSecond, Model.Coin.GLM);
+                EstimatedEarningsPerSecondGLM = stats.AvgGlmPerSecond;
+
                 int totalSecs = Convert.ToInt32(stats.Time.TotalSeconds + 0.5);
                 int hours = totalSecs / 3600;
                 int minutes = (totalSecs - hours * 3600) / 60;
@@ -112,14 +132,18 @@ namespace GolemUI.Src
                     .FirstOrDefault()?.Usage?[HASH_RATE];
 
                 Debug.WriteLine(_statusProvider.Activities);
-                if (hashRate is float hr && hr > 0.0)
+                var glm_usd_price = _priceProvider.CoinValue(1.0, Model.Coin.GLM);
+                if (hashRate is float hr && hr > 0.0 && glm_usd_price > 0.0)
                 {
-                    EstimatedEarningsPerSecond = _estimatedProfitProvider.HashRateToUSDPerDay(Convert.ToDouble(hr)) / 3600.0 / 24.0;
+                    EstimatedEarningsPerSecondUSD = _estimatedProfitProvider.HashRateToUSDPerDay(Convert.ToDouble(hr)) / 3600.0 / 24.0;
+                    EstimatedEarningsPerSecondGLM = EstimatedEarningsPerSecondUSD / glm_usd_price;
                     EstimatedEarningsMessage = $"Estimation based on current hashrate and requestor payout.";
                 }
                 else
                 {
-                    EstimatedEarningsPerSecond = null;
+                    EstimatedEarningsPerSecondUSD = null;
+                    EstimatedEarningsPerSecondGLM = null;
+
                     EstimatedEarningsMessage = $"Estimation in progress...";
                 }
             }

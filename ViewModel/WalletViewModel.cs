@@ -74,12 +74,11 @@ namespace GolemUI.ViewModel
 
         private void OnProfitEstimatorChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "EstimatedEarningsPerSecond")
+            if (e.PropertyName == "EstimatedEarningsPerSecondUSD")
             {
-                if (_taskProfitEstimator.EstimatedEarningsPerSecond != null)
+                if (_taskProfitEstimator.EstimatedEarningsPerSecondUSD != null)
                 {
-                    var glmPerDay = (decimal)(_taskProfitEstimator.EstimatedEarningsPerSecond * 3600 * 24);
-                    UsdPerDay = _priceProvider.CoinValue(glmPerDay, Coin.GLM);
+                    UsdPerDay = (decimal)(_taskProfitEstimator.EstimatedEarningsPerSecondUSD * 3600 * 24);
                 }
                 else
                 {
@@ -160,7 +159,7 @@ namespace GolemUI.ViewModel
 
         public decimal PendingAmountUSD => _priceProvider.CoinValue(_pendingAmount, Coin.GLM);
 
-        public decimal GlmPerDay => (decimal)((_taskProfitEstimator.EstimatedEarningsPerSecond ?? 0) * 3600 * 24);
+        // public decimal GlmPerDay => (decimal)((_taskProfitEstimator.EstimatedEarningsPerSecondGLM ?? 0) * 3600 * 24);
 
         // public decimal UsdPerDay => _priceProvider.CoinValue(GlmPerDay, Coin.GLM);
         public decimal? _usdPerDay = null;
