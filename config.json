@@ -1,9 +1,9 @@
 {
-  "LatestVersion": "0.5.0.0",
-  "Version": "0.5.0.0",
+  "LatestVersion": "0.5.1.0",
+  "Version": "0.5.1.0",
   "LatestVersionCodename": "public-beta-1",
-  "LatestVersionDownloadLink": "https://golem-releases.cdn.golem.network/gminer/ThorgMiner-0.5.0.msi",
-  "ChangeLog": "Release",
+  "LatestVersionDownloadLink": "https://golem-releases.cdn.golem.network/gminer/ThorgMiner-0.5.1.msi",
+  "ChangeLog": "Fixed estimations and error reporting",
   "LastSupportedVersion": "0.5.0.0",
   "DayEthPerGH": 0.023,
   "DayEtcPerGH": 0.81,
