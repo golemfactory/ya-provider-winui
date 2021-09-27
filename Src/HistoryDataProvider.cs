@@ -156,9 +156,8 @@ namespace GolemUI.Src
 
 
 
-
             /*
-
+            
             if (File.Exists(historyFilePath))
             {
                 var historyData = File.ReadAllText(historyFilePath);
@@ -181,17 +180,40 @@ namespace GolemUI.Src
 
         private void _dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            var history = JsonConvert.SerializeObject(MiningHistoryGpuTotal, Formatting.Indented);
-            var historyPath = PathUtil.GetRemoteHistoryPath();
-            if (!Directory.Exists(historyPath))
+
+            int idx = 0;
+            while (idx < MiningHistoryGpuTotal.Count)
             {
-                Directory.CreateDirectory(historyPath);
+                DateTime dt = MiningHistoryGpuTotal[idx].Dt;
+                DateTime day_low = DateTimeUtils.RoundDown(dt, TimeSpan.FromDays(1));
+                DateTime day_max = DateTimeUtils.RoundUp(dt, TimeSpan.FromDays(1));
+
+                List<GPUHistoryUsage> dailyList = new List<GPUHistoryUsage>();
+                while (idx < MiningHistoryGpuTotal.Count)
+                {
+                    dt = MiningHistoryGpuTotal[idx].Dt;
+                    if (dt >= day_max)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        dailyList.Add(MiningHistoryGpuTotal[idx]);
+                    }
+                    idx++;
+                }
+                var history = JsonConvert.SerializeObject(dailyList, Formatting.Indented);
+                var historyPath = PathUtil.GetRemoteHistoryPath();
+                if (!Directory.Exists(historyPath))
+                {
+                    Directory.CreateDirectory(historyPath);
+                }
+                string datePart = day_low.ToString("yyyy-MM-dd");
+                string historyFilePath = Path.Combine(historyPath, $"history_{datePart}.json");
+
+                File.WriteAllText(historyFilePath, history);
+
             }
-            string datePart = DateTime.Now.ToString("yyyy-MM-dd");
-            string historyFilePath = Path.Combine(historyPath, $"history_{datePart}.json");
-
-            File.WriteAllText(historyFilePath, history);
-
 
         }
 

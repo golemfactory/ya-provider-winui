@@ -41,5 +41,8 @@
     <Setting Name="OpenConsoleYagna" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="DefaultProxyETC" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">eu1-etc.ethermine.org:4444</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
