@@ -27,15 +27,19 @@ namespace GolemUI.Src
         {
             public DateTime Dt;
             public int Shares;
+            public int StaleShares;
+            public int InvalidShares;
             public double Earnings;
             public double Duration;
             public double SharesTimesDifficulty;
             public double HashRate;
 
-            public GPUHistoryUsage(DateTime dt, int shares, double earnings, double duration, double sharesTimesDifficulty, double hashRate)
+            public GPUHistoryUsage(DateTime dt, int shares, int staleShares, int invalidShares, double earnings, double duration, double sharesTimesDifficulty, double hashRate)
             {
                 Dt = dt;
                 Shares = shares;
+                StaleShares = staleShares;
+                InvalidShares = invalidShares;
                 Earnings = earnings;
                 Duration = duration;
                 SharesTimesDifficulty = sharesTimesDifficulty;
@@ -277,6 +281,8 @@ namespace GolemUI.Src
             {
                 double sumMoney = 0.0;
                 int shares = 0;
+                int invalidShares = 0;
+                int staleShares = 0;
                 double hashRate = 0.0;
                 double sharesTimesDiff = 0.0;
                 double duration = 0.0;
@@ -287,6 +293,12 @@ namespace GolemUI.Src
                     {
                         case "golem.usage.mining.share":
                             shares = MathUtils.RoundToInt(usage.Value);
+                            break;
+                        case "golem.usage.mining.stale-share":
+                            staleShares = MathUtils.RoundToInt(usage.Value);
+                            break;
+                        case "golem.usage.mining.invalid-share":
+                            invalidShares = MathUtils.RoundToInt(usage.Value);
                             break;
                         case "golem.usage.duration_sec":
                             duration = usage.Value;
@@ -311,14 +323,14 @@ namespace GolemUI.Src
                 {
                     if (MiningHistoryGpu.Count == 0)
                     {
-                        MiningHistoryGpu.Add(new GPUHistoryUsage(key, shares, sumMoney, duration, sharesTimesDiff, hashRate));
+                        MiningHistoryGpu.Add(new GPUHistoryUsage(key, shares, staleShares, invalidShares, sumMoney, duration, sharesTimesDiff, hashRate));
                     }
                     else
                     {
                         if (shares > 0)
                         {
                             var lastEntry = MiningHistoryGpu.Last();
-                            MiningHistoryGpu.Add(new GPUHistoryUsage(key, shares, sumMoney, duration, sharesTimesDiff, hashRate));
+                            MiningHistoryGpu.Add(new GPUHistoryUsage(key, shares, staleShares, invalidShares, sumMoney, duration, sharesTimesDiff, hashRate));
                             updateChartsNeeded = true;
                         }
                     }

@@ -129,6 +129,8 @@ namespace GolemUI.Src
                         { "share", 0.00001m },
                         { "duration", 0m },
                         { "raw-share", 0m },
+                        { "stale-share", 0m },
+                        { "invalid-share", 0m },
                         { "hash-rate", 0m }
                     }), out _args, out _info);
                     if (isGpuCapable)
@@ -143,6 +145,8 @@ namespace GolemUI.Src
                             { "share", 0.00001m },
                             { "duration", 0m },
                             { "raw-share", 0m },
+                            { "stale-share", 0m },
+                            { "invalid-share", 0m },
                             { "hash-rate", 0m }
                         });
 

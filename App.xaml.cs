@@ -204,8 +204,6 @@ namespace GolemUI
             }
 
 
-
-
             var dashboardWindow = _serviceProvider!.GetRequiredService<Dashboard>();
 
             dashboardWindow.Show();
@@ -252,7 +250,6 @@ namespace GolemUI
         private void StopApp()
         {
             _serviceProvider.Dispose();
-
         }
 
         private void OnExit(object sender, ExitEventArgs e)
