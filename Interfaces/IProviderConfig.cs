@@ -15,6 +15,7 @@ namespace GolemUI.Interfaces
         Network Network { get; }
 
         bool IsMiningActive { get; set; }
+        public bool IsLowMemoryModeActive { get; }
 
         bool IsCpuActive { get; set; }
         public int ActiveCpuCount { get; }
@@ -22,6 +23,6 @@ namespace GolemUI.Interfaces
         void UpdateWalletAddress(string? walletAddress = null);
         void UpdateNodeName(string? value);
 
-        Task Prepare(bool isGpuCapable);
+        Task Prepare(bool isGpuCapable, bool isLowMemoryMode);
     }
 }
