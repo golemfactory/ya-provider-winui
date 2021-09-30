@@ -155,7 +155,7 @@ namespace GolemUI.ViewModel
         public decimal AmountUSD => _priceProvider.CoinValue(_amount, Coin.GLM);
 
 
-        public decimal PendingAmount => _pendingAmount>0 ? _pendingAmount : 0;
+        public decimal PendingAmount => _pendingAmount > 0 ? _pendingAmount : 0;
 
         public decimal PendingAmountUSD => _priceProvider.CoinValue(PendingAmount, Coin.GLM);
 
