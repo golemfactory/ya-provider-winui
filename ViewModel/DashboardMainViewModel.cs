@@ -353,7 +353,7 @@ namespace GolemUI.ViewModel
 
         public decimal? AmountUSD => _priceProvider.GLM2USD(Amount);
 
-        public decimal? PendingAmount => _paymentService.State?.PendingBalance;
+        public decimal? PendingAmount => _paymentService.State?.PendingBalance > 0? _paymentService.State?.PendingBalance :0;
 
         public decimal? PendingAmountUSD => _priceProvider.GLM2USD(PendingAmount);
         public int _totalCpuCount;
