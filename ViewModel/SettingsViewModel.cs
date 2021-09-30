@@ -12,6 +12,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using GolemUI.Utils;
+using System.Windows;
+using Sentry;
 
 namespace GolemUI.ViewModel
 {
@@ -67,6 +69,7 @@ namespace GolemUI.ViewModel
             _provider = provider;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
+            _benchmarkService.ProblemWithExe += _benchmarkService_ProblemWithExe;
             _providerConfig.PropertyChanged += OnProviderCofigChanged;
             _benchmarkService.PropertyChanged += OnBenchmarkChanged;
             _profitEstimator = profitEstimator;
@@ -74,6 +77,22 @@ namespace GolemUI.ViewModel
             BenchmarkError = "";
             ActiveCpusCount = 3;
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
+        }
+
+        private void _benchmarkService_ProblemWithExe(Command.ProblemWithExeFile problem)
+        {
+            if (problem == Command.ProblemWithExeFile.Antivirus)
+            {
+                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(GolemUI.Properties.Settings.Default.dialog_antivir_image, GolemUI.Properties.Settings.Default.dialog_antivir_title, GolemUI.Properties.Settings.Default.dialog_antivir_message));
+                dlg.Owner = Application.Current.MainWindow;
+                RequestDarkBackgroundVisibilityChange(true);
+                bool? result = dlg?.ShowDialog();
+                if (result == true)
+                {
+                    _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "Please check your antivirus settings...", expirationTimeInMs: 17000, group: false));
+                }
+                RequestDarkBackgroundVisibilityChange(false);
+            }
         }
 
         private void _processController_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -356,6 +375,29 @@ namespace GolemUI.ViewModel
                     NotifyChange(nameof(IsBenchmarkNotRunning));
                     NotifyChange(nameof(ShouldGpuCheckBoxesBeEnabled));
                     SaveData();
+
+                    bool atLeastOneGood = false;
+                    bool outOfMemoryStatus = false;
+                    benchmarkStatus?.GPUs?.Values?.ToList().ForEach(x =>
+                    {
+                        if (x.IsReadyForMining)
+                            atLeastOneGood = true;
+                        if (x.GpuErrorType == GpuErrorType.NotEnoughMemory)
+                            outOfMemoryStatus = true;
+                    });
+                    if (!atLeastOneGood && outOfMemoryStatus)
+                    {
+                        var settings = GolemUI.Properties.Settings.Default;
+                        var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_gpu_image, settings.dialog_gpu_title, settings.dialog_gpu_message));
+                        dlg.Owner = Application.Current.MainWindow;
+                        RequestDarkBackgroundVisibilityChange(true);
+                        bool? result = dlg?.ShowDialog();
+                        if (result == true)
+                        {
+                            _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "insufficient GPU memory", expirationTimeInMs: 17000, group: false));
+                        }
+                        RequestDarkBackgroundVisibilityChange(false);
+                    }
                 }
             }
         }

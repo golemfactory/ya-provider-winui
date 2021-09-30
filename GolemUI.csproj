@@ -459,6 +459,7 @@
     <Compile Include="ViewModel\DashboardMainViewModel.cs" />
     <Compile Include="ViewModel\DashboardPage.cs" />
     <Compile Include="ViewModel\DashboardViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DlgGenericInformationViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgWithdrawViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgShouldStopMiningBeforeBenchmarkViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
@@ -869,6 +870,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Dialogs\wallet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Dialogs\gpu.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

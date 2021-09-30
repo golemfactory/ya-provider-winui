@@ -23,49 +23,37 @@ namespace GolemUI.UI.Dialogs
     public partial class DlgGenericInformation : Window
     {
 
-        public DlgGenericInformation(DlgEditAddressViewModel model)
+        public DlgGenericInformation(DlgGenericInformationViewModel model)
         {
             InitializeComponent();
             DataContext = model;
         }
 
-        public DlgEditAddressViewModel? Model => DataContext as DlgEditAddressViewModel;
+        public DlgGenericInformationViewModel? Model => DataContext as DlgGenericInformationViewModel;
 
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            if (Model != null)
-                Model.ChangeAction = DlgEditAddressViewModel.Action.None;
             this.DialogResult = false;
             this.Close();
         }
 
         private void BtnOK_Click(object sender, RoutedEventArgs e)
         {
-            if (Model != null)
-            {
-                Model.ChangeAction = Model.ShouldTransferFunds ? DlgEditAddressViewModel.Action.TransferOut : DlgEditAddressViewModel.Action.Change;
-            }
             this.DialogResult = true;
             this.Close();
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            if (Model != null)
-                Model.ChangeAction = DlgEditAddressViewModel.Action.None;
             this.DialogResult = false;
             this.Close();
         }
 
-        private void BtnGotIt_Click(object sender, RoutedEventArgs e)
-        {
-           
-        }
-
         private void BtnClose_Click_1(object sender, RoutedEventArgs e)
         {
-
+            this.DialogResult = false;
+            this.Close();
         }
     }
 }

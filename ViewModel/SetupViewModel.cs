@@ -12,11 +12,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using static GolemUI.Command.GSB.Payment;
 
 namespace GolemUI.ViewModel
 {
+    public delegate void RequestChangeBlackRectVisibilityEventHandler(bool visible);
     public class SetupViewModel : INotifyPropertyChanged
     {
+        public event RequestChangeBlackRectVisibilityEventHandler BlackRectCisibilityChangeRequested;
         private readonly Interfaces.IProviderConfig _providerConfig;
         private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;
@@ -93,9 +96,35 @@ namespace GolemUI.ViewModel
             _remoteSettingsProvider = remoteSettingsProvider;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
             _benchmarkService.PropertyChanged += OnBenchmarkChanged;
+            _benchmarkService.ProblemWithExe += BenchmarkService_AntivirusStatus;
 
         }
-
+        public void RemoveEventListeners()
+        {
+            _providerConfig.PropertyChanged -= OnProviderConfigChanged;
+            _benchmarkService.PropertyChanged -= OnBenchmarkChanged;
+            _benchmarkService.ProblemWithExe -= BenchmarkService_AntivirusStatus;
+        }
+        private void BenchmarkService_AntivirusStatus(Command.ProblemWithExeFile problem)
+        {
+            if (problem == Command.ProblemWithExeFile.Antivirus)
+            {
+                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(GolemUI.Properties.Settings.Default.dialog_antivir_image, GolemUI.Properties.Settings.Default.dialog_antivir_title, GolemUI.Properties.Settings.Default.dialog_antivir_message));
+                dlg.Owner = Application.Current.MainWindow;
+                BlackRectCisibilityChangeRequested?.Invoke(true);
+                dlg?.ShowDialog();
+                if (_flow == (int)FlowSteps.Noob)
+                {
+                    if (NoobStep > 0)
+                        NoobStep -= 1;
+                }
+                else if (ExpertStep > 0)
+                {
+                    ExpertStep -= 1;
+                }
+                BlackRectCisibilityChangeRequested?.Invoke(false);
+            }
+        }
 
         private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -140,7 +169,7 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             NoobStep = (int)NoobSteps.Enjoy;
-                        else
+                        else if (_benchmarkService.Status.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService.Status.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
                             Flow = (int)FlowSteps.NoGPU;
                     }
                 }
@@ -150,7 +179,7 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             ExpertStep = (int)ExpertSteps.Enjoy;
-                        else
+                        else if (_benchmarkService.Status.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService.Status.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
                             Flow = (int)FlowSteps.NoGPU;
                     }
                 }
