@@ -460,7 +460,7 @@ namespace GolemUI.Src
 
                 foreach (ActivityState actState in _statusProvider.Activities ?? new List<ActivityState>())
                 {
-                    if (actState.ExeUnit == "gminer")
+                    if (actState.ExeUnit == "gminer" || actState.ExeUnit == "hminer")
                     {
                         CheckForActivityEarningChange(actState);
                         CheckForActivityHashrateChange(actState);

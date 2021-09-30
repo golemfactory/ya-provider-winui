@@ -343,7 +343,7 @@ namespace GolemUI.ViewModel
 
                         BenchmarkError = benchmarkStatus.ErrorMsg ?? "";
 
-                        if (!benchmarkStatus.LowMemoryMode && BenchmarkError != null)
+                        if (!benchmarkStatus.LowMemoryMode && !String.IsNullOrEmpty(BenchmarkError))
                         {
                             StartBenchmark("ETC");
                         }

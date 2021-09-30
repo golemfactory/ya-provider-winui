@@ -200,6 +200,14 @@ namespace GolemUI.Src
                             gpu.Value.LowMemoryMode = true;
                         }
                     }
+                    else
+                    {
+                        _claymoreLiveStatus.LowMemoryMode = false;
+                        foreach (var gpu in _claymoreLiveStatus.GPUs)
+                        {
+                            gpu.Value.LowMemoryMode = false;
+                        }
+                    }
 
                     bool allExpectedGPUsFound = false;
                     if (baseLiveStatus != null)
