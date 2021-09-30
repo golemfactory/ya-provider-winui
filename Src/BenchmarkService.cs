@@ -126,7 +126,8 @@ namespace GolemUI.Src
 
         public async void StartBenchmark(string cards, string niceness, string pool, string ethereumAddress, ClaymoreLiveStatus? externalLiveStatus)
         {
-            this._claymoreLiveStatus.ProblemWithExeFile = ProblemWithExeFile.None;
+            if (this._claymoreLiveStatus != null)
+                this._claymoreLiveStatus.ProblemWithExeFile = ProblemWithExeFile.None;
             if (IsRunning)
             {
                 return;
@@ -151,7 +152,8 @@ namespace GolemUI.Src
             cc.ProblemWithExe += (reason) =>
             {
                 this.ProblemWithExe?.Invoke(reason);
-                _claymoreLiveStatus.ProblemWithExeFile = reason;
+                if (this._claymoreLiveStatus != null)
+                    _claymoreLiveStatus.ProblemWithExeFile = reason;
             };
 
 

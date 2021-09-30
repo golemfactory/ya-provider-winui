@@ -19,7 +19,7 @@ namespace GolemUI.ViewModel
     public delegate void RequestChangeBlackRectVisibilityEventHandler(bool visible);
     public class SetupViewModel : INotifyPropertyChanged
     {
-        public event RequestChangeBlackRectVisibilityEventHandler BlackRectCisibilityChangeRequested;
+        public event RequestChangeBlackRectVisibilityEventHandler? BlackRectVisibilityChangeRequested;
         private readonly Interfaces.IProviderConfig _providerConfig;
         private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;
@@ -111,7 +111,7 @@ namespace GolemUI.ViewModel
             {
                 var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(GolemUI.Properties.Settings.Default.dialog_antivir_image, GolemUI.Properties.Settings.Default.dialog_antivir_title, GolemUI.Properties.Settings.Default.dialog_antivir_message));
                 dlg.Owner = Application.Current.MainWindow;
-                BlackRectCisibilityChangeRequested?.Invoke(true);
+                BlackRectVisibilityChangeRequested?.Invoke(true);
                 dlg?.ShowDialog();
                 if (_flow == (int)FlowSteps.Noob)
                 {
@@ -122,7 +122,7 @@ namespace GolemUI.ViewModel
                 {
                     ExpertStep -= 1;
                 }
-                BlackRectCisibilityChangeRequested?.Invoke(false);
+                BlackRectVisibilityChangeRequested?.Invoke(false);
             }
         }
 
@@ -169,7 +169,7 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             NoobStep = (int)NoobSteps.Enjoy;
-                        else if (_benchmarkService.Status.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService.Status.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
+                        else if (_benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
                             Flow = (int)FlowSteps.NoGPU;
                     }
                 }
@@ -179,7 +179,7 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             ExpertStep = (int)ExpertSteps.Enjoy;
-                        else if (_benchmarkService.Status.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService.Status.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
+                        else if (_benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
                             Flow = (int)FlowSteps.NoGPU;
                     }
                 }

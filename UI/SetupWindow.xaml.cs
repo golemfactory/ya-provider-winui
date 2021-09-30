@@ -70,7 +70,7 @@ namespace GolemUI.UI
             _serviceProvider = serviceProvider;
             InitializeComponent();
             DataContext = model;
-            model.BlackRectCisibilityChangeRequested += Model_BlackRectCisibilityChangeRequested;
+            model.BlackRectVisibilityChangeRequested += Model_BlackRectCisibilityChangeRequested;
         }
 
         private void Model_BlackRectCisibilityChangeRequested(bool visible)
