@@ -273,6 +273,7 @@
     <Compile Include="Command\GSB\Payment.cs" />
     <Compile Include="Converters\MultiBoolToVisibilityConverter.cs" />
     <Compile Include="DesignViewModel\CustomControls\NotificationBarViewModel.cs" />
+    <Compile Include="DesignViewModel\Dialogs\DlgGenericInformationViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgWithdrawViewModel.cs" />
     <Compile Include="Interfaces\IStartWithWindows.cs" />
@@ -293,6 +294,9 @@
     <Compile Include="Src\Sentry\SentryContext.cs" />
     <Compile Include="Src\Sentry\SentryUserFeedback.cs" />
     <Compile Include="Src\StartWithWindows.cs" />
+    <Compile Include="UI\Dialogs\DlgGenericInformation.xaml.cs">
+      <DependentUpon>DlgGenericInformation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\DlgWithdraw.xaml.cs">
       <DependentUpon>DlgWithdraw.xaml</DependentUpon>
     </Compile>
@@ -519,6 +523,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\DebugWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Dialogs\DlgGenericInformation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -855,6 +863,12 @@
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Branding\app_logo.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\Branding\logo_bottom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Dialogs\shield.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Dialogs\wallet.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

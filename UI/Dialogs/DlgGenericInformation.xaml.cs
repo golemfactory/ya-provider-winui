@@ -20,10 +20,10 @@ namespace GolemUI.UI.Dialogs
     /// <summary>
     /// Interaction logic for DlgEditAddress.xaml
     /// </summary>
-    public partial class DlgEditAddress : Window
+    public partial class DlgGenericInformation : Window
     {
 
-        public DlgEditAddress(DlgEditAddressViewModel model)
+        public DlgGenericInformation(DlgEditAddressViewModel model)
         {
             InitializeComponent();
             DataContext = model;
@@ -60,7 +60,12 @@ namespace GolemUI.UI.Dialogs
 
         private void BtnGotIt_Click(object sender, RoutedEventArgs e)
         {
-            this.tabControl.SelectedIndex = 1;
+           
+        }
+
+        private void BtnClose_Click_1(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
