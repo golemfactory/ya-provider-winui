@@ -19,15 +19,13 @@ namespace GolemUI.ViewModel.Dialogs
 {
     public class DlgGenericInformationViewModel
     {
-        public DlgGenericInformationViewModel(string image, string title, string text)
+        public DlgGenericInformationViewModel(string image, string title, string text, string closeButtonLabel)
         {
             _image = image;
             _title = title;
             _text = text;
+            _buttonLabel = closeButtonLabel;
         }
-
-
-
 
         public BitmapImage Image
         {
@@ -41,6 +39,7 @@ namespace GolemUI.ViewModel.Dialogs
             }
 
         }
+        private readonly string _buttonLabel = "";
         private readonly string _text = "";
         private readonly string _title = "";
         private readonly string _image = "shield";
@@ -48,6 +47,7 @@ namespace GolemUI.ViewModel.Dialogs
         public string Line1 => getLine(0);
         public string Line2 => getLine(1);
         public string Line3 => getLine(2);
+        public string ButtonText => _buttonLabel;
 
         string getLine(int i)
         {

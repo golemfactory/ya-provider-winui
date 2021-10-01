@@ -25,6 +25,7 @@ namespace GolemUI.DesignViewModel
         public decimal PendingAmountUSD => 0;
         public decimal PendingAmount => 0;
         public decimal UsdPerDay => 41.32m;
+        public decimal GlmPerDay => 41.32m / 2;
         public string GpuCardsInfo => "2/2";
         public string CpuCardsInfo => "3/7";
         public bool IsProviderRunning { get; } = true;

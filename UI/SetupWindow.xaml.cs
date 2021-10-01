@@ -213,7 +213,7 @@ namespace GolemUI.UI
             Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.OwnWallet;
 
             var settings = GolemUI.Properties.Settings.Default;
-            var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_wallet_image, settings.dialog_wallet_title, settings.dialog_wallet_message));
+            var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_wallet_image, settings.dialog_wallet_title, settings.dialog_wallet_message, settings.dialog_wallet_button));
             dlg.Owner = Application.Current.MainWindow;
             RectBlack.Visibility = Visibility.Visible;
             dlg?.ShowDialog();

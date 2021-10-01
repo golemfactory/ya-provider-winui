@@ -189,8 +189,8 @@ Please restart Thorg afterwards.")]
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("No worries though! We will soon release an update with support for cards that hav" +
-            "e less than 6B of RAM. Also stay tuned for CPU support that is just around the c" +
-            "orner.\r\nTill then you can explore the app and get to know Thorg a bit better!")]
+            "e less than 6B of RAM. Also, stay tuned for CPU support that is just around the " +
+            "corner.\r\nTill then you can explore the app and get to know Thorg a bit better!")]
         public string dialog_gpu_message {
             get {
                 return ((string)(this["dialog_gpu_message"]));
@@ -208,7 +208,7 @@ Please restart Thorg afterwards.")]
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Don\'t use address from an exchange")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Don\'t use an exchange address")]
         public string dialog_wallet_title {
             get {
                 return ((string)(this["dialog_wallet_title"]));
@@ -217,7 +217,7 @@ Please restart Thorg afterwards.")]
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"Thorg is most suited for addresses that the user has custody of, compared to some other individual other than the Thorg user (such as a centralized exchange) having custody of the address.
+        [global::System.Configuration.DefaultSettingValueAttribute(@"Thorg is most suited for addresses that the user has custody of, compared to some other individual than the Thorg user (such as a centralized exchange) having custody of the address.
 Most exchanges do not support L2 payments like Polygon that Thorg uses. Please change your wallet address to one that you're in control of, such as MetaMask.")]
         public string dialog_wallet_message {
             get {
@@ -227,10 +227,34 @@ Most exchanges do not support L2 payments like Polygon that Thorg uses. Please c
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Setting {
+        [global::System.Configuration.DefaultSettingValueAttribute("Got it!")]
+        public string dialog_wallet_button {
             get {
-                return ((string)(this["Setting"]));
+                return ((string)(this["dialog_wallet_button"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Close")]
+        public string dialog_gpu_button {
+            get {
+                return ((string)(this["dialog_gpu_button"]));
+            }
+            set {
+                this["dialog_gpu_button"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Close")]
+        public string dialog_antivir_button {
+            get {
+                return ((string)(this["dialog_antivir_button"]));
+            }
+            set {
+                this["dialog_antivir_button"] = value;
             }
         }
     }

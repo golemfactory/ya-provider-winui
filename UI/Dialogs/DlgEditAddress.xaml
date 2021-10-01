@@ -56,8 +56,8 @@
                         <Image Source="/UI/Icons/DefaultStyle/png/Dialogs/wallet.png"  Width="185" Height="185" Canvas.Left="35" Canvas.Top="35"/>
                     </Canvas>
                         <WrapPanel Grid.Column="1" Height="500">
-                            <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">Don't use address from an exchange</TextBlock>
-                            <TextBlock FontFamily="Segoe UI" FontSize="14"  Margin="0, 0, 90, 15">Thorg is most suited for addresses that the user has custody of, compared to some other individual other than the Thorg user (such as a centralized exchange) having custody of the address.</TextBlock>
+                            <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">Don't use an exchange address</TextBlock>
+                            <TextBlock FontFamily="Segoe UI" FontSize="14"  Margin="0, 0, 90, 15">Thorg is most suited for addresses that the user has custody of, compared to some other individual than the Thorg user (such as a centralized exchange) having custody of the address.</TextBlock>
                             <TextBlock FontFamily="Segoe UI" FontSize="14"  Margin="0, 0, 90, 15">Most exchanges do not support L2 payments like Polygon that Thorg uses. Please change your wallet address to one that you're in control of, such as MetaMask.</TextBlock>
 
 

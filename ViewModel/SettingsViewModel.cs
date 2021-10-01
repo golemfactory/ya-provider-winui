@@ -81,15 +81,19 @@ namespace GolemUI.ViewModel
 
         private void _benchmarkService_ProblemWithExe(Command.ProblemWithExeFile problem)
         {
-            if (problem == Command.ProblemWithExeFile.Antivirus)
+            if (problem == Command.ProblemWithExeFile.Antivirus || problem == Command.ProblemWithExeFile.FileMissing)
             {
-                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(GolemUI.Properties.Settings.Default.dialog_antivir_image, GolemUI.Properties.Settings.Default.dialog_antivir_title, GolemUI.Properties.Settings.Default.dialog_antivir_message));
+                var settings = GolemUI.Properties.Settings.Default;
+                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_antivir_image, settings.dialog_antivir_title, settings.dialog_antivir_message, settings.dialog_antivir_button));
                 dlg.Owner = Application.Current.MainWindow;
                 RequestDarkBackgroundVisibilityChange(true);
                 bool? result = dlg?.ShowDialog();
-                if (result == true)
+
+
+                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "Please check your antivirus settings...", expirationTimeInMs: 17000, group: false));
+                if (problem == Command.ProblemWithExeFile.FileMissing)
                 {
-                    _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "Please check your antivirus settings...", expirationTimeInMs: 17000, group: false));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "Miner executable file (EthDcrMiner64.exe) is missing", expirationTimeInMs: 17000, group: false));
                 }
                 RequestDarkBackgroundVisibilityChange(false);
             }
@@ -388,7 +392,7 @@ namespace GolemUI.ViewModel
                     if (!atLeastOneGood && outOfMemoryStatus)
                     {
                         var settings = GolemUI.Properties.Settings.Default;
-                        var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_gpu_image, settings.dialog_gpu_title, settings.dialog_gpu_message));
+                        var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_gpu_image, settings.dialog_gpu_title, settings.dialog_gpu_message, settings.dialog_gpu_button));
                         dlg.Owner = Application.Current.MainWindow;
                         RequestDarkBackgroundVisibilityChange(true);
                         bool? result = dlg?.ShowDialog();

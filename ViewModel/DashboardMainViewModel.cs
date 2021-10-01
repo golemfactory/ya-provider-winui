@@ -465,7 +465,8 @@ namespace GolemUI.ViewModel
                 var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(
                     settings.dialog_antivir_image,
                     settings.dialog_antivir_title,
-                    settings.dialog_antivir_message
+                    settings.dialog_antivir_message,
+                    settings.dialog_antivir_button
                 ));
 
                 dlg.Owner = Application.Current.MainWindow;

@@ -109,7 +109,8 @@ namespace GolemUI.ViewModel
         {
             if (problem == Command.ProblemWithExeFile.Antivirus)
             {
-                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(GolemUI.Properties.Settings.Default.dialog_antivir_image, GolemUI.Properties.Settings.Default.dialog_antivir_title, GolemUI.Properties.Settings.Default.dialog_antivir_message));
+                var settings = GolemUI.Properties.Settings.Default;
+                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_antivir_image, settings.dialog_antivir_title, settings.dialog_antivir_message, settings.dialog_antivir_button));
                 dlg.Owner = Application.Current.MainWindow;
                 BlackRectVisibilityChangeRequested?.Invoke(true);
                 dlg?.ShowDialog();

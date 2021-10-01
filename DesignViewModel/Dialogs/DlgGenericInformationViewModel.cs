@@ -36,11 +36,13 @@ namespace GolemUI.DesignViewModel.Dialogs
             }
 
         }
+        string _buttonText = "Close";
         string _text = "Thorg is most suited for addresses that the user has custody of, compared to some other individual other than the Thorg user(such as a centralized exchange) having custody of the address.\nMost exchanges do not support L2 payments like Polygon that Thorg uses.Please change your wallet address to one that you're in control of, such as MetaMask.";
         public string Title => "Don't use address from an exchange";
         public string Line1 => getLine(0);
         public string Line2 => getLine(1);
         public string Line3 => getLine(2);
+        public string ButtonText => _buttonText;
 
         string getLine(int i)
         {

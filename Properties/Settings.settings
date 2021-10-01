@@ -58,21 +58,27 @@ Please restart Thorg afterwards.</Value>
       <Value Profile="(Default)">Insufficient GPU memory</Value>
     </Setting>
     <Setting Name="dialog_gpu_message" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">No worries though! We will soon release an update with support for cards that have less than 6B of RAM. Also stay tuned for CPU support that is just around the corner.
+      <Value Profile="(Default)">No worries though! We will soon release an update with support for cards that have less than 6B of RAM. Also, stay tuned for CPU support that is just around the corner.
 Till then you can explore the app and get to know Thorg a bit better!</Value>
     </Setting>
     <Setting Name="dialog_wallet_image" Type="System.String" Scope="Application">
       <Value Profile="(Default)">wallet</Value>
     </Setting>
     <Setting Name="dialog_wallet_title" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Don't use address from an exchange</Value>
+      <Value Profile="(Default)">Don't use an exchange address</Value>
     </Setting>
     <Setting Name="dialog_wallet_message" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Thorg is most suited for addresses that the user has custody of, compared to some other individual other than the Thorg user (such as a centralized exchange) having custody of the address.
+      <Value Profile="(Default)">Thorg is most suited for addresses that the user has custody of, compared to some other individual than the Thorg user (such as a centralized exchange) having custody of the address.
 Most exchanges do not support L2 payments like Polygon that Thorg uses. Please change your wallet address to one that you're in control of, such as MetaMask.</Value>
     </Setting>
-    <Setting Name="Setting" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
+    <Setting Name="dialog_wallet_button" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Got it!</Value>
+    </Setting>
+    <Setting Name="dialog_gpu_button" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Close</Value>
+    </Setting>
+    <Setting Name="dialog_antivir_button" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Close</Value>
     </Setting>
   </Settings>
 </SettingsFile>
