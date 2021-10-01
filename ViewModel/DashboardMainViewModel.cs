@@ -340,6 +340,17 @@ namespace GolemUI.ViewModel
             }
         }
 
+        public decimal? _glmPerDay = null;
+        public decimal? GlmPerDay
+        {
+            get => _glmPerDay;
+            set
+            {
+                _glmPerDay = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string _estimationMessage = "";
         public string EstimationMessage
         {
