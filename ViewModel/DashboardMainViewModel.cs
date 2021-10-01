@@ -124,6 +124,18 @@ namespace GolemUI.ViewModel
                     UsdPerDay = null;
                 }
             }
+            if (e.PropertyName == "EstimatedEarningsPerSecondGLM")
+            {
+                if (_taskProfitEstimator.EstimatedEarningsPerSecondGLM != null)
+                {
+                    GlmPerDay = (decimal)(_taskProfitEstimator.EstimatedEarningsPerSecondGLM * 3600 * 24);
+                }
+                else
+                {
+                    GlmPerDay = null;
+                }
+
+            }
             if (e.PropertyName == "EstimatedEarningsMessage")
             {
                 EstimationMessage = _taskProfitEstimator.EstimatedEarningsMessage;
@@ -329,7 +341,7 @@ namespace GolemUI.ViewModel
         public decimal? Amount => _paymentService.State?.Balance;
         public string? PaymentStateError => _paymentService.LastError;
 
-        public decimal? _usdPerDay = null;
+        private decimal? _usdPerDay = null;
         public decimal? UsdPerDay
         {
             get => _usdPerDay;
@@ -340,7 +352,7 @@ namespace GolemUI.ViewModel
             }
         }
 
-        public decimal? _glmPerDay = null;
+        private decimal? _glmPerDay = null;
         public decimal? GlmPerDay
         {
             get => _glmPerDay;

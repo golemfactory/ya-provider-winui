@@ -30,7 +30,7 @@ namespace GolemUI.Src
 
         //Maybe in future we want to show estimated profits in GLM also.
         private double? _estimatedEarningsPerSecondGLM;
-        private double? EstimatedEarningsPerSecondGLM
+        public double? EstimatedEarningsPerSecondGLM
         {
             get => _estimatedEarningsPerSecondGLM;
             set

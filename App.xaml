@@ -19,6 +19,7 @@
         <converters:BoolToHeightConverter x:Key="BoolToHeightConverter"/>
         <converters:RadioBoolToIntConverter x:Key="RadioBoolToIntConverter"/>
         <converters:ValueToVisibilityConverter  x:Key="ValueToVisibleConverter"/>
+        <converters:NonNullToVisibilityConverter  x:Key="NonNullToVisibilityConverter"/>
     </Application.Resources>
 </Application>
 
