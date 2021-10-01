@@ -41,6 +41,45 @@
     <Setting Name="OpenConsoleYagna" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="dialog_antivir_image" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">shield</Value>
+    </Setting>
+    <Setting Name="dialog_antivir_title" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Your antivirus is blocking Thorg</Value>
+    </Setting>
+    <Setting Name="dialog_antivir_message" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Your antivirus is blocking Thorg's mining module called “EthDcrMiner64.exe”. If you do not have antivirus software installed you can unblock this by going to your Windows Security settings, and then clicking on Virus and Threat Protections. 
+If it doesn't help you might want to restart Thorg after changing settings in your antivirus.</Value>
+    </Setting>
+    <Setting Name="dialog_gpu_image" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">gpu</Value>
+    </Setting>
+    <Setting Name="dialog_gpu_title" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Insufficient GPU memory</Value>
+    </Setting>
+    <Setting Name="dialog_gpu_message" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">No worries though! We will soon release an update with support for cards that have less than 6B of RAM. Also, stay tuned for CPU support that is just around the corner.
+Till then you can explore the app and get to know Thorg a bit better!</Value>
+    </Setting>
+    <Setting Name="dialog_wallet_image" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">wallet</Value>
+    </Setting>
+    <Setting Name="dialog_wallet_title" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Don't use an exchange address</Value>
+    </Setting>
+    <Setting Name="dialog_wallet_message" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Thorg is most suited for addresses that the user has custody of, compared to some other individual than the Thorg user (such as a centralized exchange) having custody of the address.
+Most exchanges do not support L2 payments like Polygon that Thorg uses. Please change your wallet address to one that you're in control of, such as MetaMask.</Value>
+    </Setting>
+    <Setting Name="dialog_wallet_button" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Got it!</Value>
+    </Setting>
+    <Setting Name="dialog_gpu_button" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Close</Value>
+    </Setting>
+    <Setting Name="dialog_antivir_button" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Close</Value>
+    </Setting>
     <Setting Name="DefaultProxyLowMem" Type="System.String" Scope="Application">
       <Value Profile="(Default)">20.52.0.36:8069</Value>
     </Setting>

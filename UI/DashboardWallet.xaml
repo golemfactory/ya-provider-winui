@@ -67,7 +67,7 @@
 
                 <StackPanel Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" VerticalAlignment="Center">
                     <Button x:Name="BtnWithdraw" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToVisibleConverter}}" Click="BtnWithdraw_Click" Content="Withdraw"/>
-                    <Button x:Name="BtnOpenL2" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenL2_Click" Content="Open Polygon"/>
+                    <Button x:Name="BtnOpenL2" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenL2_Click" Content="Withdraw tutorial"/>
                 </StackPanel>
                 <Border Grid.Column="0" Grid.Row="2"  Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" >
                     <StackPanel Margin="20">
@@ -113,8 +113,11 @@
                         <Image Source="Icons/DefaultStyle/png/Dashboard/Profit.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
                         <StackPanel Margin="5" Grid.Column="0" Grid.Row="2">
                             <Label HorizontalAlignment="Center" FontSize="12" Margin="0, 10" Content="Estimated Profit"/>
-                            <TextBlock HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" Margin="0, 12" ToolTip="{Binding Path=EstimationMessage}">
+                            <TextBlock HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="16" Margin="0, 12,0,0" ToolTip="{Binding Path=EstimationMessage}">
                                 <Run Text="{Binding Path=UsdPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay, ConverterParameter=usdmonth}"/>
+                            </TextBlock>
+                            <TextBlock HorizontalAlignment="Center" FontFamily="Segoe UI" Foreground="#99b" FontSize="12" Margin="0, 8" ToolTip="{Binding Path=EstimationMessage}" Visibility="{Binding Path=GlmPerDay, Converter={StaticResource NonNullToVisibilityConverter}}">
+                                <Run Text="{Binding Path=GlmPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay, ConverterParameter=glmmonth}"/>
                             </TextBlock>
                         </StackPanel>
                     </Grid>

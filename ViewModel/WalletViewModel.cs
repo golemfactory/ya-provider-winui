@@ -85,6 +85,18 @@ namespace GolemUI.ViewModel
                     UsdPerDay = null;
                 }
             }
+            if (e.PropertyName == "EstimatedEarningsPerSecondGLM")
+            {
+                if (_taskProfitEstimator.EstimatedEarningsPerSecondGLM != null)
+                {
+                    GlmPerDay = (decimal)(_taskProfitEstimator.EstimatedEarningsPerSecondGLM * 3600 * 24);
+                }
+                else
+                {
+                    GlmPerDay = null;
+                }
+
+            }
             if (e.PropertyName == "EstimatedEarningsMessage")
             {
                 EstimationMessage = _taskProfitEstimator.EstimatedEarningsMessage;
@@ -155,13 +167,10 @@ namespace GolemUI.ViewModel
         public decimal AmountUSD => _priceProvider.CoinValue(_amount, Coin.GLM);
 
 
-        public decimal PendingAmount => _pendingAmount;
+        public decimal PendingAmount => _pendingAmount > 0 ? _pendingAmount : 0;
 
-        public decimal PendingAmountUSD => _priceProvider.CoinValue(_pendingAmount, Coin.GLM);
+        public decimal PendingAmountUSD => _priceProvider.CoinValue(PendingAmount, Coin.GLM);
 
-        // public decimal GlmPerDay => (decimal)((_taskProfitEstimator.EstimatedEarningsPerSecondGLM ?? 0) * 3600 * 24);
-
-        // public decimal UsdPerDay => _priceProvider.CoinValue(GlmPerDay, Coin.GLM);
         public decimal? _usdPerDay = null;
         public decimal? UsdPerDay
         {
@@ -172,6 +181,18 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        private decimal? _glmPerDay = null;
+        public decimal? GlmPerDay
+        {
+            get => _glmPerDay;
+            set
+            {
+                _glmPerDay = value;
+                OnPropertyChanged(nameof(GlmPerDay));
+            }
+        }
+
 
         public string Tickler { get; private set; }
 

@@ -20,47 +20,40 @@ namespace GolemUI.UI.Dialogs
     /// <summary>
     /// Interaction logic for DlgEditAddress.xaml
     /// </summary>
-    public partial class DlgEditAddress : Window
+    public partial class DlgGenericInformation : Window
     {
 
-        public DlgEditAddress(DlgEditAddressViewModel model)
+        public DlgGenericInformation(DlgGenericInformationViewModel model)
         {
             InitializeComponent();
             DataContext = model;
         }
 
-        public DlgEditAddressViewModel? Model => DataContext as DlgEditAddressViewModel;
+        public DlgGenericInformationViewModel? Model => DataContext as DlgGenericInformationViewModel;
 
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            if (Model != null)
-                Model.ChangeAction = DlgEditAddressViewModel.Action.None;
             this.DialogResult = false;
             this.Close();
         }
 
         private void BtnOK_Click(object sender, RoutedEventArgs e)
         {
-            if (Model != null)
-            {
-                Model.ChangeAction = Model.ShouldTransferFunds ? DlgEditAddressViewModel.Action.TransferOut : DlgEditAddressViewModel.Action.Change;
-            }
             this.DialogResult = true;
             this.Close();
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            if (Model != null)
-                Model.ChangeAction = DlgEditAddressViewModel.Action.None;
             this.DialogResult = false;
             this.Close();
         }
 
-        private void BtnGotIt_Click(object sender, RoutedEventArgs e)
+        private void BtnClose_Click_1(object sender, RoutedEventArgs e)
         {
-            this.tabControl.SelectedIndex = 1;
+            this.DialogResult = false;
+            this.Close();
         }
     }
 }

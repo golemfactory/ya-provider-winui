@@ -1,4 +1,5 @@
-﻿using GolemUI.Utils;
+﻿using GolemUI.Command;
+using GolemUI.Utils;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -14,9 +15,10 @@ using System.Threading.Tasks;
 
 namespace GolemUI.Claymore
 {
-
+    public enum GpuErrorType { NotEnoughMemory, None }
     public class ClaymoreGpuStatus : ICloneable, INotifyPropertyChanged
     {
+        public GpuErrorType GpuErrorType { get; set; } = GpuErrorType.None;
         public int GpuNo { get; set; }
         public string? GpuName { get; set; }
         public int? PciExpressLane { get; set; }
@@ -182,6 +184,7 @@ namespace GolemUI.Claymore
             s.IsInitialization = this.IsInitialization;
             s.IsEstimation = this.IsEstimation;
             s.IsFinished = this.IsFinished;
+            s.GpuErrorType = this.GpuErrorType;
             s.LowMemoryMode = this.LowMemoryMode;
             return s;
         }
@@ -215,6 +218,8 @@ namespace GolemUI.Claymore
 
         public bool BenchmarkFinished { get; set; }
 
+        [JsonIgnore]
+        public ProblemWithExeFile ProblemWithExeFile { get; set; }
         public float BenchmarkTotalSpeed { get; set; }
         public string? ErrorMsg { get; set; }
         public bool GPUInfosParsed { get; set; }
@@ -706,7 +711,8 @@ namespace GolemUI.Claymore
                     }
                     if (ContainsInStrEx(lineText, "out of memory"))
                     {
-                        currentStatus.GPUError = lineText;
+                        currentStatus.GPUError = "GPU - not enough RAM for mining";
+                        currentStatus.GpuErrorType = GpuErrorType.NotEnoughMemory;
                     }
 
                 }

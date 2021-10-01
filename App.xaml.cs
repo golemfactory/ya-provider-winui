@@ -159,6 +159,7 @@ namespace GolemUI
             {
                 throw new Exception("FATAL ERROR, Dashboard object creation failed.");
             }
+            Application.Current.MainWindow = _dashboard;
             return _dashboard;
         }
 

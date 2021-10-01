@@ -76,7 +76,7 @@ namespace GolemUI
 
         private void BtnOpenL2_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", "https://wallet.matic.network/");
+            System.Diagnostics.Process.Start("explorer.exe", "https://www.thorg.io/usage#Layer-2");
         }
     }
 }

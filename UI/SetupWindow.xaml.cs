@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using Sentry;
+using GolemUI.Interfaces;
+using GolemUI.Src.AppNotificationService;
 
 namespace GolemUI.UI
 {
@@ -68,10 +70,7 @@ namespace GolemUI.UI
             _serviceProvider = serviceProvider;
             InitializeComponent();
             DataContext = model;
-
         }
-
-
 
         internal void EnableBlur()
         {
@@ -193,6 +192,7 @@ namespace GolemUI.UI
             Model!.Save();
             if (App.Current is App app)
                 app.GetOrCreateDashboardWindow()?.Show();
+            Model.RemoveEventListeners();
             Close();
         }
 
@@ -205,13 +205,21 @@ namespace GolemUI.UI
         private void OnChooseOwnWallet(object sender, RoutedEventArgs e)
         {
             Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.OwnWallet;
+
+            var settings = GolemUI.Properties.Settings.Default;
+            var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_wallet_image, settings.dialog_wallet_title, settings.dialog_wallet_message, settings.dialog_wallet_button));
+            dlg.Owner = Application.Current.MainWindow;
+            RectBlack.Visibility = Visibility.Visible;
+            dlg?.ShowDialog();
+
+            RectBlack.Visibility = Visibility.Hidden;
+
         }
 
 
 
         private void OnEMNameStepDone(object sender, RoutedEventArgs e)
         {
-
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
             Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETH", null);
@@ -249,13 +257,29 @@ namespace GolemUI.UI
         }
 
 
-
-        private void BtnNoGpuContinue_Click(object sender, RoutedEventArgs e)
+        void GoToDashboard()
         {
             Model!.Save();
             if (App.Current is App app)
                 app.GetOrCreateDashboardWindow()?.Show();
+            Model.RemoveEventListeners();
             Close();
+        }
+        private void BtnNoGpuContinue_Click(object sender, RoutedEventArgs e)
+        {
+            GoToDashboard();
+        }
+
+        private void BtnGoToDashboard_Click(object sender, RoutedEventArgs e)
+        {
+            GoToDashboard();
+        }
+
+
+
+        private void BtnTryBenchmarkAgain_Click(object sender, RoutedEventArgs e)
+        {
+            Model!.TryAgainBenchmark();
         }
     }
 }

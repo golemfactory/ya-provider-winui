@@ -26,7 +26,6 @@ namespace GolemUI.ViewModel.Dialogs
         public bool IsUpToDate => VersionUtil.AreVersionsEqual(CurrentVersion, _newVersion);
         public string NewVersionDisplayString => String.IsNullOrEmpty(_appCodeName) ? _newVersion : $"{_newVersion} [{_appCodeName}]";
 
-
         public DlgUpdateAppViewModel(string updateLink, string currentVersion, string newVersion, string appCodeName, List<string> changes, bool shouldForceUpdate)
         {
             UpdateLink = updateLink;
