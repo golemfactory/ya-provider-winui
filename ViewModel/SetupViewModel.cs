@@ -19,7 +19,6 @@ namespace GolemUI.ViewModel
     public delegate void RequestChangeBlackRectVisibilityEventHandler(bool visible);
     public class SetupViewModel : INotifyPropertyChanged
     {
-        public event RequestChangeBlackRectVisibilityEventHandler? BlackRectVisibilityChangeRequested;
         private readonly Interfaces.IProviderConfig _providerConfig;
         private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;

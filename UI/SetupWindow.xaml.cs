@@ -70,12 +70,6 @@ namespace GolemUI.UI
             _serviceProvider = serviceProvider;
             InitializeComponent();
             DataContext = model;
-            model.BlackRectVisibilityChangeRequested += Model_BlackRectCisibilityChangeRequested;
-        }
-
-        private void Model_BlackRectCisibilityChangeRequested(bool visible)
-        {
-            RectBlack.Visibility = visible ? Visibility.Visible : Visibility.Hidden;
         }
 
         internal void EnableBlur()
@@ -285,7 +279,7 @@ namespace GolemUI.UI
 
         private void BtnTryBenchmarkAgain_Click(object sender, RoutedEventArgs e)
         {
-            Model.TryAgainBenchmark();
+            Model!.TryAgainBenchmark();
         }
     }
 }
