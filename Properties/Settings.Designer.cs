@@ -139,13 +139,10 @@ namespace GolemUI.Properties {
                 return ((bool)(this["OpenConsoleYagna"]));
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("eu1-etc.ethermine.org:4444")]
-        public string DefaultProxyETC {
+        [global::System.Configuration.DefaultSettingValueAttribute("20.52.0.36:8069")]
+        public string DefaultProxyLowMem {
             get {
-                return ((string)(this["DefaultProxyETC"]));
+                return ((string)(this["DefaultProxyLowMem"]));
             }
         }
     }

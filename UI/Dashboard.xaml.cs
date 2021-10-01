@@ -201,8 +201,10 @@ namespace GolemUI
         {
             UpdateAppearance();
 
+            bool isLowMemoryMode = _benchmarkService.Status?.LowMemoryMode ?? false;
+
             await Task.WhenAll(
-                _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible),
+                _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible, isLowMemoryMode),
                 _processController.Prepare()
             );
 

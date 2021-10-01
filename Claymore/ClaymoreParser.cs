@@ -23,6 +23,7 @@ namespace GolemUI.Claymore
         public bool OutOfMemory { get; set; }
         public bool GPUNotFound { get; set; }
         public float BenchmarkSpeed { get; set; }
+        public bool LowMemoryMode { get; set; } = false;
 
         [JsonIgnore]
         public bool BenchmarkSpeedForDifferentThrottling
@@ -77,6 +78,10 @@ namespace GolemUI.Claymore
         {
             get
             {
+                if (LowMemoryMode)
+                {
+                    return GpuNo + ". (low mem mode) " + GpuName;
+                }
                 return GpuNo + ". " + GpuName;
             }
         }
@@ -147,7 +152,6 @@ namespace GolemUI.Claymore
 
         public ClaymoreGpuStatus()
         {
-
         }
 
         public ClaymoreGpuStatus(int gpuNo, bool isEnabledByUser, int claymorePerformanceThrottling)
@@ -178,6 +182,7 @@ namespace GolemUI.Claymore
             s.IsInitialization = this.IsInitialization;
             s.IsEstimation = this.IsEstimation;
             s.IsFinished = this.IsFinished;
+            s.LowMemoryMode = this.LowMemoryMode;
             return s;
         }
 
@@ -215,6 +220,8 @@ namespace GolemUI.Claymore
         public bool GPUInfosParsed { get; set; }
         public int NumberOfClaymorePerfReports { get; set; }
         public int TotalClaymoreReportsBenchmark { get; set; }
+
+        public bool LowMemoryMode { get; set; }
 
         public bool IsBenchmark;
 

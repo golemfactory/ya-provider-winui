@@ -52,7 +52,7 @@ namespace GolemUI.Src
         private readonly double CLAYMORE_TOTAL_BENCHMARK_TIMEOUT = 200.0;
         private IBenchmarkResultsProvider _benchmarkResultsProvider;
 
-        public async void StartBenchmark(string cards, string niceness, string pool, string ethereumAddress, ClaymoreLiveStatus? externalLiveStatus)
+        public async void StartBenchmark(string cards, string niceness, string mining_mode, ClaymoreLiveStatus? externalLiveStatus)
         {
             if (IsRunning)
             {
@@ -67,6 +67,22 @@ namespace GolemUI.Src
             var walletAddress = _providerConfig.Config?.Account ?? "0x0000000000000000000000000000000000000001";
             var nodeName = _providerConfig.Config?.NodeName ?? "DefaultBenchmark";
             var poolAddr = GolemUI.Properties.Settings.Default.DefaultProxy;
+            if (mining_mode == "ETH")
+            {
+                //_claymoreLiveStatus.MiningMode = "ETH";
+            }
+            else if (mining_mode == "ETC")
+            {
+                poolAddr = GolemUI.Properties.Settings.Default.DefaultProxyLowMem;
+                //_claymoreLiveStatus.MiningMode = "ETH";
+            }
+            else
+            {
+                throw new Exception("unknown mining mode, select ETH or ETC");
+            }
+
+
+
             var totalClaymoreReportsNeeded = 5;
 
             IsRunning = true;
@@ -176,6 +192,22 @@ namespace GolemUI.Src
                 while (!cc.BenchmarkFinished && IsRunning)
                 {
                     _claymoreLiveStatus = cc.ClaymoreParserBenchmark.GetLiveStatusCopy();
+                    if (mining_mode == "ETC")
+                    {
+                        _claymoreLiveStatus.LowMemoryMode = true;
+                        foreach (var gpu in _claymoreLiveStatus.GPUs)
+                        {
+                            gpu.Value.LowMemoryMode = true;
+                        }
+                    }
+                    else
+                    {
+                        _claymoreLiveStatus.LowMemoryMode = false;
+                        foreach (var gpu in _claymoreLiveStatus.GPUs)
+                        {
+                            gpu.Value.LowMemoryMode = false;
+                        }
+                    }
 
                     bool allExpectedGPUsFound = false;
                     if (baseLiveStatus != null)
