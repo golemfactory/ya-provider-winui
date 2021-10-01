@@ -114,7 +114,7 @@
                             <TextBlock HorizontalAlignment="Center" FontFamily="Segoe UI Black" FontSize="16" Margin="0, 12,0,0" ToolTip="{Binding Path=EstimationMessage}">
                                 <Run Text="{Binding Path=UsdPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay, ConverterParameter=usdmonth}"/>
                             </TextBlock>
-                            <TextBlock HorizontalAlignment="Center" FontFamily="Segoe UI" Foreground="#99b" FontSize="12" Margin="0, 8" ToolTip="{Binding Path=EstimationMessage}" Visibility="Hidden">
+                            <TextBlock HorizontalAlignment="Center" FontFamily="Segoe UI" Foreground="#99b" FontSize="12" Margin="0, 8" ToolTip="{Binding Path=EstimationMessage}" Visibility="{Binding Path=GlmPerDay, Converter={StaticResource NonNullToVisibilityConverter}}">
                             <Run Text="{Binding Path=GlmPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay, ConverterParameter=glmmonth}"/>
                             </TextBlock>
                         </StackPanel>
