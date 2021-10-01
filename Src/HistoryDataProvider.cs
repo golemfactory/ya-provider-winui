@@ -182,7 +182,7 @@ namespace GolemUI.Src
 
         }
 
-        private void _dispatcherTimer_Tick(object sender, EventArgs e)
+        private void DumpHistory(object sender, EventArgs e)
         {
 
             int idx = 0;
@@ -216,9 +216,12 @@ namespace GolemUI.Src
                 string historyFilePath = Path.Combine(historyPath, $"history_{datePart}.json");
 
                 File.WriteAllText(historyFilePath, history);
-
             }
+        }
 
+        private void _dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            DumpHistory(sender, e);
         }
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
