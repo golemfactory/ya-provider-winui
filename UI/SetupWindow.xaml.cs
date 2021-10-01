@@ -72,11 +72,6 @@ namespace GolemUI.UI
             DataContext = model;
         }
 
-        private void Model_BlackRectCisibilityChangeRequested(bool visible)
-        {
-            RectBlack.Visibility = visible ? Visibility.Visible : Visibility.Hidden;
-        }
-
         internal void EnableBlur()
         {
             var windowHelper = new WindowInteropHelper(this);
