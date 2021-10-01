@@ -347,7 +347,7 @@ namespace GolemUI.ViewModel
             set
             {
                 _glmPerDay = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(GlmPerDay));
             }
         }
 
