@@ -19,7 +19,7 @@ using System.Windows.Threading;
 
 namespace GolemUI.Src
 {
-    public class HistoryDataProvider : IHistoryDataProvider
+    public class HistoryDataProvider : IHistoryDataProvider, IDisposable
     {
         DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
@@ -182,8 +182,9 @@ namespace GolemUI.Src
 
         }
 
-        private void DumpHistory(object sender, EventArgs e)
+        private void DumpHistory()
         {
+            DateTime currentDay = DateTimeUtils.RoundDown(DateTime.Now, TimeSpan.FromDays(1));
 
             int idx = 0;
             while (idx < MiningHistoryGpuTotal.Count)
@@ -191,6 +192,11 @@ namespace GolemUI.Src
                 DateTime dt = MiningHistoryGpuTotal[idx].Dt;
                 DateTime day_low = DateTimeUtils.RoundDown(dt, TimeSpan.FromDays(1));
                 DateTime day_max = DateTimeUtils.RoundUp(dt, TimeSpan.FromDays(1));
+
+                if ((currentDay - day_low).Days > 1)
+                {
+                    continue;
+                }
 
                 List<GPUHistoryUsage> dailyList = new List<GPUHistoryUsage>();
                 while (idx < MiningHistoryGpuTotal.Count)
@@ -221,7 +227,7 @@ namespace GolemUI.Src
 
         private void _dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            DumpHistory(sender, e);
+            DumpHistory();
         }
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
@@ -509,6 +515,11 @@ namespace GolemUI.Src
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public void Dispose()
+        {
+            DumpHistory();
         }
     }
 }

@@ -128,7 +128,7 @@ namespace GolemUI.ViewModel
             Flow = _lastFlowSteps;
 
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            this.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "", null);
+            this.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETH", null);
             AntiVirusDetectedBefore = true;
         }
 
