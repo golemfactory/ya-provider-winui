@@ -111,7 +111,7 @@ namespace GolemUI.ViewModel
         public string AntivirusTitle { get; set; } = "Your antivirus is blocking Thorg";
         private void BenchmarkService_AntivirusStatus(Command.ProblemWithExeFile problem)
         {
-            if (problem == Command.ProblemWithExeFile.Antivirus)
+            if (problem == Command.ProblemWithExeFile.Antivirus || problem == Command.ProblemWithExeFile.FileMissing)
             {
                 _lastFlowSteps = Flow;
                 Flow = (int)FlowSteps.Antivirus;
