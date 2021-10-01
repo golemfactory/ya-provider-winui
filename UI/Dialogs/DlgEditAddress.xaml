@@ -8,7 +8,7 @@
         xmlns:lc="clr-namespace:GolemUI.Validators"        
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="Edit Wallet Address" Width="666" Height="416" VerticalAlignment="Center" ResizeMode="NoResize"
+        Title="Edit Wallet Address" Width="904" Height="453" VerticalAlignment="Center" ResizeMode="NoResize"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -31,14 +31,45 @@
     </Window.Resources>
     <Border BorderBrush="#999"  BorderThickness="1" CornerRadius="12" Background="{DynamicResource SetupWindow.Background}" >
         <Grid>
-            <StackPanel Orientation="Vertical" Margin="0">
-                <DockPanel>
-                    <DockPanel x:Name="TitleBar" DockPanel.Dock="Top">
-                        <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="BtnClose_Click" Style="{DynamicResource CloseWindowButton}" Margin="0,0,8,0"/>
+            <DockPanel x:Name="TitleBar" VerticalAlignment="Top">
+                    <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="BtnClose_Click" Style="{DynamicResource CloseWindowButton}" Margin="0,0,8,0"/>
 
-                        <TextBlock HorizontalAlignment="Center"></TextBlock>
-                    </DockPanel>
+                    <TextBlock HorizontalAlignment="Center"></TextBlock>
                 </DockPanel>
+         
+            <TabControl BorderThickness="0"  x:Name="tabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Margin="0,30,0,0" >
+                <TabControl.ItemContainerStyle>
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Visibility" Value="Hidden"></Setter>
+
+                    </Style>
+
+                </TabControl.ItemContainerStyle>
+                <TabItem Header="TabItem" Background="Transparent">
+                    <Grid Margin="0,40,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="400" />
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    <Canvas Width="255" Height="255" VerticalAlignment="Top" Margin="0,0">
+                        <Ellipse Width="255" Height="255" Fill="#120539" Opacity="0.6" Stroke="#fff"/>
+                        <Image Source="/UI/Icons/DefaultStyle/png/Dialogs/wallet.png"  Width="185" Height="185" Canvas.Left="35" Canvas.Top="35"/>
+                    </Canvas>
+                        <WrapPanel Grid.Column="1" Height="500">
+                            <TextBlock FontFamily="Segoe UI" FontSize="23" FontWeight="Bold" Margin="0, 0, 0 15">Don't use an exchange address</TextBlock>
+                            <TextBlock FontFamily="Segoe UI" FontSize="14"  Margin="0, 0, 90, 15">Thorg is most suited for addresses that the user has custody of, compared to some other individual than the Thorg user (such as a centralized exchange) having custody of the address.</TextBlock>
+                            <TextBlock FontFamily="Segoe UI" FontSize="14"  Margin="0, 0, 90, 15">Most exchanges do not support L2 payments like Polygon that Thorg uses. Please change your wallet address to one that you're in control of, such as MetaMask.</TextBlock>
+
+
+                        </WrapPanel>
+                        <Button Grid.Column="1" FontSize="18" Margin="0,0,90,90" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Height="45"  Click="BtnGotIt_Click" Name="BtnGotIt" Content="Got it!" Style="{StaticResource GradientButtonStyle}" />
+                    </Grid>
+                </TabItem>
+                <TabItem Header="TabItem" Background="Transparent">
+
+                    <Grid>
+                        <StackPanel Orientation="Vertical" Margin="0">
+                
                 <StackPanel Margin="50,30">
                     <Label Content="Change the wallet address" FontSize="14" Margin="0,0,0,60"/>
 
@@ -129,6 +160,9 @@
                         </Button.Style>
                     </Button>
                 </UniformGrid>
+                </Grid>
+                </TabItem>
+            </TabControl>
         </Grid>
     </Border>
 </Window>

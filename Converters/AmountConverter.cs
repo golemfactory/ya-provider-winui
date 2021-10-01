@@ -24,10 +24,14 @@ namespace GolemUI.Converters
             {
                 return $"$-.-- / month";
             }
+            if (value == null && parameter?.ToString() == "glmmonth")
+            {
+                return $"-.-- GLM / month";
+            }
 
             if (value == null)
             {
-                return "$-.--";
+                return "-.--";
             }
 
             /*
@@ -63,6 +67,10 @@ namespace GolemUI.Converters
                 if (parameter?.ToString() == "usdmonth")
                 {
                     return $"${(dv * 30)?.ToString("F2")} / month";
+                }
+                if (parameter?.ToString() == "glmmonth")
+                {
+                    return $"{(dv * 30)?.ToString("F2")} GLM / month";
                 }
                 return "$" + dv?.ToString("F2");
             }

@@ -16,9 +16,13 @@ using Microsoft.Extensions.Logging;
 namespace GolemUI.Command
 {
 
+    public enum ProblemWithExeFile { Timeout, Antivirus, FileMissing, None };
+    public delegate void OnProblemsWithExeFileEventHander(ProblemWithExeFile problem);
+
 
     public class ClaymoreBenchmark
     {
+        public event OnProblemsWithExeFileEventHander? ProblemWithExe;
 
         private static Mutex mut = new Mutex();
 
@@ -149,9 +153,17 @@ namespace GolemUI.Command
 
         public bool RunPreBenchmark()
         {
+            if (!System.IO.File.Exists(_claymore_exe_path))
+            {
+                ProblemWithExe?.Invoke(ProblemWithExeFile.FileMissing);
+                return false;
+            }
+
+
             BenchmarkError = "";
             BenchmarkFinished = false;
             GPUNotFound = false;
+
 
             this.BenchmarkProgress = 0.0f;
 
@@ -193,9 +205,11 @@ namespace GolemUI.Command
             }
             catch (System.ComponentModel.Win32Exception)
             {
-                BenchmarkError = $"Process: {this._claymore_exe_path} cannot be run, check antivirus settings";
+                BenchmarkError = $"Miner failed to run, \ncheck antivirus settings";
                 _claymoreProcess = null;
+                ProblemWithExe?.Invoke(ProblemWithExeFile.Antivirus);
                 return false;
+
             }
             _claymoreParserPreBenchmark.BeforeParsing(enableRecording: true);
             _claymoreProcess.OutputDataReceived += OnOutputDataPreRecv;
@@ -211,6 +225,11 @@ namespace GolemUI.Command
 
         public bool RunBenchmark(string cards, string niceness, string pool, string ethereumAddress, string nodeName)
         {
+            if (!System.IO.File.Exists(_claymore_exe_path))
+            {
+                ProblemWithExe?.Invoke(ProblemWithExeFile.FileMissing);
+                return false;
+            }
             BenchmarkError = "";
             BenchmarkFinished = false;
             GPUNotFound = false;
@@ -269,9 +288,13 @@ namespace GolemUI.Command
             }
             catch (System.ComponentModel.Win32Exception)
             {
-                BenchmarkError = $"Process: {this._claymore_exe_path} cannot be run, check antivirus settings"; ;
+                BenchmarkError = $"Miner failed to run, \ncheck antivirus settings";
                 _claymoreProcess = null;
+
+                ProblemWithExe?.Invoke(ProblemWithExeFile.Antivirus);
+
                 return false;
+
             }
             _claymoreParserBenchmark.BeforeParsing(enableRecording: true);
             _claymoreProcess.OutputDataReceived += OnOutputDataRecv;

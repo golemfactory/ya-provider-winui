@@ -12,11 +12,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using static GolemUI.Command.GSB.Payment;
 
 namespace GolemUI.ViewModel
 {
+    public delegate void RequestChangeBlackRectVisibilityEventHandler(bool visible);
     public class SetupViewModel : INotifyPropertyChanged
     {
+        public event RequestChangeBlackRectVisibilityEventHandler? BlackRectVisibilityChangeRequested;
         private readonly Interfaces.IProviderConfig _providerConfig;
         private readonly Src.BenchmarkService _benchmarkService;
         private readonly Interfaces.IEstimatedProfitProvider _profitEstimator;
@@ -31,7 +34,8 @@ namespace GolemUI.ViewModel
             Noob,
             Expert,
             OwnWallet,
-            NoGPU
+            NoGPU,
+            Antivirus
         }
 
         public enum NoobSteps
@@ -93,9 +97,41 @@ namespace GolemUI.ViewModel
             _remoteSettingsProvider = remoteSettingsProvider;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
             _benchmarkService.PropertyChanged += OnBenchmarkChanged;
+            _benchmarkService.ProblemWithExe += BenchmarkService_AntivirusStatus;
 
         }
+        public void RemoveEventListeners()
+        {
+            _providerConfig.PropertyChanged -= OnProviderConfigChanged;
+            _benchmarkService.PropertyChanged -= OnBenchmarkChanged;
+            _benchmarkService.ProblemWithExe -= BenchmarkService_AntivirusStatus;
+        }
 
+        private int _lastFlowSteps = 0;
+        bool AntiVirusDetectedBefore = false;
+        public string AntivirusTitle { get; set; } = "Your antivirus is blocking Thorg";
+        private void BenchmarkService_AntivirusStatus(Command.ProblemWithExeFile problem)
+        {
+            if (problem == Command.ProblemWithExeFile.Antivirus)
+            {
+                _lastFlowSteps = Flow;
+                Flow = (int)FlowSteps.Antivirus;
+                if (AntiVirusDetectedBefore)
+                {
+                    AntivirusTitle = "Your antivirus is still blocking Thorg";
+                    OnPropertyChanged(nameof(AntivirusTitle));
+                }
+            }
+        }
+
+        public void TryAgainBenchmark()
+        {
+            Flow = _lastFlowSteps;
+
+            int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
+            this.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "", null);
+            AntiVirusDetectedBefore = true;
+        }
 
         private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -140,7 +176,7 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             NoobStep = (int)NoobSteps.Enjoy;
-                        else
+                        else if (_benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
                             Flow = (int)FlowSteps.NoGPU;
                     }
                 }
@@ -150,7 +186,7 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             ExpertStep = (int)ExpertSteps.Enjoy;
-                        else
+                        else if (_benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
                             Flow = (int)FlowSteps.NoGPU;
                     }
                 }
@@ -259,6 +295,8 @@ namespace GolemUI.ViewModel
             }
             return true;
         }
+
+
 
         public double? TotalHashRate => _benchmarkService.TotalMhs;
 

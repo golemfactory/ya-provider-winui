@@ -9,11 +9,12 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace GolemUI.ViewModel
 {
 
-    public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage
+    public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage, IDialogInvoker
     {
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessController processController, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
             IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, IRemoteSettingsProvider remoteSettingsProvider, INotificationService notificationService,
@@ -25,6 +26,8 @@ namespace GolemUI.ViewModel
             _processController = processController;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
+
+            _benchmarkService.AntivirusStatus += _benchmarkService_AntivirusStatus;
             _statusProvider = statusProvider;
             _remoteSettingsProvider = remoteSettingsProvider;
             _notificationService = notificationService;
@@ -39,6 +42,12 @@ namespace GolemUI.ViewModel
             _taskProfitEstimator.PropertyChanged += _taskProfitEstimator_PropertyChanged;
         }
 
+
+        public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
+        public void RequestDarkBackgroundVisibilityChange(bool shouldBackgroundBeVisible)
+        {
+            DarkBackgroundRequested?.Invoke(shouldBackgroundBeVisible);
+        }
         private void _benchmarkService_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsRunning")
@@ -52,12 +61,14 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged(nameof(ShouldGpuSwitchBeEnabled));
             }
         }
+        bool AntiVirusCheckActive { get; set; } = false;
+        private bool MiningWasAlreadySuccessfull = false;
         public bool IsCpuMiningEnabledByNetwork => false;
         public bool IsAnyGpuEnabled => _benchmarkService.IsMiningPossibleWithCurrentSettings;
         public double GpuOpacity => _benchmarkService.IsMiningPossibleWithCurrentSettings ? 1.0 : 0.2f;
         public double CpuOpacity => IsCpuMiningEnabledByNetwork ? 1.0 : 0.2f;
 
-        public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning && IsGpuEnabled && IsAnyGpuEnabled;
+        public bool IsMiningReadyToRun => !Process.IsStarting && !_benchmarkService.IsRunning && IsGpuEnabled && IsAnyGpuEnabled && !AntiVirusCheckActive;
         public bool IsBenchmarkNotRunning => !_benchmarkService.IsRunning;
         public bool ShouldGpuSwitchBeEnabled => IsBenchmarkNotRunning && IsAnyGpuEnabled;
         public string StartButtonExplanation
@@ -118,7 +129,6 @@ namespace GolemUI.ViewModel
                 EstimationMessage = _taskProfitEstimator.EstimatedEarningsMessage;
             }
         }
-
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -201,6 +211,7 @@ namespace GolemUI.ViewModel
                     HashRateConverter hashRateConverter = new HashRateConverter();
                     string hashrate = (string)hashRateConverter.Convert(hashRate, typeof(string), null, System.Globalization.CultureInfo.InvariantCulture);
                     gpuStatusAnnotation = $"Speed: {hashrate}";
+                    MiningWasAlreadySuccessfull = true;
                 }
             }
             GpuStatus = gpuStatus;
@@ -223,6 +234,7 @@ namespace GolemUI.ViewModel
             if (isMining)
             {
                 newStatus = DashboardStatusEnum.Mining;
+
             }
             else if (_processController.IsProviderRunning && (IsCpuEnabled || IsGpuEnabled))
             {
@@ -328,6 +340,17 @@ namespace GolemUI.ViewModel
             }
         }
 
+        public decimal? _glmPerDay = null;
+        public decimal? GlmPerDay
+        {
+            get => _glmPerDay;
+            set
+            {
+                _glmPerDay = value;
+                OnPropertyChanged(nameof(GlmPerDay));
+            }
+        }
+
         public string _estimationMessage = "";
         public string EstimationMessage
         {
@@ -341,7 +364,7 @@ namespace GolemUI.ViewModel
 
         public decimal? AmountUSD => _priceProvider.GLM2USD(Amount);
 
-        public decimal? PendingAmount => _paymentService.State?.PendingBalance;
+        public decimal? PendingAmount => _paymentService.State?.PendingBalance > 0 ? _paymentService.State?.PendingBalance : 0;
 
         public decimal? PendingAmountUSD => _priceProvider.GLM2USD(PendingAmount);
         public int _totalCpuCount;
@@ -417,11 +440,55 @@ namespace GolemUI.ViewModel
             //insta kill provider and gracefully shutdown yagna
         }
 
-        public async void Start()
+        private async void RunMiner()
         {
             var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
-
             await _processController.Start(_providerConfig.Network, extraClaymoreParams);
+        }
+        public void Start()
+        {
+            if (MiningWasAlreadySuccessfull)
+            {
+                this.RunMiner();
+            }
+            else
+            {
+                AntiVirusCheckActive = true;
+                OnPropertyChanged(nameof(IsMiningReadyToRun));
+                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "checking system...", expirationTimeInMs: 5000, group: false));
+                _benchmarkService.AssessIfAntivirusIsBlockingClaymore();
+
+            }
+        }
+        private void _benchmarkService_AntivirusStatus(Command.ProblemWithExeFile problem)
+        {
+            AntiVirusCheckActive = false;
+            OnPropertyChanged(nameof(IsMiningReadyToRun));
+            if (problem == Command.ProblemWithExeFile.None)
+            {
+                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "ok", expirationTimeInMs: 3000, group: false));
+                this.RunMiner();
+            }
+            else
+            {
+                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "detected problem: " + problem.ToString(), expirationTimeInMs: 10000, group: false));
+                var settings = GolemUI.Properties.Settings.Default;
+                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(
+                    settings.dialog_antivir_image,
+                    settings.dialog_antivir_title,
+                    settings.dialog_antivir_message,
+                    settings.dialog_antivir_button
+                ));
+
+                dlg.Owner = Application.Current.MainWindow;
+                RequestDarkBackgroundVisibilityChange(true);
+                bool? result = dlg?.ShowDialog();
+                if (result == true)
+                {
+                    _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "please check your antivirus settings...", expirationTimeInMs: 17000, group: false));
+                }
+                RequestDarkBackgroundVisibilityChange(false);
+            }
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

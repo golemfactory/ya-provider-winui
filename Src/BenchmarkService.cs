@@ -7,15 +7,19 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace GolemUI.Src
 {
     public class BenchmarkService : INotifyPropertyChanged
     {
+        public event OnProblemsWithExeFileEventHander? ProblemWithExe;
+        public event OnProblemsWithExeFileEventHander? AntivirusStatus;
         public BenchmarkService(IProviderConfig providerConfig, ILogger<BenchmarkService> logger, IBenchmarkResultsProvider benchmarkResultsProvider)
         {
 
@@ -51,9 +55,79 @@ namespace GolemUI.Src
         private readonly double CLAYMORE_GPU_INFO_TIMEOUT = 10.0;
         private readonly double CLAYMORE_TOTAL_BENCHMARK_TIMEOUT = 200.0;
         private IBenchmarkResultsProvider _benchmarkResultsProvider;
+        public async void AssessIfAntivirusIsBlockingClaymore()
+        {
+            try
+            {
+                var totalClaymoreReportsNeeded = 2;
+                DateTime benchmarkStartTime = DateTime.Now;
+                _logger.LogInformation("AntiVirus status assesment...");
+                var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded, logger: _logger);
+                bool stopped = false;
+                cc.ProblemWithExe += (reason) =>
+                {
+
+                    this.AntivirusStatus?.Invoke(reason);
+
+                    cc.Stop();
+                    stopped = true;
+                };
+
+                //cc.RunBenchmarkRecording(@"antivirus.pre_recording", isPreBenchmark: true);
+
+
+                bool result = cc.RunPreBenchmark();
+                if (!result)
+                {
+                    _logger.LogError("PreBenchmark failed with error: " + cc.BenchmarkError);
+
+                    return;
+                }
+
+                while (!cc.PreBenchmarkFinished)
+                {
+
+
+                    double timeElapsed = (DateTime.Now - benchmarkStartTime).TotalSeconds;
+
+                    if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT)
+                    {
+
+
+                        _logger.LogError("antivirus check failed timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT: " + cc.BenchmarkError);
+                        if (!stopped)
+                        {
+                            this.AntivirusStatus?.Invoke(ProblemWithExeFile.Timeout);
+                            cc.Stop();
+                        }
+                        return;
+                    }
+
+                    if (cc.ClaymoreParserPreBenchmark.GetLiveStatusCopy().GPUInfosParsed)
+                    {
+                        _logger.LogInformation("antivirus check finished succesfully - claymore is not blocked");
+                        if (!stopped)
+                        {
+
+                            this.AntivirusStatus?.Invoke(ProblemWithExeFile.None);
+                            cc.Stop();
+                        }
+                        break;
+                    }
+                    await Task.Delay(30);
+                }
+            }
+            catch (Exception er)
+            {
+                _logger.LogInformation("exception in antivir check routine : " + er);
+            }
+        }
+
 
         public async void StartBenchmark(string cards, string niceness, string pool, string ethereumAddress, ClaymoreLiveStatus? externalLiveStatus)
         {
+            if (this._claymoreLiveStatus != null)
+                this._claymoreLiveStatus.ProblemWithExeFile = ProblemWithExeFile.None;
             if (IsRunning)
             {
                 return;
@@ -75,9 +149,17 @@ namespace GolemUI.Src
             bool preBenchmarkNeeded = !String.IsNullOrEmpty(cards);
 
             var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded, logger: _logger);
+            cc.ProblemWithExe += (reason) =>
+            {
+                this.ProblemWithExe?.Invoke(reason);
+                if (this._claymoreLiveStatus != null)
+                    _claymoreLiveStatus.ProblemWithExeFile = reason;
+            };
 
 
             _logger.LogInformation("Benchmark started");
+
+
 
             try
             {
