@@ -281,7 +281,7 @@ namespace GolemUI.UI
             GoToDashboard();
         }
 
-      
+
 
         private void BtnTryBenchmarkAgain_Click(object sender, RoutedEventArgs e)
         {

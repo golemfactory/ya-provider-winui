@@ -109,7 +109,7 @@ namespace GolemUI.ViewModel
 
         private int _lastFlowSteps = 0;
         bool AntiVirusDetectedBefore = false;
-        public string AntivirusTitle { get; set; }= "Your antivirus is blocking Thorg";
+        public string AntivirusTitle { get; set; } = "Your antivirus is blocking Thorg";
         private void BenchmarkService_AntivirusStatus(Command.ProblemWithExeFile problem)
         {
             if (problem == Command.ProblemWithExeFile.Antivirus)
@@ -296,7 +296,7 @@ namespace GolemUI.ViewModel
             return true;
         }
 
-       
+
 
         public double? TotalHashRate => _benchmarkService.TotalMhs;
 
