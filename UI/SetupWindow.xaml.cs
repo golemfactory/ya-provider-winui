@@ -226,7 +226,6 @@ namespace GolemUI.UI
 
         private void OnEMNameStepDone(object sender, RoutedEventArgs e)
         {
-
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
             Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "", null);
@@ -264,14 +263,29 @@ namespace GolemUI.UI
         }
 
 
-
-        private void BtnNoGpuContinue_Click(object sender, RoutedEventArgs e)
+        void GoToDashboard()
         {
             Model!.Save();
             if (App.Current is App app)
                 app.GetOrCreateDashboardWindow()?.Show();
             Model.RemoveEventListeners();
             Close();
+        }
+        private void BtnNoGpuContinue_Click(object sender, RoutedEventArgs e)
+        {
+            GoToDashboard();
+        }
+
+        private void BtnGoToDashboard_Click(object sender, RoutedEventArgs e)
+        {
+            GoToDashboard();
+        }
+
+      
+
+        private void BtnTryBenchmarkAgain_Click(object sender, RoutedEventArgs e)
+        {
+            Model.TryAgainBenchmark();
         }
     }
 }

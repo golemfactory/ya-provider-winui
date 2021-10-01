@@ -19,6 +19,7 @@ namespace GolemUI.DesignViewModel
 
         public Claymore.ClaymoreGpuStatus[] GPUs { get; set; }
 
+        public string AntivirusTitle=>"Your antivirus is blocking Thorg";
         public float? TotalHashRate { get; set; } = 55.2f;
 
         public bool BenchmarkIsRunning { get; set; } = true;

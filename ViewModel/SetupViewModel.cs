@@ -34,7 +34,8 @@ namespace GolemUI.ViewModel
             Noob,
             Expert,
             OwnWallet,
-            NoGPU
+            NoGPU,
+            Antivirus
         }
 
         public enum NoobSteps
@@ -105,26 +106,31 @@ namespace GolemUI.ViewModel
             _benchmarkService.PropertyChanged -= OnBenchmarkChanged;
             _benchmarkService.ProblemWithExe -= BenchmarkService_AntivirusStatus;
         }
+
+        private int _lastFlowSteps = 0;
+        bool AntiVirusDetectedBefore = false;
+        public string AntivirusTitle { get; set; }= "Your antivirus is blocking Thorg";
         private void BenchmarkService_AntivirusStatus(Command.ProblemWithExeFile problem)
         {
             if (problem == Command.ProblemWithExeFile.Antivirus)
             {
-                var settings = GolemUI.Properties.Settings.Default;
-                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_antivir_image, settings.dialog_antivir_title, settings.dialog_antivir_message, settings.dialog_antivir_button));
-                dlg.Owner = Application.Current.MainWindow;
-                BlackRectVisibilityChangeRequested?.Invoke(true);
-                dlg?.ShowDialog();
-                if (_flow == (int)FlowSteps.Noob)
+                _lastFlowSteps = Flow;
+                Flow = (int)FlowSteps.Antivirus;
+                if (AntiVirusDetectedBefore)
                 {
-                    if (NoobStep > 0)
-                        NoobStep -= 1;
+                    AntivirusTitle = "Your antivirus is still blocking Thorg";
+                    OnPropertyChanged(nameof(AntivirusTitle));
                 }
-                else if (ExpertStep > 0)
-                {
-                    ExpertStep -= 1;
-                }
-                BlackRectVisibilityChangeRequested?.Invoke(false);
             }
+        }
+
+        public void TryAgainBenchmark()
+        {
+            Flow = _lastFlowSteps;
+
+            int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
+            this.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "", "", null);
+            AntiVirusDetectedBefore = true;
         }
 
         private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
@@ -289,6 +295,8 @@ namespace GolemUI.ViewModel
             }
             return true;
         }
+
+       
 
         public double? TotalHashRate => _benchmarkService.TotalMhs;
 

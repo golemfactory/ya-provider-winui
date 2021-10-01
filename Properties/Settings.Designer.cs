@@ -160,8 +160,8 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"Your antivirus is blocking a Thorg mining module called “EthDcrMiner64.exe”. If you do not have antivirus software installed you can unblock this by going to your Windows Security settings, and then clicking on Virus and Threat Protections. 
-Please restart Thorg afterwards.")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"Your antivirus is blocking Thorg's mining module called “EthDcrMiner64.exe”. If you do not have antivirus software installed you can unblock this by going to your Windows Security settings, and then clicking on Virus and Threat Protections. 
+If it doesn't help you might want to restart Thorg after changing settings in your antivirus.")]
         public string dialog_antivir_message {
             get {
                 return ((string)(this["dialog_antivir_message"]));
