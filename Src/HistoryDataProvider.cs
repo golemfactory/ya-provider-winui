@@ -195,6 +195,7 @@ namespace GolemUI.Src
 
                 if ((currentDay - day_low).Days > 1)
                 {
+                    idx++;
                     continue;
                 }
 
