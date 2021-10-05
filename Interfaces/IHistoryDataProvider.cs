@@ -1,4 +1,5 @@
 ﻿using GolemUI.Model;
+using GolemUI.UI.Charts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,7 +20,9 @@ namespace GolemUI.Interfaces
 
         }
 
-        PrettyChartData HashrateChartData { get; set; }
+        PrettyChartRawData HashrateChartData { get; set; }
+
+        PrettyChartRawData EarningsChartData { get; set; }
 
         public string? ActiveAgreementID { get; set; }
 

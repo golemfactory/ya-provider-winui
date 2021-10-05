@@ -128,7 +128,7 @@ namespace GolemUI.Src
             {
                 const string HASH_RATE = "golem.usage.mining.hash-rate";
                 var hashRate = _statusProvider.Activities
-                    .Where(a => a.ExeUnit == "gminer" && (a.Usage?.ContainsKey(HASH_RATE) ?? false))
+                    .Where(a => (a.ExeUnit == "gminer" || a.ExeUnit == "hminer") && (a.Usage?.ContainsKey(HASH_RATE) ?? false))
                     .FirstOrDefault()?.Usage?[HASH_RATE];
 
                 Debug.WriteLine(_statusProvider.Activities);

@@ -16,7 +16,6 @@ namespace GolemUI.ViewModel
 {
     public partial class DashboardViewModel : INotifyPropertyChanged
     {
-
         public enum DashboardPages
         {
             PageDashboardNone,
@@ -35,9 +34,7 @@ namespace GolemUI.ViewModel
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardSettingsAdv DashboardSettingsAdv { get; set; }
         public DashboardWallet DashboardWallet { get; set; }
-#if STATISTICS_ENABLED
-        public DashboardStatistics DashboardStatistics { get; set; }
-#endif
+        public DashboardStatistics? DashboardStatistics { get; set; }
 
         private DashboardPages _selectedPage;
 
@@ -96,10 +93,7 @@ namespace GolemUI.ViewModel
 
         private readonly IRemoteSettingsProvider _remoteSettingsProvider;
 
-        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, IRemoteSettingsProvider remoteSettingsProvider
-#if STATISTICS_ENABLED
-                ,DashboardStatistics dashboardStatistics
-#endif
+        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, IRemoteSettingsProvider remoteSettingsProvider, DashboardStatistics? dashboardStatistics
             )
         {
             _remoteSettingsProvider = remoteSettingsProvider;
@@ -108,9 +102,7 @@ namespace GolemUI.ViewModel
             PropertyChanged += OnPropertyChanged;
 
             DashboardMain = dashboardMain;
-#if STATISTICS_ENABLED
-            DashboardSettings = dashboardSettings;
-#endif
+            DashboardStatistics = dashboardStatistics;
             DashboardSettingsAdv = dashboardSettingsAdv;
             DashboardWallet = dashboardWallet;
             DashboardSettings = dashboardSettings;
@@ -120,9 +112,10 @@ namespace GolemUI.ViewModel
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet, DashboardWallet.Model));
             _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
 
-#if STATISTICS_ENABLED
-            _pages.Add(DashboardPages.PageDashboardStatistics, new DashboardPage(DashboardStatistics, DashboardStatistics.ViewModel));
-#endif
+            if (DashboardStatistics != null)
+            {
+                _pages.Add(DashboardPages.PageDashboardStatistics, new DashboardPage(DashboardStatistics, DashboardStatistics.ViewModel));
+            }
 
             _pages.Values.ToList().ForEach(page => page.PageChangeRequested += PageChangeRequested);
             _pages.Values.ToList().ForEach(page => page.DarkBackgroundRequested += Page_DarkBackgroundRequested);

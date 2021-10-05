@@ -71,7 +71,7 @@ namespace GolemUI
             {
                 if (ViewModel.IsMiningProcessRunning)
                     ViewModel.StopMiningProcess();
-                ViewModel!.StartBenchmark();
+                ViewModel!.StartBenchmark("ETH");
             }
         }
 

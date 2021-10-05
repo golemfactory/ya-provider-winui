@@ -21,7 +21,8 @@ namespace GolemUI.UI
     /// </summary>
     public partial class DashboardStatistics : UserControl
     {
-#if STATISTICS_ENABLED
+        static Random r = new Random();
+
         public StatisticsViewModel ViewModel;
         public DashboardStatistics(StatisticsViewModel viewModel)
         {
@@ -29,20 +30,50 @@ namespace GolemUI.UI
             ViewModel = viewModel;
             this.DataContext = this.ViewModel;
         }
-#endif
 
         private void btnReload_Click(object sender, RoutedEventArgs e)
         {
-#if STATISTICS_ENABLED
-            ViewModel.LoadData();
-#endif
+            ViewModel.ChartData1.Clear();
         }
         private void btnMoveRight_Click(object sender, RoutedEventArgs e)
         {
-#if STATISTICS_ENABLED
-            ViewModel.MoveDataRight();
-#endif
+            //chartData.MoveRight(1, true);
         }
 
+        private void btnMoveLeft_Click(object sender, RoutedEventArgs e)
+        {
+            //chartData.MoveLeft(1, true);
+        }
+
+        private void btnZoomIn_Click(object sender, RoutedEventArgs e)
+        {
+            chartData.ZoomIn(1, true);
+        }
+        private void btnZoomOut_Click(object sender, RoutedEventArgs e)
+        {
+            chartData.ZoomOut(1, true);
+        }
+
+        private async void btnAddEntry_Click(object sender, RoutedEventArgs e)
+        {
+            //ViewModel.ChartData1.SetBinTimeSize(TimeSpan.FromMinutes(1));
+
+            for (int i = 0; i < 1000000; i++)
+            {
+                ViewModel.ChartData1.RawData?.AddNewEntry(DateTime.Now, r.NextDouble() * 1.0, true);
+                await Task.Delay(1000);
+            };
+
+
+            //this.ViewModel.ChartData4.AddOrUpdateBinEntry(-1, DateTime.Now.ToString("88-88-88"), r.NextDouble() * 100.0);
+            //            await Task.Delay(10);
+
+            /* for (int i = 0; i < 1000000; i++)
+             {
+                 this.ViewModel.ChartData4.AddOrUpdateBinEntry(-1, DateTime.Now.ToString("HH-mm-ss"), r.NextDouble() * 100.0);
+                 await Task.Delay(100);
+             };*/
+
+        }
     }
 }

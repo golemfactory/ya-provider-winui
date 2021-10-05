@@ -302,6 +302,10 @@
       <DependentUpon>DlgWithdraw.xaml</DependentUpon>
     </Compile>
     <Compile Include="Src\TaskProfitEstimator.cs" />
+    <Compile Include="UI\Charts\PrettyChartBin.xaml.cs">
+      <DependentUpon>PrettyChartBin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Charts\PrettyChartRawData.cs" />
     <Compile Include="UI\Dialogs\DlgShouldStopMiningBeforeBenchmark.xaml.cs">
       <DependentUpon>DlgShouldStopMiningBeforeBenchmark.xaml</DependentUpon>
     </Compile>
@@ -339,7 +343,6 @@
     <Compile Include="DesignViewModel\MockupSettingsViewModel.cs" />
     <Compile Include="DesignViewModel\DashboardViewModel.cs" />
     <Compile Include="DesignViewModel\MockupUsageDescriptionViewModel.cs" />
-    <Compile Include="DesignViewModel\DashboardStatisticsDesignViewModel.cs" />
     <Compile Include="DesignViewModel\SetupViewModel.cs" />
     <Compile Include="DesignViewModel\WalletView.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
@@ -359,7 +362,7 @@
     <Compile Include="Model\ActivityState.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
-    <Compile Include="Model\PrettyChartData.cs" />
+    <Compile Include="UI\Charts\PrettyChartBinData.cs" />
     <Compile Include="Model\UserSettings.cs" />
     <Compile Include="Model\WalletState.cs" />
     <Compile Include="Model\YagnaAgreement.cs" />
@@ -377,9 +380,6 @@
     <Compile Include="Src\YaSSEStatusProvider.cs" />
     <Compile Include="UI\Charts\PrettyChart.xaml.cs">
       <DependentUpon>PrettyChart.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Charts\PrettyChartDesign.xaml.cs">
-      <DependentUpon>PrettyChartDesign.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\DashboardStatistics.xaml.cs">
       <DependentUpon>DashboardStatistics.xaml</DependentUpon>
@@ -442,6 +442,7 @@
     <Compile Include="UI\UsageDescription.xaml.cs">
       <DependentUpon>UsageDescription.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\DateTimeUtils.cs" />
     <Compile Include="Utils\LookupCache.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\ObservableListExtensions.cs" />
@@ -467,6 +468,7 @@
     <Compile Include="ViewModel\Dialogs\DlgAppInfoViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgEditAddressViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
+    <Compile Include="UI\Charts\PrettyChartDataHistogram.cs" />
     <Compile Include="ViewModel\SettingsAdvViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
@@ -496,7 +498,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Charts\PrettyChartDesign.xaml">
+    <Page Include="UI\Charts\PrettyChartBin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -621,6 +623,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\SetupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\HistoryTabButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -874,6 +880,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Dialogs\gpu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Charts\ChartIcons\IconPrevPage.png" />
+    <Resource Include="UI\Charts\ChartIcons\IconBackToStart.png" />
+    <Resource Include="UI\Charts\ChartIcons\IconGoToEnd.png" />
+    <Resource Include="UI\Charts\ChartIcons\IconNextPage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Charts\ChartIcons\IconZoomIn.png" />
+    <Resource Include="UI\Charts\ChartIcons\IconZoomOut.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

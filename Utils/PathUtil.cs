@@ -53,5 +53,13 @@ namespace GolemUI.Utils
             return result;
         }
 
+        public static string GetRemoteHistoryPath()
+        {
+            string result = Path.Combine(GetLocalPath(), "History");
+            return result;
+        }
+
+
+
     }
 }

@@ -57,5 +57,10 @@ namespace GolemUI
         {
             System.Diagnostics.Process.Start(GolemUI.Properties.Settings.Default.GolemWebPage);
         }
+
+        private void BtnStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            Model.SwitchToStatistics();
+        }
     }
 }

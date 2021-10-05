@@ -208,7 +208,7 @@ namespace GolemUI.ViewModel
                 return;
             }
             Debug.WriteLine(act.ToString());
-            Model.ActivityState? gminerState = act.Where(a => a.ExeUnit == "gminer" && a.State == Model.ActivityState.StateType.Ready).FirstOrDefault();
+            Model.ActivityState? gminerState = act.Where(a => (a.ExeUnit == "gminer" || a.ExeUnit == "hminer") && a.State == Model.ActivityState.StateType.Ready).FirstOrDefault();
             var isGpuMining = gminerState != null;
             var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
 
@@ -262,6 +262,10 @@ namespace GolemUI.ViewModel
         public void SwitchToSettings()
         {
             PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettings);
+        }
+        public void SwitchToStatistics()
+        {
+            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardStatistics);
         }
 
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)

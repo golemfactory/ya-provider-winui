@@ -257,5 +257,11 @@ Most exchanges do not support L2 payments like Polygon that Thorg uses. Please c
                 this["dialog_antivir_button"] = value;
             }
         }
+        [global::System.Configuration.DefaultSettingValueAttribute("20.52.0.36:8069")]
+        public string DefaultProxyLowMem {
+            get {
+                return ((string)(this["DefaultProxyLowMem"]));
+            }
+        }
     }
 }

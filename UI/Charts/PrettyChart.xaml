@@ -8,11 +8,61 @@
              d:DesignHeight="450" d:DesignWidth="800"
 
              >
-    <Grid>
-        <Canvas Name="cv">
-            <Canvas.LayoutTransform>
-                <ScaleTransform ScaleX="1" ScaleY="-1" CenterX=".5" CenterY=".5" />
-            </Canvas.LayoutTransform>
-        </Canvas>
-    </Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UI/Themes/ComboBox/MiningModeComboBox.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border BorderThickness="1" BorderBrush="White">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Border BorderThickness="1" BorderBrush="Black" Margin="2, 2" >
+                    <Image Source="ChartIcons/IconBackToStart.png" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" MouseDown="BackToStart_MouseDown"/>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="Black" Margin="2, 2" >
+                    <Image Source="ChartIcons/IconPrevPage.png" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" MouseDown="PrevPage_MouseDown"/>
+                </Border>
+
+
+                <!--<Button x:Name="btnGoToBegin" Click="btnGoToBegin_Click">Go to beginning</Button>
+                    <Button x:Name="btnPageBack" Click="btnPageBack_Click" Margin="2 0 0 0">Previous Page</Button>-->
+                <TextBlock x:Name="tbTitle" FontSize="16" VerticalAlignment="Center" Margin="10 0, 10, 0">Earnings timeline</TextBlock>
+                <TextBlock FontSize="14" VerticalAlignment="Center" Margin="10 0, 10, 0">Time bin:</TextBlock>
+                <ComboBox Name="cbTickSize" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" Margin="5,0,0,0" FontSize="14" FontFamily="Segoe UI" Padding="0" Style="{DynamicResource MiningModeComboBox}" Width="90" SelectionChanged="cbTickSize_SelectionChanged" ></ComboBox>
+                <TextBlock x:Name="txTimerStatus" Visibility="Collapsed"></TextBlock>
+                <TextBlock x:Name="FPS"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Border BorderThickness="1" BorderBrush="Black" Margin="2, 2" >
+                    <Image Source="ChartIcons/IconZoomIn.png" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" MouseDown="ZoomIn_MouseDown"/>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="Black" Margin="2, 2" >
+                    <Image Source="ChartIcons/IconZoomOut.png" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" MouseDown="ZoomOut_MouseDown"/>
+                </Border>
+                <Border Margin="2, 2" Width="32">
+                </Border>
+
+                <Border BorderThickness="1" BorderBrush="Black" Margin="2, 2" >
+                    <Image Source="ChartIcons/IconNextPage.png" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" MouseDown="NextPage_MouseDown"/>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="Black" Margin="2, 2" >
+                    <Image Source="ChartIcons/IconGoToEnd.png" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" MouseDown="GoToEnd_MouseDown"/>
+                </Border>
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <Canvas Name="cv" ClipToBounds="True">
+                </Canvas>
+                <Rectangle x:Name="rectMouseEvents" Fill="White" Opacity="0.01" MouseDown="cv_MouseDown" MouseMove="cv_MouseMove" MouseUp="cv_MouseUp"></Rectangle>
+            </Grid>
+        </Grid>
+
+    </Border>
+
 </UserControl>

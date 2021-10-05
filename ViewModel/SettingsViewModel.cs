@@ -154,7 +154,7 @@ namespace GolemUI.ViewModel
                 return mining;
             }
         }
-        public void StartBenchmark()
+        public void StartBenchmark(string miningMode)
         {
             SaveData();
             bool allEnabled = true;
@@ -195,7 +195,7 @@ namespace GolemUI.ViewModel
             }
 
             ClaymoreLiveStatus? externalStatusCopy = (ClaymoreLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
-            BenchmarkService.StartBenchmark(cards, niceness, "", "", externalStatusCopy);
+            BenchmarkService.StartBenchmark(cards, niceness, miningMode, externalStatusCopy);
         }
         public void StopBenchmark()
         {
@@ -365,6 +365,11 @@ namespace GolemUI.ViewModel
                         }
 
                         BenchmarkError = benchmarkStatus.ErrorMsg ?? "";
+
+                        if (!benchmarkStatus.LowMemoryMode && !String.IsNullOrEmpty(BenchmarkError))
+                        {
+                            StartBenchmark("ETC");
+                        }
                     }
 
                     NotifyChange("BenchmarkReadyToRun");
