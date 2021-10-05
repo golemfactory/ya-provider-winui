@@ -110,7 +110,7 @@ namespace GolemUI.Src
             _processController.PropertyChanged += OnProcessControllerChanged;
 
             _dispatcherTimer.Tick += _dispatcherTimer_Tick;
-            _dispatcherTimer.Interval = TimeSpan.FromMinutes(1);
+            _dispatcherTimer.Interval = TimeSpan.FromMinutes(20);
             _dispatcherTimer.Start();
 
             LoadAllHistory();
