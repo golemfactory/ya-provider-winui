@@ -12,16 +12,13 @@ namespace GolemUI.UI.Charts
     {
         public PrettyChartRawData? RawData { get; private set; }
 
-        public PrettyChartBinData HistData { get; private set; }
+        public PrettyChartBinData BinData { get; private set; }
 
+        private TimeSpan _binTimeSize = TimeSpan.FromMinutes(10);
         public TimeSpan BinTimeSpan
         {
-            get
-            {
-                return _binTimeSize;
-            }
+            get => _binTimeSize;
         }
-        private TimeSpan _binTimeSize = TimeSpan.FromMinutes(10);
         DispatcherTimer _timeSpanUpdate = new DispatcherTimer();
 
         bool _active;
@@ -31,7 +28,7 @@ namespace GolemUI.UI.Charts
             _binTimeSize = binTimeSize;
             if (_active)
             {
-                HistData.Clear();
+                BinData.Clear();
                 RawDataToBinData(false);
 
                 _timeSpanUpdate.Interval = binTimeSize;
@@ -50,23 +47,25 @@ namespace GolemUI.UI.Charts
             }
         }
 
-        AggregateTypeEnum AggregateTypeEnum;
+        private readonly AggregateTypeEnum _aggregateTypeEnum;
 
         public PrettyChartDataHistogram(AggregateTypeEnum aggregateTypeEnum = AggregateTypeEnum.Aggregate)
         {
-            HistData = new PrettyChartBinData();
-            AggregateTypeEnum = aggregateTypeEnum;
-
+            BinData = new PrettyChartBinData();
+            _aggregateTypeEnum = aggregateTypeEnum;
         }
 
         public void Clear()
         {
-            HistData.Clear();
+            BinData.Clear();
             RawData = new PrettyChartRawData();
             _active = false;
         }
 
         public delegate void BinTimeSizeChangedHandler();
+        public delegate void RedrawDataHandler();
+
+        public RedrawDataHandler? OnRedrawData = null;
 
 
         public BinTimeSizeChangedHandler? OnBinTimeSizeChanged { get; set; }
@@ -83,7 +82,7 @@ namespace GolemUI.UI.Charts
         {
             _active = true;
             RawDataToBinData(false);
-            HistData.RedrawData();
+            OnRedrawData?.Invoke();
         }
 
         public void OnRawEntryAdded(DateTime dt, double newValue)
@@ -103,13 +102,13 @@ namespace GolemUI.UI.Charts
         {
             if (_active)
             {
-                HistData.Clear();
+                BinData.Clear();
                 RawDataToBinData(false);
-                HistData.RedrawData();
+                OnRedrawData?.Invoke();
             }
         }
 
-        void RawDataToBinData(bool update)
+        void RawDataToBinData(bool notify)
         {
             var timespan = _binTimeSize;
 
@@ -119,12 +118,12 @@ namespace GolemUI.UI.Charts
                 DateTime endTime = DateTimeUtils.RoundUp(DateTime.Now, timespan);
 
                 PrettyChartRawData.RawEntry? firstInBin = null;
-                PrettyChartRawData.RawEntry? lastInBin = null;
+                //PrettyChartRawData.RawEntry? lastInBin = null; //may be used later if algorithm changed
 
                 List<PrettyChartRawData.RawEntry> entries = RawData.RawElements;
 
                 int idx = 0;
-                int entry_no = 0;
+                int entryNo = 0;
                 PrettyChartRawData.RawEntry val = entries[0];
                 for (DateTime binDate = startTime; binDate < endTime; binDate += timespan)
                 {
@@ -141,7 +140,7 @@ namespace GolemUI.UI.Charts
                             {
                                 firstInBin = val;
                             }
-                            lastInBin = val;
+                            //lastInBin = val;
                         }
                         else
                         {
@@ -165,11 +164,15 @@ namespace GolemUI.UI.Charts
                         dateFormat = "HH:mm:ss";
                     }
 
-                    HistData.AddOrUpdateBinEntry(entry_no, binDate.ToString(dateFormat), earnings * 1000.0, update);
-                    lastInBin = null;
+                    BinData.AddOrUpdateBinEntry(entryNo, binDate.ToString(dateFormat), earnings * 1000.0, notify);
+                    //lastInBin = null;
                     firstInBin = null;
-                    entry_no += 1;
+                    entryNo += 1;
                 }
+            }
+            else
+            {
+                BinData.Clear();
             }
         }
     }

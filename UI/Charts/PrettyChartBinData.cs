@@ -16,12 +16,10 @@ namespace GolemUI.UI.Charts
     {
         public delegate void BinEntryUpdatedHandler(object sender, int binIdx, double oldValue, double newValue);
         public delegate void BinEntryAddedHandler(object sender, double newValue);
-        public delegate void RedrawDataHandler(object sender);
 
 
         public BinEntryUpdatedHandler? OnBinEntryUpdated = null;
         public BinEntryAddedHandler? OnBinEntryAdded = null;
-        public RedrawDataHandler? OnRedrawData = null;
 
         public string Suffix { get; set; } = "mGLM";
 
@@ -38,40 +36,23 @@ namespace GolemUI.UI.Charts
 
         public List<PrettyChartBinEntry> BinEntries { get; set; } = new List<PrettyChartBinEntry>();
 
-        public double GetMaxValue(double minValue)
-        {
-            double maxValue = minValue;
-            foreach (var entry in BinEntries)
-            {
-                if (entry.Value > maxValue)
-                {
-                    maxValue = entry.Value;
-                }
-            }
-            return maxValue;
-        }
 
-        public void RedrawData()
+        public void AddOrUpdateBinEntry(int binEntryIndex, string label, double newValue, bool notify)
         {
-            OnRedrawData?.Invoke(this);
-        }
-
-        public void AddOrUpdateBinEntry(int binEntryIndex, string label, double newValue, bool update)
-        {
-            if (!UpdateBinEntry(binEntryIndex, newValue, update))
+            if (!UpdateBinEntry(binEntryIndex, newValue, notify))
             {
-                AddBinEntry(label, newValue, update);
+                AddBinEntry(label, newValue, notify);
             }
         }
 
 
-        private bool UpdateBinEntry(int binEntryIndex, double newValue, bool update)
+        private bool UpdateBinEntry(int binEntryIndex, double newValue, bool notify)
         {
             if (binEntryIndex >= 0 && binEntryIndex < BinEntries.Count)
             {
                 double oldValue = BinEntries[binEntryIndex].Value;
                 BinEntries[binEntryIndex].Value = newValue;
-                if (update)
+                if (notify)
                 {
                     OnBinEntryUpdated?.Invoke(this, binEntryIndex, oldValue, newValue);
                 }
@@ -80,16 +61,14 @@ namespace GolemUI.UI.Charts
             return false;
         }
 
-        private void AddBinEntry(string label, double newValue, bool update)
+        private void AddBinEntry(string label, double newValue, bool notify)
         {
             BinEntries.Add(new PrettyChartBinEntry() { Label = label, Value = newValue });
-            if (update)
+            if (notify)
             {
                 OnBinEntryAdded?.Invoke(this, newValue);
             }
         }
-
-        public bool NoAnimate { get; set; } = false;
 
         public void Clear()
         {
