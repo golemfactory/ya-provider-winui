@@ -362,7 +362,7 @@
     <Compile Include="Model\ActivityState.cs" />
     <Compile Include="Model\NavBar.cs" />
     <Compile Include="Model\NavBarItem.cs" />
-    <Compile Include="UI\Charts\PrettyChartData.cs" />
+    <Compile Include="UI\Charts\PrettyChartBinData.cs" />
     <Compile Include="Model\UserSettings.cs" />
     <Compile Include="Model\WalletState.cs" />
     <Compile Include="Model\YagnaAgreement.cs" />

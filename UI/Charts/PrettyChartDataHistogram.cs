@@ -12,7 +12,7 @@ namespace GolemUI.UI.Charts
     {
         public PrettyChartRawData? RawData { get; private set; }
 
-        public PrettyChartData HistData { get; private set; }
+        public PrettyChartBinData HistData { get; private set; }
 
         public TimeSpan BinTimeSpan
         {
@@ -54,7 +54,7 @@ namespace GolemUI.UI.Charts
 
         public PrettyChartDataHistogram(AggregateTypeEnum aggregateTypeEnum = AggregateTypeEnum.Aggregate)
         {
-            HistData = new PrettyChartData();
+            HistData = new PrettyChartBinData();
             AggregateTypeEnum = aggregateTypeEnum;
 
         }

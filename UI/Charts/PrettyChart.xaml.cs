@@ -376,7 +376,7 @@ namespace GolemUI.UI.Charts
         public bool WasAlignedToRightBeforeAdded()
         {
             double targetNoBins = NoBinsAnimState.TargetVal;
-            if (Math.Abs(StartIdxAnimState.TargetVal - ChartData.HistData.BinData.BinEntries.Count + targetNoBins + 1) < 1.1)
+            if (Math.Abs(StartIdxAnimState.TargetVal - ChartData.HistData.BinEntries.Count + targetNoBins + 1) < 1.1)
             {
                 return true;
             }
@@ -401,13 +401,13 @@ namespace GolemUI.UI.Charts
         }
 
 
-        BinCompatibilityResult CheckBinCompatibility(PrettyChartData? newData, PrettyChartData? oldData)
+        BinCompatibilityResult CheckBinCompatibility(PrettyChartBinData? newData, PrettyChartBinData? oldData)
         {
             if (oldData == null || newData == null)
             {
                 return BinCompatibilityResult.Recreate;
             }
-            if (newData.BinData.BinEntries.Count != oldData.BinData.BinEntries.Count)
+            if (newData.BinEntries.Count != oldData.BinEntries.Count)
             {
                 return BinCompatibilityResult.Recreate;
             }
@@ -475,7 +475,7 @@ namespace GolemUI.UI.Charts
                 {
                     MoveToFreePool(binIdx);
                 }
-                int entryCount = newData.HistData.BinData.BinEntries.Count;
+                int entryCount = newData.HistData.BinEntries.Count;
 
                 NoBinsAnimState.ChangeTargetAndResetIfNeeded(DEFAULT_NUMBER_OF_BINS, noDelay: true);
                 NoBinsAnimState.Finish();
@@ -506,9 +506,9 @@ namespace GolemUI.UI.Charts
             }
             else
             {
-                if (ChartData.HistData.BinData.BinEntries.Count - targetNoBins < targetStartPosX)
+                if (ChartData.HistData.BinEntries.Count - targetNoBins < targetStartPosX)
                 {
-                    targetStartPosX = ChartData.HistData.BinData.BinEntries.Count - targetNoBins;
+                    targetStartPosX = ChartData.HistData.BinEntries.Count - targetNoBins;
                 }
             }
 
@@ -525,18 +525,18 @@ namespace GolemUI.UI.Charts
         void GotoEnd()
         {
             double targetNoBins = NoBinsAnimState.TargetVal;
-            StartIdxAnimState.ChangeTargetAndResetIfNeeded(ChartData.HistData.BinData.BinEntries.Count - targetNoBins, noDelay: true);
+            StartIdxAnimState.ChangeTargetAndResetIfNeeded(ChartData.HistData.BinEntries.Count - targetNoBins, noDelay: true);
             TimerActivated = true;
         }
 
 
 
-        void UpdateBinChart(PrettyChartData? newData, double elapsedSeconds, out bool allAnimationFinished)
+        void UpdateBinChart(PrettyChartBinData? newData, double elapsedSeconds, out bool allAnimationFinished)
         {
             allAnimationFinished = true;
             if (newData != null)
             {
-                int entryCount = newData.BinData.BinEntries.Count;
+                int entryCount = newData.BinEntries.Count;
 
                 double newNumBins = NoBinsAnimState.CurrentValue;
                 double newStartIdx = StartIdxAnimState.CurrentValue;
@@ -553,8 +553,8 @@ namespace GolemUI.UI.Charts
                 int numberOfMaxValCandidates = 0;
                 for (int entryNo = 0; entryNo < entryCount; entryNo++)
                 {
-                    double val = newData.BinData.BinEntries[entryNo].Value;
-                    string lbl = newData.BinData.BinEntries[entryNo].Label ?? "empty";
+                    double val = newData.BinEntries[entryNo].Value;
+                    string lbl = newData.BinEntries[entryNo].Label ?? "empty";
 
                     double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
 
@@ -585,8 +585,8 @@ namespace GolemUI.UI.Charts
 
                 for (int entryNo = 0; entryNo < entryCount; entryNo++)
                 {
-                    double val = newData.BinData.BinEntries[entryNo].Value;
-                    string lbl = newData.BinData.BinEntries[entryNo].Label ?? "empty";
+                    double val = newData.BinEntries[entryNo].Value;
+                    string lbl = newData.BinEntries[entryNo].Label ?? "empty";
 
                     double heightWithoutMargins = DrawHeight - TopMargin - BottomMargin;
 
