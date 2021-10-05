@@ -353,11 +353,28 @@ namespace GolemUI.Src
                                 allCardsEndedWithError = false;
                             }
                         }
+                        //sdgcb
+
                         if (allCardsEndedWithError && String.IsNullOrEmpty(_claymoreLiveStatus.ErrorMsg))
                         {
                             _claymoreLiveStatus.ErrorMsg = "Failed to validate cards";
                             break;
                         }
+
+                        bool allCardsFinished = true;
+                        foreach (var gpu in _claymoreLiveStatus.GPUs.Values)
+                        {
+                            if (!gpu.IsFinished && gpu.IsEnabledByUser)
+                            {
+                                allCardsFinished = false;
+                            }
+                        }
+                        if (allCardsFinished)
+                        {
+                            _claymoreLiveStatus.ErrorMsg = "All cards finished";
+                            break;
+                        }
+
                     }
                 }
             }

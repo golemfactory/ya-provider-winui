@@ -406,7 +406,7 @@ namespace GolemUI.ViewModel
             {
                 if (_benchmarkService.IsMiningPossibleWithCurrentSettings || value == false)
                 {
-                    _providerConfig.IsMiningActive = value;
+                    _providerConfig.SetMiningActive(value, _benchmarkService.Status?.LowMemoryMode ?? false);
                     if (value == false)
                     {
                         if (_processController.IsProviderRunning)

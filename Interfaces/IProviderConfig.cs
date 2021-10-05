@@ -14,7 +14,8 @@ namespace GolemUI.Interfaces
 
         Network Network { get; }
 
-        bool IsMiningActive { get; set; }
+        bool IsMiningActive { get; }
+        public void SetMiningActive(bool active, bool isLowMemoryMode);
         public bool IsLowMemoryModeActive { get; }
 
         bool IsCpuActive { get; set; }

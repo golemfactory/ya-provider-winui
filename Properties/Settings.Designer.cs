@@ -234,29 +234,26 @@ Most exchanges do not support L2 payments like Polygon that Thorg uses. Please c
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Close")]
         public string dialog_gpu_button {
             get {
                 return ((string)(this["dialog_gpu_button"]));
             }
-            set {
-                this["dialog_gpu_button"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Close")]
         public string dialog_antivir_button {
             get {
                 return ((string)(this["dialog_antivir_button"]));
             }
-            set {
-                this["dialog_antivir_button"] = value;
-            }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("20.52.0.36:8069")]
         public string DefaultProxyLowMem {
             get {

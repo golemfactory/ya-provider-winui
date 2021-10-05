@@ -74,10 +74,10 @@ Most exchanges do not support L2 payments like Polygon that Thorg uses. Please c
     <Setting Name="dialog_wallet_button" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Got it!</Value>
     </Setting>
-    <Setting Name="dialog_gpu_button" Type="System.String" Scope="User">
+    <Setting Name="dialog_gpu_button" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Close</Value>
     </Setting>
-    <Setting Name="dialog_antivir_button" Type="System.String" Scope="User">
+    <Setting Name="dialog_antivir_button" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Close</Value>
     </Setting>
     <Setting Name="DefaultProxyLowMem" Type="System.String" Scope="Application">

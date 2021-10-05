@@ -65,13 +65,18 @@ namespace GolemUI.Src
                 }
                 return _isPresetActive("gminer");
             }
-            set
+        }
+
+        public void SetMiningActive(bool active, bool isLowMemoryMode)
+        {
+            IsLowMemoryModeActive = isLowMemoryMode;
+            if (IsLowMemoryModeActive)
             {
-                if (IsLowMemoryModeActive)
-                {
-                    _setPreset("hminer", value);
-                }
-                _setPreset("gminer", value);
+                _setPreset("hminer", active);
+            }
+            else
+            {
+                _setPreset("gminer", active);
             }
         }
 
