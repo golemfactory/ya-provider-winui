@@ -97,7 +97,7 @@ namespace GolemUI.UI.Charts
         {
             ResetBinData();
         }
-        
+
         void ResetBinData()
         {
             if (_active)
