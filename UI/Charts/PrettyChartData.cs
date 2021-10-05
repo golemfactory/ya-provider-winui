@@ -40,7 +40,6 @@ namespace GolemUI.UI.Charts
         {
             public List<PrettyChartBinEntry> BinEntries { get; set; } = new List<PrettyChartBinEntry>();
 
-
             public double GetMaxValue(double minValue)
             {
                 double maxValue = minValue;
@@ -58,7 +57,6 @@ namespace GolemUI.UI.Charts
         public void RedrawData()
         {
             OnRedrawData?.Invoke(this);
-
         }
 
         public void AddOrUpdateBinEntry(int binEntryIndex, string label, double newValue, bool update)
@@ -97,13 +95,9 @@ namespace GolemUI.UI.Charts
         public PrettyChartBinData BinData { get; set; } = new PrettyChartBinData();
         public bool NoAnimate { get; set; } = false;
 
-
         public void Clear()
         {
             BinData.BinEntries.Clear();
         }
-
-
-
     }
 }

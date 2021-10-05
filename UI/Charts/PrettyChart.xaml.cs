@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -112,9 +113,6 @@ namespace GolemUI.UI.Charts
         SortedDictionary<int, PrettyChartBin> _freePool = new SortedDictionary<int, PrettyChartBin>();
         SortedDictionary<int, PrettyChartBin> _cachedControls = new SortedDictionary<int, PrettyChartBin>();
 
-
-
-
         public PrettyChartDataHistogram ChartData
         {
             get { return (PrettyChartDataHistogram)GetValue(_chartData); }
@@ -190,6 +188,12 @@ namespace GolemUI.UI.Charts
             cbTickSize.SelectedIndex = 6;
         }
 
+        public void Stop()
+        {
+            TimerActivated = false;
+            _cachedControls.Clear();
+        }
+
         public void Run()
         {
             TimerActivated = true;
@@ -256,9 +260,6 @@ namespace GolemUI.UI.Charts
                 return newBinControl;
             }
         }
-
-
-
 
         private void ComputeCurrentFPS(double elapsedSec)
         {

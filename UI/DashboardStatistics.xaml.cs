@@ -33,7 +33,7 @@ namespace GolemUI.UI
 
         private void btnReload_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.LoadData();
+            ViewModel.ChartData1.Clear();
         }
         private void btnMoveRight_Click(object sender, RoutedEventArgs e)
         {

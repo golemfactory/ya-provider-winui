@@ -59,6 +59,13 @@ namespace GolemUI.UI.Charts
 
         }
 
+        public void Clear()
+        {
+            HistData.Clear();
+            RawData = new PrettyChartRawData();
+            _active = false;
+        }
+
         public delegate void BinTimeSizeChangedHandler();
 
 
@@ -68,6 +75,7 @@ namespace GolemUI.UI.Charts
         public void SetRawData(PrettyChartRawData rawData)
         {
             rawData.OnRawEntryAdded += OnRawEntryAdded;
+            rawData.OnRawEntriesChanged += OnRawEntriesChanged;
             RawData = rawData;
             //RawDataToBinData();
         }
@@ -86,12 +94,18 @@ namespace GolemUI.UI.Charts
             }
         }
 
+        public void OnRawEntriesChanged()
+        {
+            ResetBinData();
+        }
+        
         void ResetBinData()
         {
             if (_active)
             {
                 HistData.Clear();
-                RawDataToBinData(true);
+                RawDataToBinData(false);
+                HistData.RedrawData();
             }
         }
 

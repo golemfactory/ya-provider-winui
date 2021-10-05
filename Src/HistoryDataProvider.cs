@@ -182,9 +182,58 @@ namespace GolemUI.Src
 
         }
 
+        private void TrimMiningHistoryGpuTotalHistory(DateTime removeBeforeDate)
+        {
+            if (MiningHistoryGpuTotal.Count > 0)
+            {
+                try
+                {
+                    int idx = MiningHistoryGpuTotal.FindIndex(x => x.Dt >= removeBeforeDate);
+                    if (idx > 0)
+                    {
+                        MiningHistoryGpuTotal = MiningHistoryGpuTotal.GetRange(idx, MiningHistoryGpuTotal.Count - idx);
+                    }
+                    else if (idx == 0)
+                    {
+                        //nothing changes
+                    }
+                    else
+                    {
+                        MiningHistoryGpuTotal.Clear();
+                    }
+                }
+                catch (ArgumentNullException e)
+                {
+                    _logger.LogError("ArgumentNullException when trimming history: " + e.Message);
+                }
+                catch (ArgumentOutOfRangeException e)
+                {
+                    _logger.LogError("ArgumentOutOfRangeException when trimming history: " + e.Message);
+                }
+                catch (ArgumentException e)
+                {
+                    _logger.LogError("ArgumentException when trimming history: " + e.Message);
+                }
+            }
+        }
+
+        private void TrimHistory(DateTime trimDataUpTo)
+        {
+            //TrimMiningHistoryGpuTotalHistory(trimDataUpTo);
+            //EarningsChartData.RawElements.Clear();
+            //UpdateEarningsChartData();
+            //EarningsChartData.TrimData(trimDataUpTo, _logger, true);
+            //HashrateChartData.TrimData(trimDataUpTo, _logger, true);
+        }
+
+
         private void DumpHistory()
         {
             DateTime currentDay = DateTimeUtils.RoundDown(DateTime.Now, TimeSpan.FromDays(1));
+
+            DateTime trimDataUpTo = currentDay.AddDays(-7.0);
+            TrimHistory(trimDataUpTo);
+
 
             int idx = 0;
             while (idx < MiningHistoryGpuTotal.Count)
@@ -248,6 +297,9 @@ namespace GolemUI.Src
         Random r = new Random();
         public void AddGMinerActivityEntry(ActivityState newActivity, SortedDictionary<string, double> usageVector, ILogger? logger = null)
         {
+            //DateTime trimDataUpTo = DateTime.Now.AddSeconds(-50.0);
+            //TrimHistory(trimDataUpTo);
+
             ActivityState? previousActivity = null;
             if (newActivity.Id == null || newActivity.Usage == null)
             {
@@ -409,11 +461,9 @@ namespace GolemUI.Src
         {
             if (MiningHistoryGpuTotal.Count > 0)
             {
-                int entry_no = 0;
                 foreach (var entry in MiningHistoryGpuTotal)
                 {
                     EarningsChartData.AddNewEntry(entry.Dt, entry.Earnings);
-                    entry_no += 1;
                 }
             }
 
