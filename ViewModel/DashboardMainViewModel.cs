@@ -421,7 +421,7 @@ namespace GolemUI.ViewModel
             {
                 if (_benchmarkService.IsMiningPossibleWithCurrentSettings || value == false)
                 {
-                    
+
                     bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
 
                     _providerConfig.SetMiningActive(value, isLowMemoryMode);
