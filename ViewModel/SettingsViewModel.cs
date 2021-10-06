@@ -493,7 +493,8 @@ namespace GolemUI.ViewModel
                 var totalHr = HashRate;
                 if (totalHr != null)
                 {
-                    return (double)_profitEstimator.HashRateToUSDPerDay(totalHr.Value, Coin.ETH);
+                    var coin = (_benchmarkService.Status?.LowMemoryMode ?? false) ? Coin.ETC : Coin.ETH;
+                    return (double)_profitEstimator.HashRateToUSDPerDay(totalHr.Value, coin);
                 }
                 return null;
             }

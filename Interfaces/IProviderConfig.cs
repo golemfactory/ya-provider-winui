@@ -16,6 +16,8 @@ namespace GolemUI.Interfaces
 
         bool IsMiningActive { get; }
         public void SetMiningActive(bool active, bool isLowMemoryMode);
+        public void SwitchMiningMode(bool isLowMemoryMode);
+
         public bool IsLowMemoryModeActive { get; }
 
         bool IsCpuActive { get; set; }

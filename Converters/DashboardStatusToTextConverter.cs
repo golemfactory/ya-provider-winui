@@ -22,8 +22,10 @@ namespace GolemUI.Converters
             {
                 DashboardStatusEnum.Error => "error",
                 DashboardStatusEnum.Hidden => "",
-                DashboardStatusEnum.Ready => "ready to mine",
-                DashboardStatusEnum.Mining => "mining",
+                DashboardStatusEnum.ReadyStandard => "ready to mine",
+                DashboardStatusEnum.ReadyLowMemory => "ready to mine (4GB mode)",
+                DashboardStatusEnum.MiningStandard => "mining",
+                DashboardStatusEnum.MiningLowMemory => "mining (4GB mode)",
                 _ => ""
             };
         }

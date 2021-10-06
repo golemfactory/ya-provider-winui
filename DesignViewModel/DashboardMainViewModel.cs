@@ -29,6 +29,6 @@ namespace GolemUI.DesignViewModel
         public string GpuCardsInfo => "2/2";
         public string CpuCardsInfo => "3/7";
         public bool IsProviderRunning { get; } = true;
-        public DashboardStatusEnum Status => DashboardStatusEnum.Ready;
+        public DashboardStatusEnum Status => DashboardStatusEnum.ReadyStandard;
     }
 }

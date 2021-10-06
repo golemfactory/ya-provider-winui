@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace GolemUI
 {
-    public enum DashboardStatusEnum { Mining, Ready, Error, Hidden }
+    public enum DashboardStatusEnum { MiningStandard, MiningLowMemory, ReadyStandard, ReadyLowMemory, Error, Hidden }
 }

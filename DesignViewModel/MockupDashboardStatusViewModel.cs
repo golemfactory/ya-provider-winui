@@ -8,7 +8,7 @@ namespace GolemUI.DesignViewModel
 {
     public class MockupDashboardStatusViewModel
     {
-        public DashboardStatusEnum Status => DashboardStatusEnum.Ready;
+        public DashboardStatusEnum Status => DashboardStatusEnum.ReadyStandard;
 
 
         public MockupDashboardStatusViewModel()

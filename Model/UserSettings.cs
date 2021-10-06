@@ -133,5 +133,16 @@ namespace GolemUI.Model
                 NotifyChanged();
             }
         }
+        private bool _forceLowMemoryMode = false;
+        public bool ForceLowMemoryMode
+        {
+            get => _forceLowMemoryMode;
+            set
+            {
+                _forceLowMemoryMode = value;
+                NotifyChanged();
+            }
+        }
+
     }
 }
