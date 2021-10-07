@@ -254,7 +254,7 @@ Most exchanges do not support L2 payments like Polygon that Thorg uses. Please c
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("20.52.0.36:8069")]
+        [global::System.Configuration.DefaultSettingValueAttribute("n1.mining-proxy.imapp.pl:8073")]
         public string DefaultProxyLowMem {
             get {
                 return ((string)(this["DefaultProxyLowMem"]));

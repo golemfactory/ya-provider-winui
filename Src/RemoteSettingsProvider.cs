@@ -118,7 +118,7 @@ namespace GolemUI.Src
             return false;
         }
 
-        public bool LoadRemoteSettings(out RemoteSettings remoteSettings)
+        public bool LoadRemoteSettings(out RemoteSettings? remoteSettings)
         {
             try
             {

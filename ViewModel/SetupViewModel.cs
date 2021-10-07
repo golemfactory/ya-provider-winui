@@ -175,16 +175,16 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             NoobStep = (int)NoobSteps.Enjoy;
-                        else if (_benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
+                        else if (_benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
                         {
-                            if (_benchmarkService.Status.LowMemoryMode)
+                            if (_benchmarkService.Status?.LowMemoryMode ?? false)
                             {
-                                int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-                                BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETC", null);
+                                Flow = (int)FlowSteps.NoGPU;
                             }
                             else
                             {
-                                Flow = (int)FlowSteps.NoGPU;
+                                int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
+                                BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETC", null);
                             }
                         }
                     }
@@ -195,16 +195,16 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             ExpertStep = (int)ExpertSteps.Enjoy;
-                        else if (_benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
+                        else if (_benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
                         {
-                            if (_benchmarkService.Status.LowMemoryMode)
+                            if (_benchmarkService.Status?.LowMemoryMode ?? false)
                             {
-                                int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-                                BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETC", null);
+                                Flow = (int)FlowSteps.NoGPU;
                             }
                             else
                             {
-                                Flow = (int)FlowSteps.NoGPU;
+                                int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
+                                BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETC", null);
                             }
                         }
                     }

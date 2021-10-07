@@ -13,6 +13,6 @@ namespace GolemUI.Interfaces
 
         public RemoteSettingsUpdatedEventHandler? OnRemoteSettingsUpdated { get; set; }
 
-        public bool LoadRemoteSettings(out RemoteSettings remoteSettings);
+        public bool LoadRemoteSettings(out RemoteSettings? remoteSettings);
     }
 }

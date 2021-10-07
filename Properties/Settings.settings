@@ -81,7 +81,7 @@ Most exchanges do not support L2 payments like Polygon that Thorg uses. Please c
       <Value Profile="(Default)">Close</Value>
     </Setting>
     <Setting Name="DefaultProxyLowMem" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">20.52.0.36:8069</Value>
+      <Value Profile="(Default)">n1.mining-proxy.imapp.pl:8073</Value>
     </Setting>
   </Settings>
 </SettingsFile>
