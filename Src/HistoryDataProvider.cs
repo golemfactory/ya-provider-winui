@@ -79,6 +79,11 @@ namespace GolemUI.Src
             }
         }
 
+        public void SetCurrentRequestorPayout(Coin coin, double glmPerHourPerGh)
+        {
+            _currentRequestorPayout[coin] = glmPerHourPerGh;
+        }
+
         Dictionary<string, double>? UsageVectorsAsDict { get; set; } = null;
 
         private IHistoryDataProvider.EarningsStatsType? _stats = null;
@@ -438,6 +443,30 @@ namespace GolemUI.Src
             if (gminerState.AgreementId != null)
             {
                 usageVector = await _agreementLookup.Get(gminerState.AgreementId);
+            }
+
+            if (usageVector != null)
+            {
+                const string key = "golem.usage.mining.hash";
+                if (usageVector.ContainsKey(key))
+                {
+                    double glmPerGhPerSecond = usageVector[key];
+                    if (glmPerGhPerSecond >= 0.0)
+                    {
+                        if (gminerState.ExeUnit == "gminer")
+                        {
+                            SetCurrentRequestorPayout(Coin.ETH, glmPerGhPerSecond);
+                        }
+                        else if (gminerState.ExeUnit == "hminer")
+                        {
+                            SetCurrentRequestorPayout(Coin.ETC, glmPerGhPerSecond);
+                        }
+                        else
+                        {
+                            _logger.LogError("Unknown exe unit: " + gminerState.ExeUnit ?? "null");
+                        }
+                    }
+                }
             }
             if (usageVector != null && gminerState?.Usage != null)
             {

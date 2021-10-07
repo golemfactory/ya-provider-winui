@@ -10,7 +10,7 @@ namespace GolemUI.Interfaces
     // Estimates profit from hash rate.
     public interface IEstimatedProfitProvider
     {
-        public double HashRateToUSDPerDay(double hashRate, Coin coin = Coin.ETH);
+        public double HashRateToUSDPerDay(double hashRate, Coin coin);
     }
 }
 

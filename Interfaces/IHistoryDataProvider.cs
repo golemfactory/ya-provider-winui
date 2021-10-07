@@ -28,7 +28,9 @@ namespace GolemUI.Interfaces
 
         public EarningsStatsType? EarningsStats { get; set; }
 
-        public double? GetCurrentRequestorPayout(Coin coin = Coin.ETH);
+        public double? GetCurrentRequestorPayout(Coin coin);
+
+        public void SetCurrentRequestorPayout(Coin coin, double glmPerHourPerGh);
     }
 }
 
