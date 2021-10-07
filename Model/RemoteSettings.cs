@@ -17,5 +17,6 @@ namespace GolemUI.Model
         public double? DayEthPerGH { get; set; } = 0.02;
         public double? DayEtcPerGH { get; set; } = 0.9;
         public double? RequestorCoeff { get; set; } = 0.66;
+        public double? GLMFallbackValue { get; set; } = 0.50;
     }
 }
