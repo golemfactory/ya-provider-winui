@@ -176,7 +176,17 @@ namespace GolemUI.ViewModel
                         if (AnySufficientGpusFound())
                             NoobStep = (int)NoobSteps.Enjoy;
                         else if (_benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
-                            Flow = (int)FlowSteps.NoGPU;
+                        {
+                            if (_benchmarkService.Status.LowMemoryMode)
+                            {
+                                int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
+                                BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETC", null);
+                            }
+                            else
+                            {
+                                Flow = (int)FlowSteps.NoGPU;
+                            }
+                        }
                     }
                 }
                 else if (_flow == (int)FlowSteps.OwnWallet)
@@ -186,7 +196,17 @@ namespace GolemUI.ViewModel
                         if (AnySufficientGpusFound())
                             ExpertStep = (int)ExpertSteps.Enjoy;
                         else if (_benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
-                            Flow = (int)FlowSteps.NoGPU;
+                        {
+                            if (_benchmarkService.Status.LowMemoryMode)
+                            {
+                                int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
+                                BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETC", null);
+                            }
+                            else
+                            {
+                                Flow = (int)FlowSteps.NoGPU;
+                            }
+                        }
                     }
                 }
             }
