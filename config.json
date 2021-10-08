@@ -1,8 +1,8 @@
 {
-  "LatestVersion": "0.5.2.0",
-  "Version": "0.5.2.0",
-  "LatestVersionCodename": "public-beta-2",
-  "LatestVersionDownloadLink": "https://golem-releases.cdn.golem.network/gminer/ThorgMiner-0.5.2.msi",
+  "LatestVersion": "0.6.0.0",
+  "Version": "0.6.0.0",
+  "LatestVersionCodename": "public-beta-3",
+  "LatestVersionDownloadLink": "https://golem-releases.cdn.golem.network/gminer/ThorgMiner-0.6.0.msi",
   "ChangeLog": "Better troubleshooting messages.|Estimated profit in GLM.",
   "LastSupportedVersion": "0.5.0.0",
   "DayEthPerGH": 0.023,
