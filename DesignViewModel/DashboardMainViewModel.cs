@@ -30,5 +30,6 @@ namespace GolemUI.DesignViewModel
         public string CpuCardsInfo => "3/7";
         public bool IsProviderRunning { get; } = true;
         public DashboardStatusEnum Status => DashboardStatusEnum.ReadyStandard;
+        public string StatusAdditionalInfo => "4 GB mode";
     }
 }
