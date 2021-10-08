@@ -8,7 +8,7 @@ namespace GolemUI.DesignViewModel
 {
     public class MockupDashboardStatusViewModel
     {
-        public DashboardStatusEnum Status => DashboardStatusEnum.ReadyStandard;
+        public DashboardStatusEnum Status => DashboardStatusEnum.Ready;
         public string StatusAdditionalInfo => "4 GB Mode";
 
         public MockupDashboardStatusViewModel()

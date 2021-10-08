@@ -245,27 +245,20 @@ namespace GolemUI.ViewModel
             var isMining = _statusProvider.Activities?.Any(a => a.State == Model.ActivityState.StateType.Ready) ??
                            false;
             var newStatus = DashboardStatusEnum.Hidden;
+            var newMemoryStatus = _providerConfig.IsLowMemoryModeActive ? MiningMemoryMode.Above3GB : MiningMemoryMode.Above6Gb;
             if (isMining)
             {
-                if (_providerConfig.IsLowMemoryModeActive)
-                {
-                    newStatus = DashboardStatusEnum.MiningLowMemory;
-                }
-                else
-                {
-                    newStatus = DashboardStatusEnum.MiningStandard;
-                }
+                newStatus = DashboardStatusEnum.Mining;
+
             }
             else if (_processController.IsProviderRunning && (IsCpuEnabled || IsGpuEnabled))
             {
-                if (_providerConfig.IsLowMemoryModeActive)
-                {
-                    newStatus = DashboardStatusEnum.ReadyLowMemory;
-                }
-                else
-                {
-                    newStatus = DashboardStatusEnum.ReadyStandard;
-                }
+                newStatus = DashboardStatusEnum.Ready;
+            }
+
+            if (_statusMiningMemory != newMemoryStatus)
+            {
+                StatusMiningMemory = newMemoryStatus;
             }
             if (_status != newStatus)
             {
@@ -411,6 +404,30 @@ namespace GolemUI.ViewModel
             {
                 _status = value;
                 OnPropertyChanged("Status");
+            }
+        }
+        public string StatusAdditionalInfo
+        {
+            get
+            {
+                return StatusMiningMemory switch
+                {
+                    MiningMemoryMode.None => "",
+                    MiningMemoryMode.Above3GB => "4 GB mode",
+                    MiningMemoryMode.Above6Gb => "",
+                    _ => ""
+                };
+            }
+        }
+        public MiningMemoryMode _statusMiningMemory = MiningMemoryMode.None;
+        public MiningMemoryMode StatusMiningMemory
+        {
+            get => _statusMiningMemory;
+            set
+            {
+                _statusMiningMemory = value;
+                OnPropertyChanged(nameof(StatusMiningMemory));
+                OnPropertyChanged(nameof(StatusAdditionalInfo));
             }
         }
 
