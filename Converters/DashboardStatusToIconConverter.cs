@@ -24,10 +24,10 @@ namespace GolemUI.Converters
             {
                 DashboardStatusEnum.Error => "Error",
                 DashboardStatusEnum.Hidden => "Ready",
-                DashboardStatusEnum.ReadyStandard => "Ready",
-                DashboardStatusEnum.ReadyLowMemory => "Ready",
-                DashboardStatusEnum.MiningStandard => "Mining",
-                DashboardStatusEnum.MiningLowMemory => "Mining",
+                DashboardStatusEnum.Ready => "Ready",
+                //DashboardStatusEnum.ReadyLowMemory => "Ready",
+                DashboardStatusEnum.Mining => "Mining",
+                //DashboardStatusEnum.MiningLowMemory => "Mining",
                 _ => "ready"
             };
             string path = basePath + file + ".png";
