@@ -59,11 +59,7 @@ namespace GolemUI.Src
         {
             get
             {
-                if (IsLowMemoryModeActive)
-                {
-                    return _isPresetActive("hminer");
-                }
-                return _isPresetActive("gminer");
+                return _isPresetActive("hminer") || _isPresetActive("gminer");
             }
         }
 
@@ -218,18 +214,17 @@ namespace GolemUI.Src
                 }
 
 
-                if (isLowMemoryMode)
+                if (presets.Contains("gminer") || presets.Contains("hminer"))
                 {
-                    if (presets.Contains("gminer"))
+                    if (isLowMemoryMode)
                     {
+                        _provider.ActivatePreset("hminer");
                         _provider.DeactivatePreset("gminer");
                     }
-                }
-                else
-                {
-                    if (presets.Contains("hminer"))
+                    else
                     {
                         _provider.DeactivatePreset("hminer");
+                        _provider.ActivatePreset("gminer");
                     }
                 }
 
