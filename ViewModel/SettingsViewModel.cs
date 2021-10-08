@@ -369,6 +369,7 @@ namespace GolemUI.ViewModel
                         if (!benchmarkStatus.LowMemoryMode && !String.IsNullOrEmpty(BenchmarkError))
                         {
                             StartBenchmark("ETC");
+                            return;
                         }
                     }
 
