@@ -52,7 +52,7 @@ namespace GolemUI.Src
             {
                 return amount * value;
             }
-			//fallback when Coingecko is not working
+            //fallback when Coingecko is not working
             if (coin == Coin.GLM && currency == Currency.USD)
             {
                 if (_remoteSettings.LoadRemoteSettings(out RemoteSettings? rs))
