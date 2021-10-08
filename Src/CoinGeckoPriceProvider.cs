@@ -25,10 +25,12 @@ namespace GolemUI.Src
         private readonly Dictionary<Coin, decimal> _prices = new Dictionary<Coin, decimal>();
         private readonly DispatcherTimer _timer;
         private readonly ILogger _logger;
+        private readonly IRemoteSettingsProvider _remoteSettings;
 
 
-        public CoinGeckoPriceProvider(ILogger<CoinGeckoPriceProvider> logger)
+        public CoinGeckoPriceProvider(ILogger<CoinGeckoPriceProvider> logger, IRemoteSettingsProvider remoteSettings)
         {
+            _remoteSettings = remoteSettings;
             _logger = logger;
             _client = CoinGecko.Clients.CoinGeckoClient.Instance;
             _timer = new DispatcherTimer();
@@ -49,6 +51,17 @@ namespace GolemUI.Src
             if (_prices.TryGetValue(coin, out value))
             {
                 return amount * value;
+            }
+			//fallback when Coingecko is not working
+            if (coin == Coin.GLM && currency == Currency.USD)
+            {
+                if (_remoteSettings.LoadRemoteSettings(out RemoteSettings? rs))
+                {
+                    if (rs != null)
+                    {
+                        return (decimal)(rs.GLMFallbackValue.GetValueOrDefault() * (double)amount);
+                    }
+                }
             }
             return 0;
         }
