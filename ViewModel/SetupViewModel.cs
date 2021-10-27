@@ -278,8 +278,8 @@ namespace GolemUI.ViewModel
 
         public Src.BenchmarkService BenchmarkService => _benchmarkService;
 
-        private ObservableCollection<Claymore.ClaymoreGpuStatus> _gpus = new ObservableCollection<Claymore.ClaymoreGpuStatus>();
-        public ObservableCollection<Claymore.ClaymoreGpuStatus>? GPUs => _gpus;
+        private ObservableCollection<Claymore.BenchmarkGpuStatus> _gpus = new ObservableCollection<Claymore.BenchmarkGpuStatus>();
+        public ObservableCollection<Claymore.BenchmarkGpuStatus>? GPUs => _gpus;
         public string? BenchmarkError { get; set; }
 
         internal async Task<bool> ActivateHdWallet()

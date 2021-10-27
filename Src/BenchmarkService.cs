@@ -16,6 +16,12 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace GolemUI.Src
 {
+    public enum ActiveMiner
+    {
+        Claymore,
+        TRex
+    }
+
     public class BenchmarkService : INotifyPropertyChanged
     {
         public event OnProblemsWithExeFileEventHander? ProblemWithExe;
@@ -35,11 +41,24 @@ namespace GolemUI.Src
 
         private readonly Interfaces.IProviderConfig _providerConfig;
         private readonly ILogger<BenchmarkService> _logger;
-        private ClaymoreLiveStatus? _claymoreLiveStatus = null;
-        private TRexLiveStatus? _trexLiveStatus = null;
+        private BenchmarkLiveStatus? _claymoreLiveStatus = null;
+        private BenchmarkLiveStatus? _trexLiveStatus = null;
+        public ActiveMiner ActiveMiner { get; set; } = ActiveMiner.TRex;
 
-        public ClaymoreLiveStatus? Status => _claymoreLiveStatus;
-        public TRexLiveStatus? TRexStatus => _trexLiveStatus;
+        public BenchmarkLiveStatus? Status
+        {
+            get
+            {
+                switch (ActiveMiner)
+                {
+                    case ActiveMiner.Claymore: return _claymoreLiveStatus;
+                    case ActiveMiner.TRex: return _trexLiveStatus;
+                    default: throw new Exception("Uknown miner");
+                }
+            }
+        }
+
+        public BenchmarkLiveStatus? TRexStatus => _trexLiveStatus;
 
         public bool IsRunning { get; private set; }
 
@@ -125,7 +144,7 @@ namespace GolemUI.Src
             }
         }
 
-        public async void StartBenchmarkTrex(string cards, string niceness, string mining_mode, TRexLiveStatus? externalLiveStatus)
+        public async void StartBenchmarkTrex(string cards, string niceness, string mining_mode, BenchmarkLiveStatus? externalLiveStatus)
         {
             if (this._trexLiveStatus != null)
                 this._trexLiveStatus.ProblemWithExeFile = ProblemWithExeFile.None;
@@ -135,7 +154,7 @@ namespace GolemUI.Src
             }
             _requestStop = false;
 
-            TRexLiveStatus? baseLiveStatus = null;
+            BenchmarkLiveStatus? baseLiveStatus = null;
 
 
             DateTime benchmarkStartTime = DateTime.Now;
@@ -300,11 +319,11 @@ namespace GolemUI.Src
                     _trexLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
                     OnPropertyChanged("Status");
                     OnPropertyChanged("TotalMhs");
-                    if (_trexLiveStatus.NumberOfTRexPerfReports >= _trexLiveStatus.TotalTRexReportsBenchmark)
+                    if (_trexLiveStatus.NumberOfClaymorePerfReports >= _trexLiveStatus.TotalClaymoreReportsBenchmark)
                     {
                         foreach (var gpu in _trexLiveStatus.GPUs)
                         {
-                            gpu.Value.BenchmarkDoneForThrottlingLevel = gpu.Value.TRexPerformanceThrottling;
+                            gpu.Value.BenchmarkDoneForThrottlingLevel = gpu.Value.ClaymorePerformanceThrottling;
                         }
 
                         _logger.LogInformation("Benchmark succeeded.");
@@ -418,7 +437,7 @@ namespace GolemUI.Src
             }
         }
 
-        public async void StartBenchmark(string cards, string niceness, string mining_mode, ClaymoreLiveStatus? externalLiveStatus)
+        public async void StartBenchmark(string cards, string niceness, string mining_mode, BenchmarkLiveStatus? externalLiveStatus)
         {
             if (this._claymoreLiveStatus != null)
                 this._claymoreLiveStatus.ProblemWithExeFile = ProblemWithExeFile.None;
@@ -428,7 +447,7 @@ namespace GolemUI.Src
             }
             _requestStop = false;
 
-            ClaymoreLiveStatus? baseLiveStatus = null;
+            BenchmarkLiveStatus? baseLiveStatus = null;
 
 
             DateTime benchmarkStartTime = DateTime.Now;
@@ -711,7 +730,7 @@ namespace GolemUI.Src
             }
         }
 
-        public void Apply(ClaymoreLiveStatus liveStatus)
+        public void Apply(BenchmarkLiveStatus liveStatus)
         {
             _claymoreLiveStatus = liveStatus;
             OnPropertyChanged("Status");

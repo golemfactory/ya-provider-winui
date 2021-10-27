@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace GolemUI.Claymore
 {
     public enum GpuErrorType { NotEnoughMemory, None }
-    public class ClaymoreGpuStatus : ICloneable, INotifyPropertyChanged
+    public class BenchmarkGpuStatus : ICloneable, INotifyPropertyChanged
     {
         public GpuErrorType GpuErrorType { get; set; } = GpuErrorType.None;
         public int GpuNo { get; set; }
@@ -152,11 +152,11 @@ namespace GolemUI.Claymore
             NotifyChange("");
         }
 
-        public ClaymoreGpuStatus()
+        public BenchmarkGpuStatus()
         {
         }
 
-        public ClaymoreGpuStatus(int gpuNo, bool isEnabledByUser, int claymorePerformanceThrottling)
+        public BenchmarkGpuStatus(int gpuNo, bool isEnabledByUser, int claymorePerformanceThrottling)
         {
             this.IsEnabledByUser = isEnabledByUser;
             this.ClaymorePerformanceThrottling = claymorePerformanceThrottling;
@@ -166,7 +166,7 @@ namespace GolemUI.Claymore
 
         public object Clone()
         {
-            ClaymoreGpuStatus s = new ClaymoreGpuStatus(this.GpuNo, this.IsEnabledByUser, this.ClaymorePerformanceThrottling);
+            BenchmarkGpuStatus s = new BenchmarkGpuStatus(this.GpuNo, this.IsEnabledByUser, this.ClaymorePerformanceThrottling);
             s.GpuName = this.GpuName;
             s.OutOfMemory = this.OutOfMemory;
             s.BenchmarkDoneForThrottlingLevel = this.BenchmarkDoneForThrottlingLevel;
@@ -211,10 +211,10 @@ namespace GolemUI.Claymore
 
     }
 
-    public class ClaymoreLiveStatus : ICloneable
+    public class BenchmarkLiveStatus : ICloneable
     {
-        Dictionary<int, ClaymoreGpuStatus> _gpus = new Dictionary<int, ClaymoreGpuStatus>();
-        public Dictionary<int, ClaymoreGpuStatus> GPUs { get { return _gpus; } }
+        Dictionary<int, BenchmarkGpuStatus> _gpus = new Dictionary<int, BenchmarkGpuStatus>();
+        public Dictionary<int, BenchmarkGpuStatus> GPUs { get { return _gpus; } }
 
         public bool BenchmarkFinished { get; set; }
 
@@ -233,9 +233,9 @@ namespace GolemUI.Claymore
         public List<int> GetEnabledGpus()
         {
             List<int> result = new List<int>();
-            foreach (KeyValuePair<int, ClaymoreGpuStatus> entry in this._gpus)
+            foreach (KeyValuePair<int, BenchmarkGpuStatus> entry in this._gpus)
             {
-                ClaymoreGpuStatus st = entry.Value;
+                BenchmarkGpuStatus st = entry.Value;
                 if (st.BenchmarkSpeed > 0.1 && st.IsDagFinished() && st.IsEnabledByUser)
                 {
                     result.Add(st.GpuNo);
@@ -244,7 +244,7 @@ namespace GolemUI.Claymore
             return result;
         }
 
-        public ClaymoreLiveStatus(bool isBenchmark, int totalClaymoreReportsNeeded)
+        public BenchmarkLiveStatus(bool isBenchmark, int totalClaymoreReportsNeeded)
         {
             IsBenchmark = isBenchmark;
             TotalClaymoreReportsBenchmark = totalClaymoreReportsNeeded;
@@ -252,7 +252,7 @@ namespace GolemUI.Claymore
 
         public object Clone()
         {
-            ClaymoreLiveStatus s = new ClaymoreLiveStatus(this.IsBenchmark, this.TotalClaymoreReportsBenchmark);
+            BenchmarkLiveStatus s = new BenchmarkLiveStatus(this.IsBenchmark, this.TotalClaymoreReportsBenchmark);
             s.BenchmarkFinished = this.BenchmarkFinished;
             s.BenchmarkTotalSpeed = this.BenchmarkTotalSpeed;
             //s.BenchmarkProgress = this.BenchmarkProgress;
@@ -262,10 +262,10 @@ namespace GolemUI.Claymore
             s.TotalClaymoreReportsBenchmark = this.TotalClaymoreReportsBenchmark;
 
 
-            s._gpus = new Dictionary<int, ClaymoreGpuStatus>();
-            foreach (KeyValuePair<int, ClaymoreGpuStatus> entry in this._gpus)
+            s._gpus = new Dictionary<int, BenchmarkGpuStatus>();
+            foreach (KeyValuePair<int, BenchmarkGpuStatus> entry in this._gpus)
             {
-                s._gpus.Add(entry.Key, (ClaymoreGpuStatus)entry.Value.Clone());
+                s._gpus.Add(entry.Key, (BenchmarkGpuStatus)entry.Value.Clone());
             }
 
             return s;
@@ -311,7 +311,7 @@ namespace GolemUI.Claymore
 
         }
 
-        public void MergeFromBaseLiveStatus(ClaymoreLiveStatus baseLiveStatus, string cards, out bool allExpectedGpusFound)
+        public void MergeFromBaseLiveStatus(BenchmarkLiveStatus baseLiveStatus, string cards, out bool allExpectedGpusFound)
         {
             int numberOfBaseGpus = baseLiveStatus.GPUs.Count;
             if (numberOfBaseGpus == 0)
@@ -376,10 +376,10 @@ namespace GolemUI.Claymore
                 }
             }
 
-            Dictionary<int, ClaymoreGpuStatus> newDictionary = new Dictionary<int, ClaymoreGpuStatus>();
+            Dictionary<int, BenchmarkGpuStatus> newDictionary = new Dictionary<int, BenchmarkGpuStatus>();
             for (int baseIdx = 1; baseIdx <= numberOfBaseGpus; baseIdx++)
             {
-                ClaymoreGpuStatus gpuInfo;
+                BenchmarkGpuStatus gpuInfo;
                 if (indexMap[baseIdx] == -1)
                 {
                     gpuInfo = baseLiveStatus.GPUs[baseIdx];
@@ -396,7 +396,7 @@ namespace GolemUI.Claymore
 
             _gpus = newDictionary;
         }
-        public void MergeUserSettingsFromExternalLiveStatus(ClaymoreLiveStatus? externalLiveStatus)
+        public void MergeUserSettingsFromExternalLiveStatus(BenchmarkLiveStatus? externalLiveStatus)
         {
             if (externalLiveStatus == null)
             {
@@ -414,7 +414,7 @@ namespace GolemUI.Claymore
                         this.GPUs[key].ClaymorePerformanceThrottling = externalLiveStatus.GPUs[key].ClaymorePerformanceThrottling;
                         if (!this.GPUs[key].IsEnabledByUser)
                         {
-                            this.GPUs[key] = (ClaymoreGpuStatus)externalLiveStatus.GPUs[key].Clone();
+                            this.GPUs[key] = (BenchmarkGpuStatus)externalLiveStatus.GPUs[key].Clone();
                         }
                     }
                 }
@@ -435,7 +435,7 @@ namespace GolemUI.Claymore
         private readonly ILogger? _logger;
         const StringComparison STR_COMP_TYPE = StringComparison.InvariantCultureIgnoreCase;
 
-        ClaymoreLiveStatus _liveStatus;
+        BenchmarkLiveStatus _liveStatus;
 
         private readonly object __lockObj = new object();
 
@@ -455,7 +455,7 @@ namespace GolemUI.Claymore
         {
             _logger = logger;
             _isPreBenchmark = isPreBenchmark;
-            _liveStatus = new ClaymoreLiveStatus(isBenchmark, totalClaymoreReportsNeeded);
+            _liveStatus = new BenchmarkLiveStatus(isBenchmark, totalClaymoreReportsNeeded);
         }
 
 
@@ -471,12 +471,12 @@ namespace GolemUI.Claymore
         /// <summary>
         /// Thread safe 
         /// </summary>
-        /// <returns>copy of ClaymoreLiveStatus structure</returns>
-        public ClaymoreLiveStatus GetLiveStatusCopy()
+        /// <returns>copy of BenchmarkLiveStatus structure</returns>
+        public BenchmarkLiveStatus GetLiveStatusCopy()
         {
             lock (__lockObj)
             {
-                return (ClaymoreLiveStatus)_liveStatus.Clone();
+                return (BenchmarkLiveStatus)_liveStatus.Clone();
                 // Your code...
             }
         }
@@ -571,7 +571,7 @@ namespace GolemUI.Claymore
                 }
                 int gpuNo = -1;
                 string gpu_claymore_index = "";
-                ClaymoreGpuStatus? currentStatus = null;
+                BenchmarkGpuStatus? currentStatus = null;
 
                 int indexNo = 0;
                 foreach (var key in new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G" })
@@ -603,7 +603,7 @@ namespace GolemUI.Claymore
                 {
                     if (!_liveStatus.GPUs.ContainsKey(gpuNo))
                     {
-                        _liveStatus.GPUs.Add(gpuNo, new ClaymoreGpuStatus(gpuNo, true, (int)PerformanceThrottlingEnumConverter.Default));
+                        _liveStatus.GPUs.Add(gpuNo, new BenchmarkGpuStatus(gpuNo, true, (int)PerformanceThrottlingEnumConverter.Default));
                     }
                     currentStatus = _liveStatus.GPUs[gpuNo];
 
@@ -761,7 +761,7 @@ namespace GolemUI.Claymore
 
                             if (!_liveStatus.GPUs.ContainsKey(parsedGpuNo))
                             {
-                                _liveStatus.GPUs.Add(parsedGpuNo, new ClaymoreGpuStatus(parsedGpuNo, true, 0));
+                                _liveStatus.GPUs.Add(parsedGpuNo, new BenchmarkGpuStatus(parsedGpuNo, true, 0));
                             }
                             _liveStatus.GPUs[parsedGpuNo].BenchmarkSpeed = (float)mhs;
                         }

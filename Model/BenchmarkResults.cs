@@ -12,8 +12,8 @@ namespace GolemUI.Model
     {
         public int BenchmarkResultVersion { get; set; }
 
-        public ClaymoreLiveStatus? liveStatus = null;
-        public TRexLiveStatus? liveStatusTrex = null;
+        public BenchmarkLiveStatus? liveStatus = null;
+        public BenchmarkLiveStatus? liveStatusTrex = null;
 
         public bool IsClaymoreMiningPossible(out string reason)
         {

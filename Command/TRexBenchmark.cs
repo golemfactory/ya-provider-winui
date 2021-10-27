@@ -26,8 +26,8 @@ namespace GolemUI.Command
 
         public LogLineHandler? LineHandler { get; set; }
 
-        string _trex_working_dir = @"plugins\trex";
-        string _trex_exe_path = @"plugins\trex\T-Rex.exe";
+        string _trex_working_dir = @"plugins\t-rex";
+        string _trex_exe_path = @"plugins\t-rex\t-rex.exe";
 
         public string BenchmarkError = "";
 
@@ -47,7 +47,7 @@ namespace GolemUI.Command
 
         private string? _unsafeGpuDetails;
 
-        //private TRexLiveStatus _liveStatus = new TRexLiveStatus();
+        //private BenchmarkLiveStatus _liveStatus = new BenchmarkLiveStatus();
         private TRexParser _trexParserBenchmark;
         private TRexParser _trexParserPreBenchmark;
 
@@ -179,8 +179,7 @@ namespace GolemUI.Command
             List<string> arguments = new List<string>();
 
             //Enable benchmark mode:
-
-            arguments.AddRange("-epool test -li 200".Split(' '));
+            arguments.AddRange("--algo ethash --benchmark --benchmark-epoch 450".Split(' '));
 
             foreach (var arg in arguments)
             {
@@ -250,8 +249,10 @@ namespace GolemUI.Command
             //Enable benchmark mode:
 
 
+            string args_text = $"--no-watchdog --algo ethash -o {pool} -u {ethereumAddress} -p x -w \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\"";
 
-            arguments.AddRange($"-wd 0 -r -1 -epool {pool} -ewal {ethereumAddress} -eworker \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\" -clnew 1 -clKernel 0".Split(' '));
+            arguments.AddRange(args_text.Split(' '));
+            //arguments.AddRange($"-wd 0 -r -1 -epool {pool} -ewal {ethereumAddress} -eworker \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\" -clnew 1 -clKernel 0".Split(' '));
 
 
             if (!string.IsNullOrEmpty(cards))

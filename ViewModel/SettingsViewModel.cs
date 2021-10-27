@@ -33,7 +33,7 @@ namespace GolemUI.ViewModel
         private readonly IUserSettingsProvider _userSettingsProvider;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
         public BenchmarkService BenchmarkService => _benchmarkService;
-        public ObservableCollection<ClaymoreGpuStatus> GpuList { get; set; }
+        public ObservableCollection<BenchmarkGpuStatus> GpuList { get; set; }
         public string BenchmarkError { get; set; }
 
         //It's needed to prevent blinking button when transition to advanced window
@@ -63,7 +63,7 @@ namespace GolemUI.ViewModel
             _statusProvider = statusProvider;
             _processController = processController;
             _processController.PropertyChanged += _processController_PropertyChanged;
-            GpuList = new ObservableCollection<ClaymoreGpuStatus>();
+            GpuList = new ObservableCollection<BenchmarkGpuStatus>();
             _notificationService = notificationService;
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
@@ -195,7 +195,7 @@ namespace GolemUI.ViewModel
                 cards = "";
             }
 
-            TRexLiveStatus? externalStatusCopy = (TRexLiveStatus?)_benchmarkSettings.liveStatusTrex?.Clone();
+            BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatusTrex?.Clone();
             BenchmarkService.StartBenchmarkTrex(cards, niceness, miningMode, externalStatusCopy);
         }
         public void StopBenchmark()
@@ -263,7 +263,7 @@ namespace GolemUI.ViewModel
         }
         private void Val_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (sender is ClaymoreGpuStatus status)
+            if (sender is BenchmarkGpuStatus status)
             {
                 if (e.PropertyName == "SelectedMiningMode")
                 {
@@ -295,9 +295,9 @@ namespace GolemUI.ViewModel
             GpuList?.ToList().ForEach(gpu =>
             {
                 var res = _benchmarkSettings.liveStatus?.GPUs.ToList().Find(x => x.Value.GpuNo == gpu.GpuNo);
-                if (res != null && res.HasValue && !res.Equals(default(KeyValuePair<int, Claymore.ClaymoreGpuStatus>)))
+                if (res != null && res.HasValue && !res.Equals(default(KeyValuePair<int, Claymore.BenchmarkGpuStatus>)))
                 {
-                    KeyValuePair<int, Claymore.ClaymoreGpuStatus> keyVal = res.Value;
+                    KeyValuePair<int, Claymore.BenchmarkGpuStatus> keyVal = res.Value;
                     keyVal.Value.IsEnabledByUser = gpu.IsEnabledByUser;
                     keyVal.Value.BenchmarkSpeed = gpu.BenchmarkSpeed;
                     keyVal.Value.ClaymorePerformanceThrottling = gpu.ClaymorePerformanceThrottling;
