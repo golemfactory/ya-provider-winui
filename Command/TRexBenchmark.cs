@@ -36,10 +36,17 @@ namespace GolemUI.Command
 
         public LogLineHandler? LineHandler { get; set; }
 
+        public volatile bool PreBenchmarkFinished = false;
+
+        public TRexParser TRexParserPreBenchmark { get { return _trexParserPreBenchmark; } }
+        public TRexParser TRexParserBenchmark { get { return _trexParserBenchmark; } }
 
         public event OnProblemsWithExeFileEventHander? ProblemWithExe;
 
         private Process _trexProcess;
+
+        public bool BenchmarkFinished { get; set; }
+
 
         public TRexBenchmark(int totalClaymoreReportsNeeded, ILogger logger)
         {
@@ -48,8 +55,23 @@ namespace GolemUI.Command
             _trexParserPreBenchmark = new TRexParser();
         }
 
-        public bool RunBenchmark(string cards, string niceness, string pool, string ethereumAddress,
-            string nodeName)
+        public bool RunBenchmarkRecording(string brFile, bool isPreBenchmark)
+        {
+            return false;
+        }
+
+        public bool RunPreBenchmark()
+        {
+            PreBenchmarkFinished = true;
+            return true;
+        }
+
+        public void Stop()
+        {
+
+        }
+
+        public bool RunBenchmark(string cards, string niceness, string pool, string ethereumAddress, string nodeName)
         {
             if (!System.IO.File.Exists(_trex_exe_path))
             {

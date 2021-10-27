@@ -195,7 +195,7 @@ namespace GolemUI.ViewModel
             }
 
             ClaymoreLiveStatus? externalStatusCopy = (ClaymoreLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
-            BenchmarkService.StartBenchmark(cards, niceness, miningMode, externalStatusCopy);
+            BenchmarkService.StartBenchmarkTrex(cards, niceness, miningMode, externalStatusCopy);
         }
         public void StopBenchmark()
         {
