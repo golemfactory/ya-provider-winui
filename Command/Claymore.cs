@@ -367,7 +367,7 @@ namespace GolemUI.Command
 
 
     }
-    
+
 
     /// <summary>
     /// This class is for debug purposes only, it's not used in production code

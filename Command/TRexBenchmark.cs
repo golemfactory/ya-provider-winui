@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 namespace GolemUI.Command
 {
 
-    
+
 
     public class TRexBenchmark
     {
