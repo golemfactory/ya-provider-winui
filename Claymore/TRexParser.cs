@@ -17,7 +17,7 @@ using GolemUI.Command;
 namespace GolemUI.TRex
 {
 
-    
+
     public class TRexBenchmarkLine
     {
         public long delta_time_ms { get; set; }
