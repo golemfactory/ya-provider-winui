@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using GolemUI.Interfaces;
+using GolemUI.Model;
 using GolemUI.Utils;
 using Microsoft.Extensions.Logging;
 
@@ -127,17 +128,26 @@ namespace GolemUI.Src
             else
             {
                 const string HASH_RATE = "golem.usage.mining.hash-rate";
-                var hashRate = _statusProvider.Activities
-                    .Where(a => (a.ExeUnit == "gminer" || a.ExeUnit == "hminer") && (a.Usage?.ContainsKey(HASH_RATE) ?? false))
+                var hashRateEth = _statusProvider.Activities
+                    .Where(a => (a.ExeUnit == "gminer") && (a.Usage?.ContainsKey(HASH_RATE) ?? false))
+                    .FirstOrDefault()?.Usage?[HASH_RATE];
+                var hashRateEtc = _statusProvider.Activities
+                    .Where(a => (a.ExeUnit == "hminer") && (a.Usage?.ContainsKey(HASH_RATE) ?? false))
                     .FirstOrDefault()?.Usage?[HASH_RATE];
 
                 Debug.WriteLine(_statusProvider.Activities);
                 var glm_usd_price = _priceProvider.CoinValue(1.0, Model.Coin.GLM);
-                if (hashRate is float hr && hr > 0.0 && glm_usd_price > 0.0)
+                if (hashRateEth is float hr && hr > 0.0 && glm_usd_price > 0.0)
                 {
-                    EstimatedEarningsPerSecondUSD = _estimatedProfitProvider.HashRateToUSDPerDay(Convert.ToDouble(hr)) / 3600.0 / 24.0;
+                    EstimatedEarningsPerSecondUSD = _estimatedProfitProvider.HashRateToUSDPerDay(Convert.ToDouble(hr), Coin.ETH) / 3600.0 / 24.0;
                     EstimatedEarningsPerSecondGLM = EstimatedEarningsPerSecondUSD / glm_usd_price;
                     EstimatedEarningsMessage = $"Estimation based on current hashrate and requestor payout.";
+                }
+                else if (hashRateEtc is float hrc && hrc > 0.0 && glm_usd_price > 0.0)
+                {
+                    EstimatedEarningsPerSecondUSD = _estimatedProfitProvider.HashRateToUSDPerDay(Convert.ToDouble(hrc), Coin.ETC) / 3600.0 / 24.0;
+                    EstimatedEarningsPerSecondGLM = EstimatedEarningsPerSecondUSD / glm_usd_price;
+                    EstimatedEarningsMessage = $"Estimation based on current hashrate and requestor payout (low memory mode).";
                 }
                 else
                 {

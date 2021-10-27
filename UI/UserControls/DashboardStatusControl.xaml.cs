@@ -25,6 +25,7 @@ namespace GolemUI
             InitializeComponent();
         }
         public static readonly DependencyProperty _status = DependencyProperty.Register("Status", typeof(DashboardStatusEnum), typeof(DashboardStatusControl));
+        public static readonly DependencyProperty _statusAdditionalInfo = DependencyProperty.Register("StatusAdditionalInfo", typeof(string), typeof(DashboardStatusControl));
 
         public DashboardStatusEnum Status
         {
@@ -35,6 +36,18 @@ namespace GolemUI
             set
             {
                 SetValue(_status, value);
+
+            }
+        }
+        public string StatusAdditionalInfo
+        {
+            get
+            {
+                return (string)GetValue(_statusAdditionalInfo);
+            }
+            set
+            {
+                SetValue(_statusAdditionalInfo, value);
 
             }
         }

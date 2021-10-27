@@ -13,17 +13,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GolemUI.Interfaces;
+using GolemUI.Model;
 
 namespace GolemUI
 {
     public partial class DashboardSettings : UserControl
     {
         public SettingsViewModel ViewModel;
-        public DashboardSettings(SettingsViewModel viewModel)
+        private readonly IUserSettingsProvider _userSettingsProvider;
+        public DashboardSettings(SettingsViewModel viewModel, IUserSettingsProvider userSettingsProvider)
         {
             InitializeComponent();
             ViewModel = viewModel;
             this.DataContext = this.ViewModel;
+            _userSettingsProvider = userSettingsProvider;
         }
 
         private void btnRunBenchmark_Click(object sender, RoutedEventArgs e)
@@ -70,14 +74,24 @@ namespace GolemUI
             if (shouldStartBenchmark)
             {
                 if (ViewModel.IsMiningProcessRunning)
+                {
                     ViewModel.StopMiningProcess();
-                ViewModel!.StartBenchmark("ETH");
+                }
+
+                if (_userSettingsProvider.LoadUserSettings().ForceLowMemoryMode)
+                {
+                    ViewModel.StartBenchmark("ETC");
+                }
+                else
+                {
+                    ViewModel.StartBenchmark("ETH");
+                }
             }
         }
 
         private void btnStopBenchmark_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel!.StopBenchmark();
+            ViewModel.StopBenchmark();
         }
 
         private void BtnAdvancedSettings_Click(object sender, RoutedEventArgs e)

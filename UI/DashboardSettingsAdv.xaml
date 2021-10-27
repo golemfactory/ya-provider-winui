@@ -125,8 +125,17 @@
                     </StackPanel>
 
                 </StackPanel>
-
             </Border>
+            <Border Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="auto" Height="auto" Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="left" VerticalAlignment="Top" Grid.Column="1" Margin="30,30" >
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <CheckBox IsChecked="{Binding Path=UserSettings.ForceLowMemoryMode}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" >
+                            <TextBlock Margin="10,5" TextWrapping="Wrap" Width="250" VerticalAlignment="Center" Text="Force low memory (4GB) mode, for older cards it sometimes generates higher earnings. It also leaves more VRAM for other use."></TextBlock>
+                        </CheckBox>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
             <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click"  Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="250" Margin="0,0,30,38" />
         </Grid>
       

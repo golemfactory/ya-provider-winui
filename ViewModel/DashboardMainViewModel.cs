@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace GolemUI.ViewModel
@@ -17,9 +18,10 @@ namespace GolemUI.ViewModel
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage, IDialogInvoker
     {
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessController processController, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
-            IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, IRemoteSettingsProvider remoteSettingsProvider, INotificationService notificationService,
+            IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, INotificationService notificationService, IUserSettingsProvider userSettingsProvider,
             ITaskProfitEstimator taskProfitEstimator)
         {
+            _userSettingsProvider = userSettingsProvider;
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
             _paymentService = paymentService;
@@ -29,7 +31,6 @@ namespace GolemUI.ViewModel
 
             _benchmarkService.AntivirusStatus += _benchmarkService_AntivirusStatus;
             _statusProvider = statusProvider;
-            _remoteSettingsProvider = remoteSettingsProvider;
             _notificationService = notificationService;
             _taskProfitEstimator = taskProfitEstimator;
 
@@ -241,8 +242,10 @@ namespace GolemUI.ViewModel
             OnPropertyChanged(nameof(IsGpuEnabled));
             OnPropertyChanged(nameof(GpuStatus));
             OnPropertyChanged(nameof(StartButtonExplanation));
-            var isMining = _statusProvider.Activities?.Any(a => a.State == Model.ActivityState.StateType.Ready) ?? false;
+            var isMining = _statusProvider.Activities?.Any(a => a.State == Model.ActivityState.StateType.Ready) ??
+                           false;
             var newStatus = DashboardStatusEnum.Hidden;
+            var newMemoryStatus = _providerConfig.IsLowMemoryModeActive ? MiningMemoryMode.Above3GB : MiningMemoryMode.Above6Gb;
             if (isMining)
             {
                 newStatus = DashboardStatusEnum.Mining;
@@ -251,6 +254,11 @@ namespace GolemUI.ViewModel
             else if (_processController.IsProviderRunning && (IsCpuEnabled || IsGpuEnabled))
             {
                 newStatus = DashboardStatusEnum.Ready;
+            }
+
+            if (_statusMiningMemory != newMemoryStatus)
+            {
+                StatusMiningMemory = newMemoryStatus;
             }
             if (_status != newStatus)
             {
@@ -398,6 +406,30 @@ namespace GolemUI.ViewModel
                 OnPropertyChanged("Status");
             }
         }
+        public string StatusAdditionalInfo
+        {
+            get
+            {
+                return StatusMiningMemory switch
+                {
+                    MiningMemoryMode.None => "",
+                    MiningMemoryMode.Above3GB => "4 GB mode",
+                    MiningMemoryMode.Above6Gb => "",
+                    _ => ""
+                };
+            }
+        }
+        public MiningMemoryMode _statusMiningMemory = MiningMemoryMode.None;
+        public MiningMemoryMode StatusMiningMemory
+        {
+            get => _statusMiningMemory;
+            set
+            {
+                _statusMiningMemory = value;
+                OnPropertyChanged(nameof(StatusMiningMemory));
+                OnPropertyChanged(nameof(StatusAdditionalInfo));
+            }
+        }
 
         public bool IsGpuEnabled
         {
@@ -406,7 +438,11 @@ namespace GolemUI.ViewModel
             {
                 if (_benchmarkService.IsMiningPossibleWithCurrentSettings || value == false)
                 {
-                    _providerConfig.IsMiningActive = value;
+
+                    bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
+
+                    _providerConfig.SetMiningActive(value, isLowMemoryMode);
+
                     if (value == false)
                     {
                         if (_processController.IsProviderRunning)
@@ -459,6 +495,11 @@ namespace GolemUI.ViewModel
         private async void RunMiner()
         {
             var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
+
+            bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
+
+            _providerConfig.SwitchMiningMode(isLowMemoryMode);
+
             await _processController.Start(_providerConfig.Network, extraClaymoreParams);
         }
         public void Start()
@@ -523,7 +564,7 @@ namespace GolemUI.ViewModel
         private readonly IStatusProvider _statusProvider;
         private readonly IProcessController _processController;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
-        private readonly IRemoteSettingsProvider _remoteSettingsProvider;
+        private readonly IUserSettingsProvider _userSettingsProvider;
         private readonly INotificationService _notificationService;
         private readonly ITaskProfitEstimator _taskProfitEstimator;
     }

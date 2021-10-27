@@ -369,6 +369,7 @@ namespace GolemUI.ViewModel
                         if (!benchmarkStatus.LowMemoryMode && !String.IsNullOrEmpty(BenchmarkError))
                         {
                             StartBenchmark("ETC");
+                            return;
                         }
                     }
 
@@ -421,7 +422,7 @@ namespace GolemUI.ViewModel
             {
                 if (_benchmarkService.IsMiningPossibleWithCurrentSettings || value == false)
                 {
-                    _providerConfig.IsMiningActive = value;
+                    _providerConfig.SetMiningActive(value, _benchmarkService.Status?.LowMemoryMode ?? false);
                     if (value == false)
                     {
                         if (_processController.IsProviderRunning)
@@ -493,7 +494,8 @@ namespace GolemUI.ViewModel
                 var totalHr = HashRate;
                 if (totalHr != null)
                 {
-                    return (double)_profitEstimator.HashRateToUSDPerDay(totalHr.Value, Coin.ETH);
+                    var coin = (_benchmarkService.Status?.LowMemoryMode ?? false) ? Coin.ETC : Coin.ETH;
+                    return (double)_profitEstimator.HashRateToUSDPerDay(totalHr.Value, coin);
                 }
                 return null;
             }

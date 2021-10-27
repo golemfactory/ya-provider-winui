@@ -24,6 +24,7 @@
             <Label  FontSize="14" Content="Status: " VerticalAlignment="Bottom"></Label>
             <Image Source="{Binding Path=Status, Mode=OneWay, Converter={StaticResource DashboardStatusToIconConverter}}" Width="35" Height="35" VerticalAlignment="Bottom" Margin="4,0,0,0"/>
             <Label Margin="6,0,0,-2" FontSize="24" FontWeight="Black" Name="lblStatus" Content="{Binding ElementName=DashboardStatusControlInstance, Path=Status, Mode=OneWay, Converter={StaticResource DashboardStatusToTextConverter}}" VerticalAlignment="Bottom"></Label>
+            <Label Margin="2,0,0,0" FontSize="14" FontWeight="Regular" Name="lblMode" Content="{Binding ElementName=DashboardStatusControlInstance, Path=StatusAdditionalInfo, Mode=OneWay}" VerticalAlignment="Bottom"></Label>
         </StackPanel>
     
             

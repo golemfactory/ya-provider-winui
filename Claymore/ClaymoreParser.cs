@@ -82,7 +82,7 @@ namespace GolemUI.Claymore
             {
                 if (LowMemoryMode)
                 {
-                    return GpuNo + ". (low mem mode) " + GpuName;
+                    return GpuNo + ". (4GB mode) " + GpuName;
                 }
                 return GpuNo + ". " + GpuName;
             }
