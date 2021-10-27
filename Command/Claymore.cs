@@ -16,8 +16,8 @@ using Microsoft.Extensions.Logging;
 namespace GolemUI.Command
 {
 
-    public enum ProblemWithExeFile { Timeout, Antivirus, FileMissing, None };
-    public delegate void OnProblemsWithExeFileEventHander(ProblemWithExeFile problem);
+    //public enum ProblemWithExeFile { Timeout, Antivirus, FileMissing, None };
+    //public delegate void OnProblemsWithExeFileEventHander(ProblemWithExeFile problem);
 
 
     public class ClaymoreBenchmark
