@@ -14,6 +14,9 @@ namespace GolemUI.Interfaces
         public class EarningsStatsType
         {
             public int Shares { get; set; }
+            public int StaleShares { get; set; }
+            public int InvalidShares { get; set; }
+
             public TimeSpan Time { get; set; }
 
             public double AvgGlmPerSecond { get; set; }

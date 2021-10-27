@@ -45,7 +45,6 @@ namespace GolemUI.Src
         }
 
 
-        private string _estimatedEarningsMessage = "";
         private readonly ILogger<TaskProfitEstimator> _logger;
         private readonly IHistoryDataProvider _historyDataProvider;
         private readonly IPriceProvider _priceProvider;
@@ -85,6 +84,7 @@ namespace GolemUI.Src
             }
         }
 
+        private string _estimatedEarningsMessage = "";
         public string EstimatedEarningsMessage
         {
             get => _estimatedEarningsMessage;
@@ -98,6 +98,20 @@ namespace GolemUI.Src
             }
         }
 
+        private string _shareInfoMessage = "";
+        public string ShareInfoMessage
+        {
+            get => _shareInfoMessage;
+            set
+            {
+                if (_shareInfoMessage != value)
+                {
+                    _shareInfoMessage = value;
+                    NotifyChanged();
+                }
+            }
+        }
+
         private void Refresh()
         {
             if (!_processController.IsProviderRunning)
@@ -106,6 +120,7 @@ namespace GolemUI.Src
                 EstimatedEarningsPerSecondGLM = null;
 
                 EstimatedEarningsMessage = $"Start mining to get estimates";
+                ShareInfoMessage = $"Start mining to get share info";
                 return;
             }
             if (_historyDataProvider.EarningsStats is IHistoryDataProvider.EarningsStatsType stats)
@@ -119,10 +134,12 @@ namespace GolemUI.Src
                 if (hours == 0)
                 {
                     EstimatedEarningsMessage = $"Estimation based on {stats.Shares} shares mined during last {minutes} minutes.";
+                    ShareInfoMessage = $"Share info base on last {minutes} minutes.";
                 }
                 else
                 {
                     EstimatedEarningsMessage = $"Estimation based on {stats.Shares} shares mined during last {hours} hours and {minutes} minutes.";
+                    ShareInfoMessage = $"Share info base on last {hours} hours and {minutes} minutes.";
                 }
             }
             else

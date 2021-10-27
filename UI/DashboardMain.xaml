@@ -135,7 +135,7 @@
                             <Label FontSize="10" FontWeight="Bold" Content="Cards:"  Padding="0"/>
                             <Label FontSize="10" Content="{Binding Path=GpuCardsInfo, Mode=OneWay}" Margin="4,0,0,0" Foreground="#99b" Padding="0"/>
                         </StackPanel>
-                        <Image Source="Icons/DefaultStyle/png/Dashboard/Gpu.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" >
+                        <Image Source="Icons/DefaultStyle/png/Dashboard/Gpu.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" ToolTip="{Binding ShareInfo}" >
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">
                                     <Style.Resources>

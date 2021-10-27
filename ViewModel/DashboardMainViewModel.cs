@@ -1,4 +1,5 @@
-﻿using GolemUI.Converters;
+﻿using System;
+using GolemUI.Converters;
 using GolemUI.Interfaces;
 using GolemUI.Model;
 using GolemUI.Src;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using static GolemUI.Interfaces.IHistoryDataProvider;
 
 namespace GolemUI.ViewModel
 {
@@ -28,12 +30,14 @@ namespace GolemUI.ViewModel
             _processController = processController;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
+            _historyDataProvider = historyDataProvider;
 
             _benchmarkService.AntivirusStatus += _benchmarkService_AntivirusStatus;
             _statusProvider = statusProvider;
             _notificationService = notificationService;
             _taskProfitEstimator = taskProfitEstimator;
 
+            _historyDataProvider.PropertyChanged += _historyDataProvider_PropertyChanged;
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
             _statusProvider.PropertyChanged += OnActivityStatusChanged;
@@ -102,13 +106,36 @@ namespace GolemUI.ViewModel
             }
         }
 
+        private string _shareInfo = "Start mining to get info";
 
+        public string ShareInfo
+        {
+            get => _shareInfo;
+            set
+            {
+                _shareInfo = value;
+                OnPropertyChanged();
+            }
+        }
 
         private void _historyDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "ActiveAgreementID")
             {
                 OnPropertyChanged("ActiveAgreementID");
+            }
+
+            if (e.PropertyName == "EarningsStats")
+            {
+                EarningsStatsType? es = _historyDataProvider.EarningsStats;
+                if (es != null)
+                {
+                    ShareInfo = String.Format("Share info: {0} (stale: {1}, invalid: {2})", es.Shares, es.StaleShares, es.InvalidShares);
+                }
+                else
+                {
+                    ShareInfo = "No stats available yet";
+                }
             }
         }
 
@@ -567,5 +594,6 @@ namespace GolemUI.ViewModel
         private readonly IUserSettingsProvider _userSettingsProvider;
         private readonly INotificationService _notificationService;
         private readonly ITaskProfitEstimator _taskProfitEstimator;
+        private readonly IHistoryDataProvider _historyDataProvider;
     }
 }

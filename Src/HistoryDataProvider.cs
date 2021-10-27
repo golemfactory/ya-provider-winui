@@ -554,11 +554,15 @@ namespace GolemUI.Src
                 DateTime timeEnd = MiningHistoryGpuSinceStart.Last().Dt.GetValueOrDefault();
                 double earnings = 0;
                 int shares = 0;
+                int invalidShares = 0;
+                int staleShares = 0;
                 TimeSpan diffTime = new TimeSpan(0);
                 for (int idx = MiningHistoryGpuSinceStart.Count - 1; idx >= 0; idx--)
                 {
                     DateTime timeStart = MiningHistoryGpuSinceStart[idx].Dt.GetValueOrDefault();
                     shares += MiningHistoryGpuSinceStart[idx].Shares ?? 0;
+                    invalidShares += MiningHistoryGpuSinceStart[idx].InvalidShares ?? 0;
+                    staleShares += MiningHistoryGpuSinceStart[idx].StaleShares ?? 0;
                     earnings += MiningHistoryGpuSinceStart[idx].Earnings ?? 0;
                     diffTime = timeEnd - timeStart;
                     if (diffTime.TotalMinutes > MINIMUM_MINUTES_FOR_REMOVE_HISTORY && shares > MINIMUM_SHARES_FOR_REMOVE_HISTORY)
@@ -574,6 +578,8 @@ namespace GolemUI.Src
                     {
                         Time = diffTime,
                         Shares = shares,
+                        StaleShares = staleShares,
+                        InvalidShares = invalidShares,
                         AvgGlmPerSecond = glmValue
                     };
                 }
