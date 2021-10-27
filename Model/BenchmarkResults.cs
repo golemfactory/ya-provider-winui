@@ -1,4 +1,5 @@
 ﻿using GolemUI.Claymore;
+using GolemUI.TRex;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace GolemUI.Model
         public int BenchmarkResultVersion { get; set; }
 
         public ClaymoreLiveStatus? liveStatus = null;
+        public TRexLiveStatus? liveStatusTrex = null;
 
         public bool IsClaymoreMiningPossible(out string reason)
         {

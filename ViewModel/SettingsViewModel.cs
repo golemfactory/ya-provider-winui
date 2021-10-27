@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using GolemUI.Utils;
 using System.Windows;
 using Sentry;
+using GolemUI.TRex;
 
 namespace GolemUI.ViewModel
 {
@@ -194,7 +195,7 @@ namespace GolemUI.ViewModel
                 cards = "";
             }
 
-            ClaymoreLiveStatus? externalStatusCopy = (ClaymoreLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
+            TRexLiveStatus? externalStatusCopy = (TRexLiveStatus?)_benchmarkSettings.liveStatusTrex?.Clone();
             BenchmarkService.StartBenchmarkTrex(cards, niceness, miningMode, externalStatusCopy);
         }
         public void StopBenchmark()

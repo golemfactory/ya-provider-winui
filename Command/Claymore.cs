@@ -16,8 +16,8 @@ using Microsoft.Extensions.Logging;
 namespace GolemUI.Command
 {
 
-    //public enum ProblemWithExeFile { Timeout, Antivirus, FileMissing, None };
-    //public delegate void OnProblemsWithExeFileEventHander(ProblemWithExeFile problem);
+    public enum ProblemWithExeFile { Timeout, Antivirus, FileMissing, None };
+    public delegate void OnProblemsWithExeFileEventHander(ProblemWithExeFile problem);
 
 
     public class ClaymoreBenchmark
@@ -367,13 +367,7 @@ namespace GolemUI.Command
 
 
     }
-
-
-    struct ImitateBenchmarkEntry
-    {
-        public int millis;
-        public string line;
-    }
+    
 
     /// <summary>
     /// This class is for debug purposes only, it's not used in production code

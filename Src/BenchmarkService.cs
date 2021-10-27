@@ -2,7 +2,7 @@
 using GolemUI.Command;
 using GolemUI.Interfaces;
 using GolemUI.Model;
-
+using GolemUI.TRex;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -36,8 +36,10 @@ namespace GolemUI.Src
         private readonly Interfaces.IProviderConfig _providerConfig;
         private readonly ILogger<BenchmarkService> _logger;
         private ClaymoreLiveStatus? _claymoreLiveStatus = null;
+        private TRexLiveStatus? _trexLiveStatus = null;
 
         public ClaymoreLiveStatus? Status => _claymoreLiveStatus;
+        public TRexLiveStatus? TRexStatus => _trexLiveStatus;
 
         public bool IsRunning { get; private set; }
 
@@ -123,17 +125,17 @@ namespace GolemUI.Src
             }
         }
 
-        public async void StartBenchmarkTrex(string cards, string niceness, string mining_mode, ClaymoreLiveStatus? externalLiveStatus)
+        public async void StartBenchmarkTrex(string cards, string niceness, string mining_mode, TRexLiveStatus? externalLiveStatus)
         {
-            if (this._claymoreLiveStatus != null)
-                this._claymoreLiveStatus.ProblemWithExeFile = ProblemWithExeFile.None;
+            if (this._trexLiveStatus != null)
+                this._trexLiveStatus.ProblemWithExeFile = ProblemWithExeFile.None;
             if (IsRunning)
             {
                 return;
             }
             _requestStop = false;
 
-            ClaymoreLiveStatus? baseLiveStatus = null;
+            TRexLiveStatus? baseLiveStatus = null;
 
 
             DateTime benchmarkStartTime = DateTime.Now;
@@ -142,12 +144,12 @@ namespace GolemUI.Src
             var poolAddr = GolemUI.Properties.Settings.Default.DefaultProxy;
             if (mining_mode == "ETH")
             {
-                //_claymoreLiveStatus.MiningMode = "ETH";
+                //_trexLiveStatus.MiningMode = "ETH";
             }
             else if (mining_mode == "ETC")
             {
                 poolAddr = GolemUI.Properties.Settings.Default.DefaultProxyLowMem;
-                //_claymoreLiveStatus.MiningMode = "ETH";
+                //_trexLiveStatus.MiningMode = "ETH";
             }
             else
             {
@@ -167,8 +169,8 @@ namespace GolemUI.Src
             cc.ProblemWithExe += (reason) =>
             {
                 this.ProblemWithExe?.Invoke(reason);
-                if (this._claymoreLiveStatus != null)
-                    _claymoreLiveStatus.ProblemWithExeFile = reason;
+                if (this._trexLiveStatus != null)
+                    _trexLiveStatus.ProblemWithExeFile = reason;
             };
 
 
@@ -192,10 +194,10 @@ namespace GolemUI.Src
 
                     if (!result)
                     {
-                        if (_claymoreLiveStatus != null)
+                        if (_trexLiveStatus != null)
                         {
-                            _claymoreLiveStatus.GPUs.Clear();
-                            _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
+                            _trexLiveStatus.GPUs.Clear();
+                            _trexLiveStatus.ErrorMsg = cc.BenchmarkError;
                             OnPropertyChanged("Status");
                             _logger.LogError("PreBenchmark failed with error: " + cc.BenchmarkError);
 
@@ -213,8 +215,8 @@ namespace GolemUI.Src
                         {
                             cc.Stop();
 
-                            _claymoreLiveStatus!.GPUs.Clear();
-                            _claymoreLiveStatus!.ErrorMsg = "Failed to obtain card list";
+                            _trexLiveStatus!.GPUs.Clear();
+                            _trexLiveStatus!.ErrorMsg = "Failed to obtain card list";
                             OnPropertyChanged("Status");
                             _logger.LogError("PreBenchmark failed timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT: " + cc.BenchmarkError);
 
@@ -224,17 +226,17 @@ namespace GolemUI.Src
                         if (_requestStop)
                         {
                             cc.Stop();
-                            _claymoreLiveStatus!.ErrorMsg = "Stopped by user";
+                            _trexLiveStatus!.ErrorMsg = "Stopped by user";
                             OnPropertyChanged("Status");
                             _logger.LogError("PreBenchmark stopped by user.");
 
                             break;
                         }
-                        _claymoreLiveStatus = cc.TRexParserPreBenchmark.GetLiveStatusCopy();
-                        _claymoreLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
-                        baseLiveStatus = _claymoreLiveStatus;
+                        _trexLiveStatus = cc.TRexParserPreBenchmark.GetLiveStatusCopy();
+                        _trexLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
+                        baseLiveStatus = _trexLiveStatus;
                         OnPropertyChanged("Status");
-                        if (_claymoreLiveStatus.GPUInfosParsed)
+                        if (_trexLiveStatus.GPUInfosParsed)
                         {
                             cc.Stop();
                             break;
@@ -245,7 +247,7 @@ namespace GolemUI.Src
 
 
 
-                if (preBenchmarkNeeded && _claymoreLiveStatus != null && _claymoreLiveStatus.GPUs.Count == 0)
+                if (preBenchmarkNeeded && _trexLiveStatus != null && _trexLiveStatus.GPUs.Count == 0)
                 {
                     return;
                 }
@@ -260,10 +262,10 @@ namespace GolemUI.Src
                     }
                     if (!result)
                     {
-                        if (_claymoreLiveStatus != null)
+                        if (_trexLiveStatus != null)
                         {
-                            _claymoreLiveStatus.GPUs.Clear();
-                            _claymoreLiveStatus.ErrorMsg = cc.BenchmarkError;
+                            _trexLiveStatus.GPUs.Clear();
+                            _trexLiveStatus.ErrorMsg = cc.BenchmarkError;
                             OnPropertyChanged("Status");
                         }
                         return;
@@ -272,19 +274,19 @@ namespace GolemUI.Src
 
                 while (!cc.BenchmarkFinished && IsRunning)
                 {
-                    _claymoreLiveStatus = cc.TRexParserBenchmark.GetLiveStatusCopy();
+                    _trexLiveStatus = cc.TRexParserBenchmark.GetLiveStatusCopy();
                     if (mining_mode == "ETC")
                     {
-                        _claymoreLiveStatus.LowMemoryMode = true;
-                        foreach (var gpu in _claymoreLiveStatus.GPUs)
+                        _trexLiveStatus.LowMemoryMode = true;
+                        foreach (var gpu in _trexLiveStatus.GPUs)
                         {
                             gpu.Value.LowMemoryMode = true;
                         }
                     }
                     else
                     {
-                        _claymoreLiveStatus.LowMemoryMode = false;
-                        foreach (var gpu in _claymoreLiveStatus.GPUs)
+                        _trexLiveStatus.LowMemoryMode = false;
+                        foreach (var gpu in _trexLiveStatus.GPUs)
                         {
                             gpu.Value.LowMemoryMode = false;
                         }
@@ -293,22 +295,22 @@ namespace GolemUI.Src
                     bool allExpectedGPUsFound = false;
                     if (baseLiveStatus != null)
                     {
-                        _claymoreLiveStatus.MergeFromBaseLiveStatus(baseLiveStatus, cards, out allExpectedGPUsFound);
+                        _trexLiveStatus.MergeFromBaseLiveStatus(baseLiveStatus, cards, out allExpectedGPUsFound);
                     }
-                    _claymoreLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
+                    _trexLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
                     OnPropertyChanged("Status");
                     OnPropertyChanged("TotalMhs");
-                    if (_claymoreLiveStatus.NumberOfClaymorePerfReports >= _claymoreLiveStatus.TotalClaymoreReportsBenchmark)
+                    if (_trexLiveStatus.NumberOfTRexPerfReports >= _trexLiveStatus.TotalTRexReportsBenchmark)
                     {
-                        foreach (var gpu in _claymoreLiveStatus.GPUs)
+                        foreach (var gpu in _trexLiveStatus.GPUs)
                         {
-                            gpu.Value.BenchmarkDoneForThrottlingLevel = gpu.Value.ClaymorePerformanceThrottling;
+                            gpu.Value.BenchmarkDoneForThrottlingLevel = gpu.Value.TRexPerformanceThrottling;
                         }
 
                         _logger.LogInformation("Benchmark succeeded.");
                         break;
                     }
-                    if (_claymoreLiveStatus.GPUInfosParsed && _claymoreLiveStatus.GPUs.Count == 0)
+                    if (_trexLiveStatus.GPUInfosParsed && _trexLiveStatus.GPUs.Count == 0)
                     {
                         _logger.LogError("Benchmark succeeded, but no cards found");
                         break;
@@ -320,15 +322,15 @@ namespace GolemUI.Src
                     if (_requestStop)
                     {
                         cc.Stop();
-                        _claymoreLiveStatus.ErrorMsg = "Stopped by user";
+                        _trexLiveStatus.ErrorMsg = "Stopped by user";
                         OnPropertyChanged("Status");
                         _logger.LogError("Benchmark stopped by user.");
                         break;
                     }
-                    if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT && !_claymoreLiveStatus.GPUInfosParsed)
+                    if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT && !_trexLiveStatus.GPUInfosParsed)
                     {
                         cc.Stop();
-                        _claymoreLiveStatus.ErrorMsg = "Timeout, cannot read gpu info";
+                        _trexLiveStatus.ErrorMsg = "Timeout, cannot read gpu info";
                         OnPropertyChanged("Status");
                         _logger.LogError("Timeout, cannot read gpu info");
                         break;
@@ -336,16 +338,16 @@ namespace GolemUI.Src
                     if (timeElapsed > CLAYMORE_TOTAL_BENCHMARK_TIMEOUT)
                     {
                         cc.Stop();
-                        _claymoreLiveStatus.ErrorMsg = "Timeout, benchmark taking too long time";
+                        _trexLiveStatus.ErrorMsg = "Timeout, benchmark taking too long time";
                         OnPropertyChanged("Status");
                         _logger.LogError("Benchmark timeout, total benchmark timeout");
                         break;
                     }
 
-                    if (_claymoreLiveStatus.GPUInfosParsed && _claymoreLiveStatus.GPUs.Values.Count > 0)
+                    if (_trexLiveStatus.GPUInfosParsed && _trexLiveStatus.GPUs.Values.Count > 0)
                     {
                         bool allCardsEndedWithError = true;
-                        foreach (var gpu in _claymoreLiveStatus.GPUs.Values)
+                        foreach (var gpu in _trexLiveStatus.GPUs.Values)
                         {
                             if (String.IsNullOrEmpty(gpu.GPUError))
                             {
@@ -354,14 +356,14 @@ namespace GolemUI.Src
                         }
                         //sdgcb
 
-                        if (allCardsEndedWithError && String.IsNullOrEmpty(_claymoreLiveStatus.ErrorMsg))
+                        if (allCardsEndedWithError && String.IsNullOrEmpty(_trexLiveStatus.ErrorMsg))
                         {
-                            _claymoreLiveStatus.ErrorMsg = "Failed to validate cards";
+                            _trexLiveStatus.ErrorMsg = "Failed to validate cards";
                             break;
                         }
 
                         bool allCardsFinished = true;
-                        foreach (var gpu in _claymoreLiveStatus.GPUs.Values)
+                        foreach (var gpu in _trexLiveStatus.GPUs.Values)
                         {
                             if (!gpu.IsFinished && gpu.IsEnabledByUser)
                             {
@@ -370,7 +372,7 @@ namespace GolemUI.Src
                         }
                         if (allCardsFinished)
                         {
-                            _claymoreLiveStatus.ErrorMsg = "All cards finished";
+                            _trexLiveStatus.ErrorMsg = "All cards finished";
                             break;
                         }
 
@@ -383,10 +385,10 @@ namespace GolemUI.Src
                 _logger.LogError("--test error");
                 IsRunning = false;
                 cc.Stop();
-                if (_claymoreLiveStatus != null)
+                if (_trexLiveStatus != null)
                 {
-                    _claymoreLiveStatus.BenchmarkFinished = true;
-                    foreach (var gpu in _claymoreLiveStatus.GPUs.Values)
+                    _trexLiveStatus.BenchmarkFinished = true;
+                    foreach (var gpu in _trexLiveStatus.GPUs.Values)
                     {
                         if (_requestStop)
                         {
@@ -408,7 +410,7 @@ namespace GolemUI.Src
                     if (externalLiveStatus != null && String.IsNullOrEmpty(externalLiveStatus.ErrorMsg) && externalLiveStatus.GPUs.Count > 0
                         && externalLiveStatus.GPUs.Values.Where(x => x.BenchmarkSpeed > 0.0f).Count() > 0)
                     {
-                        _claymoreLiveStatus = externalLiveStatus;
+                        _trexLiveStatus = externalLiveStatus;
                     }
                 }
                 OnPropertyChanged("IsRunning");
