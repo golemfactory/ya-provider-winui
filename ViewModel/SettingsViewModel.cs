@@ -195,8 +195,16 @@ namespace GolemUI.ViewModel
                 cards = "";
             }
 
-            BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatusTrex?.Clone();
-            BenchmarkService.StartBenchmarkTrex(cards, niceness, miningMode, externalStatusCopy);
+            if (_userSettingsProvider.LoadUserSettings().MinerType == 1)
+            {
+                BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatusTrex?.Clone();
+                BenchmarkService.StartBenchmarkTrex(cards, niceness, miningMode, externalStatusCopy);
+            }
+            else
+            {
+                BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
+                BenchmarkService.StartBenchmark(cards, niceness, miningMode, externalStatusCopy);
+            }
         }
         public void StopBenchmark()
         {

@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
 
 namespace GolemUI.Model
 {
@@ -143,6 +144,41 @@ namespace GolemUI.Model
                 NotifyChanged();
             }
         }
+
+        private int _minerType = 0;
+        public int MinerType
+        {
+            get => _minerType;
+            set
+            {
+                _minerType = value;
+                NotifyChanged();
+                NotifyChanged("IsTRexMiner");
+            }
+        }
+
+        [JsonIgnore]
+        public bool IsTRexMiner
+        {
+            get
+            {
+                return _minerType == 1;
+            }
+            set
+            {
+                if (value)
+                {
+                    MinerType = 1;
+                }
+                else
+                {
+                    MinerType = 0;
+                }
+                NotifyChanged();
+            }
+        }
+
+
 
     }
 }

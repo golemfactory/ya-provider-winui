@@ -146,6 +146,7 @@ namespace GolemUI.Src
 
         public async void StartBenchmarkTrex(string cards, string niceness, string mining_mode, BenchmarkLiveStatus? externalLiveStatus)
         {
+            ActiveMiner = ActiveMiner.TRex;
             if (this._trexLiveStatus != null)
                 this._trexLiveStatus.ProblemWithExeFile = ProblemWithExeFile.None;
             if (IsRunning)
@@ -439,6 +440,8 @@ namespace GolemUI.Src
 
         public async void StartBenchmark(string cards, string niceness, string mining_mode, BenchmarkLiveStatus? externalLiveStatus)
         {
+            ActiveMiner = ActiveMiner.Claymore;
+
             if (this._claymoreLiveStatus != null)
                 this._claymoreLiveStatus.ProblemWithExeFile = ProblemWithExeFile.None;
             if (IsRunning)
