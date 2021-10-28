@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using GolemUI.Miners;
 using static GolemUI.Command.GSB.Payment;
 
 namespace GolemUI.ViewModel
@@ -128,7 +129,7 @@ namespace GolemUI.ViewModel
             Flow = _lastFlowSteps;
 
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            this.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETH", null);
+            this.BenchmarkService.StartBenchmark(new ClaymoreMiner(), "", defaultBenchmarkStep.ToString(), "ETH", null);
             AntiVirusDetectedBefore = true;
         }
 
@@ -184,7 +185,7 @@ namespace GolemUI.ViewModel
                             else
                             {
                                 int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-                                BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETC", null);
+                                BenchmarkService.StartBenchmark(new ClaymoreMiner(), "", defaultBenchmarkStep.ToString(), "ETC", null);
                             }
                         }
                     }
@@ -204,7 +205,7 @@ namespace GolemUI.ViewModel
                             else
                             {
                                 int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-                                BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETC", null);
+                                BenchmarkService.StartBenchmark(new ClaymoreMiner(), "", defaultBenchmarkStep.ToString(), "ETC", null);
                             }
                         }
                     }

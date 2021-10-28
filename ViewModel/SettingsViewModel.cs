@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using GolemUI.Utils;
 using System.Windows;
 using Sentry;
-using GolemUI.TRex;
+using GolemUI.Miners;
 
 namespace GolemUI.ViewModel
 {
@@ -197,13 +197,13 @@ namespace GolemUI.ViewModel
 
             if (_userSettingsProvider.LoadUserSettings().MinerType == 1)
             {
-                BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatusTrex?.Clone();
-                BenchmarkService.StartBenchmarkTrex(cards, niceness, miningMode, externalStatusCopy);
+                BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
+                BenchmarkService.StartBenchmark(new TRexMiner(), cards, niceness, miningMode, externalStatusCopy);
             }
             else
             {
                 BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
-                BenchmarkService.StartBenchmark(cards, niceness, miningMode, externalStatusCopy);
+                BenchmarkService.StartBenchmark(new ClaymoreMiner(), cards, niceness, miningMode, externalStatusCopy);
             }
         }
         public void StopBenchmark()

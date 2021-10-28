@@ -1,5 +1,5 @@
 ﻿using GolemUI.Claymore;
-using GolemUI.TRex;
+using GolemUI.Miners;
 using System;
 using System.Collections.Generic;
 using System.Linq;

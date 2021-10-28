@@ -2,7 +2,7 @@
 using GolemUI.Command;
 using GolemUI.Interfaces;
 using GolemUI.Model;
-using GolemUI.TRex;
+using GolemUI.Miners;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -16,9 +16,10 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace GolemUI.Src
 {
-    public enum ActiveMiner
+    public enum MinerAppName
     {
         Claymore,
+        Phoenix,
         TRex
     }
 
@@ -42,24 +43,16 @@ namespace GolemUI.Src
         private readonly Interfaces.IProviderConfig _providerConfig;
         private readonly ILogger<BenchmarkService> _logger;
         private BenchmarkLiveStatus? _claymoreLiveStatus = null;
-        private BenchmarkLiveStatus? _trexLiveStatus = null;
-        public ActiveMiner ActiveMiner { get; set; } = ActiveMiner.TRex;
+        public IMinerApp? ActiveMinerApp { get; set; } = null;
 
         public BenchmarkLiveStatus? Status
         {
             get
             {
-                switch (ActiveMiner)
-                {
-                    case ActiveMiner.Claymore: return _claymoreLiveStatus;
-                    case ActiveMiner.TRex: return _trexLiveStatus;
-                    default: throw new Exception("Uknown miner");
-                }
+                return _claymoreLiveStatus;
             }
         }
-
-        public BenchmarkLiveStatus? TRexStatus => _trexLiveStatus;
-
+        
         public bool IsRunning { get; private set; }
 
         public bool _requestStop = false;
@@ -97,7 +90,7 @@ namespace GolemUI.Src
                 //cc.RunBenchmarkRecording(@"antivirus.pre_recording", isPreBenchmark: true);
 
 
-                bool result = cc.RunPreBenchmark();
+                bool result = cc.RunPreBenchmark(new ClaymoreMiner());
                 if (!result)
                 {
                     _logger.LogError("PreBenchmark failed with error: " + cc.BenchmarkError);
@@ -144,303 +137,11 @@ namespace GolemUI.Src
             }
         }
 
-        public async void StartBenchmarkTrex(string cards, string niceness, string mining_mode, BenchmarkLiveStatus? externalLiveStatus)
+        
+
+        public async void StartBenchmark(IMinerApp minerApp, string cards, string niceness, string mining_mode, BenchmarkLiveStatus? externalLiveStatus)
         {
-            ActiveMiner = ActiveMiner.TRex;
-            if (this._trexLiveStatus != null)
-                this._trexLiveStatus.ProblemWithExeFile = ProblemWithExeFile.None;
-            if (IsRunning)
-            {
-                return;
-            }
-            _requestStop = false;
-
-            BenchmarkLiveStatus? baseLiveStatus = null;
-
-
-            DateTime benchmarkStartTime = DateTime.Now;
-            var walletAddress = _providerConfig.Config?.Account ?? "0x0000000000000000000000000000000000000001";
-            var nodeName = _providerConfig.Config?.NodeName ?? "DefaultBenchmark";
-            var poolAddr = GolemUI.Properties.Settings.Default.DefaultProxy;
-            if (mining_mode == "ETH")
-            {
-                //_trexLiveStatus.MiningMode = "ETH";
-            }
-            else if (mining_mode == "ETC")
-            {
-                poolAddr = GolemUI.Properties.Settings.Default.DefaultProxyLowMem;
-                //_trexLiveStatus.MiningMode = "ETH";
-            }
-            else
-            {
-                throw new Exception("unknown mining mode, select ETH or ETC");
-            }
-
-
-
-            var totalClaymoreReportsNeeded = 5;
-
-            IsRunning = true;
-            OnPropertyChanged("IsRunning");
-
-            bool preBenchmarkNeeded = !String.IsNullOrEmpty(cards);
-
-            var cc = new TRexBenchmark(totalClaymoreReportsNeeded, logger: _logger);
-            cc.ProblemWithExe += (reason) =>
-            {
-                this.ProblemWithExe?.Invoke(reason);
-                if (this._trexLiveStatus != null)
-                    _trexLiveStatus.ProblemWithExeFile = reason;
-            };
-
-
-            _logger.LogInformation("Benchmark started");
-
-
-
-            try
-            {
-                if (preBenchmarkNeeded)
-                {
-                    _logger.LogInformation("PreBenchmarkNeeded cards: " + cards + " niceness: " + niceness);
-
-
-                    bool result = cc.RunBenchmarkRecording(@"test.pre_recording", isPreBenchmark: true);
-
-                    if (!result)
-                    {
-                        result = cc.RunPreBenchmark();
-                    }
-
-                    if (!result)
-                    {
-                        if (_trexLiveStatus != null)
-                        {
-                            _trexLiveStatus.GPUs.Clear();
-                            _trexLiveStatus.ErrorMsg = cc.BenchmarkError;
-                            OnPropertyChanged("Status");
-                            _logger.LogError("PreBenchmark failed with error: " + cc.BenchmarkError);
-
-                        }
-                        return;
-                    }
-
-                    while (!cc.PreBenchmarkFinished)
-                    {
-                        await Task.Delay(30);
-
-                        double timeElapsed = (DateTime.Now - benchmarkStartTime).TotalSeconds;
-
-                        if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT)
-                        {
-                            cc.Stop();
-
-                            _trexLiveStatus!.GPUs.Clear();
-                            _trexLiveStatus!.ErrorMsg = "Failed to obtain card list";
-                            OnPropertyChanged("Status");
-                            _logger.LogError("PreBenchmark failed timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT: " + cc.BenchmarkError);
-
-                            return;
-                        }
-
-                        if (_requestStop)
-                        {
-                            cc.Stop();
-                            _trexLiveStatus!.ErrorMsg = "Stopped by user";
-                            OnPropertyChanged("Status");
-                            _logger.LogError("PreBenchmark stopped by user.");
-
-                            break;
-                        }
-                        _trexLiveStatus = cc.TRexParserPreBenchmark.GetLiveStatusCopy();
-                        _trexLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
-                        baseLiveStatus = _trexLiveStatus;
-                        OnPropertyChanged("Status");
-                        if (_trexLiveStatus.GPUInfosParsed)
-                        {
-                            cc.Stop();
-                            break;
-                        }
-                    }
-                }
-                await Task.Delay(30);
-
-
-
-                if (preBenchmarkNeeded && _trexLiveStatus != null && _trexLiveStatus.GPUs.Count == 0)
-                {
-                    return;
-                }
-
-                benchmarkStartTime = DateTime.Now;
-
-                {
-                    bool result = cc.RunBenchmarkRecording(@"test.recording", isPreBenchmark: false);
-                    if (!result)
-                    {
-                        result = cc.RunBenchmark(cards, niceness, poolAddr, walletAddress, nodeName);
-                    }
-                    if (!result)
-                    {
-                        if (_trexLiveStatus != null)
-                        {
-                            _trexLiveStatus.GPUs.Clear();
-                            _trexLiveStatus.ErrorMsg = cc.BenchmarkError;
-                            OnPropertyChanged("Status");
-                        }
-                        return;
-                    }
-                }
-
-                while (!cc.BenchmarkFinished && IsRunning)
-                {
-                    _trexLiveStatus = cc.TRexParserBenchmark.GetLiveStatusCopy();
-                    if (mining_mode == "ETC")
-                    {
-                        _trexLiveStatus.LowMemoryMode = true;
-                        foreach (var gpu in _trexLiveStatus.GPUs)
-                        {
-                            gpu.Value.LowMemoryMode = true;
-                        }
-                    }
-                    else
-                    {
-                        _trexLiveStatus.LowMemoryMode = false;
-                        foreach (var gpu in _trexLiveStatus.GPUs)
-                        {
-                            gpu.Value.LowMemoryMode = false;
-                        }
-                    }
-
-                    bool allExpectedGPUsFound = false;
-                    if (baseLiveStatus != null)
-                    {
-                        _trexLiveStatus.MergeFromBaseLiveStatus(baseLiveStatus, cards, out allExpectedGPUsFound);
-                    }
-                    _trexLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
-                    OnPropertyChanged("Status");
-                    OnPropertyChanged("TotalMhs");
-                    if (_trexLiveStatus.NumberOfClaymorePerfReports >= _trexLiveStatus.TotalClaymoreReportsBenchmark)
-                    {
-                        foreach (var gpu in _trexLiveStatus.GPUs)
-                        {
-                            gpu.Value.BenchmarkDoneForThrottlingLevel = gpu.Value.ClaymorePerformanceThrottling;
-                        }
-
-                        _logger.LogInformation("Benchmark succeeded.");
-                        break;
-                    }
-                    if (_trexLiveStatus.GPUInfosParsed && _trexLiveStatus.GPUs.Count == 0)
-                    {
-                        _logger.LogError("Benchmark succeeded, but no cards found");
-                        break;
-                    }
-                    await Task.Delay(100);
-
-                    double timeElapsed = (DateTime.Now - benchmarkStartTime).TotalSeconds;
-
-                    if (_requestStop)
-                    {
-                        cc.Stop();
-                        _trexLiveStatus.ErrorMsg = "Stopped by user";
-                        OnPropertyChanged("Status");
-                        _logger.LogError("Benchmark stopped by user.");
-                        break;
-                    }
-                    if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT && !_trexLiveStatus.GPUInfosParsed)
-                    {
-                        cc.Stop();
-                        _trexLiveStatus.ErrorMsg = "Timeout, cannot read gpu info";
-                        OnPropertyChanged("Status");
-                        _logger.LogError("Timeout, cannot read gpu info");
-                        break;
-                    }
-                    if (timeElapsed > CLAYMORE_TOTAL_BENCHMARK_TIMEOUT)
-                    {
-                        cc.Stop();
-                        _trexLiveStatus.ErrorMsg = "Timeout, benchmark taking too long time";
-                        OnPropertyChanged("Status");
-                        _logger.LogError("Benchmark timeout, total benchmark timeout");
-                        break;
-                    }
-
-                    if (_trexLiveStatus.GPUInfosParsed && _trexLiveStatus.GPUs.Values.Count > 0)
-                    {
-                        bool allCardsEndedWithError = true;
-                        foreach (var gpu in _trexLiveStatus.GPUs.Values)
-                        {
-                            if (String.IsNullOrEmpty(gpu.GPUError))
-                            {
-                                allCardsEndedWithError = false;
-                            }
-                        }
-                        //sdgcb
-
-                        if (allCardsEndedWithError && String.IsNullOrEmpty(_trexLiveStatus.ErrorMsg))
-                        {
-                            _trexLiveStatus.ErrorMsg = "Failed to validate cards";
-                            break;
-                        }
-
-                        bool allCardsFinished = true;
-                        foreach (var gpu in _trexLiveStatus.GPUs.Values)
-                        {
-                            if (!gpu.IsFinished && gpu.IsEnabledByUser)
-                            {
-                                allCardsFinished = false;
-                            }
-                        }
-                        if (allCardsFinished)
-                        {
-                            _trexLiveStatus.ErrorMsg = "All cards finished";
-                            break;
-                        }
-
-                    }
-                }
-            }
-            finally
-            {
-                //todo: remove later on, right now I've let it stay here to  help test sentry
-                _logger.LogError("--test error");
-                IsRunning = false;
-                cc.Stop();
-                if (_trexLiveStatus != null)
-                {
-                    _trexLiveStatus.BenchmarkFinished = true;
-                    foreach (var gpu in _trexLiveStatus.GPUs.Values)
-                    {
-                        if (_requestStop)
-                        {
-                            gpu.GPUError = "Benchmark stopped by user";
-                        }
-                        else
-                        {
-                            if (!gpu.IsReadyForMining && !gpu.IsOperationStopped)
-                            {
-                                gpu.GPUError = "Timeout";
-                            }
-                        }
-                        gpu.SetStepFinished();
-                    }
-                }
-                if (_requestStop)
-                {
-                    //additional conditions when to revert back to old status when benchmark stopped
-                    if (externalLiveStatus != null && String.IsNullOrEmpty(externalLiveStatus.ErrorMsg) && externalLiveStatus.GPUs.Count > 0
-                        && externalLiveStatus.GPUs.Values.Where(x => x.BenchmarkSpeed > 0.0f).Count() > 0)
-                    {
-                        _trexLiveStatus = externalLiveStatus;
-                    }
-                }
-                OnPropertyChanged("IsRunning");
-                OnPropertyChanged("Status");
-            }
-        }
-
-        public async void StartBenchmark(string cards, string niceness, string mining_mode, BenchmarkLiveStatus? externalLiveStatus)
-        {
-            ActiveMiner = ActiveMiner.Claymore;
+            ActiveMinerApp = minerApp;
 
             if (this._claymoreLiveStatus != null)
                 this._claymoreLiveStatus.ProblemWithExeFile = ProblemWithExeFile.None;
@@ -504,7 +205,7 @@ namespace GolemUI.Src
 
                     if (!result)
                     {
-                        result = cc.RunPreBenchmark();
+                        result = cc.RunPreBenchmark(minerApp);
                     }
 
                     if (!result)
@@ -573,7 +274,7 @@ namespace GolemUI.Src
                     bool result = cc.RunBenchmarkRecording(@"test.recording", isPreBenchmark: false);
                     if (!result)
                     {
-                        result = cc.RunBenchmark(cards, niceness, poolAddr, walletAddress, nodeName);
+                        result = cc.RunBenchmark(minerApp, cards, niceness, poolAddr, walletAddress, nodeName);
                     }
                     if (!result)
                     {

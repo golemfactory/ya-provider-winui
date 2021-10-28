@@ -10,8 +10,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using GolemUI.Miners;
+using GolemUI.Src;
 using GolemUI.Utils;
 using Microsoft.Extensions.Logging;
+using MinerAppName = GolemUI.Miners.MinerAppName;
 
 namespace GolemUI.Command
 {
@@ -27,9 +30,6 @@ namespace GolemUI.Command
         private static Mutex mut = new Mutex();
 
         public LogLineHandler? LineHandler { get; set; }
-
-        string _claymore_working_dir = @"plugins\claymore";
-        string _claymore_exe_path = @"plugins\claymore\EthDcrMiner64.exe";
 
         public string BenchmarkError = "";
 
@@ -151,9 +151,9 @@ namespace GolemUI.Command
         }
 
 
-        public bool RunPreBenchmark()
+        public bool RunPreBenchmark(IMinerApp minerApp)
         {
-            if (!System.IO.File.Exists(_claymore_exe_path))
+            if (!System.IO.File.Exists(minerApp.ExePath))
             {
                 ProblemWithExe?.Invoke(ProblemWithExeFile.FileMissing);
                 return false;
@@ -169,8 +169,8 @@ namespace GolemUI.Command
 
             var startInfo = new ProcessStartInfo
             {
-                FileName = this._claymore_exe_path,
-                WorkingDirectory = this._claymore_working_dir,
+                FileName = minerApp.ExePath,
+                WorkingDirectory = minerApp.WorkingDir,
                 //Arguments = null,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
@@ -182,7 +182,7 @@ namespace GolemUI.Command
 
             //Enable benchmark mode:
 
-            arguments.AddRange("-epool test -li 200".Split(' '));
+            arguments.AddRange(minerApp.PreBenchmarkParams.Split(' '));
 
             foreach (var arg in arguments)
             {
@@ -223,9 +223,9 @@ namespace GolemUI.Command
         }
 
 
-        public bool RunBenchmark(string cards, string niceness, string pool, string ethereumAddress, string nodeName)
+        public bool RunBenchmark(IMinerApp minerApp, string cards, string niceness, string pool, string ethereumAddress, string nodeName)
         {
-            if (!System.IO.File.Exists(_claymore_exe_path))
+            if (!System.IO.File.Exists(minerApp.ExePath))
             {
                 ProblemWithExe?.Invoke(ProblemWithExeFile.FileMissing);
                 return false;
@@ -238,8 +238,8 @@ namespace GolemUI.Command
 
             var startInfo = new ProcessStartInfo
             {
-                FileName = this._claymore_exe_path,
-                WorkingDirectory = this._claymore_working_dir,
+                FileName = minerApp.ExePath,
+                WorkingDirectory = minerApp.WorkingDir,
                 //Arguments = null,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,

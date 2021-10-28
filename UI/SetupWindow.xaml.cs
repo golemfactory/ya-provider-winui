@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using Sentry;
 using GolemUI.Interfaces;
+using GolemUI.Miners;
 using GolemUI.Src.AppNotificationService;
 
 namespace GolemUI.UI
@@ -179,7 +180,7 @@ namespace GolemUI.UI
         {
             Model!.NoobStep = 4;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETH", null);
+            Model!.BenchmarkService.StartBenchmark(new ClaymoreMiner(), "", defaultBenchmarkStep.ToString(), "ETH", null);
         }
 
         private void OnCancelNoobFlow(object sender, RoutedEventArgs e)
@@ -222,7 +223,7 @@ namespace GolemUI.UI
         {
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETH", null);
+            Model!.BenchmarkService.StartBenchmark(new ClaymoreMiner(), "", defaultBenchmarkStep.ToString(), "ETH", null);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

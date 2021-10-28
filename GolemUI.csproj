@@ -266,7 +266,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Claymore\TRexParser.cs" />
+    <Compile Include="Miners\ClaymoreMiner.cs" />
+    <Compile Include="Miners\MinerAppName.cs" />
+    <Compile Include="Miners\PhoenixMiner.cs" />
+    <Compile Include="Miners\TRexMiner.cs" />
+    <Compile Include="Miners\TRexParser.cs" />
     <Compile Include="Command\GSB\GsbServiceException.cs" />
     <Compile Include="Converters\NonNullToVisibilityConverter.cs" />
     <Compile Include="Converters\ValueToVisibilityConverter.cs" />
@@ -278,6 +282,7 @@
     <Compile Include="DesignViewModel\Dialogs\DlgGenericInformationViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgWithdrawViewModel.cs" />
+    <Compile Include="Miners\IMinerApp.cs" />
     <Compile Include="Interfaces\IStartWithWindows.cs" />
     <Compile Include="Interfaces\IUserFeedbackService.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
@@ -318,7 +323,7 @@
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\ChildProcessManager.cs" />
-    <Compile Include="Claymore\ClaymoreParser.cs" />
+    <Compile Include="Miners\ClaymoreParser.cs" />
     <Compile Include="Command\Claymore.cs" />
     <Compile Include="Command\GpuInfo.cs" />
     <Compile Include="Command\PaymentData.cs" />
@@ -893,5 +898,6 @@
     <Resource Include="UI\Charts\ChartIcons\IconZoomIn.png" />
     <Resource Include="UI\Charts\ChartIcons\IconZoomOut.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,4 @@
-﻿using GolemUI.TRex;
+﻿using GolemUI.Miners;
 using GolemUI.Interfaces;
 using System;
 using System.Collections.Generic;
