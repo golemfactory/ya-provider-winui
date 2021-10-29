@@ -17,7 +17,7 @@ namespace GolemUI.Miners
         private ClaymoreParser _phoenixParser;
         private ILogger? _logger;
 
-        public ClaymoreMiner(ILogger? logger)
+        public ClaymoreMiner(ILogger<ClaymoreMiner> logger)
         {
             _logger = logger;
             _minerAppName = new MinerAppName(MinerAppName.MinerAppEnum.Claymore);

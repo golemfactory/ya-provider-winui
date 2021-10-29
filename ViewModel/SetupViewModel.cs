@@ -81,10 +81,15 @@ namespace GolemUI.ViewModel
         private ILogger<SetupViewModel> _logger;
         private readonly IRemoteSettingsProvider _remoteSettingsProvider;
 
+
+        private ClaymoreMiner _miner;
+
         public SetupViewModel(Interfaces.IProviderConfig providerConfig,
             Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessController processController, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider, ILogger<SetupViewModel> logger,
-            IRemoteSettingsProvider remoteSettingsProvider)
+            IRemoteSettingsProvider remoteSettingsProvider, ClaymoreMiner miner)
         {
+            _miner = miner;
+
             _flow = 0;
             _noobStep = 0;
             _providerConfig = providerConfig;
@@ -129,7 +134,7 @@ namespace GolemUI.ViewModel
             Flow = _lastFlowSteps;
 
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            this.BenchmarkService.StartBenchmark(new ClaymoreMiner(_logger), "", defaultBenchmarkStep.ToString(), "ETH", null);
+            this.BenchmarkService.StartBenchmark(_miner, "", defaultBenchmarkStep.ToString(), "ETH", null);
             AntiVirusDetectedBefore = true;
         }
 
@@ -185,7 +190,7 @@ namespace GolemUI.ViewModel
                             else
                             {
                                 int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-                                BenchmarkService.StartBenchmark(new ClaymoreMiner(_logger), "", defaultBenchmarkStep.ToString(), "ETC", null);
+                                BenchmarkService.StartBenchmark(_miner, "", defaultBenchmarkStep.ToString(), "ETC", null);
                             }
                         }
                     }
@@ -205,7 +210,7 @@ namespace GolemUI.ViewModel
                             else
                             {
                                 int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-                                BenchmarkService.StartBenchmark(new ClaymoreMiner(_logger), "", defaultBenchmarkStep.ToString(), "ETC", null);
+                                BenchmarkService.StartBenchmark(_miner, "", defaultBenchmarkStep.ToString(), "ETC", null);
                             }
                         }
                     }

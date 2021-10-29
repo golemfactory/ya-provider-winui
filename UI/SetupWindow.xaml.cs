@@ -66,8 +66,10 @@ namespace GolemUI.UI
 
         protected ViewModel.SetupViewModel? Model => DataContext as ViewModel.SetupViewModel;
 
-        public SetupWindow(ViewModel.SetupViewModel model, IServiceProvider serviceProvider)
+        private ClaymoreMiner _miner;
+        public SetupWindow(ViewModel.SetupViewModel model, IServiceProvider serviceProvider, ClaymoreMiner miner)
         {
+            _miner = miner;
             _serviceProvider = serviceProvider;
             InitializeComponent();
             DataContext = model;
@@ -180,7 +182,7 @@ namespace GolemUI.UI
         {
             Model!.NoobStep = 4;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            Model!.BenchmarkService.StartBenchmark(new ClaymoreMiner(null), "", defaultBenchmarkStep.ToString(), "ETH", null);
+            Model!.BenchmarkService.StartBenchmark(_miner, "", defaultBenchmarkStep.ToString(), "ETH", null);
         }
 
         private void OnCancelNoobFlow(object sender, RoutedEventArgs e)

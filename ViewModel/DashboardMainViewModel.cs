@@ -510,11 +510,13 @@ namespace GolemUI.ViewModel
             }
             else
             {
+                MessageBox.Show("TODO enable antivirus check back");
+                /* TODO enable antivirus check back
                 AntiVirusCheckActive = true;
                 OnPropertyChanged(nameof(IsMiningReadyToRun));
                 _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "checking system...", expirationTimeInMs: 5000, group: false));
                 _benchmarkService.AssessIfAntivirusIsBlockingClaymore();
-
+                */
             }
         }
         private void _benchmarkService_AntivirusStatus(Command.ProblemWithExeFile problem)

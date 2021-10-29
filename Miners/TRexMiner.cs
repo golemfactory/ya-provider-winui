@@ -14,7 +14,7 @@ namespace GolemUI.Miners
         public MinerAppName MinerAppName => _minerAppName;
         private TRexParser _trexParser;
         private ILogger _logger;
-        public TRexMiner(ILogger logger)
+        public TRexMiner(ILogger<TRexMiner> logger)
         {
             _logger = logger;
             _minerAppName = new MinerAppName(MinerAppName.MinerAppEnum.TRex);

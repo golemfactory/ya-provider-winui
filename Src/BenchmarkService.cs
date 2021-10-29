@@ -69,7 +69,7 @@ namespace GolemUI.Src
         private readonly double CLAYMORE_GPU_INFO_TIMEOUT = 10.0;
         private readonly double CLAYMORE_TOTAL_BENCHMARK_TIMEOUT = 200.0;
         private IBenchmarkResultsProvider _benchmarkResultsProvider;
-        public async void AssessIfAntivirusIsBlockingClaymore()
+        public async void AssessIfAntivirusIsBlockingClaymore(IMinerApp minerApp)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace GolemUI.Src
                 //cc.RunBenchmarkRecording(@"antivirus.pre_recording", isPreBenchmark: true);
 
 
-                bool result = cc.RunPreBenchmark(new ClaymoreMiner(_logger));
+                bool result = cc.RunPreBenchmark(minerApp);
                 if (!result)
                 {
                     _logger.LogError("PreBenchmark failed with error: " + cc.BenchmarkError);
