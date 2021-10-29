@@ -52,7 +52,7 @@ namespace GolemUI.Src
                 return _minerLiveStatus;
             }
         }
-        
+
         public bool IsRunning { get; private set; }
 
         public bool _requestStop = false;
@@ -137,7 +137,7 @@ namespace GolemUI.Src
             }
         }
 
-        
+
 
         public async void StartBenchmark(IMinerApp minerApp, string cards, string niceness, string mining_mode, BenchmarkLiveStatus? externalLiveStatus)
         {
