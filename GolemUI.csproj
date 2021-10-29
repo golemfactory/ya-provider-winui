@@ -326,7 +326,7 @@
     </Compile>
     <Compile Include="Utils\ChildProcessManager.cs" />
     <Compile Include="Miners\ClaymoreParser.cs" />
-    <Compile Include="Miners\Claymore.cs" />
+    <Compile Include="Miners\MinerBenchmark.cs" />
     <Compile Include="Command\GpuInfo.cs" />
     <Compile Include="Command\PaymentData.cs" />
     <Compile Include="Command\Provider.cs" />

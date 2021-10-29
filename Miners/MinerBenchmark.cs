@@ -24,7 +24,7 @@ namespace GolemUI.Miners
     public delegate void OnProblemsWithExeFileEventHander(ProblemWithExeFile problem);
 
 
-    public class ClaymoreBenchmark
+    public class MinerBenchmark
     {
         public event OnProblemsWithExeFileEventHander? ProblemWithExe;
 
@@ -86,7 +86,7 @@ namespace GolemUI.Miners
 
         Process? _claymoreProcess;
 
-        public ClaymoreBenchmark(int totalClaymoreReportsNeeded, ILogger logger)
+        public MinerBenchmark(int totalClaymoreReportsNeeded, ILogger logger)
         {
             _logger = logger;
             _claymoreParserBenchmark = new ClaymoreParser(isPreBenchmark: false, totalClaymoreReportsNeeded, logger);

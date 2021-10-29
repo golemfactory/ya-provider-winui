@@ -76,7 +76,7 @@ namespace GolemUI.Src
                 var totalClaymoreReportsNeeded = 2;
                 DateTime benchmarkStartTime = DateTime.Now;
                 _logger.LogInformation("AntiVirus status assesment...");
-                var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded, logger: _logger);
+                var cc = new MinerBenchmark(totalClaymoreReportsNeeded, logger: _logger);
                 bool stopped = false;
                 cc.ProblemWithExe += (reason) =>
                 {
@@ -181,7 +181,7 @@ namespace GolemUI.Src
 
             bool preBenchmarkNeeded = !String.IsNullOrEmpty(cards);
 
-            var cc = new ClaymoreBenchmark(totalClaymoreReportsNeeded, logger: _logger);
+            var cc = new MinerBenchmark(totalClaymoreReportsNeeded, logger: _logger);
             cc.ProblemWithExe += (reason) =>
             {
                 this.ProblemWithExe?.Invoke(reason);
