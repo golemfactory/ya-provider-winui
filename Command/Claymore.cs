@@ -1,4 +1,4 @@
-using GolemUI.Claymore;
+
 using GolemUI.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -88,8 +88,8 @@ namespace GolemUI.Command
         public ClaymoreBenchmark(int totalClaymoreReportsNeeded, ILogger logger)
         {
             _logger = logger;
-            _claymoreParserBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: false, totalClaymoreReportsNeeded, logger);
-            _claymoreParserPreBenchmark = new ClaymoreParser(isBenchmark: true, isPreBenchmark: true, totalClaymoreReportsNeeded, logger);
+            _claymoreParserBenchmark = new ClaymoreParser(isPreBenchmark: false, totalClaymoreReportsNeeded, logger);
+            _claymoreParserPreBenchmark = new ClaymoreParser(isPreBenchmark: true, totalClaymoreReportsNeeded, logger);
 
         }
 
@@ -253,7 +253,7 @@ namespace GolemUI.Command
 
 
 
-            arguments.AddRange($"-wd 0 -r -1 -epool {pool} -ewal {ethereumAddress} -eworker \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\" -clnew 1 -clKernel 0".Split(' '));
+            arguments.AddRange(minerApp.GetBenchmarkParams(pool, ethereumAddress, nodeName).Split(' '));
 
 
             if (!string.IsNullOrEmpty(cards))

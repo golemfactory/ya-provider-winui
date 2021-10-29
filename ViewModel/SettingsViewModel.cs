@@ -1,4 +1,4 @@
-﻿using GolemUI.Claymore;
+﻿
 using GolemUI.Interfaces;
 using GolemUI.Model;
 
@@ -57,8 +57,18 @@ namespace GolemUI.ViewModel
 
         private readonly Interfaces.INotificationService _notificationService;
         public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
-        public SettingsViewModel(IUserSettingsProvider userSettingsProvider, IPriceProvider priceProvider, IProcessController processController, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService)
+
+        private TRexMiner _trexMiner;
+        private ClaymoreMiner _claymoreMiner;
+        private PhoenixMiner _phoenixMiner;
+
+        public SettingsViewModel(IUserSettingsProvider userSettingsProvider, IPriceProvider priceProvider, IProcessController processController, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService,
+            TRexMiner trexMiner, ClaymoreMiner claymoreMiner, PhoenixMiner phoenixMiner
+        )
         {
+            _trexMiner = trexMiner;
+            _claymoreMiner = claymoreMiner;
+            _phoenixMiner = phoenixMiner;
             _userSettingsProvider = userSettingsProvider;
             _statusProvider = statusProvider;
             _processController = processController;
@@ -198,12 +208,12 @@ namespace GolemUI.ViewModel
             if (_userSettingsProvider.LoadUserSettings().MinerType == 1)
             {
                 BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
-                BenchmarkService.StartBenchmark(new TRexMiner(), cards, niceness, miningMode, externalStatusCopy);
+                BenchmarkService.StartBenchmark(_trexMiner, cards, niceness, miningMode, externalStatusCopy);
             }
             else
             {
                 BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
-                BenchmarkService.StartBenchmark(new ClaymoreMiner(), cards, niceness, miningMode, externalStatusCopy);
+                BenchmarkService.StartBenchmark(_claymoreMiner, cards, niceness, miningMode, externalStatusCopy);
             }
         }
         public void StopBenchmark()
@@ -303,9 +313,9 @@ namespace GolemUI.ViewModel
             GpuList?.ToList().ForEach(gpu =>
             {
                 var res = _benchmarkSettings.liveStatus?.GPUs.ToList().Find(x => x.Value.GpuNo == gpu.GpuNo);
-                if (res != null && res.HasValue && !res.Equals(default(KeyValuePair<int, Claymore.BenchmarkGpuStatus>)))
+                if (res != null && res.HasValue && !res.Equals(default(KeyValuePair<int, BenchmarkGpuStatus>)))
                 {
-                    KeyValuePair<int, Claymore.BenchmarkGpuStatus> keyVal = res.Value;
+                    KeyValuePair<int, BenchmarkGpuStatus> keyVal = res.Value;
                     keyVal.Value.IsEnabledByUser = gpu.IsEnabledByUser;
                     keyVal.Value.BenchmarkSpeed = gpu.BenchmarkSpeed;
                     keyVal.Value.ClaymorePerformanceThrottling = gpu.ClaymorePerformanceThrottling;

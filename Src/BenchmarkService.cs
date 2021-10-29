@@ -1,4 +1,4 @@
-﻿using GolemUI.Claymore;
+﻿
 using GolemUI.Command;
 using GolemUI.Interfaces;
 using GolemUI.Model;
@@ -90,7 +90,7 @@ namespace GolemUI.Src
                 //cc.RunBenchmarkRecording(@"antivirus.pre_recording", isPreBenchmark: true);
 
 
-                bool result = cc.RunPreBenchmark(new ClaymoreMiner());
+                bool result = cc.RunPreBenchmark(new ClaymoreMiner(_logger));
                 if (!result)
                 {
                     _logger.LogError("PreBenchmark failed with error: " + cc.BenchmarkError);

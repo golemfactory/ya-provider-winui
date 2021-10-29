@@ -86,8 +86,8 @@ namespace GolemUI.Command
         public TRexBenchmark(int totalTRexReportsNeeded, ILogger logger)
         {
             _logger = logger;
-            _trexParserBenchmark = new TRexParser(isBenchmark: true, isPreBenchmark: false, totalTRexReportsNeeded, logger);
-            _trexParserPreBenchmark = new TRexParser(isBenchmark: true, isPreBenchmark: true, totalTRexReportsNeeded, logger);
+            _trexParserBenchmark = new TRexParser(isPreBenchmark: false, totalTRexReportsNeeded, logger);
+            _trexParserPreBenchmark = new TRexParser(isPreBenchmark: true, totalTRexReportsNeeded, logger);
 
         }
 

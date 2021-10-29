@@ -1,4 +1,4 @@
-﻿using GolemUI.Claymore;
+﻿
 using GolemUI.Interfaces;
 using GolemUI.Validators;
 using Microsoft.Extensions.Logging;
@@ -129,7 +129,7 @@ namespace GolemUI.ViewModel
             Flow = _lastFlowSteps;
 
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            this.BenchmarkService.StartBenchmark(new ClaymoreMiner(), "", defaultBenchmarkStep.ToString(), "ETH", null);
+            this.BenchmarkService.StartBenchmark(new ClaymoreMiner(_logger), "", defaultBenchmarkStep.ToString(), "ETH", null);
             AntiVirusDetectedBefore = true;
         }
 
@@ -185,7 +185,7 @@ namespace GolemUI.ViewModel
                             else
                             {
                                 int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-                                BenchmarkService.StartBenchmark(new ClaymoreMiner(), "", defaultBenchmarkStep.ToString(), "ETC", null);
+                                BenchmarkService.StartBenchmark(new ClaymoreMiner(_logger), "", defaultBenchmarkStep.ToString(), "ETC", null);
                             }
                         }
                     }
@@ -205,7 +205,7 @@ namespace GolemUI.ViewModel
                             else
                             {
                                 int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-                                BenchmarkService.StartBenchmark(new ClaymoreMiner(), "", defaultBenchmarkStep.ToString(), "ETC", null);
+                                BenchmarkService.StartBenchmark(new ClaymoreMiner(_logger), "", defaultBenchmarkStep.ToString(), "ETC", null);
                             }
                         }
                     }
@@ -279,8 +279,8 @@ namespace GolemUI.ViewModel
 
         public Src.BenchmarkService BenchmarkService => _benchmarkService;
 
-        private ObservableCollection<Claymore.BenchmarkGpuStatus> _gpus = new ObservableCollection<Claymore.BenchmarkGpuStatus>();
-        public ObservableCollection<Claymore.BenchmarkGpuStatus>? GPUs => _gpus;
+        private ObservableCollection<BenchmarkGpuStatus> _gpus = new ObservableCollection<BenchmarkGpuStatus>();
+        public ObservableCollection<BenchmarkGpuStatus>? GPUs => _gpus;
         public string? BenchmarkError { get; set; }
 
         internal async Task<bool> ActivateHdWallet()

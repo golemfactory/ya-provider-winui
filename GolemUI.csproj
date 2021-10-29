@@ -266,7 +266,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Miners\BenchmarkGpuStatus.cs" />
+    <Compile Include="Miners\BenchmarkLiveStatus.cs" />
     <Compile Include="Miners\ClaymoreMiner.cs" />
+    <Compile Include="Miners\IMinerParser.cs" />
     <Compile Include="Miners\MinerAppName.cs" />
     <Compile Include="Miners\PhoenixMiner.cs" />
     <Compile Include="Miners\TRexMiner.cs" />

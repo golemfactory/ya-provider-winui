@@ -4,15 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.Extensions.Logging;
+
 namespace GolemUI.Miners
 {
-    class PhoenixMiner : IMinerApp
+    public class PhoenixMiner : IMinerApp
     {
         private MinerAppName _minerAppName;
         public MinerAppName MinerAppName => _minerAppName;
-        public PhoenixMiner()
+
+        private ClaymoreParser _phoenixParser;
+        private ILogger _logger;
+        public PhoenixMiner(ILogger<PhoenixMiner> logger)
         {
+            _logger = logger;
             _minerAppName = new MinerAppName(MinerAppName.MinerAppEnum.Phoenix);
+            _phoenixParser = new ClaymoreParser(true, 5, _logger);
         }
 
         public string WorkingDir => @"plugins\claymore";
@@ -21,6 +28,11 @@ namespace GolemUI.Miners
 
         public string PreBenchmarkParams => "-epool test -li 200";
 
-        public string BenchmarkParams => "";
+        public IMinerParser MinerParser => _phoenixParser;
+
+        public string GetBenchmarkParams(string pool, string ethereumAddress, string nodeName)
+        {
+            return $"-wd 0 -r -1 -epool {pool} -ewal {ethereumAddress} -eworker \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\" -clnew 1 -clKernel 0";
+        }
     }
 }

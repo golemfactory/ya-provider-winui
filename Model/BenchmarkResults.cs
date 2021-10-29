@@ -1,4 +1,4 @@
-﻿using GolemUI.Claymore;
+﻿
 using GolemUI.Miners;
 using System;
 using System.Collections.Generic;

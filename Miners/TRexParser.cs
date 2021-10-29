@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using GolemUI.Claymore;
+
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Globalization;
@@ -45,11 +45,11 @@ namespace GolemUI.Miners
             return _gpusInfosParsed;
         }
 
-        public TRexParser(bool isBenchmark, bool isPreBenchmark, int totalTRexReportsNeeded, ILogger logger)
+        public TRexParser(bool isPreBenchmark, int totalTRexReportsNeeded, ILogger logger)
         {
             _logger = logger;
             _isPreBenchmark = isPreBenchmark;
-            _liveStatus = new BenchmarkLiveStatus(isBenchmark, totalTRexReportsNeeded);
+            _liveStatus = new BenchmarkLiveStatus(totalTRexReportsNeeded);
         }
 
 

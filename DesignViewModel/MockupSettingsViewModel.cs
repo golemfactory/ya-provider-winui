@@ -4,7 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GolemUI.Claymore;
+
+using GolemUI.Miners;
 
 namespace GolemUI.DesignViewModel
 {
@@ -18,17 +19,17 @@ namespace GolemUI.DesignViewModel
 
         public ObservableCollection<BenchmarkGpuStatus> GpuList { get; } = new ObservableCollection<BenchmarkGpuStatus>(new BenchmarkGpuStatus[]
         {
-            new Claymore.BenchmarkGpuStatus(1,true,0)
+            new BenchmarkGpuStatus(1,true,0)
                 {
                     GpuName = "AMD Radeon R9 200 Series (pcie 1), OpenCL 2.0, 8 GB VRAM, 44 CUs",
                     BenchmarkSpeed = 15.6f,
                     DagProgress = 1.0f
                 },
-            new Claymore.BenchmarkGpuStatus(2,true,0)
+            new BenchmarkGpuStatus(2,true,0)
                 {
                     GpuName = "Radeon RX 5500 XT (pcie 8), OpenCL 2.0, 8 GB VRAM, 22 CUs"
                 },
-            new Claymore.BenchmarkGpuStatus(3,true,0)
+            new BenchmarkGpuStatus(3,true,0)
                 {
                     GpuName = "Radeon RX 5500 XT (pcie 8), OpenCL 2.0, 8 GB VRAM, 22 CUs",
                     DagProgress = 0.5f,
