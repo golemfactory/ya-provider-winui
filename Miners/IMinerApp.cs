@@ -10,12 +10,12 @@ namespace GolemUI.Miners
     {
         public MinerAppName MinerAppName { get; }
 
-        public IMinerParser MinerParserBenchmark { get; }
-        public IMinerParser MinerParserPreBenchmark { get; }
+        public IMinerParser CreateParserForBenchmark();
+        public IMinerParser CreateParserForPreBenchmark();
 
         public string WorkingDir { get; }
         public string ExePath { get; }
         public string PreBenchmarkParams { get; }
-        public string GetBenchmarkParams(string pool, string ethereumAddress, string nodeName);
+        public string GetBenchmarkParams(string pool, string ethereumAddress, string nodeName, string cards, string niceness);
     }
 }

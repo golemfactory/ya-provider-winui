@@ -14,19 +14,12 @@ namespace GolemUI.Miners.Claymore
         private MinerAppName _minerAppName;
         public MinerAppName MinerAppName => _minerAppName;
 
-        private ClaymoreParser _claymoreParserBenchmark;
-        private ClaymoreParser _claymoreParserPreBenchmark;
-        public IMinerParser MinerParserBenchmark => _claymoreParserBenchmark;
-        public IMinerParser MinerParserPreBenchmark => _claymoreParserPreBenchmark;
-
         private ILogger? _logger;
 
         public ClaymoreMiner(ILogger<ClaymoreMiner> logger)
         {
             _logger = logger;
             _minerAppName = new MinerAppName(MinerAppName.MinerAppEnum.Claymore);
-            _claymoreParserBenchmark = new ClaymoreParser(false, 5, _logger);
-            _claymoreParserPreBenchmark = new ClaymoreParser(true, 5, _logger);
         }
 
 
@@ -34,11 +27,31 @@ namespace GolemUI.Miners.Claymore
 
         public string ExePath => @"plugins\claymore\EthDcrMiner64.exe";
 
-        public string PreBenchmarkParams => "";
+        public string PreBenchmarkParams => "-epool test -li 200";
 
-        public string GetBenchmarkParams(string pool, string ethereumAddress, string nodeName)
+        public IMinerParser CreateParserForBenchmark()
         {
-            return $"-wd 0 -r -1 -epool {pool} -ewal {ethereumAddress} -eworker \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\" -clnew 1 -clKernel 0";
+            return new ClaymoreParser(false, 5, _logger);
+        }
+
+        public IMinerParser CreateParserForPreBenchmark()
+        {
+            return new ClaymoreParser(true, 5, _logger);
+        }
+
+        public string GetBenchmarkParams(string pool, string ethereumAddress, string nodeName, string cards, string niceness)
+        {
+            string extraParams = "";
+            if (!string.IsNullOrEmpty(cards))
+            {
+                extraParams += " -gpus " + cards;
+            }
+            if (!string.IsNullOrEmpty(niceness))
+            {
+                extraParams += " -li " + niceness;
+            }
+
+            return $"-wd 0 -r -1 -epool {pool} -ewal {ethereumAddress} -eworker \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\" -clnew 1 -clKernel 0" + extraParams;
         }
 
 

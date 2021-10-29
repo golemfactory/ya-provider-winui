@@ -168,10 +168,10 @@ namespace GolemUI.Miners.TRex
                 BenchmarkGpuStatus? currentStatus = null;
 
                 int indexNo = 0;
-                foreach (var key in new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G" })
+                foreach (var key in new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G" })
                 {
                     indexNo += 1;
-                    if (lineText.StartsWith($"GPU{key}"))
+                    if (lineText.Contains($"GPU #{key}:"))
                     {
                         gpuNo = indexNo;
                         gpu_trex_index = key;
@@ -250,24 +250,7 @@ namespace GolemUI.Miners.TRex
                     }
 
 
-                    if (ContainsInStrEx(lineText, ": clSetKernelArg"))
-                    {
-                        currentStatus.GPUError = lineText;
-                    }
-
-                    if (ContainsInStrEx(lineText, ": Starting up"))
-                    {
-                        _liveStatus.GPUInfosParsed = true;
-                    }
-
-                    if (ContainsInStrEx(lineText, ": Allocating DAG"))
-                    {
-                        _liveStatus.GPUInfosParsed = true;
-                        currentStatus.IsDagCreating = true;
-                        currentStatus.DagProgress = 0.0f;
-                        currentStatus.SetStepInitialization();
-                    }
-                    if (ContainsInStrEx(lineText, ": Generating DAG"))
+                    if (ContainsInStrEx(lineText, "generating DAG"))
                     {
                         _liveStatus.GPUInfosParsed = true;
                         currentStatus.IsDagCreating = true;

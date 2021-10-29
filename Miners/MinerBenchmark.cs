@@ -89,8 +89,8 @@ namespace GolemUI.Miners
         public MinerBenchmark(IMinerApp minerApp, int totalClaymoreReportsNeeded, ILogger logger)
         {
             _logger = logger;
-            _minerParserBenchmark = minerApp.MinerParserBenchmark;
-            _minerParserPreBenchmark = minerApp.MinerParserPreBenchmark;
+            _minerParserBenchmark = minerApp.CreateParserForBenchmark();
+            _minerParserPreBenchmark = minerApp.CreateParserForPreBenchmark();
         }
 
 
@@ -253,19 +253,8 @@ namespace GolemUI.Miners
 
 
 
-            arguments.AddRange(minerApp.GetBenchmarkParams(pool, ethereumAddress, nodeName).Split(' '));
+            arguments.AddRange(minerApp.GetBenchmarkParams(pool, ethereumAddress, nodeName, cards, niceness).Split(' '));
 
-
-            if (!string.IsNullOrEmpty(cards))
-            {
-                arguments.Add("-gpus");
-                arguments.Add(cards);
-            }
-            if (!string.IsNullOrEmpty(niceness))
-            {
-                arguments.Add("-li");
-                arguments.Add(niceness);
-            }
 
             foreach (var arg in arguments)
             {

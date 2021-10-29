@@ -13,18 +13,11 @@ namespace GolemUI.Miners.Phoenix
         private MinerAppName _minerAppName;
         public MinerAppName MinerAppName => _minerAppName;
 
-        private ClaymoreParser _phoenixParserBenchmark;
-        private ClaymoreParser _phoenixParserPreBenchmark;
-        public IMinerParser MinerParserBenchmark => _phoenixParserBenchmark;
-        public IMinerParser MinerParserPreBenchmark => _phoenixParserPreBenchmark;
-
         private ILogger _logger;
         public PhoenixMiner(ILogger<PhoenixMiner> logger)
         {
             _logger = logger;
             _minerAppName = new MinerAppName(MinerAppName.MinerAppEnum.Phoenix);
-            _phoenixParserBenchmark = new ClaymoreParser(false, 5, _logger);
-            _phoenixParserPreBenchmark = new ClaymoreParser(true, 5, _logger);
         }
 
         public string WorkingDir => @"plugins\claymore";
@@ -33,9 +26,29 @@ namespace GolemUI.Miners.Phoenix
 
         public string PreBenchmarkParams => "-epool test -li 200";
 
-        public string GetBenchmarkParams(string pool, string ethereumAddress, string nodeName)
+        public string GetBenchmarkParams(string pool, string ethereumAddress, string nodeName, string cards, string niceness)
         {
-            return $"-wd 0 -r -1 -epool {pool} -ewal {ethereumAddress} -eworker \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\" -clnew 1 -clKernel 0";
+            string extraParams = "";
+            if (!string.IsNullOrEmpty(cards))
+            {
+                extraParams += " -gpus " + cards;
+            }
+            if (!string.IsNullOrEmpty(niceness))
+            {
+                extraParams += " -li " + niceness;
+            }
+
+            return $"-wd 0 -r -1 -epool {pool} -ewal {ethereumAddress} -eworker \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\" -clnew 1 -clKernel 0" + extraParams;
+        }
+
+        public IMinerParser CreateParserForBenchmark()
+        {
+            return new ClaymoreParser(false, 5, _logger);
+        }
+
+        public IMinerParser CreateParserForPreBenchmark()
+        {
+            return new ClaymoreParser(true, 5, _logger);
         }
     }
 }
