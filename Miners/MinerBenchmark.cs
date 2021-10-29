@@ -51,13 +51,13 @@ namespace GolemUI.Miners
         private string? _unsafeGpuDetails;
 
         //private BenchmarkLiveStatus _liveStatus = new BenchmarkLiveStatus();
-        private ClaymoreParser _claymoreParserBenchmark;
-        private ClaymoreParser _claymoreParserPreBenchmark;
+        private IMinerParser _minerParserBenchmark;
+        private IMinerParser _minerParserPreBenchmark;
 
         ClaymoreImitateBenchmarkFromFile? _imitate;
 
-        public ClaymoreParser ClaymoreParserBenchmark { get { return _claymoreParserBenchmark; } }
-        public ClaymoreParser ClaymoreParserPreBenchmark { get { return _claymoreParserPreBenchmark; } }
+        public IMinerParser MinerParserBenchmark { get { return _minerParserBenchmark; } }
+        public IMinerParser MinerParserPreBenchmark { get { return _minerParserPreBenchmark; } }
 
         public string? GPUDetails
         {
@@ -84,14 +84,13 @@ namespace GolemUI.Miners
 
 
 
-        Process? _claymoreProcess;
+        Process? _minerProcess;
 
-        public MinerBenchmark(int totalClaymoreReportsNeeded, ILogger logger)
+        public MinerBenchmark(IMinerApp minerApp, int totalClaymoreReportsNeeded, ILogger logger)
         {
             _logger = logger;
-            _claymoreParserBenchmark = new ClaymoreParser(isPreBenchmark: false, totalClaymoreReportsNeeded, logger);
-            _claymoreParserPreBenchmark = new ClaymoreParser(isPreBenchmark: true, totalClaymoreReportsNeeded, logger);
-
+            _minerParserBenchmark = minerApp.MinerParserBenchmark;
+            _minerParserPreBenchmark = minerApp.MinerParserPreBenchmark;
         }
 
 
@@ -99,16 +98,16 @@ namespace GolemUI.Miners
         public void Stop()
         {
 
-            if (_claymoreProcess != null)
+            if (_minerProcess != null)
             {
-                if (!_claymoreProcess.HasExited)
+                if (!_minerProcess.HasExited)
                 {
-                    _claymoreProcess.Kill(true);
+                    _minerProcess.Kill(true);
                 }
-                _claymoreProcess = null;
+                _minerProcess = null;
             }
-            _claymoreParserPreBenchmark.SetFinished();
-            _claymoreParserBenchmark.SetFinished();
+            _minerParserPreBenchmark.SetFinished();
+            _minerParserBenchmark.SetFinished();
             if (_imitate != null)
             {
                 _imitate.Stop();
@@ -133,14 +132,14 @@ namespace GolemUI.Miners
             _imitate.PrepareLines(readText);
             if (isPreBenchmark)
             {
-                _claymoreParserPreBenchmark.BeforeParsing(enableRecording: false);
+                _minerParserPreBenchmark.BeforeParsing(enableRecording: false);
                 _imitate.OutputDataReceived += OnOutputDataPreRecv;
                 _imitate.OutputErrorReceived += OnErrorDataPreRecv;
                 _imitate.OnExited += OnPreBenchmarkExit;
             }
             else
             {
-                _claymoreParserBenchmark.BeforeParsing(enableRecording: false);
+                _minerParserBenchmark.BeforeParsing(enableRecording: false);
                 _imitate.OutputDataReceived += OnOutputDataRecv;
                 _imitate.OutputErrorReceived += OnErrorDataRecv;
                 _imitate.OnExited += OnBenchmarkExit;
@@ -195,30 +194,30 @@ namespace GolemUI.Miners
                 //startInfo.ArgumentList.Add(arg);
             }
 
-            _claymoreProcess = new Process
+            _minerProcess = new Process
             {
                 StartInfo = startInfo
             };
 
             try
             {
-                _claymoreProcess.Start();
+                _minerProcess.Start();
             }
             catch (System.ComponentModel.Win32Exception)
             {
                 BenchmarkError = $"Miner failed to run, \ncheck antivirus settings";
-                _claymoreProcess = null;
+                _minerProcess = null;
                 ProblemWithExe?.Invoke(ProblemWithExeFile.Antivirus);
                 return false;
 
             }
-            _claymoreParserPreBenchmark.BeforeParsing(enableRecording: true);
-            _claymoreProcess.OutputDataReceived += OnOutputDataPreRecv;
-            _claymoreProcess.ErrorDataReceived += OnErrorDataPreRecv;
-            _claymoreProcess.Exited += OnPreBenchmarkExit;
-            _claymoreProcess.EnableRaisingEvents = true;
-            _claymoreProcess.BeginErrorReadLine();
-            _claymoreProcess.BeginOutputReadLine();
+            _minerParserPreBenchmark.BeforeParsing(enableRecording: true);
+            _minerProcess.OutputDataReceived += OnOutputDataPreRecv;
+            _minerProcess.ErrorDataReceived += OnErrorDataPreRecv;
+            _minerProcess.Exited += OnPreBenchmarkExit;
+            _minerProcess.EnableRaisingEvents = true;
+            _minerProcess.BeginErrorReadLine();
+            _minerProcess.BeginOutputReadLine();
 
             return true;
         }
@@ -278,37 +277,37 @@ namespace GolemUI.Miners
                 //startInfo.ArgumentList.Add(arg);
             }
 
-            _claymoreProcess = new Process
+            _minerProcess = new Process
             {
                 StartInfo = startInfo
             };
 
             try
             {
-                _claymoreProcess.Start();
+                _minerProcess.Start();
             }
             catch (System.ComponentModel.Win32Exception)
             {
                 BenchmarkError = $"Miner failed to run, \ncheck antivirus settings";
-                _claymoreProcess = null;
+                _minerProcess = null;
 
                 ProblemWithExe?.Invoke(ProblemWithExeFile.Antivirus);
 
                 return false;
 
             }
-            _claymoreParserBenchmark.BeforeParsing(enableRecording: true);
-            _claymoreProcess.OutputDataReceived += OnOutputDataRecv;
-            _claymoreProcess.ErrorDataReceived += OnErrorDataRecv;
-            _claymoreProcess.Exited += OnBenchmarkExit;
-            _claymoreProcess.EnableRaisingEvents = true;
-            _claymoreProcess.BeginErrorReadLine();
-            _claymoreProcess.BeginOutputReadLine();
+            _minerParserBenchmark.BeforeParsing(enableRecording: true);
+            _minerProcess.OutputDataReceived += OnOutputDataRecv;
+            _minerProcess.ErrorDataReceived += OnErrorDataRecv;
+            _minerProcess.Exited += OnBenchmarkExit;
+            _minerProcess.EnableRaisingEvents = true;
+            _minerProcess.BeginErrorReadLine();
+            _minerProcess.BeginOutputReadLine();
 
             /*
             var t = new Thread(() =>
             {
-                while (_claymoreProcess.WaitForExit(300))
+                while (_minerProcess.WaitForExit(300))
                 {
                     //do stuff waiting for claymore process
                 }
@@ -321,12 +320,12 @@ namespace GolemUI.Miners
 
         void OnPreBenchmarkExit(object? sender, EventArgs e)
         {
-            _claymoreParserPreBenchmark.SetFinished();
+            _minerParserPreBenchmark.SetFinished();
         }
 
         void OnBenchmarkExit(object? sender, EventArgs e)
         {
-            _claymoreParserBenchmark.SetFinished();
+            _minerParserBenchmark.SetFinished();
         }
 
         void OnOutputDataRecv(object sender, DataReceivedEventArgs e)
@@ -337,7 +336,7 @@ namespace GolemUI.Miners
             if (lineText == null)
                 return;
             _logger?.LogInformation("OUTPUT: {0}", lineText);
-            _claymoreParserBenchmark.ParseLine(lineText);
+            _minerParserBenchmark.ParseLine(lineText);
         }
 
         void OnOutputDataPreRecv(object sender, DataReceivedEventArgs e)
@@ -347,7 +346,7 @@ namespace GolemUI.Miners
             if (lineText == null)
                 return;
             _logger?.LogInformation("PREOUT: {0}", lineText);
-            _claymoreParserPreBenchmark.ParseLine(lineText);
+            _minerParserPreBenchmark.ParseLine(lineText);
         }
 
         void OnErrorDataPreRecv(object sender, DataReceivedEventArgs e)

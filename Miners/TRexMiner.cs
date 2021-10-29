@@ -12,14 +12,21 @@ namespace GolemUI.Miners
     {
         private MinerAppName _minerAppName;
         public MinerAppName MinerAppName => _minerAppName;
-        private TRexParser _trexParser;
+        private TRexParser _trexParserBenchmark;
+        private TRexParser _trexParserPreBenchmark;
+        public IMinerParser MinerParserBenchmark => _trexParserBenchmark;
+        public IMinerParser MinerParserPreBenchmark => _trexParserPreBenchmark;
+
+
         private ILogger _logger;
         public TRexMiner(ILogger<TRexMiner> logger)
         {
             _logger = logger;
             _minerAppName = new MinerAppName(MinerAppName.MinerAppEnum.TRex);
 
-            _trexParser = new TRexParser(true, 5, _logger);
+            _trexParserBenchmark = new TRexParser(false, 5, _logger);
+            _trexParserPreBenchmark = new TRexParser(true, 5, _logger);
+
         }
 
         public string WorkingDir => @"plugins\t-rex";

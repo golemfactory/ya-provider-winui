@@ -10,7 +10,8 @@ namespace GolemUI.Miners
     {
         public MinerAppName MinerAppName { get; }
 
-        public IMinerParser MinerParser { get; }
+        public IMinerParser MinerParserBenchmark { get; }
+        public IMinerParser MinerParserPreBenchmark { get; }
 
         public string WorkingDir { get; }
         public string ExePath { get; }

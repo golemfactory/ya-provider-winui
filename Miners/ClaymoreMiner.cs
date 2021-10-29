@@ -14,14 +14,19 @@ namespace GolemUI.Miners
         private MinerAppName _minerAppName;
         public MinerAppName MinerAppName => _minerAppName;
 
-        private ClaymoreParser _phoenixParser;
+        private ClaymoreParser _phoenixParserBenchmark;
+        private ClaymoreParser _phoenixParserPreBenchmark;
+        public IMinerParser MinerParserBenchmark => _phoenixParserBenchmark;
+        public IMinerParser MinerParserPreBenchmark => _phoenixParserPreBenchmark;
+
         private ILogger? _logger;
 
         public ClaymoreMiner(ILogger<ClaymoreMiner> logger)
         {
             _logger = logger;
             _minerAppName = new MinerAppName(MinerAppName.MinerAppEnum.Claymore);
-            _phoenixParser = new ClaymoreParser(true, 5, _logger);
+            _phoenixParserBenchmark = new ClaymoreParser(false, 5, _logger);
+            _phoenixParserPreBenchmark = new ClaymoreParser(true, 5, _logger);
         }
 
 
@@ -36,6 +41,6 @@ namespace GolemUI.Miners
             return $"-wd 0 -r -1 -epool {pool} -ewal {ethereumAddress} -eworker \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\" -clnew 1 -clKernel 0";
         }
         
-        public IMinerParser MinerParser => _phoenixParser;
+        
     }
 }

@@ -13,13 +13,18 @@ namespace GolemUI.Miners
         private MinerAppName _minerAppName;
         public MinerAppName MinerAppName => _minerAppName;
 
-        private ClaymoreParser _phoenixParser;
+        private ClaymoreParser _phoenixParserBenchmark;
+        private ClaymoreParser _phoenixParserPreBenchmark;
+        public IMinerParser MinerParserBenchmark => _phoenixParserBenchmark;
+        public IMinerParser MinerParserPreBenchmark => _phoenixParserPreBenchmark;
+
         private ILogger _logger;
         public PhoenixMiner(ILogger<PhoenixMiner> logger)
         {
             _logger = logger;
             _minerAppName = new MinerAppName(MinerAppName.MinerAppEnum.Phoenix);
-            _phoenixParser = new ClaymoreParser(true, 5, _logger);
+            _phoenixParserBenchmark = new ClaymoreParser(false, 5, _logger);
+            _phoenixParserPreBenchmark = new ClaymoreParser(true, 5, _logger);
         }
 
         public string WorkingDir => @"plugins\claymore";
@@ -27,8 +32,6 @@ namespace GolemUI.Miners
         public string ExePath => @"plugins\claymore\EthDcrMiner64.exe";
 
         public string PreBenchmarkParams => "-epool test -li 200";
-
-        public IMinerParser MinerParser => _phoenixParser;
 
         public string GetBenchmarkParams(string pool, string ethereumAddress, string nodeName)
         {

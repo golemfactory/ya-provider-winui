@@ -82,7 +82,7 @@ namespace GolemUI.Miners
             _start = DateTime.Now;
             if (enableRecording)
             {
-                string benchmarkRecordingFolder = Path.Combine(PathUtil.GetLocalPath(), "BenchmarkRecordings");
+                string benchmarkRecordingFolder = Path.Combine(PathUtil.GetLocalPath(), "BenchmarkRecordingsClay");
 
                 if (!Directory.Exists(benchmarkRecordingFolder))
                 {
@@ -91,7 +91,7 @@ namespace GolemUI.Miners
 
                 string suffix = _isPreBenchmark ? "pre_recording" : "recording";
 
-                string benchmarkRecordingFile = String.Format("Benchmark_{0}.{1}", DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"), suffix);
+                string benchmarkRecordingFile = String.Format("BenchmarkClay_{0}.{1}", DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"), suffix);
                 _benchmarkRecordingPath = Path.Combine(benchmarkRecordingFolder, benchmarkRecordingFile);
                 StreamWriter? sw = null;
                 try
