@@ -15,8 +15,9 @@ using GolemUI.Src;
 using GolemUI.Utils;
 using Microsoft.Extensions.Logging;
 using MinerAppName = GolemUI.Miners.MinerAppName;
+using GolemUI.Command;
 
-namespace GolemUI.Command
+namespace GolemUI.Miners
 {
 
     public enum ProblemWithExeFile { Timeout, Antivirus, FileMissing, None };
@@ -374,6 +375,12 @@ namespace GolemUI.Command
     /// </summary>
     public class ClaymoreImitateBenchmarkFromFile
     {
+        struct ImitateBenchmarkEntry
+        {
+            public int millis;
+            public string line;
+        }
+
         public DataReceivedEventHandler? OutputDataReceived;
         public DataReceivedEventHandler? OutputErrorReceived;
         public EventHandler? OnExited;

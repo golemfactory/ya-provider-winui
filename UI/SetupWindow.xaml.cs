@@ -225,7 +225,7 @@ namespace GolemUI.UI
         {
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            Model!.BenchmarkService.StartBenchmark(new ClaymoreMiner(null), "", defaultBenchmarkStep.ToString(), "ETH", null);
+            Model!.BenchmarkService.StartBenchmark(_miner, "", defaultBenchmarkStep.ToString(), "ETH", null);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

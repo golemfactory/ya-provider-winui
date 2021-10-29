@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using GolemUI.Miners;
 
 namespace GolemUI.ViewModel
 {
@@ -519,11 +520,11 @@ namespace GolemUI.ViewModel
                 */
             }
         }
-        private void _benchmarkService_AntivirusStatus(Command.ProblemWithExeFile problem)
+        private void _benchmarkService_AntivirusStatus(ProblemWithExeFile problem)
         {
             AntiVirusCheckActive = false;
             OnPropertyChanged(nameof(IsMiningReadyToRun));
-            if (problem == Command.ProblemWithExeFile.None)
+            if (problem == ProblemWithExeFile.None)
             {
                 _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "ok", expirationTimeInMs: 3000, group: false));
                 this.RunMiner();

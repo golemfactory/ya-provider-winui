@@ -115,9 +115,9 @@ namespace GolemUI.ViewModel
         private int _lastFlowSteps = 0;
         bool AntiVirusDetectedBefore = false;
         public string AntivirusTitle { get; set; } = "Your antivirus is blocking Thorg";
-        private void BenchmarkService_AntivirusStatus(Command.ProblemWithExeFile problem)
+        private void BenchmarkService_AntivirusStatus(ProblemWithExeFile problem)
         {
-            if (problem == Command.ProblemWithExeFile.Antivirus || problem == Command.ProblemWithExeFile.FileMissing)
+            if (problem == ProblemWithExeFile.Antivirus || problem == ProblemWithExeFile.FileMissing)
             {
                 _lastFlowSteps = Flow;
                 Flow = (int)FlowSteps.Antivirus;
@@ -181,7 +181,7 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             NoobStep = (int)NoobSteps.Enjoy;
-                        else if (_benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
+                        else if (_benchmarkService.Status?.ProblemWithExeFile != ProblemWithExeFile.Antivirus && _benchmarkService.Status?.ProblemWithExeFile != ProblemWithExeFile.FileMissing)
                         {
                             if (_benchmarkService.Status?.LowMemoryMode ?? false)
                             {
@@ -201,7 +201,7 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             ExpertStep = (int)ExpertSteps.Enjoy;
-                        else if (_benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
+                        else if (_benchmarkService.Status?.ProblemWithExeFile != ProblemWithExeFile.Antivirus && _benchmarkService.Status?.ProblemWithExeFile != ProblemWithExeFile.FileMissing)
                         {
                             if (_benchmarkService.Status?.LowMemoryMode ?? false)
                             {

@@ -90,9 +90,9 @@ namespace GolemUI.ViewModel
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
         }
 
-        private void _benchmarkService_ProblemWithExe(Command.ProblemWithExeFile problem)
+        private void _benchmarkService_ProblemWithExe(ProblemWithExeFile problem)
         {
-            if (problem == Command.ProblemWithExeFile.Antivirus || problem == Command.ProblemWithExeFile.FileMissing)
+            if (problem == ProblemWithExeFile.Antivirus || problem == ProblemWithExeFile.FileMissing)
             {
                 var settings = GolemUI.Properties.Settings.Default;
                 var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_antivir_image, settings.dialog_antivir_title, settings.dialog_antivir_message, settings.dialog_antivir_button));
@@ -102,7 +102,7 @@ namespace GolemUI.ViewModel
 
 
                 _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "Please check your antivirus settings...", expirationTimeInMs: 17000, group: false));
-                if (problem == Command.ProblemWithExeFile.FileMissing)
+                if (problem == ProblemWithExeFile.FileMissing)
                 {
                     _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "Miner executable file (EthDcrMiner64.exe) is missing", expirationTimeInMs: 17000, group: false));
                 }
