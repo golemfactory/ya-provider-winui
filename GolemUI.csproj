@@ -268,12 +268,12 @@
     </ApplicationDefinition>
     <Compile Include="Miners\BenchmarkGpuStatus.cs" />
     <Compile Include="Miners\BenchmarkLiveStatus.cs" />
-    <Compile Include="Miners\ClaymoreMiner.cs" />
+    <Compile Include="Miners\Claymore\ClaymoreMiner.cs" />
     <Compile Include="Miners\IMinerParser.cs" />
     <Compile Include="Miners\MinerAppName.cs" />
-    <Compile Include="Miners\PhoenixMiner.cs" />
-    <Compile Include="Miners\TRexMiner.cs" />
-    <Compile Include="Miners\TRexParser.cs" />
+    <Compile Include="Miners\Phoenix\PhoenixMiner.cs" />
+    <Compile Include="Miners\TRex\TRexMiner.cs" />
+    <Compile Include="Miners\TRex\TRexParser.cs" />
     <Compile Include="Command\GSB\GsbServiceException.cs" />
     <Compile Include="Converters\NonNullToVisibilityConverter.cs" />
     <Compile Include="Converters\ValueToVisibilityConverter.cs" />
@@ -325,7 +325,7 @@
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\ChildProcessManager.cs" />
-    <Compile Include="Miners\ClaymoreParser.cs" />
+    <Compile Include="Miners\Claymore\ClaymoreParser.cs" />
     <Compile Include="Miners\MinerBenchmark.cs" />
     <Compile Include="Command\GpuInfo.cs" />
     <Compile Include="Command\PaymentData.cs" />

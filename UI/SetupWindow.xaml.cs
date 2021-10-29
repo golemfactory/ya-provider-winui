@@ -16,6 +16,7 @@ using System.Windows.Interop;
 using Sentry;
 using GolemUI.Interfaces;
 using GolemUI.Miners;
+using GolemUI.Miners.Claymore;
 using GolemUI.Src.AppNotificationService;
 
 namespace GolemUI.UI

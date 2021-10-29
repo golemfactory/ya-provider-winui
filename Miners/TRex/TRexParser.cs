@@ -14,7 +14,7 @@ using System.Globalization;
 using GolemUI.Utils;
 using GolemUI.Command;
 
-namespace GolemUI.Miners
+namespace GolemUI.Miners.TRex
 {
 
 

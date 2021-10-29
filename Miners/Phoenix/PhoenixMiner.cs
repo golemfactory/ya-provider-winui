@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using GolemUI.Miners.Claymore;
 using Microsoft.Extensions.Logging;
 
-namespace GolemUI.Miners
+namespace GolemUI.Miners.Phoenix
 {
     public class PhoenixMiner : IMinerApp
     {

@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using GolemUI.Miners;
+using GolemUI.Miners.Claymore;
 using static GolemUI.Command.GSB.Payment;
 
 namespace GolemUI.ViewModel

@@ -15,6 +15,9 @@ using GolemUI.Utils;
 using System.Windows;
 using Sentry;
 using GolemUI.Miners;
+using GolemUI.Miners.Claymore;
+using GolemUI.Miners.Phoenix;
+using GolemUI.Miners.TRex;
 
 namespace GolemUI.ViewModel
 {

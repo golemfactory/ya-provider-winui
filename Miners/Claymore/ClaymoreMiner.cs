@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using GolemUI.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace GolemUI.Miners
+namespace GolemUI.Miners.Claymore
 {
     public class ClaymoreMiner : IMinerApp
     {
