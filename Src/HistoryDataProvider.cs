@@ -51,7 +51,7 @@ namespace GolemUI.Src
         public Dictionary<string, ActivityState> Activities { get; set; } = new Dictionary<string, ActivityState>();
 
 
-        public List<double> HashrateHistory { get; set; } = new List<double>();
+        //public List<double> HashrateHistory { get; set; } = new List<double>();
 
 
         public List<GPUHistoryUsage> MiningHistoryGpuTotal { get; set; } = new List<GPUHistoryUsage>();
@@ -535,11 +535,13 @@ namespace GolemUI.Src
             float hashRate = 0.0f;
 
             gminerState.Usage?.TryGetValue("golem.usage.mining.hash-rate", out hashRate);
+            /*
+            TODO - implement proper hashrate history for statistics 
             if (HashrateHistory.Count == 0 || HashrateHistory.Last() != hashRate)
             {
                 HashrateHistory.Add(hashRate);
                 UpdateChartData();
-            }
+            }*/
         }
 
         private void _computeEstimatedEarnings()
