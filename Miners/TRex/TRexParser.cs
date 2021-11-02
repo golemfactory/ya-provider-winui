@@ -226,24 +226,18 @@ namespace GolemUI.Miners.TRex
                         if ((nVidiaGpuFound || amdGpuFound) && lineText.Contains(":"))
                         {
                             //todo - what happens when details contains :
-                            currentStatus.GPUDetails = lineText.Split(':')[1].Trim();
+                            var splits = lineText.Split(':');
 
-                            if (currentStatus.GPUDetails.Contains(','))
+                            if (splits.Length > 0)
                             {
-                                currentStatus.GpuName = currentStatus.GPUDetails.Split(',')[0];
-                                if (currentStatus.GpuName.Contains("(pcie"))
+                                string gpuName = splits[splits.Length - 1].Trim();
+
+                                var spplit = gpuName.Split(']');
+
+                                if (spplit.Length >= 2)
                                 {
-                                    var split2 = currentStatus.GpuName.Replace("(pcie", "^").Split('^');
-                                    currentStatus.GpuName = split2[0].Trim();
-                                    int pciExpressLane;
-                                    if (split2.Length >= 2)
-                                    {
-                                        bool success = int.TryParse(split2[1].Trim(new char[] { ' ', ')' }), out pciExpressLane);
-                                        if (success)
-                                        {
-                                            currentStatus.PciExpressLane = pciExpressLane;
-                                        }
-                                    }
+                                    currentStatus.GPUDetails = spplit[1].Trim();
+                                    currentStatus.GpuName = currentStatus.GPUDetails;
                                 }
                             }
                         }
@@ -279,6 +273,37 @@ namespace GolemUI.Miners.TRex
                             }
                         }
                     }
+
+                    if (ContainsInStrEx(lineText, " MH/s"))
+                    {
+                        var splits = lineText.Split('-');
+                        if (splits.Length == 2)
+                        {
+                            var splits2 = splits[1].Replace("MH/s", "^").Split('^');
+                            if (splits2.Length == 2)
+                            {
+                                var mhs_str = splits2[0].Trim();
+                                if (Double.TryParse(mhs_str, out double mhs))
+                                {
+
+                                    int parsedGpuNo = gpuNo;
+
+                                    if (!_liveStatus.GPUs.ContainsKey(parsedGpuNo))
+                                    {
+                                        _liveStatus.GPUs.Add(parsedGpuNo, new BenchmarkGpuStatus(parsedGpuNo, true, 0));
+                                    }
+                                    _liveStatus.GPUs[parsedGpuNo].BenchmarkSpeed = (float)mhs;
+
+                                    if (_liveStatus.AreAllDagsFinishedOrFailed())
+                                    {
+                                        _liveStatus.NumberOfClaymorePerfReports += 5;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+
 
                     if (ContainsInStrEx(lineText, ": DAG generated"))
                     {
