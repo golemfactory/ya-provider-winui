@@ -9,8 +9,8 @@ namespace GolemUI.Interfaces
 {
     public interface IBenchmarkResultsProvider
     {
-        public BenchmarkResults LoadBenchmarkResults();
+        public BenchmarkResults LoadBenchmarkResults(string minerAppName);
 
-        public void SaveBenchmarkResults(BenchmarkResults userSettings);
+        public void SaveBenchmarkResults(BenchmarkResults userSettings, string minerAppName);
     }
 }
