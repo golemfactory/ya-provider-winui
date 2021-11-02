@@ -175,8 +175,18 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             NoobStep = (int)NoobSteps.Enjoy;
-                        else if (_benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
-                            Flow = (int)FlowSteps.NoGPU;
+                        else if (_benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
+                        {
+                            if (_benchmarkService.Status?.LowMemoryMode ?? false)
+                            {
+                                Flow = (int)FlowSteps.NoGPU;
+                            }
+                            else
+                            {
+                                int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
+                                BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETC", null);
+                            }
+                        }
                     }
                 }
                 else if (_flow == (int)FlowSteps.OwnWallet)
@@ -185,8 +195,18 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             ExpertStep = (int)ExpertSteps.Enjoy;
-                        else if (_benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService?.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
-                            Flow = (int)FlowSteps.NoGPU;
+                        else if (_benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
+                        {
+                            if (_benchmarkService.Status?.LowMemoryMode ?? false)
+                            {
+                                Flow = (int)FlowSteps.NoGPU;
+                            }
+                            else
+                            {
+                                int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
+                                BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETC", null);
+                            }
+                        }
                     }
                 }
             }
@@ -306,7 +326,8 @@ namespace GolemUI.ViewModel
                 var totalHr = TotalHashRate;
                 if (totalHr != null)
                 {
-                    return _profitEstimator.HashRateToUSDPerDay(totalHr.Value);
+                    var coin = (_benchmarkService.Status?.LowMemoryMode ?? false) ? GolemUI.Model.Coin.ETC : GolemUI.Model.Coin.ETH;
+                    return _profitEstimator.HashRateToUSDPerDay(totalHr.Value, coin);
                 }
                 return null;
             }

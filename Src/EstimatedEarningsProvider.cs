@@ -25,13 +25,16 @@ namespace GolemUI.Src
 
         private double _estimateFromSettings(double hashRate, Coin coin)
         {
-            if (_remoteSettingsProvider.LoadRemoteSettings(out var settings))
+            if (_remoteSettingsProvider.LoadRemoteSettings(out RemoteSettings? settings))
             {
-                var dayIncomePerGH = coin switch { Coin.ETC => settings.DayEtcPerGH, Coin.ETH => settings.DayEthPerGH, _ => null };
-                if (dayIncomePerGH is double v)
+                if (settings != null)
                 {
+                    var dayIncomePerGH = coin switch { Coin.ETC => settings.DayEtcPerGH, Coin.ETH => settings.DayEthPerGH, _ => null };
+                    if (dayIncomePerGH is double v)
+                    {
 
-                    return hashRate * Convert.ToDouble(_priceProvider.CoinValue(Convert.ToDecimal(v * 0.001 * (settings.RequestorCoeff ?? 1.0)), coin));
+                        return hashRate * Convert.ToDouble(_priceProvider.CoinValue(Convert.ToDecimal(v * 0.001 * (settings.RequestorCoeff ?? 1.0)), coin));
+                    }
                 }
             }
             return 0;

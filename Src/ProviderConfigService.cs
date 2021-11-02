@@ -59,19 +59,34 @@ namespace GolemUI.Src
         {
             get
             {
-                if (IsLowMemoryModeActive)
-                {
-                    return _isPresetActive("hminer");
-                }
-                return _isPresetActive("gminer");
+                return _isPresetActive("hminer") || _isPresetActive("gminer");
             }
-            set
+        }
+
+        public void SetMiningActive(bool active, bool isLowMemoryMode)
+        {
+            IsLowMemoryModeActive = isLowMemoryMode;
+            if (IsLowMemoryModeActive)
             {
-                if (IsLowMemoryModeActive)
-                {
-                    _setPreset("hminer", value);
-                }
-                _setPreset("gminer", value);
+                _setPreset("hminer", active);
+                _setPreset("gminer", false);
+            }
+            else
+            {
+                _setPreset("gminer", active);
+                _setPreset("hminer", false);
+            }
+        }
+
+        public void SwitchMiningMode(bool isLowMemoryMode)
+        {
+            if (_isPresetActive("gminer") || _isPresetActive("hminer"))
+            {
+                SetMiningActive(true, isLowMemoryMode);
+            }
+            else
+            {
+                SetMiningActive(false, isLowMemoryMode);
             }
         }
 
@@ -137,79 +152,79 @@ namespace GolemUI.Src
                 var presets = _provider.Presets.Select(x => x.Name).ToList();
                 string _info, _args;
 
-                if (isLowMemoryMode)
+
+                if (!presets.Contains("hminer"))
                 {
-                    if (presets.Contains("gminer"))
+                    _provider.AddPreset(new GolemUI.Command.Preset("hminer", "hminer", new Dictionary<string, decimal>()
                     {
-                        _provider.DeactivatePreset("gminer");
-                    }
-
-
-                    if (!presets.Contains("hminer"))
+                        { "share", 0.00001m },
+                        { "duration", 0m },
+                        { "raw-share", 0m },
+                        { "stale-share", 0m },
+                        { "invalid-share", 0m },
+                        { "hash-rate", 0m }
+                    }), out _args, out _info);
+                    if (isGpuCapable)
                     {
-
-                        _provider.AddPreset(new GolemUI.Command.Preset("hminer", "hminer", new Dictionary<string, decimal>()
-                        {
-                            { "share", 0.00001m },
-                            { "duration", 0m },
-                            { "raw-share", 0m },
-                            { "stale-share", 0m },
-                            { "invalid-share", 0m },
-                            { "hash-rate", 0m }
-                        }), out _args, out _info);
-                        if (isGpuCapable)
-                        {
-                            _provider.ActivatePreset("hminer");
-                            changedProperties.Add("IsMiningActive");
-                        }
-                    }
-                    else
-                    {
-                        _provider.Preset["hminer"].UpdatePrices(new Dictionary<string, decimal>() {
-                                { "share", 0.00001m },
-                                { "duration", 0m },
-                                { "raw-share", 0m },
-                                { "stale-share", 0m },
-                                { "invalid-share", 0m },
-                                { "hash-rate", 0m }
-                            });
-
+                        _provider.ActivatePreset("hminer");
+                        changedProperties.Add("IsMiningActive");
                     }
                 }
                 else
                 {
-                    if (presets.Contains("hminer"))
-                    {
-                        _provider.DeactivatePreset("hminer");
-                    }
-                    if (!presets.Contains("gminer"))
-                    {
+                    _provider.Preset["hminer"].UpdatePrices(new Dictionary<string, decimal>() {
+                        { "share", 0.00001m },
+                        { "duration", 0m },
+                        { "raw-share", 0m },
+                        { "stale-share", 0m },
+                        { "invalid-share", 0m },
+                        { "hash-rate", 0m }
+                    });
 
-                        _provider.AddPreset(new GolemUI.Command.Preset("gminer", "gminer", new Dictionary<string, decimal>()
-                        {
-                            { "share", 0.00001m },
-                            { "duration", 0m },
-                            { "raw-share", 0m },
-                            { "stale-share", 0m },
-                            { "invalid-share", 0m },
-                            { "hash-rate", 0m }
-                        }), out _args, out _info);
-                        if (isGpuCapable)
-                        {
-                            _provider.ActivatePreset("gminer");
-                            changedProperties.Add("IsMiningActive");
-                        }
+                }
+
+                if (!presets.Contains("gminer"))
+                {
+
+                    _provider.AddPreset(new GolemUI.Command.Preset("gminer", "gminer", new Dictionary<string, decimal>()
+                    {
+                        { "share", 0.00001m },
+                        { "duration", 0m },
+                        { "raw-share", 0m },
+                        { "stale-share", 0m },
+                        { "invalid-share", 0m },
+                        { "hash-rate", 0m }
+                    }), out _args, out _info);
+                    if (isGpuCapable)
+                    {
+                        _provider.ActivatePreset("gminer");
+                        changedProperties.Add("IsMiningActive");
+                    }
+                }
+                else
+                {
+                    _provider.Preset["gminer"].UpdatePrices(new Dictionary<string, decimal>() {
+                        { "share", 0.00001m },
+                        { "duration", 0m },
+                        { "raw-share", 0m },
+                        { "stale-share", 0m },
+                        { "invalid-share", 0m },
+                        { "hash-rate", 0m }
+                    });
+                }
+
+
+                if (presets.Contains("gminer") || presets.Contains("hminer"))
+                {
+                    if (isLowMemoryMode)
+                    {
+                        _provider.ActivatePreset("hminer");
+                        _provider.DeactivatePreset("gminer");
                     }
                     else
                     {
-                        _provider.Preset["gminer"].UpdatePrices(new Dictionary<string, decimal>() {
-                                { "share", 0.00001m },
-                                { "duration", 0m },
-                                { "raw-share", 0m },
-                                { "stale-share", 0m },
-                                { "invalid-share", 0m },
-                                { "hash-rate", 0m }
-                            });
+                        _provider.DeactivatePreset("hminer");
+                        _provider.ActivatePreset("gminer");
                     }
                 }
 
