@@ -16,24 +16,20 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace GolemUI.Src
 {
-    public enum MinerAppName
-    {
-        Claymore,
-        Phoenix,
-        TRex
-    }
-
     public class BenchmarkService : INotifyPropertyChanged
     {
         public event OnProblemsWithExeFileEventHander? ProblemWithExe;
         public event OnProblemsWithExeFileEventHander? AntivirusStatus;
-        public BenchmarkService(IProviderConfig providerConfig, ILogger<BenchmarkService> logger, IBenchmarkResultsProvider benchmarkResultsProvider)
+        private IUserSettingsProvider _userSettingsProvider;
+
+        public BenchmarkService(IProviderConfig providerConfig, ILogger<BenchmarkService> logger, IBenchmarkResultsProvider benchmarkResultsProvider, IUserSettingsProvider userSettingsProvider)
         {
+            _userSettingsProvider = userSettingsProvider;
 
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _providerConfig = providerConfig;
             _logger = logger;
-            var results = benchmarkResultsProvider.LoadBenchmarkResults();
+            var results = benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
             if (results != null)
             {
                 _minerLiveStatus = results.liveStatus;
@@ -442,7 +438,7 @@ namespace GolemUI.Src
 
         internal string? ExtractClaymoreParams()
         {
-            var status = _minerLiveStatus ?? _benchmarkResultsProvider.LoadBenchmarkResults().liveStatus;
+            var status = _minerLiveStatus ?? _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName).liveStatus;
             if (status == null)
             {
                 return null;
@@ -484,7 +480,7 @@ namespace GolemUI.Src
                 BenchmarkResultVersion = GolemUI.Properties.Settings.Default.BenchmarkResultsVersion,
                 liveStatus = _minerLiveStatus
             };
-            _benchmarkResultsProvider.SaveBenchmarkResults(results);
+            _benchmarkResultsProvider.SaveBenchmarkResults(results, _userSettingsProvider.LoadUserSettings().SelectedMinerName);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

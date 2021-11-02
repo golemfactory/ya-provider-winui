@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using GolemUI.Miners;
 using Newtonsoft.Json;
 
 namespace GolemUI.Model
@@ -146,14 +147,51 @@ namespace GolemUI.Model
         }
 
         private int _minerType = 0;
-        public int MinerType
+        public int SelectedMinerType
         {
             get => _minerType;
             set
             {
                 _minerType = value;
                 NotifyChanged();
+                NotifyChanged("SelectedMinerName");
                 NotifyChanged("IsTRexMiner");
+            }
+        }
+
+        [JsonIgnore]
+        public MinerAppName SelectedMinerName
+        {
+            get
+            {
+                switch (SelectedMinerType)
+                {
+                    case 0:
+                        return new MinerAppName(MinerAppName.MinerAppEnum.Claymore);
+                    case 1:
+                        return new MinerAppName(MinerAppName.MinerAppEnum.TRex);
+                    case 2:
+                        return new MinerAppName(MinerAppName.MinerAppEnum.Phoenix);
+                    default:
+                        return new MinerAppName(MinerAppName.MinerAppEnum.Claymore);
+                }
+            }
+            set
+            {
+                switch (value.NameEnum)
+                {
+                    case MinerAppName.MinerAppEnum.Claymore:
+                        SelectedMinerType = 0;
+                        break;
+                    case MinerAppName.MinerAppEnum.TRex:
+                        SelectedMinerType = 1;
+                        break;
+                    case MinerAppName.MinerAppEnum.Phoenix:
+                        SelectedMinerType = 2;
+                        break;
+                    default:
+                        throw new Exception("Unkown enum");
+                }
             }
         }
 
@@ -168,17 +206,14 @@ namespace GolemUI.Model
             {
                 if (value)
                 {
-                    MinerType = 1;
+                    SelectedMinerType = 1;
                 }
                 else
                 {
-                    MinerType = 0;
+                    SelectedMinerType = 0;
                 }
                 NotifyChanged();
             }
         }
-
-
-
     }
 }

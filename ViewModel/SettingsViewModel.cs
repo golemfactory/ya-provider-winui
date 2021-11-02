@@ -18,6 +18,7 @@ using GolemUI.Miners;
 using GolemUI.Miners.Claymore;
 using GolemUI.Miners.Phoenix;
 using GolemUI.Miners.TRex;
+using MinerAppName = GolemUI.Miners.MinerAppName;
 
 namespace GolemUI.ViewModel
 {
@@ -90,7 +91,7 @@ namespace GolemUI.ViewModel
             _totalCpusCount = Src.CpuInfo.GetCpuCount(Src.CpuCountMode.Threads);
             BenchmarkError = "";
             ActiveCpusCount = 3;
-            _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
+            _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
         }
 
         private void _benchmarkService_ProblemWithExe(ProblemWithExeFile problem)
@@ -208,15 +209,18 @@ namespace GolemUI.ViewModel
                 cards = "";
             }
 
-            if (_userSettingsProvider.LoadUserSettings().MinerType == 1)
+            BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
+            switch (_userSettingsProvider.LoadUserSettings().SelectedMinerName.NameEnum)
             {
-                BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
-                BenchmarkService.StartBenchmark(_trexMiner, cards, niceness, miningMode, externalStatusCopy);
-            }
-            else
-            {
-                BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
-                BenchmarkService.StartBenchmark(_claymoreMiner, cards, niceness, miningMode, externalStatusCopy);
+                case MinerAppName.MinerAppEnum.Claymore:
+                    BenchmarkService.StartBenchmark(_claymoreMiner, cards, niceness, miningMode, externalStatusCopy);
+                    break;
+                case MinerAppName.MinerAppEnum.TRex:
+                    BenchmarkService.StartBenchmark(_trexMiner, cards, niceness, miningMode, externalStatusCopy);
+                    break;
+                case MinerAppName.MinerAppEnum.Phoenix:
+                    BenchmarkService.StartBenchmark(_phoenixMiner, cards, niceness, miningMode, externalStatusCopy);
+                    break;
             }
         }
         public void StopBenchmark()
@@ -240,7 +244,7 @@ namespace GolemUI.ViewModel
             NodeNameHasChanged = false;
             AdvancedSettingsButtonEnabled = true;
             GpuList.Clear();
-            _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
+            _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
 
             if (_benchmarkSettings == null || _benchmarkSettings.liveStatus == null || _benchmarkSettings.liveStatus.GPUs == null)
             {
@@ -331,7 +335,7 @@ namespace GolemUI.ViewModel
             {
                 _benchmarkService.Apply(_ls);
             }
-            _benchmarkResultsProvider.SaveBenchmarkResults(_benchmarkSettings);
+            _benchmarkResultsProvider.SaveBenchmarkResults(_benchmarkSettings, _userSettingsProvider.LoadUserSettings().SelectedMinerName);
         }
 
 
@@ -373,7 +377,7 @@ namespace GolemUI.ViewModel
                         Task.Delay(3000).ContinueWith(_ => RestartMiningProcess());
 
                     _benchmarkService.Save();
-                    _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults();
+                    _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
 
                     var benchmarkStatus = _benchmarkService.Status;
                     if (benchmarkStatus != null)

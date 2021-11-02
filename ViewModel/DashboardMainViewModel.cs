@@ -307,7 +307,7 @@ namespace GolemUI.ViewModel
         public void LoadData()
         {
 
-            var benchmark = _benchmarkResultsProvider.LoadBenchmarkResults();
+            var benchmark = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
 
             _enabledGpuCount = benchmark?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null && gpu.Value.IsReadyForMining && gpu.Value.IsEnabledByUser).Count() ?? 0;
             _totalGpuCount = benchmark?.liveStatus?.GPUs.ToList().Count() ?? 0;
