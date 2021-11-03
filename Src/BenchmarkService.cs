@@ -65,7 +65,7 @@ namespace GolemUI.Src
         private readonly double CLAYMORE_GPU_INFO_TIMEOUT = 10.0;
         private readonly double CLAYMORE_TOTAL_BENCHMARK_TIMEOUT = 200.0;
         private IBenchmarkResultsProvider _benchmarkResultsProvider;
-        public async void AssessIfAntivirusIsBlockingClaymore(IMinerApp minerApp)
+        public async void AssessIfAntivirusIsBlocking(IMinerApp minerApp)
         {
             try
             {
@@ -135,7 +135,7 @@ namespace GolemUI.Src
 
 
 
-        public async void StartBenchmark(IMinerApp minerApp, string cards, string niceness, string mining_mode, BenchmarkLiveStatus? externalLiveStatus)
+        public async void StartBenchmark(IMinerApp minerApp, MinerAppConfiguration minerAppConfiguration, BenchmarkLiveStatus? externalLiveStatus)
         {
             ActiveMinerApp = minerApp;
 
@@ -153,15 +153,14 @@ namespace GolemUI.Src
             DateTime benchmarkStartTime = DateTime.Now;
             var walletAddress = _providerConfig.Config?.Account ?? "0x0000000000000000000000000000000000000001";
             var nodeName = _providerConfig.Config?.NodeName ?? "DefaultBenchmark";
-            var poolAddr = GolemUI.Properties.Settings.Default.DefaultProxy;
-            if (mining_mode == "ETH")
+            minerAppConfiguration.EthereumAddress = walletAddress;
+            if (minerAppConfiguration.MiningMode == "ETH")
             {
-                //_minerLiveStatus.MiningMode = "ETH";
+                minerAppConfiguration.Pool = GolemUI.Properties.Settings.Default.DefaultProxy;
             }
-            else if (mining_mode == "ETC")
+            else if (minerAppConfiguration.MiningMode == "ETC")
             {
-                poolAddr = GolemUI.Properties.Settings.Default.DefaultProxyLowMem;
-                //_minerLiveStatus.MiningMode = "ETH";
+                minerAppConfiguration.Pool = GolemUI.Properties.Settings.Default.DefaultProxyLowMem;
             }
             else
             {
@@ -175,7 +174,7 @@ namespace GolemUI.Src
             IsRunning = true;
             OnPropertyChanged("IsRunning");
 
-            bool preBenchmarkNeeded = !String.IsNullOrEmpty(cards);
+            bool preBenchmarkNeeded = !String.IsNullOrEmpty(minerAppConfiguration.Cards);
 
             var cc = new MinerBenchmark(minerApp, totalClaymoreReportsNeeded, logger: _logger);
             cc.ProblemWithExe += (reason) =>
@@ -194,7 +193,7 @@ namespace GolemUI.Src
             {
                 if (preBenchmarkNeeded)
                 {
-                    _logger.LogInformation("PreBenchmarkNeeded cards: " + cards + " niceness: " + niceness);
+                    _logger.LogInformation("PreBenchmarkNeeded cards: " + minerAppConfiguration.Cards + " niceness: " + minerAppConfiguration.Niceness);
 
 
                     bool result = cc.RunBenchmarkRecording(@"test.pre_recording", isPreBenchmark: true);
@@ -270,7 +269,7 @@ namespace GolemUI.Src
                     bool result = cc.RunBenchmarkRecording(@"test.recording", isPreBenchmark: false);
                     if (!result)
                     {
-                        result = cc.RunBenchmark(minerApp, cards, niceness, poolAddr, walletAddress, nodeName);
+                        result = cc.RunBenchmark(minerApp, minerAppConfiguration);
                     }
                     if (!result)
                     {
@@ -287,7 +286,7 @@ namespace GolemUI.Src
                 while (!cc.BenchmarkFinished && IsRunning)
                 {
                     _minerLiveStatus = cc.MinerParserBenchmark.GetLiveStatusCopy();
-                    if (mining_mode == "ETC")
+                    if (minerAppConfiguration.MiningMode == "ETC")
                     {
                         _minerLiveStatus.LowMemoryMode = true;
                         foreach (var gpu in _minerLiveStatus.GPUs)
@@ -307,7 +306,7 @@ namespace GolemUI.Src
                     bool allExpectedGPUsFound = false;
                     if (baseLiveStatus != null)
                     {
-                        _minerLiveStatus.MergeFromBaseLiveStatus(baseLiveStatus, cards, out allExpectedGPUsFound);
+                        _minerLiveStatus.MergeFromBaseLiveStatus(baseLiveStatus, minerAppConfiguration.Cards, out allExpectedGPUsFound);
                     }
                     _minerLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
                     OnPropertyChanged("Status");
@@ -436,7 +435,7 @@ namespace GolemUI.Src
             OnPropertyChanged("Status");
         }
 
-        internal string? ExtractClaymoreParams()
+        internal string? ExtractMinerParams()
         {
             var status = _minerLiveStatus ?? _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName).liveStatus;
             if (status == null)

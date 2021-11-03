@@ -183,7 +183,10 @@ namespace GolemUI.UI
         {
             Model!.NoobStep = 4;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            Model!.BenchmarkService.StartBenchmark(_miner, "", defaultBenchmarkStep.ToString(), "ETH", null);
+            MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+            minerAppConfiguration.Niceness = defaultBenchmarkStep.ToString();
+
+            Model!.BenchmarkService.StartBenchmark(_miner, minerAppConfiguration, null);
         }
 
         private void OnCancelNoobFlow(object sender, RoutedEventArgs e)
@@ -226,7 +229,10 @@ namespace GolemUI.UI
         {
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            Model!.BenchmarkService.StartBenchmark(_miner, "", defaultBenchmarkStep.ToString(), "ETH", null);
+            MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+            minerAppConfiguration.Niceness = defaultBenchmarkStep.ToString();
+
+            Model!.BenchmarkService.StartBenchmark(_miner, minerAppConfiguration, null);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

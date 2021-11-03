@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace GolemUI.Miners
 {
+    public class MinerAppConfiguration
+    {
+        public string Pool = "";
+        public string EthereumAddress = "";
+        public string NodeName = "";
+        public string Cards = "";
+        public string Niceness = "";
+        public string MiningMode = "ETH"; //eth or etc
+    }
+
     public interface IMinerApp
     {
         public MinerAppName MinerAppName { get; }
@@ -16,6 +26,10 @@ namespace GolemUI.Miners
         public string WorkingDir { get; }
         public string ExePath { get; }
         public string PreBenchmarkParams { get; }
-        public string GetBenchmarkParams(string pool, string ethereumAddress, string nodeName, string cards, string niceness);
+        public string GetBenchmarkParams(MinerAppConfiguration minerAppConfiguration);
+
+        public string GetExtraMiningParams();
     }
+
+
 }

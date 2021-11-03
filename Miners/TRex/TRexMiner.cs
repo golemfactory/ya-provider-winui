@@ -29,9 +29,9 @@ namespace GolemUI.Miners.TRex
 
         public IMinerParser MinerParser => throw new NotImplementedException();
 
-        public string GetBenchmarkParams(string pool, string ethereumAddress, string nodeName, string cards, string niceness)
+        public string GetBenchmarkParams(MinerAppConfiguration minerAppConfiguration)
         {
-            return $"--no-watchdog --algo ethash -o {pool} -u {ethereumAddress} -p x -w \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\"";
+            return $"--no-watchdog --algo ethash -o {minerAppConfiguration.Pool} -u {minerAppConfiguration.EthereumAddress} -p x -w \"benchmark:0x0/{minerAppConfiguration.NodeName}:{minerAppConfiguration.EthereumAddress}/0\"";
         }
 
         public IMinerParser CreateParserForBenchmark()
@@ -42,6 +42,11 @@ namespace GolemUI.Miners.TRex
         public IMinerParser CreateParserForPreBenchmark()
         {
             return new TRexParser(true, 5, _logger);
+        }
+
+        public string GetExtraMiningParams()
+        {
+            throw new NotImplementedException();
         }
     }
 }

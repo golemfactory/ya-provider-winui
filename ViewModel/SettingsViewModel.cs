@@ -153,11 +153,11 @@ namespace GolemUI.ViewModel
         }
         public void RestartMiningProcess()
         {
-
-            var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
-
-            _processController.Start(_providerConfig.Network, extraClaymoreParams);
-            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "starting mining...", expirationTimeInMs: 3000, group: false));
+            if (_benchmarkService.ActiveMinerApp != null)
+            {
+                _processController.Start(_providerConfig.Network, _benchmarkService.ActiveMinerApp);
+                _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "starting mining...", expirationTimeInMs: 3000, group: false));
+            }
         }
 
         public bool IsMiningProcessRunning
@@ -210,16 +210,21 @@ namespace GolemUI.ViewModel
             }
 
             BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
+
+            MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+            minerAppConfiguration.Cards = cards;
+            minerAppConfiguration.Niceness = niceness;
+            minerAppConfiguration.MiningMode = miningMode;
             switch (_userSettingsProvider.LoadUserSettings().SelectedMinerName.NameEnum)
             {
                 case MinerAppName.MinerAppEnum.Claymore:
-                    BenchmarkService.StartBenchmark(_claymoreMiner, cards, niceness, miningMode, externalStatusCopy);
+                    BenchmarkService.StartBenchmark(_claymoreMiner, minerAppConfiguration, externalStatusCopy);
                     break;
                 case MinerAppName.MinerAppEnum.TRex:
-                    BenchmarkService.StartBenchmark(_trexMiner, cards, niceness, miningMode, externalStatusCopy);
+                    BenchmarkService.StartBenchmark(_trexMiner, minerAppConfiguration, externalStatusCopy);
                     break;
                 case MinerAppName.MinerAppEnum.Phoenix:
-                    BenchmarkService.StartBenchmark(_phoenixMiner, cards, niceness, miningMode, externalStatusCopy);
+                    BenchmarkService.StartBenchmark(_phoenixMiner, minerAppConfiguration, externalStatusCopy);
                     break;
             }
         }

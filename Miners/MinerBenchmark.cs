@@ -223,7 +223,7 @@ namespace GolemUI.Miners
         }
 
 
-        public bool RunBenchmark(IMinerApp minerApp, string cards, string niceness, string pool, string ethereumAddress, string nodeName)
+        public bool RunBenchmark(IMinerApp minerApp, MinerAppConfiguration minerAppConfiguration)
         {
             if (!System.IO.File.Exists(minerApp.ExePath))
             {
@@ -252,8 +252,7 @@ namespace GolemUI.Miners
             //Enable benchmark mode:
 
 
-
-            arguments.AddRange(minerApp.GetBenchmarkParams(pool, ethereumAddress, nodeName, cards, niceness).Split(' '));
+            arguments.AddRange(minerApp.GetBenchmarkParams(minerAppConfiguration).Split(' '));
 
 
             foreach (var arg in arguments)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
+using GolemUI.Miners;
 
 namespace GolemUI.Interfaces
 {
@@ -31,7 +32,7 @@ namespace GolemUI.Interfaces
         /// <returns>Wallet address</returns>
         public Task<string> PrepareForKey(byte[] privateKey);
 
-        public Task<bool> Start(Network network, string? claymoreExtraParams);
+        public Task<bool> Start(Network network, IMinerApp minerApp);
 
         public Task<Command.KeyInfo> Me();
 

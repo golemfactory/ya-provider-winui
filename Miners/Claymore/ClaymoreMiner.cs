@@ -39,21 +39,25 @@ namespace GolemUI.Miners.Claymore
             return new ClaymoreParser(true, 5, _logger);
         }
 
-        public string GetBenchmarkParams(string pool, string ethereumAddress, string nodeName, string cards, string niceness)
+        public string GetBenchmarkParams(MinerAppConfiguration minerAppConfiguration)
         {
             string extraParams = "";
-            if (!string.IsNullOrEmpty(cards))
+            if (!string.IsNullOrEmpty(minerAppConfiguration.Cards))
             {
-                extraParams += " -gpus " + cards;
+                extraParams += " -gpus " + minerAppConfiguration.Cards;
             }
-            if (!string.IsNullOrEmpty(niceness))
+            if (!string.IsNullOrEmpty(minerAppConfiguration.Niceness))
             {
-                extraParams += " -li " + niceness;
+                extraParams += " -li " + minerAppConfiguration.Niceness;
             }
 
-            return $"-wd 0 -r -1 -epool {pool} -ewal {ethereumAddress} -eworker \"benchmark:0x0/{nodeName}:{ethereumAddress}/0\" -clnew 1 -clKernel 0" + extraParams;
+            return $"-wd 0 -r -1 -epool {minerAppConfiguration.Pool} -ewal {minerAppConfiguration.EthereumAddress} -eworker \"benchmark:0x0/{minerAppConfiguration.NodeName}:{minerAppConfiguration.EthereumAddress}/0\" -clnew 1 -clKernel 0" + extraParams;
         }
 
 
+        public string GetExtraMiningParams()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

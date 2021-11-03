@@ -135,7 +135,10 @@ namespace GolemUI.ViewModel
             Flow = _lastFlowSteps;
 
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            this.BenchmarkService.StartBenchmark(_miner, "", defaultBenchmarkStep.ToString(), "ETH", null);
+            MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+            minerAppConfiguration.Niceness = defaultBenchmarkStep.ToString();
+
+            this.BenchmarkService.StartBenchmark(_miner, minerAppConfiguration, null);
             AntiVirusDetectedBefore = true;
         }
 
@@ -191,7 +194,11 @@ namespace GolemUI.ViewModel
                             else
                             {
                                 int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-                                BenchmarkService.StartBenchmark(_miner, "", defaultBenchmarkStep.ToString(), "ETC", null);
+                                MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+                                minerAppConfiguration.Niceness = defaultBenchmarkStep.ToString();
+                                minerAppConfiguration.MiningMode = "ETC";
+
+                                BenchmarkService.StartBenchmark(_miner, minerAppConfiguration, null);
                             }
                         }
                     }
@@ -211,7 +218,12 @@ namespace GolemUI.ViewModel
                             else
                             {
                                 int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-                                BenchmarkService.StartBenchmark(_miner, "", defaultBenchmarkStep.ToString(), "ETC", null);
+                                MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+                                minerAppConfiguration.Niceness = defaultBenchmarkStep.ToString();
+                                minerAppConfiguration.MiningMode = "ETC";
+
+                                BenchmarkService.StartBenchmark(_miner, minerAppConfiguration, null);
+
                             }
                         }
                     }

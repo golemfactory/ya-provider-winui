@@ -21,6 +21,7 @@ using System.Windows;
 using GolemUI.Model;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
+using GolemUI.Miners;
 using GolemUI.Src;
 
 namespace GolemUI
@@ -163,7 +164,7 @@ namespace GolemUI
             }
         }
 
-        public async Task<bool> Start(Network network, string? claymoreExtraParams)
+        public async Task<bool> Start(Network network, IMinerApp minerApp)
         {
             _lock();
 
@@ -180,7 +181,7 @@ namespace GolemUI
                         StartupYagna();
                     }
 
-                    StartupProvider(network, claymoreExtraParams);
+                    StartupProvider(network, minerApp.GetExtraMiningParams());
                 });
                 OnPropertyChanged("IsServerRunning");
 

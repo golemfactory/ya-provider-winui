@@ -495,13 +495,14 @@ namespace GolemUI.ViewModel
 
         private async void RunMiner()
         {
-            var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
+            if (_benchmarkService.ActiveMinerApp != null)
+            {
+                bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
 
-            bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
+                _providerConfig.SwitchMiningMode(isLowMemoryMode);
 
-            _providerConfig.SwitchMiningMode(isLowMemoryMode);
-
-            await _processController.Start(_providerConfig.Network, extraClaymoreParams);
+                await _processController.Start(_providerConfig.Network, _benchmarkService.ActiveMinerApp);
+            }
         }
         public void Start()
         {
@@ -511,13 +512,17 @@ namespace GolemUI.ViewModel
             }
             else
             {
-                MessageBox.Show("TODO enable antivirus check back");
-                /* TODO enable antivirus check back
-                AntiVirusCheckActive = true;
-                OnPropertyChanged(nameof(IsMiningReadyToRun));
-                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "checking system...", expirationTimeInMs: 5000, group: false));
-                _benchmarkService.AssessIfAntivirusIsBlockingClaymore();
-                */
+                if (_benchmarkService.ActiveMinerApp == null)
+                {
+                    MessageBox.Show("Active miner app is null");
+                }
+                else
+                {
+                    AntiVirusCheckActive = true;
+                    OnPropertyChanged(nameof(IsMiningReadyToRun));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "checking system...", expirationTimeInMs: 5000, group: false));
+                    _benchmarkService.AssessIfAntivirusIsBlocking(_benchmarkService.ActiveMinerApp);
+                }
             }
         }
         private void _benchmarkService_AntivirusStatus(ProblemWithExeFile problem)
