@@ -15,11 +15,13 @@ namespace GolemUI.Miners.Claymore
         public MinerAppName MinerAppName => _minerAppName;
 
         private ILogger? _logger;
+        private IBenchmarkResultsProvider _benchmarkResultsProvider;
 
-        public ClaymoreMiner(ILogger<ClaymoreMiner> logger)
+        public ClaymoreMiner(ILogger<ClaymoreMiner> logger, IBenchmarkResultsProvider benchmarkResultsProvider)
         {
             _logger = logger;
             _minerAppName = new MinerAppName(MinerAppName.MinerAppEnum.Claymore);
+            _benchmarkResultsProvider = benchmarkResultsProvider;
         }
 
 
@@ -55,9 +57,36 @@ namespace GolemUI.Miners.Claymore
         }
 
 
-        public string GetExtraMiningParams()
+        public string? GetExtraMiningParams()
         {
-            throw new NotImplementedException();
+            var status = _benchmarkResultsProvider.LoadBenchmarkResults(_minerAppName).liveStatus;
+            if (status == null)
+            {
+                return null;
+            }
+
+            var gpus = status.GPUs.Values;
+
+            if (gpus.Count == 0)
+            {
+                return null;
+            }
+
+            var args = new List<string>();
+            if (gpus.Any(gpu => !gpu.IsEnabledByUser))
+            {
+                args.Add("-gpus");
+                args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.GpuNo)));
+            }
+            args.Add("-li");
+            args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.ClaymorePerformanceThrottling)));
+            args.Add("-clnew");
+            args.Add("1");
+            args.Add("-clKernel");
+            args.Add("0");
+            args.Add("-wd");
+            args.Add("0");
+            return String.Join(" ", args);
         }
     }
 }

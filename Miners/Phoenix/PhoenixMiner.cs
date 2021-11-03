@@ -51,7 +51,7 @@ namespace GolemUI.Miners.Phoenix
             return new ClaymoreParser(true, 5, _logger);
         }
 
-        public string GetExtraMiningParams()
+        public string? GetExtraMiningParams()
         {
             throw new NotImplementedException();
         }
