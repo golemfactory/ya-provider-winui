@@ -63,7 +63,7 @@ namespace GolemUI.ViewModel
 
         private TRexMiner _trexMiner;
         private PhoenixMiner _phoenixMiner;
-        
+
         public SettingsViewModel(IUserSettingsProvider userSettingsProvider, IPriceProvider priceProvider, IProcessController processController, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService,
             TRexMiner trexMiner, PhoenixMiner phoenixMiner
         )

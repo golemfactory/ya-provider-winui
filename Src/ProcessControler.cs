@@ -182,7 +182,7 @@ namespace GolemUI
                     }
 
                     string? minerExtraParams = minerApp.GetExtraMiningParams();
-                    
+
                     StartupProvider(network, minerApp.MinerAppName.NameString, minerExtraParams);
                 });
                 OnPropertyChanged("IsServerRunning");
