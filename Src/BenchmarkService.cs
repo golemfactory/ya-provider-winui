@@ -393,7 +393,7 @@ namespace GolemUI.Src
             finally
             {
                 //todo: remove later on, right now I've let it stay here to  help test sentry
-                _logger.LogError("--test error");
+                //_logger.LogError("--test error");
                 IsRunning = false;
                 cc.Stop();
                 if (_minerLiveStatus != null)

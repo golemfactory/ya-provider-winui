@@ -40,10 +40,22 @@ namespace GolemUI.Miners.TRex
             }
             if (!string.IsNullOrEmpty(minerAppConfiguration.Niceness))
             {
-                extraParams += " --intensity " + minerAppConfiguration.Niceness;
+                string[] values = minerAppConfiguration.Niceness.Split(',');
+                var convertedValues = new List<string>();
+                foreach (string value in values)
+                {
+                    if (int.TryParse(value, out int val))
+                    {
+                        convertedValues.Add(claymorePerformanceThrottlingToTRex(val));
+                    }
+                }
+
+                string newNiceness = string.Join(",", convertedValues);
+                extraParams += " --intensity " + newNiceness;
             }
 
-            return $"--no-watchdog --algo ethash -o {minerAppConfiguration.Pool} -u {minerAppConfiguration.EthereumAddress} -p x -w \"benchmark:0x0/{minerAppConfiguration.NodeName}:{minerAppConfiguration.EthereumAddress}/0\"" + extraParams;
+            string result = $"--no-watchdog --algo ethash -o {minerAppConfiguration.Pool} -u {minerAppConfiguration.EthereumAddress} -p x -w \"benchmark:0x0/{minerAppConfiguration.NodeName}:{minerAppConfiguration.EthereumAddress}/0\"" + extraParams;
+            return result;
         }
 
         public IMinerParser CreateParserForBenchmark()
@@ -54,6 +66,32 @@ namespace GolemUI.Miners.TRex
         public IMinerParser CreateParserForPreBenchmark()
         {
             return new TRexParser(true, 5, _logger);
+        }
+
+        private string claymorePerformanceThrottlingToTRex(int claymoreThrottling)
+        {
+            if (claymoreThrottling == 0)
+            {
+                return "25";
+            }
+            else if (claymoreThrottling == 10)
+            {
+                return "18";
+            }
+            else if (claymoreThrottling == 100)
+            {
+                return "13";
+            }
+            else if (claymoreThrottling == 200)
+            {
+                return "11";
+            }
+            else if (claymoreThrottling == 400)
+            {
+                return "10";
+            }
+
+            return "auto";
         }
 
         public string? GetExtraMiningParams()
@@ -80,7 +118,7 @@ namespace GolemUI.Miners.TRex
                 args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.GpuNo - 1)));
             }
             args.Add("--intensity");
-            args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.ClaymorePerformanceThrottling)));
+            args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => claymorePerformanceThrottlingToTRex(gpu.ClaymorePerformanceThrottling))));
 
             return String.Join(" ", args);
         }
