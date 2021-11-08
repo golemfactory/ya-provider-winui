@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Threading;
 using GolemUI.Command;
 using GolemUI.Miners;
-using GolemUI.Miners.Claymore;
 using GolemUI.Miners.Phoenix;
 using GolemUI.Miners.TRex;
 using GolemUI.Src;
@@ -127,7 +126,7 @@ namespace GolemUI
 
             services.AddSingleton(typeof(TRexMiner));
             services.AddSingleton(typeof(PhoenixMiner));
-            services.AddSingleton(typeof(ClaymoreMiner));
+            services.AddSingleton(typeof(PhoenixMiner));
 
             services.AddLogging(logBuilder =>
             {

@@ -19,12 +19,10 @@ namespace GolemUI.Src
         {
             switch (minerAppName.NameEnum)
             {
-                case MinerAppName.MinerAppEnum.Claymore:
+                case MinerAppName.MinerAppEnum.Phoenix:
                     return PathUtil.GetLocalBenchmarkPath();
                 case MinerAppName.MinerAppEnum.TRex:
                     return PathUtil.GetLocalBenchmarkPathTRex();
-                case MinerAppName.MinerAppEnum.Phoenix:
-                    return PathUtil.GetLocalBenchmarkPathPhoenix();
                 default:
                     throw new Exception("unknown miner name");
             }

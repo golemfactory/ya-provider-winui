@@ -15,7 +15,6 @@ using GolemUI.Utils;
 using System.Windows;
 using Sentry;
 using GolemUI.Miners;
-using GolemUI.Miners.Claymore;
 using GolemUI.Miners.Phoenix;
 using GolemUI.Miners.TRex;
 using MinerAppName = GolemUI.Miners.MinerAppName;
@@ -63,15 +62,13 @@ namespace GolemUI.ViewModel
         public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
 
         private TRexMiner _trexMiner;
-        private ClaymoreMiner _claymoreMiner;
         private PhoenixMiner _phoenixMiner;
-
+        
         public SettingsViewModel(IUserSettingsProvider userSettingsProvider, IPriceProvider priceProvider, IProcessController processController, IStatusProvider statusProvider, Src.BenchmarkService benchmarkService, Command.Provider provider, IProviderConfig providerConfig, Interfaces.IEstimatedProfitProvider profitEstimator, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.INotificationService notificationService,
-            TRexMiner trexMiner, ClaymoreMiner claymoreMiner, PhoenixMiner phoenixMiner
+            TRexMiner trexMiner, PhoenixMiner phoenixMiner
         )
         {
             _trexMiner = trexMiner;
-            _claymoreMiner = claymoreMiner;
             _phoenixMiner = phoenixMiner;
             _userSettingsProvider = userSettingsProvider;
             _statusProvider = statusProvider;
@@ -194,7 +191,7 @@ namespace GolemUI.ViewModel
                             niceness += ",";
                         }
                         cards += gpu.GpuNo.ToString();
-                        niceness += gpu.ClaymorePerformanceThrottling.ToString();
+                        niceness += gpu.PhoenixPerformanceThrottling.ToString();
                     }
                 }
 
@@ -217,14 +214,11 @@ namespace GolemUI.ViewModel
             minerAppConfiguration.MiningMode = miningMode;
             switch (_userSettingsProvider.LoadUserSettings().SelectedMinerName.NameEnum)
             {
-                case MinerAppName.MinerAppEnum.Claymore:
-                    BenchmarkService.StartBenchmark(_claymoreMiner, minerAppConfiguration, externalStatusCopy);
+                case MinerAppName.MinerAppEnum.Phoenix:
+                    BenchmarkService.StartBenchmark(_phoenixMiner, minerAppConfiguration, externalStatusCopy);
                     break;
                 case MinerAppName.MinerAppEnum.TRex:
                     BenchmarkService.StartBenchmark(_trexMiner, minerAppConfiguration, externalStatusCopy);
-                    break;
-                case MinerAppName.MinerAppEnum.Phoenix:
-                    BenchmarkService.StartBenchmark(_phoenixMiner, minerAppConfiguration, externalStatusCopy);
                     break;
             }
         }
@@ -330,7 +324,7 @@ namespace GolemUI.ViewModel
                     KeyValuePair<int, BenchmarkGpuStatus> keyVal = res.Value;
                     keyVal.Value.IsEnabledByUser = gpu.IsEnabledByUser;
                     keyVal.Value.BenchmarkSpeed = gpu.BenchmarkSpeed;
-                    keyVal.Value.ClaymorePerformanceThrottling = gpu.ClaymorePerformanceThrottling;
+                    keyVal.Value.PhoenixPerformanceThrottling = gpu.PhoenixPerformanceThrottling;
                 }
             });
 

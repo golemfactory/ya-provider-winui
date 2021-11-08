@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using GolemUI.Miners;
-using GolemUI.Miners.Claymore;
+using GolemUI.Miners.Phoenix;
 using static GolemUI.Command.GSB.Payment;
 
 namespace GolemUI.ViewModel
@@ -83,11 +83,11 @@ namespace GolemUI.ViewModel
         private readonly IRemoteSettingsProvider _remoteSettingsProvider;
 
 
-        private ClaymoreMiner _miner;
+        private PhoenixMiner _miner;
 
         public SetupViewModel(Interfaces.IProviderConfig providerConfig,
             Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessController processController, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider, ILogger<SetupViewModel> logger,
-            IRemoteSettingsProvider remoteSettingsProvider, ClaymoreMiner miner)
+            IRemoteSettingsProvider remoteSettingsProvider, PhoenixMiner miner)
         {
             _miner = miner;
 

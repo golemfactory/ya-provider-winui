@@ -296,7 +296,7 @@ namespace GolemUI.Miners.TRex
 
                                     if (_liveStatus.AreAllDagsFinishedOrFailed())
                                     {
-                                        _liveStatus.NumberOfClaymorePerfReports += 5;
+                                        _liveStatus.NumberOfPhoenixPerfReports += 5;
                                     }
                                 }
                             }
@@ -333,7 +333,7 @@ namespace GolemUI.Miners.TRex
                         if (_liveStatus.BenchmarkTotalSpeed > 0.1 && _liveStatus.GPUs.Count == 1 && _liveStatus.AreAllDagsFinishedOrFailed())
                         {
                             _liveStatus.GPUs.First().Value.BenchmarkSpeed = _liveStatus.BenchmarkTotalSpeed;
-                            _liveStatus.NumberOfClaymorePerfReports += 1;
+                            _liveStatus.NumberOfPhoenixPerfReports += 1;
                         }
                     }
                 }
@@ -373,7 +373,7 @@ namespace GolemUI.Miners.TRex
 
                     if (_liveStatus.AreAllDagsFinishedOrFailed())
                     {
-                        _liveStatus.NumberOfClaymorePerfReports += 1;
+                        _liveStatus.NumberOfPhoenixPerfReports += 1;
                     }
                 }
             }

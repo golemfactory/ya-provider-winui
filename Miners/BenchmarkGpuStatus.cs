@@ -31,7 +31,7 @@ namespace GolemUI.Miners
         [JsonIgnore]
         public bool BenchmarkSpeedForDifferentThrottling
         {
-            get => (BenchmarkSpeed > 0 && BenchmarkDoneForThrottlingLevel != ClaymorePerformanceThrottling);
+            get => (BenchmarkSpeed > 0 && BenchmarkDoneForThrottlingLevel != PhoenixPerformanceThrottling);
         }
 
         public int BenchmarkDoneForThrottlingLevel { get; set; }
@@ -90,18 +90,18 @@ namespace GolemUI.Miners
         }
 
         [JsonIgnore]
-        public string ClaymorePerformanceThrottlingDebug => "(debug: " + ClaymorePerformanceThrottling + ") ";
+        public string PhoenixPerformanceThrottlingDebug => "(debug: " + PhoenixPerformanceThrottling + ") ";
 
         [JsonIgnore]
-        public int _claymorePerformanceThrottling { get; set; } = (int)PerformanceThrottlingEnumConverter.Default;
-        public int ClaymorePerformanceThrottling
+        public int _phoenixPerformanceThrottling { get; set; } = (int)PerformanceThrottlingEnumConverter.Default;
+        public int PhoenixPerformanceThrottling
         {
-            get { return _claymorePerformanceThrottling; }
+            get { return _phoenixPerformanceThrottling; }
             set
             {
-                _claymorePerformanceThrottling = value;
-                NotifyChange("ClaymorePerformanceThrottling");
-                NotifyChange("ClaymorePerformanceThrottlingDebug");
+                _phoenixPerformanceThrottling = value;
+                NotifyChange("PhoenixPerformanceThrottling");
+                NotifyChange("PhoenixPerformanceThrottlingDebug");
             }
         }
 
@@ -110,13 +110,13 @@ namespace GolemUI.Miners
         {
             get
             {
-                return PerformanceThrottlingEnumConverter.FromInt(ClaymorePerformanceThrottling);
+                return PerformanceThrottlingEnumConverter.FromInt(PhoenixPerformanceThrottling);
             }
             set
             {
-                if (ClaymorePerformanceThrottling != (int)value)
+                if (PhoenixPerformanceThrottling != (int)value)
                 {
-                    ClaymorePerformanceThrottling = (int)value;
+                    PhoenixPerformanceThrottling = (int)value;
                     NotifyChange(nameof(SelectedMiningMode));
                     NotifyChange(nameof(BenchmarkSpeed));
                     NotifyChange(nameof(BenchmarkSpeedForDifferentThrottling));
@@ -157,17 +157,17 @@ namespace GolemUI.Miners
         {
         }
 
-        public BenchmarkGpuStatus(int gpuNo, bool isEnabledByUser, int claymorePerformanceThrottling)
+        public BenchmarkGpuStatus(int gpuNo, bool isEnabledByUser, int phoenixPerformanceThrottling)
         {
             this.IsEnabledByUser = isEnabledByUser;
-            this.ClaymorePerformanceThrottling = claymorePerformanceThrottling;
+            this.PhoenixPerformanceThrottling = phoenixPerformanceThrottling;
             this.GpuNo = gpuNo;
             this.IsPreInitialization = true;
         }
 
         public object Clone()
         {
-            BenchmarkGpuStatus s = new BenchmarkGpuStatus(this.GpuNo, this.IsEnabledByUser, this.ClaymorePerformanceThrottling);
+            BenchmarkGpuStatus s = new BenchmarkGpuStatus(this.GpuNo, this.IsEnabledByUser, this.PhoenixPerformanceThrottling);
             s.GpuName = this.GpuName;
             s.OutOfMemory = this.OutOfMemory;
             s.BenchmarkDoneForThrottlingLevel = this.BenchmarkDoneForThrottlingLevel;
@@ -179,7 +179,7 @@ namespace GolemUI.Miners
             s.GPUDetails = this.GPUDetails;
             s.PciExpressLane = this.PciExpressLane;
             s.IsEnabledByUser = this.IsEnabledByUser;
-            s.ClaymorePerformanceThrottling = this.ClaymorePerformanceThrottling;
+            s.PhoenixPerformanceThrottling = this.PhoenixPerformanceThrottling;
             s.GPUError = this.GPUError;
             s.IsPreInitialization = this.IsPreInitialization;
             s.IsInitialization = this.IsInitialization;

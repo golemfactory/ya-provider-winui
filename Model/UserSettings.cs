@@ -167,27 +167,22 @@ namespace GolemUI.Model
                 switch (SelectedMinerType)
                 {
                     case 0:
-                        return new MinerAppName(MinerAppName.MinerAppEnum.Claymore);
+                        return new MinerAppName(MinerAppName.MinerAppEnum.Phoenix);
                     case 1:
                         return new MinerAppName(MinerAppName.MinerAppEnum.TRex);
-                    case 2:
-                        return new MinerAppName(MinerAppName.MinerAppEnum.Phoenix);
                     default:
-                        return new MinerAppName(MinerAppName.MinerAppEnum.Claymore);
+                        return new MinerAppName(MinerAppName.MinerAppEnum.Phoenix);
                 }
             }
             set
             {
                 switch (value.NameEnum)
                 {
-                    case MinerAppName.MinerAppEnum.Claymore:
+                    case MinerAppName.MinerAppEnum.Phoenix:
                         SelectedMinerType = 0;
                         break;
                     case MinerAppName.MinerAppEnum.TRex:
                         SelectedMinerType = 1;
-                        break;
-                    case MinerAppName.MinerAppEnum.Phoenix:
-                        SelectedMinerType = 2;
                         break;
                     default:
                         throw new Exception("Unkown enum");

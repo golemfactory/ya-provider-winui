@@ -14,16 +14,16 @@ using System.Text;
 using System.Threading.Tasks;
 using GolemUI.Miners;
 
-namespace GolemUI.Miners.Claymore
+namespace GolemUI.Miners.Phoenix
 {
 
-    public class ClaymoreBenchmarkLine
+    public class PhoenixBenchmarkLine
     {
         public long delta_time_ms { get; set; }
         public string line = "";
     }
 
-    public class ClaymoreParser : IMinerParser
+    public class PhoenixParser : IMinerParser
     {
         private readonly ILogger? _logger;
         const StringComparison STR_COMP_TYPE = StringComparison.InvariantCultureIgnoreCase;
@@ -44,11 +44,11 @@ namespace GolemUI.Miners.Claymore
             return _gpusInfosParsed;
         }
 
-        public ClaymoreParser(bool isPreBenchmark, int totalClaymoreReportsNeeded, ILogger? logger)
+        public PhoenixParser(bool isPreBenchmark, int totalPhoenixReportsNeeded, ILogger? logger)
         {
             _logger = logger;
             _isPreBenchmark = isPreBenchmark;
-            _liveStatus = new BenchmarkLiveStatus(totalClaymoreReportsNeeded);
+            _liveStatus = new BenchmarkLiveStatus(totalPhoenixReportsNeeded);
         }
 
 
@@ -118,7 +118,7 @@ namespace GolemUI.Miners.Claymore
         }
 
         /// <summary>
-        /// Parse output line of claymore process
+        /// Parse output line of phoenix process
         /// </summary>
         public void ParseLine(string line)
         {
@@ -126,7 +126,7 @@ namespace GolemUI.Miners.Claymore
             {
                 // Your code...
 
-                ClaymoreBenchmarkLine benchLine = new ClaymoreBenchmarkLine();
+                PhoenixBenchmarkLine benchLine = new PhoenixBenchmarkLine();
                 benchLine.line = line;
                 benchLine.delta_time_ms = (long)(DateTime.Now - _start).TotalMilliseconds;
 #if DEBUG
@@ -163,7 +163,7 @@ namespace GolemUI.Miners.Claymore
                     return;
                 }
                 int gpuNo = -1;
-                string gpu_claymore_index = "";
+                string gpu_phoenix_index = "";
                 BenchmarkGpuStatus? currentStatus = null;
 
                 int indexNo = 0;
@@ -173,7 +173,7 @@ namespace GolemUI.Miners.Claymore
                     if (lineText.StartsWith($"GPU{key}"))
                     {
                         gpuNo = indexNo;
-                        gpu_claymore_index = key;
+                        gpu_phoenix_index = key;
                         break;
                     }
                 }
@@ -324,7 +324,7 @@ namespace GolemUI.Miners.Claymore
                         if (_liveStatus.BenchmarkTotalSpeed > 0.1 && _liveStatus.GPUs.Count == 1 && _liveStatus.AreAllDagsFinishedOrFailed())
                         {
                             _liveStatus.GPUs.First().Value.BenchmarkSpeed = _liveStatus.BenchmarkTotalSpeed;
-                            _liveStatus.NumberOfClaymorePerfReports += 1;
+                            _liveStatus.NumberOfPhoenixPerfReports += 1;
                         }
                     }
                 }
@@ -364,7 +364,7 @@ namespace GolemUI.Miners.Claymore
 
                     if (_liveStatus.AreAllDagsFinishedOrFailed())
                     {
-                        _liveStatus.NumberOfClaymorePerfReports += 1;
+                        _liveStatus.NumberOfPhoenixPerfReports += 1;
                     }
                 }
             }

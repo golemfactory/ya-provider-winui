@@ -22,8 +22,8 @@ namespace GolemUI.Miners
         public float BenchmarkTotalSpeed { get; set; }
         public string? ErrorMsg { get; set; }
         public bool GPUInfosParsed { get; set; }
-        public int NumberOfClaymorePerfReports { get; set; }
-        public int TotalClaymoreReportsBenchmark { get; set; }
+        public int NumberOfPhoenixPerfReports { get; set; }
+        public int TotalPhoenixReportsBenchmark { get; set; }
 
         public bool LowMemoryMode { get; set; }
 
@@ -41,21 +41,21 @@ namespace GolemUI.Miners
             return result;
         }
 
-        public BenchmarkLiveStatus(int totalClaymoreReportsNeeded)
+        public BenchmarkLiveStatus(int totalPhoenixReportsNeeded)
         {
-            TotalClaymoreReportsBenchmark = totalClaymoreReportsNeeded;
+            TotalPhoenixReportsBenchmark = totalPhoenixReportsNeeded;
         }
 
         public object Clone()
         {
-            BenchmarkLiveStatus s = new BenchmarkLiveStatus(this.TotalClaymoreReportsBenchmark);
+            BenchmarkLiveStatus s = new BenchmarkLiveStatus(this.TotalPhoenixReportsBenchmark);
             s.BenchmarkFinished = this.BenchmarkFinished;
             s.BenchmarkTotalSpeed = this.BenchmarkTotalSpeed;
             //s.BenchmarkProgress = this.BenchmarkProgress;
             s.ErrorMsg = this.ErrorMsg;
             s.GPUInfosParsed = this.GPUInfosParsed;
-            s.NumberOfClaymorePerfReports = this.NumberOfClaymorePerfReports;
-            s.TotalClaymoreReportsBenchmark = this.TotalClaymoreReportsBenchmark;
+            s.NumberOfPhoenixPerfReports = this.NumberOfPhoenixPerfReports;
+            s.TotalPhoenixReportsBenchmark = this.TotalPhoenixReportsBenchmark;
 
 
             s._gpus = new Dictionary<int, BenchmarkGpuStatus>();
@@ -101,7 +101,7 @@ namespace GolemUI.Miners
                 }
                 return INFO_PARSED + minDagProgress * (DAG_CREATION_STOP - INFO_PARSED);
             }
-            return DAG_CREATION_STOP + (float)NumberOfClaymorePerfReports / TotalClaymoreReportsBenchmark * (1.0f - DAG_CREATION_STOP);
+            return DAG_CREATION_STOP + (float)NumberOfPhoenixPerfReports / TotalPhoenixReportsBenchmark * (1.0f - DAG_CREATION_STOP);
 
 
 
@@ -207,7 +207,7 @@ namespace GolemUI.Miners
                     if (externalLiveStatus.GPUs.ContainsKey(key))
                     {
                         this.GPUs[key].IsEnabledByUser = externalLiveStatus.GPUs[key].IsEnabledByUser;
-                        this.GPUs[key].ClaymorePerformanceThrottling = externalLiveStatus.GPUs[key].ClaymorePerformanceThrottling;
+                        this.GPUs[key].PhoenixPerformanceThrottling = externalLiveStatus.GPUs[key].PhoenixPerformanceThrottling;
                         if (!this.GPUs[key].IsEnabledByUser)
                         {
                             this.GPUs[key] = (BenchmarkGpuStatus)externalLiveStatus.GPUs[key].Clone();

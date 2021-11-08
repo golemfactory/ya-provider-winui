@@ -15,7 +15,7 @@ namespace GolemUI.Model
         public BenchmarkLiveStatus? liveStatus = null;
         public BenchmarkLiveStatus? liveStatusTrex = null;
 
-        public bool IsClaymoreMiningPossible(out string reason)
+        public bool IsPhoenixMiningPossible(out string reason)
         {
             reason = "";
             if (this.liveStatus == null)

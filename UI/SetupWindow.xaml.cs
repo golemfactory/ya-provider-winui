@@ -16,7 +16,7 @@ using System.Windows.Interop;
 using Sentry;
 using GolemUI.Interfaces;
 using GolemUI.Miners;
-using GolemUI.Miners.Claymore;
+using GolemUI.Miners.Phoenix;
 using GolemUI.Src.AppNotificationService;
 
 namespace GolemUI.UI
@@ -67,8 +67,8 @@ namespace GolemUI.UI
 
         protected ViewModel.SetupViewModel? Model => DataContext as ViewModel.SetupViewModel;
 
-        private ClaymoreMiner _miner;
-        public SetupWindow(ViewModel.SetupViewModel model, IServiceProvider serviceProvider, ClaymoreMiner miner)
+        private PhoenixMiner _miner;
+        public SetupWindow(ViewModel.SetupViewModel model, IServiceProvider serviceProvider, PhoenixMiner miner)
         {
             _miner = miner;
             _serviceProvider = serviceProvider;

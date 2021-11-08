@@ -69,10 +69,10 @@ namespace GolemUI.Src
         {
             try
             {
-                var totalClaymoreReportsNeeded = 2;
+                var totalPhoenixReportsNeeded = 2;
                 DateTime benchmarkStartTime = DateTime.Now;
                 _logger.LogInformation("AntiVirus status assesment...");
-                var cc = new MinerBenchmark(minerApp, totalClaymoreReportsNeeded, logger: _logger);
+                var cc = new MinerBenchmark(minerApp, totalPhoenixReportsNeeded, logger: _logger);
                 bool stopped = false;
                 cc.ProblemWithExe += (reason) =>
                 {
@@ -115,7 +115,7 @@ namespace GolemUI.Src
 
                     if (cc.MinerParserPreBenchmark.GetLiveStatusCopy().GPUInfosParsed)
                     {
-                        _logger.LogInformation("antivirus check finished succesfully - claymore is not blocked");
+                        _logger.LogInformation("antivirus check finished succesfully - phoenix is not blocked");
                         if (!stopped)
                         {
 
@@ -169,14 +169,14 @@ namespace GolemUI.Src
 
 
 
-            var totalClaymoreReportsNeeded = 5;
+            var totalPhoenixReportsNeeded = 5;
 
             IsRunning = true;
             OnPropertyChanged("IsRunning");
 
             bool preBenchmarkNeeded = !String.IsNullOrEmpty(minerAppConfiguration.Cards);
 
-            var cc = new MinerBenchmark(minerApp, totalClaymoreReportsNeeded, logger: _logger);
+            var cc = new MinerBenchmark(minerApp, totalPhoenixReportsNeeded, logger: _logger);
             cc.ProblemWithExe += (reason) =>
             {
                 this.ProblemWithExe?.Invoke(reason);
@@ -311,11 +311,11 @@ namespace GolemUI.Src
                     _minerLiveStatus.MergeUserSettingsFromExternalLiveStatus(externalLiveStatus);
                     OnPropertyChanged("Status");
                     OnPropertyChanged("TotalMhs");
-                    if (_minerLiveStatus.NumberOfClaymorePerfReports >= _minerLiveStatus.TotalClaymoreReportsBenchmark)
+                    if (_minerLiveStatus.NumberOfPhoenixPerfReports >= _minerLiveStatus.TotalPhoenixReportsBenchmark)
                     {
                         foreach (var gpu in _minerLiveStatus.GPUs)
                         {
-                            gpu.Value.BenchmarkDoneForThrottlingLevel = gpu.Value.ClaymorePerformanceThrottling;
+                            gpu.Value.BenchmarkDoneForThrottlingLevel = gpu.Value.PhoenixPerformanceThrottling;
                         }
 
                         _logger.LogInformation("Benchmark succeeded.");
@@ -457,7 +457,7 @@ namespace GolemUI.Src
                 args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.GpuNo)));
             }
             args.Add("-li");
-            args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.ClaymorePerformanceThrottling)));
+            args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.PhoenixPerformanceThrottling)));
             args.Add("-clnew");
             args.Add("1");
             args.Add("-clKernel");
@@ -500,7 +500,7 @@ namespace GolemUI.Src
             }
         }
 
-        public bool IsClaymoreMiningPossible
+        public bool IsPhoenixMiningPossible
         {
             get
             {

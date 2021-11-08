@@ -46,7 +46,7 @@ namespace GolemUI.Miners.TRex
                 {
                     if (int.TryParse(value, out int val))
                     {
-                        convertedValues.Add(claymorePerformanceThrottlingToTRex(val));
+                        convertedValues.Add(phoenixPerformanceThrottlingToTRex(val));
                     }
                 }
 
@@ -68,25 +68,25 @@ namespace GolemUI.Miners.TRex
             return new TRexParser(true, 5, _logger);
         }
 
-        private string claymorePerformanceThrottlingToTRex(int claymoreThrottling)
+        private string phoenixPerformanceThrottlingToTRex(int phoenixThrottling)
         {
-            if (claymoreThrottling == 0)
+            if (phoenixThrottling == 0)
             {
                 return "25";
             }
-            else if (claymoreThrottling == 10)
+            else if (phoenixThrottling == 10)
             {
                 return "18";
             }
-            else if (claymoreThrottling == 100)
+            else if (phoenixThrottling == 100)
             {
                 return "13";
             }
-            else if (claymoreThrottling == 200)
+            else if (phoenixThrottling == 200)
             {
                 return "11";
             }
-            else if (claymoreThrottling == 400)
+            else if (phoenixThrottling == 400)
             {
                 return "10";
             }
@@ -118,7 +118,7 @@ namespace GolemUI.Miners.TRex
                 args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.GpuNo - 1)));
             }
             args.Add("--intensity");
-            args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => claymorePerformanceThrottlingToTRex(gpu.ClaymorePerformanceThrottling))));
+            args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => phoenixPerformanceThrottlingToTRex(gpu.PhoenixPerformanceThrottling))));
 
             return String.Join(" ", args);
         }

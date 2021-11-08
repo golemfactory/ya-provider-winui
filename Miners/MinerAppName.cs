@@ -10,7 +10,6 @@ namespace GolemUI.Miners
     {
         public enum MinerAppEnum
         {
-            Claymore,
             Phoenix,
             TRex
         }
@@ -29,8 +28,6 @@ namespace GolemUI.Miners
         {
             switch (minerAppEnum)
             {
-                case MinerAppEnum.Claymore:
-                    return "Claymore";
                 case MinerAppEnum.Phoenix:
                     return "Phoenix";
                 case MinerAppEnum.TRex:
@@ -44,8 +41,6 @@ namespace GolemUI.Miners
         {
             switch (minerAppName)
             {
-                case "Claymore":
-                    return MinerAppEnum.Claymore;
                 case "Phoenix":
                     return MinerAppEnum.Phoenix;
                 case "TRex":

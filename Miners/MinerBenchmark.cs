@@ -54,7 +54,7 @@ namespace GolemUI.Miners
         private IMinerParser _minerParserBenchmark;
         private IMinerParser _minerParserPreBenchmark;
 
-        ClaymoreImitateBenchmarkFromFile? _imitate;
+        PhoenixImitateBenchmarkFromFile? _imitate;
 
         public IMinerParser MinerParserBenchmark { get { return _minerParserBenchmark; } }
         public IMinerParser MinerParserPreBenchmark { get { return _minerParserPreBenchmark; } }
@@ -86,7 +86,7 @@ namespace GolemUI.Miners
 
         Process? _minerProcess;
 
-        public MinerBenchmark(IMinerApp minerApp, int totalClaymoreReportsNeeded, ILogger logger)
+        public MinerBenchmark(IMinerApp minerApp, int totalPhoenixReportsNeeded, ILogger logger)
         {
             _logger = logger;
             _minerParserBenchmark = minerApp.CreateParserForBenchmark();
@@ -117,7 +117,7 @@ namespace GolemUI.Miners
 
         public bool RunBenchmarkRecording(string brFile, bool isPreBenchmark)
         {
-            _imitate = new ClaymoreImitateBenchmarkFromFile();
+            _imitate = new PhoenixImitateBenchmarkFromFile();
 
             if (!File.Exists(brFile))
             {
@@ -297,7 +297,7 @@ namespace GolemUI.Miners
             {
                 while (_minerProcess.WaitForExit(300))
                 {
-                    //do stuff waiting for claymore process
+                    //do stuff waiting for phoenix process
                 }
                 this.BenchmarkFinished = true;
             });*/
@@ -341,7 +341,7 @@ namespace GolemUI.Miners
         {
             if (LineHandler != null && e.Data != null)
             {
-                LineHandler("claymore", e.Data);
+                LineHandler("phoenix", e.Data);
             }
         }
 
@@ -349,7 +349,7 @@ namespace GolemUI.Miners
         {
             if (LineHandler != null && e.Data != null)
             {
-                LineHandler("claymore", e.Data);
+                LineHandler("phoenix", e.Data);
             }
         }
 
@@ -360,7 +360,7 @@ namespace GolemUI.Miners
     /// <summary>
     /// This class is for debug purposes only, it's not used in production code
     /// </summary>
-    public class ClaymoreImitateBenchmarkFromFile
+    public class PhoenixImitateBenchmarkFromFile
     {
         struct ImitateBenchmarkEntry
         {

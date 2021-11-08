@@ -317,7 +317,7 @@
                                                 </StackPanel>
                                             </StackPanel>
                                             <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,3,0,3">
-                                                <Label VerticalAlignment="Center" FontFamily="Segoe Ui" FontSize="12" Padding="0" FontWeight="Light" Content="Mode:" ToolTip="{Binding ClaymorePerformanceThrottlingDebug}"/>
+                                                <Label VerticalAlignment="Center" FontFamily="Segoe Ui" FontSize="12" Padding="0" FontWeight="Light" Content="Mode:" ToolTip="{Binding PhoenixPerformanceThrottlingDebug}"/>
                                             </StackPanel>
                                             <ComboBox HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" Margin="5,0,0,0" IsEnabled="{Binding DataContext.IsBenchmarkNotRunning, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"  FontSize="10" FontFamily="Segoe UI" Padding="0" Style="{DynamicResource MiningModeComboBox}"  SelectedItem="{Binding Path=SelectedMiningMode}"  Width="90" >
 
