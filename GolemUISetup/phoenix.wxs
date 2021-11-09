@@ -4,49 +4,49 @@
   <Fragment>
     <ComponentGroup Id="Phoenix">
       <Component Id="cmpQIZOQFIFWZ" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="filB16B13A71393DA0213F7BFFD243D0CC5" KeyPath="yes" Source="$(var.PhoenixDir)\cudart64_80.dll" />
+        <File Id="filUXQQCNVPDL" KeyPath="yes" Source="$(var.PhoenixDir)\cudart64_80.dll" />
       </Component>
       <Component Id="cmpSJROXYVLTJ" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="filC741C00F7B71872CF3DD622CC3000F37" KeyPath="yes" Source="$(var.PhoenixDir)\Datapack.bin" />
+        <File Id="fiSTNSBJAOVZ" KeyPath="yes" Source="$(var.PhoenixDir)\Datapack.bin" />
       </Component>
       <Component Id="cmpIBMSYHBNDA" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="fil0676D469E9A5A5EFA1F5756FB0EA7F67" KeyPath="yes" Source="$(var.PhoenixDir)\dpools.txt" />
+        <File Id="filVYINGUSRFS" KeyPath="yes" Source="$(var.PhoenixDir)\dpools.txt" />
       </Component>
       <Component Id="cmpSIWZOMNSPL" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="filF7E293359F00E8210813C554B368C39D" KeyPath="yes" Source="$(var.PhoenixDir)\EIO.dll" />
+        <File Id="filOTEKLRWJDD" KeyPath="yes" Source="$(var.PhoenixDir)\EIO.dll" />
       </Component>
       <Component Id="cmpSEKAVVSCCA" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="fil3E57B661218F7361B61B2973DA07470B" KeyPath="yes" Source="$(var.PhoenixDir)\EIO.exe" />
+        <File Id="filWMYZMMPNDN" KeyPath="yes" Source="$(var.PhoenixDir)\EIO.exe" />
       </Component>
       <Component Id="cmpLGDMPGJAGR" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="filE046C07CA3659648EB86872DE457C16B" KeyPath="yes" Source="$(var.PhoenixDir)\epools.txt" />
+        <File Id="filCVXVDMQTVB" KeyPath="yes" Source="$(var.PhoenixDir)\epools.txt" />
       </Component>
       <Component Id="cmpPAHGMHZIUE" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="fil2EAF4EA17877474C1127415AEED10BB9" KeyPath="yes" Source="$(var.PhoenixDir)\EthDcrMiner64.exe" />
+        <File Id="filUIZWGMXXPB" KeyPath="yes" Source="$(var.PhoenixDir)\EthDcrMiner64.exe" />
       </Component>
       <Component Id="cmpCFNUXQZTZU" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="fil95758CC4E313BC081330770DB9C48D91" KeyPath="yes" Source="$(var.PhoenixDir)\History.txt" />
+        <File Id="filOTGAKBELOC" KeyPath="yes" Source="$(var.PhoenixDir)\History.txt" />
       </Component>
       <Component Id="cmpPHXBGNTOUR" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="fil7C64988F6DDF21ADFFA9215AE6C586E9" KeyPath="yes" Source="$(var.PhoenixDir)\IOMap64.sys" />
+        <File Id="filGHBJDTDOHP" KeyPath="yes" Source="$(var.PhoenixDir)\IOMap64.sys" />
       </Component>
       <Component Id="cmpHZUKWHDBPY" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="fil088F9D02F8E884F49F6E6D934B618D1B" KeyPath="yes" Source="$(var.PhoenixDir)\libcurl.dll" />
+        <File Id="filNXCRZVPXJU" KeyPath="yes" Source="$(var.PhoenixDir)\libcurl.dll" />
       </Component>
       <Component Id="cmpJLXQSBMQWZ" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="fil0CDF3B65ACAAABC1EBAC2A3D8D7A6CDB" KeyPath="yes" Source="$(var.PhoenixDir)\License.txt" />
+        <File Id="filWVSHCXGTLE" KeyPath="yes" Source="$(var.PhoenixDir)\License.txt" />
       </Component>
       <Component Id="cmpURJOSCNWLU" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="fil1593EFEE9B1A8FC44C79AEFC82DD1B85" KeyPath="yes" Source="$(var.PhoenixDir)\msvcr110.dll" />
+        <File Id="filOJPRZLQLNV" KeyPath="yes" Source="$(var.PhoenixDir)\msvcr110.dll" />
       </Component>
       <Component Id="cmpPIAZPSYZNB" Directory="dirKXBYAAZWYE" Guid="*">
-        <File Id="fil8505837F23F1AD62A614E35AF2F88214" KeyPath="yes" Source="$(var.PhoenixDir)\Readme!!!.txt" />
+        <File Id="filHIYACZWHVR" KeyPath="yes" Source="$(var.PhoenixDir)\Readme!!!.txt" />
       </Component>
       <Component Id="cmpDEHZDJFBIU" Directory="dirSMIYUPDBWA" Guid="*">
-        <File Id="fil92FF7D0A8E451BD503FAC7D17230810F" KeyPath="yes" Source="$(var.PhoenixDir)\cuda10\cudart64_100.dll" />
+        <File Id="filAPBOLNFPDD" KeyPath="yes" Source="$(var.PhoenixDir)\cuda10\cudart64_100.dll" />
       </Component>
       <Component Id="cmpOJMWIQRXJN" Directory="dirSMIYUPDBWA" Guid="*">
-        <File Id="fil451B3578321F4F54CE08842B91F32064" KeyPath="yes" Source="$(var.PhoenixDir)\cuda10\EthDcrMiner64.exe" />
+        <File Id="filSSRDKZXQFB" KeyPath="yes" Source="$(var.PhoenixDir)\cuda10\EthDcrMiner64.exe" />
       </Component>
     </ComponentGroup>
   </Fragment>
