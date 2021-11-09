@@ -165,7 +165,7 @@
                                             />
                         </StackPanel>
                         <StackPanel Visibility="{Binding Path=BenchmarkIsRunning, Converter={StaticResource BoolToHiddenConverter}}"  Orientation="Horizontal" Grid.ColumnSpan="2" >
-                            <Label Margin="22,22,0,0"  Content="GPU" HorizontalAlignment="Left" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"></Label>
+                            <Label Margin="22,22,0,0"  Content="{Binding Path=GPUMessage}" HorizontalAlignment="Left" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"></Label>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Visibility="{Binding Path=BenchmarkError, Converter={StaticResource ErrorToVisibleConverter}}" Margin="20, 15, 10, 10">

@@ -243,10 +243,12 @@ namespace GolemUI.ViewModel
             NodeNameHasChanged = false;
             AdvancedSettingsButtonEnabled = true;
             GpuList.Clear();
+            _benchmarkService.ReloadBenchmarkSettingsFromFile();
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
 
             if (_benchmarkSettings == null || _benchmarkSettings.liveStatus == null || _benchmarkSettings.liveStatus.GPUs == null)
             {
+                NotifyChange("GPUMessage");
                 return;
             }
 
@@ -271,6 +273,7 @@ namespace GolemUI.ViewModel
             NotifyChange(nameof(ShouldGpuCheckBoxesBeEnabled));
             NotifyChange("HashRate");
             NotifyChange("ExpectedProfit");
+            NotifyChange("GPUMessage");
         }
 
         void ChangeSettingsWithMiningRestart(string msg)
@@ -360,6 +363,7 @@ namespace GolemUI.ViewModel
                 NotifyChange("BenchmarkIsRunning");
                 NotifyChange("BenchmarkReadyToRun");
                 NotifyChange("BenchmarkError");
+                NotifyChange("GPUMessage");
                 NotifyChange(nameof(IsBenchmarkNotRunning));
             }
             if (e.PropertyName == "IsRunning")
@@ -367,6 +371,7 @@ namespace GolemUI.ViewModel
                 NotifyChange("BenchmarkReadyToRun");
                 NotifyChange("BenchmarkIsRunning");
                 NotifyChange("ExpectedProfit");
+                NotifyChange("GPUMessage");
                 NotifyChange(nameof(IsBenchmarkNotRunning));
                 if (!BenchmarkIsRunning && _benchmarkService != null)
                 {
@@ -407,6 +412,7 @@ namespace GolemUI.ViewModel
                     NotifyChange("BenchmarkIsRunning");
                     NotifyChange("BenchmarkReadyToRun");
                     NotifyChange("BenchmarkError");
+                    NotifyChange("GPUMessage");
                     NotifyChange(nameof(IsBenchmarkNotRunning));
                     NotifyChange(nameof(ShouldGpuCheckBoxesBeEnabled));
                     SaveData();
@@ -437,6 +443,20 @@ namespace GolemUI.ViewModel
             }
         }
         public bool BenchmarkIsRunning => _benchmarkService.IsRunning;
+
+        public string GPUMessage
+        {
+            get
+            {
+                if (GpuList.Count == 0)
+                {
+                    return "Try running benchmark to detect GPU";
+                }
+                return "GPU";
+            }
+
+        }
+
         public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning);
         public bool IsBenchmarkNotRunning => !(_benchmarkService.IsRunning);
         public bool ShouldGpuCheckBoxesBeEnabled => IsBenchmarkNotRunning && ((this._benchmarkService.Status?.GPUs?.Count ?? 0) > 1);

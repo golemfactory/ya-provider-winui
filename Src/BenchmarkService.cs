@@ -49,6 +49,18 @@ namespace GolemUI.Src
             }
         }
 
+        public void ReloadBenchmarkSettingsFromFile()
+        {
+            if (!IsRunning)
+            {
+                var results = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
+                if (results != null)
+                {
+                    _minerLiveStatus = results.liveStatus;
+                }
+            }
+        }
+
         public bool IsRunning { get; private set; }
 
         public bool _requestStop = false;
@@ -433,38 +445,6 @@ namespace GolemUI.Src
         {
             _minerLiveStatus = liveStatus;
             OnPropertyChanged("Status");
-        }
-
-        internal string? ExtractMinerParams()
-        {
-            var status = _minerLiveStatus ?? _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName).liveStatus;
-            if (status == null)
-            {
-                return null;
-            }
-
-            var gpus = status.GPUs.Values;
-
-            if (gpus.Count == 0)
-            {
-                return null;
-            }
-
-            var args = new List<string>();
-            if (gpus.Any(gpu => !gpu.IsEnabledByUser))
-            {
-                args.Add("-gpus");
-                args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.GpuNo)));
-            }
-            args.Add("-li");
-            args.Add(String.Join(",", gpus.Where(gpu => gpu.IsEnabledByUser).Select(gpu => gpu.PhoenixPerformanceThrottling)));
-            args.Add("-clnew");
-            args.Add("1");
-            args.Add("-clKernel");
-            args.Add("0");
-            args.Add("-wd");
-            args.Add("0");
-            return String.Join(" ", args);
         }
 
         public void StopBenchmark()
