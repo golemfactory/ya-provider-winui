@@ -43,7 +43,7 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://3210d81dbe2042d0a1adce29072b26d7@o921571.ingest.sentry.io/5881077")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://9dbe739909b646a9ab6d5376ab5f8ffb@o921571.ingest.sentry.io/6057947")]
         public string SentryDsn {
             get {
                 return ((string)(this["SentryDsn"]));

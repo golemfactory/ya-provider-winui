@@ -9,7 +9,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="SentryDsn" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">https://3210d81dbe2042d0a1adce29072b26d7@o921571.ingest.sentry.io/5881077</Value>
+      <Value Profile="(Default)">https://9dbe739909b646a9ab6d5376ab5f8ffb@o921571.ingest.sentry.io/6057947</Value>
     </Setting>
     <Setting Name="UserSettingsVersion" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">12</Value>
