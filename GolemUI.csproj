@@ -266,6 +266,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Miners\BenchmarkGpuStatus.cs" />
+    <Compile Include="Miners\BenchmarkLiveStatus.cs" />
+    <Compile Include="Miners\Phoenix\PhoenixMiner.cs" />
+    <Compile Include="Miners\IMinerParser.cs" />
+    <Compile Include="Miners\MinerAppName.cs" />
+    <Compile Include="Miners\TRex\TRexMiner.cs" />
+    <Compile Include="Miners\TRex\TRexParser.cs" />
     <Compile Include="Command\GSB\GsbServiceException.cs" />
     <Compile Include="Converters\NonNullToVisibilityConverter.cs" />
     <Compile Include="Converters\ValueToVisibilityConverter.cs" />
@@ -277,6 +284,7 @@
     <Compile Include="DesignViewModel\Dialogs\DlgGenericInformationViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgWithdrawViewModel.cs" />
+    <Compile Include="Miners\IMinerApp.cs" />
     <Compile Include="Interfaces\IStartWithWindows.cs" />
     <Compile Include="Interfaces\IUserFeedbackService.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
@@ -319,8 +327,8 @@
       <DependentUpon>PngSequence.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\ChildProcessManager.cs" />
-    <Compile Include="Claymore\ClaymoreParser.cs" />
-    <Compile Include="Command\Claymore.cs" />
+    <Compile Include="Miners\Phoenix\PhoenixParser.cs" />
+    <Compile Include="Miners\MinerBenchmark.cs" />
     <Compile Include="Command\GpuInfo.cs" />
     <Compile Include="Command\PaymentData.cs" />
     <Compile Include="Command\Provider.cs" />

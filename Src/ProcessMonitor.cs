@@ -14,11 +14,11 @@ namespace GolemUI
 
         }
 
-        public static void GetProcessList(out Process[] yagnaProcesses, out Process[] providerProcesses, out Process[] claymoreProcesses)
+        public static void GetProcessList(out Process[] yagnaProcesses, out Process[] providerProcesses, out Process[] phoenixProcesses)
         {
             yagnaProcesses = Process.GetProcessesByName("yagna");
             providerProcesses = Process.GetProcessesByName("ya-provider");
-            claymoreProcesses = Process.GetProcessesByName("EthDcrMiner64");
+            phoenixProcesses = Process.GetProcessesByName("EthDcrMiner64");
         }
 
 

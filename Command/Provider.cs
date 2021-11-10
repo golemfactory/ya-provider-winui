@@ -260,7 +260,7 @@ namespace GolemUI.Command
             info = this.ExecToText(cmd.ToString());
         }
 
-        public Process Run(string appKey, Network network, string? claymoreExtraParams = null, bool openConsole = false, bool enableDebugLogs = false)
+        public Process Run(string appKey, Network network, string? minerName, string? minerExtraParams = null, bool openConsole = false, bool enableDebugLogs = false)
         {
             string debugSwitch = "";
             if (enableDebugLogs)
@@ -285,9 +285,14 @@ namespace GolemUI.Command
                 startInfo.RedirectStandardError = true;
                 startInfo.CreateNoWindow = true;
             }
-            if (claymoreExtraParams != null)
+            if (minerName != null)
             {
-                startInfo.EnvironmentVariables["EXTRA_CLAYMORE_PARAMS"] = claymoreExtraParams;
+                startInfo.EnvironmentVariables["MINER_NAME"] = minerName;
+            }
+
+            if (minerExtraParams != null)
+            {
+                startInfo.EnvironmentVariables["EXTRA_MINER_PARAMS"] = minerExtraParams;
             }
 
             startInfo.EnvironmentVariables["MIN_AGREEMENT_EXPIRATION"] = "30s";

@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GolemUI.Command;
+using GolemUI.Miners;
+using GolemUI.Miners.Phoenix;
+using GolemUI.Miners.TRex;
 using GolemUI.Src;
 using GolemUI.UI;
 using GolemUI.UI.CustomControls;
@@ -93,7 +96,6 @@ namespace GolemUI
             services.AddSingleton<Interfaces.INotificationService, Src.AppNotificationService.AppNotificationService>();
             services.AddSingleton<Src.BenchmarkService>();
 
-
             services.AddTransient(typeof(SentryAdditionalDataIngester));
             services.AddTransient(typeof(Src.AppNotificationService.NotificationsMonitor));
             services.AddTransient(typeof(DashboardWallet));
@@ -120,6 +122,10 @@ namespace GolemUI
 
             services.AddSingleton<Command.GSB.IGsbEndpointFactory, Src.GsbEndpointFactory>();
             services.AddTransient(typeof(Command.GSB.Payment));
+
+            services.AddSingleton(typeof(TRexMiner));
+            services.AddSingleton(typeof(PhoenixMiner));
+            services.AddSingleton(typeof(PhoenixMiner));
 
             services.AddLogging(logBuilder =>
             {

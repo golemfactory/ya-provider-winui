@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using GolemUI.Miners;
 
 namespace GolemUI.ViewModel
 {
@@ -331,7 +332,9 @@ namespace GolemUI.ViewModel
         public void LoadData()
         {
 
-            var benchmark = _benchmarkResultsProvider.LoadBenchmarkResults();
+            var benchmark = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
+            _benchmarkService.ReloadBenchmarkSettingsFromFile();
+
 
             _enabledGpuCount = benchmark?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null && gpu.Value.IsReadyForMining && gpu.Value.IsEnabledByUser).Count() ?? 0;
             _totalGpuCount = benchmark?.liveStatus?.GPUs.ToList().Count() ?? 0;
@@ -520,13 +523,14 @@ namespace GolemUI.ViewModel
 
         private async void RunMiner()
         {
-            var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
+            if (_benchmarkService.ActiveMinerApp != null)
+            {
+                bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
 
-            bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
+                _providerConfig.SwitchMiningMode(isLowMemoryMode);
 
-            _providerConfig.SwitchMiningMode(isLowMemoryMode);
-
-            await _processController.Start(_providerConfig.Network, extraClaymoreParams);
+                await _processController.Start(_providerConfig.Network, _benchmarkService.ActiveMinerApp);
+            }
         }
         public void Start()
         {
@@ -536,18 +540,24 @@ namespace GolemUI.ViewModel
             }
             else
             {
-                AntiVirusCheckActive = true;
-                OnPropertyChanged(nameof(IsMiningReadyToRun));
-                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "checking system...", expirationTimeInMs: 5000, group: false));
-                _benchmarkService.AssessIfAntivirusIsBlockingClaymore();
-
+                if (_benchmarkService.ActiveMinerApp == null)
+                {
+                    MessageBox.Show("Active miner app is null");
+                }
+                else
+                {
+                    AntiVirusCheckActive = true;
+                    OnPropertyChanged(nameof(IsMiningReadyToRun));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "checking system...", expirationTimeInMs: 5000, group: false));
+                    _benchmarkService.AssessIfAntivirusIsBlocking(_benchmarkService.ActiveMinerApp);
+                }
             }
         }
-        private void _benchmarkService_AntivirusStatus(Command.ProblemWithExeFile problem)
+        private void _benchmarkService_AntivirusStatus(ProblemWithExeFile problem)
         {
             AntiVirusCheckActive = false;
             OnPropertyChanged(nameof(IsMiningReadyToRun));
-            if (problem == Command.ProblemWithExeFile.None)
+            if (problem == ProblemWithExeFile.None)
             {
                 _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "ok", expirationTimeInMs: 3000, group: false));
                 this.RunMiner();
