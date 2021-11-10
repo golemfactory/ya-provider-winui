@@ -73,10 +73,10 @@ namespace GolemUI
 
 
 
-        BitmapImage LoadImageFromResources(String path, String prefix, String extension, int index, int leadingZerosCount)
+        BitmapImage? LoadImageFromResources(String path, String prefix, String extension, int index, int leadingZerosCount)
         {
             String filePath = path + prefix + index.ToString("d" + leadingZerosCount) + "." + extension;
-            BitmapImage result = null;
+            BitmapImage? result = null;
             try
             {
                 result = new BitmapImage(new Uri("pack://application:,,,/ThorgMiner;component" + filePath));
