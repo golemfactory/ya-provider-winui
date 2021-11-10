@@ -318,7 +318,7 @@ namespace GolemUI
             ViewModel.ChangeWindowState(state);
 
 
-            if (WindowState == WindowState.Maximized)
+            if (WindowState == WindowState.Maximized) // i guess it is more self explanatory then xaml equivalent 
                 MaximizeButton.Style = Resources["DeMaximizeWindowButton"] as Style;
             else
                 MaximizeButton.Style = Resources["MaximizeWindowButton"] as Style;
