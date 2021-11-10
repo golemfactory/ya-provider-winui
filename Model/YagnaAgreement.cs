@@ -57,7 +57,7 @@ namespace GolemUI.Model
        "offer":{
           "properties":{
              "golem.activity.mining.algo":"ethash",
-             "golem.activity.mining.app":"claymore",
+             "golem.activity.mining.app":"phoenix",
              "golem.com.payment.debit-notes.accept-timeout?":15,
              "golem.com.payment.platform.erc20-rinkeby-tglm.address":"0xb7c49ec8001678692b266dcde6041b75d3a2364d",
              "golem.com.payment.platform.zksync-rinkeby-tglm.address":"0xb7c49ec8001678692b266dcde6041b75d3a2364d",

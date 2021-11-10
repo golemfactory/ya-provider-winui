@@ -15,6 +15,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using Sentry;
 using GolemUI.Interfaces;
+using GolemUI.Miners;
+using GolemUI.Miners.Phoenix;
 using GolemUI.Src.AppNotificationService;
 
 namespace GolemUI.UI
@@ -65,8 +67,10 @@ namespace GolemUI.UI
 
         protected ViewModel.SetupViewModel? Model => DataContext as ViewModel.SetupViewModel;
 
-        public SetupWindow(ViewModel.SetupViewModel model, IServiceProvider serviceProvider)
+        private PhoenixMiner _miner;
+        public SetupWindow(ViewModel.SetupViewModel model, IServiceProvider serviceProvider, PhoenixMiner miner)
         {
+            _miner = miner;
             _serviceProvider = serviceProvider;
             InitializeComponent();
             DataContext = model;
@@ -179,7 +183,10 @@ namespace GolemUI.UI
         {
             Model!.NoobStep = 4;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETH", null);
+            MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+            minerAppConfiguration.Niceness = defaultBenchmarkStep.ToString();
+
+            Model!.BenchmarkService.StartBenchmark(_miner, minerAppConfiguration, null);
         }
 
         private void OnCancelNoobFlow(object sender, RoutedEventArgs e)
@@ -222,7 +229,10 @@ namespace GolemUI.UI
         {
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETH", null);
+            MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+            minerAppConfiguration.Niceness = defaultBenchmarkStep.ToString();
+
+            Model!.BenchmarkService.StartBenchmark(_miner, minerAppConfiguration, null);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

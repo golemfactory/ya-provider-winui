@@ -352,7 +352,6 @@ MigrationBackup/
 /GolemUISetup/PublishBinaries/
 /GolemUISetup/ExternalBinaries/GolemUI.exe
 /GolemUISetup/ExternalBinaries/data_dir
-/GolemUISetup/ExternalBinaries/plugins/claymore/log*.txt
 /GolemUISetup/ProductInstallFiles.wxs
 /GolemUISetup/bundling/
 /GolemUISetup/YaRuntimeGMiner.wxs
