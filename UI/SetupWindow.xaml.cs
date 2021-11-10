@@ -291,5 +291,21 @@ namespace GolemUI.UI
         {
             Model!.TryAgainBenchmark();
         }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else
+                WindowState = WindowState.Maximized;
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            if (WindowState == WindowState.Maximized) // i guess it is more self explanatory then xaml equivalent 
+                MaximizeButton.Style = Resources["DeMaximizeWindowButton"] as Style;
+            else
+                MaximizeButton.Style = Resources["MaximizeWindowButton"] as Style;
+        }
     }
 }
