@@ -8,7 +8,7 @@ using System.Windows.Data;
 namespace GolemUI.Converters
 {
     [ValueConversion(typeof(int), typeof(string))]
-    public sealed class StringToClaymorePerformanceThrottlingConverter : IValueConverter
+    public sealed class StringToPhoenixPerformanceThrottlingConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)

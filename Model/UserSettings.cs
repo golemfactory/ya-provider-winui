@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using GolemUI.Miners;
+using Newtonsoft.Json;
 
 namespace GolemUI.Model
 {
@@ -144,5 +146,69 @@ namespace GolemUI.Model
             }
         }
 
+        private int _minerType = 0;
+        public int SelectedMinerType
+        {
+            get => _minerType;
+            set
+            {
+                _minerType = value;
+                NotifyChanged();
+                NotifyChanged("SelectedMinerName");
+                NotifyChanged("IsTRexMiner");
+            }
+        }
+
+        [JsonIgnore]
+        public MinerAppName SelectedMinerName
+        {
+            get
+            {
+                switch (SelectedMinerType)
+                {
+                    case 0:
+                        return new MinerAppName(MinerAppName.MinerAppEnum.Phoenix);
+                    case 1:
+                        return new MinerAppName(MinerAppName.MinerAppEnum.TRex);
+                    default:
+                        return new MinerAppName(MinerAppName.MinerAppEnum.Phoenix);
+                }
+            }
+            set
+            {
+                switch (value.NameEnum)
+                {
+                    case MinerAppName.MinerAppEnum.Phoenix:
+                        SelectedMinerType = 0;
+                        break;
+                    case MinerAppName.MinerAppEnum.TRex:
+                        SelectedMinerType = 1;
+                        break;
+                    default:
+                        throw new Exception("Unkown enum");
+                }
+            }
+        }
+
+        [JsonIgnore]
+        public bool IsTRexMiner
+        {
+            get
+            {
+                return _minerType == 1;
+            }
+            set
+            {
+                if (value)
+                {
+                    SelectedMinerType = 1;
+                }
+                else
+                {
+                    SelectedMinerType = 0;
+                }
+                NotifyChanged();
+            }
+        }
     }
 }

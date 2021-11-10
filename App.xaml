@@ -12,7 +12,7 @@
         <converters:ErrorToVisibilityConverter x:Key="ErrorToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed"/>
         <converters:HashRateConverter x:Key="HashRateConverter"/>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
-        <converters:StringToClaymorePerformanceThrottlingConverter x:Key="StringToClaymorePerformanceThrottlingConverter"/>
+        <converters:StringToPhoenixPerformanceThrottlingConverter x:Key="StringToPhoenixPerformanceThrottlingConverter"/>
         <converters:DashboardStatusToTextConverter x:Key="DashboardStatusToTextConverter"/>
         <converters:DashboardStatusToVisibleConverter x:Key="DashboardStatusToVisibleConverter"/>
         <converters:DashboardStatusToIconConverter x:Key="DashboardStatusToIconConverter"/>

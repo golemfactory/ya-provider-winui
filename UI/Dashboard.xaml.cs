@@ -21,10 +21,13 @@ using GolemUI.Src;
 using GolemUI.UI;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
+using GolemUI.Miners;
 using GolemUI.Model;
 using GolemUI.ViewModel;
 using GolemUI.ViewModel.CustomControls;
 using GolemUI.Src.AppNotificationService;
+using GolemUI.Miners.Phoenix;
+using GolemUI.Miners.TRex;
 
 namespace GolemUI
 {
@@ -37,10 +40,15 @@ namespace GolemUI
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
         public ViewModel.DashboardViewModel ViewModel { get; set; }
+        private PhoenixMiner _phoenixMiner;
+        private TRexMiner _trexMiner;
 
-
-        public Dashboard(DashboardSettingsAdv _dashboardSettingsAdv, INotificationService notificationService, IUserFeedbackService userFeedback, Interfaces.IProcessController processController, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel, NotificationBarViewModel notificationViewModel)
+        public Dashboard(DashboardSettingsAdv _dashboardSettingsAdv, INotificationService notificationService, IUserFeedbackService userFeedback, Interfaces.IProcessController processController, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel, NotificationBarViewModel notificationViewModel,
+            PhoenixMiner phoenixMiner, TRexMiner trexMiner)
         {
+            _phoenixMiner = phoenixMiner;
+            _trexMiner = trexMiner;
+
             _notificationService = notificationService;
             _userFeedback = userFeedback;
             _processController = processController;
@@ -204,14 +212,25 @@ namespace GolemUI
             bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
 
             await Task.WhenAll(
-                _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible, isLowMemoryMode),
+                _providerConfig.Prepare(_benchmarkService.IsPhoenixMiningPossible, isLowMemoryMode),
                 _processController.Prepare()
             );
+            switch (_userSettingsProvider.LoadUserSettings().SelectedMinerName.NameEnum)
+            {
+                case MinerAppName.MinerAppEnum.Phoenix:
+                    _benchmarkService.ActiveMinerApp = _phoenixMiner;
+                    break;
+                case MinerAppName.MinerAppEnum.TRex:
+                    _benchmarkService.ActiveMinerApp = _trexMiner;
+                    break;
+            }
 
             if (_providerConfig.IsMiningActive && _userSettingsProvider.LoadUserSettings().StartWithWindows)
             {
-                var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
-                await _processController.Start(_providerConfig.Network, extraClaymoreParams);
+                if (_benchmarkService.ActiveMinerApp != null)
+                {
+                    await _processController.Start(_providerConfig.Network, _benchmarkService.ActiveMinerApp);
+                }
             }
         }
 

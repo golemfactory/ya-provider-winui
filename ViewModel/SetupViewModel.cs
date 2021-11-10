@@ -1,4 +1,4 @@
-﻿using GolemUI.Claymore;
+﻿
 using GolemUI.Interfaces;
 using GolemUI.Validators;
 using Microsoft.Extensions.Logging;
@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using GolemUI.Miners;
+using GolemUI.Miners.Phoenix;
 using static GolemUI.Command.GSB.Payment;
 
 namespace GolemUI.ViewModel
@@ -80,10 +82,15 @@ namespace GolemUI.ViewModel
         private ILogger<SetupViewModel> _logger;
         private readonly IRemoteSettingsProvider _remoteSettingsProvider;
 
+
+        private PhoenixMiner _miner;
+
         public SetupViewModel(Interfaces.IProviderConfig providerConfig,
             Src.BenchmarkService benchmarkService, Interfaces.IEstimatedProfitProvider profitEstimator, Interfaces.IProcessController processController, Interfaces.IPriceProvider priceProvider, IUserSettingsProvider userSettingsProvider, ILogger<SetupViewModel> logger,
-            IRemoteSettingsProvider remoteSettingsProvider)
+            IRemoteSettingsProvider remoteSettingsProvider, PhoenixMiner miner)
         {
+            _miner = miner;
+
             _flow = 0;
             _noobStep = 0;
             _providerConfig = providerConfig;
@@ -109,9 +116,9 @@ namespace GolemUI.ViewModel
         private int _lastFlowSteps = 0;
         bool AntiVirusDetectedBefore = false;
         public string AntivirusTitle { get; set; } = "Your antivirus is blocking Thorg";
-        private void BenchmarkService_AntivirusStatus(Command.ProblemWithExeFile problem)
+        private void BenchmarkService_AntivirusStatus(ProblemWithExeFile problem)
         {
-            if (problem == Command.ProblemWithExeFile.Antivirus || problem == Command.ProblemWithExeFile.FileMissing)
+            if (problem == ProblemWithExeFile.Antivirus || problem == ProblemWithExeFile.FileMissing)
             {
                 _lastFlowSteps = Flow;
                 Flow = (int)FlowSteps.Antivirus;
@@ -128,7 +135,10 @@ namespace GolemUI.ViewModel
             Flow = _lastFlowSteps;
 
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            this.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETH", null);
+            MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+            minerAppConfiguration.Niceness = defaultBenchmarkStep.ToString();
+
+            this.BenchmarkService.StartBenchmark(_miner, minerAppConfiguration, null);
             AntiVirusDetectedBefore = true;
         }
 
@@ -175,7 +185,7 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             NoobStep = (int)NoobSteps.Enjoy;
-                        else if (_benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
+                        else if (_benchmarkService.Status?.ProblemWithExeFile != ProblemWithExeFile.Antivirus && _benchmarkService.Status?.ProblemWithExeFile != ProblemWithExeFile.FileMissing)
                         {
                             if (_benchmarkService.Status?.LowMemoryMode ?? false)
                             {
@@ -184,7 +194,11 @@ namespace GolemUI.ViewModel
                             else
                             {
                                 int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-                                BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETC", null);
+                                MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+                                minerAppConfiguration.Niceness = defaultBenchmarkStep.ToString();
+                                minerAppConfiguration.MiningMode = "ETC";
+
+                                BenchmarkService.StartBenchmark(_miner, minerAppConfiguration, null);
                             }
                         }
                     }
@@ -195,7 +209,7 @@ namespace GolemUI.ViewModel
                     {
                         if (AnySufficientGpusFound())
                             ExpertStep = (int)ExpertSteps.Enjoy;
-                        else if (_benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.Antivirus && _benchmarkService.Status?.ProblemWithExeFile != Command.ProblemWithExeFile.FileMissing)
+                        else if (_benchmarkService.Status?.ProblemWithExeFile != ProblemWithExeFile.Antivirus && _benchmarkService.Status?.ProblemWithExeFile != ProblemWithExeFile.FileMissing)
                         {
                             if (_benchmarkService.Status?.LowMemoryMode ?? false)
                             {
@@ -204,7 +218,12 @@ namespace GolemUI.ViewModel
                             else
                             {
                                 int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-                                BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETC", null);
+                                MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+                                minerAppConfiguration.Niceness = defaultBenchmarkStep.ToString();
+                                minerAppConfiguration.MiningMode = "ETC";
+
+                                BenchmarkService.StartBenchmark(_miner, minerAppConfiguration, null);
+
                             }
                         }
                     }
@@ -278,8 +297,8 @@ namespace GolemUI.ViewModel
 
         public Src.BenchmarkService BenchmarkService => _benchmarkService;
 
-        private ObservableCollection<Claymore.ClaymoreGpuStatus> _gpus = new ObservableCollection<Claymore.ClaymoreGpuStatus>();
-        public ObservableCollection<Claymore.ClaymoreGpuStatus>? GPUs => _gpus;
+        private ObservableCollection<BenchmarkGpuStatus> _gpus = new ObservableCollection<BenchmarkGpuStatus>();
+        public ObservableCollection<BenchmarkGpuStatus>? GPUs => _gpus;
         public string? BenchmarkError { get; set; }
 
         internal async Task<bool> ActivateHdWallet()
