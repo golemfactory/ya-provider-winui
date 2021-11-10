@@ -332,6 +332,7 @@ namespace GolemUI.ViewModel
         public void LoadData()
         {
 
+
             var benchmark = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
             _benchmarkService.ReloadBenchmarkSettingsFromFile();
 

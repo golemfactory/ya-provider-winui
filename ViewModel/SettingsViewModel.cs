@@ -243,6 +243,7 @@ namespace GolemUI.ViewModel
             NodeNameHasChanged = false;
             AdvancedSettingsButtonEnabled = true;
             GpuList.Clear();
+
             _benchmarkService.ReloadBenchmarkSettingsFromFile();
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
 

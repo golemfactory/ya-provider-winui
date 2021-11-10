@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using GolemUI.Miners.Phoenix;
+using GolemUI.Miners.TRex;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace GolemUI.Src
@@ -21,8 +23,10 @@ namespace GolemUI.Src
         public event OnProblemsWithExeFileEventHander? ProblemWithExe;
         public event OnProblemsWithExeFileEventHander? AntivirusStatus;
         private IUserSettingsProvider _userSettingsProvider;
+        private PhoenixMiner _phoenixMiner;
+        private TRexMiner _trexMiner;
 
-        public BenchmarkService(IProviderConfig providerConfig, ILogger<BenchmarkService> logger, IBenchmarkResultsProvider benchmarkResultsProvider, IUserSettingsProvider userSettingsProvider)
+        public BenchmarkService(IProviderConfig providerConfig, ILogger<BenchmarkService> logger, IBenchmarkResultsProvider benchmarkResultsProvider, IUserSettingsProvider userSettingsProvider, PhoenixMiner phoenixMiner, TRexMiner trexMiner)
         {
             _userSettingsProvider = userSettingsProvider;
 
@@ -34,6 +38,9 @@ namespace GolemUI.Src
             {
                 _minerLiveStatus = results.liveStatus;
             }
+
+            _phoenixMiner = phoenixMiner;
+            _trexMiner = trexMiner;
         }
 
         private readonly Interfaces.IProviderConfig _providerConfig;
@@ -53,7 +60,17 @@ namespace GolemUI.Src
         {
             if (!IsRunning)
             {
-                var results = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
+                var minerAppName = _userSettingsProvider.LoadUserSettings().SelectedMinerName;
+                switch (minerAppName.NameEnum)
+                {
+                    case MinerAppName.MinerAppEnum.Phoenix:
+                        this.ActiveMinerApp = _phoenixMiner;
+                        break;
+                    case MinerAppName.MinerAppEnum.TRex:
+                        this.ActiveMinerApp = _trexMiner;
+                        break;
+                }
+                var results = _benchmarkResultsProvider.LoadBenchmarkResults(minerAppName);
                 if (results != null)
                 {
                     _minerLiveStatus = results.liveStatus;

@@ -213,15 +213,7 @@ namespace GolemUI
                 _providerConfig.Prepare(_benchmarkService.IsPhoenixMiningPossible, isLowMemoryMode),
                 _processController.Prepare()
             );
-            switch (_userSettingsProvider.LoadUserSettings().SelectedMinerName.NameEnum)
-            {
-                case MinerAppName.MinerAppEnum.Phoenix:
-                    _benchmarkService.ActiveMinerApp = _phoenixMiner;
-                    break;
-                case MinerAppName.MinerAppEnum.TRex:
-                    _benchmarkService.ActiveMinerApp = _trexMiner;
-                    break;
-            }
+
 
             if (_providerConfig.IsMiningActive && _userSettingsProvider.LoadUserSettings().StartWithWindows)
             {
