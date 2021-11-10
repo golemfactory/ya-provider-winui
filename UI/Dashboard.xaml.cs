@@ -316,6 +316,20 @@ namespace GolemUI
                 _ => MainWindowState.Normal
             };
             ViewModel.ChangeWindowState(state);
+
+
+            if (WindowState == WindowState.Maximized)
+                MaximizeButton.Style = Resources["DeMaximizeWindowButton"] as Style;
+            else
+                MaximizeButton.Style = Resources["MaximizeWindowButton"] as Style;
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else
+                WindowState = WindowState.Maximized;
         }
     }
 }
