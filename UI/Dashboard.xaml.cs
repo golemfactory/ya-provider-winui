@@ -37,10 +37,7 @@ namespace GolemUI
     {
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
-
         public ViewModel.DashboardViewModel ViewModel { get; set; }
-
-
         public Dashboard(DashboardSettingsAdv _dashboardSettingsAdv, INotificationService notificationService, IUserFeedbackService userFeedback, Interfaces.IProcessController processController, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel, NotificationBarViewModel notificationViewModel)
         {
             _notificationService = notificationService;
@@ -97,9 +94,6 @@ namespace GolemUI
             }
             this.Resources["SetupWindow.Background"] = b;
         }
-
-
-
         public void OnAppReactivate(object sender)
         {
             Dispatcher.Invoke(() =>
@@ -271,7 +265,6 @@ namespace GolemUI
             }
             ViewModel.DarkBackgroundVisible = false;
         }
-
 
         public void ShowUpdateDialog()
         {

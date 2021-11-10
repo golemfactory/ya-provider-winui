@@ -236,17 +236,12 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-
-
-
                         </StackPanel>
                     </Grid>
-
                 </Border>
             </Grid>
             <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,22,0" />
             <Button Grid.Row="3" Visibility="Hidden" Cursor="Hand" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnStatistics" Click="BtnStatistics_Click" Margin="50,0,0,35" Style="{StaticResource HistoryTabButtonStyle}"/>
-
         </Grid>
     </Border>
 </UserControl>
