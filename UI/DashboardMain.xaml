@@ -72,7 +72,11 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <local:DashboardStatusControl Status="{Binding Path=Status}"  StatusAdditionalInfo="{Binding Path=StatusAdditionalInfo}"  Margin="0,0,0,4" Grid.ColumnSpan="2" />
+                
                 <Button Click="btnStop_Click" Margin="0,15,0,0" Style="{StaticResource GradientButtonStyle}" VerticalAlignment="Bottom" Height="45" Grid.Column="4" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToVisibleConverter}}">Stop Mining</Button>
+
+              
+
                 <Button Style="{StaticResource GradientButtonStyle}" Click="btnStart_Click"  Margin="0,15,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="45" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsMiningReadyToRun, Mode=OneWay}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToHiddenConverter}}">Start Mining</Button>
                 <TextBlock  Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow"  Text="{Binding StartButtonExplanation}" Grid.Column="4" Grid.Row="1" Margin="0,5,0,0" FontSize="12"></TextBlock>
 
@@ -136,7 +140,7 @@
                             <Label FontSize="10" Content="{Binding Path=GpuCardsInfo, Mode=OneWay}" Margin="4,0,0,0" Foreground="#99b" Padding="0"/>
                         </StackPanel>
                         <Image Source="Icons/DefaultStyle/png/Dashboard/Gpu.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" >
-                            <Image.Style>
+                            <!--<Image.Style>
                                 <Style TargetType="{x:Type Image}">
                                     <Style.Resources>
                                         <Storyboard x:Key="GlowLoop">
@@ -148,21 +152,22 @@
                                         </Storyboard>
                                     </Style.Resources>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Status}" Value="Mining">
+                                        <DataTrigger Binding="{Binding ShouldGpuAnimationBeVisible}" Value="True">
                                             <DataTrigger.EnterActions>
                                                 <BeginStoryboard
                                                     Storyboard="{StaticResource GlowLoop}"/>
                                             </DataTrigger.EnterActions>
                                             <Setter Property="Effect">
                                                 <Setter.Value>
-                                                    <DropShadowEffect ShadowDepth="0" Color="#0FB2AB" Opacity="0.6" />
+                                                    <DropShadowEffect ShadowDepth="0" Color="#0FB2AB" Opacity="0.9" />
                                                 </Setter.Value>
                                             </Setter>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Image.Style>
+                            </Image.Style>-->
                         </Image>
+                        <local:PngSequence SequencePrefix="GPU\GPU_icon" TotalFilesCount="40"  LeadingZerosCount="4" FileExtension="png" Active="{Binding Path=ShouldGpuAnimationBeVisible}"  Grid.Column="0" Grid.Row="1" Margin="40,2,40,7" />
                         <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24,0,8">
                             <Label Padding="0" Content="GPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18"  HorizontalAlignment="Center"></Label>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0,6">
@@ -191,7 +196,7 @@
                     </Grid>
                 </Border>
                 <Label Grid.Column="6" Grid.Row="2" VerticalAlignment="Bottom" Margin="32,15"  Visibility="{Binding Path=IsCpuMiningEnabledByNetwork, Converter={StaticResource BoolToHiddenConverter}}">Coming soon!</Label>
-                
+
                 <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="6" Grid.Row="2" Opacity="{Binding CpuOpacity}">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -231,9 +236,9 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            
-                            
-                          
+
+
+
                         </StackPanel>
                     </Grid>
 

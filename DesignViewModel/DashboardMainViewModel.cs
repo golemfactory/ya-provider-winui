@@ -31,5 +31,6 @@ namespace GolemUI.DesignViewModel
         public bool IsProviderRunning { get; } = true;
         public DashboardStatusEnum Status => DashboardStatusEnum.Ready;
         public string StatusAdditionalInfo => "4 GB mode";
+        public bool ShouldGpuAnimationBeVisible => true;
     }
 }

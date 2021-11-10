@@ -25,6 +25,8 @@ using GolemUI.Model;
 using GolemUI.ViewModel;
 using GolemUI.ViewModel.CustomControls;
 using GolemUI.Src.AppNotificationService;
+using GolemUI.DesignViewModel;
+using static GolemUI.ViewModel.DashboardViewModel;
 
 namespace GolemUI
 {
@@ -60,11 +62,11 @@ namespace GolemUI
 
             singleInstanceLock.ActivateEvent += OnAppReactivate;
 
-            ViewModel.SwitchPage(DashboardViewModel.DashboardPages.PageDashboardMain);
+            ViewModel.SwitchPage(DashboardPages.PageDashboardMain);
             this.NB.SetViewModel(notificationViewModel);
         }
 
-        private void PageChangeRequested(DashboardViewModel.DashboardPages page)
+        private void PageChangeRequested(DashboardPages page)
         {
             ViewModel.SwitchPage(page);
         }
@@ -213,6 +215,8 @@ namespace GolemUI
                 var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
                 await _processController.Start(_providerConfig.Network, extraClaymoreParams);
             }
+
+
         }
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
@@ -283,5 +287,21 @@ namespace GolemUI
             ViewModel.DarkBackgroundVisible = false;
         }
 
+        private void DashboardWindow_Closed(object sender, EventArgs e)
+        {
+            ViewModel.ChangeWindowState(MainWindowState.Closed);
+        }
+
+        private void DashboardWindow_StateChanged(object sender, EventArgs e)
+        {
+            MainWindowState state = WindowState switch
+            {
+                WindowState.Minimized => MainWindowState.Minimized,
+                WindowState.Normal => MainWindowState.Normal,
+                WindowState.Maximized => MainWindowState.Maximized,
+                _ => MainWindowState.Normal
+            };
+            ViewModel.ChangeWindowState(state);
+        }
     }
 }

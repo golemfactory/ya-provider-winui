@@ -10,6 +10,8 @@
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
         Background="Transparent"
+        Closed="DashboardWindow_Closed"
+       StateChanged="DashboardWindow_StateChanged"
         AllowsTransparency="True"
         x:Name="DashboardWindow"
         Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/icon2.ico" MinHeight="600" MinWidth="1024"

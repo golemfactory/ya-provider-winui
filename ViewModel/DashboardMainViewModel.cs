@@ -1,6 +1,5 @@
 ﻿using GolemUI.Converters;
 using GolemUI.Interfaces;
-using GolemUI.Model;
 using GolemUI.Src;
 using GolemUI.Src.AppNotificationService;
 using GolemUI.Utils;
@@ -9,14 +8,16 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace GolemUI.ViewModel
 {
+    public enum MainWindowState { Maximized, Minimized, Normal, Closed };
+
 
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage, IDialogInvoker
     {
+        MainWindowState MainWindowState { get; set; }
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessController processController, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
             IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, INotificationService notificationService, IUserSettingsProvider userSettingsProvider,
             ITaskProfitEstimator taskProfitEstimator)
@@ -43,6 +44,12 @@ namespace GolemUI.ViewModel
             _taskProfitEstimator.PropertyChanged += _taskProfitEstimator_PropertyChanged;
         }
 
+        public void ChangeWindowState(MainWindowState state)
+        {
+            MainWindowState = state;
+            OnPropertyChanged(nameof(MainWindowState));
+            OnPropertyChanged(nameof(ShouldGpuAnimationBeVisible));
+        }
 
         public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
         public void RequestDarkBackgroundVisibilityChange(bool shouldBackgroundBeVisible)
@@ -101,6 +108,7 @@ namespace GolemUI.ViewModel
 
             }
         }
+
 
 
 
@@ -180,7 +188,24 @@ namespace GolemUI.ViewModel
                 {
                     _gpuStatus = value;
                     OnPropertyChanged("GpuStatus");
+                    OnPropertyChanged(nameof(ShouldGpuAnimationBeVisible));
                 }
+            }
+        }
+
+        public bool ShouldGpuAnimationBeVisible
+        {
+            get
+            {
+                return GpuStatus == "Mining" && IsWindowVisible;
+            }
+        }
+
+        public bool IsWindowVisible
+        {
+            get
+            {
+                return (MainWindowState == MainWindowState.Normal || MainWindowState == MainWindowState.Maximized);
             }
         }
 
@@ -404,6 +429,7 @@ namespace GolemUI.ViewModel
             {
                 _status = value;
                 OnPropertyChanged("Status");
+                OnPropertyChanged(nameof(ShouldGpuAnimationBeVisible));
             }
         }
         public string StatusAdditionalInfo

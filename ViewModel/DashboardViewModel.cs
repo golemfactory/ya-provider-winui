@@ -79,6 +79,12 @@ namespace GolemUI.ViewModel
             }
         }
 
+        public void ChangeWindowState(MainWindowState state)
+        {
+            DashboardMain?.Model?.ChangeWindowState(state);
+        }
+
+
         bool _darkBackgroundVisible = false;
         public bool DarkBackgroundVisible
         {
