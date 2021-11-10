@@ -13,6 +13,7 @@ namespace GolemUI.ViewModel.Dialogs
 {
     public class DlgAppInfoViewModel : INotifyPropertyChanged
     {
+        string _topic = "";
         string _userName = "";
         string _userEmail = "";
         string _userComment = "";
@@ -54,9 +55,18 @@ namespace GolemUI.ViewModel.Dialogs
                 OnPropertyChanged(nameof(UserComment));
             }
         }
+        public string Topic
+        {
+            get => _topic;
+            set
+            {
+                _topic = value;
+                OnPropertyChanged(nameof(Topic));
+            }
+        }
         public void SendFeedback()
         {
-            _userFeedback.SendUserFeedback("User Feedback > Manual entry", UserName, UserEmail, UserComment, ShouldAttachLogs);
+            _userFeedback.SendUserFeedback(Topic + " / " + DateTime.Now.ToLongDateString() + " / " + DateTime.Now.ToLongTimeString(), UserName, UserEmail, UserComment, ShouldAttachLogs); ;
         }
 
         public string AppVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
