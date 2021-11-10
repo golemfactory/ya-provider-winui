@@ -26,6 +26,8 @@ using GolemUI.Model;
 using GolemUI.ViewModel;
 using GolemUI.ViewModel.CustomControls;
 using GolemUI.Src.AppNotificationService;
+using GolemUI.DesignViewModel;
+using static GolemUI.ViewModel.DashboardViewModel;
 using GolemUI.Miners.Phoenix;
 using GolemUI.Miners.TRex;
 
@@ -38,7 +40,6 @@ namespace GolemUI
     {
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
-
         public ViewModel.DashboardViewModel ViewModel { get; set; }
         private PhoenixMiner _phoenixMiner;
         private TRexMiner _trexMiner;
@@ -68,11 +69,11 @@ namespace GolemUI
 
             singleInstanceLock.ActivateEvent += OnAppReactivate;
 
-            ViewModel.SwitchPage(DashboardViewModel.DashboardPages.PageDashboardMain);
+            ViewModel.SwitchPage(DashboardPages.PageDashboardMain);
             this.NB.SetViewModel(notificationViewModel);
         }
 
-        private void PageChangeRequested(DashboardViewModel.DashboardPages page)
+        private void PageChangeRequested(DashboardPages page)
         {
             ViewModel.SwitchPage(page);
         }
@@ -103,9 +104,6 @@ namespace GolemUI
             }
             this.Resources["SetupWindow.Background"] = b;
         }
-
-
-
         public void OnAppReactivate(object sender)
         {
             Dispatcher.Invoke(() =>
@@ -232,6 +230,8 @@ namespace GolemUI
                     await _processController.Start(_providerConfig.Network, _benchmarkService.ActiveMinerApp);
                 }
             }
+
+
         }
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
@@ -287,7 +287,6 @@ namespace GolemUI
             ViewModel.DarkBackgroundVisible = false;
         }
 
-
         public void ShowUpdateDialog()
         {
             ViewModel.DarkBackgroundVisible = true;
@@ -302,5 +301,35 @@ namespace GolemUI
             ViewModel.DarkBackgroundVisible = false;
         }
 
+        private void DashboardWindow_Closed(object sender, EventArgs e)
+        {
+            ViewModel.ChangeWindowState(MainWindowState.Closed);
+        }
+
+        private void DashboardWindow_StateChanged(object sender, EventArgs e)
+        {
+            MainWindowState state = WindowState switch
+            {
+                WindowState.Minimized => MainWindowState.Minimized,
+                WindowState.Normal => MainWindowState.Normal,
+                WindowState.Maximized => MainWindowState.Maximized,
+                _ => MainWindowState.Normal
+            };
+            ViewModel.ChangeWindowState(state);
+
+
+            if (WindowState == WindowState.Maximized) // i guess it is more self explanatory then xaml equivalent 
+                MaximizeButton.Style = Resources["DeMaximizeWindowButton"] as Style;
+            else
+                MaximizeButton.Style = Resources["MaximizeWindowButton"] as Style;
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else
+                WindowState = WindowState.Maximized;
+        }
     }
 }

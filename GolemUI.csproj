@@ -323,6 +323,9 @@
     <Compile Include="UI\UserControls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\PngSequence.xaml.cs">
+      <DependentUpon>PngSequence.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ChildProcessManager.cs" />
     <Compile Include="Miners\Phoenix\PhoenixParser.cs" />
     <Compile Include="Miners\MinerBenchmark.cs" />
@@ -786,6 +789,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\UserControls\PngSequence.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -899,6 +906,47 @@
     <Resource Include="UI\Charts\ChartIcons\IconZoomIn.png" />
     <Resource Include="UI\Charts\ChartIcons\IconZoomOut.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0000.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0001.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0002.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0003.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0004.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0005.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0006.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0007.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0008.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0009.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0010.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0011.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0012.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0013.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0014.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0015.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0016.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0017.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0018.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0019.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0020.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0021.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0022.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0023.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0024.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0025.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0026.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0027.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0028.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0029.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0030.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0031.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0032.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0033.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0034.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0035.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0036.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0037.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0038.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0039.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

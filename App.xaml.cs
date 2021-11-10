@@ -113,7 +113,6 @@ namespace GolemUI
 
             services.AddTransient(typeof(SettingsViewModel));
             services.AddTransient(typeof(SettingsAdvViewModel));
-
             services.AddTransient(typeof(ViewModel.DashboardViewModel));
 
             // Top-Level Windows
