@@ -91,8 +91,8 @@ namespace GolemUI.Src
             }
         }
 
-        private readonly double CLAYMORE_GPU_INFO_TIMEOUT = 10.0;
-        private readonly double CLAYMORE_TOTAL_BENCHMARK_TIMEOUT = 200.0;
+        private readonly double MINER_GPU_INFO_TIMEOUT = 20.0;
+        private readonly double MINER_TOTAL_BENCHMARK_TIMEOUT = 240.0;
         private IBenchmarkResultsProvider _benchmarkResultsProvider;
         public async void AssessIfAntivirusIsBlocking(IMinerApp minerApp)
         {
@@ -129,11 +129,11 @@ namespace GolemUI.Src
 
                     double timeElapsed = (DateTime.Now - benchmarkStartTime).TotalSeconds;
 
-                    if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT)
+                    if (timeElapsed > MINER_GPU_INFO_TIMEOUT)
                     {
 
 
-                        _logger.LogError("antivirus check failed timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT: " + cc.BenchmarkError);
+                        _logger.LogError("antivirus check failed timeElapsed > MINER_GPU_INFO_TIMEOUT: " + cc.BenchmarkError);
                         if (!stopped)
                         {
                             this.AntivirusStatus?.Invoke(ProblemWithExeFile.Timeout);
@@ -251,14 +251,14 @@ namespace GolemUI.Src
 
                         double timeElapsed = (DateTime.Now - benchmarkStartTime).TotalSeconds;
 
-                        if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT)
+                        if (timeElapsed > MINER_GPU_INFO_TIMEOUT)
                         {
                             cc.Stop();
 
                             _minerLiveStatus!.GPUs.Clear();
                             _minerLiveStatus!.ErrorMsg = "Failed to obtain card list";
                             OnPropertyChanged("Status");
-                            _logger.LogError("PreBenchmark failed timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT: " + cc.BenchmarkError);
+                            _logger.LogError("PreBenchmark failed timeElapsed > MINER_GPU_INFO_TIMEOUT: " + cc.BenchmarkError);
 
                             return;
                         }
@@ -367,7 +367,7 @@ namespace GolemUI.Src
                         _logger.LogError("Benchmark stopped by user.");
                         break;
                     }
-                    if (timeElapsed > CLAYMORE_GPU_INFO_TIMEOUT && !_minerLiveStatus.GPUInfosParsed)
+                    if (timeElapsed > MINER_GPU_INFO_TIMEOUT && !_minerLiveStatus.GPUInfosParsed)
                     {
                         cc.Stop();
                         _minerLiveStatus.ErrorMsg = "Timeout, cannot read gpu info";
@@ -375,7 +375,7 @@ namespace GolemUI.Src
                         _logger.LogError("Timeout, cannot read gpu info");
                         break;
                     }
-                    if (timeElapsed > CLAYMORE_TOTAL_BENCHMARK_TIMEOUT)
+                    if (timeElapsed > MINER_TOTAL_BENCHMARK_TIMEOUT)
                     {
                         cc.Stop();
                         _minerLiveStatus.ErrorMsg = "Timeout, benchmark taking too long time";

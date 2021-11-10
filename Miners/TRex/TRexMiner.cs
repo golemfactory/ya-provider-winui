@@ -70,13 +70,14 @@ namespace GolemUI.Miners.TRex
 
         private string phoenixPerformanceThrottlingToTRex(int phoenixThrottling)
         {
+            string highIntensity = "18";
             if (phoenixThrottling == 0)
             {
                 return "25";
             }
             else if (phoenixThrottling == 10)
             {
-                return "18";
+                return highIntensity;
             }
             else if (phoenixThrottling == 100)
             {
@@ -91,7 +92,7 @@ namespace GolemUI.Miners.TRex
                 return "10";
             }
 
-            return "auto";
+            return highIntensity;
         }
 
         public string? GetExtraMiningParams()
