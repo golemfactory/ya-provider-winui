@@ -303,6 +303,9 @@
     <Compile Include="Src\Sentry\SentryContext.cs" />
     <Compile Include="Src\Sentry\SentryUserFeedback.cs" />
     <Compile Include="Src\StartWithWindows.cs" />
+    <Compile Include="UI\DashboardTRex.xaml.cs">
+      <DependentUpon>DashboardTRex.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\DlgGenericInformation.xaml.cs">
       <DependentUpon>DlgGenericInformation.xaml</DependentUpon>
     </Compile>
@@ -481,6 +484,7 @@
     <Compile Include="ViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
     <Compile Include="UI\Charts\PrettyChartDataHistogram.cs" />
     <Compile Include="ViewModel\SettingsAdvViewModel.cs" />
+    <Compile Include="ViewModel\TRexViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
     <Compile Include="ViewModel\StatisticsViewModel.cs" />
@@ -512,6 +516,10 @@
     <Page Include="UI\Charts\PrettyChartBin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\DashboardTRex.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\DashboardStatistics.xaml">
       <SubType>Designer</SubType>
@@ -634,6 +642,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\SetupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\TRexSettingsButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

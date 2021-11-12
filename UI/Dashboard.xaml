@@ -83,6 +83,7 @@
                     <RadioButton  ToolTip="Dashboard" IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=1}" GroupName="nav" Style="{StaticResource NavSidepanelButtonDashboard}"/>
                     <RadioButton  ToolTip="Wallet"    IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=3}" GroupName="nav" Style="{StaticResource NavSidepanelButtonWallet}"/>
                     <RadioButton  ToolTip="Settings"  IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=2}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}"/>
+                    <RadioButton  ToolTip="TRex"  IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=5}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}"/>
                 </StackPanel>
             </Border>
           

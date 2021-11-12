@@ -62,5 +62,10 @@ namespace GolemUI
         {
             Model.SwitchToStatistics();
         }
+        private void BtnTRexInfo_Click(object sender, RoutedEventArgs e)
+        {
+            Model.SwitchToTRexInfo();
+        }
+
     }
 }

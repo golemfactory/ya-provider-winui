@@ -24,7 +24,8 @@ namespace GolemUI.ViewModel
             PageDashboardSettingsAdv,
             PageDashboardBenchmark,
             PageDashboardWallet,
-            PageDashboardStatistics
+            PageDashboardStatistics,
+            PageDashboardTRex
         }
 
 
@@ -34,6 +35,7 @@ namespace GolemUI.ViewModel
         public DashboardSettings DashboardSettings { get; set; }
         public DashboardSettingsAdv DashboardSettingsAdv { get; set; }
         public DashboardWallet DashboardWallet { get; set; }
+        public DashboardTRex DashboardTRex { get; set; }
         public DashboardStatistics? DashboardStatistics { get; set; }
 
         private DashboardPages _selectedPage;
@@ -50,6 +52,7 @@ namespace GolemUI.ViewModel
                     DashboardPages.PageDashboardSettingsAdv => 2,
                     DashboardPages.PageDashboardWallet => 3,
                     DashboardPages.PageDashboardStatistics => 4,
+                    DashboardPages.PageDashboardTRex => 5,
                     _ => -1,
                 };
             }
@@ -70,6 +73,10 @@ namespace GolemUI.ViewModel
                 else if (value == 4)
                 {
                     SwitchPage(DashboardPages.PageDashboardStatistics);
+                }
+                else if (value == 5)
+                {
+                    SwitchPage(DashboardPages.PageDashboardTRex);
                 }
                 else
                 {
@@ -99,7 +106,7 @@ namespace GolemUI.ViewModel
 
         private readonly IRemoteSettingsProvider _remoteSettingsProvider;
 
-        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, IRemoteSettingsProvider remoteSettingsProvider, DashboardStatistics? dashboardStatistics
+        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, IRemoteSettingsProvider remoteSettingsProvider, DashboardStatistics? dashboardStatistics, DashboardTRex dashboardTRex
             )
         {
             _remoteSettingsProvider = remoteSettingsProvider;
@@ -112,11 +119,13 @@ namespace GolemUI.ViewModel
             DashboardSettingsAdv = dashboardSettingsAdv;
             DashboardWallet = dashboardWallet;
             DashboardSettings = dashboardSettings;
+            DashboardTRex = dashboardTRex;
 
             _pages.Add(DashboardPages.PageDashboardMain, new DashboardPage(DashboardMain, DashboardMain.Model));
             _pages.Add(DashboardPages.PageDashboardSettings, new DashboardPage(DashboardSettings, DashboardSettings.ViewModel));
             _pages.Add(DashboardPages.PageDashboardWallet, new DashboardPage(DashboardWallet, DashboardWallet.Model));
             _pages.Add(DashboardPages.PageDashboardSettingsAdv, new DashboardPage(DashboardSettingsAdv, DashboardSettingsAdv.ViewModel));
+            _pages.Add(DashboardPages.PageDashboardTRex, new DashboardPage(DashboardTRex, DashboardTRex.ViewModel));
 
             if (DashboardStatistics != null)
             {

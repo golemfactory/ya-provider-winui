@@ -301,6 +301,11 @@ namespace GolemUI.ViewModel
         {
             PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardStatistics);
         }
+        public void SwitchToTRexInfo()
+        {
+            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardTRex);
+        }
+
 
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
         {
