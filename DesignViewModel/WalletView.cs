@@ -30,7 +30,10 @@ namespace GolemUI.DesignViewModel
 
         public bool IsCpuActive { get; set; } = false;
 
+        public bool ShouldDisplayAdditionalInternalWallet => true;
 
+        public decimal InternalBalance => 123.23m;
+        public string InternalAddress => "0xa1a7c282badfa6bd188a6d42b5bc7fa1e836dddd";
 
         public WalletView()
         {

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using GolemUI.Miners;
+using System;
 
 namespace GolemUI.ViewModel
 {
@@ -43,6 +44,35 @@ namespace GolemUI.ViewModel
 
             _benchmarkService.PropertyChanged += _benchmarkService_PropertyChanged;
             _taskProfitEstimator.PropertyChanged += _taskProfitEstimator_PropertyChanged;
+        }
+
+        public string PolygonLink => "https://polygonscan.com/token/0x0b220b82f3ea3b7f6d9a1d8ab58930c064a2b5bf?a=" + _paymentService.Address;
+        public bool ShouldPaymentMessageTooltipBeAccessible
+        {
+            get
+            {
+                if (_paymentService == null || (_paymentService?.LastError != null && _paymentService?.LastSuccessfullRefresh == null)) return true;
+                if (_paymentService?.LastSuccessfullRefresh != null)
+                {
+                    TimeSpan timeDiff = (DateTime.Now - (DateTime)_paymentService!.LastSuccessfullRefresh);
+                    if (timeDiff.TotalSeconds > 60 * 5)
+                        return true;
+                }
+                return false;
+
+            }
+        }
+        public string? PaymentStateMessage
+        {
+            get
+            {
+
+                if (_paymentService.LastError == null) return "";
+                if (_paymentService.LastSuccessfullRefresh == null) return "Unable to refresh account's balance";
+
+
+                return "last update: " + _paymentService.LastSuccessfullRefresh?.ToShortTimeString();
+            }
         }
 
         public void ChangeWindowState(MainWindowState state)
@@ -327,11 +357,17 @@ namespace GolemUI.ViewModel
 
         private void OnPaymentServiceChanged(object? sender, PropertyChangedEventArgs e)
         {
+            if (_paymentService?.State?.Balance != null)
+                _lastAmount = _paymentService?.State?.Balance;
+
             OnPropertyChanged("Amount");
             OnPropertyChanged("AmountUSD");
             OnPropertyChanged("PendingAmount");
             OnPropertyChanged("PendingAmountUSD");
-            OnPropertyChanged("PaymentStateError");
+            OnPropertyChanged("PaymentStateMessage");
+
+            if (e.PropertyName == "Address")
+                OnPropertyChanged(nameof(PolygonLink));
         }
 
         public void LoadData()
@@ -384,8 +420,10 @@ namespace GolemUI.ViewModel
         public event PageChangeRequestedEvent? PageChangeRequested;
 
         public IProcessController Process => _processController;
-        public decimal? Amount => _paymentService.State?.Balance;
-        public string? PaymentStateError => _paymentService.LastError;
+
+        private decimal? _lastAmount = null;
+        public decimal? Amount => _paymentService.State?.Balance ?? _lastAmount;
+
 
         private decimal? _usdPerDay = null;
         public decimal? UsdPerDay

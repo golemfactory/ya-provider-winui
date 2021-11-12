@@ -75,7 +75,7 @@ namespace GolemUI.Miners.TRex
         {
             lock (__lockObj)
             {
-                return (BenchmarkLiveStatus) _liveStatus.Clone();
+                return (BenchmarkLiveStatus)_liveStatus.Clone();
                 // Your code...
             }
         }
@@ -151,7 +151,7 @@ namespace GolemUI.Miners.TRex
                 var result = await client.GetStringAsync(httpAddress);
                 TRexDetails? details = JsonConvert.DeserializeObject<TRexDetails>(result);
 
-                
+
                 return true;
             }
         }
