@@ -145,10 +145,10 @@ namespace GolemUI.Src
 
                 if (walletAddress != _buildInAdress)
                 {
-                    if (_shouldCheckForInternalWallet)
+                    if (_shouldCheckForInternalWallet && _buildInAdress !=null)
                     {
                         var internalWalletstate = await GetWalletState(_buildInAdress);
-                        if (internalWalletstate.Balance == 0) _shouldCheckForInternalWallet = false;
+                        if (internalWalletstate == null || internalWalletstate?.Balance == 0) _shouldCheckForInternalWallet = false;
 
                         if (internalWalletstate != InternalWalletState)
                         {

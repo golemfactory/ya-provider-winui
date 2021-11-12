@@ -31,7 +31,7 @@ namespace GolemUI.ViewModel.Dialogs
     public class DlgWithdrawViewModel : INotifyPropertyChanged
     {
 
-        Model.WalletState _walletState;
+        Model.WalletState? _walletState;
         public DlgWithdrawViewModel(Interfaces.IPaymentService paymentService, Interfaces.IPriceProvider priceProvider, bool isInternal)
         {
             _withdrawAddress = "";
