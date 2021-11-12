@@ -1,5 +1,6 @@
 ﻿using GolemUI.Command.GSB;
 using GolemUI.Interfaces;
+using GolemUI.Model;
 using Nethereum.Util;
 using System;
 using System.Collections.Generic;
@@ -30,10 +31,13 @@ namespace GolemUI.ViewModel.Dialogs
     public class DlgWithdrawViewModel : INotifyPropertyChanged
     {
 
-        public DlgWithdrawViewModel(Interfaces.IPaymentService paymentService, Interfaces.IPriceProvider priceProvider)
+        Model.WalletState _walletState;
+        public DlgWithdrawViewModel(Interfaces.IPaymentService paymentService, Interfaces.IPriceProvider priceProvider, bool isInternal)
         {
             _withdrawAddress = "";
-            _amount = paymentService.State?.BalanceOnL2;
+            _walletState = !isInternal ? paymentService.InternalWalletState : paymentService.State;
+
+            _amount = _walletState?.BalanceOnL2;
 
             _paymentService = paymentService;
             _priceProvider = priceProvider;
@@ -69,7 +73,7 @@ namespace GolemUI.ViewModel.Dialogs
 
         public decimal AmountUSD => _priceProvider.CoinValue(Amount ?? 0m, Model.Coin.GLM);
 
-        public decimal? AvailableGLM => _paymentService.State?.BalanceOnL2;
+        public decimal? AvailableGLM => _walletState?.BalanceOnL2;
         public decimal AvailableUSD => _priceProvider.CoinValue(AvailableGLM ?? 0m, Model.Coin.GLM);
 
 

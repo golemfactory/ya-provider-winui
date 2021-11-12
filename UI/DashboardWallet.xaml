@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="/UI/Themes/Buttons/GolemLogo.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/RoundedBlueButton.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="/UI/Icons/Profit_icon.xaml"/>
                 <ResourceDictionary Source="/UI/Icons/DefaultStyle/xaml/Wallet/WalletIcon.xaml"/>
@@ -57,14 +58,33 @@
                 </Grid.RowDefinitions>
 
 
+                <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+                    <WrapPanel Margin="8,19,8,6"  VerticalAlignment="Center"  Height="20">
+                        <TextBlock VerticalAlignment="Center"><Run Text="Your Address: "/><Run Text="{Binding WalletAddress, Mode=OneWay}" /></TextBlock>
 
-                <WrapPanel Margin="8,19,8,19" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Grid.Row="0" Height="16">
-                    <TextBlock><Run Text="Your Address: "/><Run Text="{Binding WalletAddress, Mode=OneWay}" /></TextBlock>
+                        <Button x:Name="BtnCopyWalletAddress" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 0, 5, 0" Click="Copy_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="20">
+                            <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                                <Image Source="/UI/Icons/DefaultStyle/png/Wallet/copy-icon.png"  VerticalAlignment="Bottom" Margin="0,0,4,2" Width="12"/>
+                                <Label FontSize="10" Content="COPY" Margin="0" Padding="0" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="BtnEditWalletAddress" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 0, 5, 0" Click="BtnEditWalletAddress_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="20" VerticalContentAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                                <Image Source="/UI/Icons/DefaultStyle/png/Wallet/edit-icon.png"  VerticalAlignment="Bottom" Margin="0,1,4,0" Width="12"/>
+                                <Label FontSize="10" Content="EDIT" Margin="0" Padding="0" />
+                            </StackPanel>
+                        </Button>
+                    </WrapPanel>
 
-                    <Button Style="{DynamicResource HyperLinkButtonStyle}" Margin="11, 0, 5, 0" Click="Copy_Click" Content="Copy ⎘"/>
-                    <Button x:Name="BtnEditWalletAddress" Style="{DynamicResource HyperLinkButtonStyle}" Margin="11, 0, 5, 0" Click="BtnEditWalletAddress_Click" Content="Edit ✍"/>
+                    <WrapPanel Margin="8,0" VerticalAlignment="Center"  Height="20" Visibility="{Binding ShouldDisplayAdditionalInternalWallet, Converter={StaticResource BoolToVisibleConverter}}">
+                        <TextBlock FontSize="9" VerticalAlignment="Center"><Run Text="Internal address: "/><Run FontWeight="Bold" Text="{Binding InternalBalance, Mode=OneWay, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}"/><Run Text="  " /><Run Text="{Binding InternalAddress, Mode=OneWay}" /></TextBlock>
+                        <Button x:Name="BtnWithdrawInternal" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 0, 5, 0" Click="BtnWithdraw_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="20" >
+                            <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                                <Label FontSize="10" Content="WITHDRAW FROM INTERNAL WALLET" Margin="0,0,0,1" Padding="0" />
+                            </StackPanel>
+                        </Button>
+                    </WrapPanel>
                 </WrapPanel>
-
                 <StackPanel Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" VerticalAlignment="Center">
                     <Button x:Name="BtnWithdraw" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToVisibleConverter}}" Click="BtnWithdraw_Click" Content="Withdraw"/>
                     <Button x:Name="BtnOpenL2" Style="{StaticResource GradientButtonStyle}" Padding="10" Visibility="{Binding IsInternal, Converter={StaticResource BoolToHiddenConverter}}" Click="BtnOpenL2_Click" Content="Withdraw tutorial"/>

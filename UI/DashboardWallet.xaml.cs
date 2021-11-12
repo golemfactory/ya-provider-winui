@@ -78,5 +78,7 @@ namespace GolemUI
         {
             System.Diagnostics.Process.Start("explorer.exe", "https://www.thorg.io/usage#Layer-2");
         }
+
+
     }
 }
