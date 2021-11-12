@@ -98,17 +98,17 @@
                             <Border x:Name="border" BorderBrush="#74708C" BorderThickness="1" Background="#120539" SnapsToDevicePixels="true" CornerRadius="1">
 
                                 <StackPanel Margin="4">
-                                    <Label FontSize="10" Content="It seems that Thorg is unable to get your current account's balance." Padding="0"/>
+                                    <Label FontSize="10" Content="It seems that Thorg is unable to get your current account balance." Padding="0"/>
                                     <Label FontSize="10" Content="" Padding="0"/>
                                     <Label FontSize="10" Content="Please check if your Internet connection is working properly, if error persists try restarting Thorg." Padding="0"/>
                                     <Label FontSize="10" Content="" Padding="0"/>
-                                    <Label FontSize="10" Content="There might be a problem with connection to polygon gateway that returns your account's balance. " Padding="0"/>
+                                    <Label FontSize="10" Content="There might be a problem with connection to polygon gateway that returns your account balance. " Padding="0"/>
                                     <Label FontSize="10" Content="" Padding="0"/>
                                     <Label FontSize="10" Content="Good news is that you can still mine with Thorg! " Padding="0"/>
                                     <Label FontSize="10" Content="" Padding="0"/>
-                                    <Label FontSize="10" Content="Your balance should appear here later, once polygon gateway is reachable again. " Padding="0"/>
+                                    <Label FontSize="10" Content="Thorg will refresh your account balance once polygon gateway is reachable again. " Padding="0"/>
                                     <Label FontSize="10" Content="" Padding="0"/>
-                                    <Label FontSize="10" Content="If you would like to check your balance now, you can do it with polygonscan by following this link: " Padding="0"/>
+                                    <Label FontSize="10" Content="If you would like to check your account balance now, you can do it with polygonscan by following this link: " Padding="0"/>
                                     <TextBlock TextDecorations="Underline" >
                     <Hyperlink Foreground="white" NavigateUri="{Binding PolygonLink}" Click="Hyperlink_Click">
                         <TextBlock FontSize="10" Text="{Binding PolygonLink}" />
