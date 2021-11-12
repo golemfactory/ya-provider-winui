@@ -14,6 +14,7 @@ namespace GolemUI.Interfaces
 
         string? LastError { get; }
 
+        DateTime? LastSuccessfullRefresh { get; }
         string? Address { get; }
 
         string InternalAddress { get; }

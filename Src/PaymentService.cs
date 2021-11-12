@@ -27,6 +27,8 @@ namespace GolemUI.Src
         private DispatcherTimer _timer;
         private ILogger<PaymentService> _logger;
 
+        public DateTime? LastSuccessfullRefresh { get; private set; } = null;
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public PaymentService(Network network, Command.YagnaSrv srv, IProcessController processController, IProviderConfig providerConfig, Command.GSB.Payment gsbPayment, ILogger<PaymentService> logger)
@@ -129,6 +131,7 @@ namespace GolemUI.Src
                     State = state;
                     OnPropertyChanged("State");
                 }
+                LastSuccessfullRefresh = DateTime.Now;
             }
             catch (HttpRequestException ex)
             {
