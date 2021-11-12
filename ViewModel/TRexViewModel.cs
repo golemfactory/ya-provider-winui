@@ -13,14 +13,116 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using GolemUI.Utils;
 using System.Windows;
+using System.Windows.Threading;
 using Sentry;
 using GolemUI.Miners;
 using GolemUI.Miners.Phoenix;
 using GolemUI.Miners.TRex;
+using Newtonsoft.Json;
 using MinerAppName = GolemUI.Miners.MinerAppName;
+using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Windows.Controls;
 
 namespace GolemUI.ViewModel
 {
+    public class TRexGpuStatus : INotifyPropertyChanged
+    {
+        private TRexDetails.TRexJsonDetailsGpu _detailsGPU;
+        public TRexDetails.TRexJsonDetailsGpu DetailsGPU
+        {
+            get => _detailsGPU;
+            set
+            {
+                _detailsGPU = value;
+                NotifyChange();
+                NotifyChange("ReportedHashrateMh");
+                NotifyChange("GPUTitle");
+                NotifyChange("Power");
+                NotifyChange("SharesInfo");
+            }
+        }
+
+        public int GPUNo { get; set; }
+        public string GPUTitle
+        {
+            get 
+            {
+                return $"GPU {GPUNo}: {_detailsGPU.name}";
+            }
+        }
+
+        public double ReportedHashrateMh
+        {
+            get
+            {
+                if (_detailsGPU.hashrate_minute == null)
+                {
+                    return 0.0;
+                }
+                return _detailsGPU.hashrate_minute.Value / 1000000.0;
+            }
+        }
+
+        public string Temperature
+        {
+            get
+            {
+                if (_detailsGPU.temperature == null)
+                {
+                    return "N/A";
+                }
+
+                return $"{_detailsGPU.temperature} °C";
+            }
+        }
+
+        public string SharesInfo
+        {
+            get
+            {
+                if (_detailsGPU.shares?.accepted_count == null)
+                {
+                    return "N/A";
+                }
+                if (_detailsGPU.shares?.rejected_count == null)
+                {
+                    return "N/A";
+                }
+                if (_detailsGPU.shares?.invalid_count == null)
+                {
+                    return "N/A";
+                }
+                return $"(accepted: ${_detailsGPU.shares?.accepted_count}, rejected/stale: ${_detailsGPU.shares?.rejected_count}, invalid: ${_detailsGPU.shares?.invalid_count})";
+            }
+        }
+
+        public string Power
+        {
+            get
+            {
+                if (_detailsGPU.power == null)
+                {
+                    return "N/A";
+                }
+
+                return $"{_detailsGPU.power} W";
+            }
+        }
+
+        private string _name = "";
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyChange([CallerMemberName] string? propertyName = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+
     public class TRexViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage, IDialogInvoker
     {
         public bool ShouldRestartMiningAfterBenchmark = false;
@@ -36,7 +138,7 @@ namespace GolemUI.ViewModel
         private readonly IUserSettingsProvider _userSettingsProvider;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
         public BenchmarkService BenchmarkService => _benchmarkService;
-        public ObservableCollection<BenchmarkGpuStatus> GpuList { get; set; }
+        public ObservableCollection<TRexGpuStatus> GpuList { get; set; }
         public string BenchmarkError { get; set; }
 
         //It's needed to prevent blinking button when transition to advanced window
@@ -58,9 +160,27 @@ namespace GolemUI.ViewModel
         public bool IsCpuMiningEnabledByNetwork => false;
 
 
+
+        private DispatcherTimer _timer;
+
+        private TRexDetails _lastRexDetails = new TRexDetails();
+        public TRexDetails LastRexDetails
+        {
+            get
+            {
+                return _lastRexDetails;
+            }
+            set
+            {
+                _lastRexDetails = value;
+                NotifyChange();
+            }
+        }
+
         private readonly Interfaces.INotificationService _notificationService;
         public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
 
+        private string _trexServerAddress = "http://127.0.0.1:4067/summary";
         private TRexMiner _trexMiner;
         private PhoenixMiner _phoenixMiner;
 
@@ -68,179 +188,88 @@ namespace GolemUI.ViewModel
             TRexMiner trexMiner, PhoenixMiner phoenixMiner
         )
         {
+            DarkBackgroundRequested += OnDarkBackgroundRequested;
             _trexMiner = trexMiner;
             _phoenixMiner = phoenixMiner;
             _userSettingsProvider = userSettingsProvider;
             _statusProvider = statusProvider;
             _processController = processController;
-            _processController.PropertyChanged += _processController_PropertyChanged;
-            GpuList = new ObservableCollection<BenchmarkGpuStatus>();
+            GpuList = new ObservableCollection<TRexGpuStatus>();
             _notificationService = notificationService;
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _priceProvider = priceProvider;
             _provider = provider;
             _providerConfig = providerConfig;
             _benchmarkService = benchmarkService;
-            _benchmarkService.ProblemWithExe += _benchmarkService_ProblemWithExe;
             _providerConfig.PropertyChanged += OnProviderCofigChanged;
-            _benchmarkService.PropertyChanged += OnBenchmarkChanged;
             _profitEstimator = profitEstimator;
             _totalCpusCount = Src.CpuInfo.GetCpuCount(Src.CpuCountMode.Threads);
             BenchmarkError = "";
             ActiveCpusCount = 3;
             _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
+
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(4);
+            _timer.Tick += UpdateTRexData;
+            _timer.Start();
         }
 
-        private void _benchmarkService_ProblemWithExe(ProblemWithExeFile problem)
+        private void OnDarkBackgroundRequested(bool _t)
         {
-            if (problem == ProblemWithExeFile.Antivirus || problem == ProblemWithExeFile.FileMissing)
+
+        }
+
+        private async void UpdateTRexData(object sender, EventArgs e)
+        {
+            //exception is handled in function calling TimerBasedUpdateTick
+            using (var client = new HttpClient())
             {
-                var settings = GolemUI.Properties.Settings.Default;
-                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_antivir_image, settings.dialog_antivir_title, settings.dialog_antivir_message, settings.dialog_antivir_button));
-                dlg.Owner = Application.Current.MainWindow;
-                RequestDarkBackgroundVisibilityChange(true);
-                bool? result = dlg?.ShowDialog();
-
-
-                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "Please check your antivirus settings...", expirationTimeInMs: 17000, group: false));
-                if (problem == ProblemWithExeFile.FileMissing)
+                try
                 {
-                    _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "Miner executable file (EthDcrMiner64.exe) is missing", expirationTimeInMs: 17000, group: false));
-                }
-                RequestDarkBackgroundVisibilityChange(false);
-            }
-        }
+                    //httpAddress should look here like  (which is default t-rex address)
+                    var result = await client.GetStringAsync(_trexServerAddress);
+                    TRexDetails details = JsonConvert.DeserializeObject<TRexDetails>(result);
 
-        private void _processController_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "IsProviderRunning")
-            {
-                NotifyChange(nameof(IsMiningProcessRunning));
-            }
-        }
-
-        internal UserSettings UserSettings => _userSettingsProvider.LoadUserSettings();
-        internal void UpdateBenchmarkDialogSettings(bool shouldAutoRestartMining, bool rememberMyPreference)
-        {
-            var settings = _userSettingsProvider.LoadUserSettings();
-            settings.ShouldAutoRestartMiningAfterBenchmark = shouldAutoRestartMining;
-            settings.ShouldDisplayNotificationsIfMiningIsActive = rememberMyPreference;
-            _userSettingsProvider.SaveUserSettings(settings);
-        }
-
-        public void PushNotification(INotificationObject notification)
-        {
-            _notificationService.PushNotification(notification);
-        }
-
-        public void RequestDarkBackgroundVisibilityChange(bool shouldBackgroundBeVisible)
-        {
-            DarkBackgroundRequested?.Invoke(shouldBackgroundBeVisible);
-        }
-        public void SwitchToAdvancedSettings()
-        {
-            AdvancedSettingsButtonEnabled = false;
-            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettingsAdv);
-        }
-
-        public void StopMiningProcess()
-        {
-            _processController.Stop();
-            _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "stopping mining...", expirationTimeInMs: 3000, group: false));
-        }
-        public void RestartMiningProcess()
-        {
-            if (_benchmarkService.ActiveMinerApp != null)
-            {
-                _processController.Start(_providerConfig.Network, _benchmarkService.ActiveMinerApp);
-                _notificationService.PushNotification(new SimpleNotificationObject(Tag.AppStatus, "starting mining...", expirationTimeInMs: 3000, group: false));
-            }
-        }
-
-        public bool IsMiningProcessRunning
-        {
-            get
-            {
-                bool mining = false;
-                mining = _processController.IsProviderRunning;
-                return mining;
-            }
-        }
-        public void StartBenchmark(string miningMode)
-        {
-            SaveData();
-            bool allEnabled = true;
-            string cards = "";
-
-            string niceness = "";
-
-            var gpus = _benchmarkSettings.liveStatus?.GPUs.Values;
-            if (gpus != null)
-            {
-                foreach (var gpu in gpus)
-                {
-                    if (!gpu.IsEnabledByUser)
+                    if (details.gpus != null)
                     {
-                        allEnabled = false;
-                    }
-                    else
-                    {
-                        if (cards != "")
+                        int gpuNo = 0;
+                        foreach (var gpu in details.gpus)
                         {
-                            cards += ",";
-                            niceness += ",";
+                            if (GpuList.Count < gpuNo + 1)
+                            {
+                                var trexGpuStatus = new TRexGpuStatus();
+                                trexGpuStatus.DetailsGPU = gpu;
+                                GpuList.Add(trexGpuStatus);
+                            }
+                            else
+                            {
+                                GpuList[gpuNo].DetailsGPU = gpu;
+                            }
+
+                            GpuList[gpuNo].GPUNo = gpuNo + 1;
+                            gpuNo += 1;
                         }
-                        cards += gpu.GpuNo.ToString();
-                        niceness += gpu.PhoenixPerformanceThrottling.ToString();
+
+                        while (GpuList.Count > gpuNo)
+                        {
+                            GpuList.RemoveAt(GpuList.Count - 1);
+                        }
                     }
+
+                    LastRexDetails = details;
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
                 }
 
             }
-            else
-            {
-                niceness = ((int)PerformanceThrottlingEnumConverter.Default).ToString();
-            }
-            if (allEnabled)
-            {
-                //If all cards are enabled benchmark prerun is not needed and no need to select cards
-                cards = "";
-            }
-
-            BenchmarkLiveStatus? externalStatusCopy = (BenchmarkLiveStatus?)_benchmarkSettings.liveStatus?.Clone();
-
-            MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
-            minerAppConfiguration.Cards = cards;
-            minerAppConfiguration.Niceness = niceness;
-            minerAppConfiguration.MiningMode = miningMode;
-            switch (_userSettingsProvider.LoadUserSettings().SelectedMinerName.NameEnum)
-            {
-                case MinerAppName.MinerAppEnum.Phoenix:
-                    BenchmarkService.StartBenchmark(_phoenixMiner, minerAppConfiguration, externalStatusCopy);
-                    break;
-                case MinerAppName.MinerAppEnum.TRex:
-                    BenchmarkService.StartBenchmark(_trexMiner, minerAppConfiguration, externalStatusCopy);
-                    break;
-            }
-        }
-        public void StopBenchmark()
-        {
-            BenchmarkService.StopBenchmark();
+            await Task.Delay(100);
         }
 
-        private bool _nodeNameHasChanged = false;
-        public bool NodeNameHasChanged
-        {
-            get => _nodeNameHasChanged;
-            set
-            {
-                _nodeNameHasChanged = value;
-                NotifyChange(nameof(NodeNameHasChanged));
-            }
-        }
 
         public void LoadData()
         {
-            NodeNameHasChanged = false;
             AdvancedSettingsButtonEnabled = true;
             GpuList.Clear();
 
@@ -253,12 +282,7 @@ namespace GolemUI.ViewModel
                 return;
             }
 
-            _benchmarkSettings.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null).ToList().ForEach(gpu =>
-            {
-                var val = gpu.Value;
-                val.PropertyChanged += Val_PropertyChanged;
-                GpuList.Add(val);
-            });
+
 
             var activeCpuCount = _providerConfig?.ActiveCpuCount ?? 0;
             if (activeCpuCount <= TotalCpusCount)
@@ -277,186 +301,21 @@ namespace GolemUI.ViewModel
             NotifyChange("GPUMessage");
         }
 
-        void ChangeSettingsWithMiningRestart(string msg)
-        {
-            if (IsMiningProcessRunning)
-            {
-                _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, msg, expirationTimeInMs: 2000));
-                SaveData();
-                StopMiningProcess();
-                if (IsGpuEnabled)
-                    Task.Delay(3000).ContinueWith(_ => RestartMiningProcess());
 
-            }
-        }
-        private void Val_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (sender is BenchmarkGpuStatus status)
-            {
-                if (e.PropertyName == "SelectedMiningMode")
-                {
-                    ChangeSettingsWithMiningRestart("applying settings (gpu intensity changed to: " + PerformanceThrottlingEnumConverter.ConvertToString(status.SelectedMiningMode) + ")");
-                }
-                if (e.PropertyName == "IsEnabledByUser")
-                {
-                    bool isAnyCardEnabled = false;
-                    GpuList.ToList().ForEach(x =>
-                    {
-                        isAnyCardEnabled = isAnyCardEnabled || (x.IsEnabledByUser /*&& x.IsReadyForMining*/);
-                    });
-                    if (!isAnyCardEnabled && IsGpuEnabled)
-                    {
-                        _notificationService.PushNotification(new SimpleNotificationObject(Tag.SettingsChanged, "GPU disabled since user disabled all cards, to enable mining again please activate at least one card and enable GPU support in Task type", expirationTimeInMs: 10000, group: false));
-                        IsGpuEnabled = false;
-                    }
-
-                    ChangeSettingsWithMiningRestart("applying settings (card enabled: " + status.IsEnabledByUser.ToString() + ")");
-
-                }
-            }
-            NotifyChange("HashRate");
-            NotifyChange("ExpectedProfit");
-        }
 
         public void SaveData()
         {
-            GpuList?.ToList().ForEach(gpu =>
-            {
-                var res = _benchmarkSettings.liveStatus?.GPUs.ToList().Find(x => x.Value.GpuNo == gpu.GpuNo);
-                if (res != null && res.HasValue && !res.Equals(default(KeyValuePair<int, BenchmarkGpuStatus>)))
-                {
-                    KeyValuePair<int, BenchmarkGpuStatus> keyVal = res.Value;
-                    keyVal.Value.IsEnabledByUser = gpu.IsEnabledByUser;
-                    keyVal.Value.BenchmarkSpeed = gpu.BenchmarkSpeed;
-                    keyVal.Value.PhoenixPerformanceThrottling = gpu.PhoenixPerformanceThrottling;
-                }
-            });
 
-            _providerConfig?.UpdateActiveCpuThreadsCount(ActiveCpusCount);
-            var _ls = _benchmarkSettings.liveStatus;
-            if (_ls != null)
-            {
-                _benchmarkService.Apply(_ls);
-            }
-            _benchmarkResultsProvider.SaveBenchmarkResults(_benchmarkSettings, _userSettingsProvider.LoadUserSettings().SelectedMinerName);
         }
 
-
-        private void OnBenchmarkChanged(object? sender, PropertyChangedEventArgs e)
+        public void GetRidOfUnusedWarningsPlease()
         {
-            if (e.PropertyName == "Status")
-            {
-                if (_benchmarkService.Status?.GPUInfosParsed == true)
-                {
-                    var newGpus = _benchmarkService.Status?.GPUs.Values;
-                    GpuList.CopyFromStandardCollection(newGpus);
-                    foreach (var gpu in GpuList)
-                    {
-                        gpu.PropertyChanged += Val_PropertyChanged;
-                    }
-                }
-
-                BenchmarkError = _benchmarkService?.Status?.ErrorMsg ?? "";
-
-                NotifyChange("GpuList");
-                NotifyChange("HashRate");
-                NotifyChange("ExpectedProfit");
-                NotifyChange("BenchmarkIsRunning");
-                NotifyChange("BenchmarkReadyToRun");
-                NotifyChange("BenchmarkError");
-                NotifyChange("GPUMessage");
-                NotifyChange(nameof(IsBenchmarkNotRunning));
-            }
-            if (e.PropertyName == "IsRunning")
-            {
-                NotifyChange("BenchmarkReadyToRun");
-                NotifyChange("BenchmarkIsRunning");
-                NotifyChange("ExpectedProfit");
-                NotifyChange("GPUMessage");
-                NotifyChange(nameof(IsBenchmarkNotRunning));
-                if (!BenchmarkIsRunning && _benchmarkService != null)
-                {
-                    // finished ?
-
-                    if (ShouldRestartMiningAfterBenchmark)
-                        Task.Delay(3000).ContinueWith(_ => RestartMiningProcess());
-
-                    _benchmarkService.Save();
-                    _benchmarkSettings = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
-
-                    var benchmarkStatus = _benchmarkService.Status;
-                    if (benchmarkStatus != null)
-                    {
-                        var _newGpus = benchmarkStatus.GPUs.Values?.ToArray();
-
-                        if (benchmarkStatus.GPUInfosParsed)
-                        {
-                            var newGpus = benchmarkStatus.GPUs.Values;
-                            GpuList.CopyFromStandardCollection(newGpus);
-                        }
-
-                        BenchmarkError = benchmarkStatus.ErrorMsg ?? "";
-
-                        if (!benchmarkStatus.LowMemoryMode && !String.IsNullOrEmpty(BenchmarkError))
-                        {
-                            StartBenchmark("ETC");
-                            return;
-                        }
-                    }
-
-                    NotifyChange("BenchmarkReadyToRun");
-                    NotifyChange("BenchmarkIsRunning");
-                    NotifyChange("ExpectedProfit");
-                    NotifyChange("GpuList");
-                    NotifyChange("HashRate");
-                    NotifyChange("ExpectedProfit");
-                    NotifyChange("BenchmarkIsRunning");
-                    NotifyChange("BenchmarkReadyToRun");
-                    NotifyChange("BenchmarkError");
-                    NotifyChange("GPUMessage");
-                    NotifyChange(nameof(IsBenchmarkNotRunning));
-                    NotifyChange(nameof(ShouldGpuCheckBoxesBeEnabled));
-                    SaveData();
-
-                    bool atLeastOneGood = false;
-                    bool outOfMemoryStatus = false;
-                    benchmarkStatus?.GPUs?.Values?.ToList().ForEach(x =>
-                    {
-                        if (x.IsReadyForMining)
-                            atLeastOneGood = true;
-                        if (x.GpuErrorType == GpuErrorType.NotEnoughMemory)
-                            outOfMemoryStatus = true;
-                    });
-                    if (!atLeastOneGood && outOfMemoryStatus)
-                    {
-                        var settings = GolemUI.Properties.Settings.Default;
-                        var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_gpu_image, settings.dialog_gpu_title, settings.dialog_gpu_message, settings.dialog_gpu_button));
-                        dlg.Owner = Application.Current.MainWindow;
-                        RequestDarkBackgroundVisibilityChange(true);
-                        bool? result = dlg?.ShowDialog();
-                        if (result == true)
-                        {
-                            _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "insufficient GPU memory", expirationTimeInMs: 17000, group: false));
-                        }
-                        RequestDarkBackgroundVisibilityChange(false);
-                    }
-                }
-            }
+            DarkBackgroundRequested?.Invoke(false);
+            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardMain);
         }
+
         public bool BenchmarkIsRunning => _benchmarkService.IsRunning;
 
-        public string GPUMessage
-        {
-            get
-            {
-                if (GpuList.Count == 0)
-                {
-                    return "Try running benchmark to detect GPU";
-                }
-                return "GPU";
-            }
-
-        }
 
         public bool BenchmarkReadyToRun => !(_benchmarkService.IsRunning);
         public bool IsBenchmarkNotRunning => !(_benchmarkService.IsRunning);
@@ -519,20 +378,12 @@ namespace GolemUI.ViewModel
         {
             get
             {
-                var enabledAndCapableGpus = GpuList.Where(gpu => gpu.IsEnabledByUser && gpu.IsReadyForMining);
-                return enabledAndCapableGpus?.Sum(gpu => gpu.BenchmarkSpeed);
+                //var enabledAndCapableGpus = GpuList.Where(gpu => gpu.IsEnabledByUser && gpu.IsReadyForMining);
+                //return enabledAndCapableGpus?.Sum(gpu => gpu.BenchmarkSpeed);
+                return 0;
             }
         }
-        public string? NodeName
-        {
-            get => _providerConfig?.Config?.NodeName;
-            set
-            {
-                NodeNameHasChanged = true;
-                _providerConfig?.UpdateNodeName(value);
-                NotifyChange("NodeName");
-            }
-        }
+
         public double? ExpectedProfit
         {
             get

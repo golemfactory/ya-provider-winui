@@ -20,9 +20,9 @@ namespace GolemUI
 {
     public partial class DashboardTRex : UserControl
     {
-        public SettingsViewModel ViewModel;
+        public TRexViewModel ViewModel;
         private readonly IUserSettingsProvider _userSettingsProvider;
-        public DashboardTRex(SettingsViewModel viewModel, IUserSettingsProvider userSettingsProvider)
+        public DashboardTRex(TRexViewModel viewModel, IUserSettingsProvider userSettingsProvider)
         {
             InitializeComponent();
             ViewModel = viewModel;
@@ -30,79 +30,8 @@ namespace GolemUI
             _userSettingsProvider = userSettingsProvider;
         }
 
-        private void btnRunBenchmark_Click(object sender, RoutedEventArgs e)
-        {
-            bool shouldStartBenchmark = true;
-            if (ViewModel.IsMiningProcessRunning)
-            {
+    
 
 
-                var userSettings = ViewModel.UserSettings;
-                if (userSettings.ShouldDisplayNotificationsIfMiningIsActive)
-                {
-
-                    ViewModel.ShouldRestartMiningAfterBenchmark = false;
-                    var dlg = new UI.Dialogs.DlgShouldStopMiningBeforeBenchmark(new GolemUI.ViewModel.Dialogs.DlgShouldStopMiningBeforeBenchmarkViewModel(shouldAutoRestartMining: userSettings.ShouldAutoRestartMiningAfterBenchmark, rememberMyPreference: !userSettings.ShouldDisplayNotificationsIfMiningIsActive));
-                    dlg.Owner = Window.GetWindow(this);
-                    ViewModel.RequestDarkBackgroundVisibilityChange(true);
-                    if (dlg != null && dlg.Model != null && (dlg.ShowDialog() ?? false))
-                    {
-
-                        ViewModel.ShouldRestartMiningAfterBenchmark = dlg.Model.ShouldAutoRestartMining;
-                        ViewModel.UpdateBenchmarkDialogSettings(dlg.Model.ShouldAutoRestartMining, !dlg.Model.RememberMyPreference);
-                    }
-                    else
-                    {
-                        shouldStartBenchmark = false;
-                    }
-
-                    ViewModel.RequestDarkBackgroundVisibilityChange(false);
-                }
-                else
-                {
-                    ViewModel.ShouldRestartMiningAfterBenchmark = userSettings.ShouldAutoRestartMiningAfterBenchmark;
-                }
-
-            }
-            else
-            {
-                ViewModel.ShouldRestartMiningAfterBenchmark = false;
-            }
-
-
-
-            if (shouldStartBenchmark)
-            {
-                if (ViewModel.IsMiningProcessRunning)
-                {
-                    ViewModel.StopMiningProcess();
-                }
-
-                if (_userSettingsProvider.LoadUserSettings().ForceLowMemoryMode)
-                {
-                    ViewModel.StartBenchmark("ETC");
-                }
-                else
-                {
-                    ViewModel.StartBenchmark("ETH");
-                }
-            }
-        }
-
-        private void btnStopBenchmark_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.StopBenchmark();
-        }
-
-        private void BtnAdvancedSettings_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.SwitchToAdvancedSettings();
-        }
-
-
-        private void BtnGolemLogo_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(GolemUI.Properties.Settings.Default.GolemWebPage);
-        }
     }
 }

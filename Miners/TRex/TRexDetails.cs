@@ -14,9 +14,9 @@ namespace GolemUI.Miners.TRex
             {
                 public int? accepted_count { get; set; }
                 public int? invalid_count { get; set; }
-                public int? last_share_diff { get; set; }
+                public double? last_share_diff { get; set; }
                 public int? last_share_submit_ts { get; set; }
-                public int? max_share_diff { get; set; }
+                public double? max_share_diff { get; set; }
                 public int? max_share_submit_ts { get; set; }
                 public int? rejected_count { get; set; }
                 public int? solved_count { get; set; }
