@@ -30,7 +30,7 @@ namespace GolemUI
             _userSettingsProvider = userSettingsProvider;
         }
 
-    
+
 
 
     }

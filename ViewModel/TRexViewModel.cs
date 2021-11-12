@@ -46,7 +46,7 @@ namespace GolemUI.ViewModel
         public int GPUNo { get; set; }
         public string GPUTitle
         {
-            get 
+            get
             {
                 return $"GPU {GPUNo}: {_detailsGPU.name}";
             }
@@ -93,7 +93,7 @@ namespace GolemUI.ViewModel
                 {
                     return "N/A";
                 }
-                return $"(accepted: ${_detailsGPU.shares?.accepted_count}, rejected/stale: ${_detailsGPU.shares?.rejected_count}, invalid: ${_detailsGPU.shares?.invalid_count})";
+                return $"(accepted: {_detailsGPU.shares?.accepted_count}, rejected/stale: {_detailsGPU.shares?.rejected_count}, invalid: {_detailsGPU.shares?.invalid_count})";
             }
         }
 
@@ -138,6 +138,7 @@ namespace GolemUI.ViewModel
         private readonly IUserSettingsProvider _userSettingsProvider;
         private readonly IBenchmarkResultsProvider _benchmarkResultsProvider;
         public BenchmarkService BenchmarkService => _benchmarkService;
+
         public ObservableCollection<TRexGpuStatus> GpuList { get; set; }
         public string BenchmarkError { get; set; }
 
