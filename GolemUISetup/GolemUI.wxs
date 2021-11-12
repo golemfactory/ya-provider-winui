@@ -134,6 +134,7 @@
         Display='expand'
         Absent='allow'>
       <ComponentGroupRef Id='YaRuntimeGMinerComponentGroup'/>
+      <ComponentGroupRef Id='DeviceDetectionComponentGroup'/>
     </Feature>
 
 
