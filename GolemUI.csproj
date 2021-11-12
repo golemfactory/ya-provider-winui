@@ -637,6 +637,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\Themes\Buttons\BlueButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Themes\Buttons\HistoryTabButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -685,7 +689,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Themes\Buttons\BlueButton.xaml">
+    <Page Include="UI\Themes\Buttons\RoundedBlueButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -947,6 +951,10 @@
     <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0037.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0038.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0039.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Wallet\copy-icon.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Wallet\edit-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

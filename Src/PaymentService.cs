@@ -30,6 +30,7 @@ namespace GolemUI.Src
         public DateTime? LastSuccessfullRefresh { get; private set; } = null;
 
         public event PropertyChangedEventHandler? PropertyChanged;
+        private bool _shouldCheckForInternalWallet = true;
 
         public PaymentService(Network network, Command.YagnaSrv srv, IProcessController processController, IProviderConfig providerConfig, Command.GSB.Payment gsbPayment, ILogger<PaymentService> logger)
         {
@@ -59,6 +60,22 @@ namespace GolemUI.Src
 
         public WalletState? State { get; private set; }
 
+        private WalletState? _internalWalletState;
+        public WalletState? InternalWalletState
+        {
+            get
+            {
+                if (Address == InternalAddress)
+                    return State;
+
+                return _internalWalletState;
+            }
+            private set
+            {
+                _internalWalletState = value;
+            }
+        }
+
         public string? LastError { get; private set; }
 
         public string? Address => _walletAddress ?? _buildInAdress;
@@ -78,6 +95,27 @@ namespace GolemUI.Src
             _walletAddress = _providerConfig.Config?.Account ?? _buildInAdress;
             UpdateState();
             OnPropertyChanged("Address");
+        }
+
+        private async Task<WalletState> GetWalletState(String walletAddress)
+        {
+            var since = DateTime.UtcNow - TimeSpan.FromDays(2);
+            var output = await Task.WhenAll(
+                   _gsbPayment.GetStatus(walletAddress, "polygon", since: since, network: _network.Id)
+               );
+            //var statusOnL1 = output[1];
+            //var amountOnL1 = statusOnL1?.Amount ?? 0;
+
+            var statusOnL2 = output[0];
+            var pending = (statusOnL2?.Incoming?.Accepted?.TotalAmount ?? 0m) - (statusOnL2?.Incoming?.Confirmed?.TotalAmount ?? 0m);
+            var amountOnL2 = statusOnL2?.Amount ?? 0;
+            var state = new WalletState(statusOnL2?.Token ?? "GLM")
+            {
+                Balance = /*amountOnL1 + */amountOnL2,
+                PendingBalance = pending,
+                BalanceOnL2 = amountOnL2
+            };
+            return state;
         }
 
         public async Task Refresh()
@@ -104,26 +142,23 @@ namespace GolemUI.Src
                     throw new Exception("Wallet address is null");
                 }
 
-                var since = DateTime.UtcNow - TimeSpan.FromDays(2);
+                var state = await GetWalletState(walletAddress);
 
-                var output = await Task.WhenAll(
-                    _gsbPayment.GetStatus(walletAddress, "polygon", since: since, network: _network.Id)
-                );
 
-                var statusOnL2 = output[0];
-                //var statusOnL1 = output[1];
-
-                var pending = (statusOnL2?.Incoming?.Accepted?.TotalAmount ?? 0m) - (statusOnL2?.Incoming?.Confirmed?.TotalAmount ?? 0m);
-                var amountOnL2 = statusOnL2?.Amount ?? 0;
-                //var amountOnL1 = statusOnL1?.Amount ?? 0;
-
-                var state = new WalletState(statusOnL2?.Token ?? "GLM")
+                if (walletAddress != _buildInAdress)
                 {
-                    Balance = /*amountOnL1 + */amountOnL2,
-                    PendingBalance = pending,
-                    BalanceOnL2 = amountOnL2
-                };
+                    if (_shouldCheckForInternalWallet && _buildInAdress != null)
+                    {
+                        var internalWalletstate = await GetWalletState(_buildInAdress);
+                        if (internalWalletstate == null || internalWalletstate?.Balance == 0) _shouldCheckForInternalWallet = false;
 
+                        if (internalWalletstate != InternalWalletState)
+                        {
+                            InternalWalletState = internalWalletstate;
+                            OnPropertyChanged("InternalWalletState");
+                        }
+                    }
+                }
                 var oldState = State;
                 LastError = null;
                 if (state != oldState)
