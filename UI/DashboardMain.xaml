@@ -72,10 +72,10 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <local:DashboardStatusControl Status="{Binding Path=Status}"  StatusAdditionalInfo="{Binding Path=StatusAdditionalInfo}"  Margin="0,0,0,4" Grid.ColumnSpan="2" />
-                
+
                 <Button Click="btnStop_Click" Margin="0,15,0,0" Style="{StaticResource GradientButtonStyle}" VerticalAlignment="Bottom" Height="45" Grid.Column="4" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToVisibleConverter}}">Stop Mining</Button>
 
-              
+
 
                 <Button Style="{StaticResource GradientButtonStyle}" Click="btnStart_Click"  Margin="0,15,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="45" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsMiningReadyToRun, Mode=OneWay}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToHiddenConverter}}">Start Mining</Button>
                 <TextBlock  Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow"  Text="{Binding StartButtonExplanation}" Grid.Column="4" Grid.Row="1" Margin="0,5,0,0" FontSize="12"></TextBlock>
@@ -92,7 +92,32 @@
                         </Grid.RowDefinitions>
                         <Label Content="My Balance" FontSize="14" Margin="17,22,0,0" Grid.ColumnSpan="2"/>
                         <Image Source="Icons/DefaultStyle/png/Dashboard/Balance.png" Grid.Column="0" Grid.Row="1" Margin="23, 23" Stretch="Uniform" VerticalAlignment="Top"  RenderOptions.BitmapScalingMode="HighQuality" />
-                        <TextBox Text="{Binding Path=PaymentStateError, Mode=OneWay}" Grid.Column="1" Style="{DynamicResource PaymentStatusErrorMsg}" Margin="3, 5, 5, 5" VerticalAlignment="bottom"></TextBox>
+                        <Label x:Name="lblPaymentStateMessage" Content="{Binding Path=PaymentStateMessage, Mode=OneWay}" MouseEnter="lblPaymentStateMessage_MouseEnter" 
+                             Grid.Column="1" Foreground="#99b" Margin="0, 5, 5, 1" VerticalAlignment="bottom"  HorizontalAlignment="Left"/>
+                        <Popup x:Name="tooltip" PlacementTarget="{Binding ElementName=lblPaymentStateMessage}" MouseLeave="lblPaymentStateMessage_MouseLeave" Placement="Bottom">
+                            <Border x:Name="border" BorderBrush="#74708C" BorderThickness="1" Background="#120539" SnapsToDevicePixels="true" CornerRadius="1">
+
+                                <StackPanel Margin="4">
+                                    <Label FontSize="10" Content="It seems that Thorg is unable to get your current account's balance." Padding="0"/>
+                                    <Label FontSize="10" Content="" Padding="0"/>
+                                    <Label FontSize="10" Content="Please check if your Internet connection is working properly, if error persists try restarting Thorg." Padding="0"/>
+                                    <Label FontSize="10" Content="" Padding="0"/>
+                                    <Label FontSize="10" Content="There might be a problem with connection to polygon gateway that returns your account's balance. " Padding="0"/>
+                                    <Label FontSize="10" Content="" Padding="0"/>
+                                    <Label FontSize="10" Content="Good news is that you can still mine with Thorg! " Padding="0"/>
+                                    <Label FontSize="10" Content="" Padding="0"/>
+                                    <Label FontSize="10" Content="Your balance should appear here later, once polygon gateway is reachable again. " Padding="0"/>
+                                    <Label FontSize="10" Content="" Padding="0"/>
+                                    <Label FontSize="10" Content="If you would like to check your balance now, you can do it with polygonscan by following this link: " Padding="0"/>
+                                    <TextBlock TextDecorations="Underline" >
+                    <Hyperlink Foreground="white" NavigateUri="{Binding PolygonLink}" Click="Hyperlink_Click">
+                        <TextBlock FontSize="10" Text="{Binding PolygonLink}" />
+                        </Hyperlink>
+                                        </TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+
                         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="0,13,0,0">
                             <Label Content="{Binding Path=AmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Segoe UI Black" FontSize="42" Margin="0, -12"></Label>
                             <Label Content="{Binding Path=Amount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#99b"  FontSize="14" Margin="0, 10"></Label>
