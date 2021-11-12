@@ -59,16 +59,16 @@
 
 
                 <WrapPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-                    <WrapPanel Margin="8,19,8,6"  VerticalAlignment="Center"  Height="20">
+                    <WrapPanel Margin="8,19,8,6"  VerticalAlignment="Center"  Height="22">
                         <TextBlock VerticalAlignment="Center"><Run Text="Your Address: "/><Run Text="{Binding WalletAddress, Mode=OneWay}" /></TextBlock>
 
-                        <Button x:Name="BtnCopyWalletAddress" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 0, 5, 0" Click="Copy_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="20">
+                        <Button x:Name="BtnCopyWalletAddress" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 0, 5, 0" Click="Copy_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22">
                             <StackPanel Orientation="Horizontal" Margin="8,1,8,0" VerticalAlignment="Center">
                                 <Image Source="/UI/Icons/DefaultStyle/png/Wallet/copy-icon.png"  VerticalAlignment="Bottom" Margin="0,1,4,2" Width="12"/>
                                 <Label FontSize="10" Content="COPY" Margin="0" Padding="0" />
                             </StackPanel>
                         </Button>
-                        <Button x:Name="BtnEditWalletAddress" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 0, 5, 0" Click="BtnEditWalletAddress_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="20" VerticalContentAlignment="Center">
+                        <Button x:Name="BtnEditWalletAddress" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 0, 5, 0" Click="BtnEditWalletAddress_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" VerticalContentAlignment="Center">
                             <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
                                 <Image Source="/UI/Icons/DefaultStyle/png/Wallet/edit-icon.png"  VerticalAlignment="Bottom" Margin="0,1,4,0" Width="12"/>
                                 <Label FontSize="10" Content="EDIT" Margin="0" Padding="0" />
@@ -76,9 +76,9 @@
                         </Button>
                     </WrapPanel>
 
-                    <WrapPanel Margin="8,0" VerticalAlignment="Center"  Height="20" Visibility="{Binding ShouldDisplayAdditionalInternalWallet, Converter={StaticResource BoolToVisibleConverter}}">
+                    <WrapPanel Margin="8,0" VerticalAlignment="Center"  Height="22" Visibility="{Binding ShouldDisplayAdditionalInternalWallet, Converter={StaticResource BoolToVisibleConverter}}">
                         <TextBlock FontSize="9" VerticalAlignment="Center"><Run Text="Internal address: "/><Run FontWeight="Bold" Text="{Binding InternalBalance, Mode=OneWay, ConverterParameter=GLM, Converter={StaticResource AmountConverter}}"/><Run Text="  " /><Run Text="{Binding InternalAddress, Mode=OneWay}" /></TextBlock>
-                        <Button x:Name="BtnWithdrawInternal" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 0, 5, 0" Click="BtnWithdraw_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="20" >
+                        <Button x:Name="BtnWithdrawInternal" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 0, 5, 0" Click="BtnWithdraw_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
                             <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
                                 <Label FontSize="10" Content="WITHDRAW FROM INTERNAL WALLET" Margin="0,0,0,1" Padding="0" />
                             </StackPanel>
