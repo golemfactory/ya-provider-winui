@@ -18,5 +18,6 @@ namespace GolemUI.Miners
 
         public void ParseLine(string line);
 
+        public Task<bool> TimerBasedUpdateTick();
     }
 }

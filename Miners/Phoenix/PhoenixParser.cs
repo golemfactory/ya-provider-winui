@@ -370,5 +370,12 @@ namespace GolemUI.Miners.Phoenix
             }
             _logger.LogDebug("done log {0}", line);
         }
+
+        public async Task<bool> TimerBasedUpdateTick()
+        {
+            //no timer based update on phoenix
+            await Task.Delay(1);
+            return false;
+        }
     }
 }

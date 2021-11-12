@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Globalization;
+using System.Net.Http;
 using GolemUI.Utils;
 using GolemUI.Command;
+using Newtonsoft.Json.Linq;
 
 namespace GolemUI.Miners.TRex
 {
-
-
     public class TRexBenchmarkLine
     {
         public long delta_time_ms { get; set; }
@@ -39,7 +39,10 @@ namespace GolemUI.Miners.TRex
         private DateTime _start;
         private string? _benchmarkRecordingPath = null;
 
+        private string _trexServerAddress = "";
+
         private bool _gpusInfosParsed = false;
+
         public bool AreAllCardInfosParsed()
         {
             return _gpusInfosParsed;
@@ -57,9 +60,11 @@ namespace GolemUI.Miners.TRex
         {
             return CultureInfo.InvariantCulture.CompareInfo.IndexOf(baseStr, searchedString, CompareOptions.IgnoreCase);
         }
+
         static bool ContainsInStrEx(string baseStr, string searchedString)
         {
-            return CultureInfo.InvariantCulture.CompareInfo.IndexOf(baseStr, searchedString, CompareOptions.IgnoreCase) >= 0;
+            return CultureInfo.InvariantCulture.CompareInfo.IndexOf(baseStr, searchedString,
+                CompareOptions.IgnoreCase) >= 0;
         }
 
         /// <summary>
@@ -70,7 +75,7 @@ namespace GolemUI.Miners.TRex
         {
             lock (__lockObj)
             {
-                return (BenchmarkLiveStatus)_liveStatus.Clone();
+                return (BenchmarkLiveStatus) _liveStatus.Clone();
                 // Your code...
             }
         }
@@ -80,6 +85,7 @@ namespace GolemUI.Miners.TRex
         /// </summary>
         public void BeforeParsing(bool enableRecording)
         {
+            _trexServerAddress = "";
             _start = DateTime.Now;
             if (enableRecording)
             {
@@ -92,7 +98,8 @@ namespace GolemUI.Miners.TRex
 
                 string suffix = _isPreBenchmark ? "pre_recording" : "recording";
 
-                string benchmarkRecordingFile = String.Format("BenchmarkTRex_{0}.{1}", DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"), suffix);
+                string benchmarkRecordingFile = String.Format("BenchmarkTRex_{0}.{1}",
+                    DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"), suffix);
                 _benchmarkRecordingPath = Path.Combine(benchmarkRecordingFolder, benchmarkRecordingFile);
                 StreamWriter? sw = null;
                 try
@@ -112,9 +119,40 @@ namespace GolemUI.Miners.TRex
 
         public void SetFinished()
         {
+            _trexServerAddress = "";
             foreach (var gpu in _liveStatus.GPUs)
             {
                 gpu.Value.SetStepFinished();
+            }
+        }
+
+        public async Task<bool> TimerBasedUpdateTick()
+        {
+            if (String.IsNullOrEmpty(_trexServerAddress))
+            {
+                return false;
+            }
+
+            //exception is handled in function calling TimerBasedUpdateTick
+            using (var client = new HttpClient())
+            {
+                string httpAddress = _trexServerAddress;
+                if (!httpAddress.StartsWith("http"))
+                {
+                    httpAddress = "http://" + httpAddress;
+                }
+
+                if (!httpAddress.EndsWith("summary"))
+                {
+                    httpAddress = httpAddress + "/summary";
+                }
+
+                //httpAddress should look here like http://127.0.0.1:4067/summary (which is default t-rex address)
+                var result = await client.GetStringAsync(httpAddress);
+                TRexDetails? details = JsonConvert.DeserializeObject<TRexDetails>(result);
+
+                
+                return true;
             }
         }
 
@@ -133,6 +171,18 @@ namespace GolemUI.Miners.TRex
 #if DEBUG
                 Debug.WriteLine(String.Format("{0}: {1}", benchLine.delta_time_ms, line));
 #endif
+
+
+                if (benchLine.line.Contains("HTTP server started on "))
+                {
+                    var newLine = benchLine.line.Replace("HTTP server started on ", "$");
+                    var split = newLine.Split('$');
+                    if (split.Length == 2)
+                    {
+                        _trexServerAddress = split[1].Trim();
+                        Console.WriteLine($"Trex server running on address: {_trexServerAddress}");
+                    }
+                }
 
                 StreamWriter? sw = null;
                 if (_benchmarkRecordingPath != null)

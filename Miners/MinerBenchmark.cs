@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using GolemUI.Miners;
 using GolemUI.Src;
 using GolemUI.Utils;
@@ -56,6 +57,8 @@ namespace GolemUI.Miners
 
         PhoenixImitateBenchmarkFromFile? _imitate;
 
+        private readonly DispatcherTimer _timer;
+
         public IMinerParser MinerParserBenchmark { get { return _minerParserBenchmark; } }
         public IMinerParser MinerParserPreBenchmark { get { return _minerParserPreBenchmark; } }
 
@@ -91,13 +94,28 @@ namespace GolemUI.Miners
             _logger = logger;
             _minerParserBenchmark = minerApp.CreateParserForBenchmark();
             _minerParserPreBenchmark = minerApp.CreateParserForPreBenchmark();
+
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(10);
+            _timer.Tick += OnUpdateMinerTick;
+            _timer.Start();
         }
 
-
+        private async void OnUpdateMinerTick(object sender, EventArgs e)
+        {
+            try
+            {
+                await _minerParserBenchmark.TimerBasedUpdateTick();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error OnUpdateMinerTick: {ex.Message}");
+            }
+        }
 
         public void Stop()
         {
-
+            _timer.Stop();
             if (_minerProcess != null)
             {
                 if (!_minerProcess.HasExited)
@@ -291,6 +309,7 @@ namespace GolemUI.Miners
             _minerProcess.EnableRaisingEvents = true;
             _minerProcess.BeginErrorReadLine();
             _minerProcess.BeginOutputReadLine();
+            _timer.Start();
 
             /*
             var t = new Thread(() =>
@@ -308,11 +327,13 @@ namespace GolemUI.Miners
 
         void OnPreBenchmarkExit(object? sender, EventArgs e)
         {
+
             _minerParserPreBenchmark.SetFinished();
         }
 
         void OnBenchmarkExit(object? sender, EventArgs e)
         {
+            _timer.Stop();
             _minerParserBenchmark.SetFinished();
         }
 

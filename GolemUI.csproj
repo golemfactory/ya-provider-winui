@@ -270,6 +270,7 @@
     <Compile Include="Miners\Phoenix\PhoenixMiner.cs" />
     <Compile Include="Miners\IMinerParser.cs" />
     <Compile Include="Miners\MinerAppName.cs" />
+    <Compile Include="Miners\TRex\TRexDetails.cs" />
     <Compile Include="Miners\TRex\TRexMiner.cs" />
     <Compile Include="Miners\TRex\TRexParser.cs" />
     <Compile Include="Command\GSB\GsbServiceException.cs" />
