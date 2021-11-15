@@ -12,7 +12,7 @@ namespace GolemUI.DesignViewModel
     public class MockupSettingsViewModel
     {
         public double? ExpectedProfit => 41.32f;
-        
+
         public float? Hashrate => 10.19f;
         public double CpuOpacity => IsCpuMiningEnabledByNetwork ? 1.0 : 0.2f;
         public bool IsCpuMiningEnabledByNetwork => false;
