@@ -126,6 +126,8 @@ namespace GolemUI.Miners.TRex
             }
         }
 
+        private static bool _reportOnlyOnce = true;
+
         public async Task<bool> TimerBasedUpdateTick()
         {
             if (String.IsNullOrEmpty(_trexServerAddress))
@@ -133,27 +135,43 @@ namespace GolemUI.Miners.TRex
                 return false;
             }
 
-            //exception is handled in function calling TimerBasedUpdateTick
-            using (var client = new HttpClient())
+            try
             {
-                string httpAddress = _trexServerAddress;
-                if (!httpAddress.StartsWith("http"))
+
+                //exception is handled in function calling TimerBasedUpdateTick
+                using (var client = new HttpClient())
                 {
-                    httpAddress = "http://" + httpAddress;
+                    string httpAddress = _trexServerAddress;
+                    if (!httpAddress.StartsWith("http"))
+                    {
+                        httpAddress = "http://" + httpAddress;
+                    }
+
+                    if (!httpAddress.EndsWith("summary"))
+                    {
+                        httpAddress = httpAddress + "/summary";
+                    }
+
+                    //httpAddress should look here like http://127.0.0.1:4067/summary (which is default t-rex address)
+                    var result = await client.GetStringAsync(httpAddress);
+
+                    TRexDetails? details = JsonConvert.DeserializeObject<TRexDetails>(result);
                 }
-
-                if (!httpAddress.EndsWith("summary"))
-                {
-                    httpAddress = httpAddress + "/summary";
-                }
-
-                //httpAddress should look here like http://127.0.0.1:4067/summary (which is default t-rex address)
-                var result = await client.GetStringAsync(httpAddress);
-                TRexDetails? details = JsonConvert.DeserializeObject<TRexDetails>(result);
-
 
                 return true;
             }
+            catch (Exception e)
+            {
+                string errorMsg = "Error when getting data from T-Rex: " + e.Message;
+                if (_reportOnlyOnce)
+                {
+                    _reportOnlyOnce = false;
+                    _logger.LogError(errorMsg);
+                }
+                Console.WriteLine(errorMsg);
+            }
+
+            return false;
         }
 
         /// <summary>
