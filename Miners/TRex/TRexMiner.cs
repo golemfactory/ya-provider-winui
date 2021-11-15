@@ -78,7 +78,7 @@ namespace GolemUI.Miners.TRex
         private string phoenixPerformanceThrottlingToTRex(int phoenixThrottling)
         {
             string highIntensity = "18";
-            
+
             return phoenixThrottling switch
             {
                 0 => "25",

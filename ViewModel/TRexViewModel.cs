@@ -109,7 +109,7 @@ namespace GolemUI.ViewModel
                 return $"{_detailsGPU.power} W";
             }
         }
-        
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private void NotifyChange([CallerMemberName] string? propertyName = null)

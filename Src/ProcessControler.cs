@@ -180,7 +180,7 @@ namespace GolemUI
 
                         StartupYagna();
                     }
-                    
+
                     string? minerExtraParams = minerApp.GetExtraMiningParams(minerAppConfiguration);
 
                     StartupProvider(network, minerApp.MinerAppName.NameString, minerExtraParams);
