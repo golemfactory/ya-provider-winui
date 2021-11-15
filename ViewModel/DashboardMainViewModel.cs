@@ -80,6 +80,7 @@ namespace GolemUI.ViewModel
             MainWindowState = state;
             OnPropertyChanged(nameof(MainWindowState));
             OnPropertyChanged(nameof(ShouldGpuAnimationBeVisible));
+            OnPropertyChanged(nameof(TRexSettingsButtonVisible));
         }
 
         public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
@@ -140,7 +141,13 @@ namespace GolemUI.ViewModel
             }
         }
 
-
+        public bool TRexSettingsButtonVisible
+        {
+            get
+            {
+                return GpuStatus == "Mining" && _benchmarkService.ActiveMinerApp?.MinerAppName.NameEnum == MinerAppName.MinerAppEnum.TRex;
+            }
+        }
 
 
         private void _historyDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -220,6 +227,7 @@ namespace GolemUI.ViewModel
                     _gpuStatus = value;
                     OnPropertyChanged("GpuStatus");
                     OnPropertyChanged(nameof(ShouldGpuAnimationBeVisible));
+                    OnPropertyChanged(nameof(TRexSettingsButtonVisible));
                 }
             }
         }
@@ -477,6 +485,7 @@ namespace GolemUI.ViewModel
                 _status = value;
                 OnPropertyChanged("Status");
                 OnPropertyChanged(nameof(ShouldGpuAnimationBeVisible));
+                OnPropertyChanged(nameof(TRexSettingsButtonVisible));
             }
         }
         public string StatusAdditionalInfo

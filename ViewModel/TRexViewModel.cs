@@ -28,7 +28,7 @@ namespace GolemUI.ViewModel
 {
     public class TRexGpuStatus : INotifyPropertyChanged
     {
-        private TRexDetails.TRexJsonDetailsGpu _detailsGPU;
+        private TRexDetails.TRexJsonDetailsGpu _detailsGPU = new TRexDetails.TRexJsonDetailsGpu();
         public TRexDetails.TRexJsonDetailsGpu DetailsGPU
         {
             get => _detailsGPU;
@@ -109,10 +109,8 @@ namespace GolemUI.ViewModel
                 return $"{_detailsGPU.power} W";
             }
         }
-
-        private string _name = "";
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private void NotifyChange([CallerMemberName] string? propertyName = null)
         {
@@ -220,7 +218,7 @@ namespace GolemUI.ViewModel
 
         }
 
-        private async void UpdateTRexData(object sender, EventArgs e)
+        private async void UpdateTRexData(object sender, EventArgs? e)
         {
             //exception is handled in function calling TimerBasedUpdateTick
             using (var client = new HttpClient())
@@ -300,6 +298,9 @@ namespace GolemUI.ViewModel
             NotifyChange("HashRate");
             NotifyChange("ExpectedProfit");
             NotifyChange("GPUMessage");
+
+
+            UpdateTRexData(this, null);
         }
 
 
