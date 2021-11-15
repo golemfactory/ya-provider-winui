@@ -32,7 +32,7 @@ namespace GolemUI.Interfaces
         /// <returns>Wallet address</returns>
         public Task<string> PrepareForKey(byte[] privateKey);
 
-        public Task<bool> Start(Network network, IMinerApp minerApp);
+        public Task<bool> Start(Network network, IMinerApp minerApp, MinerAppConfiguration minerAppConfiguration);
 
         public Task<Command.KeyInfo> Me();
 

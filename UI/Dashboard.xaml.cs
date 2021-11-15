@@ -219,7 +219,9 @@ namespace GolemUI
             {
                 if (_benchmarkService.ActiveMinerApp != null)
                 {
-                    await _processController.Start(_providerConfig.Network, _benchmarkService.ActiveMinerApp);
+                    MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+                    minerAppConfiguration.MiningMode = isLowMemoryMode ? "ETC" : "ETH";
+                    await _processController.Start(_providerConfig.Network, _benchmarkService.ActiveMinerApp, minerAppConfiguration);
                 }
             }
 

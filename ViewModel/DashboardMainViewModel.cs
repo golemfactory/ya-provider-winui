@@ -582,7 +582,10 @@ namespace GolemUI.ViewModel
 
                 _providerConfig.SwitchMiningMode(isLowMemoryMode);
 
-                await _processController.Start(_providerConfig.Network, _benchmarkService.ActiveMinerApp);
+                MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+                minerAppConfiguration.MiningMode = isLowMemoryMode ? "ETC" : "ETH";
+
+                await _processController.Start(_providerConfig.Network, _benchmarkService.ActiveMinerApp, minerAppConfiguration);
             }
         }
         public void Start()

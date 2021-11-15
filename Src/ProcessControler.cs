@@ -164,7 +164,7 @@ namespace GolemUI
             }
         }
 
-        public async Task<bool> Start(Network network, IMinerApp minerApp)
+        public async Task<bool> Start(Network network, IMinerApp minerApp, MinerAppConfiguration minerAppConfiguration)
         {
             _lock();
 
@@ -180,8 +180,8 @@ namespace GolemUI
 
                         StartupYagna();
                     }
-
-                    string? minerExtraParams = minerApp.GetExtraMiningParams();
+                    
+                    string? minerExtraParams = minerApp.GetExtraMiningParams(minerAppConfiguration);
 
                     StartupProvider(network, minerApp.MinerAppName.NameString, minerExtraParams);
                 });

@@ -57,7 +57,7 @@ namespace GolemUI.Miners.Phoenix
         }
 
 
-        public string? GetExtraMiningParams()
+        public string? GetExtraMiningParams(MinerAppConfiguration minerAppConfiguration)
         {
             var status = _benchmarkResultsProvider.LoadBenchmarkResults(_minerAppName).liveStatus;
             if (status == null)

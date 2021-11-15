@@ -64,7 +64,7 @@
                     <Label Margin ="26,-5" Padding="0"  Foreground="#FFFFFF" Content="T-Rex mining parameters" FontSize="24"></Label>
                 </Border>
             </StackPanel>
-            <ScrollViewer Grid.Column="0" Grid.Row="1" Margin="25,4,0,0" Padding="0" Grid.RowSpan="2" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto" Style="{DynamicResource SettingsScrollViewer}">
+            <ScrollViewer Grid.Column="0" Grid.Row="1" Margin="25,40,0,0" Padding="0" Grid.RowSpan="2" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto" Style="{DynamicResource SettingsScrollViewer}">
                 <ItemsControl Grid.Column="1" ItemsSource="{Binding GpuList}" Margin="0,0,0,0" >
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

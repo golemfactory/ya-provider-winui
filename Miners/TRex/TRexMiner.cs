@@ -54,7 +54,14 @@ namespace GolemUI.Miners.TRex
                 extraParams += " --intensity " + newNiceness;
             }
 
-            string result = $"--no-watchdog --algo ethash -o {minerAppConfiguration.Pool} -u {minerAppConfiguration.EthereumAddress} -p x -w \"benchmark:0x0/{minerAppConfiguration.NodeName}:{minerAppConfiguration.EthereumAddress}/0\"" + extraParams;
+
+            string algo = minerAppConfiguration.MiningMode switch
+            {
+                "ETC" => "etchash",
+                _ => "ethash"
+            };
+
+            string result = $"--no-watchdog --algo {algo} -o {minerAppConfiguration.Pool} -u {minerAppConfiguration.EthereumAddress} -p x -w \"benchmark:0x0/{minerAppConfiguration.NodeName}:{minerAppConfiguration.EthereumAddress}/0\"" + extraParams;
             return result;
         }
 
@@ -71,31 +78,19 @@ namespace GolemUI.Miners.TRex
         private string phoenixPerformanceThrottlingToTRex(int phoenixThrottling)
         {
             string highIntensity = "18";
-            if (phoenixThrottling == 0)
+            
+            return phoenixThrottling switch
             {
-                return "25";
-            }
-            else if (phoenixThrottling == 10)
-            {
-                return highIntensity;
-            }
-            else if (phoenixThrottling == 100)
-            {
-                return "13";
-            }
-            else if (phoenixThrottling == 200)
-            {
-                return "11";
-            }
-            else if (phoenixThrottling == 400)
-            {
-                return "10";
-            }
-
-            return highIntensity;
+                0 => "25",
+                10 => highIntensity,
+                100 => "13",
+                200 => "11",
+                400 => "10",
+                _ => highIntensity
+            };
         }
 
-        public string? GetExtraMiningParams()
+        public string? GetExtraMiningParams(MinerAppConfiguration minerAppConfiguration)
         {
             // --intensity
 
@@ -113,6 +108,18 @@ namespace GolemUI.Miners.TRex
             }
 
             var args = new List<string>();
+
+            string algo = minerAppConfiguration.MiningMode switch
+            {
+                "ETC" => "etchash",
+                _ => "ethash"
+            };
+
+            args.Add("--algo");
+            args.Add(algo);
+
+
+
             if (gpus.Any(gpu => !gpu.IsEnabledByUser))
             {
                 args.Add("--devices");
