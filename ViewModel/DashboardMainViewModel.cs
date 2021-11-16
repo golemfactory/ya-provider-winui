@@ -605,7 +605,13 @@ namespace GolemUI.ViewModel
                     AntiVirusCheckActive = true;
                     OnPropertyChanged(nameof(IsMiningReadyToRun));
                     _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "checking system...", expirationTimeInMs: 5000, group: false));
-                    _benchmarkService.AssessIfAntivirusIsBlocking(_benchmarkService.ActiveMinerApp);
+
+                    bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
+
+                    MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+                    minerAppConfiguration.MiningMode = isLowMemoryMode ? "ETC" : "ETH";
+
+                    _benchmarkService.AssessIfAntivirusIsBlocking(_benchmarkService.ActiveMinerApp, minerAppConfiguration);
                 }
             }
         }

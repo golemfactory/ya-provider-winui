@@ -94,7 +94,7 @@ namespace GolemUI.Src
         private readonly double MINER_GPU_INFO_TIMEOUT = 20.0;
         private readonly double MINER_TOTAL_BENCHMARK_TIMEOUT = 240.0;
         private IBenchmarkResultsProvider _benchmarkResultsProvider;
-        public async void AssessIfAntivirusIsBlocking(IMinerApp minerApp)
+        public async void AssessIfAntivirusIsBlocking(IMinerApp minerApp, MinerAppConfiguration minerAppConfiguration)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace GolemUI.Src
                 //cc.RunBenchmarkRecording(@"antivirus.pre_recording", isPreBenchmark: true);
 
 
-                bool result = cc.RunPreBenchmark(minerApp);
+                bool result = cc.RunPreBenchmark(minerApp, minerAppConfiguration);
                 if (!result)
                 {
                     _logger.LogError("PreBenchmark failed with error: " + cc.BenchmarkError);
@@ -229,7 +229,7 @@ namespace GolemUI.Src
 
                     if (!result)
                     {
-                        result = cc.RunPreBenchmark(minerApp);
+                        result = cc.RunPreBenchmark(minerApp, minerAppConfiguration);
                     }
 
                     if (!result)

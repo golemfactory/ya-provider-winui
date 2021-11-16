@@ -28,8 +28,12 @@ namespace GolemUI.Miners.Phoenix
         public string WorkingDir => @"plugins\phoenix";
 
         public string ExePath => @"plugins\phoenix\EthDcrMiner64.exe";
+        
+        public string GetPreBenchmarkParams(MinerAppConfiguration minerAppConfiguration)
+        {
+            return "-epool test -li 200";
+        }
 
-        public string PreBenchmarkParams => "-epool test -li 200";
 
         public IMinerParser CreateParserForBenchmark()
         {

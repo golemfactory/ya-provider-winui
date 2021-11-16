@@ -27,7 +27,17 @@ namespace GolemUI.Miners.TRex
 
         public string ExePath => @"plugins\t-rex\t-rex.exe";
 
-        public string PreBenchmarkParams => "--algo ethash --benchmark --benchmark-epoch 450";
+
+        public string GetPreBenchmarkParams(MinerAppConfiguration minerAppConfiguration)
+        {
+            string algo = minerAppConfiguration.MiningMode switch
+            {
+                "ETC" => "etchash",
+                _ => "ethash"
+            };
+
+            return $"--algo {algo} --benchmark --benchmark-epoch 450";
+        }
 
         public IMinerParser MinerParser => throw new NotImplementedException();
 

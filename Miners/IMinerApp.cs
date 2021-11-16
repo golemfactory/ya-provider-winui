@@ -25,7 +25,7 @@ namespace GolemUI.Miners
 
         public string WorkingDir { get; }
         public string ExePath { get; }
-        public string PreBenchmarkParams { get; }
+        public string GetPreBenchmarkParams(MinerAppConfiguration minerAppConfiguration);
         public string GetBenchmarkParams(MinerAppConfiguration minerAppConfiguration);
 
         public string? GetExtraMiningParams(MinerAppConfiguration minerAppConfiguration);

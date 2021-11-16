@@ -169,7 +169,7 @@ namespace GolemUI.Miners
         }
 
 
-        public bool RunPreBenchmark(IMinerApp minerApp)
+        public bool RunPreBenchmark(IMinerApp minerApp, MinerAppConfiguration minerAppConfiguration)
         {
             if (!System.IO.File.Exists(minerApp.ExePath))
             {
@@ -200,7 +200,8 @@ namespace GolemUI.Miners
 
             //Enable benchmark mode:
 
-            arguments.AddRange(minerApp.PreBenchmarkParams.Split(' '));
+            string preBenchmarkParams = minerApp.GetPreBenchmarkParams(minerAppConfiguration);
+            arguments.AddRange(preBenchmarkParams.Split(' '));
 
             foreach (var arg in arguments)
             {
