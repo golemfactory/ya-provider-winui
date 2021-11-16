@@ -96,24 +96,15 @@
                         <Image Source="Icons/DefaultStyle/png/Dashboard/Balance.png" Grid.Column="0" Grid.Row="1" Margin="23, 23" Stretch="Uniform" VerticalAlignment="Top"  RenderOptions.BitmapScalingMode="HighQuality" />
                         <Label x:Name="lblPaymentStateMessage" Content="{Binding Path=PaymentStateMessage, Mode=OneWay}" MouseEnter="lblPaymentStateMessage_MouseEnter" 
                              Grid.Column="1" Foreground="#99b" Margin="0, 5, 5, 1" VerticalAlignment="bottom"  HorizontalAlignment="Left"/>
-                        <Popup x:Name="tooltip" PlacementTarget="{Binding ElementName=lblPaymentStateMessage}" MouseLeave="lblPaymentStateMessage_MouseLeave" Placement="Bottom">
+                        <Popup x:Name="tooltip" PlacementTarget="{Binding ElementName=lblPaymentStateMessage}" MouseLeave="lblPaymentStateMessage_MouseLeave" Placement="Bottom" Width="350">
                             <Border x:Name="border" BorderBrush="#74708C" BorderThickness="1" Background="#120539" SnapsToDevicePixels="true" CornerRadius="1">
 
                                 <StackPanel Margin="4">
-                                    <Label FontSize="10" Content="It seems that Thorg is unable to get your current account balance." Padding="0"/>
-                                    <Label FontSize="10" Content="" Padding="0"/>
-                                    <Label FontSize="10" Content="Please check if your Internet connection is working properly, if this error persists try restarting Thorg." Padding="0"/>
-                                    <Label FontSize="10" Content="" Padding="0"/>
-                                    <Label FontSize="10" Content="There might be a problem with your connection to the Polygon gateway that returns your account balance. " Padding="0"/>
-                                    <Label FontSize="10" Content="" Padding="0"/>
-                                    <Label FontSize="10" Content="Good news is that you can still mine with Thorg! " Padding="0"/>
-                                    <Label FontSize="10" Content="" Padding="0"/>
-                                    <Label FontSize="10" Content="Thorg will refresh your account balance once the Polygon gateway is reachable again. " Padding="0"/>
-                                    <Label FontSize="10" Content="" Padding="0"/>
-                                    <Label FontSize="10" Content="If you would like to check your account balance now, you can do it with polygonscan by following this link: " Padding="0"/>
-                                    <TextBlock TextDecorations="Underline" >
-                    <Hyperlink Foreground="white" NavigateUri="{Binding PolygonLink}" Click="Hyperlink_Click">
-                        <TextBlock FontSize="10" Text="{Binding PolygonLink}" />
+
+                                    <TextBlock Width="330">
+                                        <Run FontSize="10" Text="Thorg is having issues either with your internet connection or with connection to the Polygon gateway. Your balance will be refreshed once the connection is restored. You can always check it on" />
+                    <Hyperlink TextDecorations="Underline" Foreground="white" NavigateUri="{Binding PolygonLink}" Click="Hyperlink_Click">
+                        <TextBlock FontSize="10" FontWeight="Bold" Text="Polygon Scan." />
                         </Hyperlink>
                                         </TextBlock>
                                 </StackPanel>

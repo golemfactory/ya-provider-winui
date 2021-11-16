@@ -151,7 +151,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Image RenderOptions.BitmapScalingMode="HighQuality"  Source="/UI/Icons/DefaultStyle/png/Dashboard/Gpu.png" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="30, 10,0, 0" Stretch="Uniform" />
-
+                        <local:PngSequence SequencePrefix="GPU\GPU_icon" TotalFilesCount="40"  LeadingZerosCount="4" FileExtension="png" Active="{Binding Path=BenchmarkIsRunning}"  VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" Margin="30, 8,0, 0" />
 
                         <StackPanel Visibility="{Binding Path=BenchmarkIsRunning, Converter={StaticResource BoolToVisibleConverter}}"  Orientation="Horizontal" Grid.ColumnSpan="2" >
                             <Label Margin="22,22,0,0"  Content="GPU benchmark in progress " HorizontalAlignment="Left" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"></Label>
