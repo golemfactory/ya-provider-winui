@@ -54,11 +54,7 @@ namespace GolemUI.Utils
 
         public static List<string> GetLocalLogPaths()
         {
-            var logFiles = System.IO.Directory.GetFiles(GetLocalPath(), "ThorgMiner?.log");
-
-
-
-            return logFiles.ToList();
+            return System.IO.Directory.GetFiles(GetLocalPath(), "ThorgMiner?.log").ToList();
         }
 
 
