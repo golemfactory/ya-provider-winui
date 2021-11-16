@@ -51,7 +51,10 @@ namespace GolemUI.Src
                     this.AddAttachment(scope, PathUtil.GetLocalBenchmarkPath());
                     this.AddAttachment(scope, PathUtil.GetRemoteSettingsPath());
                     this.AddAttachment(scope, PathUtil.GetLocalSettingsPath());
-                    this.AddAttachment(scope, PathUtil.GetLocalLogPath(), readAsStream: true);
+
+                    var logFiles = PathUtil.GetLocalLogPaths();
+                    logFiles.ForEach(logFile => this.AddAttachment(scope, logFile, readAsStream: true));
+
                 });
             }
 

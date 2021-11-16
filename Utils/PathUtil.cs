@@ -52,6 +52,16 @@ namespace GolemUI.Utils
             return result;
         }
 
+        public static List<string> GetLocalLogPaths()
+        {
+            var logFiles = System.IO.Directory.GetFiles(GetLocalPath(), "ThorgMiner?.log");
+
+
+
+            return logFiles.ToList();
+        }
+
+
         public static string GetRemoteSettingsPath()
         {
             string result = Path.Combine(GetLocalPath(), "RemoteSettings.json");
