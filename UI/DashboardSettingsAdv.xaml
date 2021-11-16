@@ -135,7 +135,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="10">
                         <CheckBox IsChecked="{Binding Path=UserSettings.IsTRexMiner}" Margin="0,2,5,0"  Style="{DynamicResource CheckBoxGpu}" >
-                            <TextBlock Margin="10,5" TextWrapping="Wrap" Width="250" VerticalAlignment="Center" Text="Use experimental LHR miner (only for nVidia users)"></TextBlock>
+                            <TextBlock Margin="10,5" TextWrapping="Wrap" Width="250" VerticalAlignment="Center" Text="Use T-Rex miner (only for nVidia users)"></TextBlock>
                         </CheckBox>
                     </StackPanel>
                 </StackPanel>
