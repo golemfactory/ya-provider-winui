@@ -35,7 +35,6 @@ namespace GolemUI.Command
 
         public static readonly PaymentDriver ERC20 = new PaymentDriver("erc20");
         public static readonly PaymentDriver ZkSync = new PaymentDriver("zksync");
-        public static readonly PaymentDriver Polygon = new PaymentDriver("polygon");
     }
 
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
