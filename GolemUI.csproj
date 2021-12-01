@@ -265,6 +265,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\GSB\Identity.cs" />
     <Compile Include="DesignViewModel\DesignTRexViewModel.cs" />
     <Compile Include="Miners\BenchmarkGpuStatus.cs" />
     <Compile Include="Miners\BenchmarkLiveStatus.cs" />

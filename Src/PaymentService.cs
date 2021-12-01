@@ -12,6 +12,7 @@ using System.Windows.Threading;
 using GolemUI.Command.GSB;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
+using Org.BouncyCastle.Crypto.Digests;
 
 namespace GolemUI.Src
 {
@@ -32,7 +33,11 @@ namespace GolemUI.Src
         public event PropertyChangedEventHandler? PropertyChanged;
         private bool _shouldCheckForInternalWallet = true;
 
-        public PaymentService(Network network, Command.YagnaSrv srv, IProcessController processController, IProviderConfig providerConfig, Command.GSB.Payment gsbPayment, ILogger<PaymentService> logger)
+        public PaymentService(Network network,
+            Command.YagnaSrv srv, IProcessController processController, IProviderConfig providerConfig,
+            Command.GSB.Payment gsbPayment,
+            Command.GSB.Identity gsbId,
+            ILogger<PaymentService> logger)
         {
             _logger = logger;
             _network = network;
@@ -40,6 +45,27 @@ namespace GolemUI.Src
             _processController = processController;
             _providerConfig = providerConfig;
             _gsbPayment = gsbPayment;
+
+            Task.Run(async () =>
+            {
+                await Task.Delay(5000);
+                var id = await gsbId.GetDefaultIdentity();
+                _logger.LogDebug("default id {0}", id);
+                var digest = new KeccakDigest(256);
+                var output = new byte[digest.GetDigestSize()];
+                var b = UTF8Encoding.UTF8.GetBytes("ala ma kota");
+                digest.BlockUpdate(b, 0, b.Length);
+                digest.DoFinal(output, 0);
+                var msg = await gsbId.SignBy(id.NodeId, output);
+                {
+                    var v = msg[0];
+                    var r = msg.AsSpan(1, 32).ToArray();
+                    var s = msg.AsSpan(33, 32).ToArray();
+                    logger.LogWarning("v={},r={}, s={} ", v, r, s);
+                }
+
+            });
+
 
             _walletAddress = _providerConfig.Config?.Account;
             _providerConfig.PropertyChanged += this.OnProviderConfigChange;

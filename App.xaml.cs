@@ -124,6 +124,7 @@ namespace GolemUI
 
             services.AddSingleton<Command.GSB.IGsbEndpointFactory, Src.GsbEndpointFactory>();
             services.AddTransient(typeof(Command.GSB.Payment));
+            services.AddTransient(typeof(Command.GSB.Identity));
 
             services.AddSingleton(typeof(TRexMiner));
             services.AddSingleton(typeof(PhoenixMiner));
