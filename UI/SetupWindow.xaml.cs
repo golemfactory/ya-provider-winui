@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -213,8 +215,12 @@ namespace GolemUI.UI
         {
             Model!.Flow = (int)ViewModel.SetupViewModel.FlowSteps.OwnWallet;
 
+            ResourceManager rm = new ResourceManager("items", Assembly.GetExecutingAssembly());
+
+
             var settings = GolemUI.Properties.Settings.Default;
-            var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_wallet_image, settings.dialog_wallet_title, settings.dialog_wallet_message, settings.dialog_wallet_button));
+            
+            var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_wallet_image, settings.dialog_wallet_title, rm.GetString("dialog_wallet_message"), settings.dialog_wallet_button));
             dlg.Owner = Application.Current.MainWindow;
             RectBlack.Visibility = Visibility.Visible;
             dlg?.ShowDialog();

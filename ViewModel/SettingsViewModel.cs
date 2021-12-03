@@ -18,6 +18,8 @@ using GolemUI.Miners;
 using GolemUI.Miners.Phoenix;
 using GolemUI.Miners.TRex;
 using MinerAppName = GolemUI.Miners.MinerAppName;
+using System.Resources;
+using System.Reflection;
 
 namespace GolemUI.ViewModel
 {
@@ -96,7 +98,10 @@ namespace GolemUI.ViewModel
             if (problem == ProblemWithExeFile.Antivirus || problem == ProblemWithExeFile.FileMissing)
             {
                 var settings = GolemUI.Properties.Settings.Default;
-                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_antivir_image, settings.dialog_antivir_title, settings.dialog_antivir_message, settings.dialog_antivir_button));
+
+                ResourceManager rm = new ResourceManager("items", Assembly.GetExecutingAssembly());
+
+                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_antivir_image, settings.dialog_antivir_title, rm.GetString("dialog_antivir_message"), settings.dialog_antivir_button));
                 dlg.Owner = Application.Current.MainWindow;
                 RequestDarkBackgroundVisibilityChange(true);
                 bool? result = dlg?.ShowDialog();
@@ -433,7 +438,9 @@ namespace GolemUI.ViewModel
                     if (!atLeastOneGood && outOfMemoryStatus)
                     {
                         var settings = GolemUI.Properties.Settings.Default;
-                        var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_gpu_image, settings.dialog_gpu_title, settings.dialog_gpu_message, settings.dialog_gpu_button));
+                        ResourceManager rm = new ResourceManager("items", Assembly.GetExecutingAssembly());
+
+                        var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_gpu_image, settings.dialog_gpu_title, rm.GetString("dialog_gpu_message"), settings.dialog_gpu_button));
                         dlg.Owner = Application.Current.MainWindow;
                         RequestDarkBackgroundVisibilityChange(true);
                         bool? result = dlg?.ShowDialog();

@@ -11,6 +11,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using GolemUI.Miners;
 using System;
+using System.Reflection;
+using System.Resources;
 
 namespace GolemUI.ViewModel
 {
@@ -628,10 +630,13 @@ namespace GolemUI.ViewModel
             {
                 _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "detected problem: " + problem.ToString(), expirationTimeInMs: 10000, group: false));
                 var settings = GolemUI.Properties.Settings.Default;
+
+                ResourceManager rm = new ResourceManager("items", Assembly.GetExecutingAssembly());
+
                 var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(
                     settings.dialog_antivir_image,
                     settings.dialog_antivir_title,
-                    settings.dialog_antivir_message,
+                    rm.GetString("dialog_antivir_message"),
                     settings.dialog_antivir_button
                 ));
 
