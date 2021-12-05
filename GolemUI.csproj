@@ -969,5 +969,8 @@
     <Resource Include="UI\Icons\DefaultStyle\png\Wallet\copy-icon.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\Wallet\edit-icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Src\EIP712Signer\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

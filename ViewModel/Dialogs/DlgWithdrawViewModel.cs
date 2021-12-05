@@ -139,15 +139,32 @@ namespace GolemUI.ViewModel.Dialogs
                 _lock();
                 try
                 {
-                    try
+                    bool isGasless = true;
+                    if (isGasless)
                     {
-                        var url = await _paymentService.TransferTo("polygon", amount, withdrawAddress, null);
-                        return true;
+                        if(_amount!=MaxAmount)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
                     }
-                    catch (GsbServiceException e)
+                    else
                     {
-                        this.WithdrawTextStatus = e.Message;
-                        return false;
+
+
+                        try
+                        {
+                            var url = await _paymentService.TransferTo("polygon", amount, withdrawAddress, null);
+                            return true;
+                        }
+                        catch (GsbServiceException e)
+                        {
+                            this.WithdrawTextStatus = e.Message;
+                            return false;
+                        }
                     }
 
                 }
