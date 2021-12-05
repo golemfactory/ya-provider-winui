@@ -8,12 +8,9 @@ namespace GolemUI.Src.EIP712
     {
 
 
-        public static TypedData Get(string contractAddress, string fromAddress, BigInteger nonce, string functionSignature, byte[] salt)
+        public static TypedData Get(string contractAddress, string fromAddress, BigInteger nonce, byte[] functionSignature, byte[] salt)
         {
-            if (functionSignature.StartsWith("0x"))
-                functionSignature = functionSignature.Substring(2);
-
-
+          
             return new TypedData
             {
                 Domain = new Domain
@@ -48,7 +45,7 @@ namespace GolemUI.Src.EIP712
                {
                     new MemberValue {TypeName = "uint256", Value = nonce},
                     new MemberValue {TypeName = "address", Value = fromAddress},
-                    new MemberValue {TypeName = "bytes", Value = StringConverters.ConvertHexStringToByteArray(functionSignature)},
+                    new MemberValue {TypeName = "bytes", Value = functionSignature},
                 }
             };
         }

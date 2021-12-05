@@ -13,6 +13,10 @@ using GolemUI.Command.GSB;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using Org.BouncyCastle.Crypto.Digests;
+using GolemUI.Src.EIP712;
+using Nethereum.Web3;
+using System.Windows.Controls;
+using Nethereum.Hex.HexConvertors.Extensions;
 
 namespace GolemUI.Src
 {
@@ -27,7 +31,8 @@ namespace GolemUI.Src
         private IProcessController _processController;
         private DispatcherTimer _timer;
         private ILogger<PaymentService> _logger;
-
+        private readonly Command.GSB.Identity _gsbId;
+        private readonly GasslessForwarderService _gasslessForwarder;
         public DateTime? LastSuccessfullRefresh { get; private set; } = null;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -37,6 +42,7 @@ namespace GolemUI.Src
             Command.YagnaSrv srv, IProcessController processController, IProviderConfig providerConfig,
             Command.GSB.Payment gsbPayment,
             Command.GSB.Identity gsbId,
+            GasslessForwarderService golemContract,
             ILogger<PaymentService> logger)
         {
             _logger = logger;
@@ -45,7 +51,8 @@ namespace GolemUI.Src
             _processController = processController;
             _providerConfig = providerConfig;
             _gsbPayment = gsbPayment;
-
+            _gasslessForwarder = golemContract;
+            _gsbId = gsbId;
             Task.Run(async () =>
             {
                 await Task.Delay(5000);
@@ -267,6 +274,29 @@ namespace GolemUI.Src
 
             string txUrl = await _gsbPayment.Exit(driver, _buildInAdress, destinationAddress, _network.Id, amount, txFee);
             return txUrl;
+        }
+
+        public async Task<string> RequestGaslessTransferTo(string driver, decimal amount, string destinationAddress)
+        {
+            if(driver!=PaymentDriver.ERC20.Id)
+                throw new ArgumentException($"PaymentDriver {driver} is not supported");
+            
+            var amountInWei = Web3.Convert.ToWei(amount);
+            var request = await _gasslessForwarder.GetEip712EncodedTransferRequest(_network.Id, _buildInAdress, destinationAddress, amountInWei);
+
+            var id = await _gsbId.GetDefaultIdentity();
+           
+            var msg = await _gsbId.SignBy(id.NodeId, request.Message);
+            {
+                var v = msg[0];
+                var r = msg.AsSpan(1, 32).ToArray();
+                var s = msg.AsSpan(33, 32).ToArray();
+               
+            }
+            Console.WriteLine("after signing = " + msg.ToHex());
+
+
+            return "";
         }
 
         public async Task<string> TransferTo(string driver, decimal amount, string destinationAddress, decimal? txFee)

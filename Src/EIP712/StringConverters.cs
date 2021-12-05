@@ -6,7 +6,6 @@ namespace GolemUI.Src.EIP712
     {
         public static byte[] ConvertHexStringToByteArray(this string hex)
         {
-
             if (hex.Length % 2 == 1)
                 throw new Exception("The binary key cannot have an odd number of digits");
 
@@ -16,7 +15,6 @@ namespace GolemUI.Src.EIP712
             {
                 arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + (GetHexVal(hex[(i << 1) + 1])));
             }
-
             return arr;
         }
 

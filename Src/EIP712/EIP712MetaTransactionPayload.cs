@@ -9,22 +9,21 @@ namespace GolemUI.Src.EIP712
 {
     public static class EIP712MetaTransactionPayload
     {
-        public static string GenerateForTrasfer(string networkName, string contractAddress, string fromAddress, BigInteger nonce, string functionAbi, string privateKey)
+        public static byte[] GenerateForTrasfer(string networkName, string contractAddress, string fromAddress, BigInteger nonce, byte[] functionAbi, string privateKey)
         {
             var PrivateKey = new EthECKey(privateKey); // remove after tests
 
 
-            byte[] salt = networkName switch
-            {
-                "polygon-mumbai" => Eip712TransactionSignerSaltValue.PolygonMumbai,
-                "polygon" => Eip712TransactionSignerSaltValue.PolygonMainnet,
-                _ => Eip712TransactionSignerSaltValue.PolygonMainnet,
-            };
-
+            byte[] salt = Eip712TransactionSignerSaltValue.Get(networkName);
+          
             var typedData = EIP712TransactionSignerTypedData.Get(contractAddress, fromAddress, nonce, functionAbi, salt);
 
+            var payload = Eip712TypedDataSigner.Current.EncodeTypedData(typedData);
+            var keccakedPayload = Sha3Keccack.Current.CalculateHash(Eip712TypedDataSigner.Current.EncodeTypedData(typedData));
+            return keccakedPayload;
 
-            Console.WriteLine("==" + Eip712TypedDataSigner.Current.EncodeTypedData(typedData).ToHex());
+            /*
+            Console.WriteLine("==" + .ToHex());
             var hashedData = Sha3Keccack.Current.CalculateHash(Eip712TypedDataSigner.Current.EncodeTypedData(typedData));
             var correctSignature = PrivateKey.SignAndCalculateV(hashedData);
             string ret = PrivateKey.Sign(hashedData).To64ByteArray().ToHex();
@@ -35,7 +34,7 @@ namespace GolemUI.Src.EIP712
             Console.WriteLine("S: " + correctSignature.S.ToHex());
             Console.WriteLine("V: " + correctSignature.V.ToHex());
 
-            return ret;
+            return ret;*/
         }
     }
 }
