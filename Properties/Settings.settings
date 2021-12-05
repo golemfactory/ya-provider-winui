@@ -84,7 +84,7 @@ Till then you can explore the app and get to know Thorg a bit better!</Value>
 Most exchanges do not support L2 payments like Polygon that Thorg uses. Please change your wallet address to one that you're in control of, such as MetaMask.</Value>
     </Setting>
     <Setting Name="RpcUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://rpc-mumbai.maticvigil.com/</Value>
+      <Value Profile="(Default)">https://polygon-rpc.com</Value>
     </Setting>
   </Settings>
 </SettingsFile>

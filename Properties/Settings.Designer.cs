@@ -263,7 +263,7 @@ Most exchanges do not support L2 payments like Polygon that Thorg uses. Please c
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://rpc-mumbai.maticvigil.com/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://polygon-rpc.com")]
         public string RpcUrl {
             get {
                 return ((string)(this["RpcUrl"]));

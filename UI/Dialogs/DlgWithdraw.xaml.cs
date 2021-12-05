@@ -56,6 +56,8 @@ namespace GolemUI.UI.Dialogs
                   Model.ChangeAction = DlgEditAddressViewModel.Action.None;*/
             this.DialogResult = false;
             this.Close();
+
+
         }
 
 
@@ -103,6 +105,18 @@ namespace GolemUI.UI.Dialogs
         private void BtnCheckOnZKsyncExplorer_Click(object sender, RoutedEventArgs e)
         {
             Model.OpenZkSyncExplorer();
+        }
+
+
+
+        private void txHashButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://polygonscan.com/tx/" + Model.TxHash);
+        }
+
+        private void SendTestGasslees_Click(object sender, RoutedEventArgs e)
+        {
+            this.Model.TestGassless();
         }
     }
 }
