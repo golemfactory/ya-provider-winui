@@ -54,10 +54,10 @@ namespace GolemUI.UI.Dialogs
         {
             /*  if (Model != null)
                   Model.ChangeAction = DlgEditAddressViewModel.Action.None;*/
-             this.DialogResult = false;
-             this.Close();
+            this.DialogResult = false;
+            this.Close();
 
-            
+
         }
 
 
@@ -107,11 +107,11 @@ namespace GolemUI.UI.Dialogs
             Model.OpenZkSyncExplorer();
         }
 
-       
+
 
         private void txHashButton_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://polygonscan.com/tx/"+Model.TxHash);
+            System.Diagnostics.Process.Start("https://polygonscan.com/tx/" + Model.TxHash);
         }
 
         private void SendTestGasslees_Click(object sender, RoutedEventArgs e)

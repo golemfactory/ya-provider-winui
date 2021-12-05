@@ -20,8 +20,8 @@ namespace GolemUI.ViewModel.Dialogs
         public string Name { get; }
 
         public string Description { get; }
-       
-       
+
+
 
 
         public OutputNetwork(string driver, string name, string description)
