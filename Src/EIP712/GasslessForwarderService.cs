@@ -1,8 +1,11 @@
 ﻿using GolemUI.Command;
+using Nethereum.Hex.HexConvertors.Extensions;
 using Nethereum.JsonRpc.Client;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
 using System.Numerics;
@@ -31,6 +34,12 @@ namespace GolemUI.Src.EIP712
         public byte[]? Message;
         public byte[]? FunctionCallEncodedInAbi;
         public byte[]? SignedMessage;
+
+        public string? R;
+        public string? S;
+        public string? V;
+
+        public string? SenderAddress;
     }
 
     public class GasslessForwarderService
@@ -46,7 +55,7 @@ namespace GolemUI.Src.EIP712
             GolemContract contract = new GolemContract(_config.RpcUrl, contractAddress);
             BigInteger nonce = await contract.GetNonce(fromAddress);
             var functionEncodedInAbi = contract.GetTransferFunctionAbi(recipentAddress, amount);
-            var payload = EIP712MetaTransactionPayload.GenerateForTrasfer(networkName, contractAddress, fromAddress, nonce, functionEncodedInAbi, "");
+            var payload = EIP712MetaTransactionPayload.GenerateForTrasfer(networkName, contractAddress, fromAddress, nonce, functionEncodedInAbi, "9b9dacb77f7889a3f78e75bd982b4c825fdbaeabd93edb960ff86eaf6ff76523");
 
             Eip712Request request = new Eip712Request();
             request.FunctionCallEncodedInAbi = functionEncodedInAbi;
@@ -56,20 +65,38 @@ namespace GolemUI.Src.EIP712
 
         }
 
-        public async Task<bool> SendRequest(Eip712Request request)
+        public async Task<string> SendRequest(Eip712Request request)
         {
             HttpClient httpClient = new HttpClient();
-            var payload = new { identifier = "username", password = "password" };
+            var payload = new { r = request.R, v = request.V, s = request.S, sender = request.SenderAddress, signedRequest = "0x" + request.SignedMessage.ToHex(), abiFunctionCall = "0x" + request.FunctionCallEncodedInAbi.ToHex() };
             var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
             try
             {
                 var result = await httpClient.PostAsync(_config.ForwarderUrl, content);
+                var resultBody = await result.Content.ReadAsStringAsync();
+                Console.WriteLine("SERVER : " + result.StatusCode + " : " + resultBody);
+                if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    try
+                    {
+                        dynamic data = JsonConvert.DeserializeObject<dynamic>(resultBody);
+
+                        if (data["txhash"] != null)
+                        {
+                            return data.txhash.ToString();
+                        }
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                }
             }
             catch
             {
-                return false;
+                return null;
             }
-            return true;
+            return null;
         }
 
 

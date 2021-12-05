@@ -289,24 +289,36 @@ namespace GolemUI.Src
             var msg = await _gsbId.SignBy(id.NodeId, request.Message);
             {
                 var v = msg[0];
+                if (v == 0) v = (byte)27;
+                if (v == 1) v = (byte)28;
                 var r = msg.AsSpan(1, 32).ToArray();
                 var s = msg.AsSpan(33, 32).ToArray();
 
+                request.R = "0x" + r.ToHex();
+                request.S = "0x" + s.ToHex();
+                request.V = "0x" + new byte[] { v }.ToHex();
+                //Console.WriteLine($"R = {request.R}");
+                //Console.WriteLine($"S = {request.S}");
+                //Console.WriteLine($"V = {request.V}");
             }
-            Console.WriteLine("after signing = " + msg.ToHex());
+            //Console.WriteLine("after signing = " + msg.ToHex());
             request.SignedMessage = msg;
-            bool success = await _gasslessForwarder.SendRequest(request);
+            request.SenderAddress = _buildInAdress;
 
-            Console.WriteLine("signed msg = " + msg.ToHex() + " , " + success.ToString());
 
-            return "";
+
+            string txHash = await _gasslessForwarder.SendRequest(request);
+
+            //Console.WriteLine("signed msg = " + msg.ToHex() + " , "/* + success.ToString()*/);
+
+            return txHash;
         }
 
         public async Task<string> TransferTo(string driver, decimal amount, string destinationAddress, decimal? txFee)
         {
             if (_buildInAdress == null)
             {
-                throw new InvalidOperationException("intenal wallet not configured");
+                throw new InvalidOperationException("internal wallet not configured");
             }
             string txUrl = await _gsbPayment.TransferTo(driver, _buildInAdress, _network.Id, destinationAddress, amount, txFee);
             return txUrl;

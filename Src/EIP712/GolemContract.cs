@@ -15,8 +15,17 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace GolemUI.Src.EIP712
 {
+
+
+
     public class GolemContract
     {
+        [Function("getNonce", "uint256")]
+        public class GetNonceFunction : FunctionMessage
+        {
+            [Parameter("address", "user", 1)] public string? User { get; set; }
+        }
+
         [Function("balanceOf", "uint256")]
         public class BalanceOfFunction : FunctionMessage
         {
@@ -60,9 +69,21 @@ namespace GolemUI.Src.EIP712
 
         public async Task<BigInteger> GetNonce(string address)
         {
-            if (this.Web3 == null) throw new NullReferenceException("GolemContract.Web3 hasn't been properly initialized");
-            var currentNonce = await this.Web3.Eth.Transactions.GetTransactionCount.SendRequestAsync(address, BlockParameter.CreatePending());
 
+
+            var getNonceMessage = new GetNonceFunction() { User = address };
+
+            //Creating a new query handler
+            var queryHandler = Web3.Eth.GetContractQueryHandler<GetNonceFunction>();
+
+            var currentNonce = await queryHandler
+                .QueryAsync<BigInteger>(this.ContractAddress, getNonceMessage)
+                .ConfigureAwait(false);
+            //Console.WriteLine("current nonce: " + currentNonce.ToString());
+
+            /* if (this.Web3 == null) throw new NullReferenceException("GolemContract.Web3 hasn't been properly initialized");
+             var currentNonce2 = await this.Web3.Eth.Transactions.GetTransactionCount.SendRequestAsync(address, BlockParameter.CreatePending());
+            */
             return currentNonce;
         }
         public byte[] GetTransferFunctionAbi(string receiverAddress, BigInteger amount)
