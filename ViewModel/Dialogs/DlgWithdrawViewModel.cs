@@ -143,19 +143,26 @@ namespace GolemUI.ViewModel.Dialogs
                     bool isGasless = true;
                     if (isGasless)
                     {
-                        if (_amount != MaxAmount)
+                        try
                         {
-                            return false;
+                            if (_amount != MaxAmount)
+                            {
+                                var url = await _paymentService.RequestGaslessTransferTo(PaymentDriver.ERC20.Id, amount, withdrawAddress);
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
                         }
-                        else
+                        catch (Exception e)
                         {
-                            return true;
+                            this.WithdrawTextStatus = e.Message;
+                            return false;
                         }
                     }
                     else
                     {
-
-
                         try
                         {
                             var url = await _paymentService.TransferTo(PaymentDriver.ERC20.Id, amount, withdrawAddress, null);

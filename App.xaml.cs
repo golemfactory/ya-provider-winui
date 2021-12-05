@@ -91,7 +91,7 @@ namespace GolemUI
 
             services.AddSingleton(GolemUI.Properties.Settings.Default.TestNet ? Network.Mumbai : Network.Polygon);
 
-            services.AddSingleton(new GasslessForwarderConfig(GolemUI.Properties.Settings.Default.RpcUrl, GolemUI.Properties.Settings.Default.TestNet ? Network.Mumbai : Network.Polygon));
+            services.AddSingleton(new GasslessForwarderConfig(GolemUI.Properties.Settings.Default.RpcUrl, GolemUI.Properties.Settings.Default.TestNet ? Network.Mumbai : Network.Polygon, ""));
 
             services.AddSingleton<Interfaces.IPaymentService, Src.PaymentService>();
             services.AddSingleton<Interfaces.IProviderConfig, Src.ProviderConfigService>();

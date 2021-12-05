@@ -76,7 +76,7 @@ namespace GolemUI.Src.EIP712
 
             string functionHeader = Sha3Keccack.Current.CalculateHash("transfer(address,uint256)").Substring(0, 4 * 2); // explanation how hash is calculated: https://piyopiyo.medium.com/how-to-get-ethereum-encoded-function-signatures-1449e171c840
             var functionParams = abiEncode.GetABIParamsEncoded(transfer).ToHex();
-            return StringConverters.ConvertHexStringToByteArray (functionHeader + functionParams);
+            return StringConverters.ConvertHexStringToByteArray(functionHeader + functionParams);
         }
 
         /* public async Task<string> TransferTo(string receiverAddress, BigInteger amount)

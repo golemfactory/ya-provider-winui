@@ -278,23 +278,26 @@ namespace GolemUI.Src
 
         public async Task<string> RequestGaslessTransferTo(string driver, decimal amount, string destinationAddress)
         {
-            if(driver!=PaymentDriver.ERC20.Id)
+            if (driver != PaymentDriver.ERC20.Id)
                 throw new ArgumentException($"PaymentDriver {driver} is not supported");
-            
+
             var amountInWei = Web3.Convert.ToWei(amount);
             var request = await _gasslessForwarder.GetEip712EncodedTransferRequest(_network.Id, _buildInAdress, destinationAddress, amountInWei);
 
             var id = await _gsbId.GetDefaultIdentity();
-           
+
             var msg = await _gsbId.SignBy(id.NodeId, request.Message);
             {
                 var v = msg[0];
                 var r = msg.AsSpan(1, 32).ToArray();
                 var s = msg.AsSpan(33, 32).ToArray();
-               
+
             }
             Console.WriteLine("after signing = " + msg.ToHex());
+            request.SignedMessage = msg;
+            bool success = await _gasslessForwarder.SendRequest(request);
 
+            Console.WriteLine("signed msg = " + msg.ToHex() + " , " + success.ToString());
 
             return "";
         }

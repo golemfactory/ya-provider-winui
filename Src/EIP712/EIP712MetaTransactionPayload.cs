@@ -15,7 +15,7 @@ namespace GolemUI.Src.EIP712
 
 
             byte[] salt = Eip712TransactionSignerSaltValue.Get(networkName);
-          
+
             var typedData = EIP712TransactionSignerTypedData.Get(contractAddress, fromAddress, nonce, functionAbi, salt);
 
             var payload = Eip712TypedDataSigner.Current.EncodeTypedData(typedData);

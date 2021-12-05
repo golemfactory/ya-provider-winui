@@ -18,10 +18,11 @@ namespace GolemUI.Src.EIP712
         public Network NetworkName;
         public String ForwarderUrl;
 
-        public GasslessForwarderConfig(string rpcUrl, Network networkName)
+        public GasslessForwarderConfig(string rpcUrl, Network networkName, String forwarderUrl)
         {
             RpcUrl = rpcUrl;
             NetworkName = networkName;
+            ForwarderUrl = forwarderUrl;
         }
     }
 
@@ -56,11 +57,18 @@ namespace GolemUI.Src.EIP712
         }
 
         public async Task<bool> SendRequest(Eip712Request request)
-{
+        {
             HttpClient httpClient = new HttpClient();
             var payload = new { identifier = "username", password = "password" };
-            var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");            
-            var result = await httpClient.PostAsync(_config.ForwarderUrl, content);
+            var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+            try
+            {
+                var result = await httpClient.PostAsync(_config.ForwarderUrl, content);
+            }
+            catch
+            {
+                return false;
+            }
             return true;
         }
 

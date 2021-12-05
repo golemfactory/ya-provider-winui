@@ -10,7 +10,7 @@ namespace GolemUI.Src.EIP712
 
         public static TypedData Get(string contractAddress, string fromAddress, BigInteger nonce, byte[] functionSignature, byte[] salt)
         {
-          
+
             return new TypedData
             {
                 Domain = new Domain
