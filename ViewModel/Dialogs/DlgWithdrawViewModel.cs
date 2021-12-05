@@ -142,7 +142,7 @@ namespace GolemUI.ViewModel.Dialogs
                     bool isGasless = true;
                     if (isGasless)
                     {
-                        if(_amount!=MaxAmount)
+                        if (_amount != MaxAmount)
                         {
                             return false;
                         }

@@ -16,13 +16,13 @@ using System.Reflection.Metadata.Ecma335;
 namespace GolemUI.Src.EIP712
 {
     public class GolemContract
-    { 
+    {
         [Function("balanceOf", "uint256")]
         public class BalanceOfFunction : FunctionMessage
         {
             [Parameter("address", "_owner", 1)] public string? Owner { get; set; }
         }
-        
+
 
         [Function("transfer", "bool")]
         public class TransferFunction : FunctionMessage
@@ -35,13 +35,13 @@ namespace GolemUI.Src.EIP712
         }
 
 
-        readonly Web3? Web3=null;
-        readonly  string? ContractAddress;
+        readonly Web3? Web3 = null;
+        readonly string? ContractAddress;
         readonly string? Key;
         readonly Nethereum.Web3.Accounts.Account? Account;
         public GolemContract(string rpc, string contractAddress, string privateKey)
         {
-            if(privateKey==null)
+            if (privateKey == null)
                 Web3 = new Nethereum.Web3.Web3(rpc);
             else
             {
@@ -56,7 +56,7 @@ namespace GolemUI.Src.EIP712
             Web3 = new Nethereum.Web3.Web3(rpc);
             ContractAddress = contractAddress;
         }
-        
+
 
         public async Task<BigInteger> GetNonce(string address)
         {
@@ -79,46 +79,46 @@ namespace GolemUI.Src.EIP712
             return "0x" + functionHeader + functionParams;
         }
 
-       /* public async Task<string> TransferTo(string receiverAddress, BigInteger amount)
-        {
+        /* public async Task<string> TransferTo(string receiverAddress, BigInteger amount)
+         {
 
-            var nonce = this.GetNonce(Account.Address);
-            var futureNonce = await Account.NonceService.GetNextNonceAsync();
-
-
-            BigInteger txCount = nonce.Result;
+             var nonce = this.GetNonce(Account.Address);
+             var futureNonce = await Account.NonceService.GetNextNonceAsync();
 
 
-            var transferHandler = this.Web3Elevated.Eth.GetContractTransactionHandler<TransferFunction>();
-            var transfer = new TransferFunction()
-            {
-                To = receiverAddress,
-                TokenAmount = amount
-            };
+             BigInteger txCount = nonce.Result;
+
+
+             var transferHandler = this.Web3Elevated.Eth.GetContractTransactionHandler<TransferFunction>();
+             var transfer = new TransferFunction()
+             {
+                 To = receiverAddress,
+                 TokenAmount = amount
+             };
 
 
 
-            transfer.Nonce = txCount;
+             transfer.Nonce = txCount;
 
-            transfer.Gas = 800 * 1000;
+             transfer.Gas = 800 * 1000;
 
-            transfer.GasPrice = Nethereum.Web3.Web3.Convert.ToWei(10, UnitConversion.EthUnit.Gwei);
-            var signedTransaction2 = await transferHandler.SignTransactionAsync(this.ContractAddress, transfer);
+             transfer.GasPrice = Nethereum.Web3.Web3.Convert.ToWei(10, UnitConversion.EthUnit.Gwei);
+             var signedTransaction2 = await transferHandler.SignTransactionAsync(this.ContractAddress, transfer);
 
-            Console.WriteLine(
-         "Signed transaction Fully offline (no need for node, providing manually the nonce, gas and gas price) is: " +
-         signedTransaction2);
+             Console.WriteLine(
+          "Signed transaction Fully offline (no need for node, providing manually the nonce, gas and gas price) is: " +
+          signedTransaction2);
 
-            var transactionIdPredicted = Sha3Keccack.Current.CalculateHashFromHex(signedTransaction2);
-            var transactionIdActual =
-                await this.Web3Elevated.Eth.Transactions.SendRawTransaction.SendRequestAsync("0x" + signedTransaction2);
+             var transactionIdPredicted = Sha3Keccack.Current.CalculateHashFromHex(signedTransaction2);
+             var transactionIdActual =
+                 await this.Web3Elevated.Eth.Transactions.SendRawTransaction.SendRequestAsync("0x" + signedTransaction2);
 
-            Console.WriteLine($"Predicted transaction hash: {transactionIdPredicted}");
-            Console.WriteLine($"Actual transaction hash: {transactionIdActual}");
+             Console.WriteLine($"Predicted transaction hash: {transactionIdPredicted}");
+             Console.WriteLine($"Actual transaction hash: {transactionIdActual}");
 
-            return transactionIdActual;
-            //return await transferHandler.SendRequestAndWaitForReceiptAsync(this.ContractAddress, transfer);
-        }*/
+             return transactionIdActual;
+             //return await transferHandler.SendRequestAndWaitForReceiptAsync(this.ContractAddress, transfer);
+         }*/
 
         /*
 
