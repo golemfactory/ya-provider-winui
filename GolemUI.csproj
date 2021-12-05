@@ -170,6 +170,9 @@
     <Reference Include="Nethereum.Signer, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
       <HintPath>packages\Nethereum.Signer.3.8.0\lib\net451\Nethereum.Signer.dll</HintPath>
     </Reference>
+    <Reference Include="Nethereum.Signer.EIP712, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
+      <HintPath>packages\Nethereum.Signer.EIP712.3.8.0\lib\net451\Nethereum.Signer.EIP712.dll</HintPath>
+    </Reference>
     <Reference Include="Nethereum.Util, Version=3.8.0.0, Culture=neutral, PublicKeyToken=8768a594786aba4e, processorArchitecture=MSIL">
       <HintPath>packages\Nethereum.Util.3.8.0\lib\net451\Nethereum.Util.dll</HintPath>
     </Reference>
@@ -296,6 +299,12 @@
     <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />
     <Compile Include="Src\AppNotificationService\SimpleNotificationObject.cs" />
+    <Compile Include="Src\EIP712\EIP712TransactionSigner.cs" />
+    <Compile Include="Src\EIP712\Eip712TransactionSignerSaltValue.cs" />
+    <Compile Include="Src\EIP712\GolemContract.cs" />
+    <Compile Include="Src\EIP712\EIP712MetaTransactionPayload.cs" />
+    <Compile Include="Src\EIP712\StringConverters.cs" />
+    <Compile Include="Src\EIP712\EIP712TransactionSignerTypedData.cs" />
     <Compile Include="Src\EstimatedEarningsProvider.cs" />
     <Compile Include="Src\GsbEndpointFactory.cs" />
     <Compile Include="Src\GolemUIException.cs" />
@@ -969,8 +978,6 @@
     <Resource Include="UI\Icons\DefaultStyle\png\Wallet\copy-icon.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\Wallet\edit-icon.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Src\EIP712Signer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
