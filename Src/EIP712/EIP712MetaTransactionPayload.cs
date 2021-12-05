@@ -11,7 +11,7 @@ namespace GolemUI.Src.EIP712
     {
         public static byte[] GenerateForTrasfer(string networkName, string contractAddress, string fromAddress, BigInteger nonce, byte[] functionAbi)
         {
-            var PrivateKey = new EthECKey(privateKey); // remove after tests
+            //var PrivateKey = new EthECKey(privateKey); // remove after tests
 
 
             byte[] salt = Eip712TransactionSignerSaltValue.Get(networkName);
