@@ -55,7 +55,7 @@ namespace GolemUI.Src.EIP712
             GolemContract contract = new GolemContract(_config.RpcUrl, contractAddress);
             BigInteger nonce = await contract.GetNonce(fromAddress);
             var functionEncodedInAbi = contract.GetTransferFunctionAbi(recipentAddress, amount);
-            var payload = EIP712MetaTransactionPayload.GenerateForTrasfer(networkName, contractAddress, fromAddress, nonce, functionEncodedInAbi, "9b9dacb77f7889a3f78e75bd982b4c825fdbaeabd93edb960ff86eaf6ff76523");
+            var payload = EIP712MetaTransactionPayload.GenerateForTrasfer(networkName, contractAddress, fromAddress, nonce, functionEncodedInAbi);
 
             Eip712Request request = new Eip712Request();
             request.FunctionCallEncodedInAbi = functionEncodedInAbi;

@@ -9,7 +9,7 @@ namespace GolemUI.Src.EIP712
 {
     public static class EIP712MetaTransactionPayload
     {
-        public static byte[] GenerateForTrasfer(string networkName, string contractAddress, string fromAddress, BigInteger nonce, byte[] functionAbi, string privateKey)
+        public static byte[] GenerateForTrasfer(string networkName, string contractAddress, string fromAddress, BigInteger nonce, byte[] functionAbi)
         {
             var PrivateKey = new EthECKey(privateKey); // remove after tests
 
@@ -21,10 +21,7 @@ namespace GolemUI.Src.EIP712
             var payload = Eip712TypedDataSigner.Current.EncodeTypedData(typedData);
             var keccakedPayload = Sha3Keccack.Current.CalculateHash(payload);
 
-            /* Console.WriteLine("function abi: " + "0x" + functionAbi.ToHex());
-
-
-
+            /* Console.WriteLine("function abi: " + "0x" + functionAbi.ToHex())
              Console.WriteLine("==" + payload.ToHex());
              Console.WriteLine("==" + keccakedPayload.ToHex());
              var hashedData = Sha3Keccack.Current.CalculateHash(Eip712TypedDataSigner.Current.EncodeTypedData(typedData));
