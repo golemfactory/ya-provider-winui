@@ -53,6 +53,18 @@ namespace GolemUI.ViewModel
             }
         }
 
+        public bool _healthSettingsButtonEnabled;
+        public bool HealthSettingsButtonEnabled
+        {
+            get => _healthSettingsButtonEnabled;
+            set
+            {
+                _healthSettingsButtonEnabled = value;
+                NotifyChange();
+            }
+        }
+
+
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
 
@@ -147,7 +159,11 @@ namespace GolemUI.ViewModel
             AdvancedSettingsButtonEnabled = false;
             PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettingsAdv);
         }
-
+        public void SwitchToHealthView()
+        {
+            HealthSettingsButtonEnabled = false;
+            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardHealth);
+        }
         public void StopMiningProcess()
         {
             _processController.Stop();
@@ -250,6 +266,7 @@ namespace GolemUI.ViewModel
         {
             NodeNameHasChanged = false;
             AdvancedSettingsButtonEnabled = true;
+            HealthSettingsButtonEnabled = true;
             GpuList.Clear();
 
             _benchmarkService.ReloadBenchmarkSettingsFromFile();

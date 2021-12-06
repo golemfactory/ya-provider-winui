@@ -23,6 +23,7 @@
                 <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/CheckBox/SliderCheckBox.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/AdvancedSettingsButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/HealthSettingsButton.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/GolemLogo.xaml"/>
                 <ResourceDictionary Source="/UI/Themes/Buttons/HyperLinkButton.xaml"/>
@@ -463,7 +464,10 @@
 
             </Grid>
             <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click" Grid.Row="2" Grid.Column="5"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="250" Margin="0,0,30,38" />
-            <Button Grid.Row="2" Cursor="Hand" IsEnabled="{Binding Path=AdvancedSettingsButtonEnabled}" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnAdvancedSettings" Click="BtnAdvancedSettings_Click" Margin="50,0,0,47" Style="{StaticResource AdvancedSettingsButtonStyle}"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="2" >
+                <Button Cursor="Hand" IsEnabled="{Binding Path=AdvancedSettingsButtonEnabled}" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnAdvancedSettings" Click="BtnAdvancedSettings_Click" Margin="50,0,0,47" Style="{StaticResource AdvancedSettingsButtonStyle}"/>
+                <Button Grid.Row="2" Cursor="Hand" IsEnabled="{Binding Path=HealthSettingsButtonEnabled}" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnHealthSettings" Click="BtnHealthSettings_Click" Margin="50,0,0,47" Style="{StaticResource HealthSettingsButtonStyle}"/>
+            </StackPanel>
         </Grid>
     </Border>
 </UserControl>
