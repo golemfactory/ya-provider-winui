@@ -13,6 +13,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using GolemUI.Command;
 
 namespace GolemUI.Src
 {
@@ -20,10 +21,15 @@ namespace GolemUI.Src
     {
         public DateTime? LastUpdate { get; private set; }
 
+        public YagnaSrv _yagna = new YagnaSrv();
+
         public ICollection<ActivityState> Activities
         {
             get => _activities;
         }
+
+        public HealthStatusResponse? HealthStatus { get; set; } = new HealthStatusResponse();
+
         private List<ActivityState> _activities = new List<ActivityState>();
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -40,6 +46,10 @@ namespace GolemUI.Src
             };
             _hc.Tick += this._checkHealth;
             _hc.Start();
+
+            _hc2 = new DispatcherTimer(TimeSpan.FromSeconds(10), DispatcherPriority.Normal, this._checkYagnaHealth, Dispatcher.CurrentDispatcher);
+
+            _hc2.Start();
         }
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
@@ -56,6 +66,13 @@ namespace GolemUI.Src
             {
                 _loop = _refreshLoop();
             }
+        }
+
+        private async void _checkYagnaHealth(object sender, EventArgs e)
+        {
+            HealthStatus = await _yagna.HealdCheckSrv.Status();
+
+            OnPropertyChanged("HealthStatus");
         }
 
         private void _checkHealth(object sender, EventArgs e)
@@ -186,5 +203,7 @@ namespace GolemUI.Src
         private Task? _loop;
         private readonly CancellationTokenSource _tokenSource;
         private readonly DispatcherTimer _hc;
+        private readonly DispatcherTimer _hc2;
+
     }
 }

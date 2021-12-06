@@ -292,6 +292,7 @@
     <Compile Include="Interfaces\ITaskProfitEstimator.cs" />
     <Compile Include="Model\Coin.cs" />
     <Compile Include="Model\Currency.cs" />
+    <Compile Include="Model\HealthStatus.cs" />
     <Compile Include="Model\RemoteSettings.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
     <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />

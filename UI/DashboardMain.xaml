@@ -258,6 +258,12 @@
                     </Grid>
                 </Border>
             </Grid>
+            <Border Grid.Row="3" Grid.Column="1" >
+                <StackPanel Orientation="Vertical">
+                    <Label Visibility="{Binding  Path=IsYagnaConnected, Converter={StaticResource BoolToVisibleConverter}}">Yagna connected to router</Label>
+                    <Label Visibility="{Binding  Path=IsYagnaConnected, Converter={StaticResource BoolToHiddenConverter}}">Yagna disconnected!</Label>
+                </StackPanel>
+            </Border>
             <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,22,0" />
             <Button Grid.Row="3" Visibility="Hidden" Cursor="Hand" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnStatistics" Click="BtnStatistics_Click" Margin="50,0,0,35" Style="{StaticResource HistoryTabButtonStyle}"/>
             <Button Grid.Row="3" Cursor="Hand" Visibility="{Binding  Path=TRexSettingsButtonVisible, Converter={StaticResource BoolToVisibleConverter}}" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnTRexInfo" Click="BtnTRexInfo_Click" Margin="50,0,0,47" Style="{StaticResource TRexSettingsButtonStyle}"/>

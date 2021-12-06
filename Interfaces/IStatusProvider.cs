@@ -13,5 +13,9 @@ namespace GolemUI.Interfaces
         DateTime? LastUpdate { get; }
 
         ICollection<ActivityState> Activities { get; }
+
+        HealthStatusResponse? HealthStatus { get; }
+
+
     }
 }
