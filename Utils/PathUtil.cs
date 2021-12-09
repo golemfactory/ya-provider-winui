@@ -24,6 +24,27 @@ namespace GolemUI.Utils
             return localFolder;
         }
 
+        public static string GetYagnaPath()
+        {
+            string settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            string localFolder = Path.Combine(settingPath, GolemUI.Properties.Settings.Default.GolemFactoryPath, "yagna", "data");
+
+            
+            return localFolder;
+        }
+
+        public static string GetProviderPath()
+        {
+            string settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            string localFolder = Path.Combine(settingPath, GolemUI.Properties.Settings.Default.GolemFactoryPath, "ya-provider", "data");
+
+
+            return localFolder;
+        }
+
+
         public static string GetLocalSettingsPath()
         {
             string result = Path.Combine(GetLocalPath(), "UserSettings.json");

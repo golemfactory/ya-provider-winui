@@ -228,6 +228,23 @@ namespace GolemUI
             }
         }
 
+        public async Task<String?> GetOffers()
+        {
+            try
+            {
+                var txt = await _client.GetStringAsync($"{_baseUrl}/market-api/v1/offers");
+
+
+                return txt;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed GetAgreementInfo: " + ex.Message);
+                return null;
+            }
+        }
+
+
         public async Task<SortedDictionary<string, double>?> GetUsageVectors(string? agreementID)
         {
             if (String.IsNullOrEmpty(agreementID) || agreementID == null) //second check to get rid of warnings

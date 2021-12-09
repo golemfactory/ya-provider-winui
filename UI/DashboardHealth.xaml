@@ -24,6 +24,11 @@
                 <ResourceDictionary Source="Themes/CheckBox/SliderCheckBox.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GolemLogo.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/RoundedBlueButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
                 <ResourceDictionary Source="Themes/ComboBox/MiningModeComboBox.xaml"/>
                 <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
                 <ResourceDictionary Source="Icons/Task_Type.xaml"/>
@@ -49,7 +54,8 @@
     </Border.Background>-->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="30px"/>
+                <ColumnDefinition Width="200px"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -62,7 +68,7 @@
             <Image  Grid.Column="2"  Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png" HorizontalAlignment="Right" VerticalAlignment="Top" Width="160" Margin="0,20,30,0"  Grid.RowSpan="2"/>
             <StackPanel Orientation="Horizontal"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 39, 0, 0" >
                 <Border Height="25" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 20, 0, 0">
-                    <Label Margin ="26,-5" Padding="0"  Foreground="#FFFFFF" Content="Health status" FontSize="24"></Label>
+                    <Label Margin ="26,-5" Padding="0"  Foreground="#FFFFFF" Content="Troubleshooting" FontSize="24"></Label>
                 </Border>
             </StackPanel>
 
@@ -70,8 +76,50 @@
                 <Grid Margin="30, 30, 30, 30"/>
             </Border>
 
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <Button x:Name="btnYagnaStatus" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnPerformHealthCheck_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
+                    <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                        <Label FontSize="10" Content="PERFORM HEALTH CHECK" Margin="0,0,0,1" Padding="0" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnOpenLogs" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnOpenLogs_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
+                    <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                        <Label FontSize="10" Content="OPEN LOCAL DATA" Margin="0,0,0,1" Padding="0" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnOpenYagnaFolder" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnOpenYagnaFolder_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
+                    <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                        <Label FontSize="10" Content="OPEN YAGNA DATA FOLDER" Margin="0,0,0,1" Padding="0" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnOpenProviderFolder" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnOpenProvider_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
+                    <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                        <Label FontSize="10" Content="OPEN PROVIDER DATA FOLDER" Margin="0,0,0,1" Padding="0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <Border Visibility="{Binding Path=YagnaHealthVisible, Converter={StaticResource BoolToVisibleConverter}}" Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" >
+                <StackPanel >
+                    <TextBlock Margin="20 10 0 0"  Width="300px" HorizontalAlignment="Left" TextAlignment="Left" >Metrics: metrics contain debug and statistic information from Yagna and may help troubleshoot problems:</TextBlock>
+                    <DataGrid Name="DG1" ItemsSource="{Binding Path=Metrics}" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" 
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto" IsReadOnly="True" Margin="20 10" Height="300px" MaxHeight="300px" Width="400px" HorizontalAlignment="left">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2" />
+
+<!--  <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2" >
+                <Button x:Name="btnPerformHealthCheck" Margin="30" Click="btnPerformHealthCheck_Click">Perform health check</Button>
+                <Button x:Name="btnOpenLogs" Margin="30" Click="btnOpenLogs_Click">Open local folder</Button>
+                <Button x:Name="btnOpenYagnaFolder" Margin="30" Click="btnOpenYagnaFolder_Click">Open yagna data folder</Button>
+                <Button x:Name="btnOpenProviderFolder" Margin="30" Click="btnOpenProvider_Click">Open provider data folder</Button>
+                <Button x:Name="btnScanYagnaLogs" Margin="30" Click="btnScanYagnaLogs_Click" Content="Open currnet yagna log"/>
+            </StackPanel>-->
         </Grid>
     </Border>
 </UserControl>

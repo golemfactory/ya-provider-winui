@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Subnet" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">LazySubnet</Value>
+      <Value Profile="(Default)">LazySubnet2</Value>
     </Setting>
     <Setting Name="TestNet" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>

@@ -1,18 +1,21 @@
 ﻿using GolemUI.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using GolemUI.Utils;
+using MessageBox = System.Windows.MessageBox;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace GolemUI.UI
 {
@@ -33,26 +36,39 @@ namespace GolemUI.UI
 
 
 
-        private async void btnAddEntry_Click(object sender, RoutedEventArgs e)
+        private async void btnPerformHealthCheck_Click(object sender, RoutedEventArgs e)
         {
-            //ViewModel.ChartData1.SetBinTimeSize(TimeSpan.FromMinutes(1));
+            
+            ViewModel.PerformHealthCheck();
+        }
 
-            for (int i = 0; i < 1000000; i++)
+        private void btnOpenLogs_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", PathUtil.GetLocalPath());
+        }
+
+        private void btnScanYagnaLogs_Click(object sender, RoutedEventArgs e)
+        {
+            var path = Path.Combine(PathUtil.GetYagnaPath(), "data", "yagna_rCURRENT.log");
+
+            if (!File.Exists(path))
             {
-                ViewModel.ChartData1.RawData?.AddNewEntry(DateTime.Now, r.NextDouble() * 1.0, true);
-                await Task.Delay(1000);
-            };
+                MessageBox.Show(String.Format("Cannot find yagna log file {}. This suggest that yagna didn't start at all, or there some problems with directory settings.", path));
+                return;
+            }
 
+            System.Diagnostics.Process.Start("explorer.exe", path);
+        }
 
-            //this.ViewModel.ChartData4.AddOrUpdateBinEntry(-1, DateTime.Now.ToString("88-88-88"), r.NextDouble() * 100.0);
-            //            await Task.Delay(10);
+        private void btnOpenYagnaFolder_Click(object sender, RoutedEventArgs e)
+        {
 
-            /* for (int i = 0; i < 1000000; i++)
-             {
-                 this.ViewModel.ChartData4.AddOrUpdateBinEntry(-1, DateTime.Now.ToString("HH-mm-ss"), r.NextDouble() * 100.0);
-                 await Task.Delay(100);
-             };*/
+            System.Diagnostics.Process.Start("explorer.exe", PathUtil.GetYagnaPath());
+        }
 
+        private void btnOpenProvider_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", PathUtil.GetProviderPath());
         }
     }
 }
