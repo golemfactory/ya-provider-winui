@@ -105,9 +105,6 @@ namespace GolemUI
             System.Diagnostics.Process.Start(GolemUI.Properties.Settings.Default.GolemWebPage);
         }
 
-        private void BtnHealthSettings_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.SwitchToHealthView();
-        }
+
     }
 }

@@ -72,9 +72,6 @@
                 </Border>
             </StackPanel>
 
-            <Border Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                <Grid Margin="30, 30, 30, 30"/>
-            </Border>
 
             <StackPanel Grid.Row="1" Grid.Column="1">
                 <Button x:Name="btnPerformYagnaHealthCheck" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnPerformYagnaHealthCheck_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >

@@ -22,6 +22,8 @@ namespace GolemUI.UI.Dialogs
     public partial class DlgAppInfo : Window
     {
         DlgAppInfoViewModel? _model = null;
+        public bool ShowHealth { get; set; } = false;
+
         public DlgAppInfo(DlgAppInfoViewModel model)
         {
             InitializeComponent();
@@ -53,5 +55,17 @@ namespace GolemUI.UI.Dialogs
         {
             tabControl.SelectedIndex = 1;
         }
+        private void BtnTroubleshooting_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show(
+                    "This option is intended only for troubleshooting and shows technical details, that you are probably not interested in. Are you sure too continue?", "Are you sure?", MessageBoxButton.YesNo ) ==
+                MessageBoxResult.Yes)
+            {
+                ShowHealth = true;
+                this.DialogResult = true;
+                this.Close();
+            }
+        }
+
     }
 }
