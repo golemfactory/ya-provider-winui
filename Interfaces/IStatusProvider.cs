@@ -16,6 +16,7 @@ namespace GolemUI.Interfaces
 
         HealthStatusResponse? HealthStatus { get; }
 
+        bool IsConnecting { get; }
 
     }
 }

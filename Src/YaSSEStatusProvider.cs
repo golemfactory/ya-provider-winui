@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using GolemUI.Command;
+using Nethereum.ABI;
 
 namespace GolemUI.Src
 {
@@ -30,9 +31,13 @@ namespace GolemUI.Src
 
         public HealthStatusResponse? HealthStatus { get; set; } = new HealthStatusResponse();
 
+        public bool IsConnecting { get; set; } = true;
+
         private List<ActivityState> _activities = new List<ActivityState>();
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+
 
         public YaSSEStatusProvider(Interfaces.IProcessController processController, ILogger<YaSSEStatusProvider> logger)
         {
@@ -68,9 +73,23 @@ namespace GolemUI.Src
             }
         }
 
+        private int _tries = 0;
         private async void _checkYagnaHealth(object sender, EventArgs e)
         {
             HealthStatus = await _yagna.HealdCheckSrv.Status();
+
+
+            if (HealthStatus?.value?.isNetConnected ?? false)
+            {
+                IsConnecting = false;
+            }
+
+            _tries += 1;
+
+            if (_tries > 3)
+            {
+                IsConnecting = false;
+            }
 
             OnPropertyChanged("HealthStatus");
         }

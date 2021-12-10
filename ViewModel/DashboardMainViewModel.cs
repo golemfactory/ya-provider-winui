@@ -253,6 +253,15 @@ namespace GolemUI.ViewModel
 
         public HealthStatusResponse? HealthStatus => _statusProvider.HealthStatus;
 
+        public bool IsYagnaConnecting
+        {
+            get
+            {
+                return _statusProvider.IsConnecting;
+            }
+        }
+
+
         public bool IsYagnaConnected
         {
             get
@@ -284,7 +293,7 @@ namespace GolemUI.ViewModel
             {
                 OnPropertyChanged("HealthStatus");
                 OnPropertyChanged("IsYagnaConnected");
-                
+                RefreshStatus();
             }
             else
             {
@@ -342,10 +351,21 @@ namespace GolemUI.ViewModel
                 newStatus = DashboardStatusEnum.Ready;
             }
 
+
             if (_statusMiningMemory != newMemoryStatus)
             {
                 StatusMiningMemory = newMemoryStatus;
             }
+
+            if (IsYagnaConnecting)
+            {
+                newStatus = DashboardStatusEnum.ServiceConnecting;
+            }
+            else if (!IsYagnaConnected)
+            {
+                newStatus = DashboardStatusEnum.ServiceDisconnected;
+            }
+
             if (_status != newStatus)
             {
                 Status = newStatus;
