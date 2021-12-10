@@ -32,8 +32,8 @@ namespace GolemUI.ViewModel
 
 
         private bool _yagnaHealthVisible = false;
-        public bool YagnaHealthVisible 
-        { 
+        public bool YagnaHealthVisible
+        {
             get => _yagnaHealthVisible;
             set
             {
@@ -84,7 +84,7 @@ namespace GolemUI.ViewModel
         {
             _srv = srv;
             _processController = processController as ProcessController; //temporary hack to ease development. TODO fix
- 
+
         }
 
         private void HealthViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -92,7 +92,7 @@ namespace GolemUI.ViewModel
             //throw new NotImplementedException();
         }
 
-        
+
 
         public event PageChangeRequestedEvent? PageChangeRequested;
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -152,7 +152,7 @@ namespace GolemUI.ViewModel
                 YagnaHealthVisible = true;
                 return;
             }
-            
+
             if (healthStatus.value == null)
             {
                 YagnaConnectionStatus = healthStatus.error ?? "Unkown problem when getting yagna status";
@@ -174,7 +174,7 @@ namespace GolemUI.ViewModel
                 {
                     Metrics.Add(new MetricsEntry(property.Name, property.Value.ToString()));
                     //Console.WriteLine("Property: " + property.Name + ": " + property.Value);
-                    
+
                 }
                 YagnaHealthVisible = true;
 
@@ -182,13 +182,13 @@ namespace GolemUI.ViewModel
                 NotifyChange("Metrics");
             }
 
-                //if (healthStatus.success == true)
-                //{
+            //if (healthStatus.success == true)
+            //{
 
-                //}
-                //Console.Error(healthStatus.error.)
+            //}
+            //Console.Error(healthStatus.error.)
 
-            
+
             using WebClient webClient = new WebClient();
             //token.Register(webClient.CancelAsync);
 
@@ -196,7 +196,7 @@ namespace GolemUI.ViewModel
             webClient.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {appKey}");
             webClient.BaseAddress = _processController.ServerUri;
 
-            
+
 
             YagnaConnectionStatus = connectionStatus;
         }

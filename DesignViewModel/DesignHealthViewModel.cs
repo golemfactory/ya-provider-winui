@@ -13,7 +13,7 @@ namespace GolemUI.DesignViewModel
 {
     public class DesignHealthViewModel
     {
-        
+
         public ObservableCollection<MetricsEntry> Metrics { get; } = new ObservableCollection<MetricsEntry>(new MetricsEntry[]
         {
             new MetricsEntry("test", "test")

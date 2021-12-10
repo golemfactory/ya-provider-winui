@@ -30,7 +30,7 @@ namespace GolemUI.Utils
 
             string localFolder = Path.Combine(settingPath, GolemUI.Properties.Settings.Default.GolemFactoryPath, "yagna", "data");
 
-            
+
             return localFolder;
         }
 

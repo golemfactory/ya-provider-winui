@@ -58,7 +58,7 @@ namespace GolemUI.UI.Dialogs
         private void BtnTroubleshooting_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show(
-                    "This option is intended only for troubleshooting and shows technical details, that you are probably not interested in. Are you sure too continue?", "Are you sure?", MessageBoxButton.YesNo ) ==
+                    "This option is intended only for troubleshooting and shows technical details, that you are probably not interested in. Are you sure too continue?", "Are you sure?", MessageBoxButton.YesNo) ==
                 MessageBoxResult.Yes)
             {
                 ShowHealth = true;

@@ -219,7 +219,7 @@ namespace GolemUI.UI
 
 
             var settings = GolemUI.Properties.Settings.Default;
-            
+
             var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_wallet_image, settings.dialog_wallet_title, rm.GetString("dialog_wallet_message"), settings.dialog_wallet_button));
             dlg.Owner = Application.Current.MainWindow;
             RectBlack.Visibility = Visibility.Visible;

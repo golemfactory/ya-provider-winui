@@ -113,7 +113,7 @@ namespace GolemUI.ViewModel
 
         private readonly IRemoteSettingsProvider _remoteSettingsProvider;
 
-        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, IRemoteSettingsProvider remoteSettingsProvider, DashboardStatistics? dashboardStatistics, 
+        public DashboardViewModel(DashboardSettings dashboardSettings, DashboardMain dashboardMain, DashboardSettingsAdv dashboardSettingsAdv, DashboardWallet dashboardWallet, IRemoteSettingsProvider remoteSettingsProvider, DashboardStatistics? dashboardStatistics,
             DashboardTRex dashboardTRex, DashboardHealth dashboardHealth
             )
         {
