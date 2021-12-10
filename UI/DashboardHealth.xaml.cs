@@ -35,11 +35,13 @@ namespace GolemUI.UI
         }
 
 
-
-        private async void btnPerformHealthCheck_Click(object sender, RoutedEventArgs e)
+        private async void btnPerformYagnaHealthCheck_Click(object sender, RoutedEventArgs e)
         {
-            
-            ViewModel.PerformHealthCheck();
+            await ViewModel.PerformYagnaHealthCheck();
+        }
+        private async void btnPerformProviderHealthCheck_Click(object sender, RoutedEventArgs e)
+        {
+            await ViewModel.PerformProviderHealthCheck(this.SelectedProviderProperties);
         }
 
         private void btnOpenLogs_Click(object sender, RoutedEventArgs e)
@@ -70,5 +72,7 @@ namespace GolemUI.UI
         {
             System.Diagnostics.Process.Start("explorer.exe", PathUtil.GetProviderPath());
         }
+
+
     }
 }

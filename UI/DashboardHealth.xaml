@@ -77,11 +77,17 @@
             </Border>
 
             <StackPanel Grid.Row="1" Grid.Column="1">
-                <Button x:Name="btnYagnaStatus" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnPerformHealthCheck_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
+                <Button x:Name="btnPerformYagnaHealthCheck" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnPerformYagnaHealthCheck_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
                     <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
-                        <Label FontSize="10" Content="PERFORM HEALTH CHECK" Margin="0,0,0,1" Padding="0" />
+                        <Label FontSize="10" Content="CHECK YAGNA" Margin="0,0,0,1" Padding="0" />
                     </StackPanel>
                 </Button>
+                <Button x:Name="btnPerformProviderHealthCheck" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnPerformProviderHealthCheck_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
+                    <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                        <Label FontSize="10" Content="CHECK PROVIDER" Margin="0,0,0,1" Padding="0" />
+                    </StackPanel>
+                </Button>
+
                 <Button x:Name="btnOpenLogs" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnOpenLogs_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
                     <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
                         <Label FontSize="10" Content="OPEN LOCAL DATA" Margin="0,0,0,1" Padding="0" />
@@ -100,10 +106,79 @@
             </StackPanel>
             <Border Visibility="{Binding Path=YagnaHealthVisible, Converter={StaticResource BoolToVisibleConverter}}" Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" >
                 <StackPanel >
+                    <TextBlock Margin="20 10 0 0"  Width="300px" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=YagnaConnectionStatus}" ></TextBlock>
+
+
                     <TextBlock Margin="20 10 0 0"  Width="300px" HorizontalAlignment="Left" TextAlignment="Left" >Metrics: metrics contain debug and statistic information from Yagna and may help troubleshoot problems:</TextBlock>
                     <DataGrid Name="DG1" ItemsSource="{Binding Path=Metrics}" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" 
                               ScrollViewer.VerticalScrollBarVisibility="Auto"
                               ScrollViewer.HorizontalScrollBarVisibility="Auto" IsReadOnly="True" Margin="20 10" Height="300px" MaxHeight="300px" Width="400px" HorizontalAlignment="left">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+            <Border Visibility="{Binding Path=ProviderHealthVisible, Converter={StaticResource BoolToVisibleConverter}}" Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" >
+                <StackPanel >
+                    <TextBlock Margin="20 10 0 0"  Width="300px" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=ProviderConnectionStatus}" ></TextBlock>
+
+
+                    <TextBlock Margin="20 10 0 0"  Width="auto" HorizontalAlignment="Left" TextAlignment="Left" >Provider offers:</TextBlock>
+
+
+                    <ComboBox 
+                        
+                        HorizontalAlignment="Left" 
+                        Margin="20,0,10,0" 
+                        ItemsSource="{Binding Path=Offers}"  
+                        FontSize="10" 
+                        FontFamily="Segoe UI" 
+                        Padding="0" 
+                        Style="{DynamicResource MiningModeComboBox}" 
+                        SelectedItem="{Binding Path=SelectedProviderOffer}" 
+                        DisplayMemberPath="DisplayName"
+                        Width="200px" 
+                        >
+                        
+                    </ComboBox>
+
+                    <!--
+                    <ItemsControl Margin="13,0,0,0" x:Name="NavButtons" MinHeight="20" Background="#000" Foreground="White" Focusable="false"  ItemsSource="{Binding Path=Offers}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label x:Name="lbl"  Opacity="1" Padding="0" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="5,-4,0,0" Content="{Binding offerId, Mode=OneWay}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>-->
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="20 10 0 0" VerticalAlignment="Center">Provider ID: </TextBlock>
+                        <TextBox IsReadOnly="True" Margin="20 10 0 0" VerticalAlignment="Center"  Width="auto" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=SelectedProviderOffer.providerId}"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="20 10 0 0"  VerticalAlignment="Center" >Timestamp (UTC) time:</TextBlock>
+                        <TextBlock Margin="20 10 0 0"  Width="auto" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{Binding Path=SelectedProviderOffer.timestamp}"></TextBlock>
+                        <TextBlock Margin="20 10 0 0"  Width="auto" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{Binding Path=SelectedProviderOffer.TimeAgo}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="20 10 0 0" VerticalAlignment="Center" >Offer ID:</TextBlock>
+                        <TextBox IsReadOnly="True" Margin="20 10 0 0" VerticalAlignment="Center"  Width="auto" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=SelectedProviderOffer.offerId}"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="20 10 0 0" VerticalAlignment="Center">Constrains:</TextBlock>
+                        <TextBox IsReadOnly="True" VerticalAlignment="Center" Margin="20 10 0 0"  Width="auto" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=SelectedProviderOffer.constraints}"></TextBox>
+                    </StackPanel>
+
+                    <TextBlock Margin="20 10 0 0" VerticalAlignment="Center">Properties:</TextBlock>
+                    <DataGrid Name="SelectedProviderProperties" ItemsSource="{Binding Path=SelectedProviderOffer.properties}"  AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" 
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto" IsReadOnly="True" Margin="20 10" Height="auto" MaxHeight="300px" HorizontalAlignment="Stretch"
+                              
+                              >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}"></DataGridTextColumn>

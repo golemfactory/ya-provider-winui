@@ -19,6 +19,7 @@ namespace GolemUI.DesignViewModel
             new MetricsEntry("test", "test")
         });
 
+        public String YagnaConnectionStatus => "Yagna connected to the router for 100 seconds";
         public bool YagnaHealthVisible => true;
     }
 }

@@ -228,14 +228,15 @@ namespace GolemUI
             }
         }
 
-        public async Task<String?> GetOffers()
+        public async Task<List<ProviderOffer>?> GetOffers()
         {
             try
             {
                 var txt = await _client.GetStringAsync($"{_baseUrl}/market-api/v1/offers");
 
+                List<ProviderOffer>? aggr = JsonConvert.DeserializeObject<List<ProviderOffer>>(txt) ?? null;
 
-                return txt;
+                return aggr;
             }
             catch (Exception ex)
             {
@@ -351,7 +352,10 @@ namespace GolemUI
             for (int tries = 0; tries < 300; ++tries)
             {
                 Thread.Sleep(300);
-
+                if (_yagnaDaemon == null)
+                {
+                    throw new GolemUIException("Failed to start yagna daemon: _yagnaDaemon == null");
+                }
                 if (_yagnaDaemon.HasExited) // yagna has stopped
                 {
                     throw new GolemUIException("Failed to start yagna daemon...", this._yagnaDaemonErrorData.ToString());
