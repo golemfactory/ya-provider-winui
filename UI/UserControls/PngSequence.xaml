@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="GolemUI.PngSequence"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="Transparent"
+             Padding="0"
+             Margin="0"
+             >
+    
+        <Image x:Name="image" Stretch="Uniform" />
+    
+</UserControl>

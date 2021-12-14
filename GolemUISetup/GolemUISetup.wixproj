@@ -21,10 +21,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>YaRuntimeGMiner.TargetDir=$(ProjectDir)bundling\gminer;YaRuntimeWasi.TargetDir=$(ProjectDir)bundling\wasi</DefineConstants>
+    <DefineConstants>YaRuntimeGMiner.TargetDir=$(ProjectDir)bundling\gminer;YaRuntimeWasi.TargetDir=$(ProjectDir)bundling\wasi;DeviceDetection.TargetDir=$(ProjectDir)ExternalBinaries\device_detection</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <!--Compile Include="calymore.wxs" /-->
+    <Compile Include="DeviceDetection.wxs" />
     <Compile Include="GolemUI.wxs" />
     <Compile Include="ProductInstallFiles.wxs" />
     <Compile Include="YaRuntimeWasi.wxs" />
@@ -68,9 +69,10 @@
 	Other similar extension points exist, see Wix.targets.
 	-->
   <Target Name="BeforeBuild">
-    <HeatDirectory OutputFile="$(ProjectDir)\YaRuntimeWasi.wxs" Directory=".\bundling\wasi"  ComponentGroupName="YaRuntimeWasiComponentGroup" DirectoryRefId="Plugins" AutogenerateGuids="true" PreprocessorVariable="var.YaRuntimeWasi.TargetDir" SuppressRegistry="true" SuppressRootDirectory="true" ToolPath="$(WixToolPath)" NoLogo="true" />
-    <HeatDirectory OutputFile="$(ProjectDir)\YaRuntimeGMiner.wxs" Directory=".\bundling\gminer"  ComponentGroupName="YaRuntimeGMinerComponentGroup" DirectoryRefId="Plugins" AutogenerateGuids="true" PreprocessorVariable="var.YaRuntimeGMiner.TargetDir" SuppressRegistry="true" SuppressRootDirectory="true" ToolPath="$(WixToolPath)" NoLogo="true" />
+    <HeatDirectory OutputFile="$(ProjectDir)\YaRuntimeWasi.wxs" Directory=".\bundling\wasi" ComponentGroupName="YaRuntimeWasiComponentGroup" DirectoryRefId="Plugins" AutogenerateGuids="true" PreprocessorVariable="var.YaRuntimeWasi.TargetDir" SuppressRegistry="true" SuppressRootDirectory="true" ToolPath="$(WixToolPath)" NoLogo="true" />
+    <HeatDirectory OutputFile="$(ProjectDir)\YaRuntimeGMiner.wxs" Directory=".\bundling\gminer" ComponentGroupName="YaRuntimeGMinerComponentGroup" DirectoryRefId="Plugins" AutogenerateGuids="true" PreprocessorVariable="var.YaRuntimeGMiner.TargetDir" SuppressRegistry="true" SuppressRootDirectory="true" ToolPath="$(WixToolPath)" NoLogo="true" />
     <HeatDirectory OutputFile="$(ProjectDir)\ProductInstallFiles.wxs" Directory="..\bin\Release" Transforms="RemovePdbs.xslt" ComponentGroupName="ProductFilesComponentGroup" DirectoryRefId="APPLICATIONFOLDER" AutogenerateGuids="true" PreprocessorVariable="var.GolemUI.TargetDir" SuppressRegistry="true" SuppressRootDirectory="true" ToolPath="$(WixToolPath)" NoLogo="true" />
+    <HeatDirectory OutputFile="$(ProjectDir)\DeviceDetection.wxs" Directory=".\ExternalBinaries\device_detection" ComponentGroupName="DeviceDetectionComponentGroup" DirectoryRefId="Plugins" AutogenerateGuids="true" PreprocessorVariable="var.DeviceDetection.TargetDir" SuppressRegistry="true" SuppressRootDirectory="true" ToolPath="$(WixToolPath)" NoLogo="true" />
   </Target>
   <Target Name="AfterBuild">
   </Target>

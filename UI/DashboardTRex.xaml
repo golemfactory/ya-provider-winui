@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="GolemUI.DashboardTRex"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GolemUI"
+             xmlns:animated="clr-namespace:GolemUI.UI.AnimatedIcons" 
+             mc:Ignorable="d" 
+             d:DesignHeight="690" d:DesignWidth="1112"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
+             d:DataContext ="{d:DesignInstance {x:Type dvm:DesignTRexViewModel}, IsDesignTimeCreatable=True}"
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UI/Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Scrollbars/SettingsScrollView.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/CheckBox/SliderCheckBox.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/AdvancedSettingsButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GolemLogo.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/ComboBox/MiningModeComboBox.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/TrackBar/Slider.xaml"/>
+                <ResourceDictionary Source="/UI/Icons/Task_Type.xaml"/>
+                <ResourceDictionary Source="/UI/Icons/CPU_icon.xaml"/>
+                <ResourceDictionary Source="/UI/Icons/Status_Card_error.xaml"/>
+                <ResourceDictionary Source="/UI/Icons/Status_Ready_icon.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/TextBox/TextBoxInError.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Validation/ValidationTemplate.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Labels/InfoLabel.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/ErrorMsg/BenchmarkErrorMsg.xaml"/>
+                <ResourceDictionary>
+                    <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                        <ObjectDataProvider.MethodParameters>
+                            <x:Type TypeName="local:PerformanceThrottlingEnum"/>
+                        </ObjectDataProvider.MethodParameters>
+                    </ObjectDataProvider>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border Style="{DynamicResource PageBackground}" BorderThickness="1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="88"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="88"/>
+
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 39, 0, 0" >
+                <Border Height="25" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 20, 0, 0">
+                    <Label Margin ="26,-5" Padding="0"  Foreground="#FFFFFF" Content="T-Rex mining parameters" FontSize="24"></Label>
+                </Border>
+            </StackPanel>
+            <ScrollViewer Grid.Column="0" Grid.Row="1" Margin="25,40,0,0" Padding="0" Grid.RowSpan="2" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto" Style="{DynamicResource SettingsScrollViewer}">
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding GpuList}" Margin="0,0,0,0" >
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" Margin="10,0,10,0" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <Label Content="{Binding Path=GPUTitle}"  />
+                                <Border Margin="40, 0, 0, 0">
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="GPU name:" />
+                                            <Label Content="{Binding Path=DetailsGPU.name}"  />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Shares :" />
+                                            <Label Content="{Binding Path=SharesInfo}"  />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Reported hashrate:" />
+                                            <Label Content="{Binding Path=ReportedHashrateMh, Converter={StaticResource HashRateConverter}}"  />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Reported temperature:" />
+                                            <Label Content="{Binding Path=Temperature}"  />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Reported power:" />
+                                            <Label Content="{Binding Path=Power}"  />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        <!--<Border.Background>
+            <ImageBrush ImageSource="/__Media/screen_settings.png" Stretch="UniformToFill"/>
+        </Border.Background>-->
+        </Grid>
+    </Border>
+</UserControl>

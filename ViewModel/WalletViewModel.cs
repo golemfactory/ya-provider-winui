@@ -47,6 +47,7 @@ namespace GolemUI.ViewModel
 
             this._walletAddress = wallet;
             this._amount = 0;
+            this._internalBalance = 0;
             this._pendingAmount = 0;
             this.Tickler = "GLM";
             var state = _paymentService.State;
@@ -136,6 +137,20 @@ namespace GolemUI.ViewModel
 
         private void OnPaymentStateChanged(object? sender, PropertyChangedEventArgs e)
         {
+
+            if (e.PropertyName == "InternalWalletState")
+            {
+                var internalState = _paymentService.InternalWalletState;
+                if (internalState != null)
+                {
+                    this._internalBalance = internalState.Balance ?? 0m;
+
+                    OnPropertyChanged(nameof(InternalBalance));
+                    OnPropertyChanged(nameof(ShouldDisplayAdditionalInternalWallet));
+                }
+
+            }
+
             var state = _paymentService.State;
 
             if (state != null)
@@ -153,6 +168,7 @@ namespace GolemUI.ViewModel
             {
                 OnPropertyChanged("WalletAddress");
                 OnPropertyChanged("IsInternal");
+                OnPropertyChanged("InternalAddress");
             }
         }
 
@@ -198,6 +214,13 @@ namespace GolemUI.ViewModel
 
         public bool IsInternal => _paymentService.Address == _paymentService.InternalAddress;
 
+        public string InternalAddress => _paymentService.InternalAddress;
+
+        public bool ShouldDisplayAdditionalInternalWallet => !IsInternal && InternalBalance > 0;
+        private decimal _internalBalance = 0;
+
+        public decimal InternalBalance => _internalBalance;
+
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
@@ -208,7 +231,7 @@ namespace GolemUI.ViewModel
         }
 
         public DlgEditAddressViewModel EditModel => new DlgEditAddressViewModel(_paymentService);
-        public DlgWithdrawViewModel WithDrawModel => new DlgWithdrawViewModel(_paymentService, _priceProvider);
+        public DlgWithdrawViewModel WithDrawModel => new DlgWithdrawViewModel(_paymentService, _priceProvider, IsInternal);
 
         public void Dispose()
         {

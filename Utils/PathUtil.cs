@@ -35,11 +35,28 @@ namespace GolemUI.Utils
             string result = Path.Combine(GetLocalPath(), "BenchmarkResults.json");
             return result;
         }
+        public static string GetLocalBenchmarkPathTRex()
+        {
+            string result = Path.Combine(GetLocalPath(), "BenchmarkResultsT.json");
+            return result;
+        }
+        public static string GetLocalBenchmarkPathPhoenix()
+        {
+            string result = Path.Combine(GetLocalPath(), "BenchmarkResultsP.json");
+            return result;
+        }
+
         public static string GetLocalLogPath()
         {
             string result = Path.Combine(GetLocalPath(), "ThorgMiner.log");
             return result;
         }
+
+        public static List<string> GetLocalLogPaths()
+        {
+            return System.IO.Directory.GetFiles(GetLocalPath(), "ThorgMiner?.log").ToList();
+        }
+
 
         public static string GetRemoteSettingsPath()
         {

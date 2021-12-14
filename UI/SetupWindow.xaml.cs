@@ -15,6 +15,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using Sentry;
 using GolemUI.Interfaces;
+using GolemUI.Miners;
+using GolemUI.Miners.Phoenix;
 using GolemUI.Src.AppNotificationService;
 
 namespace GolemUI.UI
@@ -65,8 +67,10 @@ namespace GolemUI.UI
 
         protected ViewModel.SetupViewModel? Model => DataContext as ViewModel.SetupViewModel;
 
-        public SetupWindow(ViewModel.SetupViewModel model, IServiceProvider serviceProvider)
+        private PhoenixMiner _miner;
+        public SetupWindow(ViewModel.SetupViewModel model, IServiceProvider serviceProvider, PhoenixMiner miner)
         {
+            _miner = miner;
             _serviceProvider = serviceProvider;
             InitializeComponent();
             DataContext = model;
@@ -179,7 +183,10 @@ namespace GolemUI.UI
         {
             Model!.NoobStep = 4;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETH", null);
+            MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+            minerAppConfiguration.Niceness = defaultBenchmarkStep.ToString();
+
+            Model!.BenchmarkService.StartBenchmark(_miner, minerAppConfiguration, null);
         }
 
         private void OnCancelNoobFlow(object sender, RoutedEventArgs e)
@@ -222,7 +229,10 @@ namespace GolemUI.UI
         {
             Model!.ExpertStep = (int)ViewModel.SetupViewModel.ExpertSteps.Benchmark;
             int defaultBenchmarkStep = (int)PerformanceThrottlingEnumConverter.Default;
-            Model!.BenchmarkService.StartBenchmark("", defaultBenchmarkStep.ToString(), "ETH", null);
+            MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+            minerAppConfiguration.Niceness = defaultBenchmarkStep.ToString();
+
+            Model!.BenchmarkService.StartBenchmark(_miner, minerAppConfiguration, null);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -280,6 +290,22 @@ namespace GolemUI.UI
         private void BtnTryBenchmarkAgain_Click(object sender, RoutedEventArgs e)
         {
             Model!.TryAgainBenchmark();
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else
+                WindowState = WindowState.Maximized;
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            if (WindowState == WindowState.Maximized) // i guess it is more self explanatory then xaml equivalent 
+                MaximizeButton.Style = Resources["DeMaximizeWindowButton"] as Style;
+            else
+                MaximizeButton.Style = Resources["MaximizeWindowButton"] as Style;
         }
     }
 }

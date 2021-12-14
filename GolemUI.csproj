@@ -182,12 +182,11 @@
     <Reference Include="NReco.Logging.File, Version=0.0.0.0, Culture=neutral, PublicKeyToken=d6cccee409799e87, processorArchitecture=MSIL">
       <HintPath>packages\NReco.Logging.File.1.1.2\lib\netstandard2.0\NReco.Logging.File.dll</HintPath>
     </Reference>
-    <Reference Include="Sentry, Version=3.8.3.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0, processorArchitecture=MSIL">
-      <HintPath>packages\Sentry.3.8.3\lib\net461\Sentry.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Sentry, Version=3.11.1.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0, processorArchitecture=MSIL">
+      <HintPath>packages\Sentry.3.11.1\lib\net461\Sentry.dll</HintPath>
     </Reference>
-    <Reference Include="Sentry.Extensions.Logging, Version=3.8.3.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0, processorArchitecture=MSIL">
-      <HintPath>packages\Sentry.Extensions.Logging.3.8.3\lib\netstandard2.0\Sentry.Extensions.Logging.dll</HintPath>
+    <Reference Include="Sentry.Extensions.Logging, Version=3.11.1.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0, processorArchitecture=MSIL">
+      <HintPath>packages\Sentry.Extensions.Logging.3.11.1\lib\netstandard2.0\Sentry.Extensions.Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -266,6 +265,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DesignViewModel\DesignTRexViewModel.cs" />
+    <Compile Include="Miners\BenchmarkGpuStatus.cs" />
+    <Compile Include="Miners\BenchmarkLiveStatus.cs" />
+    <Compile Include="Miners\Phoenix\PhoenixMiner.cs" />
+    <Compile Include="Miners\IMinerParser.cs" />
+    <Compile Include="Miners\MinerAppName.cs" />
+    <Compile Include="Miners\TRex\TRexDetails.cs" />
+    <Compile Include="Miners\TRex\TRexMiner.cs" />
+    <Compile Include="Miners\TRex\TRexParser.cs" />
     <Compile Include="Command\GSB\GsbServiceException.cs" />
     <Compile Include="Converters\NonNullToVisibilityConverter.cs" />
     <Compile Include="Converters\ValueToVisibilityConverter.cs" />
@@ -277,6 +285,7 @@
     <Compile Include="DesignViewModel\Dialogs\DlgGenericInformationViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgWithdrawViewModel.cs" />
+    <Compile Include="Miners\IMinerApp.cs" />
     <Compile Include="Interfaces\IStartWithWindows.cs" />
     <Compile Include="Interfaces\IUserFeedbackService.cs" />
     <Compile Include="Interfaces\IRemoteSettingsProvider.cs" />
@@ -295,6 +304,9 @@
     <Compile Include="Src\Sentry\SentryContext.cs" />
     <Compile Include="Src\Sentry\SentryUserFeedback.cs" />
     <Compile Include="Src\StartWithWindows.cs" />
+    <Compile Include="UI\DashboardTRex.xaml.cs">
+      <DependentUpon>DashboardTRex.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\DlgGenericInformation.xaml.cs">
       <DependentUpon>DlgGenericInformation.xaml</DependentUpon>
     </Compile>
@@ -315,9 +327,12 @@
     <Compile Include="UI\UserControls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\PngSequence.xaml.cs">
+      <DependentUpon>PngSequence.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ChildProcessManager.cs" />
-    <Compile Include="Claymore\ClaymoreParser.cs" />
-    <Compile Include="Command\Claymore.cs" />
+    <Compile Include="Miners\Phoenix\PhoenixParser.cs" />
+    <Compile Include="Miners\MinerBenchmark.cs" />
     <Compile Include="Command\GpuInfo.cs" />
     <Compile Include="Command\PaymentData.cs" />
     <Compile Include="Command\Provider.cs" />
@@ -470,6 +485,7 @@
     <Compile Include="ViewModel\Dialogs\DlgUpdateAppViewModel.cs" />
     <Compile Include="UI\Charts\PrettyChartDataHistogram.cs" />
     <Compile Include="ViewModel\SettingsAdvViewModel.cs" />
+    <Compile Include="ViewModel\TRexViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SetupViewModel.cs" />
     <Compile Include="ViewModel\StatisticsViewModel.cs" />
@@ -501,6 +517,10 @@
     <Page Include="UI\Charts\PrettyChartBin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\DashboardTRex.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\DashboardStatistics.xaml">
       <SubType>Designer</SubType>
@@ -626,6 +646,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UI\Themes\Buttons\BlueButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Themes\Buttons\TRexSettingsButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Themes\Buttons\HistoryTabButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -674,7 +702,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Themes\Buttons\BlueButton.xaml">
+    <Page Include="UI\Themes\Buttons\RoundedBlueButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -775,6 +803,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\UserControls\NotificationBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\UserControls\PngSequence.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -890,6 +922,52 @@
   <ItemGroup>
     <Resource Include="UI\Charts\ChartIcons\IconZoomIn.png" />
     <Resource Include="UI\Charts\ChartIcons\IconZoomOut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0000.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0001.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0002.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0003.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0004.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0005.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0006.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0007.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0008.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0009.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0010.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0011.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0012.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0013.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0014.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0015.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0016.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0017.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0018.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0019.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0020.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0021.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0022.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0023.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0024.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0025.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0026.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0027.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0028.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0029.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0030.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0031.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0032.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0033.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0034.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0035.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0036.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0037.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0038.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Sequences\Gpu\GPU_icon0039.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\DefaultStyle\png\Wallet\copy-icon.png" />
+    <Resource Include="UI\Icons\DefaultStyle\png\Wallet\edit-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

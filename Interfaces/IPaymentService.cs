@@ -11,9 +11,11 @@ namespace GolemUI.Interfaces
     public interface IPaymentService : INotifyPropertyChanged
     {
         WalletState? State { get; }
+        WalletState? InternalWalletState { get; }
 
         string? LastError { get; }
 
+        DateTime? LastSuccessfullRefresh { get; }
         string? Address { get; }
 
         string InternalAddress { get; }

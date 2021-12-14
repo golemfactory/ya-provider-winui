@@ -1,6 +1,5 @@
 ﻿using GolemUI.Converters;
 using GolemUI.Interfaces;
-using GolemUI.Model;
 using GolemUI.Src;
 using GolemUI.Src.AppNotificationService;
 using GolemUI.Utils;
@@ -9,14 +8,18 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
+using GolemUI.Miners;
+using System;
 
 namespace GolemUI.ViewModel
 {
+    public enum MainWindowState { Maximized, Minimized, Normal, Closed };
+
 
     public class DashboardMainViewModel : INotifyPropertyChanged, ISavableLoadableDashboardPage, IDialogInvoker
     {
+        MainWindowState MainWindowState { get; set; }
         public DashboardMainViewModel(IPriceProvider priceProvider, IPaymentService paymentService, IProviderConfig providerConfig, IProcessController processController, Src.BenchmarkService benchmarkService, IBenchmarkResultsProvider benchmarkResultsProvider,
             IStatusProvider statusProvider, IHistoryDataProvider historyDataProvider, INotificationService notificationService, IUserSettingsProvider userSettingsProvider,
             ITaskProfitEstimator taskProfitEstimator)
@@ -43,6 +46,42 @@ namespace GolemUI.ViewModel
             _taskProfitEstimator.PropertyChanged += _taskProfitEstimator_PropertyChanged;
         }
 
+        public string PolygonLink => "https://polygonscan.com/token/0x0b220b82f3ea3b7f6d9a1d8ab58930c064a2b5bf?a=" + _paymentService.Address;
+        public bool ShouldPaymentMessageTooltipBeAccessible
+        {
+            get
+            {
+                if (_paymentService == null || (_paymentService?.LastError != null && _paymentService?.LastSuccessfullRefresh == null)) return true;
+                if (_paymentService?.LastSuccessfullRefresh != null)
+                {
+                    TimeSpan timeDiff = (DateTime.Now - (DateTime)_paymentService!.LastSuccessfullRefresh);
+                    if (timeDiff.TotalSeconds > 60 * 5)
+                        return true;
+                }
+                return false;
+
+            }
+        }
+        public string? PaymentStateMessage
+        {
+            get
+            {
+
+                if (_paymentService.LastError == null) return "";
+                if (_paymentService.LastSuccessfullRefresh == null) return "Unable to refresh account's balance";
+
+
+                return "last update: " + _paymentService.LastSuccessfullRefresh?.ToShortTimeString();
+            }
+        }
+
+        public void ChangeWindowState(MainWindowState state)
+        {
+            MainWindowState = state;
+            OnPropertyChanged(nameof(MainWindowState));
+            OnPropertyChanged(nameof(ShouldGpuAnimationBeVisible));
+            OnPropertyChanged(nameof(TRexSettingsButtonVisible));
+        }
 
         public event RequestDarkBackgroundEventHandler? DarkBackgroundRequested;
         public void RequestDarkBackgroundVisibilityChange(bool shouldBackgroundBeVisible)
@@ -102,6 +141,13 @@ namespace GolemUI.ViewModel
             }
         }
 
+        public bool TRexSettingsButtonVisible
+        {
+            get
+            {
+                return GpuStatus == "Mining" && _benchmarkService.ActiveMinerApp?.MinerAppName.NameEnum == MinerAppName.MinerAppEnum.TRex;
+            }
+        }
 
 
         private void _historyDataProvider_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -180,7 +226,25 @@ namespace GolemUI.ViewModel
                 {
                     _gpuStatus = value;
                     OnPropertyChanged("GpuStatus");
+                    OnPropertyChanged(nameof(ShouldGpuAnimationBeVisible));
+                    OnPropertyChanged(nameof(TRexSettingsButtonVisible));
                 }
+            }
+        }
+
+        public bool ShouldGpuAnimationBeVisible
+        {
+            get
+            {
+                return GpuStatus == "Mining" && IsWindowVisible;
+            }
+        }
+
+        public bool IsWindowVisible
+        {
+            get
+            {
+                return (MainWindowState == MainWindowState.Normal || MainWindowState == MainWindowState.Maximized);
             }
         }
 
@@ -275,6 +339,11 @@ namespace GolemUI.ViewModel
         {
             PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardStatistics);
         }
+        public void SwitchToTRexInfo()
+        {
+            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardTRex);
+        }
+
 
         private void OnProviderConfigChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -296,17 +365,26 @@ namespace GolemUI.ViewModel
 
         private void OnPaymentServiceChanged(object? sender, PropertyChangedEventArgs e)
         {
+            if (_paymentService?.State?.Balance != null)
+                _lastAmount = _paymentService?.State?.Balance;
+
             OnPropertyChanged("Amount");
             OnPropertyChanged("AmountUSD");
             OnPropertyChanged("PendingAmount");
             OnPropertyChanged("PendingAmountUSD");
-            OnPropertyChanged("PaymentStateError");
+            OnPropertyChanged("PaymentStateMessage");
+
+            if (e.PropertyName == "Address")
+                OnPropertyChanged(nameof(PolygonLink));
         }
 
         public void LoadData()
         {
 
-            var benchmark = _benchmarkResultsProvider.LoadBenchmarkResults();
+
+            var benchmark = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
+            _benchmarkService.ReloadBenchmarkSettingsFromFile();
+
 
             _enabledGpuCount = benchmark?.liveStatus?.GPUs.ToList().Where(gpu => gpu.Value != null && gpu.Value.IsReadyForMining && gpu.Value.IsEnabledByUser).Count() ?? 0;
             _totalGpuCount = benchmark?.liveStatus?.GPUs.ToList().Count() ?? 0;
@@ -350,8 +428,10 @@ namespace GolemUI.ViewModel
         public event PageChangeRequestedEvent? PageChangeRequested;
 
         public IProcessController Process => _processController;
-        public decimal? Amount => _paymentService.State?.Balance;
-        public string? PaymentStateError => _paymentService.LastError;
+
+        private decimal? _lastAmount = null;
+        public decimal? Amount => _paymentService.State?.Balance ?? _lastAmount;
+
 
         private decimal? _usdPerDay = null;
         public decimal? UsdPerDay
@@ -404,6 +484,8 @@ namespace GolemUI.ViewModel
             {
                 _status = value;
                 OnPropertyChanged("Status");
+                OnPropertyChanged(nameof(ShouldGpuAnimationBeVisible));
+                OnPropertyChanged(nameof(TRexSettingsButtonVisible));
             }
         }
         public string StatusAdditionalInfo
@@ -494,13 +576,17 @@ namespace GolemUI.ViewModel
 
         private async void RunMiner()
         {
-            var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
+            if (_benchmarkService.ActiveMinerApp != null)
+            {
+                bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
 
-            bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
+                _providerConfig.SwitchMiningMode(isLowMemoryMode);
 
-            _providerConfig.SwitchMiningMode(isLowMemoryMode);
+                MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+                minerAppConfiguration.MiningMode = isLowMemoryMode ? "ETC" : "ETH";
 
-            await _processController.Start(_providerConfig.Network, extraClaymoreParams);
+                await _processController.Start(_providerConfig.Network, _benchmarkService.ActiveMinerApp, minerAppConfiguration);
+            }
         }
         public void Start()
         {
@@ -510,18 +596,30 @@ namespace GolemUI.ViewModel
             }
             else
             {
-                AntiVirusCheckActive = true;
-                OnPropertyChanged(nameof(IsMiningReadyToRun));
-                _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "checking system...", expirationTimeInMs: 5000, group: false));
-                _benchmarkService.AssessIfAntivirusIsBlockingClaymore();
+                if (_benchmarkService.ActiveMinerApp == null)
+                {
+                    MessageBox.Show("Active miner app is null");
+                }
+                else
+                {
+                    AntiVirusCheckActive = true;
+                    OnPropertyChanged(nameof(IsMiningReadyToRun));
+                    _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "checking system...", expirationTimeInMs: 5000, group: false));
 
+                    bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
+
+                    MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+                    minerAppConfiguration.MiningMode = isLowMemoryMode ? "ETC" : "ETH";
+
+                    _benchmarkService.AssessIfAntivirusIsBlocking(_benchmarkService.ActiveMinerApp, minerAppConfiguration);
+                }
             }
         }
-        private void _benchmarkService_AntivirusStatus(Command.ProblemWithExeFile problem)
+        private void _benchmarkService_AntivirusStatus(ProblemWithExeFile problem)
         {
             AntiVirusCheckActive = false;
             OnPropertyChanged(nameof(IsMiningReadyToRun));
-            if (problem == Command.ProblemWithExeFile.None)
+            if (problem == ProblemWithExeFile.None)
             {
                 _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "ok", expirationTimeInMs: 3000, group: false));
                 this.RunMiner();

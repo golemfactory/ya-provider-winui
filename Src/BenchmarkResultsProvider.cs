@@ -7,18 +7,34 @@ using GolemUI.Model;
 using GolemUI.Interfaces;
 using GolemUI.Utils;
 using System.IO;
+using GolemUI.Miners;
 using Newtonsoft.Json;
 
 namespace GolemUI.Src
 {
     class BenchmarkResultsProvider : IBenchmarkResultsProvider
     {
-        public BenchmarkResults LoadBenchmarkResults()
+
+        private string GetMinerSettingsPath(MinerAppName minerAppName)
+        {
+            switch (minerAppName.NameEnum)
+            {
+                case MinerAppName.MinerAppEnum.Phoenix:
+                    return PathUtil.GetLocalBenchmarkPath();
+                case MinerAppName.MinerAppEnum.TRex:
+                    return PathUtil.GetLocalBenchmarkPathTRex();
+                default:
+                    throw new Exception("unknown miner name");
+            }
+        }
+
+        public BenchmarkResults LoadBenchmarkResults(MinerAppName minerAppName)
         {
             BenchmarkResults? settings = null;
             try
             {
-                string fp = PathUtil.GetLocalBenchmarkPath();
+                string fp = GetMinerSettingsPath(minerAppName);
+
                 string jsonText = File.ReadAllText(fp);
                 settings = JsonConvert.DeserializeObject<BenchmarkResults>(jsonText);
 
@@ -44,7 +60,7 @@ namespace GolemUI.Src
             return settings;
         }
 
-        public void SaveBenchmarkResults(BenchmarkResults benchmarkResults)
+        public void SaveBenchmarkResults(BenchmarkResults benchmarkResults, MinerAppName minerAppName)
         {
             if (benchmarkResults == null)
             {
@@ -52,7 +68,7 @@ namespace GolemUI.Src
             }
             benchmarkResults.BenchmarkResultVersion = GolemUI.Properties.Settings.Default.BenchmarkResultsVersion;
 
-            string fp = PathUtil.GetLocalBenchmarkPath();
+            string fp = GetMinerSettingsPath(minerAppName);
 
             string s = JsonConvert.SerializeObject(benchmarkResults, Formatting.Indented);
 
