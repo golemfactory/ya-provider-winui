@@ -294,6 +294,7 @@
     <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\RemoteSettings.cs" />
     <Compile Include="DesignViewModel\Dialogs\DlgConfirmAddressViewModel.cs" />
+    <Compile Include="Src\PluginsDownloader.cs" />
     <Compile Include="Src\AppNotificationService\NotificationsMonitor.cs" />
     <Compile Include="Src\AppNotificationService\SimpleNotificationObject.cs" />
     <Compile Include="Src\EstimatedEarningsProvider.cs" />
