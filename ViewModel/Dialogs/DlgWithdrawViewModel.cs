@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GolemUI.Command;
 
 namespace GolemUI.ViewModel.Dialogs
 {
@@ -141,7 +142,7 @@ namespace GolemUI.ViewModel.Dialogs
                 {
                     try
                     {
-                        var url = await _paymentService.TransferTo("polygon", amount, withdrawAddress, null);
+                        var url = await _paymentService.TransferTo(PaymentDriver.ERC20.Id, amount, withdrawAddress, null);
                         return true;
                     }
                     catch (GsbServiceException e)
