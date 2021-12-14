@@ -14,7 +14,9 @@ namespace GolemUI.DesignViewModel
                            "(Settings). You can rerun benchmark to determine gpu capabilities again.";
         public string GpuStatus => "Ready";
         public string? GpuStatusAnnotation => "20.15 MH/s";
-        public string? PaymentStateError => "No connection to payment service";
+        public string? PaymentStateMessage => "Unable to get account's balance";
+        public string PolygonLink => "https://polygonscan.com/token/0x0b220b82f3ea3b7f6d9a1d8ab58930c064a2b5bf?a=0x00000000000000000000000000000123";
+        public bool ShouldPaymentMessageTooltipBeAccessible => true;
         public string CpuStatus => "Ready";
         public decimal AmountUSD => 0.00m;
         public decimal Amount => 0;
@@ -31,5 +33,6 @@ namespace GolemUI.DesignViewModel
         public bool IsProviderRunning { get; } = true;
         public DashboardStatusEnum Status => DashboardStatusEnum.Ready;
         public string StatusAdditionalInfo => "4 GB mode";
+        public bool ShouldGpuAnimationBeVisible => true;
     }
 }

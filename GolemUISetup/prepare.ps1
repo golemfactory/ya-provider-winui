@@ -36,7 +36,7 @@ function Extract-Zip {
 }
 
 Extract-Package -BundleName "wasi" -Url "https://github.com/golemfactory/ya-runtime-wasi/releases/download/v0.3.0/ya-runtime-wasi-windows-v0.3.0.zip"
-Extract-Zip -BundleName "gminer" -Path ".\ExternalBinaries\ya-runtime-gminer-windows-v0.2.0.zip"
+Extract-Zip -BundleName "gminer" -Path ".\ExternalBinaries\ya-runtime-gminer-windows-v0.3.1.zip"
 
 #Extract-Package -BundleName "gminer" -Url "https://github.com/golemfactory/ya-runtime-gminer/releases/download/v0.1.4/ya-runtime-gminer-windows-v0.1.4.zip"
 

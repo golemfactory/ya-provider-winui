@@ -45,18 +45,25 @@ namespace GolemUI.Src
                 SentrySdk.ConfigureScope(scope =>
                 {
                     scope.ClearAttachments();
+                    var uid = System.Guid.NewGuid().ToString();
+                    scope.SetFingerprint(new[] { uid, "User feedback" });
+
                     this.AddAttachment(scope, PathUtil.GetLocalBenchmarkPath());
                     this.AddAttachment(scope, PathUtil.GetRemoteSettingsPath());
                     this.AddAttachment(scope, PathUtil.GetLocalSettingsPath());
-                    this.AddAttachment(scope, PathUtil.GetLocalLogPath(), readAsStream: true);
+
+                    var logFiles = PathUtil.GetLocalLogPaths();
+                    logFiles.ForEach(logFile => this.AddAttachment(scope, logFile, readAsStream: true));
+
                 });
             }
 
-            var eventID = Sentry.SentrySdk.CaptureMessage(tag);
+            var eventID = Sentry.SentrySdk.CaptureMessage("Used feedback: " + tag);
             Sentry.SentrySdk.CaptureUserFeedback(new Sentry.UserFeedback(eventID, name, email, comments));
             SentrySdk.ConfigureScope(scope =>
             {
                 scope.ClearAttachments();
+
             });
         }
 

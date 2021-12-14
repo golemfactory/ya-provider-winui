@@ -16,10 +16,11 @@ namespace GolemUI
         private readonly BenchmarkService _benchmarkService;
         private SentryContext Context = new SentryContext();
 
+        private readonly IUserSettingsProvider _userSettingsProvider;
 
-
-        public SentryAdditionalDataIngester(BenchmarkService benchmarkService, Interfaces.IProcessController processController, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.IProviderConfig providerConfig)
+        public SentryAdditionalDataIngester(BenchmarkService benchmarkService, Interfaces.IProcessController processController, IBenchmarkResultsProvider benchmarkResultsProvider, Interfaces.IProviderConfig providerConfig, IUserSettingsProvider userSettingsProvider)
         {
+            _userSettingsProvider = userSettingsProvider;
             _benchmarkService = benchmarkService;
             _benchmarkResultsProvider = benchmarkResultsProvider;
             _processController = processController;
@@ -54,7 +55,7 @@ namespace GolemUI
 
         public void InitContextItems()
         {
-            var benchmarkSetting = _benchmarkResultsProvider.LoadBenchmarkResults();
+            var benchmarkSetting = _benchmarkResultsProvider.LoadBenchmarkResults(_userSettingsProvider.LoadUserSettings().SelectedMinerName);
             int gpusCount = benchmarkSetting?.liveStatus?.GPUs?.Count ?? 0;
             Context.AddItem("GpuCount", gpusCount.ToString());
             if (gpusCount > 0)

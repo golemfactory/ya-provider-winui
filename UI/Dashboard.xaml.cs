@@ -21,10 +21,15 @@ using GolemUI.Src;
 using GolemUI.UI;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
+using GolemUI.Miners;
 using GolemUI.Model;
 using GolemUI.ViewModel;
 using GolemUI.ViewModel.CustomControls;
 using GolemUI.Src.AppNotificationService;
+using GolemUI.DesignViewModel;
+using static GolemUI.ViewModel.DashboardViewModel;
+using GolemUI.Miners.Phoenix;
+using GolemUI.Miners.TRex;
 
 namespace GolemUI
 {
@@ -35,12 +40,16 @@ namespace GolemUI
     {
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
-
         public ViewModel.DashboardViewModel ViewModel { get; set; }
+        private PhoenixMiner _phoenixMiner;
+        private TRexMiner _trexMiner;
 
-
-        public Dashboard(DashboardSettingsAdv _dashboardSettingsAdv, INotificationService notificationService, IUserFeedbackService userFeedback, Interfaces.IProcessController processController, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel, NotificationBarViewModel notificationViewModel)
+        public Dashboard(DashboardSettingsAdv _dashboardSettingsAdv, INotificationService notificationService, IUserFeedbackService userFeedback, Interfaces.IProcessController processController, Src.SingleInstanceLock singleInstanceLock, Interfaces.IProviderConfig providerConfig, Src.BenchmarkService benchmarkService, Interfaces.IUserSettingsProvider userSettingsProvider, ViewModel.DashboardViewModel dashboardViewModel, NotificationBarViewModel notificationViewModel,
+            PhoenixMiner phoenixMiner, TRexMiner trexMiner)
         {
+            _phoenixMiner = phoenixMiner;
+            _trexMiner = trexMiner;
+
             _notificationService = notificationService;
             _userFeedback = userFeedback;
             _processController = processController;
@@ -60,11 +69,11 @@ namespace GolemUI
 
             singleInstanceLock.ActivateEvent += OnAppReactivate;
 
-            ViewModel.SwitchPage(DashboardViewModel.DashboardPages.PageDashboardMain);
+            ViewModel.SwitchPage(DashboardPages.PageDashboardMain);
             this.NB.SetViewModel(notificationViewModel);
         }
 
-        private void PageChangeRequested(DashboardViewModel.DashboardPages page)
+        private void PageChangeRequested(DashboardPages page)
         {
             ViewModel.SwitchPage(page);
         }
@@ -95,9 +104,6 @@ namespace GolemUI
             }
             this.Resources["SetupWindow.Background"] = b;
         }
-
-
-
         public void OnAppReactivate(object sender)
         {
             Dispatcher.Invoke(() =>
@@ -204,15 +210,22 @@ namespace GolemUI
             bool isLowMemoryMode = _userSettingsProvider.LoadUserSettings().ForceLowMemoryMode || (_benchmarkService.Status?.LowMemoryMode ?? false);
 
             await Task.WhenAll(
-                _providerConfig.Prepare(_benchmarkService.IsClaymoreMiningPossible, isLowMemoryMode),
+                _providerConfig.Prepare(_benchmarkService.IsPhoenixMiningPossible, isLowMemoryMode),
                 _processController.Prepare()
             );
 
+
             if (_providerConfig.IsMiningActive && _userSettingsProvider.LoadUserSettings().StartWithWindows)
             {
-                var extraClaymoreParams = _benchmarkService.ExtractClaymoreParams();
-                await _processController.Start(_providerConfig.Network, extraClaymoreParams);
+                if (_benchmarkService.ActiveMinerApp != null)
+                {
+                    MinerAppConfiguration minerAppConfiguration = new MinerAppConfiguration();
+                    minerAppConfiguration.MiningMode = isLowMemoryMode ? "ETC" : "ETH";
+                    await _processController.Start(_providerConfig.Network, _benchmarkService.ActiveMinerApp, minerAppConfiguration);
+                }
             }
+
+
         }
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
@@ -268,7 +281,6 @@ namespace GolemUI
             ViewModel.DarkBackgroundVisible = false;
         }
 
-
         public void ShowUpdateDialog()
         {
             ViewModel.DarkBackgroundVisible = true;
@@ -283,5 +295,35 @@ namespace GolemUI
             ViewModel.DarkBackgroundVisible = false;
         }
 
+        private void DashboardWindow_Closed(object sender, EventArgs e)
+        {
+            ViewModel.ChangeWindowState(MainWindowState.Closed);
+        }
+
+        private void DashboardWindow_StateChanged(object sender, EventArgs e)
+        {
+            MainWindowState state = WindowState switch
+            {
+                WindowState.Minimized => MainWindowState.Minimized,
+                WindowState.Normal => MainWindowState.Normal,
+                WindowState.Maximized => MainWindowState.Maximized,
+                _ => MainWindowState.Normal
+            };
+            ViewModel.ChangeWindowState(state);
+
+
+            if (WindowState == WindowState.Maximized) // i guess it is more self explanatory then xaml equivalent 
+                MaximizeButton.Style = Resources["DeMaximizeWindowButton"] as Style;
+            else
+                MaximizeButton.Style = Resources["MaximizeWindowButton"] as Style;
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else
+                WindowState = WindowState.Maximized;
+        }
     }
 }

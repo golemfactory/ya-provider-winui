@@ -10,6 +10,8 @@
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
         Background="Transparent"
+        Closed="DashboardWindow_Closed"
+       StateChanged="DashboardWindow_StateChanged"
         AllowsTransparency="True"
         x:Name="DashboardWindow"
         Title="Dashboard" Height="720" Width="1280" Closing="Window_Closing" Loaded="Window_Loaded" Icon="/Media/icon2.ico" MinHeight="600" MinWidth="1024"
@@ -64,6 +66,7 @@
                 <DockPanel>
                     <DockPanel x:Name="TitleBar" DockPanel.Dock="Top" Margin="0,0,8,0">
                         <Button x:Name="CloseButton" Content="Close" DockPanel.Dock="Right" Click="CloseButton_Click" Style="{DynamicResource CloseWindowButton}"/>
+                        <Button x:Name="MaximizeButton" Content="Maximize" DockPanel.Dock="Right" Click="MaximizeButton_Click" Style="{DynamicResource MaximizeWindowButton}"/>
                         <Button x:Name="MinButton" Content="Min" DockPanel.Dock="Right" Click="MinButton_Click" Style="{DynamicResource MinWindowButton}"/>
                         <TextBlock HorizontalAlignment="Center"></TextBlock>
                     </DockPanel>
@@ -80,6 +83,7 @@
                     <RadioButton  ToolTip="Dashboard" IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=1}" GroupName="nav" Style="{StaticResource NavSidepanelButtonDashboard}"/>
                     <RadioButton  ToolTip="Wallet"    IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=3}" GroupName="nav" Style="{StaticResource NavSidepanelButtonWallet}"/>
                     <RadioButton  ToolTip="Settings"  IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=2}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}"/>
+                    <!--<RadioButton  ToolTip="TRex"  IsChecked="{Binding Path=SelectedPage, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=5}" GroupName="nav" Style="{StaticResource NavSidepanelButtonSettings}"/>-->
                 </StackPanel>
             </Border>
           

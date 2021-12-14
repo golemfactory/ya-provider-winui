@@ -62,5 +62,25 @@ namespace GolemUI
         {
             Model.SwitchToStatistics();
         }
+        private void BtnTRexInfo_Click(object sender, RoutedEventArgs e)
+        {
+            Model.SwitchToTRexInfo();
+        }
+
+        private void lblPaymentStateMessage_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (Model.ShouldPaymentMessageTooltipBeAccessible)
+                tooltip.IsOpen = true;
+        }
+
+        private void lblPaymentStateMessage_MouseLeave(object sender, MouseEventArgs e)
+        {
+            tooltip.IsOpen = false;
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(Model.PolygonLink);
+        }
     }
 }

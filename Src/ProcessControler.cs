@@ -21,6 +21,7 @@ using System.Windows;
 using GolemUI.Model;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
+using GolemUI.Miners;
 using GolemUI.Src;
 
 namespace GolemUI
@@ -163,7 +164,7 @@ namespace GolemUI
             }
         }
 
-        public async Task<bool> Start(Network network, string? claymoreExtraParams)
+        public async Task<bool> Start(Network network, IMinerApp minerApp, MinerAppConfiguration minerAppConfiguration)
         {
             _lock();
 
@@ -180,7 +181,9 @@ namespace GolemUI
                         StartupYagna();
                     }
 
-                    StartupProvider(network, claymoreExtraParams);
+                    string? minerExtraParams = minerApp.GetExtraMiningParams(minerAppConfiguration);
+
+                    StartupProvider(network, minerApp.MinerAppName.NameString, minerExtraParams);
                 });
                 OnPropertyChanged("IsServerRunning");
 
@@ -362,7 +365,7 @@ namespace GolemUI
             throw new GolemUIException("Failed to get key...");
         }
 
-        private void StartupProvider(Network network, string? claymoreExtraParams)
+        private void StartupProvider(Network network, string? minerName, string? minerExtraParams)
         {
             ConfigurationInfoDebug = "";
             if (_providerDaemon != null)
@@ -382,7 +385,7 @@ namespace GolemUI
             bool startInConsole = Properties.Settings.Default.OpenConsoleProvider;
             bool enableDebugLogs = startInConsole && Properties.Settings.Default.DebugLogsProvider;
 
-            _providerDaemon = _provider.Run(_generatedAppKey.Value, network, claymoreExtraParams: claymoreExtraParams, openConsole: startInConsole, enableDebugLogs: enableDebugLogs);
+            _providerDaemon = _provider.Run(_generatedAppKey.Value, network, minerName, minerExtraParams, openConsole: startInConsole, enableDebugLogs: enableDebugLogs);
             _providerDaemon.Exited += OnProviderExit;
 
             if (!startInConsole)

@@ -13,6 +13,7 @@
         d:DataContext="{d:DesignInstance Type=lv:SetupViewModel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
         WindowStyle="None"  
+    StateChanged="Window_StateChanged"
     ResizeMode="CanResizeWithGrip"
     Background="Transparent"
     AllowsTransparency="True"    
@@ -173,6 +174,7 @@
             <Label HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" MouseDown="TitleBar_MouseDown"></Label>
             <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,8,0">
                 <Button Style="{DynamicResource MinWindowButton}" Click="MinimizeApp" Grid.Column="1"/>
+                <Button x:Name="MaximizeButton" Content="Maximize" DockPanel.Dock="Right" Click="MaximizeButton_Click" Style="{DynamicResource MaximizeWindowButton}"/>
                 <Button Style="{DynamicResource CloseWindowButton}" Click="CloseApp" Grid.Column="2"/>
             </StackPanel>
             <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="16">

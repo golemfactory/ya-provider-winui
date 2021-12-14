@@ -43,7 +43,7 @@ namespace GolemUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://3210d81dbe2042d0a1adce29072b26d7@o921571.ingest.sentry.io/5881077")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://9dbe739909b646a9ab6d5376ab5f8ffb@o921571.ingest.sentry.io/6057947")]
         public string SentryDsn {
             get {
                 return ((string)(this["SentryDsn"]));
@@ -190,7 +190,7 @@ If it doesn't help you might want to restart Thorg after changing settings in yo
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("No worries though! We will soon release an update with support for cards that hav" +
             "e less than 6B of RAM. Also, stay tuned for CPU support that is just around the " +
-            "corner.\r\nTill then you can explore the app and get to know Thorg a bit better!")]
+            "corner.\nTill then you can explore the app and get to know Thorg a bit better!")]
         public string dialog_gpu_message {
             get {
                 return ((string)(this["dialog_gpu_message"]));
