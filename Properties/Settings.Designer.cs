@@ -190,7 +190,7 @@ If it doesn't help you might want to restart Thorg after changing settings in yo
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("No worries though! We will soon release an update with support for cards that hav" +
             "e less than 6B of RAM. Also, stay tuned for CPU support that is just around the " +
-            "corner.\nTill then you can explore the app and get to know Thorg a bit better!")]
+            "corner.\r\nTill then you can explore the app and get to know Thorg a bit better!")]
         public string dialog_gpu_message {
             get {
                 return ((string)(this["dialog_gpu_message"]));
