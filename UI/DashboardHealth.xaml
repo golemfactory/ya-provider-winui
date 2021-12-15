@@ -1,0 +1,197 @@
+﻿<UserControl x:Class="GolemUI.UI.DashboardHealth"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GolemUI"
+             xmlns:animated="clr-namespace:GolemUI.UI.AnimatedIcons" 
+             mc:Ignorable="d" 
+             d:DesignHeight="690" d:DesignWidth="1112"
+             xmlns:dvm="clr-namespace:GolemUI.DesignViewModel"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:enumAlias="clr-namespace:GolemUI.Model"
+                d:DataContext ="{d:DesignInstance {x:Type dvm:DesignHealthViewModel}, IsDesignTimeCreatable=True}"
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Defaults.xaml"/>
+                <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/PageBackground.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/PinkButton.xaml"/>
+                <ResourceDictionary Source="Themes/Borders/BlueBorder.xaml"/>
+                <ResourceDictionary Source="Themes/CheckBox/GpuCheckBox.xaml"/>
+                <ResourceDictionary Source="Themes/CheckBox/SliderCheckBox.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GolemLogo.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/HyperLinkButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/RoundedBlueButton.xaml"/>
+                <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
+                <ResourceDictionary Source="Themes/ComboBox/MiningModeComboBox.xaml"/>
+                <ResourceDictionary Source="Themes/TrackBar/Slider.xaml"/>
+                <ResourceDictionary Source="Icons/Task_Type.xaml"/>
+                <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
+                <ResourceDictionary Source="Icons/Status_Card_error.xaml"/>
+                <ResourceDictionary Source="Icons/Status_Ready_icon.xaml"/>
+                <ResourceDictionary Source="Themes/TextBox/TextBoxInError.xaml"/>
+                <ResourceDictionary Source="Themes/Validation/ValidationTemplate.xaml"/>
+                <ResourceDictionary Source="Themes/Labels/InfoLabel.xaml"/>
+                <ResourceDictionary>
+                    <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                        <ObjectDataProvider.MethodParameters>
+                            <x:Type TypeName="local:PerformanceThrottlingEnum"/>
+                        </ObjectDataProvider.MethodParameters>
+                    </ObjectDataProvider>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border Style="{DynamicResource PageBackground}" BorderThickness="1">
+        <!--<Border.Background>
+        <ImageBrush ImageSource="/__Media/screen_settings.png" Stretch="UniformToFill"/>
+    </Border.Background>-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30px"/>
+                <ColumnDefinition Width="200px"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="88"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="88"/>
+
+            </Grid.RowDefinitions>
+            <Image  Grid.Column="2"  Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png" HorizontalAlignment="Right" VerticalAlignment="Top" Width="160" Margin="0,20,30,0"  Grid.RowSpan="2"/>
+            <StackPanel Orientation="Horizontal"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 39, 0, 0" >
+                <Border Height="25" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 20, 0, 0">
+                    <Label Margin ="26,-5" Padding="0"  Foreground="#FFFFFF" Content="Troubleshooting" FontSize="24"></Label>
+                </Border>
+            </StackPanel>
+
+
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <Button x:Name="btnPerformYagnaHealthCheck" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnPerformYagnaHealthCheck_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
+                    <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                        <Label FontSize="10" Content="CHECK YAGNA" Margin="0,0,0,1" Padding="0" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnPerformProviderHealthCheck" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnPerformProviderHealthCheck_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
+                    <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                        <Label FontSize="10" Content="CHECK PROVIDER" Margin="0,0,0,1" Padding="0" />
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="btnOpenLogs" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnOpenLogs_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
+                    <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                        <Label FontSize="10" Content="OPEN LOCAL DATA" Margin="0,0,0,1" Padding="0" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnOpenYagnaFolder" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnOpenYagnaFolder_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
+                    <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                        <Label FontSize="10" Content="OPEN YAGNA DATA FOLDER" Margin="0,0,0,1" Padding="0" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnOpenProviderFolder" Style="{StaticResource RoundedBlueButtonStyle}" Margin="11, 10, 5, 0" Click="btnOpenProvider_Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="22" >
+                    <StackPanel Orientation="Horizontal" Margin="8,0,8,0" VerticalAlignment="Center">
+                        <Label FontSize="10" Content="OPEN PROVIDER DATA FOLDER" Margin="0,0,0,1" Padding="0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <Border Visibility="{Binding Path=YagnaHealthVisible, Converter={StaticResource BoolToVisibleConverter}}" Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" >
+                <StackPanel >
+                    <TextBlock Margin="20 10 0 0"  Width="300px" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=YagnaConnectionStatus}" ></TextBlock>
+
+
+                    <TextBlock Margin="20 10 0 0"  Width="300px" HorizontalAlignment="Left" TextAlignment="Left" >Metrics: metrics contain debug and statistic information from Yagna and may help troubleshoot problems:</TextBlock>
+                    <DataGrid Name="DG1" ItemsSource="{Binding Path=Metrics}" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" 
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto" IsReadOnly="True" Margin="20 10" Height="300px" MaxHeight="300px" Width="400px" HorizontalAlignment="left">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+            <Border Visibility="{Binding Path=ProviderHealthVisible, Converter={StaticResource BoolToVisibleConverter}}" Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" >
+                <StackPanel >
+                    <TextBlock Margin="20 10 0 0"  Width="300px" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=ProviderConnectionStatus}" ></TextBlock>
+
+
+                    <TextBlock Margin="20 10 0 0"  Width="auto" HorizontalAlignment="Left" TextAlignment="Left" >Provider offers:</TextBlock>
+
+
+                    <ComboBox 
+                        
+                        HorizontalAlignment="Left" 
+                        Margin="20,0,10,0" 
+                        ItemsSource="{Binding Path=Offers}"  
+                        FontSize="10" 
+                        FontFamily="Segoe UI" 
+                        Padding="0" 
+                        Style="{DynamicResource MiningModeComboBox}" 
+                        SelectedItem="{Binding Path=SelectedProviderOffer}" 
+                        DisplayMemberPath="DisplayName"
+                        Width="200px" 
+                        >
+                        
+                    </ComboBox>
+
+                    <!--
+                    <ItemsControl Margin="13,0,0,0" x:Name="NavButtons" MinHeight="20" Background="#000" Foreground="White" Focusable="false"  ItemsSource="{Binding Path=Offers}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label x:Name="lbl"  Opacity="1" Padding="0" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="5,-4,0,0" Content="{Binding offerId, Mode=OneWay}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>-->
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="20 10 0 0" VerticalAlignment="Center">Provider ID: </TextBlock>
+                        <TextBox IsReadOnly="True" Margin="20 10 0 0" VerticalAlignment="Center"  Width="auto" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=SelectedProviderOffer.providerId}"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="20 10 0 0"  VerticalAlignment="Center" >Timestamp (UTC) time:</TextBlock>
+                        <TextBlock Margin="20 10 0 0"  Width="auto" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{Binding Path=SelectedProviderOffer.timestamp}"></TextBlock>
+                        <TextBlock Margin="20 10 0 0"  Width="auto" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{Binding Path=SelectedProviderOffer.TimeAgo}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="20 10 0 0" VerticalAlignment="Center" >Offer ID:</TextBlock>
+                        <TextBox IsReadOnly="True" Margin="20 10 0 0" VerticalAlignment="Center"  Width="auto" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=SelectedProviderOffer.offerId}"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="20 10 0 0" VerticalAlignment="Center">Constrains:</TextBlock>
+                        <TextBox IsReadOnly="True" VerticalAlignment="Center" Margin="20 10 0 0"  Width="auto" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=SelectedProviderOffer.constraints}"></TextBox>
+                    </StackPanel>
+
+                    <TextBlock Margin="20 10 0 0" VerticalAlignment="Center">Properties:</TextBlock>
+                    <DataGrid Name="SelectedProviderProperties" ItemsSource="{Binding Path=SelectedProviderOffer.properties}"  AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" 
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto" IsReadOnly="True" Margin="20 10" Height="auto" MaxHeight="300px" HorizontalAlignment="Stretch"
+                              
+                              >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Value" Binding="{Binding Path=Value}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+
+<!--  <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2" >
+                <Button x:Name="btnPerformHealthCheck" Margin="30" Click="btnPerformHealthCheck_Click">Perform health check</Button>
+                <Button x:Name="btnOpenLogs" Margin="30" Click="btnOpenLogs_Click">Open local folder</Button>
+                <Button x:Name="btnOpenYagnaFolder" Margin="30" Click="btnOpenYagnaFolder_Click">Open yagna data folder</Button>
+                <Button x:Name="btnOpenProviderFolder" Margin="30" Click="btnOpenProvider_Click">Open provider data folder</Button>
+                <Button x:Name="btnScanYagnaLogs" Margin="30" Click="btnScanYagnaLogs_Click" Content="Open currnet yagna log"/>
+            </StackPanel>-->
+        </Grid>
+    </Border>
+</UserControl>

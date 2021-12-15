@@ -228,6 +228,24 @@ namespace GolemUI
             }
         }
 
+        public async Task<List<ProviderOffer>?> GetOffers()
+        {
+            try
+            {
+                var txt = await _client.GetStringAsync($"{_baseUrl}/market-api/v1/offers");
+
+                List<ProviderOffer>? aggr = JsonConvert.DeserializeObject<List<ProviderOffer>>(txt) ?? null;
+
+                return aggr;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed GetAgreementInfo: " + ex.Message);
+                return null;
+            }
+        }
+
+
         public async Task<SortedDictionary<string, double>?> GetUsageVectors(string? agreementID)
         {
             if (String.IsNullOrEmpty(agreementID) || agreementID == null) //second check to get rid of warnings
@@ -334,7 +352,10 @@ namespace GolemUI
             for (int tries = 0; tries < 300; ++tries)
             {
                 Thread.Sleep(300);
-
+                if (_yagnaDaemon == null)
+                {
+                    throw new GolemUIException("Failed to start yagna daemon: _yagnaDaemon == null");
+                }
                 if (_yagnaDaemon.HasExited) // yagna has stopped
                 {
                     throw new GolemUIException("Failed to start yagna daemon...", this._yagnaDaemonErrorData.ToString());
@@ -380,7 +401,7 @@ namespace GolemUI
                 throw new Exception("Failed to retrieve payment Account");
             }
 
-            _yagna?.Payment.Init(network, "polygon", paymentAccount);
+            _yagna?.Payment.Init(network, PaymentDriver.ERC20.Id, paymentAccount);
 
             bool startInConsole = Properties.Settings.Default.OpenConsoleProvider;
             bool enableDebugLogs = startInConsole && Properties.Settings.Default.DebugLogsProvider;

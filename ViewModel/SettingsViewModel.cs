@@ -18,6 +18,8 @@ using GolemUI.Miners;
 using GolemUI.Miners.Phoenix;
 using GolemUI.Miners.TRex;
 using MinerAppName = GolemUI.Miners.MinerAppName;
+using System.Resources;
+using System.Reflection;
 
 namespace GolemUI.ViewModel
 {
@@ -50,6 +52,18 @@ namespace GolemUI.ViewModel
                 NotifyChange();
             }
         }
+
+        public bool _healthSettingsButtonEnabled;
+        public bool HealthSettingsButtonEnabled
+        {
+            get => _healthSettingsButtonEnabled;
+            set
+            {
+                _healthSettingsButtonEnabled = value;
+                NotifyChange();
+            }
+        }
+
 
         private int _activeCpusCount = 0;
         private readonly int _totalCpusCount = 0;
@@ -96,7 +110,10 @@ namespace GolemUI.ViewModel
             if (problem == ProblemWithExeFile.Antivirus || problem == ProblemWithExeFile.FileMissing)
             {
                 var settings = GolemUI.Properties.Settings.Default;
-                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_antivir_image, settings.dialog_antivir_title, settings.dialog_antivir_message, settings.dialog_antivir_button));
+
+                ResourceManager rm = new ResourceManager("items", Assembly.GetExecutingAssembly());
+
+                var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_antivir_image, settings.dialog_antivir_title, rm.GetString("dialog_antivir_message"), settings.dialog_antivir_button));
                 dlg.Owner = Application.Current.MainWindow;
                 RequestDarkBackgroundVisibilityChange(true);
                 bool? result = dlg?.ShowDialog();
@@ -142,7 +159,11 @@ namespace GolemUI.ViewModel
             AdvancedSettingsButtonEnabled = false;
             PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardSettingsAdv);
         }
-
+        public void SwitchToHealthView()
+        {
+            HealthSettingsButtonEnabled = false;
+            PageChangeRequested?.Invoke(DashboardViewModel.DashboardPages.PageDashboardHealth);
+        }
         public void StopMiningProcess()
         {
             _processController.Stop();
@@ -245,6 +266,7 @@ namespace GolemUI.ViewModel
         {
             NodeNameHasChanged = false;
             AdvancedSettingsButtonEnabled = true;
+            HealthSettingsButtonEnabled = true;
             GpuList.Clear();
 
             _benchmarkService.ReloadBenchmarkSettingsFromFile();
@@ -433,7 +455,9 @@ namespace GolemUI.ViewModel
                     if (!atLeastOneGood && outOfMemoryStatus)
                     {
                         var settings = GolemUI.Properties.Settings.Default;
-                        var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_gpu_image, settings.dialog_gpu_title, settings.dialog_gpu_message, settings.dialog_gpu_button));
+                        ResourceManager rm = new ResourceManager("items", Assembly.GetExecutingAssembly());
+
+                        var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(settings.dialog_gpu_image, settings.dialog_gpu_title, rm.GetString("dialog_gpu_message"), settings.dialog_gpu_button));
                         dlg.Owner = Application.Current.MainWindow;
                         RequestDarkBackgroundVisibilityChange(true);
                         bool? result = dlg?.ShowDialog();

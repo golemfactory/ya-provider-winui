@@ -11,6 +11,9 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using GolemUI.Miners;
 using System;
+using System.Reflection;
+using System.Resources;
+using GolemUI.Model;
 
 namespace GolemUI.ViewModel
 {
@@ -248,6 +251,25 @@ namespace GolemUI.ViewModel
             }
         }
 
+        public HealthStatusResponse? HealthStatus => _statusProvider.HealthStatus;
+
+        public bool IsYagnaConnecting
+        {
+            get
+            {
+                return _statusProvider.IsConnecting;
+            }
+        }
+
+
+        public bool IsYagnaConnected
+        {
+            get
+            {
+                return HealthStatus?.value?.isNetConnected ?? false;
+            }
+        }
+
         public string? GpuStatusAnnotation { get; private set; }
 
         public string CpuStatus
@@ -267,37 +289,46 @@ namespace GolemUI.ViewModel
 
         private void OnActivityStatusChanged(object sender, PropertyChangedEventArgs e)
         {
-            var act = _statusProvider.Activities;
-            if (act == null)
+            if (e.PropertyName == "HealthStatus")
             {
-                return;
+                OnPropertyChanged("HealthStatus");
+                OnPropertyChanged("IsYagnaConnected");
+                RefreshStatus();
             }
-            Debug.WriteLine(act.ToString());
-            Model.ActivityState? gminerState = act.Where(a => (a.ExeUnit == "gminer" || a.ExeUnit == "hminer") && a.State == Model.ActivityState.StateType.Ready).FirstOrDefault();
-            var isGpuMining = gminerState != null;
-            var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
-
-
-            var gpuStatus = "Ready";
-            string? gpuStatusAnnotation = null;
-            if (gminerState?.Usage is Dictionary<string, float> usage)
+            else
             {
-                gpuStatus = "Mining";
-                if (usage.TryGetValue("golem.usage.mining.hash-rate", out var hashRate) && hashRate > 0.0)
+                var act = _statusProvider.Activities;
+                if (act == null)
                 {
-                    HashRateConverter hashRateConverter = new HashRateConverter();
-                    string hashrate = (string)hashRateConverter.Convert(hashRate, typeof(string), null, System.Globalization.CultureInfo.InvariantCulture);
-                    gpuStatusAnnotation = $"Speed: {hashrate}";
-                    MiningWasAlreadySuccessfull = true;
+                    return;
                 }
+                Debug.WriteLine(act.ToString());
+                Model.ActivityState? gminerState = act.Where(a => (a.ExeUnit == "gminer" || a.ExeUnit == "hminer") && a.State == Model.ActivityState.StateType.Ready).FirstOrDefault();
+                var isGpuMining = gminerState != null;
+                var isCpuMining = act.Any(a => a.ExeUnit == "wasmtime" || a.ExeUnit == "vm" && a.State == Model.ActivityState.StateType.Ready);
+
+
+                var gpuStatus = "Ready";
+                string? gpuStatusAnnotation = null;
+                if (gminerState?.Usage is Dictionary<string, float> usage)
+                {
+                    gpuStatus = "Mining";
+                    if (usage.TryGetValue("golem.usage.mining.hash-rate", out var hashRate) && hashRate > 0.0)
+                    {
+                        HashRateConverter hashRateConverter = new HashRateConverter();
+                        string hashrate = (string)hashRateConverter.Convert(hashRate, typeof(string), null, System.Globalization.CultureInfo.InvariantCulture);
+                        gpuStatusAnnotation = $"Speed: {hashrate}";
+                        MiningWasAlreadySuccessfull = true;
+                    }
+                }
+                GpuStatus = gpuStatus;
+                if (gpuStatusAnnotation != GpuStatusAnnotation)
+                {
+                    GpuStatusAnnotation = gpuStatusAnnotation;
+                    OnPropertyChanged("GpuStatusAnnotation");
+                }
+                RefreshStatus();
             }
-            GpuStatus = gpuStatus;
-            if (gpuStatusAnnotation != GpuStatusAnnotation)
-            {
-                GpuStatusAnnotation = gpuStatusAnnotation;
-                OnPropertyChanged("GpuStatusAnnotation");
-            }
-            RefreshStatus();
         }
 
         private void RefreshStatus()
@@ -320,10 +351,21 @@ namespace GolemUI.ViewModel
                 newStatus = DashboardStatusEnum.Ready;
             }
 
+
             if (_statusMiningMemory != newMemoryStatus)
             {
                 StatusMiningMemory = newMemoryStatus;
             }
+
+            if (IsYagnaConnecting)
+            {
+                newStatus = DashboardStatusEnum.ServiceConnecting;
+            }
+            else if (!IsYagnaConnected)
+            {
+                newStatus = DashboardStatusEnum.ServiceDisconnected;
+            }
+
             if (_status != newStatus)
             {
                 Status = newStatus;
@@ -628,10 +670,13 @@ namespace GolemUI.ViewModel
             {
                 _notificationService.PushNotification(new SimpleNotificationObject(Src.AppNotificationService.Tag.AppStatus, "detected problem: " + problem.ToString(), expirationTimeInMs: 10000, group: false));
                 var settings = GolemUI.Properties.Settings.Default;
+
+                ResourceManager rm = new ResourceManager("items", Assembly.GetExecutingAssembly());
+
                 var dlg = new UI.Dialogs.DlgGenericInformation(new ViewModel.Dialogs.DlgGenericInformationViewModel(
                     settings.dialog_antivir_image,
                     settings.dialog_antivir_title,
-                    settings.dialog_antivir_message,
+                    rm.GetString("dialog_antivir_message"),
                     settings.dialog_antivir_button
                 ));
 

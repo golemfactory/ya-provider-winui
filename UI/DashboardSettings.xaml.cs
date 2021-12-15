@@ -104,5 +104,7 @@ namespace GolemUI
         {
             System.Diagnostics.Process.Start(GolemUI.Properties.Settings.Default.GolemWebPage);
         }
+
+
     }
 }

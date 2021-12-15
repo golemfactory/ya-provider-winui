@@ -105,6 +105,7 @@ namespace GolemUI
             services.AddTransient(typeof(ViewModel.CustomControls.NotificationBarViewModel));
             services.AddTransient(typeof(ViewModel.StatisticsViewModel));
             services.AddTransient(typeof(ViewModel.TRexViewModel));
+            services.AddTransient(typeof(ViewModel.HealthViewModel));
 
             services.AddTransient(typeof(DashboardMain));
             services.AddTransient(typeof(NotificationBar));
@@ -112,6 +113,7 @@ namespace GolemUI
             services.AddTransient(typeof(DashboardSettingsAdv));
             services.AddTransient(typeof(DashboardStatistics));
             services.AddTransient(typeof(DashboardTRex));
+            services.AddTransient(typeof(DashboardHealth));
 
             services.AddTransient(typeof(SettingsViewModel));
             services.AddTransient(typeof(SettingsAdvViewModel));

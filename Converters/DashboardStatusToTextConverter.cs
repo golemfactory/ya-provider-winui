@@ -24,6 +24,8 @@ namespace GolemUI.Converters
                 DashboardStatusEnum.Hidden => "",
                 DashboardStatusEnum.Ready => "ready to mine",
                 DashboardStatusEnum.Mining => "mining",
+                DashboardStatusEnum.ServiceDisconnected => "disconnected",
+                DashboardStatusEnum.ServiceConnecting => "connecting",
                 _ => ""
             };
         }

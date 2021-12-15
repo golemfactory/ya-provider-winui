@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using GolemUI.Model;
 
 namespace GolemUI.Command
 {
@@ -176,31 +177,15 @@ namespace GolemUI.Command
         }
 
 
-        public IdSrv Ids
-        {
-            get
-            {
-                return new IdSrv(this);
-            }
-        }
+        public IdSrv Ids => new IdSrv(this);
 
         public IdInfo? Id => Exec<Result<IdInfo>>("--json", "id", "show")?.Ok;
 
-        public PaymentSrv Payment
-        {
-            get
-            {
-                return new PaymentSrv(this);
-            }
-        }
+        public PaymentSrv Payment => new PaymentSrv(this);
 
-        public AppKeySrv AppKey
-        {
-            get
-            {
-                return new AppKeySrv(this, null);
-            }
-        }
+        public AppKeySrv AppKey => new AppKeySrv(this, null);
+
+        public HealthCheckSrv HealdCheckSrv => new HealthCheckSrv(this);
 
 
         public Process Run(YagnaStartupOptions options)
@@ -433,6 +418,25 @@ namespace GolemUI.Command
         }
     }
 
+    public class HealthCheckSrv
+    {
+        YagnaSrv _srv;
+
+        internal HealthCheckSrv(YagnaSrv srv)
+        {
+            _srv = srv;
+        }
+
+
+        public async Task<HealthStatusResponse?> Status()
+        {
+            return await _srv.ExecAsync<HealthStatusResponse>("--json", "misc", "check");
+
+        }
+
+
+
+    }
 
     public class PaymentSrv
     {
