@@ -183,7 +183,7 @@ namespace GolemUI.Src
         private System.Timers.Timer aTimer = new System.Timers.Timer();
         private bool isClockSynchronized;
         const int synchronizedRangeInMinutes = 5;
-        const int synchronizationCheckIntervalInMiliseconds = 1000;
+        const int synchronizationCheckIntervalInMiliseconds = 1000 * 60 * 60;
 
         public bool IsSynchronized()
         {
