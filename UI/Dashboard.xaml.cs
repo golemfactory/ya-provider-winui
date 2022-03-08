@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Diagnostics;
 
 using System.Windows.Media.Animation;
 
-using GolemUI.Notifications;
 using GolemUI.Interfaces;
 using GolemUI.Src;
 using GolemUI.UI;
@@ -26,7 +17,6 @@ using GolemUI.Model;
 using GolemUI.ViewModel;
 using GolemUI.ViewModel.CustomControls;
 using GolemUI.Src.AppNotificationService;
-using GolemUI.DesignViewModel;
 using static GolemUI.ViewModel.DashboardViewModel;
 using GolemUI.Miners.Phoenix;
 using GolemUI.Miners.TRex;

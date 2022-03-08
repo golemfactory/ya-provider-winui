@@ -12,6 +12,8 @@ namespace GolemUI.Interfaces
     {
         DateTime? LastUpdate { get; }
 
+        bool IsSynchronized();
+
         ICollection<ActivityState> Activities { get; }
     }
 }

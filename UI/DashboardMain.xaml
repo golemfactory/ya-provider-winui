@@ -261,6 +261,7 @@
             <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,22,0" />
             <Button Grid.Row="3" Visibility="Hidden" Cursor="Hand" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnStatistics" Click="BtnStatistics_Click" Margin="50,0,0,35" Style="{StaticResource HistoryTabButtonStyle}"/>
             <Button Grid.Row="3" Cursor="Hand" Visibility="{Binding  Path=TRexSettingsButtonVisible, Converter={StaticResource BoolToVisibleConverter}}" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnTRexInfo" Click="BtnTRexInfo_Click" Margin="50,0,0,47" Style="{StaticResource TRexSettingsButtonStyle}"/>
+			<TextBlock x:Name="DesyncMessage" HorizontalAlignment="Left" Margin="0,6,0,0" Text="Your system clock seems to be not aligned with time we retreived from the web. That may caue tasks to not be processed propery due to them being time outed." VerticalAlignment="Top" Width="370" Grid.Column="1" Height="74" FontSize="14" Visibility="{Binding ShouldDesynchronizationMessageBeDisplayed, Mode=OneWay}"/>
 
         </Grid>
     </Border>

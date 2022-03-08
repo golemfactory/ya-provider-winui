@@ -40,6 +40,13 @@ namespace GolemUI.Src
             };
             _hc.Tick += this._checkHealth;
             _hc.Start();
+
+            client.BaseAddress = new Uri("http://worldtimeapi.org/api/timezone/Europe/London");
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            aTimer.Interval = synchronizationCheckIntervalInMiliseconds;
+            aTimer.Elapsed += TimerEventProcessor;
+            aTimer.Start();
         }
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
@@ -171,9 +178,66 @@ namespace GolemUI.Src
             }
         }
 
+        private System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
+        private System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+        private System.Timers.Timer aTimer = new System.Timers.Timer();
+        private bool isClockSynchronized;
+        const int synchronizedRangeInMinutes = 5;
+        const int synchronizationCheckIntervalInMiliseconds = 1000;
+
+        public bool IsSynchronized()
+        {
+            return isClockSynchronized;
+        }
+
+        // This is the method to run when the timer is raised.
+        private void TimerEventProcessor(Object myObject,
+                                                EventArgs myEventArgs)
+        {
+            var task = GetTime().ContinueWith((response) => {
+                var resp = response.GetAwaiter().GetResult();
+
+                DateTime parsedDate;
+                if (DateTime.TryParse(resp, out parsedDate))
+                {
+                    DateTime serverUTC = parsedDate.ToUniversalTime();
+                    DateTime now = DateTime.Now.ToUniversalTime();
+                    TimeSpan difference = now.Subtract(serverUTC);
+
+                    var minutesDifference = Math.Abs(difference.TotalMinutes);
+
+                    bool newIsClockSynchronized = minutesDifference < synchronizedRangeInMinutes;
+
+                    if (newIsClockSynchronized != isClockSynchronized)
+					{
+                        isClockSynchronized = newIsClockSynchronized;
+                        OnPropertyChanged("isSynchronized");
+                    }
+                }
+            });
+        }
+        
+        async Task<String> GetTime()
+        {
+            System.Net.Http.HttpResponseMessage response = await client.GetAsync("");
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            Dictionary<string, string> json;
+
+            try
+            {
+                json = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(responseString);
+                return json["utc_datetime"];
+            }
+            catch (Exception e)
+            {
+                return "";
+            }
+        }
+
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        private class TrackingEvent
+		private class TrackingEvent
         {
             public DateTime Ts { get; set; }
 

@@ -40,6 +40,7 @@ namespace GolemUI.ViewModel
             _paymentService.PropertyChanged += OnPaymentServiceChanged;
             _providerConfig.PropertyChanged += OnProviderConfigChanged;
             _statusProvider.PropertyChanged += OnActivityStatusChanged;
+            _statusProvider.PropertyChanged += OnSynchronizationStatusChanged;
             _processController.PropertyChanged += OnProcessControllerChanged;
 
             _benchmarkService.PropertyChanged += _benchmarkService_PropertyChanged;
@@ -300,6 +301,13 @@ namespace GolemUI.ViewModel
             RefreshStatus();
         }
 
+        private void OnSynchronizationStatusChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != "isSynchronized") return;
+            _isSynchronized = _statusProvider.IsSynchronized();
+            OnPropertyChanged(nameof(ShouldDesynchronizationMessageBeDisplayed));
+        }
+
         private void RefreshStatus()
         {
             OnPropertyChanged(nameof(IsMiningReadyToRun));
@@ -475,6 +483,7 @@ namespace GolemUI.ViewModel
         public int _totalGpuCount;
         public int _enabledGpuCount;
         public int _enabledCpuCount;
+        public bool _isSynchronized;
 
         public DashboardStatusEnum _status = DashboardStatusEnum.Hidden;
         public DashboardStatusEnum Status
@@ -568,6 +577,9 @@ namespace GolemUI.ViewModel
         public int EnabledGpuCount => _enabledGpuCount;
         public string GpuCardsInfo => EnabledGpuCount + "/" + TotalGpuCount;
         public string CpuCardsInfo => EnabledCpuCount + "/" + TotalCpuCount;
+        public bool ShouldDesynchronizationMessageBeDisplayedBoolean => _isSynchronized == false;
+        public Visibility ShouldDesynchronizationMessageBeDisplayed => ShouldDesynchronizationMessageBeDisplayedBoolean ? Visibility.Visible : Visibility.Hidden;
+
         public void Stop()
         {
             _processController.Stop();

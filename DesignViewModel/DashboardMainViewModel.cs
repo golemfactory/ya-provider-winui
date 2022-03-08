@@ -34,5 +34,6 @@ namespace GolemUI.DesignViewModel
         public DashboardStatusEnum Status => DashboardStatusEnum.Ready;
         public string StatusAdditionalInfo => "4 GB mode";
         public bool ShouldGpuAnimationBeVisible => true;
+        public System.Windows.Visibility ShouldDesynchronizationMessageBeDisplayed => System.Windows.Visibility.Hidden;
     }
 }
