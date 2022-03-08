@@ -41,12 +41,12 @@ namespace GolemUI.Src
             _hc.Tick += this._checkHealth;
             _hc.Start();
 
-            client.BaseAddress = new Uri("http://worldtimeapi.org/api/timezone/Europe/London");
-            client.DefaultRequestHeaders.Accept.Clear();
+            _client.BaseAddress = new Uri("http://worldtimeapi.org/api/timezone/Europe/London");
+            _client.DefaultRequestHeaders.Accept.Clear();
 
-            aTimer.Interval = synchronizationCheckIntervalInMiliseconds;
-            aTimer.Elapsed += TimerEventProcessor;
-            aTimer.Start();
+            _intervalTimer.Interval = TimeSpan.FromMilliseconds(_syncCheckIntervalMs);
+            _intervalTimer.Tick += TimerEventProcessor;
+            _intervalTimer.Start();
         }
 
         private void OnProcessControllerChanged(object sender, PropertyChangedEventArgs e)
@@ -178,16 +178,15 @@ namespace GolemUI.Src
             }
         }
 
-        private System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
-        private System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
-        private System.Timers.Timer aTimer = new System.Timers.Timer();
-        private bool isClockSynchronized;
-        const int synchronizedRangeInMinutes = 5;
-        const int synchronizationCheckIntervalInMiliseconds = 1000 * 60 * 60;
+        private System.Net.Http.HttpClient _client = new System.Net.Http.HttpClient();
+        private DispatcherTimer _intervalTimer = new DispatcherTimer();
+        private bool _isClockSynchronized;
+        private const int _synchronizedRangeInMinutes = 5;
+        private const int _syncCheckIntervalMs = 1000 * 60 * 60;
 
         public bool IsSynchronized()
         {
-            return isClockSynchronized;
+            return _isClockSynchronized;
         }
 
         // This is the method to run when the timer is raised.
@@ -206,11 +205,11 @@ namespace GolemUI.Src
 
                     var minutesDifference = Math.Abs(difference.TotalMinutes);
 
-                    bool newIsClockSynchronized = minutesDifference < synchronizedRangeInMinutes;
+                    bool newIsClockSynchronized = minutesDifference < _synchronizedRangeInMinutes;
 
-                    if (newIsClockSynchronized != isClockSynchronized)
+                    if (newIsClockSynchronized != _isClockSynchronized)
 					{
-                        isClockSynchronized = newIsClockSynchronized;
+                        _isClockSynchronized = newIsClockSynchronized;
                         OnPropertyChanged("isSynchronized");
                     }
                 }
@@ -219,7 +218,7 @@ namespace GolemUI.Src
         
         async Task<String> GetTime()
         {
-            System.Net.Http.HttpResponseMessage response = await client.GetAsync("");
+            System.Net.Http.HttpResponseMessage response = await _client.GetAsync("");
             var responseString = await response.Content.ReadAsStringAsync();
 
             Dictionary<string, string> json;
