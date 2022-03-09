@@ -9,156 +9,157 @@
              mc:Ignorable="d"
              FontFamily="Segoe UI" d:DesignHeight="690" d:DesignWidth="1112" 
              >
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <!-- begin icons -->
-                <ResourceDictionary Source="Icons/DefaultStyle/xaml/Wallet/WalletIcon.xaml"/>
-                <ResourceDictionary Source="Icons/Profit_icon.xaml"/>
-                <ResourceDictionary Source="Icons/CPU_icon.xaml"/>
-                <!-- end icons -->
-                <ResourceDictionary Source="/UI/Themes/Defaults.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/Buttons/GolemLogo.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/Buttons/GoToSettingsButton.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/Borders/BlueBorder.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/CheckBox/SliderCheckBox.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/Buttons/BlueButton.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/TrackBar/Slider.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/Buttons/HistoryTabButton.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/ErrorMsg/PaymentStatusErrorMsg.xaml"/>
-                <ResourceDictionary Source="/UI/Themes/Buttons/TRexSettingsButton.xaml"/>
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<!-- begin icons -->
+				<ResourceDictionary Source="Icons/DefaultStyle/xaml/Wallet/WalletIcon.xaml"/>
+				<ResourceDictionary Source="Icons/Profit_icon.xaml"/>
+				<ResourceDictionary Source="Icons/CPU_icon.xaml"/>
+				<!-- end icons -->
+				<ResourceDictionary Source="/UI/Themes/Defaults.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/Borders/PageBackground.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/Buttons/GolemLogo.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/Buttons/PinkButton.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/Buttons/GoToSettingsButton.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/Borders/BlueBorder.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/CheckBox/GpuCheckBox.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/CheckBox/SliderCheckBox.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/Buttons/BlueButton.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/Buttons/GradientButton.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/TrackBar/Slider.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/Buttons/HistoryTabButton.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/ErrorMsg/PaymentStatusErrorMsg.xaml"/>
+				<ResourceDictionary Source="/UI/Themes/Buttons/TRexSettingsButton.xaml"/>
 
-            </ResourceDictionary.MergedDictionaries>
+			</ResourceDictionary.MergedDictionaries>
 
 
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <Border Style="{DynamicResource PageBackground}" BorderThickness="1">
-        <!--<Border.Background>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<Border Style="{DynamicResource PageBackground}" BorderThickness="1">
+		<!--<Border.Background>
             <ImageBrush ImageSource="/__Media/screen_dashboard.png" Stretch="UniformToFill"/>
         </Border.Background>-->
-        <Grid Margin="0,35,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="0"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="115"/>
-            </Grid.RowDefinitions>
-            <Image  Grid.Column="3"  Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png" HorizontalAlignment="Right" VerticalAlignment="Top" Width="160" Margin="0,-10,30,0" Grid.RowSpan="3" />
-            <Border Width="232" Height="25" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 24, 0, 0">
-                <Label Margin ="26,-5" Padding="0"  Foreground="#FFFFFF" Content="Dashboard"  FontSize="24"></Label>
-            </Border>
-            <Grid Margin="46, 18, 30, 0" Width="auto" Height="auto" Grid.Row="2" Grid.ColumnSpan="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.6*" MinHeight="60"></RowDefinition>
-                    <RowDefinition Height="0.4*"></RowDefinition>
-                    <RowDefinition Height="3*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2.22*"/>
-                    <ColumnDefinition Width="0.18*" MinWidth="16"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="0.18*" MinWidth="16"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="0.18*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <local:DashboardStatusControl Status="{Binding Path=Status}"  StatusAdditionalInfo="{Binding Path=StatusAdditionalInfo}"  Margin="0,0,0,4" Grid.ColumnSpan="2" />
+		<Grid Margin="0,35,0,0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="80"/>
+				<RowDefinition Height="0"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="115"/>
+			</Grid.RowDefinitions>
+			<Image  Grid.Column="3"  Source="/UI/Icons/DefaultStyle/png/Branding/app_logo.png" HorizontalAlignment="Right" VerticalAlignment="Top" Width="160" Margin="0,-10,30,0" Grid.RowSpan="3" />
+			<Border Width="232" Height="25" BorderThickness="1 0 0 0" BorderBrush="White" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20, 24, 0, 0">
+				<Label Margin ="26,-5" Padding="0"  Foreground="#FFFFFF" Content="Dashboard"  FontSize="24"></Label>
+			</Border>
+			<Grid Margin="46, 18, 30, 0" Width="auto" Height="auto" Grid.Row="2" Grid.ColumnSpan="3">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="0.6*" MinHeight="60"></RowDefinition>
+					<RowDefinition Height="0.4*"></RowDefinition>
+					<RowDefinition Height="3*"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="2.22*"/>
+					<ColumnDefinition Width="0.18*" MinWidth="16"/>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="0.18*" MinWidth="16"/>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="0.18*"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<local:DashboardStatusControl Status="{Binding Path=Status}"  StatusAdditionalInfo="{Binding Path=StatusAdditionalInfo}"  Margin="0,0,0,4" Grid.ColumnSpan="2" />
 
-                <Button Click="btnStop_Click" Margin="0,15,0,0" Style="{StaticResource GradientButtonStyle}" VerticalAlignment="Bottom" Height="45" Grid.Column="4" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToVisibleConverter}}">Stop Mining</Button>
+				<Button Click="btnStop_Click" Margin="0,15,0,0" Style="{StaticResource GradientButtonStyle}" VerticalAlignment="Bottom" Height="45" Grid.Column="4" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" IsEnabled="{Binding Path=Process.IsStarting, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToVisibleConverter}}">Stop Mining</Button>
 
 
 
-                <Button Style="{StaticResource GradientButtonStyle}" Click="btnStart_Click"  Margin="0,15,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="45" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsMiningReadyToRun, Mode=OneWay}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToHiddenConverter}}">Start Mining</Button>
-                <TextBlock  Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow"  Text="{Binding StartButtonExplanation}" Grid.Column="4" Grid.Row="1" Margin="0,5,0,0" FontSize="12"></TextBlock>
+				<Button Style="{StaticResource GradientButtonStyle}" Click="btnStart_Click"  Margin="0,15,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="45" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsMiningReadyToRun, Mode=OneWay}" Visibility="{Binding Path=Process.IsProviderRunning, Converter={StaticResource BoolToHiddenConverter}}">Start Mining</Button>
+				<TextBlock  Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow"  Text="{Binding StartButtonExplanation}" Grid.Column="4" Grid.Row="1" Margin="0,5,0,0" FontSize="12"></TextBlock>
 
-                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="0" Padding="8" Grid.Row="2">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1.8*" />
-                            <ColumnDefinition Width="4*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Label Content="My Balance" FontSize="14" Margin="17,22,0,0" Grid.ColumnSpan="2"/>
-                        <Image Source="Icons/DefaultStyle/png/Dashboard/Balance.png" Grid.Column="0" Grid.Row="1" Margin="23, 23" Stretch="Uniform" VerticalAlignment="Top"  RenderOptions.BitmapScalingMode="HighQuality" />
-                        <Label x:Name="lblPaymentStateMessage" Content="{Binding Path=PaymentStateMessage, Mode=OneWay}" MouseEnter="lblPaymentStateMessage_MouseEnter" 
+				<Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="0" Padding="8" Grid.Row="2">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="1.8*" />
+							<ColumnDefinition Width="4*"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"></RowDefinition>
+							<RowDefinition></RowDefinition>
+						</Grid.RowDefinitions>
+						<Label Content="My Balance" FontSize="14" Margin="17,22,0,0" Grid.ColumnSpan="2"/>
+						<Image Source="Icons/DefaultStyle/png/Dashboard/Balance.png" Grid.Column="0" Grid.Row="1" Margin="23, 23" Stretch="Uniform" VerticalAlignment="Top"  RenderOptions.BitmapScalingMode="HighQuality" />
+						<Label x:Name="lblPaymentStateMessage" Content="{Binding Path=PaymentStateMessage, Mode=OneWay}" MouseEnter="lblPaymentStateMessage_MouseEnter" 
                              Grid.Column="1" Foreground="#99b" Margin="0, 5, 5, 1" VerticalAlignment="bottom"  HorizontalAlignment="Left"/>
-                        <Popup x:Name="tooltip" PlacementTarget="{Binding ElementName=lblPaymentStateMessage}" MouseLeave="lblPaymentStateMessage_MouseLeave" Placement="Bottom" Width="350">
-                            <Border x:Name="border" BorderBrush="#74708C" BorderThickness="1" Background="#120539" SnapsToDevicePixels="true" CornerRadius="1">
+						<Popup x:Name="tooltip" PlacementTarget="{Binding ElementName=lblPaymentStateMessage}" MouseLeave="lblPaymentStateMessage_MouseLeave" Placement="Bottom" Width="350">
+							<Border x:Name="border" BorderBrush="#74708C" BorderThickness="1" Background="#120539" SnapsToDevicePixels="true" CornerRadius="1">
 
-                                <StackPanel Margin="4">
+								<StackPanel Margin="4">
 
-                                    <TextBlock Width="330">
+									<TextBlock Width="330">
                                         <Run FontSize="10" Text="Thorg is having issues either with your internet connection or with connection to the Polygon gateway. Your balance will be refreshed once the connection is restored. You can always check it on" />
                     <Hyperlink TextDecorations="Underline" Foreground="white" NavigateUri="{Binding PolygonLink}" Click="Hyperlink_Click">
                         <TextBlock FontSize="10" FontWeight="Bold" Text="Polygon Scan." />
                         </Hyperlink>
                                         </TextBlock>
-                                </StackPanel>
-                            </Border>
-                        </Popup>
+								</StackPanel>
+							</Border>
+						</Popup>
 
-                        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="0,13,0,0">
-                            <Label Content="{Binding Path=AmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Segoe UI Black" FontSize="42" Margin="0, -12"></Label>
-                            <Label Content="{Binding Path=Amount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#99b"  FontSize="14" Margin="0, 10"></Label>
-                            <Label Content="Pending" Foreground="#99b" FontFamily="Segoe UI" FontSize="14" Margin="0, 2, 0, 0"/>
-                            <Label Content="{Binding Path=PendingAmountUSD, Converter={StaticResource AmountConverter}}" FontFamily="Segoe UI Black" FontSize="22"    Margin="0,-5"/>
-                            <Label Content="{Binding Path=PendingAmount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#99b" FontSize="14" Margin="0, 2"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="2" Grid.Row="2">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1.4*"/>
-                            <RowDefinition Height="2*"/>
-                            <RowDefinition Height="3*"/>
-                        </Grid.RowDefinitions>
-                        <Image Source="Icons/DefaultStyle/png/Dashboard/Profit.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
-                        <StackPanel Margin="0,22" Grid.Row="2">
-                            <Label HorizontalAlignment="Center" FontFamily="Segoe UI" FontSize="14" Margin="0, 2">Estimated Profit</Label>
-                            <TextBlock HorizontalAlignment="Center" FontFamily="Segoe UI Black" FontSize="16" Margin="0, 12,0,0" ToolTip="{Binding Path=EstimationMessage}">
+						<StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="0,13,0,0">
+							<Label Content="{Binding Path=AmountUSD, Converter={StaticResource AmountConverter}}" Foreground="#FFFFFF" FontFamily="Segoe UI Black" FontSize="42" Margin="0, -12"></Label>
+							<Label Content="{Binding Path=Amount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#99b"  FontSize="14" Margin="0, 10"></Label>
+							<Label Content="Pending" Foreground="#99b" FontFamily="Segoe UI" FontSize="14" Margin="0, 2, 0, 0"/>
+							<Label Content="{Binding Path=PendingAmountUSD, Converter={StaticResource AmountConverter}}" FontFamily="Segoe UI Black" FontSize="22"    Margin="0,-5"/>
+							<Label Content="{Binding Path=PendingAmount, Converter={StaticResource AmountConverter}, ConverterParameter=GLM}" Foreground="#99b" FontSize="14" Margin="0, 2"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+				<Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="2" Grid.Row="2">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="1.4*"/>
+							<RowDefinition Height="2*"/>
+							<RowDefinition Height="3*"/>
+						</Grid.RowDefinitions>
+						<Image Source="Icons/DefaultStyle/png/Dashboard/Profit.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
+						<StackPanel Margin="0,22" Grid.Row="2">
+							<Label HorizontalAlignment="Center" FontFamily="Segoe UI" FontSize="14" Margin="0, 2">Estimated Profit</Label>
+							<TextBlock HorizontalAlignment="Center" FontFamily="Segoe UI Black" FontSize="16" Margin="0, 12,0,0" ToolTip="{Binding Path=EstimationMessage}">
                                 <Run Text="{Binding Path=UsdPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay, ConverterParameter=usdmonth}"/>
-                            </TextBlock>
-                            <TextBlock HorizontalAlignment="Center" FontFamily="Segoe UI" Foreground="#99b" FontSize="12" Margin="0, 8" ToolTip="{Binding Path=EstimationMessage}" Visibility="{Binding Path=GlmPerDay, Converter={StaticResource NonNullToVisibilityConverter}}">
+							</TextBlock>
+							<TextBlock HorizontalAlignment="Center" FontFamily="Segoe UI" Foreground="#99b" FontSize="12" Margin="0, 8" ToolTip="{Binding Path=EstimationMessage}" Visibility="{Binding Path=GlmPerDay, Converter={StaticResource NonNullToVisibilityConverter}}">
                             <Run Text="{Binding Path=GlmPerDay, Converter={StaticResource AmountConverter}, Mode=OneWay, ConverterParameter=glmmonth}"/>
-                            </TextBlock>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-                <Label Grid.Column="4" Grid.Row="2" VerticalAlignment="Bottom" Margin="32,15"  Visibility="{Binding Path=IsAnyGpuEnabled, Converter={StaticResource BoolToHiddenConverter}}">GPU not supported</Label>
-                <Border Style="{DynamicResource BorderStyleBlueBox}" Margin="0" HorizontalAlignment="Stretch" Grid.Column="4" Grid.Row="2" Opacity="{Binding Path=GpuOpacity}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1.4*" />
-                            <RowDefinition Height="2*" />
-                            <RowDefinition Height="3*"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,22,0">
-                            <Label FontSize="10" FontWeight="Bold" Content="Cards:"  Padding="0"/>
-                            <Label FontSize="10" Content="{Binding Path=GpuCardsInfo, Mode=OneWay}" Margin="4,0,0,0" Foreground="#99b" Padding="0"/>
-                        </StackPanel>
-                        <Image Source="Icons/DefaultStyle/png/Dashboard/Gpu.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" >
-                            <!--<Image.Style>
+							</TextBlock>
+							<Label HorizontalAlignment="Center" FontFamily="Segoe UI" FontSize="14" Margin="34.333,2" Content="Estimated Profit"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+				<Label Grid.Column="4" Grid.Row="2" VerticalAlignment="Bottom" Margin="32,15"  Visibility="{Binding Path=IsAnyGpuEnabled, Converter={StaticResource BoolToHiddenConverter}}">GPU not supported</Label>
+				<Border Style="{DynamicResource BorderStyleBlueBox}" Margin="0" HorizontalAlignment="Stretch" Grid.Column="4" Grid.Row="2" Opacity="{Binding Path=GpuOpacity}">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="1.4*" />
+							<RowDefinition Height="2*" />
+							<RowDefinition Height="3*"/>
+						</Grid.RowDefinitions>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,22,0">
+							<Label FontSize="10" FontWeight="Bold" Content="Cards:"  Padding="0"/>
+							<Label FontSize="10" Content="{Binding Path=GpuCardsInfo, Mode=OneWay}" Margin="4,0,0,0" Foreground="#99b" Padding="0"/>
+						</StackPanel>
+						<Image Source="Icons/DefaultStyle/png/Dashboard/Gpu.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" >
+							<!--<Image.Style>
                                 <Style TargetType="{x:Type Image}">
                                     <Style.Resources>
                                         <Storyboard x:Key="GlowLoop">
@@ -184,85 +185,85 @@
                                     </Style.Triggers>
                                 </Style>
                             </Image.Style>-->
-                        </Image>
-                        <local:PngSequence SequencePrefix="GPU\GPU_icon" TotalFilesCount="40"  LeadingZerosCount="4" FileExtension="png" Active="{Binding Path=ShouldGpuAnimationBeVisible}"  Grid.Column="0" Grid.Row="1" Margin="40,2,40,7" />
-                        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24,0,8">
-                            <Label Padding="0" Content="GPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18"  HorizontalAlignment="Center"></Label>
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0,6">
-                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsGpuEnabled}" IsEnabled="{Binding ShouldGpuSwitchBeEnabled, Mode=OneWay}">
-                                    <Label Content="{Binding GpuStatus}"/>
-                                </CheckBox>
-                                <Label Padding="2,5" Content="{Binding Path=GpuStatusAnnotation, TargetNullValue=' '}"/>
-                            </StackPanel>
+						</Image>
+						<local:PngSequence SequencePrefix="GPU\GPU_icon" TotalFilesCount="40"  LeadingZerosCount="4" FileExtension="png" Active="{Binding Path=ShouldGpuAnimationBeVisible}"  Grid.Column="0" Grid.Row="1" Margin="40,2,40,7" />
+						<StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24,0,8">
+							<Label Padding="0" Content="GPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18"  HorizontalAlignment="Center"></Label>
+							<StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0,6">
+								<CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsGpuEnabled}" IsEnabled="{Binding ShouldGpuSwitchBeEnabled, Mode=OneWay}">
+									<Label Content="{Binding GpuStatus}"/>
+								</CheckBox>
+								<Label Padding="2,5" Content="{Binding Path=GpuStatusAnnotation, TargetNullValue=' '}"/>
+							</StackPanel>
 
-                            <Button  Cursor="Hand" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Click="BtnSettings_Click" Margin="0"  HorizontalAlignment="Left">
-                                <Button.Style >
-                                    <Style TargetType="Button" BasedOn="{StaticResource GoToSettingsButtonStyle}">
-                                        <Setter Property="Visibility">
-                                            <Setter.Value>
-                                                <MultiBinding Converter="{StaticResource MultiBoolToVisibleConverter}">
-                                                    <Binding Path="IsMouseOver" RelativeSource="{RelativeSource AncestorType=Border}"/>
-                                                    <Binding Path="IsAnyGpuEnabled" />
-                                                </MultiBinding>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
+							<Button  Cursor="Hand" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Click="BtnSettings_Click" Margin="0"  HorizontalAlignment="Left">
+								<Button.Style >
+									<Style TargetType="Button" BasedOn="{StaticResource GoToSettingsButtonStyle}">
+										<Setter Property="Visibility">
+											<Setter.Value>
+												<MultiBinding Converter="{StaticResource MultiBoolToVisibleConverter}">
+													<Binding Path="IsMouseOver" RelativeSource="{RelativeSource AncestorType=Border}"/>
+													<Binding Path="IsAnyGpuEnabled" />
+												</MultiBinding>
+											</Setter.Value>
+										</Setter>
+									</Style>
+								</Button.Style>
+							</Button>
 
-                        </StackPanel>
-                    </Grid>
-                </Border>
-                <Label Grid.Column="6" Grid.Row="2" VerticalAlignment="Bottom" Margin="32,15"  Visibility="{Binding Path=IsCpuMiningEnabledByNetwork, Converter={StaticResource BoolToHiddenConverter}}">Coming soon!</Label>
+						</StackPanel>
+					</Grid>
+				</Border>
+				<Label Grid.Column="6" Grid.Row="2" VerticalAlignment="Bottom" Margin="32,15"  Visibility="{Binding Path=IsCpuMiningEnabledByNetwork, Converter={StaticResource BoolToHiddenConverter}}">Coming soon!</Label>
 
-                <Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="6" Grid.Row="2" Opacity="{Binding CpuOpacity}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1.4*" />
-                            <RowDefinition Height="2*" />
-                            <RowDefinition Height="3*"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,22,0">
-                            <Label FontSize="10" FontWeight="Bold" Content="Threads:"  Padding="0"/>
-                            <Label FontSize="10" Content="{Binding Path=CpuCardsInfo, Mode=OneWay}" Margin="4,0,0,0" Foreground="#99b" Padding="0"/>
-                        </StackPanel>
-                        <Image Source="Icons/DefaultStyle/png/Dashboard/Cpu.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
+				<Border Style="{DynamicResource BorderStyleBlueBox}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Grid.Column="6" Grid.Row="2" Opacity="{Binding CpuOpacity}">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="1.4*" />
+							<RowDefinition Height="2*" />
+							<RowDefinition Height="3*"/>
+						</Grid.RowDefinitions>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,22,0">
+							<Label FontSize="10" FontWeight="Bold" Content="Threads:"  Padding="0"/>
+							<Label FontSize="10" Content="{Binding Path=CpuCardsInfo, Mode=OneWay}" Margin="4,0,0,0" Foreground="#99b" Padding="0"/>
+						</StackPanel>
+						<Image Source="Icons/DefaultStyle/png/Dashboard/Cpu.png" Grid.Column="0" Grid.Row="1" Margin="40, 5" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
 
-                        <StackPanel Grid.Row="2" Margin="0,24,0,8" HorizontalAlignment="Center">
-                            <Label Content="CPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18" Padding="0"></Label>
-                            <StackPanel Orientation="Vertical" Margin="0,6" HorizontalAlignment="Left">
-                                <CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuEnabled}" IsEnabled="{Binding IsCpuMiningEnabledByNetwork, Mode=OneWay}">
-                                    <Label Content="{Binding CpuStatus}"/>
-                                </CheckBox>
-                                <Label Content="{Binding CpuStatusAnnotation, FallbackValue=''}"/>
-                            </StackPanel>
+						<StackPanel Grid.Row="2" Margin="0,24,0,8" HorizontalAlignment="Center">
+							<Label Content="CPU Mining" Foreground="White" FontFamily="Segoe UI Black" FontSize="18" Padding="0"></Label>
+							<StackPanel Orientation="Vertical" Margin="0,6" HorizontalAlignment="Left">
+								<CheckBox Style="{DynamicResource CheckBoxSlider}" IsChecked="{Binding IsCpuEnabled}" IsEnabled="{Binding IsCpuMiningEnabledByNetwork, Mode=OneWay}">
+									<Label Content="{Binding CpuStatus}"/>
+								</CheckBox>
+								<Label Content="{Binding CpuStatusAnnotation, FallbackValue=''}"/>
+							</StackPanel>
 
-                            <Button  Cursor="Hand" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Click="BtnSettings_Click" Margin="0"  HorizontalAlignment="Left">
-                                <Button.Style >
-                                    <Style TargetType="Button" BasedOn="{StaticResource GoToSettingsButtonStyle}">
-                                        <Setter Property="Visibility">
-                                            <Setter.Value>
-                                                <MultiBinding Converter="{StaticResource MultiBoolToVisibleConverter}">
-                                                    <Binding Path="IsMouseOver" RelativeSource="{RelativeSource AncestorType=Border}"/>
-                                                    <Binding Path="IsCpuMiningEnabledByNetwork" />
-                                                </MultiBinding>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-            </Grid>
-            <Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,22,0" />
-            <Button Grid.Row="3" Visibility="Hidden" Cursor="Hand" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnStatistics" Click="BtnStatistics_Click" Margin="50,0,0,35" Style="{StaticResource HistoryTabButtonStyle}"/>
-            <Button Grid.Row="3" Cursor="Hand" Visibility="{Binding  Path=TRexSettingsButtonVisible, Converter={StaticResource BoolToVisibleConverter}}" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnTRexInfo" Click="BtnTRexInfo_Click" Margin="50,0,0,47" Style="{StaticResource TRexSettingsButtonStyle}"/>
+							<Button  Cursor="Hand" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Click="BtnSettings_Click" Margin="0"  HorizontalAlignment="Left">
+								<Button.Style >
+									<Style TargetType="Button" BasedOn="{StaticResource GoToSettingsButtonStyle}">
+										<Setter Property="Visibility">
+											<Setter.Value>
+												<MultiBinding Converter="{StaticResource MultiBoolToVisibleConverter}">
+													<Binding Path="IsMouseOver" RelativeSource="{RelativeSource AncestorType=Border}"/>
+													<Binding Path="IsCpuMiningEnabledByNetwork" />
+												</MultiBinding>
+											</Setter.Value>
+										</Setter>
+									</Style>
+								</Button.Style>
+							</Button>
+						</StackPanel>
+					</Grid>
+				</Border>
+			</Grid>
+			<Button x:Name="BtnGolemLogo" Style="{StaticResource GolemLogoStyle}" Click="BtnGolemLogo_Click" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="250" Margin="0,0,22,0" />
+			<Button Grid.Row="3" Visibility="Hidden" Cursor="Hand" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnStatistics" Click="BtnStatistics_Click" Margin="50,0,0,35" Style="{StaticResource HistoryTabButtonStyle}"/>
+			<Button Grid.Row="3" Cursor="Hand" Background="Transparent"  BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" x:Name="BtnTRexInfo" Click="BtnTRexInfo_Click" Margin="50,0,0,47" Style="{StaticResource TRexSettingsButtonStyle}"/>
 			<TextBlock x:Name="DesyncMessage" HorizontalAlignment="Left" Margin="0,6,0,0" Text="Your system clock seems to be not aligned with time we retreived from the web. That may caue tasks to not be processed propery due to them being time outed." VerticalAlignment="Top" Width="370" Grid.Column="1" Height="74" FontSize="14" Visibility="{Binding ShouldDesynchronizationMessageBeDisplayed, Mode=OneWay}"/>
 
-        </Grid>
-    </Border>
+		</Grid>
+	</Border>
 </UserControl>
