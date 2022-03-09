@@ -483,7 +483,7 @@ namespace GolemUI.ViewModel
         public int _totalGpuCount;
         public int _enabledGpuCount;
         public int _enabledCpuCount;
-        public bool _isSynchronized;
+        public bool _isSynchronized = true;
 
         public DashboardStatusEnum _status = DashboardStatusEnum.Hidden;
         public DashboardStatusEnum Status

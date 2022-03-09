@@ -1,5 +1,6 @@
 ﻿using GolemUI.Interfaces;
 using GolemUI.Model;
+using GolemUI.Src.AppNotificationService;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -28,9 +29,10 @@ namespace GolemUI.Src
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public YaSSEStatusProvider(Interfaces.IProcessController processController, ILogger<YaSSEStatusProvider> logger)
+        public YaSSEStatusProvider(Interfaces.IProcessController processController, ILogger<YaSSEStatusProvider> logger, INotificationService notificationService)
         {
             _processController = processController;
+            _notificationService = notificationService;
             _logger = logger;
             _tokenSource = new CancellationTokenSource();
             _processController.PropertyChanged += OnProcessControllerChanged;
@@ -44,8 +46,10 @@ namespace GolemUI.Src
             _client.BaseAddress = new Uri("http://worldtimeapi.org/api/timezone/Europe/London");
             _client.DefaultRequestHeaders.Accept.Clear();
 
-            _intervalTimer.Interval = TimeSpan.FromMilliseconds(_syncCheckIntervalMs);
-            _intervalTimer.Tick += TimerEventProcessor;
+            Microsoft.Win32.SystemEvents.TimeChanged += CheckSynchronization;
+
+            _intervalTimer.Interval = TimeSpan.FromSeconds(1);
+            _intervalTimer.Tick += CheckSynchronization;
             _intervalTimer.Start();
         }
 
@@ -83,6 +87,7 @@ namespace GolemUI.Src
             _hc.Stop();
             _processController.PropertyChanged -= OnProcessControllerChanged;
             _tokenSource.Cancel();
+            Microsoft.Win32.SystemEvents.TimeChanged -= CheckSynchronization;
         }
 
         private async Task _refreshLoop()
@@ -180,9 +185,8 @@ namespace GolemUI.Src
 
         private System.Net.Http.HttpClient _client = new System.Net.Http.HttpClient();
         private DispatcherTimer _intervalTimer = new DispatcherTimer();
-        private bool _isClockSynchronized;
+        private bool _isClockSynchronized = true;
         private const int _synchronizedRangeInMinutes = 5;
-        private const int _syncCheckIntervalMs = 1000 * 60 * 60;
 
         public bool IsSynchronized()
         {
@@ -190,12 +194,14 @@ namespace GolemUI.Src
         }
 
         // This is the method to run when the timer is raised.
-        private void TimerEventProcessor(Object myObject,
+        private void CheckSynchronization(Object myObject,
                                                 EventArgs myEventArgs)
         {
-            var task = GetTime().ContinueWith((response) => {
+            var notification = new SimpleNotificationObject(Tag.Synchronization, "Evaluating system time", "", 1000);
+            _notificationService.PushNotification(notification);
+            var task = GetTime().ContinueWith((response) =>
+            {
                 var resp = response.GetAwaiter().GetResult();
-
                 DateTime parsedDate;
                 if (DateTime.TryParse(resp, out parsedDate))
                 {
@@ -208,14 +214,15 @@ namespace GolemUI.Src
                     bool newIsClockSynchronized = minutesDifference < _synchronizedRangeInMinutes;
 
                     if (newIsClockSynchronized != _isClockSynchronized)
-					{
+                    {
                         _isClockSynchronized = newIsClockSynchronized;
                         OnPropertyChanged("isSynchronized");
                     }
                 }
             });
+            _intervalTimer.Stop();
         }
-        
+
         async Task<String> GetTime()
         {
             System.Net.Http.HttpResponseMessage response = await _client.GetAsync("");
@@ -236,7 +243,7 @@ namespace GolemUI.Src
 
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-		private class TrackingEvent
+        private class TrackingEvent
         {
             public DateTime Ts { get; set; }
 
@@ -245,6 +252,7 @@ namespace GolemUI.Src
 
 
         private readonly IProcessController _processController;
+        private readonly INotificationService _notificationService;
         private readonly ILogger<YaSSEStatusProvider> _logger;
         private Task? _loop;
         private readonly CancellationTokenSource _tokenSource;
