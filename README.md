@@ -1,1 +1,3 @@
-# ya-provider-winui [![Continuous Integration](https://github.com/golemfactory/ya-provider-winui/actions/workflows/ci.yml/badge.svg)](https://github.com/golemfactory/ya-provider-winui/actions/workflows/ci.yml)
+# Thorg Miner [![Continuous Integration](https://github.com/Thorg-Dev/ya-provider-winui/actions/workflows/ci.yml/badge.svg)](https://github.com/Thorg-Dev/ya-provider-winui/actions/workflows/ci.yml)
+
+
