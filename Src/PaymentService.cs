@@ -101,7 +101,7 @@ namespace GolemUI.Src
         {
             var since = DateTime.UtcNow - TimeSpan.FromDays(2);
             var output = await Task.WhenAll(
-                   _gsbPayment.GetStatus(walletAddress, "polygon", since: since, network: _network.Id)
+                   _gsbPayment.GetStatus(walletAddress, PaymentDriver.ERC20.Id, since: since, network: _network.Id)
                );
             //var statusOnL1 = output[1];
             //var amountOnL1 = statusOnL1?.Amount ?? 0;
@@ -200,8 +200,8 @@ namespace GolemUI.Src
             {
                 return false;
             }
-            var balance = await _gsbPayment.GetStatus(_buildInAdress, "polygon", _network.Id);
-            var result = await _gsbPayment.TransferTo("polygon", _buildInAdress, _network.Id, address, amount: balance.Amount);
+            var balance = await _gsbPayment.GetStatus(_buildInAdress, PaymentDriver.ERC20.Id, _network.Id);
+            var result = await _gsbPayment.TransferTo(PaymentDriver.ERC20.Id, _buildInAdress, _network.Id, address, amount: balance.Amount);
             return true;
         }
 

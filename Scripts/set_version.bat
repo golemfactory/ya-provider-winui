@@ -1,1 +1,1 @@
-python set_version.py 0.7.7
+python set_version.py 0.8.0
