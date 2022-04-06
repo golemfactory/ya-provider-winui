@@ -324,6 +324,9 @@
     <Compile Include="UI\Dialogs\DlgUpdateApp.xaml.cs">
       <DependentUpon>DlgUpdateApp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\MineForUkraine.xaml.cs">
+      <DependentUpon>MineForUkraine.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\NotificationBar.xaml.cs">
       <DependentUpon>NotificationBar.xaml</DependentUpon>
     </Compile>
@@ -637,6 +640,10 @@
     <Page Include="UI\Icons\DefaultStyle\xaml\Wallet\WalletIcon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\MineForUkraine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\NavBar.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -968,6 +975,14 @@
   <ItemGroup>
     <Resource Include="UI\Icons\DefaultStyle\png\Wallet\copy-icon.png" />
     <Resource Include="UI\Icons\DefaultStyle\png\Wallet\edit-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\Debug\Mining-for-Ukraine-probably-not-final-but-close-enough-min-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\Icons\Debug\flag.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
